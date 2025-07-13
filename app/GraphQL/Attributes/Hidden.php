@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Types\Definition;
+namespace App\GraphQL\Attributes;
 
 use Attribute;
 

@@ -39,4 +39,16 @@ class DumpFactory extends Factory
             Dump::ATTRIBUTE_PATH => $prefix.Str::random(),
         ];
     }
+
+    /**
+     * Create an unsafe dump.
+     *
+     * @return static
+     */
+    public function unsafe(): static
+    {
+        return $this->state([
+            Dump::ATTRIBUTE_PATH => Str::random(),
+        ]);
+    }
 }

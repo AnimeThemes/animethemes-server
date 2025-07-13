@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
@@ -41,7 +40,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  ExternalProfile  $profile
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $profile): bool
+    public function view(?User $user, Model $profile): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(Role::ADMIN->value);
@@ -77,7 +76,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  ExternalProfile  $profile
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $profile): bool
+    public function update(User $user, Model $profile): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(Role::ADMIN->value);
@@ -93,7 +92,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  ExternalProfile  $profile
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $profile): bool
+    public function delete(User $user, Model $profile): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(Role::ADMIN->value);

@@ -42,6 +42,24 @@ class DumpTest extends TestCase
     }
 
     /**
+     * Unsafe dumps shall be forbidden.
+     *
+     * @return void
+     */
+    public function testDumpDownloadingForbiddenForUnsafeDumps(): void
+    {
+        Feature::activate(AllowDumpDownloading::class);
+
+        $dump = Dump::factory()
+            ->unsafe()
+            ->createOne();
+
+        $response = $this->get(route('dump.show', ['dump' => $dump]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * Users with the bypass feature flag permission shall be permitted to download dumps
      * even if the Allow Dump Downloading feature is disabled.
      *

@@ -7,7 +7,6 @@ namespace App\Policies\User;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\User\Report;
 use App\Policies\BasePolicy;
 use Illuminate\Database\Eloquent\Model;
@@ -39,7 +38,7 @@ class ReportPolicy extends BasePolicy
      * @param  Report  $report
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $report): bool
+    public function view(?User $user, Model $report): bool
     {
         if ($user !== null && $user->hasRole(Role::ADMIN->value)) {
             return true;
@@ -57,7 +56,7 @@ class ReportPolicy extends BasePolicy
      * @param  Report  $report
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $report): bool
+    public function update(User $user, Model $report): bool
     {
         if ($user->hasRole(Role::ADMIN->value)) {
             return true;
@@ -73,7 +72,7 @@ class ReportPolicy extends BasePolicy
      * @param  Report  $report
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $report): bool
+    public function delete(User $user, Model $report): bool
     {
         return $user->hasRole(Role::ADMIN->value);
     }

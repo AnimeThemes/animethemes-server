@@ -33,6 +33,19 @@ class AnnouncementFactory extends Factory
     {
         return [
             Announcement::ATTRIBUTE_CONTENT => fake()->sentence(),
+            Announcement::ATTRIBUTE_PUBLIC => true,
         ];
+    }
+
+    /**
+     * Set the public state to false.
+     *
+     * @return static
+     */
+    public function private(): static
+    {
+        return $this->state([
+            Announcement::ATTRIBUTE_PUBLIC => false,
+        ]);
     }
 }

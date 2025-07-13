@@ -10,10 +10,12 @@ use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Admin\Announcement\Pages\ManageAnnouncements;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Announcement as AnnouncementModel;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -99,6 +101,10 @@ class Announcement extends BaseResource
     {
         return $schema
             ->components([
+                Checkbox::make(AnnouncementModel::ATTRIBUTE_PUBLIC)
+                    ->label(__('filament.fields.announcement.public.name'))
+                    ->helperText(__('filament.fields.announcement.public.help')),
+
                 MarkdownEditor::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                     ->label(__('filament.fields.announcement.content'))
                     ->required()
@@ -120,6 +126,10 @@ class Announcement extends BaseResource
             ->columns([
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
+
+                IconColumn::make(AnnouncementModel::ATTRIBUTE_PUBLIC)
+                    ->label(__('filament.fields.announcement.public.name'))
+                    ->boolean(),
 
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                     ->label(__('filament.fields.announcement.content'))
@@ -144,6 +154,9 @@ class Announcement extends BaseResource
                     ->schema([
                         TextEntry::make(AnnouncementModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(AnnouncementModel::ATTRIBUTE_PUBLIC)
+                            ->label(__('filament.fields.announcement.public.name')),
 
                         TextEntry::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                             ->label(__('filament.fields.announcement.content'))

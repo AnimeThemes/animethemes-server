@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
-use App\Rules\Wiki\Submission\SubmissionRule;
 use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -33,7 +33,7 @@ class VideoPixelFormatStreamTest extends TestCase
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->randomFloat(),
                 'input_tp' => $this->faker->randomFloat(),
                 'input_lra' => $this->faker->randomFloat(),
@@ -45,7 +45,7 @@ class VideoPixelFormatStreamTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'streams' => [
                     0 => [
                         'codec_type' => 'video',
@@ -62,7 +62,7 @@ class VideoPixelFormatStreamTest extends TestCase
 
         static::assertFalse($validator->passes());
 
-        Process::assertRan(SubmissionRule::formatFfprobeCommand($file));
+        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
     }
 
     /**
@@ -70,14 +70,14 @@ class VideoPixelFormatStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenCodecIsVp9(): void
+    public function testPassesWhenCodecIsYuv420p(): void
     {
         Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->randomFloat(),
                 'input_tp' => $this->faker->randomFloat(),
                 'input_lra' => $this->faker->randomFloat(),
@@ -89,7 +89,7 @@ class VideoPixelFormatStreamTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'streams' => [
                     0 => [
                         'codec_type' => 'video',
@@ -106,6 +106,6 @@ class VideoPixelFormatStreamTest extends TestCase
 
         static::assertTrue($validator->passes());
 
-        Process::assertRan(SubmissionRule::formatFfprobeCommand($file));
+        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
     }
 }

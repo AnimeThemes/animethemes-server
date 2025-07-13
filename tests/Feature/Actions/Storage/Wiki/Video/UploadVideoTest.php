@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Actions\Storage\Wiki\Video;
 
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
@@ -20,6 +21,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -105,6 +107,16 @@ class UploadVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
+
         $action = new UploadVideoAction($file, $this->faker->word());
 
         $result = $action->handle();
@@ -127,6 +139,16 @@ class UploadVideoTest extends TestCase
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
 
         $overlap = Arr::random(VideoOverlap::cases());
         $source = Arr::random(VideoSource::cases());
@@ -163,6 +185,16 @@ class UploadVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
+
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -191,6 +223,16 @@ class UploadVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
         $script = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
 
         $action = new UploadVideoAction(file: $file, path: $this->faker->word(), script: $script);
 

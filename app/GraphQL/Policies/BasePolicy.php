@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -100,7 +99,7 @@ abstract class BasePolicy
      */
     public function update(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var BaseModel|Model $model */
+        /** @var Model $model */
         $model = Arr::get($injected, $keyName);
 
         $trashed = method_exists($model, 'trashed')
@@ -120,7 +119,7 @@ abstract class BasePolicy
      */
     public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var BaseModel|Model $model */
+        /** @var Model $model */
         $model = Arr::get($injected, $keyName);
 
         $trashed = method_exists($model, 'trashed')
@@ -162,7 +161,7 @@ abstract class BasePolicy
      */
     public function restore(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var BaseModel|Model $model */
+        /** @var Model $model */
         $model = Arr::get($injected, $keyName);
 
         $trashed = method_exists($model, 'trashed')

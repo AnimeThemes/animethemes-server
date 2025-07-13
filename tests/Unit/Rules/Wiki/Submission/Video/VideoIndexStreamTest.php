@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
-use App\Rules\Wiki\Submission\SubmissionRule;
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -29,7 +29,7 @@ class VideoIndexStreamTest extends TestCase
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->randomFloat(),
                 'input_tp' => $this->faker->randomFloat(),
                 'input_lra' => $this->faker->randomFloat(),
@@ -41,7 +41,7 @@ class VideoIndexStreamTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'streams' => [
                     0 => [
                         'codec_type' => 'video',
@@ -58,7 +58,7 @@ class VideoIndexStreamTest extends TestCase
 
         static::assertFalse($validator->passes());
 
-        Process::assertRan(SubmissionRule::formatFfprobeCommand($file));
+        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
     }
 
     /**
@@ -71,7 +71,7 @@ class VideoIndexStreamTest extends TestCase
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->randomFloat(),
                 'input_tp' => $this->faker->randomFloat(),
                 'input_lra' => $this->faker->randomFloat(),
@@ -83,7 +83,7 @@ class VideoIndexStreamTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'streams' => [
                     0 => [
                         'codec_type' => 'video',
@@ -100,6 +100,6 @@ class VideoIndexStreamTest extends TestCase
 
         static::assertTrue($validator->passes());
 
-        Process::assertRan(SubmissionRule::formatFfprobeCommand($file));
+        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
     }
 }

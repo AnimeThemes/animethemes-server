@@ -623,6 +623,10 @@ return [
         ],
         'announcement' => [
             'content' => 'Content',
+            'public' => [
+                'help' => 'Determine if the announcement should be active on the homepage.',
+                'name' => 'Public',
+            ],
         ],
         'audio' => [
             'basename' => [

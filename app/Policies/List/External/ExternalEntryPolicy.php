@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Policies\BasePolicy;
@@ -52,7 +51,7 @@ class ExternalEntryPolicy extends BasePolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, BaseModel|Model $entry): bool
+    public function view(?User $user, Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(Role::ADMIN->value);
@@ -94,7 +93,7 @@ class ExternalEntryPolicy extends BasePolicy
      * @param  ExternalEntry  $entry
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $entry): bool
+    public function update(User $user, Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(Role::ADMIN->value);
@@ -113,7 +112,7 @@ class ExternalEntryPolicy extends BasePolicy
      * @param  ExternalEntry  $entry
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $entry): bool
+    public function delete(User $user, Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(Role::ADMIN->value);

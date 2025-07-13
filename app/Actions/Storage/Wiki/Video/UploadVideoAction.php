@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Base\UploadAction;
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
@@ -13,7 +14,6 @@ use App\Models\Auth\User;
 use App\Models\User\Encode;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use App\Rules\Wiki\Submission\SubmissionRule;
 use BackedEnum;
 use Exception;
 use Illuminate\Http\UploadedFile;
@@ -103,7 +103,7 @@ class UploadVideoAction extends UploadAction
             Video::ATTRIBUTE_FILENAME => File::name($this->file->getClientOriginalName()),
             Video::ATTRIBUTE_MIMETYPE => $this->file->getMimeType(),
             Video::ATTRIBUTE_PATH => $path,
-            Video::ATTRIBUTE_RESOLUTION => SubmissionRule::getResolution($this->file),
+            Video::ATTRIBUTE_RESOLUTION => new UploadedFileAction($this->file)->resolution(),
             Video::ATTRIBUTE_SIZE => $this->file->getSize(),
         ];
 

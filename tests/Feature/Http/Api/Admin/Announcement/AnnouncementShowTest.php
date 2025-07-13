@@ -44,6 +44,20 @@ class AnnouncementShowTest extends TestCase
     }
 
     /**
+     * The Announcement Show Endpoint shall forbid access to a private announcement.
+     *
+     * @return void
+     */
+    public function testCannotViewPrivate(): void
+    {
+        $announcement = Announcement::factory()->private()->create();
+
+        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

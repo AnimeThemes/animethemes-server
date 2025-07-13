@@ -7,7 +7,6 @@ namespace App\Policies\Admin;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +24,7 @@ class FeaturedThemePolicy extends BasePolicy
      * @param  FeaturedTheme  $featuredtheme
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $featuredtheme): bool
+    public function view(?User $user, Model $featuredtheme): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));

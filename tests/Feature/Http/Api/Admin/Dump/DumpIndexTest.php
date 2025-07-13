@@ -58,6 +58,36 @@ class DumpIndexTest extends TestCase
     }
 
     /**
+     * The Dump Index Endpoint shall return a collection of safe Dump Resources.
+     *
+     * @return void
+     */
+    public function testUnsafe(): void
+    {
+        Dump::factory()
+            ->unsafe()
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $dumps = Dump::factory()
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $response = $this->get(route('api.dump.index'));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    new DumpCollection($dumps, new Query())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Dump Index Endpoint shall be paginated.
      *
      * @return void

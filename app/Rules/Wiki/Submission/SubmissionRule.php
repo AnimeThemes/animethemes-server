@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission;
 
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
 /**
@@ -18,18 +17,11 @@ use Illuminate\Validation\Validator;
 abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 {
     /**
-     * The stream, chapter and format data as inspected by ffprobe.
+     * The FFmpeg/FFprobe action to the uploaded file.
      *
-     * @var array
+     * @var UploadedFileAction
      */
-    public array $ffprobeData = [];
-
-    /**
-     * The loudness stats of the input file as parsed by the ffmpeg audio filter.
-     *
-     * @var array
-     */
-    protected array $loudnessStats;
+    protected UploadedFileAction $uploadedFileAction;
 
     /**
      * Set the current validator.
@@ -46,53 +38,17 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
             $file = Arr::first($file);
         }
 
-        $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
-        if ($ffprobeData === null && $file !== null) {
-            $ffprobeData = static::getFFprobeData($file);
-            $validator->setValue('ffprobeData', $ffprobeData);
-        }
-        $this->ffprobeData = $ffprobeData;
+        $uploadedFileAction = $validator->getValue('uploadedFileAction');
+        if ($file !== null && $uploadedFileAction === null) {
+            $uploadedFileAction = new UploadedFileAction($file);
 
-        $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
-        if ($loudnessStats === null && $file !== null) {
-            $loudnessStats = $this->getLoudnessStats($file);
-            $validator->setValue('loudnessStats', $loudnessStats);
+            $uploadedFileAction->setLoudnessStats();
+
+            $validator->setValue('uploadedFileAction', $uploadedFileAction);
         }
-        $this->loudnessStats = $loudnessStats;
+        $this->uploadedFileAction = $uploadedFileAction;
 
         return $this;
-    }
-
-    /**
-     * Get the FFprobe data for the uploaded file.
-     *
-     * @param  UploadedFile  $file
-     * @return array
-     */
-    public static function getFFprobeData(UploadedFile $file): array
-    {
-        $command = static::formatFfprobeCommand($file);
-
-        $result = Process::run($command)->throw();
-
-        return json_decode($result->output(), true);
-    }
-
-    /**
-     * Get the loudness stats for the uploaded file.
-     *
-     * @param  UploadedFile  $file
-     * @return array
-     */
-    private function getLoudnessStats(UploadedFile $file): array
-    {
-        $command = static::formatLoudnessCommand($file);
-
-        $result = Process::run($command)->throw();
-
-        $loudness = Str::match('/{[^}]*}/m', $result->errorOutput());
-
-        return json_decode($loudness, true);
     }
 
     /**
@@ -102,7 +58,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function streams(): array
     {
-        return Arr::get($this->ffprobeData, 'streams', []);
+        return $this->uploadedFileAction->streams();
     }
 
     /**
@@ -112,7 +68,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function format(): array
     {
-        return Arr::get($this->ffprobeData, 'format', []);
+        return $this->uploadedFileAction->format();
     }
 
     /**
@@ -122,17 +78,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function chapters(): array
     {
-        return Arr::get($this->ffprobeData, 'chapters', []);
-    }
-
-    /**
-     * Get the submission loudness stats.
-     *
-     * @return array
-     */
-    protected function loudness(): array
-    {
-        return $this->loudnessStats;
+        return $this->uploadedFileAction->chapters();
     }
 
     /**
@@ -143,81 +89,16 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function tags(): array
     {
-        $format = $this->format();
-        if (Arr::has($format, 'tags')) {
-            $tags = Arr::get($format, 'tags');
-
-            return array_change_key_case($tags);
-        }
-
-        $audio = Arr::first(
-            $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio'
-        );
-
-        $tags = Arr::get($audio, 'tags', []);
-
-        return array_change_key_case($tags);
+        return $this->uploadedFileAction->tags();
     }
 
     /**
-     * Get the resolution of the uploaded file.
+     * Get the submission loudness stats.
      *
-     * @param  UploadedFile  $file
-     * @return int
+     * @return array
      */
-    public static function getResolution(UploadedFile $file): int
+    protected function loudness(): array
     {
-        return intval(Arr::get(static::getFFprobeData($file), 'streams.0.height', 0));
-    }
-
-    /**
-     * Format FFprobe command.
-     *
-     * @param  UploadedFile  $file
-     * @return string
-     */
-    public static function formatFfprobeCommand(UploadedFile $file): string
-    {
-        $arguments = [
-            'ffprobe',
-            '-v',
-            'quiet',
-            '-print_format',
-            'json',
-            '-show_streams',
-            '-show_format',
-            '-show_chapters',
-            $file->path(),
-        ];
-
-        return Arr::join($arguments, ' ');
-    }
-
-    /**
-     * Format loudness command.
-     *
-     * @param  UploadedFile  $file
-     * @return string
-     */
-    public static function formatLoudnessCommand(UploadedFile $file): string
-    {
-        $arguments = [
-            'ffmpeg',
-            '-i',
-            $file->path(),
-            '-hide_banner',
-            '-nostats',
-            '-vn',
-            '-sn',
-            '-dn',
-            '-filter:a',
-            'loudnorm=I=-16:LRA=20:TP=-1:dual_mono=true:linear=true:print_format=json',
-            '-f',
-            'null',
-            '/dev/null',
-        ];
-
-        return Arr::join($arguments, ' ');
+        return $this->uploadedFileAction->loudness();
     }
 }
