@@ -100,6 +100,7 @@ class UploadVideoTest extends TestCase
      */
     public function testCreatedVideo(): void
     {
+        $environment = app()->environment();
         app()->detectEnvironment(fn () => 'testing');
 
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -113,6 +114,8 @@ class UploadVideoTest extends TestCase
 
         $action->then($result);
 
+        app()->detectEnvironment(fn () => $environment);
+
         static::assertDatabaseCount(Video::class, 1);
     }
 
@@ -125,6 +128,7 @@ class UploadVideoTest extends TestCase
      */
     public function testSetsAttributes(): void
     {
+        $environment = app()->environment();
         app()->detectEnvironment(fn () => 'testing');
 
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -150,6 +154,8 @@ class UploadVideoTest extends TestCase
 
         $action->then($result);
 
+        app()->detectEnvironment(fn () => $environment);
+
         static::assertDatabaseHas(Video::class, $attributes);
     }
 
@@ -162,6 +168,7 @@ class UploadVideoTest extends TestCase
      */
     public function testAttachesEntry(): void
     {
+        $environment = app()->environment();
         app()->detectEnvironment(fn () => 'testing');
 
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -179,6 +186,8 @@ class UploadVideoTest extends TestCase
 
         $action->then($result);
 
+        app()->detectEnvironment(fn () => $environment);
+
         static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
     }
 
@@ -191,6 +200,7 @@ class UploadVideoTest extends TestCase
      */
     public function testAssociatesScript(): void
     {
+        $environment = app()->environment();
         app()->detectEnvironment(fn () => 'testing');
 
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -205,6 +215,8 @@ class UploadVideoTest extends TestCase
         $result = $action->handle();
 
         $action->then($result);
+
+        app()->detectEnvironment(fn () => $environment);
 
         /** @var Video $video */
         $video = Video::query()->first();
