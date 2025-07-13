@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Database\Eloquent\Model;
@@ -72,10 +71,10 @@ abstract class BasePolicy
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
-     * @param  BaseModel|Model  $model
+     * @param  Model  $model
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $model): bool
+    public function view(?User $user, Model $model): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
@@ -99,10 +98,10 @@ abstract class BasePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  BaseModel|Model  $model
+     * @param  Model  $model
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $model): bool
+    public function update(User $user, Model $model): bool
     {
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()
@@ -115,10 +114,10 @@ abstract class BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  BaseModel|Model  $model
+     * @param  Model  $model
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $model): bool
+    public function delete(User $user, Model $model): bool
     {
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()
@@ -164,10 +163,10 @@ abstract class BasePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
-     * @param  BaseModel|Model  $model
+     * @param  Model  $model
      * @return bool
      */
-    public function restore(User $user, BaseModel|Model $model): bool
+    public function restore(User $user, Model $model): bool
     {
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()

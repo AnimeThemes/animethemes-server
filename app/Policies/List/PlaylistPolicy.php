@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
@@ -43,7 +42,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $playlist): bool
+    public function view(?User $user, Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
@@ -79,7 +78,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $playlist): bool
+    public function update(User $user, Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
@@ -95,7 +94,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $playlist): bool
+    public function delete(User $user, Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);

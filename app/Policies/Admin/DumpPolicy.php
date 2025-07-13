@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +40,7 @@ class DumpPolicy extends BasePolicy
      * @param  Dump  $dump
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $dump): bool
+    public function view(?User $user, Model $dump): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
