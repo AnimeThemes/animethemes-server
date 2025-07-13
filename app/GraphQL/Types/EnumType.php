@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Types;
 
-use App\GraphQL\Types\Definition\Hidden;
+use App\GraphQL\Attributes\Hidden;
 use Exception;
 use GraphQL\Language\AST\EnumTypeDefinitionNode;
 use GraphQL\Type\Definition\Deprecated;

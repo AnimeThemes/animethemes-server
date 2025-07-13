@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
-use App\GraphQL\Types\Definition\Hidden;
+use App\GraphQL\Attributes\Hidden;
 use Filament\Support\Contracts\HasLabel;
 
 /**
