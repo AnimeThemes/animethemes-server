@@ -19,21 +19,6 @@ use Illuminate\Support\Str;
 class DumpPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
-     */
-    public function viewAny(?User $user): bool
-    {
-        if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
-        }
-
-        return true;
-    }
-
-    /**
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
