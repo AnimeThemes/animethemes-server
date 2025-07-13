@@ -16,7 +16,7 @@ return new class extends Migration
     {
         if (! Schema::hasColumn(Announcement::TABLE, Announcement::ATTRIBUTE_PUBLIC)) {
             Schema::table(Announcement::TABLE, function (Blueprint $table) {
-                $table->boolean(Announcement::ATTRIBUTE_PUBLIC)->default(false);
+                $table->boolean(Announcement::ATTRIBUTE_PUBLIC)->default(false)->after(Announcement::ATTRIBUTE_UPDATED_AT);
             });
         }
     }
