@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Builders\Admin;
 
-use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Builder;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
@@ -18,22 +17,17 @@ class DumpBuilder
     /**
      * Apply the query builder to the index query.
      *
-     * @param  Builder  $builder
+     * @param  Builder<Dump>  $builder
      * @param  mixed  $value
      * @param  mixed  $root
      * @param  array  $args
      * @param  GraphQLContext  $context
      * @param  ResolveInfo  $resolveInfo
-     * @return Builder
+     * @return Builder<Dump>
      */
     public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        $builder->where(function (Builder $query) {
-            foreach (Dump::safeDumps() as $path) {
-                $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
-            }
-        });
-
-        return $builder;
+        /** @phpstan-ignore-next-line */
+        return $builder->onlySafeDumps();
     }
 }

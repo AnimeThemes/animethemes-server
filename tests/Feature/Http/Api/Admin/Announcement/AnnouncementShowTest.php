@@ -10,9 +10,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
-use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
@@ -46,17 +44,13 @@ class AnnouncementShowTest extends TestCase
     }
 
     /**
-     * The Announcement Show Endpoint shall forbid users to access a private announcement.
+     * The Announcement Show Endpoint shall forbid access to a private announcement.
      *
      * @return void
      */
-    public function testUserCannotViewPrivate(): void
+    public function testCannotViewPrivate(): void
     {
         $announcement = Announcement::factory()->private()->create();
-
-        $user = User::factory()->createOne();
-
-        Sanctum::actingAs($user);
 
         $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 

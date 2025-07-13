@@ -6,11 +6,14 @@ namespace App\Models\Admin;
 
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
 use App\Events\Admin\Dump\DumpUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\DumpFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -20,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $path
  *
  * @method static DumpFactory factory(...$parameters)
+ * @method static Builder onlySafeDumps()
  */
 class Dump extends BaseModel
 {
@@ -97,5 +101,21 @@ class Dump extends BaseModel
             DumpDocumentAction::FILENAME_PREFIX,
             DumpWikiAction::FILENAME_PREFIX,
         ];
+    }
+
+    /**
+     * Scope a query to only include safe dumps.
+     *
+     * @param  Builder  $query
+     * @return void
+     */
+    #[Scope]
+    public function onlySafeDumps(Builder $query): void
+    {
+        $query->where(function (Builder $query) {
+            foreach (Dump::safeDumps() as $path) {
+                $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
+            }
+        });
     }
 }

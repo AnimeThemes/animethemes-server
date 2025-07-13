@@ -9,7 +9,6 @@ use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
-use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
@@ -19,7 +18,6 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\DumpCollection;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -46,15 +44,8 @@ class DumpController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $builder = Dump::query();
-
-        $builder->where(function (Builder $query) {
-            foreach (Dump::safeDumps() as $path) {
-                $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
-            }
-        });
-
-        $dumps = $action->index($builder, $query, $request->schema());
+        /** @phpstan-ignore-next-line */
+        $dumps = $action->index(Dump::query()->onlySafeDumps(), $query, $request->schema());
 
         return new DumpCollection($dumps, $query);
     }

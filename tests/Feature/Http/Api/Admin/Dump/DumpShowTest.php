@@ -44,6 +44,20 @@ class DumpShowTest extends TestCase
     }
 
     /**
+     * The Dump Show Endpoint shall forbid access to an unsafe dump.
+     *
+     * @return void
+     */
+    public function testCannotViewUnsafe(): void
+    {
+        $dump = Dump::factory()->unsafe()->create();
+
+        $response = $this->get(route('api.dump.show', ['dump' => $dump]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Dump Show Endpoint shall implement sparse fieldsets.
      *
      * @return void
