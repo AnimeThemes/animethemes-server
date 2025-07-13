@@ -12,6 +12,7 @@ use App\Models\BaseModel;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class DumpPolicy.
@@ -50,6 +51,6 @@ class DumpPolicy extends BasePolicy
             return true;
         }
 
-        return str($dump->path)->contains(Dump::safeDumps());
+        return Str::contains($dump->path, Dump::safeDumps());
     }
 }

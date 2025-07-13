@@ -58,6 +58,36 @@ class AnnouncementIndexTest extends TestCase
     }
 
     /**
+     * The Announcement Index Endpoint shall return a collection of public Announcement Resources.
+     *
+     * @return void
+     */
+    public function testPrivate(): void
+    {
+        Announcement::factory()
+            ->private()
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $announcements = Announcement::factory()
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $response = $this->get(route('api.announcement.index'));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    new AnnouncementCollection($announcements, new Query())
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Announcement Index Endpoint shall be paginated.
      *
      * @return void
