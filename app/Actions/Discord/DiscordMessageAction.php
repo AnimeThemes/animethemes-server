@@ -34,7 +34,7 @@ class DiscordMessageAction
      */
     public function makeMessage(array $fields): DiscordMessage
     {
-        $message = DiscordMessage::fromArray($fields);
+        $message = DiscordMessage::from($fields);
 
         if (Arr::has($fields, DiscordMessage::ATTRIBUTE_URL)) {
             $url = Arr::get($fields, DiscordMessage::ATTRIBUTE_URL);
@@ -67,7 +67,7 @@ class DiscordMessageAction
             ->throw()
             ->json();
 
-        return DiscordMessage::fromArray(Arr::get($message, 'message'));
+        return DiscordMessage::from(Arr::get($message, 'message'));
     }
 
     /**

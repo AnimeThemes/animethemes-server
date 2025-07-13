@@ -34,7 +34,7 @@ class DiscordEmbed implements Arrayable
      * @param  array<string, mixed>  $array
      * @return DiscordEmbed
      */
-    public static function fromArray(array $array): DiscordEmbed
+    public static function from(array $array): DiscordEmbed
     {
         return new DiscordEmbed()
             ->setType(Arr::get($array, self::ATTRIBUTE_TYPE) ?? 'rich')
@@ -43,7 +43,7 @@ class DiscordEmbed implements Arrayable
             ->setColor(Arr::get($array, self::ATTRIBUTE_COLOR) ?? 0)
             ->setThumbnail(Arr::get($array, self::ATTRIBUTE_THUMBNAIL) ?? [])
             ->setImage(Arr::get($array, self::ATTRIBUTE_IMAGE) ?? [])
-            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::fromArray($fields)));
+            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::from($fields)));
     }
 
     /**

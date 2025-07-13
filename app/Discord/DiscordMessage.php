@@ -31,13 +31,13 @@ class DiscordMessage implements Arrayable
      * @param  array<string, mixed>  $array
      * @return DiscordMessage
      */
-    public static function fromArray(array $array): DiscordMessage
+    public static function from(array $array): DiscordMessage
     {
         return new DiscordMessage()
             ->setChannelId(Arr::get($array, self::ATTRIBUTE_CHANNEL_ID) ?? '0')
             ->setId(Arr::get($array, self::ATTRIBUTE_ID) ?? '0')
             ->setContent(Arr::get($array, self::ATTRIBUTE_CONTENT) ?? '')
-            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed) => DiscordEmbed::fromArray($embed)))
+            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed) => DiscordEmbed::from($embed)))
             ->setImages(Arr::get($array, 'files') ?? Arr::get($array, self::ATTRIBUTE_IMAGES) ?? []);
     }
 

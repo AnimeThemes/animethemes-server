@@ -49,7 +49,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param  array<string, mixed>  $array
      * @return static
      */
-    public static function fromArray(array $array): static
+    public static function from(array $array): static
     {
         return new static(
             Arr::get($array, 'name'),
