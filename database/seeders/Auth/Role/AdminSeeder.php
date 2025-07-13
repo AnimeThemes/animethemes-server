@@ -40,6 +40,7 @@ use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
+use Illuminate\Support\Arr;
 
 /**
  * Class AdminSeeder.
@@ -110,7 +111,10 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, VideoScript::class, $extendedCrudPermissions);
 
         // Special Permissions
-        $this->configureAbilities($role, array_column(SpecialPermission::cases(), 'value'));
+        $this->configureAbilities($role, array_column(
+            Arr::except(SpecialPermission::cases(), SpecialPermission::BYPASS_AUTHORIZATION),
+            'value')
+        );
 
         $role->color = $roleEnum->color();
         $role->priority = $roleEnum->priority();
