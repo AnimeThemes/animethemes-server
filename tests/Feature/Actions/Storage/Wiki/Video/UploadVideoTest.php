@@ -100,6 +100,8 @@ class UploadVideoTest extends TestCase
      */
     public function testCreatedVideo(): void
     {
+        app()->detectEnvironment(fn () => 'testing');
+
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -123,6 +125,8 @@ class UploadVideoTest extends TestCase
      */
     public function testSetsAttributes(): void
     {
+        app()->detectEnvironment(fn () => 'testing');
+
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -158,6 +162,8 @@ class UploadVideoTest extends TestCase
      */
     public function testAttachesEntry(): void
     {
+        app()->detectEnvironment(fn () => 'testing');
+
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
@@ -185,6 +191,8 @@ class UploadVideoTest extends TestCase
      */
     public function testAssociatesScript(): void
     {
+        app()->detectEnvironment(fn () => 'testing');
+
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));

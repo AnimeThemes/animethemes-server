@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Format;
 
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Format\VideoBitrateRestrictionFormatRule;
-use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
@@ -36,7 +36,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->randomFloat(),
                 'input_tp' => $this->faker->randomFloat(),
                 'input_lra' => $this->faker->randomFloat(),
@@ -48,7 +48,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'format' => [
                     'bit_rate' => $bitrate,
                 ],
@@ -68,7 +68,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
 
         static::assertFalse($validator->passes());
 
-        Process::assertRan(SubmissionRule::formatFfprobeCommand($file));
+        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
     }
 
     /**
@@ -86,7 +86,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->randomFloat(),
                 'input_tp' => $this->faker->randomFloat(),
                 'input_lra' => $this->faker->randomFloat(),
@@ -98,7 +98,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'format' => [
                     'bit_rate' => $bitrate,
                 ],
@@ -118,6 +118,6 @@ class VideoBitrateRestrictionFormatTest extends TestCase
 
         static::assertTrue($validator->passes());
 
-        Process::assertRan(SubmissionRule::formatFfprobeCommand($file));
+        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
     }
 }

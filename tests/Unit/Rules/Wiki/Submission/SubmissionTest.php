@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission;
 
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
@@ -19,7 +20,6 @@ use App\Rules\Wiki\Submission\Format\ExtraneousMetadataFormatRule;
 use App\Rules\Wiki\Submission\Format\FormatNameFormatRule;
 use App\Rules\Wiki\Submission\Format\TotalStreamsFormatRule;
 use App\Rules\Wiki\Submission\Format\VideoBitrateRestrictionFormatRule;
-use App\Rules\Wiki\Submission\SubmissionRule;
 use App\Rules\Wiki\Submission\Video\VideoCodecStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoColorPrimariesStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
@@ -63,7 +63,7 @@ class SubmissionTest extends TestCase
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
-            SubmissionRule::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
                 'input_i' => $this->faker->numberBetween(-17, -14),
                 'input_tp' => $this->faker->randomFloat(min: -20, max: 0.1),
                 'input_lra' => $this->faker->randomFloat(),
@@ -75,7 +75,7 @@ class SubmissionTest extends TestCase
                 'normalization_type' => 'dynamic',
                 'target_offset' => $this->faker->randomFloat(),
             ])),
-            SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
                 'chapters' => [],
                 'format' => [
                     'bit_rate' => $bitrate,
@@ -138,7 +138,7 @@ class SubmissionTest extends TestCase
 
         static::assertTrue($validator->passes());
 
-        Process::assertRanTimes(SubmissionRule::formatFfprobeCommand($file));
-        Process::assertRanTimes(SubmissionRule::formatLoudnessCommand($file));
+        Process::assertRanTimes(UploadedFileAction::formatFfprobeCommand($file));
+        Process::assertRanTimes(UploadedFileAction::formatLoudnessCommand($file));
     }
 }
