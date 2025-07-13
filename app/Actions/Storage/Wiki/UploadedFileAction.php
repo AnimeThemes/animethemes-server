@@ -35,9 +35,7 @@ class UploadedFileAction
      */
     public function __construct(protected UploadedFile $file)
     {
-        if (! app()->runningUnitTests()) {
-            $this->setFFprobeData();
-        }
+        $this->setFFprobeData();
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Actions\Storage\Wiki\Video;
 
+use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
@@ -20,6 +21,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -100,21 +102,26 @@ class UploadVideoTest extends TestCase
      */
     public function testCreatedVideo(): void
     {
-        $environment = app()->environment();
-        app()->detectEnvironment(fn () => 'testing');
-
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
 
         $action = new UploadVideoAction($file, $this->faker->word());
 
         $result = $action->handle();
 
         $action->then($result);
-
-        app()->detectEnvironment(fn () => $environment);
 
         static::assertDatabaseCount(Video::class, 1);
     }
@@ -128,13 +135,20 @@ class UploadVideoTest extends TestCase
      */
     public function testSetsAttributes(): void
     {
-        $environment = app()->environment();
-        app()->detectEnvironment(fn () => 'testing');
-
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
 
         $overlap = Arr::random(VideoOverlap::cases());
         $source = Arr::random(VideoSource::cases());
@@ -154,8 +168,6 @@ class UploadVideoTest extends TestCase
 
         $action->then($result);
 
-        app()->detectEnvironment(fn () => $environment);
-
         static::assertDatabaseHas(Video::class, $attributes);
     }
 
@@ -168,13 +180,20 @@ class UploadVideoTest extends TestCase
      */
     public function testAttachesEntry(): void
     {
-        $environment = app()->environment();
-        app()->detectEnvironment(fn () => 'testing');
-
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
 
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -185,8 +204,6 @@ class UploadVideoTest extends TestCase
         $result = $action->handle();
 
         $action->then($result);
-
-        app()->detectEnvironment(fn () => $environment);
 
         static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
     }
@@ -200,9 +217,6 @@ class UploadVideoTest extends TestCase
      */
     public function testAssociatesScript(): void
     {
-        $environment = app()->environment();
-        app()->detectEnvironment(fn () => 'testing');
-
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -210,13 +224,21 @@ class UploadVideoTest extends TestCase
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
         $script = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
 
+        Process::fake([
+            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+                'streams' => [
+                    0 => [
+                        'height' => $this->faker->randomNumber(),
+                    ],
+                ],
+            ])),
+        ]);
+
         $action = new UploadVideoAction(file: $file, path: $this->faker->word(), script: $script);
 
         $result = $action->handle();
 
         $action->then($result);
-
-        app()->detectEnvironment(fn () => $environment);
 
         /** @var Video $video */
         $video = Video::query()->first();
