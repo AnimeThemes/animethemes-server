@@ -40,14 +40,14 @@ abstract class DumpAction extends BaseAction
     /**
      * Perform the action on the given models.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      *
      * @throws Exception
      */
-    public function handle(array $fields): void
+    public function handle(array $data): void
     {
-        $action = $this->storageAction($fields);
+        $action = $this->storageAction($data);
 
         $result = $action->handle();
 
@@ -55,7 +55,7 @@ abstract class DumpAction extends BaseAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -171,8 +171,8 @@ abstract class DumpAction extends BaseAction
     /**
      * Get the underlying action.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return DumpDatabase
      */
-    abstract protected function storageAction(array $fields): DumpDatabase;
+    abstract protected function storageAction(array $data): DumpDatabase;
 }

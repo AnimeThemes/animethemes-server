@@ -61,16 +61,17 @@ class UploadAudioAction extends UploadAction
     /**
      * Get the underlying storage action.
      *
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return UploadAudio
      */
-    protected function storageAction(?Model $model, array $fields): UploadAudio
+    protected function storageAction(?Model $record, array $data): UploadAudio
     {
         /** @var UploadedFile $file */
-        $file = Arr::get($fields, 'file');
+        $file = Arr::get($data, 'file');
 
         /** @var string $path */
-        $path = Arr::get($fields, 'path');
+        $path = Arr::get($data, 'path');
 
         return new UploadAudio($file, $path);
     }

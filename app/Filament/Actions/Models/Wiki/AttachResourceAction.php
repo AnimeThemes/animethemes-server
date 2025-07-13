@@ -45,14 +45,14 @@ abstract class AttachResourceAction extends BaseAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema|null
      */
     public function getSchema(Schema $schema): ?Schema
     {
-        $fields = [];
+        $components = [];
         $model = $this->getRecord();
 
         if (! ($model instanceof HasResources)) {
@@ -72,7 +72,7 @@ abstract class AttachResourceAction extends BaseAction
 
             $resourceSiteLower = Str::lower($resourceSite->name);
 
-            $fields[] = TextInput::make($resourceSite->name)
+            $components[] = TextInput::make($resourceSite->name)
                 ->label($resourceSite->localize())
                 ->helperText(__("filament.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
                 ->url()
@@ -81,7 +81,7 @@ abstract class AttachResourceAction extends BaseAction
         }
 
         return $schema
-            ->components($fields);
+            ->components($components);
     }
 
     /**

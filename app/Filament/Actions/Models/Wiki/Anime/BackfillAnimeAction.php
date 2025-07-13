@@ -111,7 +111,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema|null
@@ -205,29 +205,29 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     /**
      * Get what should be backfilled.
      *
-     * @param  array<string, mixed>  $fields
+     * @param  array<string, mixed>  $components
      * @return array<string, array<int, ResourceSite|ImageFacet>|bool>
      */
-    protected function getToBackfill(array $fields): array
+    protected function getToBackfill(array $components): array
     {
         $toBackfill = [];
         $toBackfill[self::RESOURCES] = [];
         $toBackfill[self::IMAGES] = [];
 
-        foreach ($this->getResourcesMapping() as $field => $sites) {
-            if (Arr::get($fields, $field) === true) {
+        foreach ($this->getResourcesMapping() as $component => $sites) {
+            if (Arr::get($components, $component) === true) {
                 $toBackfill[self::RESOURCES] = array_merge($toBackfill[self::RESOURCES], $sites);
             }
         }
 
-        foreach ($this->getImagesMapping() as $field => $facets) {
-            if (Arr::get($fields, $field) === true) {
+        foreach ($this->getImagesMapping() as $component => $facets) {
+            if (Arr::get($components, $component) === true) {
                 $toBackfill[self::IMAGES] = array_merge($toBackfill[self::IMAGES], $facets);
             }
         }
 
-        $toBackfill[self::STUDIOS] = Arr::get($fields, self::BACKFILL_STUDIOS);
-        $toBackfill[self::SYNONYMS] = Arr::get($fields, self::BACKFILL_SYNONYMS);
+        $toBackfill[self::STUDIOS] = Arr::get($components, self::BACKFILL_STUDIOS);
+        $toBackfill[self::SYNONYMS] = Arr::get($components, self::BACKFILL_SYNONYMS);
 
         return $toBackfill;
     }

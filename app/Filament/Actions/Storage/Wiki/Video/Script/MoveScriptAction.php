@@ -46,13 +46,13 @@ class MoveScriptAction extends MoveAction
      * Get the underlying storage action.
      *
      * @param  VideoScript  $script
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return MoveScript
      */
-    protected function storageAction(?Model $script, array $fields): MoveScript
+    protected function storageAction(?Model $script, array $data): MoveScript
     {
         /** @var string $path */
-        $path = Arr::get($fields, 'path');
+        $path = Arr::get($data, 'path');
 
         return new MoveScript($script, $path);
     }

@@ -98,7 +98,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -124,16 +124,16 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     /**
      * Get what should be backfilled.
      *
-     * @param  array<string, mixed>  $fields
+     * @param  array<string, mixed>  $components
      * @return array<string, ImageFacet[]>
      */
-    protected function getToBackfill(array $fields): array
+    protected function getToBackfill(array $components): array
     {
         $toBackfill = [];
         $toBackfill[self::IMAGES] = [];
 
-        foreach ($this->getImagesMapping() as $field => $facets) {
-            if (Arr::get($fields, $field) === true) {
+        foreach ($this->getImagesMapping() as $component => $facets) {
+            if (Arr::get($components, $component) === true) {
                 $toBackfill[self::IMAGES] = array_merge($toBackfill[self::IMAGES], $facets);
             }
         }

@@ -28,7 +28,7 @@ abstract class PruneAction extends StorageAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -49,9 +49,9 @@ abstract class PruneAction extends StorageAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $model
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return BasePruneAction
      */
-    abstract protected function storageAction(?Model $model, array $fields): BasePruneAction;
+    abstract protected function storageAction(?Model $record, array $data): BasePruneAction;
 }

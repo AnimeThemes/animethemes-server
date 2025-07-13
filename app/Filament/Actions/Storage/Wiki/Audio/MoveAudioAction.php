@@ -46,13 +46,13 @@ class MoveAudioAction extends MoveAction
      * Get the underlying storage action.
      *
      * @param  Audio  $audio
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return MoveAudio
      */
-    protected function storageAction(?Model $audio, array $fields): MoveAudio
+    protected function storageAction(?Model $audio, array $data): MoveAudio
     {
         /** @var string $path */
-        $path = Arr::get($fields, 'path');
+        $path = Arr::get($data, 'path');
 
         return new MoveAudio($audio, $path);
     }

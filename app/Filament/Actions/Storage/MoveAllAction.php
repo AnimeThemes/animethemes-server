@@ -49,13 +49,13 @@ class MoveAllAction extends BaseAction
         $this->label(__('filament.actions.base.move_all'));
         $this->icon(__('filament-icons.actions.base.move_all'));
 
-        $this->visible(Gate::allows('create', [Audio::class, Video::class, VideoScript::class]));
+        $this->visible(Gate::any('create', [Audio::class, Video::class, VideoScript::class]));
 
         $this->action(fn (array $data) => $this->handle($data));
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -106,14 +106,14 @@ class MoveAllAction extends BaseAction
     /**
      * Handle the action.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(array $fields): void
+    public function handle(array $data): void
     {
-        $videoPath = Arr::get($fields, 'video');
-        $audioPath = Arr::get($fields, 'audio');
-        $scriptPath = Arr::get($fields, 'script');
+        $videoPath = Arr::get($data, 'video');
+        $audioPath = Arr::get($data, 'audio');
+        $scriptPath = Arr::get($data, 'script');
 
         if (is_string($videoPath)) {
             $action = new MoveVideoAction($this->getVideo(), $videoPath);

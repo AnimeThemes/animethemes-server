@@ -89,7 +89,7 @@ class UploadVideoAction extends UploadAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -197,26 +197,26 @@ class UploadVideoAction extends UploadAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $model
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return UploadVideo
      */
-    protected function storageAction(?Model $model, array $fields): UploadVideo
+    protected function storageAction(?Model $record, array $data): UploadVideo
     {
         /** @var string|null $path */
-        $path = Arr::get($fields, 'path');
+        $path = Arr::get($data, 'path');
 
         /** @var UploadedFile $file */
-        $file = Arr::get($fields, 'file');
+        $file = Arr::get($data, 'file');
 
         /** @var AnimeThemeEntry|null $entry */
-        $entry = AnimeThemeEntry::query()->find(Arr::get($fields, AnimeThemeEntry::ATTRIBUTE_ID));
+        $entry = AnimeThemeEntry::query()->find(Arr::get($data, AnimeThemeEntry::ATTRIBUTE_ID));
 
         /** @var UploadedFile|null $script */
-        $script = Arr::get($fields, 'script');
+        $script = Arr::get($data, 'script');
 
         /** @var User|null $encoder */
-        $encoder = User::query()->find(Arr::get($fields, 'encoder'));
+        $encoder = User::query()->find(Arr::get($data, 'encoder'));
 
         if ($path === null && $entry !== null) {
             $anime = $entry->animetheme->anime;
@@ -235,12 +235,12 @@ class UploadVideoAction extends UploadAction
         }
 
         $attributes = [
-            Video::ATTRIBUTE_NC => Arr::get($fields, Video::ATTRIBUTE_NC),
-            Video::ATTRIBUTE_SUBBED => Arr::get($fields, Video::ATTRIBUTE_SUBBED),
-            Video::ATTRIBUTE_LYRICS => Arr::get($fields, Video::ATTRIBUTE_LYRICS),
-            Video::ATTRIBUTE_UNCEN => Arr::get($fields, Video::ATTRIBUTE_UNCEN),
-            Video::ATTRIBUTE_OVERLAP => Arr::get($fields, Video::ATTRIBUTE_OVERLAP),
-            Video::ATTRIBUTE_SOURCE => Arr::get($fields, Video::ATTRIBUTE_SOURCE),
+            Video::ATTRIBUTE_NC => Arr::get($data, Video::ATTRIBUTE_NC),
+            Video::ATTRIBUTE_SUBBED => Arr::get($data, Video::ATTRIBUTE_SUBBED),
+            Video::ATTRIBUTE_LYRICS => Arr::get($data, Video::ATTRIBUTE_LYRICS),
+            Video::ATTRIBUTE_UNCEN => Arr::get($data, Video::ATTRIBUTE_UNCEN),
+            Video::ATTRIBUTE_OVERLAP => Arr::get($data, Video::ATTRIBUTE_OVERLAP),
+            Video::ATTRIBUTE_SOURCE => Arr::get($data, Video::ATTRIBUTE_SOURCE),
         ];
 
         return new UploadVideo($file, $path, $attributes, $entry, $script, $encoder);

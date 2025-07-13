@@ -32,7 +32,7 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -61,11 +61,11 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
-     * @param  array  $fields
+     * @param  Model  $record
+     * @param  array<string, mixed>  $data
      * @return BaseMoveAction
      */
-    abstract protected function storageAction(?Model $model, array $fields): StorageActionContract;
+    abstract protected function storageAction(?Model $record, array $data): StorageActionContract;
 
     /**
      * Resolve the default value for the path field.

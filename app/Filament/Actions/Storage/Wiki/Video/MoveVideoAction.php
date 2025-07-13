@@ -46,13 +46,13 @@ class MoveVideoAction extends MoveAction
      * Get the underlying storage action.
      *
      * @param  Video  $video
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return MoveVideo
      */
-    protected function storageAction(?Model $video, array $fields): MoveVideo
+    protected function storageAction(?Model $video, array $data): MoveVideo
     {
         /** @var string $path */
-        $path = Arr::get($fields, 'path');
+        $path = Arr::get($data, 'path');
 
         return new MoveVideo($video, $path);
     }
