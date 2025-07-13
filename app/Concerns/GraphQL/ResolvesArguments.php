@@ -25,9 +25,9 @@ trait ResolvesArguments
     {
         if (filled($arguments)) {
             return Str::of('(')
-                ->append(implode("\n", Arr::flatten($arguments)))
+                ->append(implode(PHP_EOL, Arr::flatten($arguments)))
                 ->append(')')
-                ->toString();
+                ->__toString();
         }
 
         return '';
@@ -45,7 +45,7 @@ trait ResolvesArguments
             ->map(function (Field $field) {
                 if ($field instanceof FilterableField) {
                     return collect($field->filterDirectives())
-                        ->map(fn (FilterDirective $directive) => $directive->toString())
+                        ->map(fn (FilterDirective $directive) => $directive->__toString())
                         ->toArray();
                 }
             })

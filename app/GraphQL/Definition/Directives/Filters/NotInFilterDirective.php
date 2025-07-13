@@ -17,12 +17,12 @@ class NotInFilterDirective extends FilterDirective
      *
      * @return string
      */
-    public function toString(): string
+    public function __toString(): string
     {
         return Str::of($this->field->getName().'_not_in')
             ->append(': ')
-            ->append(Type::listOf($this->type)->toString())
+            ->append(Type::listOf($this->type)->__toString())
             ->append(" @notIn(key: \"{$this->field->getColumn()}\")")
-            ->toString();
+            ->__toString();
     }
 }

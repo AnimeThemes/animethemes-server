@@ -8,11 +8,12 @@ use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
+use Stringable;
 
 /**
  * Class Relation.
  */
-abstract class Relation
+abstract class Relation implements Stringable
 {
     use ResolvesDirectives;
 
@@ -36,7 +37,7 @@ abstract class Relation
      *
      * @return string
      */
-    public function toString(): string
+    public function __toString(): string
     {
         $directives = $this->resolveDirectives(
             $this->relation()->getDirective([
@@ -47,10 +48,10 @@ abstract class Relation
 
         return Str::of($this->field ?? $this->relationName)
             ->append(': ')
-            ->append($this->type()->toString())
+            ->append($this->type()->__toString())
             ->append(' ')
             ->append($directives)
-            ->toString();
+            ->__toString();
     }
 
     /**

@@ -111,9 +111,12 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, VideoScript::class, $extendedCrudPermissions);
 
         // Special Permissions
-        $this->configureAbilities($role, array_column(
-            Arr::except(SpecialPermission::cases(), SpecialPermission::BYPASS_AUTHORIZATION),
-            'value')
+        $this->configureAbilities(
+            $role,
+            array_column(
+                Arr::except(SpecialPermission::cases(), [SpecialPermission::BYPASS_AUTHORIZATION]),
+                'value'
+            )
         );
 
         $role->color = $roleEnum->color();

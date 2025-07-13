@@ -38,7 +38,7 @@ abstract class BaseUnion extends UnionType
             ->append($this->name())
             ->append(' = ')
             ->append(implode(' | ', Arr::map($this->types(), fn (BaseType $type) => $type->name())))
-            ->append("\n")
+            ->newLine()
             ->__toString();
     }
 
