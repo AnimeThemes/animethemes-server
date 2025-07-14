@@ -14,7 +14,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Uri;
 
 /**
  * Class MalExternalEntryClaimedAction.
@@ -135,9 +134,7 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
                 // TODO: test
                 RateLimiter::hit(ExternalProfileSite::MAL->name);
-
             } while (filled($next));
-
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 
