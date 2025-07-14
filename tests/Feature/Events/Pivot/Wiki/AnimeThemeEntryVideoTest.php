@@ -94,7 +94,7 @@ class AnimeThemeEntryVideoTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        $entry2 = AnimeThemeEntry::factory()
+        $secondEntry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
@@ -106,13 +106,13 @@ class AnimeThemeEntryVideoTest extends TestCase
             ->for($entry)
             ->createOne();
 
-        $video->animethemeentries()->attach($entry2);
+        $video->animethemeentries()->attach($secondEntry);
         $video->animethemeentries()->detach($entry);
 
-        Event::assertDispatched(AnimeThemeEntryVideoDeleted::class, function (AnimeThemeEntryVideoDeleted $event) use ($entry2, $track) {
+        Event::assertDispatched(AnimeThemeEntryVideoDeleted::class, function (AnimeThemeEntryVideoDeleted $event) use ($secondEntry, $track) {
             $event->updatePlaylistTracks();
 
-            return $track->refresh()->animethemeentry()->is($entry2);
+            return $track->refresh()->animethemeentry()->is($secondEntry);
         });
     }
 }
