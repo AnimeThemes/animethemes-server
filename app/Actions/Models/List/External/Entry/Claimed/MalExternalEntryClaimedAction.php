@@ -50,10 +50,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
                     ? 'rewatching'
                     : Arr::get($listStatus, 'status');
 
-                if ($watchStatus === null) {
-                    var_dump($listStatus, $info);
-                }
-
                 $entries[] = [
                     ExternalResource::ATTRIBUTE_EXTERNAL_ID => Arr::get($animeInfo, 'id'),
                     ExternalEntry::ATTRIBUTE_SCORE => Arr::get($listStatus, 'score'),
