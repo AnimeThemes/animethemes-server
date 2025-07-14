@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
 /**
  * Class DiscordMessage.
  */
-class DiscordMessage
+class DiscordMessage implements Arrayable
 {
     final public const ATTRIBUTE_CHANNEL_ID = 'channelId';
     final public const ATTRIBUTE_ID = 'id';
@@ -30,13 +31,13 @@ class DiscordMessage
      * @param  array<string, mixed>  $array
      * @return DiscordMessage
      */
-    public static function fromArray(array $array): DiscordMessage
+    public static function from(array $array): DiscordMessage
     {
         return new DiscordMessage()
             ->setChannelId(Arr::get($array, self::ATTRIBUTE_CHANNEL_ID) ?? '0')
             ->setId(Arr::get($array, self::ATTRIBUTE_ID) ?? '0')
             ->setContent(Arr::get($array, self::ATTRIBUTE_CONTENT) ?? '')
-            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed) => DiscordEmbed::fromArray($embed)))
+            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed) => DiscordEmbed::from($embed)))
             ->setImages(Arr::get($array, 'files') ?? Arr::get($array, self::ATTRIBUTE_IMAGES) ?? []);
     }
 

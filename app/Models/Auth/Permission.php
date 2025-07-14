@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
+use App\Contracts\Models\Nameable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission as BasePermission;
@@ -17,7 +18,7 @@ use Spatie\Permission\Models\Permission as BasePermission;
  * @property string $name
  * @property Carbon $updated_at
  */
-class Permission extends BasePermission
+class Permission extends BasePermission implements Nameable
 {
     final public const TABLE = 'permissions';
 
@@ -29,4 +30,14 @@ class Permission extends BasePermission
 
     final public const RELATION_ROLES = 'roles';
     final public const RELATION_USERS = 'users';
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

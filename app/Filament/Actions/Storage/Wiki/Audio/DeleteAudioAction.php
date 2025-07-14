@@ -36,17 +36,17 @@ class DeleteAudioAction extends DeleteAction
 
         $this->label(__('filament.actions.audio.delete.name'));
 
-        $this->visible(Gate::allows('forcedelete', Audio::class));
+        $this->visible(Gate::allows('forceDelete', Audio::class));
     }
 
     /**
      * Get the underlying storage action.
      *
      * @param  Audio  $audio
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return DeleteAudio
      */
-    protected function storageAction(?Model $audio, array $fields): DeleteAudio
+    protected function storageAction(?Model $audio, array $data): DeleteAudio
     {
         return new DeleteAudio($audio);
     }

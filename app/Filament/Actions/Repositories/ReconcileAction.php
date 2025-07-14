@@ -18,14 +18,14 @@ abstract class ReconcileAction extends BaseAction
     /**
      * Perform the action on the given models.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      *
      * @throws Exception
      */
-    public function handle(array $fields): void
+    public function handle(array $data): void
     {
-        $result = $this->reconcileRepositories($fields);
+        $result = $this->reconcileRepositories($data);
 
         $result->toLog();
     }

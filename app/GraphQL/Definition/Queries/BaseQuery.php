@@ -42,7 +42,7 @@ abstract class BaseQuery
 
         return "
             \"\"\"{$this->description()}\"\"\"
-            {$this->name}{$arguments}: {$this->getType()->toString()} {$directives}
+            {$this->name}{$arguments}: {$this->getType()->__toString()} {$directives}
         ";
     }
 

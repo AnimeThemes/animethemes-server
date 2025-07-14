@@ -47,13 +47,13 @@ class MoveImageAction extends MoveAction
      * Get the underlying storage action.
      *
      * @param  Image  $image
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return MoveImage
      */
-    protected function storageAction(?Model $image, array $fields): MoveImage
+    protected function storageAction(?Model $image, array $data): MoveImage
     {
         /** @var string $path */
-        $path = Arr::get($fields, 'path');
+        $path = Arr::get($data, 'path');
 
         return new MoveImage($image, $path);
     }

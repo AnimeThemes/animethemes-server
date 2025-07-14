@@ -43,13 +43,13 @@ class PruneDumpAction extends PruneAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $model
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return PruneDump
      */
-    protected function storageAction(?Model $model, array $fields): PruneDump
+    protected function storageAction(?Model $record, array $data): PruneDump
     {
-        $hours = Arr::get($fields, 'hours');
+        $hours = Arr::get($data, 'hours');
 
         return new PruneDump(intval($hours));
     }

@@ -6,11 +6,12 @@ namespace App\GraphQL\Definition\Directives\Filters;
 
 use App\GraphQL\Definition\Fields\Field;
 use GraphQL\Type\Definition\Type;
+use Stringable;
 
 /**
  * Class FilterDirective.
  */
-abstract class FilterDirective
+abstract class FilterDirective implements Stringable
 {
     /**
      * @param  Field  $field
@@ -20,11 +21,4 @@ abstract class FilterDirective
         protected Field $field,
         protected Type $type,
     ) {}
-
-    /**
-     * Create the argument for the directive.
-     *
-     * @return string
-     */
-    abstract public function toString(): string;
 }

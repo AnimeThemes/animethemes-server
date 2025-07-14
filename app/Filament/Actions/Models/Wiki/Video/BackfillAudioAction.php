@@ -91,7 +91,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema

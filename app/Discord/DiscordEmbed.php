@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
 /**
  * Class DiscordEmbed.
  */
-class DiscordEmbed
+class DiscordEmbed implements Arrayable
 {
     final public const ATTRIBUTE_TYPE = 'type';
     final public const ATTRIBUTE_TITLE = 'title';
@@ -33,7 +34,7 @@ class DiscordEmbed
      * @param  array<string, mixed>  $array
      * @return DiscordEmbed
      */
-    public static function fromArray(array $array): DiscordEmbed
+    public static function from(array $array): DiscordEmbed
     {
         return new DiscordEmbed()
             ->setType(Arr::get($array, self::ATTRIBUTE_TYPE) ?? 'rich')
@@ -42,7 +43,7 @@ class DiscordEmbed
             ->setColor(Arr::get($array, self::ATTRIBUTE_COLOR) ?? 0)
             ->setThumbnail(Arr::get($array, self::ATTRIBUTE_THUMBNAIL) ?? [])
             ->setImage(Arr::get($array, self::ATTRIBUTE_IMAGE) ?? [])
-            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::fromArray($fields)));
+            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::from($fields)));
     }
 
     /**

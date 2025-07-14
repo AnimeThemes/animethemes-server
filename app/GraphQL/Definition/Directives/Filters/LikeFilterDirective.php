@@ -16,12 +16,12 @@ class LikeFilterDirective extends FilterDirective
      *
      * @return string
      */
-    public function toString(): string
+    public function __toString(): string
     {
         return Str::of($this->field->getName().'_like')
             ->append(': ')
-            ->append($this->type->toString())
+            ->append($this->type->__toString())
             ->append(" @where(operator: \"like\", key: \"{$this->field->getColumn()}\")")
-            ->toString();
+            ->__toString();
     }
 }

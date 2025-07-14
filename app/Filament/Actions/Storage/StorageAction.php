@@ -30,37 +30,37 @@ abstract class StorageAction extends BaseAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
-     * @param  array  $fields
+     * @param  Model  $record
+     * @param  array<string, mixed>  $data
      * @return BaseStorageAction
      */
-    abstract protected function storageAction(Model $model, array $fields): BaseStorageAction;
+    abstract protected function storageAction(Model $record, array $data): BaseStorageAction;
 
     /**
      * Run this after the video is uploaded.
      *
-     * @param  Model|null  $model
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    protected function afterUploaded(?Model $model, array $fields): void {}
+    protected function afterUploaded(?Model $record, array $data): void {}
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model|null  $model
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(?Model $model, array $fields): void
+    public function handle(?Model $record, array $data): void
     {
-        $action = $this->storageAction($model, $fields);
+        $action = $this->storageAction($record, $data);
 
         $storageResults = $action->handle();
 
         $storageResults->toLog();
 
-        $model ??= $action->then($storageResults);
+        $record ??= $action->then($storageResults);
 
         $actionResult = $storageResults->toActionResult();
 
@@ -70,23 +70,23 @@ abstract class StorageAction extends BaseAction
             return;
         }
 
-        $this->afterUploaded($model, $fields);
+        $this->afterUploaded($record, $data);
 
         $livewire = $this->getLivewire();
-        if ($livewire instanceof BaseRelationManager && $model instanceof Model) {
+        if ($livewire instanceof BaseRelationManager && $record instanceof Model) {
             $relation = $livewire->getRelationship();
-            $pivot = $model;
+            $pivot = $record;
 
             if ($relation instanceof BelongsToMany) {
                 $pivotClass = $relation->getPivotClass();
 
                 $pivot = $pivotClass::query()
                     ->where($livewire->getOwnerRecord()->getKeyName(), $livewire->getOwnerRecord()->getKey())
-                    ->where($model->getKeyName(), $model->getKey())
+                    ->where($record->getKeyName(), $record->getKey())
                     ->first();
             }
 
-            $this->updateLog($model, $pivot);
+            $this->updateLog($record, $pivot);
         }
     }
 }

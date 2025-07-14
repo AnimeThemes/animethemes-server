@@ -59,21 +59,21 @@ abstract class BaseType extends ObjectType
                 return Str::of('"')
                     ->append($field->description())
                     ->append('"')
-                    ->append("\n")
-                    ->append($field->toString())
+                    ->newLine()
+                    ->append($field->__toString())
                     ->__toString();
             });
         }
 
         if ($this instanceof HasRelations) {
-            $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->toString());
+            $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->__toString());
         }
 
         if (blank($fields)) {
             throw new RuntimeException("There are no fields for the type {$this->getName()}.");
         }
 
-        $fieldsString = implode("\n", Arr::flatten($fields));
+        $fieldsString = implode(PHP_EOL, Arr::flatten($fields));
 
         $directives = '';
         if ($this instanceof HasDirectives) {

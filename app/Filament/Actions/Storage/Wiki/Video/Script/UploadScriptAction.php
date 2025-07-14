@@ -50,7 +50,7 @@ class UploadScriptAction extends UploadAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -72,17 +72,17 @@ class UploadScriptAction extends UploadAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $model
-     * @param  array  $fields
+     * @param  Model|null  $record
+     * @param  array<string, mixed>  $data
      * @return UploadScript
      */
-    protected function storageAction(?Model $model, array $fields): UploadScript
+    protected function storageAction(?Model $record, array $data): UploadScript
     {
         /** @var UploadedFile $file */
-        $file = Arr::get($fields, 'file');
+        $file = Arr::get($data, 'file');
 
         /** @var Video|null $video */
-        $video = Video::query()->find(Arr::get($fields, Video::ATTRIBUTE_ID));
+        $video = Video::query()->find(Arr::get($data, Video::ATTRIBUTE_ID));
 
         $path = explode($video->filename, $video->path())[0];
 

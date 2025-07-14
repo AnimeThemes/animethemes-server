@@ -240,6 +240,16 @@ class User extends BaseResource
     }
 
     /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the pages available for the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>

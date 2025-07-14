@@ -34,7 +34,7 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -45,34 +45,35 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
     {
         $fs = Storage::disk($this->disk());
 
-        return $schema->components([
-            FileUpload::make('file')
-                ->label(__('filament.actions.storage.upload.fields.file.name'))
-                ->helperText(__('filament.actions.storage.upload.fields.file.help'))
-                ->required()
-                ->live(true)
-                ->rules($this->fileRules())
-                ->preserveFilenames()
-                ->storeFiles(false),
+        return $schema
+            ->components([
+                FileUpload::make('file')
+                    ->label(__('filament.actions.storage.upload.fields.file.name'))
+                    ->helperText(__('filament.actions.storage.upload.fields.file.help'))
+                    ->required()
+                    ->live(true)
+                    ->rules($this->fileRules())
+                    ->preserveFilenames()
+                    ->storeFiles(false),
 
-            TextInput::make('path')
-                ->label(__('filament.actions.storage.upload.fields.path.name'))
-                ->helperText(__('filament.actions.storage.upload.fields.path.help'))
-                ->doesntStartWith('/')
-                ->doesntEndWith('/')
-                ->rule(new StorageDirectoryExistsRule($fs))
-                ->hidden(fn ($livewire) => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
-        ]);
+                TextInput::make('path')
+                    ->label(__('filament.actions.storage.upload.fields.path.name'))
+                    ->helperText(__('filament.actions.storage.upload.fields.path.help'))
+                    ->doesntStartWith('/')
+                    ->doesntEndWith('/')
+                    ->rule(new StorageDirectoryExistsRule($fs))
+                    ->hidden(fn ($livewire) => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
+            ]);
     }
 
     /**
      * Get the underlying storage action.
      *
      * @param  Model|null  $record
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return BaseUploadAction
      */
-    abstract protected function storageAction(?Model $record, array $fields): BaseUploadAction;
+    abstract protected function storageAction(?Model $record, array $data): BaseUploadAction;
 
     /**
      * Get the file validation rules.

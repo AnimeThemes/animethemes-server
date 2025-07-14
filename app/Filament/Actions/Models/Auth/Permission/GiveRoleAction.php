@@ -9,6 +9,7 @@ use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
 /**
@@ -57,7 +58,7 @@ class GiveRoleAction extends BaseAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the schema available on the action.
      *
      * @param  Schema  $schema
      * @return Schema
@@ -66,7 +67,9 @@ class GiveRoleAction extends BaseAction
      */
     public function getSchema(Schema $schema): Schema
     {
-        $roles = Role::all([Role::ATTRIBUTE_ID, Role::ATTRIBUTE_NAME])
+        $roles = Role::query()
+            ->whereDoesntHave(Role::RELATION_PERMISSIONS, fn (Builder $query) => $query->whereKey($this->getRecord()->getKey()))
+            ->get([Role::ATTRIBUTE_ID, Role::ATTRIBUTE_NAME])
             ->keyBy(Role::ATTRIBUTE_ID)
             ->map(fn (Role $role) => $role->name)
             ->toArray();

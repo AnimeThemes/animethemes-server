@@ -10,11 +10,12 @@ use App\Contracts\GraphQL\HasArgumentsField;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Stringable;
 
 /**
  * Class Field.
  */
-abstract class Field
+abstract class Field implements Stringable
 {
     use ResolvesArguments;
     use ResolvesDirectives;
@@ -109,7 +110,7 @@ abstract class Field
      *
      * @return string
      */
-    public function toString(): string
+    public function __toString(): string
     {
         $string = Str::of($this->getName());
 
@@ -118,7 +119,7 @@ abstract class Field
         }
 
         $string = $string->append(': ')
-            ->append($this->getType()->toString());
+            ->append($this->getType()->__toString());
 
         if ($this->shouldRename()) {
             $string = $string->append(" @rename(attribute: {$this->column})");

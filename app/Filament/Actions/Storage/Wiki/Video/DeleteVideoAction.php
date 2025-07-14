@@ -36,17 +36,17 @@ class DeleteVideoAction extends DeleteAction
 
         $this->label(__('filament.actions.video.delete.name'));
 
-        $this->visible(Gate::allows('forcedelete', Video::class));
+        $this->visible(Gate::allows('forceDelete', Video::class));
     }
 
     /**
      * Get the underlying storage action.
      *
      * @param  Video  $video
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return DeleteVideo
      */
-    protected function storageAction(?Model $video, array $fields): DeleteVideo
+    protected function storageAction(?Model $video, array $data): DeleteVideo
     {
         return new DeleteVideo($video);
     }

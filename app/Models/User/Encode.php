@@ -93,7 +93,7 @@ class Encode extends BaseModel
         return Str::of($this->user->getName())
             ->append(' ')
             ->append($this->video->getName())
-            ->toString();
+            ->__toString();
     }
 
     /**

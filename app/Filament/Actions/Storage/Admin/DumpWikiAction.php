@@ -37,11 +37,11 @@ class DumpWikiAction extends DumpAction
     /**
      * Get the underlying action.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return DumpDatabase
      */
-    protected function storageAction(array $fields): DumpDatabase
+    protected function storageAction(array $data): DumpDatabase
     {
-        return new DumpWikiDatabase($fields);
+        return new DumpWikiDatabase($data);
     }
 }
