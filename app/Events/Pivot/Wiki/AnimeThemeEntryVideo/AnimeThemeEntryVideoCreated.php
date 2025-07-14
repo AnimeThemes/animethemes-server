@@ -11,7 +11,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class AnimeThemeEntryVideoCreated.
@@ -67,12 +66,9 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
 
         // At the moment a video doesn't have any entries and a new pivot is created,
         // tracks should update the entry_id.
-        DB::transaction(function () use ($entry, $video) {
-            PlaylistTrack::query()
-                ->whereNull(PlaylistTrack::ATTRIBUTE_ENTRY)
-                ->where(PlaylistTrack::ATTRIBUTE_VIDEO, $video->getKey())
-                ->lockForUpdate()
-                ->update([PlaylistTrack::ATTRIBUTE_ENTRY => $entry->getKey()]);
-        });
+        PlaylistTrack::query()
+            ->whereNull(PlaylistTrack::ATTRIBUTE_ENTRY)
+            ->where(PlaylistTrack::ATTRIBUTE_VIDEO, $video->getKey())
+            ->update([PlaylistTrack::ATTRIBUTE_ENTRY => $entry->getKey()]);
     }
 }

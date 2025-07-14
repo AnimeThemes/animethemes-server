@@ -11,7 +11,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class AnimeThemeEntryAnimeThemeDeletedVideo.
@@ -65,15 +64,12 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         $entry = $this->getRelated();
         $video = $this->getForeign();
 
-        DB::transaction(function () use ($entry, $video) {
-            // Try to find another entry attached to replace the detached entry.
-            $newEntry = $video->animethemeentries()->first();
+        // Try to find another entry attached to replace the detached entry.
+        $newEntry = $video->animethemeentries()->first();
 
-            PlaylistTrack::query()
-                ->where(PlaylistTrack::ATTRIBUTE_ENTRY, $entry->getKey())
-                ->where(PlaylistTrack::ATTRIBUTE_VIDEO, $video->getKey())
-                ->lockForUpdate()
-                ->update([PlaylistTrack::ATTRIBUTE_ENTRY => $newEntry?->getKey()]);
-        });
+        PlaylistTrack::query()
+            ->where(PlaylistTrack::ATTRIBUTE_ENTRY, $entry->getKey())
+            ->where(PlaylistTrack::ATTRIBUTE_VIDEO, $video->getKey())
+            ->update([PlaylistTrack::ATTRIBUTE_ENTRY => $newEntry?->getKey()]);
     }
 }

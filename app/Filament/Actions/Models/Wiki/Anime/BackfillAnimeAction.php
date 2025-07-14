@@ -17,9 +17,6 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -27,11 +24,8 @@ use Illuminate\Support\Facades\Gate;
 /**
  * Class BackfillAnimeAction.
  */
-class BackfillAnimeAction extends BaseAction implements ShouldQueue
+class BackfillAnimeAction extends BaseAction
 {
-    use InteractsWithQueue;
-    use Queueable;
-
     final public const RESOURCES = BackfillAnime::RESOURCES;
     final public const IMAGES = BackfillAnime::IMAGES;
     final public const STUDIOS = BackfillAnime::STUDIOS;

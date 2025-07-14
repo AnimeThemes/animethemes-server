@@ -9,6 +9,7 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -40,6 +41,8 @@ abstract class BaseAction extends Action
 
         $this->requiresConfirmation();
 
+        $this->modal();
+
         $this->before(function (BaseAction $action, mixed $livewire) {
             if ($livewire instanceof BaseRelationManager) {
                 $this->createActionLog($action, $livewire->getOwnerRecord());
@@ -49,7 +52,11 @@ abstract class BaseAction extends Action
             }
         });
 
-        $this->after(function (mixed $livewire) {
+        $this->after(function (mixed $livewire, BaseAction $action) {
+            if ($action instanceof ShouldQueue) {
+                return;
+            }
+
             $this->finishedLog();
 
             if ($livewire instanceof BaseViewResource || $livewire instanceof BaseRelationManager) {
