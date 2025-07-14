@@ -6,12 +6,15 @@ namespace App\Actions\Models\List\External\Entry\Claimed;
 
 use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Uri;
 
 /**
  * Class MalExternalEntryClaimedAction.
@@ -46,6 +49,10 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
                 $watchStatus = Arr::get($listStatus, 'is_rewatching')
                     ? 'rewatching'
                     : Arr::get($listStatus, 'status');
+
+                if ($watchStatus === null) {
+                    var_dump($listStatus, $info);
+                }
 
                 $entries[] = [
                     ExternalResource::ATTRIBUTE_EXTERNAL_ID => Arr::get($animeInfo, 'id'),
@@ -117,14 +124,24 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
      */
     protected function makeRequest(): void
     {
+        $next = null;
+
         try {
-            $this->data = Http::withToken($this->getToken())
-                ->get('https://api.myanimelist.net/v2/users/@me/animelist', [
-                    'fields' => 'list_status',
-                    'limit' => '1000',
-                ])
-                ->throw()
-                ->json('data');
+            do {
+                $response = Http::withToken($this->getToken())
+                    ->get($next ?? 'https://api.myanimelist.net/v2/users/@me/animelist?fields=list_status&limit=1000')
+                    ->throw()
+                    ->json();
+
+                $this->data = array_merge($this->data ?? [], Arr::get($response, 'data'));
+
+                $next = Arr::get($response, 'paging.next');
+
+                // TODO: test
+                RateLimiter::hit(ExternalProfileSite::MAL->name);
+
+            } while (filled($next));
+
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 
