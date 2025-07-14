@@ -86,8 +86,10 @@ trait HasActionLogs
         $this->actionLog->failed($exception);
 
         // Filament notifications
-        $this->failureNotificationTitle(Str::limit($exception, 200));
-        $this->failure();
+        if ($this instanceof Action) {
+            $this->failureNotificationTitle(Str::limit($exception, 200));
+            $this->failure();
+        }
     }
 
     /**
@@ -102,7 +104,9 @@ trait HasActionLogs
                 $actionLog->finished();
 
                 // Filament notifications
-                $this->success();
+                if ($this instanceof Action) {
+                    $this->success();
+                }
             }
         }
     }

@@ -138,16 +138,13 @@ class ManageSongPerformances
 
             // Multiple queries because upsert does not dispatch an event.
             foreach ($performancesToCreate as $performance) {
-                $model = Performance::query()->updateOrCreate(
+                Performance::query()->updateOrCreate(
                     Arr::only($performance, [Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID]),
                     [
                         Performance::ATTRIBUTE_ALIAS => Arr::get($performance, Performance::ATTRIBUTE_ALIAS),
                         Performance::ATTRIBUTE_AS => Arr::get($performance, Performance::ATTRIBUTE_AS),
                     ]
                 );
-                // Note: Working in prod. Saving this here for local tests. Same for deleted events.
-                // $event = $model->wasRecentlyCreated ? new PerformanceCreated($model) : new PerformanceUpdated($model);
-                // $event->syncArtistSong();
             }
 
             // Delete membership performances that are not in the new list.
@@ -162,10 +159,7 @@ class ManageSongPerformances
                     )
                 );
 
-            foreach ($membershipPerformances->get() as $performance) {
-                $performance->forceDelete();
-                // new PerformanceDeleted($performance)->syncArtistSong();
-            }
+            $membershipPerformances->each(fn (Performance $performance) => $performance->forceDelete());
 
             // Delete solo performances that are not in the new list.
             $soloPerformances = Performance::query()
@@ -179,10 +173,7 @@ class ManageSongPerformances
                     )
                 );
 
-            foreach ($soloPerformances->get() as $performance) {
-                $performance->forceDelete();
-                // new PerformanceDeleted($performance)->syncArtistSong();
-            }
+            $soloPerformances->each(fn (Performance $performance) => $performance->forceDelete());
 
             // Update artist_member table to match memberships
             ArtistMember::query()->upsert(

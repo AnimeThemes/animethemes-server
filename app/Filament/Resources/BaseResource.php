@@ -131,31 +131,24 @@ abstract class BaseResource extends Resource
      */
     public static function getActions(): array
     {
-        $exists = collect(static::getRecordActions())->contains(fn (Action $action) => $action->isVisible());
-
         return [
             ViewAction::make(),
 
             EditAction::make(),
 
-            ActionGroup::make(
-                array_merge(
-                    [
-                        DetachAction::make(),
+            ActionGroup::make([
+                DetachAction::make(),
 
-                        DeleteAction::make(),
+                DeleteAction::make(),
 
-                        ForceDeleteAction::make(),
+                ForceDeleteAction::make(),
 
-                        RestoreAction::make(),
+                RestoreAction::make(),
 
-                        ReplicateAction::make(),
-                    ],
-                    $exists
-                    ? [ActionGroup::make(static::getRecordActions())->dropdown(false)]
-                    : [],
-                )
-            ),
+                ReplicateAction::make(),
+
+                ActionGroup::make(static::getRecordActions())->dropdown(false),
+            ]),
         ];
     }
 

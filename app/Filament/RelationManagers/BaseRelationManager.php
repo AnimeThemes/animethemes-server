@@ -75,7 +75,7 @@ abstract class BaseRelationManager extends RelationManager
 
                 ...$this->getPivotColumns(),
 
-                TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
+                TextColumn::make('pivot.created_at')
                     ->label(__('filament.fields.base.attached_at'))
                     ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
                     ->formatStateUsing(function (Model $record) {
@@ -88,7 +88,7 @@ abstract class BaseRelationManager extends RelationManager
                         return new DateTime($createdAtField)->format('M j, Y H:i:s');
                     }),
 
-                TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
+                TextColumn::make('pivot.updated_at')
                     ->label(__('filament.fields.base.updated_at'))
                     ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
                     ->formatStateUsing(function (Model $record) {
