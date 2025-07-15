@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries;
 
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
+use App\GraphQL\Attributes\UseBuilder;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 
@@ -16,6 +18,7 @@ use GraphQL\Type\Definition\Type;
 abstract class BaseQuery
 {
     use ResolvesArguments;
+    use ResolvesAttributes;
     use ResolvesDirectives;
 
     /**
@@ -60,7 +63,11 @@ abstract class BaseQuery
      */
     public function directives(): array
     {
+        $builder = $this->resolveBuilderAttribute();
+
         return [
+            ...(is_string($builder) ? ['builder' => ['method' => $builder]] : []),
+
             ...($this->paginated ? ['paginate' => []] : []),
         ];
     }

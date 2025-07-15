@@ -14,6 +14,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * Class MalExternalEntryClaimedAction.
@@ -23,7 +24,7 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     /**
      * The JSON response of the user endpoint in external API.
      *
-     * @var array|null
+     * @var array<string, mixed>|null
      */
     protected ?array $userData = null;
 

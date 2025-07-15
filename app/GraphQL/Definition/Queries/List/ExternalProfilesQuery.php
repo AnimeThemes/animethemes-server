@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\List;
 
+use App\GraphQL\Attributes\UseBuilder;
 use App\GraphQL\Builders\List\ExternalProfileBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
@@ -12,6 +13,7 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 /**
  * Class ExternalProfilesQuery.
  */
+#[UseBuilder(ExternalProfileBuilder::class)]
 class ExternalProfilesQuery extends EloquentQuery
 {
     public function __construct()
@@ -39,10 +41,6 @@ class ExternalProfilesQuery extends EloquentQuery
         return [
             'middleware' => [
                 'class' => EnabledOnlyOnLocalhost::class,
-            ],
-
-            'builder' => [
-                'method' => ExternalProfileBuilder::class.'@index',
             ],
 
             ...parent::directives(),

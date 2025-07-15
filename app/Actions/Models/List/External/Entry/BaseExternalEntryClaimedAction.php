@@ -18,7 +18,7 @@ abstract class BaseExternalEntryClaimedAction
     /**
      * The JSON response of the external API.
      *
-     * @var array|null
+     * @var array<string, mixed>|null
      */
     protected ?array $data = null;
 
@@ -51,7 +51,7 @@ abstract class BaseExternalEntryClaimedAction
      *
      * @return string
      */
-    public function getToken(): string
+    protected function getToken(): string
     {
         return Crypt::decrypt($this->token->access_token);
     }

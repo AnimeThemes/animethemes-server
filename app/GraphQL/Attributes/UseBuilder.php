@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Attributes;
+
+use Attribute;
+
+/**
+ * Class UseBuilder.
+ */
+#[Attribute(Attribute::TARGET_CLASS)]
+class UseBuilder
+{
+    /**
+     * @param  class-string  $builderClass
+     * @param  string  $method
+     */
+    public function __construct(
+        public string $builderClass,
+        public string $method = 'index',
+    ) {}
+}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin;
 
+use App\GraphQL\Attributes\UseBuilder;
 use App\GraphQL\Builders\Admin\DumpBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
@@ -11,6 +12,7 @@ use App\GraphQL\Definition\Types\Admin\DumpType;
 /**
  * Class DumpsQuery.
  */
+#[UseBuilder(DumpBuilder::class)]
 class DumpsQuery extends EloquentQuery
 {
     public function __construct()
@@ -26,22 +28,6 @@ class DumpsQuery extends EloquentQuery
     public function description(): string
     {
         return 'Returns a listing of dump resources given fields.';
-    }
-
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'builder' => [
-                'method' => DumpBuilder::class.'@index',
-            ],
-
-            ...parent::directives(),
-        ];
     }
 
     /**
