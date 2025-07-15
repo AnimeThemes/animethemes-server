@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Relations;
 
+use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
@@ -15,6 +17,7 @@ use Stringable;
  */
 abstract class Relation implements Stringable
 {
+    use ResolvesArguments;
     use ResolvesDirectives;
 
     /**
@@ -46,7 +49,16 @@ abstract class Relation implements Stringable
             ])
         );
 
+        $arguments = [];
+
+        if ($this->type instanceof HasFields) {
+            $arguments[] = $this->resolveFilterArguments($this->type->fields());
+        }
+
+        $arguments = $this->buildArguments($arguments);
+
         return Str::of($this->field ?? $this->relationName)
+            ->append($arguments)
             ->append(': ')
             ->append($this->type()->__toString())
             ->append(' ')
@@ -69,5 +81,10 @@ abstract class Relation implements Stringable
     protected function relation(): RelationType
     {
         return RelationType::BELONGS_TO_MANY;
+    }
+
+    public function getType(): Type
+    {
+        return $this->type;
     }
 }

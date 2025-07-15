@@ -8,7 +8,6 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
-use App\GraphQL\Attributes\UseBuilder;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 
