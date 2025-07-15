@@ -49,21 +49,29 @@ abstract class Relation implements Stringable
             ])
         );
 
+        return Str::of($this->field ?? $this->relationName)
+            ->append($this->getArguments())
+            ->append(': ')
+            ->append($this->type()->__toString())
+            ->append(' ')
+            ->append($directives)
+            ->__toString();
+    }
+
+    /**
+     * Resolve the arguments of the sub-query.
+     *
+     * @return string
+     */
+    protected function getArguments(): string
+    {
         $arguments = [];
 
         if ($this->type instanceof HasFields) {
             $arguments[] = $this->resolveFilterArguments($this->type->fields());
         }
 
-        $arguments = $this->buildArguments($arguments);
-
-        return Str::of($this->field ?? $this->relationName)
-            ->append($arguments)
-            ->append(': ')
-            ->append($this->type()->__toString())
-            ->append(' ')
-            ->append($directives)
-            ->__toString();
+        return $this->buildArguments($arguments);
     }
 
     /**
@@ -78,13 +86,5 @@ abstract class Relation implements Stringable
      *
      * @return RelationType
      */
-    protected function relation(): RelationType
-    {
-        return RelationType::BELONGS_TO_MANY;
-    }
-
-    public function getType(): Type
-    {
-        return $this->type;
-    }
+    abstract protected function relation(): RelationType;
 }
