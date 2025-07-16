@@ -27,7 +27,7 @@ class ListDumpCommand extends DumpCommand
         {--no-create-info : Turn off CREATE TABLE statements in MySQL dump}
         {--quick : Retrieve rows for a table from the server one row at a time in MySQL dump}
         {--set-gtid-purged=AUTO : Add SET GTID_PURGED to output in MySQL dump}
-        {--single-transaction : Issue a BEGIN SQL statement before dumping data from server for MySQL dump}
+        {--single-transaction=true : Issue a BEGIN SQL statement before dumping data from server for MySQL dump}
         {--skip-column-statistics : Turn off ANALYZE table statements in the MySQL dump}
         {--skip-comments : Do not write additional information in the MySQL dump}
         {--skip-extended-insert : Turn off extended-insert in MySQL dump}
