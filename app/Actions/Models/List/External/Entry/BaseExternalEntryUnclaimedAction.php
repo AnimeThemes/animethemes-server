@@ -18,7 +18,7 @@ abstract class BaseExternalEntryUnclaimedAction
     /**
      * The JSON response of the external API.
      *
-     * @var array|null
+     * @var array<string, mixed>|null
      */
     protected ?array $data = null;
 

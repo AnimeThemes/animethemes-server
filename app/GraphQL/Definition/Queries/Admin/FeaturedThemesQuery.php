@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin;
 
+use App\GraphQL\Attributes\UseBuilder;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
@@ -11,6 +12,7 @@ use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 /**
  * Class FeaturedThemesQuery.
  */
+#[UseBuilder(FeaturedThemeBuilder::class)]
 class FeaturedThemesQuery extends EloquentQuery
 {
     public function __construct()
@@ -26,22 +28,6 @@ class FeaturedThemesQuery extends EloquentQuery
     public function description(): string
     {
         return 'Returns a listing of featured theme resources given fields.';
-    }
-
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'builder' => [
-                'method' => FeaturedThemeBuilder::class.'@index',
-            ],
-
-            ...parent::directives(),
-        ];
     }
 
     /**

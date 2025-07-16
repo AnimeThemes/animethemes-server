@@ -54,7 +54,7 @@ return new class extends Migration
                 $table->timestamp('viewed_at')->useCurrent();
 
                 $table->unsignedBigInteger('user_id')->nullable();
-                $table->foreign('user_id')->references(User::ATTRIBUTE_ID)->on(User::TABLE);
+                $table->foreign('user_id')->references(User::ATTRIBUTE_ID)->on(User::TABLE)->nullOnDelete();
 
                 $table->string('referer', 1000)->nullable();
                 $table->string('user_agent', 1000)->nullable();

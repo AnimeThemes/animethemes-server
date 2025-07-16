@@ -23,7 +23,7 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     /**
      * The JSON response of the user endpoint in external API.
      *
-     * @var array|null
+     * @var array<string, mixed>|null
      */
     protected ?array $userData = null;
 
