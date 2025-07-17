@@ -39,7 +39,7 @@ abstract class EnumField extends Field implements FilterableField
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return app(TypeRegistry::class)->get(class_basename($this->enum));
     }

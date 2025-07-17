@@ -37,7 +37,7 @@ class NotificationDataField extends JsonField
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return new NotificationDataType();
     }

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\List\Playlist;
 
+use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist;
+use App\Rules\ModerationRule;
 
 /**
  * Class PlaylistNameField.
  */
-class PlaylistNameField extends StringField
+class PlaylistNameField extends StringField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -28,5 +31,38 @@ class PlaylistNameField extends StringField
     public function description(): string
     {
         return 'The title of the playlist';
+    }
+
+    /**
+     * Set the creation validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getCreationRules(array $args): array
+    {
+        return [
+            'required',
+            'string',
+            'max:192',
+            new ModerationRule(),
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        return [
+            'sometimes',
+            'required',
+            'string',
+            'max:192',
+            new ModerationRule(),
+        ];
     }
 }

@@ -36,7 +36,7 @@ class SearchStudiosField extends Field
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::listOf(Type::nonNull(new StudioType()));
     }

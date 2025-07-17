@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Mutations\List\Playlist;
+namespace App\GraphQL\Controllers\List\Playlist;
 
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
@@ -12,9 +12,9 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
 
 /**
- * Class PlaylistTrackMutator.
+ * Class PlaylistTrackController.
  */
-class PlaylistTrackMutator
+class PlaylistTrackController
 {
     final public const ROUTE_SLUG = 'id';
 

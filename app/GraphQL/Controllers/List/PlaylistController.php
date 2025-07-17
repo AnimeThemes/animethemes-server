@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Mutations\List;
+namespace App\GraphQL\Controllers\List;
 
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
+use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Definition\Mutations\Rest\List\CreatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Rest\List\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class PlaylistMutator.
+ * Class PlaylistController.
  */
-class PlaylistMutator
+class PlaylistController extends BaseController
 {
     final public const ROUTE_SLUG = 'id';
 
@@ -27,8 +30,10 @@ class PlaylistMutator
      */
     public function store($_, array $args): Playlist
     {
+        $validated = $this->validated($args, CreatePlaylistMutation::class);
+
         $parameters = [
-            ...$args,
+            ...$validated,
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
@@ -49,13 +54,15 @@ class PlaylistMutator
      */
     public function update($_, array $args): Playlist
     {
+        $validated = $this->validated($args, UpdatePlaylistMutation::class);
+
         /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, self::ROUTE_SLUG);
+        $playlist = Arr::pull($validated, self::ROUTE_SLUG);
 
         $action = new UpdateAction();
 
         /** @var Playlist $updated */
-        $updated = $action->update($playlist, $args);
+        $updated = $action->update($playlist, $validated);
 
         return $updated;
     }

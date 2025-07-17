@@ -52,7 +52,7 @@ class CountAggregateField extends Field
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::int();
     }

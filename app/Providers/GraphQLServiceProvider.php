@@ -16,6 +16,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Types\EnumType;
@@ -50,6 +51,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
         $this->bootTypes();
         $this->bootQueries();
+        $this->bootMutations();
     }
 
     /**
@@ -197,6 +199,56 @@ class GraphQLServiceProvider extends ServiceProvider
                 );
 
                 $queries[] = $class->mount();
+            }
+        }
+    }
+
+    /**
+     * Register the queries that were made programmatically.
+     *
+     * @return void
+     */
+    protected function bootMutations(): void
+    {
+        $dispatcher = app(Dispatcher::class);
+
+        $paths = [
+            app_path('GraphQL/Definition/Mutations'),
+        ];
+
+        $mutations = [];
+
+        foreach ($paths as $path) {
+            $files = File::allFiles($path);
+
+            foreach ($files as $file) {
+                $relativePath = Str::after($file->getPathname(), app_path().DIRECTORY_SEPARATOR);
+                $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
+                $fullClass = 'App\\'.$class;
+
+                if (! class_exists($fullClass)) {
+                    continue;
+                }
+
+                $reflection = new ReflectionClass($fullClass);
+
+                if (! $reflection->isInstantiable()) {
+                    continue;
+                }
+
+                /** @var BaseMutation $class */
+                $class = new $fullClass;
+
+                $dispatcher->listen(
+                    BuildSchemaString::class,
+                    fn (): string => "
+                        extend type Mutation {
+                            {$class->mount()}
+                        }
+                    "
+                );
+
+                $mutations[] = $class->mount();
             }
         }
     }

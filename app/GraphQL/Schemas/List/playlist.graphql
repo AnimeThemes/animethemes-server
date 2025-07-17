@@ -25,30 +25,20 @@ extend type Query {
 }
 
 extend type Mutation @guard {
-    createPlaylist(
-        name: String!
-        description: String
-        visibility: PlaylistVisibility!
-    ): Playlist!
-    @canModel(ability: "create")
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\CreatePlaylistValidator")
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@store")
-
-
-    updatePlaylist(
-        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-        name: String
-        description: String
-        visibility: PlaylistVisibility
-    ): Playlist!
-    @canModel(ability: "update", injectArgs: true)
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistValidator")
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@update")
+    # updatePlaylist(
+    #     id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    #     name: String
+    #     description: String
+    #     visibility: PlaylistVisibility
+    # ): Playlist!
+    # @canModel(ability: "update", injectArgs: true)
+    # @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistValidator")
+    # @field(resolver: "App\\GraphQL\\Controllers\\List\\PlaylistController@update")
 
 
     deletePlaylist(
         id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
     ): Playlist!
     @canModel(ability: "delete", injectArgs: true)
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@destroy")
+    @field(resolver: "App\\GraphQL\\Controllers\\List\\PlaylistController@destroy")
 }

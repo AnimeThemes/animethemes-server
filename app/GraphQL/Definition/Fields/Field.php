@@ -82,7 +82,7 @@ abstract class Field implements Stringable
      *
      * @return Type
      */
-    abstract protected function type(): Type;
+    abstract public function type(): Type;
 
     /**
      * Resolve the field.

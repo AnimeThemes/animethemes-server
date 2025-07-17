@@ -49,7 +49,7 @@ abstract class BaseQuery
     }
 
     /**
-     * The description of the type.
+     * The description of the query.
      *
      * @return string
      */

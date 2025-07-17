@@ -21,7 +21,7 @@ abstract class DateTimeTzField extends Field implements FilterableField
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return app(TypeRegistry::class)->get('DateTimeTz');
     }
