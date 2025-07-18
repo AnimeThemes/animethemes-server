@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest;
 
+use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * Class CreateMutation.
@@ -38,7 +40,10 @@ abstract class CreateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveCreateMutationArguments($baseType->fields());
+            $bindableFields = Arr::where($baseType->fields(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
+            $notBindableFields = Arr::where($baseType->fields(), fn (Field $field) => ! $field instanceof BindableField);
+            $arguments[] = $this->resolveBindArgument($bindableFields);
+            $arguments[] = $this->resolveCreateMutationArguments($notBindableFields);
         }
 
         return $arguments;
@@ -54,6 +59,7 @@ abstract class CreateMutation extends BaseMutation
         return [
             'canModel' => [
                 'ability' => 'create',
+                'injectArgs' => true,
                 'model' => $this->model,
             ],
 

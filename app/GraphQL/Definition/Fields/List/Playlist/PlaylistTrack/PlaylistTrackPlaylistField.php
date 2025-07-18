@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
 
 use App\Contracts\GraphQL\Fields\BindableField;
+use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -13,7 +15,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class PlaylistTrackPlaylistField.
  */
-class PlaylistTrackPlaylistField extends Field implements BindableField
+class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -61,5 +63,31 @@ class PlaylistTrackPlaylistField extends Field implements BindableField
     public function bindUsingColumn(): string
     {
         return Playlist::ATTRIBUTE_HASHID;
+    }
+
+    /**
+     * Set the creation validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getCreationRules(array $args): array
+    {
+        return [
+            'required',
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        return [
+            'required',
+        ];
     }
 }
