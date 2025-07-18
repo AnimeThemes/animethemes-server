@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\Rest\List;
+namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
 
 use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Controllers\List\PlaylistController;
-use App\GraphQL\Definition\Mutations\Rest\UpdateMutation;
+use App\GraphQL\Definition\Mutations\Rest\CreateMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\List\Playlist;
 
 /**
- * Class UpdatePlaylistMutation.
+ * Class CreatePlaylistMutation.
  */
-#[UseField(PlaylistController::class, 'update')]
-class UpdatePlaylistMutation extends UpdateMutation
+#[UseField(PlaylistController::class, 'store')]
+class CreatePlaylistMutation extends CreateMutation
 {
     /**
      * Create a new mutation instance.
@@ -31,7 +31,7 @@ class UpdatePlaylistMutation extends UpdateMutation
      */
     public function description(): string
     {
-        return 'Update playlist';
+        return 'Create playlist';
     }
 
     /**

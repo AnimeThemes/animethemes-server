@@ -8,10 +8,9 @@ use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Mutations\Rest\List\CreatePlaylistMutation;
-use App\GraphQL\Definition\Mutations\Rest\List\UpdatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Rest\List\Playlist\CreatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Rest\List\Playlist\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 

@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\Rest\List;
+namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
 
 use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Controllers\List\PlaylistController;
-use App\GraphQL\Definition\Mutations\Rest\CreateMutation;
+use App\GraphQL\Definition\Mutations\Rest\DeleteMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\List\Playlist;
+use GraphQL\Type\Definition\Type;
 
 /**
- * Class CreatePlaylistMutation.
+ * Class DeletePlaylistMutation.
  */
-#[UseField(PlaylistController::class, 'store')]
-class CreatePlaylistMutation extends CreateMutation
+#[UseField(PlaylistController::class, 'destroy')]
+class DeletePlaylistMutation extends DeleteMutation
 {
     /**
      * Create a new mutation instance.
@@ -31,16 +32,26 @@ class CreatePlaylistMutation extends CreateMutation
      */
     public function description(): string
     {
-        return 'Create playlist';
+        return 'Delete playlist';
     }
 
     /**
      * The base return type of the query.
      *
-     * @return PlaylistType
+     * @return Type
      */
-    public function baseType(): PlaylistType
+    public function baseType(): Type
     {
         return new PlaylistType();
+    }
+
+    /**
+     * The type returned by the field.
+     *
+     * @return Type
+     */
+    public function getType(): Type
+    {
+        return Type::nonNull(Type::string());
     }
 }
