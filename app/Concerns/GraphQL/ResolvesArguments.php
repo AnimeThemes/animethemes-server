@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Concerns\GraphQL;
 
+use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -17,6 +19,8 @@ use Illuminate\Support\Str;
  */
 trait ResolvesArguments
 {
+    use ResolvesDirectives;
+
     /**
      * Build the arguments array into string.
      *
@@ -101,5 +105,37 @@ trait ResolvesArguments
             })
             ->flatten()
             ->toArray();
+    }
+
+    /**
+     * Resolve the bind argument.
+     *
+     * @param  array<int, Field>  $fields
+     * @param  class-string<Model>  $model
+     * @return array
+     */
+    public function resolveBindArgument(array $fields, string $model): array
+    {
+        return collect($fields)
+            ->filter(fn (Field $field) => $field instanceof BindableField)
+            ->map(function (Field $field) use ($model) {
+                return Str::of($field->getName())
+                    ->append(': ')
+                    ->append($field->type()->__toString())
+                    ->append('! ')
+                    ->append($this->getBindDirective($model, $field))
+                    ->__toString();
+            })
+            ->toArray();
+    }
+
+    private function getBindDirective(string $model, Field $field): string
+    {
+        return $this->resolveDirectives([
+            'bind' => [
+                'class' => $model,
+                'column' => $field->getColumn(),
+            ],
+        ]);
     }
 }

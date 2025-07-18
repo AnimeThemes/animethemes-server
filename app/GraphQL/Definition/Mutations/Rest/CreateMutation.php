@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest;
 
+use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
@@ -21,7 +22,7 @@ abstract class CreateMutation extends BaseMutation
      *
      * @param  class-string<Model>  $model
      */
-    public function __construct(string $model)
+    public function __construct(protected string $model)
     {
         parent::__construct('create'.ucfirst(class_basename($model)));
     }
@@ -38,7 +39,7 @@ abstract class CreateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveCreateMutationArguments($baseType->fields());
+            $arguments[] = $this->resolveCreateMutationArguments($baseType->fields(), $this->model);
         }
 
         return $arguments;
@@ -72,8 +73,15 @@ abstract class CreateMutation extends BaseMutation
 
         if ($baseType instanceof HasFields) {
             return collect($baseType->fields())
-                ->filter(fn (Field $field) => $field instanceof CreatableField)
-                ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
+                ->filter(fn (Field $field) => $field instanceof CreatableField || $field instanceof BindableField)
+                ->mapWithKeys(function (Field $field) use ($args) {
+                    if ($field instanceof BindableField) {
+                        return [$field->getName() => ['required']];
+                    }
+                    if ($field instanceof CreatableField) {
+                        return [$field->getColumn() => $field->getCreationRules($args)];
+                    }
+                })
                 ->toArray();
         }
 

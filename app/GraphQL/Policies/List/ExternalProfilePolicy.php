@@ -6,7 +6,7 @@ namespace App\GraphQL\Policies\List;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
-use App\GraphQL\Mutations\List\ExternalProfileMutator;
+use App\GraphQL\Controllers\List\ExternalProfileController;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
@@ -25,7 +25,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = ExternalProfileMutator::ROUTE_SLUG): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = ExternalProfileController::ROUTE_SLUG): bool
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::get($injected, $keyName);
@@ -46,7 +46,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function update(User $user, array $injected, ?string $keyName = ExternalProfileMutator::ROUTE_SLUG): bool
+    public function update(User $user, array $injected, ?string $keyName = ExternalProfileController::ROUTE_SLUG): bool
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::get($injected, $keyName);
@@ -62,7 +62,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function delete(User $user, array $injected, ?string $keyName = ExternalProfileMutator::ROUTE_SLUG): bool
+    public function delete(User $user, array $injected, ?string $keyName = ExternalProfileController::ROUTE_SLUG): bool
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::get($injected, $keyName);
@@ -78,7 +78,7 @@ class ExternalProfilePolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function restore(User $user, array $injected, ?string $keyName = ExternalProfileMutator::ROUTE_SLUG): bool
+    public function restore(User $user, array $injected, ?string $keyName = ExternalProfileController::ROUTE_SLUG): bool
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::get($injected, $keyName);
