@@ -38,7 +38,7 @@ abstract class CreateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveCreateMutationArguments($baseType->fields(), $this->model);
+            $arguments[] = $this->resolveCreateMutationArguments($baseType->fields());
         }
 
         return $arguments;

@@ -55,7 +55,7 @@ class ArtistImageController extends PivotController
      * @param  StoreRequest  $request
      * @param  Artist  $artist
      * @param  Image  $image
-     * @param  StoreAction  $action
+     * @param  StoreAction<ArtistImage>  $action
      * @return ArtistImageResource
      */
     public function store(StoreRequest $request, Artist $artist, Image $image, StoreAction $action): ArtistImageResource

@@ -57,7 +57,7 @@ class AnimeController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Anime>  $action
      * @return AnimeResource
      */
     public function store(StoreRequest $request, StoreAction $action): AnimeResource

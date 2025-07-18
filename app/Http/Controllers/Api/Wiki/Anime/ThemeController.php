@@ -57,7 +57,7 @@ class ThemeController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<AnimeTheme>  $action
      * @return ThemeResource
      */
     public function store(StoreRequest $request, StoreAction $action): ThemeResource

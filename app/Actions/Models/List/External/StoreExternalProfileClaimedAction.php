@@ -90,6 +90,7 @@ class StoreExternalProfileClaimedAction
             return $unclaimedProfile;
         }
 
+        /** @var StoreAction<ExternalProfile> */
         $storeAction = new StoreAction();
 
         /** @var ExternalProfile $profile */

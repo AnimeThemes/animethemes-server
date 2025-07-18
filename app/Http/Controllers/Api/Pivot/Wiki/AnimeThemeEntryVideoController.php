@@ -55,7 +55,7 @@ class AnimeThemeEntryVideoController extends PivotController
      * @param  StoreRequest  $request
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  Video  $video
-     * @param  StoreAction  $action
+     * @param  StoreAction<AnimeThemeEntryVideo>  $action
      * @return AnimeThemeEntryVideoResource
      */
     public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): AnimeThemeEntryVideoResource

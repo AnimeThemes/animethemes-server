@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\List;
 
+use App\GraphQL\Controllers\BaseController;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
@@ -11,7 +12,7 @@ use Illuminate\Support\Arr;
 /**
  * Class ExternalProfileController.
  */
-class ExternalProfileController
+class ExternalProfileController extends BaseController
 {
     final public const ROUTE_SLUG = 'id';
 

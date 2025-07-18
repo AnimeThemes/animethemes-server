@@ -54,7 +54,7 @@ class AnnouncementController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Announcement>  $action
      * @return AnnouncementResource
      */
     public function store(StoreRequest $request, StoreAction $action): AnnouncementResource

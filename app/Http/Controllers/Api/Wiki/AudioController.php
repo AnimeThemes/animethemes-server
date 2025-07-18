@@ -55,7 +55,7 @@ class AudioController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Audio>  $action
      * @return AudioResource
      */
     public function store(StoreRequest $request, StoreAction $action): AudioResource

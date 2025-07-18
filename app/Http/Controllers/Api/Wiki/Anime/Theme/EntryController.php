@@ -57,7 +57,7 @@ class EntryController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<AnimeThemeEntry>  $action
      * @return EntryResource
      */
     public function store(StoreRequest $request, StoreAction $action): EntryResource

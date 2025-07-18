@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Validators\Mutation\User\Like;
 
-use App\GraphQL\Mutations\User\LikeMutator;
+use App\GraphQL\Controllers\User\LikeController;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Validation\Validator;
 
@@ -21,11 +21,11 @@ class CreateLikeValidator extends Validator
     public function rules(): array
     {
         return [
-            LikeMutator::ATTRIBUTE_PLAYLIST => [
-                Str::of('prohibits:')->append(LikeMutator::ATTRIBUTE_VIDEO)->__toString(),
+            LikeController::ATTRIBUTE_PLAYLIST => [
+                Str::of('prohibits:')->append(LikeController::ATTRIBUTE_VIDEO)->__toString(),
             ],
-            LikeMutator::ATTRIBUTE_VIDEO => [
-                Str::of('prohibits:')->append(LikeMutator::ATTRIBUTE_PLAYLIST)->__toString(),
+            LikeController::ATTRIBUTE_VIDEO => [
+                Str::of('prohibits:')->append(LikeController::ATTRIBUTE_PLAYLIST)->__toString(),
             ],
         ];
     }

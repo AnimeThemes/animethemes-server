@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\List;
 
-use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\StoreAction;
-use App\Actions\Http\Api\UpdateAction;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Mutations\Rest\List\Playlist\CreatePlaylistMutation;
 use App\GraphQL\Definition\Mutations\Rest\List\Playlist\UpdatePlaylistMutation;
@@ -16,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PlaylistController.
+ *
+ * @extends BaseController<Playlist>
  */
 class PlaylistController extends BaseController
 {
@@ -37,10 +36,7 @@ class PlaylistController extends BaseController
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
-        $action = new StoreAction();
-
-        /** @var Playlist $stored */
-        $stored = $action->store(Playlist::query(), $parameters);
+        $stored = $this->storeAction->store(Playlist::query(), $parameters);
 
         return $stored;
     }
@@ -59,10 +55,7 @@ class PlaylistController extends BaseController
 
         $validated = $this->validated($args, UpdatePlaylistMutation::class);
 
-        $action = new UpdateAction();
-
-        /** @var Playlist $updated */
-        $updated = $action->update($playlist, $validated);
+        $updated = $this->updateAction->update($playlist, $validated);
 
         return $updated;
     }
@@ -79,9 +72,7 @@ class PlaylistController extends BaseController
         /** @var Playlist $playlist */
         $playlist = Arr::get($args, self::ROUTE_SLUG);
 
-        $action = new DestroyAction();
-
-        $message = $action->forceDelete($playlist);
+        $message = $this->destroyAction->forceDelete($playlist);
 
         return $message;
     }

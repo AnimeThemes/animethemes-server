@@ -55,7 +55,7 @@ class StudioImageController extends PivotController
      * @param  StoreRequest  $request
      * @param  Studio  $studio
      * @param  Image  $image
-     * @param  StoreAction  $action
+     * @param  StoreAction<StudioImage>  $action
      * @return StudioImageResource
      */
     public function store(StoreRequest $request, Studio $studio, Image $image, StoreAction $action): StudioImageResource

@@ -10,14 +10,16 @@ use Illuminate\Support\Str;
 
 /**
  * Class DestroyAction.
+ *
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 class DestroyAction
 {
     /**
      * Destroy model.
      *
-     * @param  Model  $model
-     * @return Model
+     * @param  TModel  $model
+     * @return TModel
      */
     public function destroy(Model $model): Model
     {
@@ -32,7 +34,7 @@ class DestroyAction
     /**
      * Force delete model that doesn't apply soft deletes.
      *
-     * @param  Model&Nameable  $model
+     * @param  TModel&Nameable  $model
      * @return string
      */
     public function forceDelete(Model&Nameable $model): string

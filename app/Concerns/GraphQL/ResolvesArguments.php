@@ -12,7 +12,6 @@ use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**

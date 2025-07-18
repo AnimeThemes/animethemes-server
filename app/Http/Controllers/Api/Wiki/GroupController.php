@@ -57,7 +57,7 @@ class GroupController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Group>  $action
      * @return GroupResource
      */
     public function store(StoreRequest $request, StoreAction $action): GroupResource

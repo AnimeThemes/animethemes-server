@@ -55,7 +55,7 @@ class ExternalResourceController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<ExternalResource>  $action
      * @return ExternalResourceResource
      */
     public function store(StoreRequest $request, StoreAction $action): ExternalResourceResource

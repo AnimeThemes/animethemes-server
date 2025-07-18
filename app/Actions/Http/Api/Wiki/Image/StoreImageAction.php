@@ -8,7 +8,6 @@ use App\Actions\Http\Api\StoreAction;
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -17,17 +16,19 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Class StoreImageAction.
+ *
+ * @extends StoreAction<Image>
  */
 class StoreImageAction extends StoreAction
 {
     /**
      * Store image.
      *
-     * @param  Builder  $builder
+     * @param  Builder<Image>  $builder
      * @param  array  $parameters
-     * @return Model
+     * @return Image
      */
-    public function store(Builder $builder, array $parameters): Model
+    public function store(Builder $builder, array $parameters): Image
     {
         $imageParameters = Arr::except($parameters, ImageFileField::ATTRIBUTE_FILE);
 

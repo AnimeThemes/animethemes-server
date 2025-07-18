@@ -9,15 +9,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StoreAction.
+ *
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 class StoreAction
 {
     /**
      * Store model.
      *
-     * @param  Builder  $builder
+     * @param  Builder<TModel>  $builder
      * @param  array  $parameters
-     * @return Model
+     * @return TModel
      */
     public function store(Builder $builder, array $parameters): Model
     {
@@ -29,8 +31,8 @@ class StoreAction
     /**
      * Perform model cleanup for presentation.
      *
-     * @param  Model  $model
-     * @return Model
+     * @param  TModel  $model
+     * @return TModel
      */
     public function cleanup(Model $model): Model
     {

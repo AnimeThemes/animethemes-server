@@ -55,7 +55,7 @@ class PageController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Page>  $action
      * @return PageResource
      */
     public function store(StoreRequest $request, StoreAction $action): PageResource

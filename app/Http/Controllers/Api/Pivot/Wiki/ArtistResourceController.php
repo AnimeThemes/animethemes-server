@@ -57,7 +57,7 @@ class ArtistResourceController extends PivotController
      * @param  StoreRequest  $request
      * @param  Artist  $artist
      * @param  ExternalResource  $resource
-     * @param  StoreAction  $action
+     * @param  StoreAction<ArtistResource>  $action
      * @return ArtistResourceResource
      */
     public function store(StoreRequest $request, Artist $artist, ExternalResource $resource, StoreAction $action): ArtistResourceResource

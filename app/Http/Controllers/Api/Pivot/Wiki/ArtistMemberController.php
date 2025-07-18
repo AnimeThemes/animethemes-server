@@ -56,7 +56,7 @@ class ArtistMemberController extends PivotController
      * @param  StoreRequest  $request
      * @param  Artist  $artist
      * @param  Artist  $member
-     * @param  StoreAction  $action
+     * @param  StoreAction<ArtistMember>  $action
      * @return ArtistMemberResource
      */
     public function store(StoreRequest $request, Artist $artist, Artist $member, StoreAction $action): ArtistMemberResource
