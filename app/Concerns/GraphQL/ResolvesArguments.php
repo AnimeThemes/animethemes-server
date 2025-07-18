@@ -6,6 +6,8 @@ namespace App\Concerns\GraphQL;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\RequiredOnCreation;
+use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
@@ -69,13 +71,10 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
             ->map(function (Field&CreatableField $field) {
-                $rules = $field->getCreationRules([]);
-                $required = in_array('required', $rules) && ! in_array('sometimes', $rules);
-
                 return Str::of($field->getColumn())
                     ->append(': ')
                     ->append($field->type()->__toString())
-                    ->append($required ? '!' : '')
+                    ->append($field instanceof RequiredOnCreation ? '!' : '')
                     ->__toString();
             })
             ->flatten()
@@ -93,13 +92,10 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
             ->map(function (Field&UpdatableField $field) {
-                $rules = $field->getUpdateRules([]);
-                $required = in_array('required', $rules) && ! in_array('sometimes', $rules);
-
                 return Str::of($field->getColumn())
                     ->append(': ')
                     ->append($field->type()->__toString())
-                    ->append($required ? '!' : '')
+                    ->append($field instanceof RequiredOnUpdate ? '!' : '')
                     ->__toString();
             })
             ->flatten()

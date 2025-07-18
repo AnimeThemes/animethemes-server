@@ -6,6 +6,8 @@ namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\RequiredOnCreation;
+use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist;
@@ -15,7 +17,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class PlaylistTrackPlaylistField.
  */
-class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, UpdatableField
+class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, UpdatableField
 {
     /**
      * Create a new field instance.

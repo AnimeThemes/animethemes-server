@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -17,7 +18,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class PlaylistTrackEntryIdField.
  */
-class PlaylistTrackEntryIdField extends Field implements CreatableField, UpdatableField
+class PlaylistTrackEntryIdField extends Field implements CreatableField, RequiredOnCreation, UpdatableField
 {
     /**
      * Create a new field instance.

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\List\Playlist;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Definition\Fields\EnumField;
@@ -14,7 +15,7 @@ use Illuminate\Validation\Rules\Enum;
 /**
  * Class PlaylistVisibilityField.
  */
-class PlaylistVisibilityField extends EnumField implements CreatableField, UpdatableField
+class PlaylistVisibilityField extends EnumField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     /**
      * Create a new field instance.

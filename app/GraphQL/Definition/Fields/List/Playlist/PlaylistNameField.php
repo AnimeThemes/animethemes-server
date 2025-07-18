@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\List\Playlist;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist;
@@ -13,7 +14,7 @@ use App\Rules\ModerationRule;
 /**
  * Class PlaylistNameField.
  */
-class PlaylistNameField extends StringField implements CreatableField, UpdatableField
+class PlaylistNameField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     /**
      * Create a new field instance.
