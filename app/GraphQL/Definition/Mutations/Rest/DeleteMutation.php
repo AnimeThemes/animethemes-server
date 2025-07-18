@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest;
 
-use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
- * Class CreateMutation.
+ * Class DeleteMutation.
  */
-abstract class CreateMutation extends BaseMutation
+abstract class DeleteMutation extends BaseMutation
 {
     /**
      * Create a new mutation instance.
@@ -23,13 +24,13 @@ abstract class CreateMutation extends BaseMutation
      */
     public function __construct(protected string $model)
     {
-        parent::__construct('create'.ucfirst(class_basename($model)));
+        parent::__construct('delete'.ucfirst(class_basename($model)));
     }
 
     /**
      * Get the arguments for the create mutation.
      *
-     * @return array<int, Field&CreatableField>
+     * @return array<int, Field&UpdatableField>
      */
     public function arguments(): array
     {
@@ -38,7 +39,7 @@ abstract class CreateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveCreateMutationArguments($baseType->fields(), $this->model);
+            $arguments[] = $this->resolveBindArgument($baseType->fields(), $this->model);
         }
 
         return $arguments;
@@ -53,32 +54,13 @@ abstract class CreateMutation extends BaseMutation
     {
         return [
             'canModel' => [
-                'ability' => 'create',
+                'ability' => 'delete',
+                'injectArgs' => true,
                 'model' => $this->model,
             ],
 
             ...parent::directives(),
         ];
-    }
-
-    /**
-     * Get the rules for the create mutation.
-     *
-     * @param  array<string, mixed>  $args
-     * @return array<string, array>
-     */
-    public function rules(array $args): array
-    {
-        $baseType = $this->baseType();
-
-        if ($baseType instanceof HasFields) {
-            return collect($baseType->fields())
-                ->filter(fn (Field $field) => $field instanceof CreatableField)
-                ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
-                ->toArray();
-        }
-
-        return [];
     }
 
     /**

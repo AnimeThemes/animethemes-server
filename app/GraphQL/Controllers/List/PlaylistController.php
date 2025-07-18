@@ -11,6 +11,7 @@ use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Mutations\Rest\List\CreatePlaylistMutation;
 use App\GraphQL\Definition\Mutations\Rest\List\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,18 +73,17 @@ class PlaylistController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return Playlist
+     * @return string
      */
-    public function destroy($_, array $args): Playlist
+    public function destroy($_, array $args): string
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($args, self::ROUTE_SLUG);
 
         $action = new DestroyAction();
 
-        /** @var Playlist $destroyed */
-        $destroyed = $action->destroy($playlist);
+        $message = $action->forceDelete($playlist);
 
-        return $destroyed;
+        return $message;
     }
 }

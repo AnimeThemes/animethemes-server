@@ -56,6 +56,7 @@ abstract class UpdateMutation extends BaseMutation
             'canModel' => [
                 'ability' => 'update',
                 'injectArgs' => true,
+                'model' => $this->model,
             ],
 
             ...parent::directives(),

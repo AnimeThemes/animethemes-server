@@ -20,9 +20,7 @@ use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Types\EnumType;
-use App\Models\Auth\User;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -46,7 +44,6 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function boot(TypeRegistry $typeRegistry): void
     {
-        Auth::login(User::first());
         $this->bootModels();
         $this->bootEnums();
 
