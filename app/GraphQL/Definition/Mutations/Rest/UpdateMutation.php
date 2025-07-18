@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest;
 
-use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
@@ -75,15 +74,8 @@ abstract class UpdateMutation extends BaseMutation
 
         if ($baseType instanceof HasFields) {
             return collect($baseType->fields())
-                ->filter(fn (Field $field) => $field instanceof UpdatableField || $field instanceof BindableField)
-                ->mapWithKeys(function (Field $field) use ($args) {
-                    if ($field instanceof BindableField) {
-                        return [$field->getName() => ['required']];
-                    }
-                    if ($field instanceof UpdatableField) {
-                        return [$field->getColumn() => $field->getUpdateRules($args)];
-                    }
-                })
+                ->filter(fn (Field $field) => $field instanceof UpdatableField)
+                ->mapWithKeys(fn (Field&UpdatableField $field) => [$field->getColumn() => $field->getUpdateRules($args)])
                 ->toArray();
         }
 

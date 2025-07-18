@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest;
 
-use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
@@ -73,15 +72,8 @@ abstract class CreateMutation extends BaseMutation
 
         if ($baseType instanceof HasFields) {
             return collect($baseType->fields())
-                ->filter(fn (Field $field) => $field instanceof CreatableField || $field instanceof BindableField)
-                ->mapWithKeys(function (Field $field) use ($args) {
-                    if ($field instanceof BindableField) {
-                        return [$field->getName() => ['required']];
-                    }
-                    if ($field instanceof CreatableField) {
-                        return [$field->getColumn() => $field->getCreationRules($args)];
-                    }
-                })
+                ->filter(fn (Field $field) => $field instanceof CreatableField)
+                ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
                 ->toArray();
         }
 

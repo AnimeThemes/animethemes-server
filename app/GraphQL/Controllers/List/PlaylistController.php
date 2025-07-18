@@ -13,7 +13,6 @@ use App\GraphQL\Definition\Mutations\Rest\List\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class PlaylistController.
@@ -55,12 +54,10 @@ class PlaylistController extends BaseController
      */
     public function update($_, array $args): Playlist
     {
-        $validated = $this->validated($args, UpdatePlaylistMutation::class);
-
-        Log::info($validated);
-
         /** @var Playlist $playlist */
-        $playlist = Arr::pull($validated, self::ROUTE_SLUG);
+        $playlist = Arr::pull($args, self::ROUTE_SLUG);
+
+        $validated = $this->validated($args, UpdatePlaylistMutation::class);
 
         $action = new UpdateAction();
 
