@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
 /**
  * Class LocalizedEnumField.
  */
-class LocalizedEnumField extends Field
+class LocalizedEnumField extends Field implements DisplayableField
 {
     /**
      * Create a new field instance.
@@ -66,5 +67,15 @@ class LocalizedEnumField extends Field
     public function resolve(mixed $root): mixed
     {
         return Arr::get($root, $this->column)?->localize();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }

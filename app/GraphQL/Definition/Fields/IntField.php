@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
@@ -15,7 +16,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class IntField.
  */
-abstract class IntField extends Field implements FilterableField
+abstract class IntField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
@@ -25,6 +26,16 @@ abstract class IntField extends Field implements FilterableField
     public function type(): Type
     {
         return Type::int();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 
     /**

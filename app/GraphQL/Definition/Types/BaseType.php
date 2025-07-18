@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Types;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\HasDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
@@ -27,6 +28,7 @@ abstract class BaseType extends ObjectType
         $fields = [];
         if ($this instanceof HasFields) {
             $fields[] = collect($this->fields())
+                ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
                 ->mapWithKeys(fn (Field $field) => [
                     $field->getName() => [
                         'description' => $field->description(),
@@ -55,14 +57,17 @@ abstract class BaseType extends ObjectType
     {
         $fields = [];
         if ($this instanceof HasFields) {
-            $fields[] = Arr::map($this->fields(), function (Field $field) {
-                return Str::of('"')
-                    ->append($field->description())
-                    ->append('"')
-                    ->newLine()
-                    ->append($field->__toString())
-                    ->__toString();
-            });
+            $fields[] = collect($this->fields())
+                ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
+                ->map(function (Field $field) {
+                    return Str::of('"')
+                        ->append($field->description())
+                        ->append('"')
+                        ->newLine()
+                        ->append($field->__toString())
+                        ->__toString();
+                })
+                ->toArray();
         }
 
         if ($this instanceof HasRelations) {

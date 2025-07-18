@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;
@@ -15,7 +16,7 @@ use Nuwave\Lighthouse\Schema\TypeRegistry;
 /**
  * Class EnumField.
  */
-abstract class EnumField extends Field implements FilterableField
+abstract class EnumField extends Field implements DisplayableField, FilterableField
 {
     /**
      * Create a new field instance.
@@ -32,6 +33,16 @@ abstract class EnumField extends Field implements FilterableField
         public bool $nullable = true,
     ) {
         parent::__construct($column, $name, $nullable);
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 
     /**

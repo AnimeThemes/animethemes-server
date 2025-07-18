@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
@@ -13,7 +14,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class StringField.
  */
-abstract class StringField extends Field implements FilterableField
+abstract class StringField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
@@ -23,6 +24,16 @@ abstract class StringField extends Field implements FilterableField
     public function type(): Type
     {
         return Type::string();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 
     /**

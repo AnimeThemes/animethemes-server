@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
 
 use App\Contracts\GraphQL\Fields\BindableField;
-use App\GraphQL\Definition\Fields\StringField;
+use App\GraphQL\Definition\Fields\Field;
+use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use GraphQL\Type\Definition\Type;
 
 /**
- * Class PlaylistTrackIdField.
+ * Class PlaylistTrackPlaylistField.
  */
-class PlaylistTrackIdField extends StringField implements BindableField
+class PlaylistTrackPlaylistField extends Field implements BindableField
 {
     /**
      * Create a new field instance.
      */
     public function __construct()
     {
-        parent::__construct(PlaylistTrack::ATTRIBUTE_HASHID, 'id', false);
+        parent::__construct(PlaylistTrack::RELATION_PLAYLIST, nullable: false);
     }
 
     /**
@@ -28,17 +30,27 @@ class PlaylistTrackIdField extends StringField implements BindableField
      */
     public function description(): string
     {
-        return 'The primary key of the resource';
+        return 'The playlist of the track';
+    }
+
+    /**
+     * The type returned by the field.
+     *
+     * @return Type
+     */
+    public function type(): Type
+    {
+        return Type::string();
     }
 
     /**
      * Get the model that the field should bind to.
      *
-     * @return class-string<PlaylistTrack>
+     * @return class-string<Playlist>
      */
     public function bindTo(): string
     {
-        return PlaylistTrack::class;
+        return Playlist::class;
     }
 
     /**
@@ -48,6 +60,6 @@ class PlaylistTrackIdField extends StringField implements BindableField
      */
     public function bindUsingColumn(): string
     {
-        return PlaylistTrack::ATTRIBUTE_HASHID;
+        return Playlist::ATTRIBUTE_HASHID;
     }
 }

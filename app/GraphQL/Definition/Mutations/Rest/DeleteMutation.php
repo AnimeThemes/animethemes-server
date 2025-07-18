@@ -38,7 +38,7 @@ abstract class DeleteMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveBindArgument($baseType->fields(), $this->model);
+            $arguments[] = $this->resolveBindArgument($baseType->fields());
         }
 
         return $arguments;

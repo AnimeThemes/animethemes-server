@@ -38,7 +38,7 @@ abstract class UpdateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveBindArgument($baseType->fields(), $this->model);
+            $arguments[] = $this->resolveBindArgument($baseType->fields());
             $arguments[] = $this->resolveUpdateMutationArguments($baseType->fields());
         }
 

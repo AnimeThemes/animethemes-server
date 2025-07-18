@@ -10,7 +10,6 @@ use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -111,30 +110,29 @@ trait ResolvesArguments
      * Resolve the bind argument.
      *
      * @param  array<int, Field>  $fields
-     * @param  class-string<Model>  $model
-     * @return array
+     * @return string[]
      */
-    public function resolveBindArgument(array $fields, string $model): array
+    public function resolveBindArgument(array $fields): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(function (Field $field) use ($model) {
+            ->map(function (Field $field) {
                 return Str::of($field->getName())
                     ->append(': ')
                     ->append($field->type()->__toString())
                     ->append('! ')
-                    ->append($this->getBindDirective($model, $field))
+                    ->append($this->getBindDirective($field))
                     ->__toString();
             })
             ->toArray();
     }
 
-    private function getBindDirective(string $model, Field $field): string
+    private function getBindDirective(Field&BindableField $field): string
     {
         return $this->resolveDirectives([
             'bind' => [
-                'class' => $model,
-                'column' => $field->getColumn(),
+                'class' => $field->bindTo(),
+                'column' => $field->bindUsingColumn(),
             ],
         ]);
     }

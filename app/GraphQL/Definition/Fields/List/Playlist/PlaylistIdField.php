@@ -30,4 +30,24 @@ class PlaylistIdField extends StringField implements BindableField
     {
         return 'The primary key of the resource';
     }
+
+    /**
+     * Get the model that the field should bind to.
+     *
+     * @return class-string<Playlist>
+     */
+    public function bindTo(): string
+    {
+        return Playlist::class;
+    }
+
+    /**
+     * Get the column that the field should use to bind.
+     *
+     * @return string
+     */
+    public function bindUsingColumn(): string
+    {
+        return Playlist::ATTRIBUTE_HASHID;
+    }
 }

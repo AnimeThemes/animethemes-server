@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Search;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 use GraphQL\Type\Definition\Type;
@@ -11,7 +12,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class SearchSongsField.
  */
-class SearchSongsField extends Field
+class SearchSongsField extends Field implements DisplayableField
 {
     /**
      * Create a new field instance.
@@ -39,5 +40,15 @@ class SearchSongsField extends Field
     public function type(): Type
     {
         return Type::listOf(Type::nonNull(new SongType()));
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }
