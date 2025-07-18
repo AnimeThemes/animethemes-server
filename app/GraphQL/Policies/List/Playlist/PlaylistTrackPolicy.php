@@ -6,7 +6,7 @@ namespace App\GraphQL\Policies\List\Playlist;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
-use App\GraphQL\Mutations\List\Playlist\PlaylistTrackMutator;
+use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -87,7 +87,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, 'playlist');
         /** @var PlaylistTrack $track */
-        $track = Arr::get($injected, PlaylistTrackMutator::ROUTE_SLUG);
+        $track = Arr::get($injected, PlaylistTrackController::ROUTE_SLUG);
 
         return $playlist?->user()->is($user) && parent::update($user, $injected, $keyName);
     }
@@ -105,7 +105,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, 'playlist');
         /** @var PlaylistTrack $track */
-        $track = Arr::get($injected, PlaylistTrackMutator::ROUTE_SLUG);
+        $track = Arr::get($injected, PlaylistTrackController::ROUTE_SLUG);
 
         return $playlist?->user()->is($user) && parent::delete($user, $injected, $keyName);
     }
@@ -123,7 +123,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, 'playlist');
         /** @var PlaylistTrack $track */
-        $track = Arr::get($injected, PlaylistTrackMutator::ROUTE_SLUG);
+        $track = Arr::get($injected, PlaylistTrackController::ROUTE_SLUG);
 
         return $playlist?->user()->is($user) && parent::restore($user, $injected, $keyName);
     }

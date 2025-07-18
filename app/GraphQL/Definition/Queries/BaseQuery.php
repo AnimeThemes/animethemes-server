@@ -49,7 +49,7 @@ abstract class BaseQuery
     }
 
     /**
-     * The description of the type.
+     * The description of the query.
      *
      * @return string
      */
@@ -64,8 +64,12 @@ abstract class BaseQuery
     {
         $builder = $this->resolveBuilderAttribute();
 
+        $field = $this->resolveFieldAttribute();
+
         return [
             ...(is_string($builder) ? ['builder' => ['method' => $builder]] : []),
+
+            ...(is_string($field) ? ['field' => ['resolver' => $field]] : []),
 
             ...($this->paginated ? ['paginate' => []] : []),
         ];

@@ -6,7 +6,7 @@ namespace App\GraphQL\Policies\List;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
-use App\GraphQL\Mutations\List\PlaylistMutator;
+use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -25,7 +25,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, $keyName);
@@ -46,7 +46,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function update(User $user, array $injected, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
+    public function update(User $user, array $injected, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, $keyName);
@@ -62,7 +62,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function delete(User $user, array $injected, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
+    public function delete(User $user, array $injected, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, $keyName);
@@ -78,7 +78,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function restore(User $user, array $injected, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
+    public function restore(User $user, array $injected, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, $keyName);

@@ -57,7 +57,7 @@ class ArtistController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Artist>  $action
      * @return ArtistResource
      */
     public function store(StoreRequest $request, StoreAction $action): ArtistResource

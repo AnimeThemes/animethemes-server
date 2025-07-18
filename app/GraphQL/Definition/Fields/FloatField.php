@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
@@ -15,16 +16,26 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class FloatField.
  */
-abstract class FloatField extends Field implements FilterableField
+abstract class FloatField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::float();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 
     /**

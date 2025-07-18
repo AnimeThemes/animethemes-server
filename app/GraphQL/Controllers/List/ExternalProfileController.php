@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Mutations\List;
+namespace App\GraphQL\Controllers\List;
 
+use App\GraphQL\Controllers\BaseController;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 /**
- * Class ExternalProfileMutator.
+ * Class ExternalProfileController.
  */
-class ExternalProfileMutator
+class ExternalProfileController extends BaseController
 {
     final public const ROUTE_SLUG = 'id';
 

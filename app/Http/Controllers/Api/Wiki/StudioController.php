@@ -57,7 +57,7 @@ class StudioController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Studio>  $action
      * @return StudioResource
      */
     public function store(StoreRequest $request, StoreAction $action): StudioResource

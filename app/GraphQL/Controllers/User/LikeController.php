@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Mutations\User;
+namespace App\GraphQL\Controllers\User;
 
 use App\Models\List\Playlist;
 use App\Models\Wiki\Video;
@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
- * Class LikeMutator.
+ * Class LikeController.
  */
-class LikeMutator
+class LikeController
 {
     final public const ATTRIBUTE_PLAYLIST = 'playlist';
     final public const ATTRIBUTE_VIDEO = 'video';

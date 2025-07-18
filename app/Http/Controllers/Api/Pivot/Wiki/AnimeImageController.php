@@ -55,7 +55,7 @@ class AnimeImageController extends PivotController
      * @param  StoreRequest  $request
      * @param  Anime  $anime
      * @param  Image  $image
-     * @param  StoreAction  $action
+     * @param  StoreAction<AnimeImage>  $action
      * @return AnimeImageResource
      */
     public function store(StoreRequest $request, Anime $anime, Image $image, StoreAction $action): AnimeImageResource

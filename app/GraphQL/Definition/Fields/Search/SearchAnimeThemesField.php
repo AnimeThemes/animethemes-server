@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Search;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use GraphQL\Type\Definition\Type;
@@ -11,7 +12,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class SearchAnimeThemesField.
  */
-class SearchAnimeThemesField extends Field
+class SearchAnimeThemesField extends Field implements DisplayableField
 {
     /**
      * Create a new field instance.
@@ -36,8 +37,18 @@ class SearchAnimeThemesField extends Field
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::listOf(Type::nonNull(new AnimeThemeType()));
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }

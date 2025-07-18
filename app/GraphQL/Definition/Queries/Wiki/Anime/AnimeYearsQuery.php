@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
+use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Queries\AnimeYear;
 use App\Models\Wiki\Anime;
@@ -12,6 +13,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class AnimeYearsQuery.
  */
+#[UseField(AnimeYear::class, 'years')]
 class AnimeYearsQuery extends BaseQuery
 {
     public function __construct()
@@ -43,10 +45,6 @@ class AnimeYearsQuery extends BaseQuery
                 'ability' => 'viewAny',
                 'injectArgs' => 'true',
                 'model' => Anime::class,
-            ],
-
-            'field' => [
-                'resolver' => AnimeYear::class.'@years',
             ],
         ];
     }

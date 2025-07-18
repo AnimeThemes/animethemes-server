@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
 
+use App\Contracts\GraphQL\Fields\BindableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
  * Class PlaylistTrackIdField.
  */
-class PlaylistTrackIdField extends StringField
+class PlaylistTrackIdField extends StringField implements BindableField
 {
     /**
      * Create a new field instance.
@@ -28,5 +29,25 @@ class PlaylistTrackIdField extends StringField
     public function description(): string
     {
         return 'The primary key of the resource';
+    }
+
+    /**
+     * Get the model that the field should bind to.
+     *
+     * @return class-string<PlaylistTrack>
+     */
+    public function bindTo(): string
+    {
+        return PlaylistTrack::class;
+    }
+
+    /**
+     * Get the column that the field should use to bind.
+     *
+     * @return string
+     */
+    public function bindUsingColumn(): string
+    {
+        return PlaylistTrack::ATTRIBUTE_HASHID;
     }
 }

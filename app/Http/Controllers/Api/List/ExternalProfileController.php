@@ -95,7 +95,7 @@ class ExternalProfileController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<ExternalProfile>  $action
      * @return ExternalProfileResource
      */
     public function store(StoreRequest $request, StoreAction $action): ExternalProfileResource

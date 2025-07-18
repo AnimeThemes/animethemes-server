@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use GraphQL\Type\Definition\Type;
@@ -11,7 +12,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class AnimeYearFallField.
  */
-class AnimeYearFallField extends Field
+class AnimeYearFallField extends Field implements DisplayableField
 {
     /**
      * Create a new field instance.
@@ -36,8 +37,18 @@ class AnimeYearFallField extends Field
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::listOf(new AnimeType());
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }

@@ -57,7 +57,7 @@ class MembershipController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Membership>  $action
      * @return MembershipResource
      */
     public function store(StoreRequest $request, StoreAction $action): MembershipResource

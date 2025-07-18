@@ -2,19 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Mutations\List;
+namespace App\GraphQL\Controllers\List;
 
-use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\StoreAction;
-use App\Actions\Http\Api\UpdateAction;
+use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Definition\Mutations\Rest\List\Playlist\CreatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Rest\List\Playlist\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class PlaylistMutator.
+ * Class PlaylistController.
+ *
+ * @extends BaseController<Playlist>
  */
-class PlaylistMutator
+class PlaylistController extends BaseController
 {
     final public const ROUTE_SLUG = 'id';
 
@@ -27,15 +29,14 @@ class PlaylistMutator
      */
     public function store($_, array $args): Playlist
     {
+        $validated = $this->validated($args, CreatePlaylistMutation::class);
+
         $parameters = [
-            ...$args,
+            ...$validated,
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
-        $action = new StoreAction();
-
-        /** @var Playlist $stored */
-        $stored = $action->store(Playlist::query(), $parameters);
+        $stored = $this->storeAction->store(Playlist::query(), $parameters);
 
         return $stored;
     }
@@ -52,10 +53,9 @@ class PlaylistMutator
         /** @var Playlist $playlist */
         $playlist = Arr::pull($args, self::ROUTE_SLUG);
 
-        $action = new UpdateAction();
+        $validated = $this->validated($args, UpdatePlaylistMutation::class);
 
-        /** @var Playlist $updated */
-        $updated = $action->update($playlist, $args);
+        $updated = $this->updateAction->update($playlist, $validated);
 
         return $updated;
     }
@@ -65,18 +65,15 @@ class PlaylistMutator
      *
      * @param  null  $_
      * @param  array  $args
-     * @return Playlist
+     * @return string
      */
-    public function destroy($_, array $args): Playlist
+    public function destroy($_, array $args): string
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($args, self::ROUTE_SLUG);
 
-        $action = new DestroyAction();
+        $message = $this->destroyAction->forceDelete($playlist);
 
-        /** @var Playlist $destroyed */
-        $destroyed = $action->destroy($playlist);
-
-        return $destroyed;
+        return $message;
     }
 }

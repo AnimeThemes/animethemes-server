@@ -9,7 +9,12 @@ use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackEntryIdField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackIdField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackNextField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPreviousField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackVideoIdField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
@@ -58,6 +63,11 @@ class PlaylistTrackType extends EloquentType implements HasFields, HasRelations
     {
         return [
             new PlaylistTrackIdField(),
+            new PlaylistTrackEntryIdField(),
+            new PlaylistTrackVideoIdField(),
+            new PlaylistTrackNextField(),
+            new PlaylistTrackPreviousField(),
+            new PlaylistTrackPlaylistField(),
             new CreatedAtField(),
             new UpdatedAtField(),
         ];

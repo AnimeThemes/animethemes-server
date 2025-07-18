@@ -17,7 +17,7 @@ class MorphManyRelation extends Relation
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         if (! $this->nullable) {
             return Type::nonNull(Type::listOf($this->type));

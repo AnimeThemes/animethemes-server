@@ -57,7 +57,7 @@ class SeriesController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Series>  $action
      * @return SeriesResource
      */
     public function store(StoreRequest $request, StoreAction $action): SeriesResource

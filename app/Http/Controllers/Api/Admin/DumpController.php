@@ -54,7 +54,7 @@ class DumpController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Dump>  $action
      * @return DumpResource
      */
     public function store(StoreRequest $request, StoreAction $action): DumpResource

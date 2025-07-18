@@ -57,7 +57,7 @@ class StudioResourceController extends PivotController
      * @param  StoreRequest  $request
      * @param  Studio  $studio
      * @param  ExternalResource  $resource
-     * @param  StoreAction  $action
+     * @param  StoreAction<StudioResource>  $action
      * @return StudioResourceResource
      */
     public function store(StoreRequest $request, Studio $studio, ExternalResource $resource, StoreAction $action): StudioResourceResource

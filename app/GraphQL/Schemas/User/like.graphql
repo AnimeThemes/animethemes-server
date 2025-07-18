@@ -5,7 +5,7 @@ extend type Mutation @guard {
     ): Liked
     @canModel(ability: "create", model: "App\\Models\\User\\Like")
     @validator(class: "App\\GraphQL\\Validators\\Mutation\\User\\Like\\CreateLikeValidator")
-    @field(resolver: "App\\GraphQL\\Mutations\\User\\LikeMutator@store")
+    @field(resolver: "App\\GraphQL\\Controllers\\User\\LikeController@store")
 
     unlike(
         playlist: String @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
@@ -13,5 +13,5 @@ extend type Mutation @guard {
     ): Liked
     @canModel(ability: "delete", injectArgs: true, model: "App\\Models\\User\\Like")
     @validator(class: "App\\GraphQL\\Validators\\Mutation\\User\\Like\\DeleteLikeValidator")
-    @field(resolver: "App\\GraphQL\\Mutations\\User\\LikeMutator@destroy")
+    @field(resolver: "App\\GraphQL\\Controllers\\User\\LikeController@destroy")
 }

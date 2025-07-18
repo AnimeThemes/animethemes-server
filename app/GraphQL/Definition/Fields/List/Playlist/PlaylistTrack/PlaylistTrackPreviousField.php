@@ -1,0 +1,96 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
+
+use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\Contracts\Models\HasHashids;
+use App\GraphQL\Definition\Fields\Field;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
+use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+
+/**
+ * Class PlaylistTrackPreviousField.
+ */
+class PlaylistTrackPreviousField extends Field implements CreatableField, UpdatableField
+{
+    /**
+     * Create a new field instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(PlaylistTrack::RELATION_PREVIOUS, nullable: true);
+    }
+
+    /**
+     * The description of the field.
+     *
+     * @return string
+     */
+    public function description(): string
+    {
+        return 'The previous track of the current track';
+    }
+
+    /**
+     * The type returned by the field.
+     *
+     * @return Type
+     */
+    public function type(): Type
+    {
+        return Type::string();
+    }
+
+    /**
+     * Set the creation validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getCreationRules(array $args): array
+    {
+        $playlistHashid = Arr::get($args, 'playlist');
+        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, $playlistHashid);
+
+        return [
+            'sometimes',
+            'required',
+            'string',
+            Str::of('prohibits:')->append(PlaylistTrack::RELATION_NEXT)->__toString(),
+            Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
+                ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        $playlistHashid = Arr::get($args, 'playlist');
+        $hashid = Arr::get($args, PlaylistTrack::ATTRIBUTE_HASHID);
+
+        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, $playlistHashid);
+        $track = PlaylistTrack::query()->firstWhere(PlaylistTrack::ATTRIBUTE_HASHID, $hashid);
+
+        return [
+            'sometimes',
+            'required',
+            'string',
+            Str::of('prohibits:')->append(PlaylistTrack::RELATION_NEXT)->__toString(),
+            Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
+                ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey())
+                ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track?->getKey()),
+        ];
+    }
+}

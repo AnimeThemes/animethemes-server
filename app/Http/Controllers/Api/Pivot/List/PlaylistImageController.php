@@ -72,7 +72,7 @@ class PlaylistImageController extends PivotController
      * @param  StoreRequest  $request
      * @param  Playlist  $playlist
      * @param  Image  $image
-     * @param  StoreAction  $action
+     * @param  StoreAction<PlaylistImage>  $action
      * @return PlaylistImageResource
      */
     public function store(StoreRequest $request, Playlist $playlist, Image $image, StoreAction $action): PlaylistImageResource

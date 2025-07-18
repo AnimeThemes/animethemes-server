@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UpdateAction.
+ *
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 class UpdateAction
 {
     /**
      * Update model.
      *
-     * @param  Model  $model
+     * @param  TModel  $model
      * @param  array  $parameters
-     * @return Model
+     * @return TModel
      */
     public function update(Model $model, array $parameters): Model
     {
@@ -28,8 +30,8 @@ class UpdateAction
     /**
      * Perform model cleanup for presentation.
      *
-     * @param  Model  $model
-     * @return Model
+     * @param  TModel  $model
+     * @return TModel
      */
     public function cleanup(Model $model): Model
     {

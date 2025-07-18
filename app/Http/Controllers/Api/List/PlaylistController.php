@@ -71,7 +71,7 @@ class PlaylistController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Playlist>  $action
      * @return PlaylistResource
      */
     public function store(StoreRequest $request, StoreAction $action): PlaylistResource

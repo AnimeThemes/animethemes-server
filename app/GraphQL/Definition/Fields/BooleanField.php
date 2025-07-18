@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
@@ -12,16 +13,26 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class BooleanField.
  */
-abstract class BooleanField extends Field implements FilterableField
+abstract class BooleanField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::boolean();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 
     /**

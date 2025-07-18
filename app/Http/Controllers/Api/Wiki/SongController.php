@@ -57,7 +57,7 @@ class SongController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreAction  $action
+     * @param  StoreAction<Song>  $action
      * @return SongResource
      */
     public function store(StoreRequest $request, StoreAction $action): SongResource

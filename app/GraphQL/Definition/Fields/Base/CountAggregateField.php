@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Base;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
@@ -11,7 +12,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class CountAggregateField.
  */
-class CountAggregateField extends Field
+class CountAggregateField extends Field implements DisplayableField
 {
     /**
      * Create a new Field instance.
@@ -52,8 +53,18 @@ class CountAggregateField extends Field
      *
      * @return Type
      */
-    protected function type(): Type
+    public function type(): Type
     {
         return Type::int();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @return bool
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }

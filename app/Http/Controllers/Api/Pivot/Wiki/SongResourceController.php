@@ -57,7 +57,7 @@ class SongResourceController extends PivotController
      * @param  StoreRequest  $request
      * @param  Song  $song
      * @param  ExternalResource  $resource
-     * @param  StoreAction  $action
+     * @param  StoreAction<SongResource>  $action
      * @return SongResourceResource
      */
     public function store(StoreRequest $request, Song $song, ExternalResource $resource, StoreAction $action): SongResourceResource
