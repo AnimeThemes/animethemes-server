@@ -242,7 +242,7 @@ class GraphQLServiceProvider extends ServiceProvider
                 $dispatcher->listen(
                     BuildSchemaString::class,
                     fn (): string => "
-                        extend type Mutation {
+                        extend type Mutation @guard {
                             {$class->mount()}
                         }
                     "
