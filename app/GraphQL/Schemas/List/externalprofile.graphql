@@ -16,13 +16,3 @@ enum ExternalProfileColumnsOrderable {
 #     @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost")
 #     @canModel(ability: "view", injectArgs: true)
 # }
-
-extend type Mutation @guard {
-    syncExternalProfile(
-        id: Int! @bind(class: "App\\Models\\List\\ExternalProfile", column: "profile_id")
-    ): MessageResponse!
-    @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost")
-    @featureEnabled(class: "App\\Features\\AllowExternalProfileManagement")
-    @canModel(ability: "update", injectArgs: true, model: "App\\Models\\List\\ExternalProfile")
-    @field(resolver: "App\\GraphQL\\Controllers\\List\\ExternalProfileController@sync")
-}

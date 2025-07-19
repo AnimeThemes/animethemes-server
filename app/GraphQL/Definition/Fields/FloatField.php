@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\FilterableField;
+use App\Contracts\GraphQL\Fields\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;

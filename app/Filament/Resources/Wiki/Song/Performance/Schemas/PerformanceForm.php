@@ -25,6 +25,9 @@ use Filament\Schemas\Schema;
  */
 class PerformanceForm
 {
+    final public const REPEATER_PERFORMANCES = SongModel::RELATION_PERFORMANCES;
+    final public const REPEATER_MEMBERSHIPS = 'memberships';
+
     /**
      * Configure the form schema.
      *
@@ -55,7 +58,7 @@ class PerformanceForm
     public static function performancesFields(): array
     {
         return [
-            Repeater::make(SongModel::RELATION_PERFORMANCES)
+            Repeater::make(self::REPEATER_PERFORMANCES)
                 ->label(__('filament.resources.label.artists'))
                 ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.artist')]))
                 ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class])
@@ -88,7 +91,7 @@ class PerformanceForm
                         ->label(__('filament.fields.performance.alias.name'))
                         ->helperText(__('filament.fields.performance.alias.help')),
 
-                    Repeater::make('memberships')
+                    Repeater::make(self::REPEATER_MEMBERSHIPS)
                         ->label(__('filament.resources.label.memberships'))
                         ->helperText(__('filament.fields.performance.memberships.help'))
                         ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.member')]))

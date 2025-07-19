@@ -51,7 +51,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         return [
             Action::make('manage-performances')
                 ->label(__('filament.actions.performances.manage_performances'))
-                ->action(fn ($livewire, array $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
+                ->action(fn ($livewire, array $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, PerformanceForm::REPEATER_PERFORMANCES)))
                 ->schema(PerformanceForm::performancesFields()),
         ];
     }
@@ -102,7 +102,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         foreach ($artists as $groupId => $group) {
             $membershipsForGroup = Arr::where($memberships, fn ($value) => $value[Membership::ATTRIBUTE_ARTIST] === $groupId);
 
-            $artists[$groupId]['memberships'] = $membershipsForGroup;
+            $artists[$groupId][PerformanceForm::REPEATER_MEMBERSHIPS] = $membershipsForGroup;
         }
 
         return $artists;
@@ -117,7 +117,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function saveArtists(Song|int|null $song = null, ?array $data = []): void
     {
-        if (is_null($song) || empty($data)) {
+        if (is_null($song) || blank($data)) {
             return;
         }
 
@@ -128,7 +128,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         foreach ($data as $artist) {
             $groupOrArtist = intval(Arr::get($artist, Artist::ATTRIBUTE_ID));
 
-            if (empty(Arr::get($artist, 'memberships'))) {
+            if (blank(Arr::get($artist, PerformanceForm::REPEATER_MEMBERSHIPS))) {
                 $action->addSingleArtist(
                     $groupOrArtist,
                     Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
@@ -145,7 +145,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
                 Arr::get($artist, Performance::ATTRIBUTE_AS),
             );
 
-            foreach (Arr::get($artist, 'memberships') as $membership) {
+            foreach (Arr::get($artist, PerformanceForm::REPEATER_MEMBERSHIPS) as $membership) {
                 $action->addMembership(
                     $group,
                     intval(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),

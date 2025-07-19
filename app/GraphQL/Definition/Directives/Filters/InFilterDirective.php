@@ -22,7 +22,11 @@ class InFilterDirective extends FilterDirective
         return Str::of($this->field->getName().'_in')
             ->append(': ')
             ->append(Type::listOf($this->type)->__toString())
-            ->append(" @in(key: \"{$this->field->getColumn()}\")")
+            ->append($this->resolveDirectives([
+                'in' => [
+                    'key' => $this->field->getColumn(),
+                ],
+            ]))
             ->__toString();
     }
 }

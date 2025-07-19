@@ -22,7 +22,11 @@ class NotInFilterDirective extends FilterDirective
         return Str::of($this->field->getName().'_not_in')
             ->append(': ')
             ->append(Type::listOf($this->type)->__toString())
-            ->append(" @notIn(key: \"{$this->field->getColumn()}\")")
+            ->append($this->resolveDirectives([
+                'notIn' => [
+                    'key' => $this->field->getColumn(),
+                ],
+            ]))
             ->__toString();
     }
 }
