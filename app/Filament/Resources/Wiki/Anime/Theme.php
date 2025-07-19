@@ -238,7 +238,7 @@ class Theme extends BaseResource
                                     ->afterStateUpdated(function (Set $set, $state) {
                                         /** @var Song|null $song */
                                         $song = Song::find($state);
-                                        $set('performances', PerformanceSongRelationManager::formatArtists($song));
+                                        $set(PerformanceForm::REPEATER_PERFORMANCES, PerformanceSongRelationManager::formatArtists($song));
                                     }),
 
                                 ...PerformanceForm::performancesFields(),

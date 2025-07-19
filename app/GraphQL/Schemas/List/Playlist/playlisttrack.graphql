@@ -27,37 +27,3 @@ extend type Query {
     @builder(method: "App\\GraphQL\\Builders\\List\\Playlist\\PlaylistTrackBuilder@index")
     @paginate
 }
-
-# extend type Mutation @guard {
-#     createPlaylistTrack(
-#         entry_id: Int!
-#         video_id: Int!
-#         next: String
-#         previous: String
-#         playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-#     ): PlaylistTrack!
-#     @canModel(ability: "create", injectArgs: true)
-#     @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\Track\\CreatePlaylistTrackValidator")
-#     @field(resolver: "App\\GraphQL\\Controllers\\List\\Playlist\\PlaylistTrackController@store")
-
-
-#     updatePlaylistTrack(
-#         id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
-#         entry_id: Int
-#         video_id: Int
-#         next: String
-#         previous: String
-#         playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-#     ): PlaylistTrack!
-#     @canModel(ability: "update", injectArgs: true)
-#     @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\Track\\UpdatePlaylistTrackValidator")
-#     @field(resolver: "App\\GraphQL\\Controllers\\List\\Playlist\\PlaylistTrackController@update")
-
-
-#     deletePlaylistTrack(
-#         id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
-#         playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-#     ): PlaylistTrack!
-#     @canModel(ability: "delete", injectArgs: true)
-#     @field(resolver: "App\\GraphQL\\Controllers\\List\\Playlist\\PlaylistTrackController@destroy")
-# }

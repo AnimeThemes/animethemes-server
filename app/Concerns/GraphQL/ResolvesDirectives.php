@@ -12,22 +12,22 @@ trait ResolvesDirectives
     /**
      * Convert the array of directives into a string format for GraphQL.
      *
-     * @param  array<string, array>  $directives
+     * @param  array<string, array<string, mixed>>  $directives
      * @return string
      */
     public function resolveDirectives(array $directives): string
     {
         return collect($directives)
             ->map(function ($args, $directive) {
-                if (filled($args)) {
-                    $argsString = collect($args)
-                        ->map(fn ($value, $key) => sprintf('%s: %s', $key, json_encode($value)))
-                        ->implode(', ');
-
-                    return sprintf('@%s(%s)', $directive, $argsString);
+                if (blank($args)) {
+                    return "@{$directive}";
                 }
 
-                return "@{$directive}";
+                $argsString = collect($args)
+                    ->map(fn ($value, $key) => sprintf('%s: %s', $key, json_encode($value)))
+                    ->implode(', ');
+
+                return sprintf('@%s(%s)', $directive, $argsString);
             })
             ->implode(' ');
     }

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\User;
 
+use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Definition\Mutations\User\LikeMutation;
+use App\GraphQL\Definition\Mutations\User\UnlikeMutation;
 use App\Models\List\Playlist;
+use App\Models\User\Like;
 use App\Models\Wiki\Video;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +16,10 @@ use Illuminate\Support\Arr;
 
 /**
  * Class LikeController.
+ *
+ * @extends BaseController<Like>
  */
-class LikeController
+class LikeController extends BaseController
 {
     final public const ATTRIBUTE_PLAYLIST = 'playlist';
     final public const ATTRIBUTE_VIDEO = 'video';
@@ -29,8 +35,10 @@ class LikeController
      */
     public function store($_, array $args): Model
     {
-        $playlist = Arr::get($args, self::ATTRIBUTE_PLAYLIST);
-        $video = Arr::get($args, self::ATTRIBUTE_VIDEO);
+        $validated = $this->validated($args, LikeMutation::class);
+
+        $playlist = Arr::get($validated, self::ATTRIBUTE_PLAYLIST);
+        $video = Arr::get($validated, self::ATTRIBUTE_VIDEO);
 
         if ($playlist instanceof Playlist) {
             $playlist->like();
@@ -58,8 +66,10 @@ class LikeController
      */
     public function destroy($_, array $args): Model
     {
-        $playlist = Arr::get($args, self::ATTRIBUTE_PLAYLIST);
-        $video = Arr::get($args, self::ATTRIBUTE_VIDEO);
+        $validated = $this->validated($args, UnlikeMutation::class);
+
+        $playlist = Arr::get($validated, self::ATTRIBUTE_PLAYLIST);
+        $video = Arr::get($validated, self::ATTRIBUTE_VIDEO);
 
         if ($playlist instanceof Playlist) {
             $playlist->unlike();

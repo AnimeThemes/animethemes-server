@@ -8,6 +8,8 @@ use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Definition\Mutations\Rest\List\Playlist\Track\CreatePlaylistTrackMutation;
+use App\GraphQL\Definition\Mutations\Rest\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
@@ -30,13 +32,15 @@ class PlaylistTrackController extends BaseController
      */
     public function store($_, array $args): PlaylistTrack
     {
+        $validated = $this->validated($args, CreatePlaylistTrackMutation::class);
+
         /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, 'playlist');
+        $playlist = Arr::pull($validated, 'playlist');
 
         $action = new StoreTrackAction();
 
         /** @var PlaylistTrack $stored */
-        $stored = $action->store($playlist, PlaylistTrack::query(), $args);
+        $stored = $action->store($playlist, PlaylistTrack::query(), $validated);
 
         return $stored;
     }
@@ -50,13 +54,15 @@ class PlaylistTrackController extends BaseController
      */
     public function update($_, array $args): PlaylistTrack
     {
+        $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
+
         /** @var PlaylistTrack $track */
-        $track = Arr::pull($args, self::ROUTE_SLUG);
+        $track = Arr::pull($validated, self::ROUTE_SLUG);
 
         $action = new UpdateTrackAction();
 
         /** @var PlaylistTrack $updated */
-        $updated = $action->update($track->playlist, $track, $args);
+        $updated = $action->update($track->playlist, $track, $validated);
 
         return $updated;
     }

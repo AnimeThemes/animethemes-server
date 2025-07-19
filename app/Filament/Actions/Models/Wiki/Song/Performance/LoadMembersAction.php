@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki\Song\Performance;
 
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership;
 use App\Pivots\Wiki\ArtistMember;
@@ -41,7 +42,7 @@ class LoadMembersAction extends Action
         $this->action(function (Get $get, Set $set) {
             $artistId = $get(Artist::ATTRIBUTE_ID);
             if ($artistId === null) {
-                $set('memberships', []);
+                $set(PerformanceForm::REPEATER_MEMBERSHIPS, []);
 
                 return;
             }
@@ -51,7 +52,7 @@ class LoadMembersAction extends Action
                 ->with([Artist::RELATION_MEMBERS])
                 ->find($artistId);
 
-            $set('memberships', $group->members->map(fn (Artist $member) => [
+            $set(PerformanceForm::REPEATER_MEMBERSHIPS, $group->members->map(fn (Artist $member) => [
                 Membership::ATTRIBUTE_MEMBER => $member->getKey(),
                 Membership::ATTRIBUTE_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
                 Membership::ATTRIBUTE_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),

@@ -172,6 +172,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     {
         return [
             AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
+            AnimeTheme::ATTRIBUTE_SONG => 'int',
             AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
         ];
     }

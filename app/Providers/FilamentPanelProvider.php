@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Filament\Actions\ActionGroup;
+use Filament\Forms\Components\TextInput;
 // use Awcodes\Recently\RecentlyPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -22,6 +23,7 @@ use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
@@ -75,6 +77,10 @@ class FilamentPanelProvider extends PanelProvider
             $table->deferColumnManager(false);
             $table->reorderableColumns();
         });
+
+        TextInput::configureUsing(function (TextInput $textInput) {
+            $textInput->trim();
+        });
     }
 
     public function panel(Panel $panel): Panel
@@ -116,6 +122,7 @@ class FilamentPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                ConvertEmptyStringsToNull::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

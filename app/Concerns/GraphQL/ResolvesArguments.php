@@ -32,7 +32,7 @@ trait ResolvesArguments
     {
         if (filled($arguments)) {
             return Str::of('(')
-                ->append(implode(PHP_EOL, Arr::flatten($arguments)))
+                ->append(implode(', ', Arr::flatten($arguments)))
                 ->append(')')
                 ->__toString();
         }
@@ -49,12 +49,11 @@ trait ResolvesArguments
     public function resolveFilterArguments(array $fields): array
     {
         return collect($fields)
-            ->map(function (Field $field) {
-                if ($field instanceof FilterableField) {
-                    return collect($field->filterDirectives())
-                        ->map(fn (FilterDirective $directive) => $directive->__toString())
-                        ->toArray();
-                }
+            ->filter(fn (Field $field) => $field instanceof FilterableField)
+            ->map(function (FilterableField $field) {
+                return collect($field->filterDirectives())
+                    ->map(fn (FilterDirective $directive) => $directive->__toString())
+                    ->toArray();
             })
             ->flatten()
             ->toArray();
@@ -106,30 +105,26 @@ trait ResolvesArguments
      * Resolve the bind argument.
      *
      * @param  array<int, Field>  $fields
+     * @param  bool  $shouldRequire
      * @return string[]
      */
-    public function resolveBindArgument(array $fields): array
+    public function resolveBindArgument(array $fields, bool $shouldRequire = true): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(function (Field $field) {
+            ->map(function (Field&BindableField $field) use ($shouldRequire) {
                 return Str::of($field->getName())
                     ->append(': ')
                     ->append($field->type()->__toString())
-                    ->append('! ')
-                    ->append($this->getBindDirective($field))
+                    ->append($shouldRequire ? '! ' : '')
+                    ->append($this->resolveDirectives([
+                        'bind' => [
+                            'class' => $field->bindTo(),
+                            'column' => $field->bindUsingColumn(),
+                        ],
+                    ]))
                     ->__toString();
             })
             ->toArray();
-    }
-
-    private function getBindDirective(Field&BindableField $field): string
-    {
-        return $this->resolveDirectives([
-            'bind' => [
-                'class' => $field->bindTo(),
-                'column' => $field->bindUsingColumn(),
-            ],
-        ]);
     }
 }

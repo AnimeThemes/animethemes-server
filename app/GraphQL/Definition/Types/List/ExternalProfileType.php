@@ -7,9 +7,9 @@ namespace App\GraphQL\Definition\Types\List;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileIdField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileNameField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileSiteField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileVisibilityField;
@@ -58,7 +58,7 @@ class ExternalProfileType extends EloquentType implements HasFields, HasRelation
     public function fields(): array
     {
         return [
-            new IdField(ExternalProfile::ATTRIBUTE_ID),
+            new ExternalProfileIdField(),
             new ExternalProfileNameField(),
             new ExternalProfileSiteField(),
             new LocalizedEnumField(new ExternalProfileSiteField()),
