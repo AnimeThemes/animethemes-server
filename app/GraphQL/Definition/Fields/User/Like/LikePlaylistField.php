@@ -11,7 +11,6 @@ use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**

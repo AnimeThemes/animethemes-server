@@ -6,7 +6,7 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesDirectives;
-use App\Contracts\GraphQL\HasArgumentsField;
+use App\Contracts\GraphQL\Fields\HasArgumentsField;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
