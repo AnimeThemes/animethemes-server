@@ -13,6 +13,7 @@ use App\Filament\Actions\Models\Wiki\Anime\DiscordThreadAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -27,7 +28,6 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManag
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;

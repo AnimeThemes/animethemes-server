@@ -20,7 +20,7 @@ trait ResolvesDirectives
         return collect($directives)
             ->map(function ($args, $directive) {
                 if (blank($args)) {
-                    return "@{$directive}";
+                    return sprintf('@%s', $directive);
                 }
 
                 $argsString = collect($args)

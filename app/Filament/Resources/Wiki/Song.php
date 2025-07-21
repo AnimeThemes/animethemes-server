@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
@@ -15,7 +16,6 @@ use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationMan
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;

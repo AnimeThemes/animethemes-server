@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use Filament\Forms\Components\TextInput;
+use App\Filament\Components\Fields\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;

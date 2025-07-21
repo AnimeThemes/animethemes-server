@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Table;
 

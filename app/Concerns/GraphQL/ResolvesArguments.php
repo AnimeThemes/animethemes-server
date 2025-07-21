@@ -6,14 +6,13 @@ namespace App\Concerns\GraphQL;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Contracts\GraphQL\Fields\FilterableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 /**
  * Trait ResolvesArguments.
@@ -30,14 +29,11 @@ trait ResolvesArguments
      */
     public function buildArguments(array $arguments): string
     {
-        if (filled($arguments)) {
-            return Str::of('(')
-                ->append(implode(', ', Arr::flatten($arguments)))
-                ->append(')')
-                ->__toString();
+        if (blank($arguments)) {
+            return '';
         }
 
-        return '';
+        return sprintf('(%s)', implode(', ', Arr::flatten($arguments)));
     }
 
     /**
@@ -69,13 +65,12 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->map(function (Field&CreatableField $field) {
-                return Str::of($field->getColumn())
-                    ->append(': ')
-                    ->append($field->type()->__toString())
-                    ->append($field instanceof RequiredOnCreation ? '!' : '')
-                    ->__toString();
-            })
+            ->map(fn (Field $field) => sprintf(
+                '%s: %s%s',
+                $field->getColumn(),
+                $field->type()->__toString(),
+                $field instanceof RequiredOnCreation ? '!' : ''
+            ))
             ->flatten()
             ->toArray();
     }
@@ -90,13 +85,12 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->map(function (Field&UpdatableField $field) {
-                return Str::of($field->getColumn())
-                    ->append(': ')
-                    ->append($field->type()->__toString())
-                    ->append($field instanceof RequiredOnUpdate ? '!' : '')
-                    ->__toString();
-            })
+            ->map(fn (Field $field) => sprintf(
+                '%s: %s%s',
+                $field->getColumn(),
+                $field->type()->__toString(),
+                $field instanceof RequiredOnUpdate ? '!' : ''
+            ))
             ->flatten()
             ->toArray();
     }
@@ -112,19 +106,18 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(function (Field&BindableField $field) use ($shouldRequire) {
-                return Str::of($field->getName())
-                    ->append(': ')
-                    ->append($field->type()->__toString())
-                    ->append($shouldRequire ? '! ' : '')
-                    ->append($this->resolveDirectives([
-                        'bind' => [
-                            'class' => $field->bindTo(),
-                            'column' => $field->bindUsingColumn(),
-                        ],
-                    ]))
-                    ->__toString();
-            })
+            ->map(fn (Field&BindableField $field) => sprintf(
+                '%s: %s%s%s',
+                $field->getName(),
+                $field->type()->__toString(),
+                $shouldRequire ? '!' : '',
+                $this->resolveDirectives([
+                    'bind' => [
+                        'class' => $field->bindTo(),
+                        'column' => $field->bindUsingColumn(),
+                    ],
+                ])
+            ))
             ->toArray();
     }
 }

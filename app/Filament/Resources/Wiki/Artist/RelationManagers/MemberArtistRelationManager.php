@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 

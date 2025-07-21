@@ -78,7 +78,7 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
 
         $resource = $request->route('resource');
         if ($resource instanceof ExternalResource) {
-            return $resource->link;
+            return $resource->link->__toString();
         }
 
         return '';

@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -18,7 +19,6 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResource
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
@@ -132,6 +132,7 @@ class ExternalResource extends BaseResource
                     ->helperText(__('filament.fields.external_resource.link.help'))
                     ->required()
                     ->live()
+                    ->uri()
                     ->partiallyRenderComponentsAfterStateUpdated([ExternalResourceModel::ATTRIBUTE_SITE, ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID])
                     ->afterStateUpdated(function (Set $set, ?string $state) {
                         if ($state !== null) {

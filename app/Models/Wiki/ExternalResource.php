@@ -22,9 +22,11 @@ use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\SongResource;
 use App\Pivots\Wiki\StudioResource;
 use Database\Factories\Wiki\ExternalResourceFactory;
+use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Uri;
 
 /**
  * Class Resource.
@@ -32,7 +34,7 @@ use Illuminate\Support\Collection;
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
  * @property int|null $external_id
- * @property string|null $link
+ * @property Uri|null $link
  * @property int $resource_id
  * @property ResourceSite|null $site
  * @property Collection<int, Song> $songs
@@ -106,6 +108,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     {
         return [
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => 'int',
+            ExternalResource::ATTRIBUTE_LINK => AsUri::class,
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::class,
         ];
     }

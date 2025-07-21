@@ -7,6 +7,7 @@ namespace App\Rules\Wiki\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Uri;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
@@ -34,7 +35,7 @@ readonly class ResourceSiteMatchesLinkRule implements ValidationRule
     {
         $domain = ResourceSite::getDomain($value);
 
-        if (! empty($domain) && $domain !== parse_url($this->link, PHP_URL_HOST)) {
+        if (! empty($domain) && $domain !== Uri::of($this->link)->host()) {
             $fail(__('validation.resource_link_site_mismatch'));
         }
     }

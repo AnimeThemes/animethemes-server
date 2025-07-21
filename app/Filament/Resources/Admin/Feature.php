@@ -6,12 +6,12 @@ namespace App\Filament\Resources\Admin;
 
 use App\Constants\FeatureConstants;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Admin\Feature\Pages\ManageFeatures;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Feature as FeatureModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;

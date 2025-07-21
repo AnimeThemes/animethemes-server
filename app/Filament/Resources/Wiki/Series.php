@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
@@ -13,7 +14,6 @@ use App\Filament\Resources\Wiki\Series\Pages\ListSeries;
 use App\Filament\Resources\Wiki\Series\Pages\ViewSeries;
 use App\Filament\Resources\Wiki\Series\RelationManagers\AnimeSeriesRelationManager;
 use App\Models\Wiki\Series as SeriesModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;

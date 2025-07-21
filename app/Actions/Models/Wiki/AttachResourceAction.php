@@ -28,13 +28,13 @@ class AttachResourceAction
     public function handle(BaseModel&HasResources $model, array $fields, array $sites): void
     {
         foreach ($sites as $resourceSite) {
-            $link = Arr::get($fields, $resourceSite->name);
+            $url = Arr::get($fields, $resourceSite->name);
 
-            if (empty($link)) {
+            if (empty($url)) {
                 continue;
             }
 
-            $this->createResource($link, $resourceSite, $model);
+            $this->createResource($url, $resourceSite, $model);
         }
     }
 }

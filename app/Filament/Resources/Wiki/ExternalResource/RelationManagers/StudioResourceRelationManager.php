@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\ExternalResource\RelationManagers;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\Wiki\StudioRelationManager;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;

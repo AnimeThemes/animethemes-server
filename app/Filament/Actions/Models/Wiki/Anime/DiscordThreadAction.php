@@ -6,10 +6,10 @@ namespace App\Filament\Actions\Models\Wiki\Anime;
 
 use App\Actions\Discord\DiscordThreadAction as DiscordThreadActionAction;
 use App\Filament\Actions\BaseAction;
+use App\Filament\Components\Fields\TextInput;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Exception;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Gate;
 
