@@ -18,6 +18,6 @@ class UseField
      */
     public function __construct(
         public string $fieldClass,
-        public string $method,
+        public string $method = '__invoke',
     ) {}
 }

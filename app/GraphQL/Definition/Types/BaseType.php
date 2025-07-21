@@ -53,7 +53,7 @@ abstract class BaseType extends ObjectType
      *
      * @throws RuntimeException
      */
-    public function mount(): string
+    public function toGraphQLString(): string
     {
         $fields = [];
         if ($this instanceof HasFields) {

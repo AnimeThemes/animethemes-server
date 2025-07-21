@@ -32,7 +32,7 @@ abstract class BaseUnion extends UnionType
      *
      * @return string
      */
-    public function mount(): string
+    public function toGraphQLString(): string
     {
         return Str::of('union ')
             ->append($this->name())

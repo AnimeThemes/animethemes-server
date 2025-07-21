@@ -33,7 +33,7 @@ abstract class BaseMutation
      *
      * @return string
      */
-    public function mount(): string
+    public function toGraphQLString(): string
     {
         $directives = $this->resolveDirectives($this->directives());
 
