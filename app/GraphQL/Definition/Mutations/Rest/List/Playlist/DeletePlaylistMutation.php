@@ -8,6 +8,7 @@ use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Definition\Mutations\Rest\DeleteMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
 
@@ -38,9 +39,9 @@ class DeletePlaylistMutation extends DeleteMutation
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return PlaylistType
      */
-    public function baseType(): Type
+    public function baseType(): PlaylistType
     {
         return new PlaylistType();
     }
@@ -52,6 +53,6 @@ class DeletePlaylistMutation extends DeleteMutation
      */
     public function getType(): Type
     {
-        return Type::nonNull(Type::string());
+        return Type::nonNull(new MessageResponseType());
     }
 }

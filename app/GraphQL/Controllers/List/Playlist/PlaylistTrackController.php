@@ -12,6 +12,7 @@ use App\GraphQL\Definition\Mutations\Rest\List\Playlist\Track\CreatePlaylistTrac
 use App\GraphQL\Definition\Mutations\Rest\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 /**
@@ -70,17 +71,19 @@ class PlaylistTrackController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return string
+     * @return JsonResponse
      */
-    public function destroy($_, array $args): string
+    public function destroy($_, array $args): JsonResponse
     {
         /** @var PlaylistTrack $track */
         $track = Arr::get($args, self::ROUTE_SLUG);
 
         $action = new DestroyTrackAction();
 
-        $destroyed = $action->destroy($track->playlist, $track);
+        $message = $action->destroy($track->playlist, $track);
 
-        return $destroyed;
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

@@ -8,7 +8,9 @@ use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Mutations\Rest\DeleteMutation;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
+use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist\PlaylistTrack;
+use GraphQL\Type\Definition\Type;
 
 /**
  * Class DeletePlaylistTrackMutation.
@@ -42,5 +44,15 @@ class DeletePlaylistTrackMutation extends DeleteMutation
     public function baseType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
+    }
+
+    /**
+     * The type returned by the field.
+     *
+     * @return Type
+     */
+    public function getType(): Type
+    {
+        return Type::nonNull(new MessageResponseType());
     }
 }
