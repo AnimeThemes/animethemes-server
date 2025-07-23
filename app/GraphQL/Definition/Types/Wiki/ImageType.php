@@ -17,6 +17,9 @@ use App\GraphQL\Definition\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImagePathField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\AnimeEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\Image\ImageArtistEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\StudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Image;
 
@@ -43,9 +46,9 @@ class ImageType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeType(), Image::RELATION_ANIME),
-            new BelongsToManyRelation(new ArtistType(), Image::RELATION_ARTISTS, edgeType: 'ImageArtistEdge'),
-            new BelongsToManyRelation(new StudioType(), Image::RELATION_STUDIOS),
+            new BelongsToManyRelation(new AnimeEdgeType(), Image::RELATION_ANIME),
+            new BelongsToManyRelation(new ImageArtistEdgeType(), Image::RELATION_ARTISTS),
+            new BelongsToManyRelation(new StudioEdgeType(), Image::RELATION_STUDIOS),
         ];
     }
 

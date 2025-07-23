@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Filament\Actions\ActionGroup;
-use Filament\Forms\Components\TextInput;
 // use Awcodes\Recently\RecentlyPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;

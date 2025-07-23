@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Definition\Types;
+
+use App\Contracts\GraphQL\HasFields;
+use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Fields\Response\MessageResponseField;
+
+/**
+ * Class MessageResponseType.
+ */
+class MessageResponseType extends BaseType implements HasFields
+{
+    /**
+     * The description of the type.
+     *
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return 'Represents a response containing a message.';
+    }
+
+    /**
+     * The fields of the type.
+     *
+     * @return Field[]
+     */
+    public function fields(): array
+    {
+        return [
+            new MessageResponseField(),
+        ];
+    }
+}

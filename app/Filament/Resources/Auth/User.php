@@ -9,6 +9,7 @@ use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Auth\User\Pages\ListUsers;
@@ -18,7 +19,6 @@ use App\Filament\Resources\Auth\User\RelationManagers\PlaylistUserRelationManage
 use App\Filament\Resources\Auth\User\RelationManagers\RoleUserRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User as UserModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;

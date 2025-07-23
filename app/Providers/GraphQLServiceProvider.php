@@ -147,7 +147,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
                 $dispatcher->listen(
                     BuildSchemaString::class,
-                    fn (): string => $class->mount()
+                    fn (): string => $class->toGraphQLString()
                 );
             }
         }
@@ -193,12 +193,12 @@ class GraphQLServiceProvider extends ServiceProvider
                     BuildSchemaString::class,
                     fn (): string => "
                         extend type Query {
-                            {$class->mount()}
+                            {$class->toGraphQLString()}
                         }
                     "
                 );
 
-                $queries[] = $class->mount();
+                $queries[] = $class->toGraphQLString();
             }
         }
     }
@@ -243,12 +243,12 @@ class GraphQLServiceProvider extends ServiceProvider
                     BuildSchemaString::class,
                     fn (): string => "
                         extend type Mutation @guard {
-                            {$class->mount()}
+                            {$class->toGraphQLString()}
                         }
                     "
                 );
 
-                $mutations[] = $class->mount();
+                $mutations[] = $class->toGraphQLString();
             }
         }
     }

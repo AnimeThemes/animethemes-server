@@ -13,7 +13,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -29,11 +28,11 @@ class StoreTrackAction
      * @param  Playlist  $playlist
      * @param  Builder  $builder
      * @param  array  $parameters
-     * @return Model
+     * @return PlaylistTrack
      *
      * @throws Exception
      */
-    public function store(Playlist $playlist, Builder $builder, array $parameters): Model
+    public function store(Playlist $playlist, Builder $builder, array $parameters): PlaylistTrack
     {
         $trackParameters = $parameters;
 
@@ -49,9 +48,9 @@ class StoreTrackAction
             Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
             $playlist->tracks()->getQuery()->lockForUpdate()->count();
 
+            /** @var StoreAction<PlaylistTrack> $storeAction */
             $storeAction = new StoreAction();
 
-            /** @var PlaylistTrack $track */
             $track = $storeAction->store($builder, $trackParameters);
 
             if (! empty($nextHashid) && empty($previousHashid)) {

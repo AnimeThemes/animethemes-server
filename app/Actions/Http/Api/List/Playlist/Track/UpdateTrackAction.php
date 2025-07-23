@@ -12,7 +12,6 @@ use App\Contracts\Models\HasHashids;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -28,11 +27,11 @@ class UpdateTrackAction
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  array  $parameters
-     * @return Model
+     * @return PlaylistTrack
      *
      * @throws Exception
      */
-    public function update(Playlist $playlist, PlaylistTrack $track, array $parameters): Model
+    public function update(Playlist $playlist, PlaylistTrack $track, array $parameters): PlaylistTrack
     {
         $trackParameters = $parameters;
 
@@ -46,6 +45,7 @@ class UpdateTrackAction
             Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
             $playlist->tracks()->getQuery()->lockForUpdate()->count();
 
+            /** @var UpdateAction<PlaylistTrack> $updateAction */
             $updateAction = new UpdateAction();
 
             $updateAction->update($track, $trackParameters);
@@ -57,7 +57,6 @@ class UpdateTrackAction
             }
 
             if (! empty($nextHashid) && empty($previousHashid)) {
-                /** @var PlaylistTrack $next */
                 $next = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_PREVIOUS)
                     ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
@@ -70,7 +69,6 @@ class UpdateTrackAction
             }
 
             if (! empty($previousHashid) && empty($nextHashid)) {
-                /** @var PlaylistTrack $previous */
                 $previous = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_NEXT)
                     ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())

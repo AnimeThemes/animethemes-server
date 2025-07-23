@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Song\Performance\Schemas;
 
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\BelongsTo;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
@@ -16,7 +17,6 @@ use App\Models\Wiki\Song as SongModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 

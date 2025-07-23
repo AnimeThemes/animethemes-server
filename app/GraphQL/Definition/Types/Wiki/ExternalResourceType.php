@@ -17,6 +17,10 @@ use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceLinkFiel
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceAnimeEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceArtistEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceSongEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceStudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\ExternalResource;
 
@@ -43,10 +47,10 @@ class ExternalResourceType extends EloquentType implements HasFields, HasRelatio
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeType(), ExternalResource::RELATION_ANIME, edgeType: 'ExternalResourceAnimeEdge'),
-            new BelongsToManyRelation(new ArtistType(), ExternalResource::RELATION_ARTISTS, edgeType: 'ExternalResourceArtistEdge'),
-            new BelongsToManyRelation(new SongType(), ExternalResource::RELATION_SONGS, edgeType: 'ExternalResourceSongEdge'),
-            new BelongsToManyRelation(new StudioType(), ExternalResource::RELATION_STUDIOS, edgeType: 'ExternalResourceStudioEdge'),
+            new BelongsToManyRelation(new ResourceAnimeEdgeType(), ExternalResource::RELATION_ANIME),
+            new BelongsToManyRelation(new ResourceArtistEdgeType(), ExternalResource::RELATION_ARTISTS),
+            new BelongsToManyRelation(new ResourceSongEdgeType(), ExternalResource::RELATION_SONGS),
+            new BelongsToManyRelation(new ResourceStudioEdgeType(), ExternalResource::RELATION_STUDIOS),
         ];
     }
 

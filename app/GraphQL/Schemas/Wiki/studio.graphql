@@ -1,12 +1,3 @@
-"Default edge to use in simple belongs to many relationships"
-type StudioEdge {
-    node: Studio!
-    "The date that the resource was last modified"
-    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "The date that the resource was deleted"
-    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-}
-
 enum StudioColumnsOrderable {
     ID @enum(value: "studio_id")
     NAME

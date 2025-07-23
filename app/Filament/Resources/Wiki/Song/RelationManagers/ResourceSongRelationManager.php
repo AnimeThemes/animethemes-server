@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;

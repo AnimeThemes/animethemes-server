@@ -16,6 +16,7 @@ use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkActio
 use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
@@ -31,7 +32,6 @@ use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Filters;
 
-use Filament\Forms\Components\TextInput;
+use App\Filament\Components\Fields\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;

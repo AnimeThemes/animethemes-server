@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Base;
 
+use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
+use App\GraphQL\Resolvers\PivotResolver;
 use App\Models\BaseModel;
 
 /**
  * Class CreatedAtField.
  */
+#[UseField(PivotResolver::class)]
 class CreatedAtField extends DateTimeTzField
 {
     /**

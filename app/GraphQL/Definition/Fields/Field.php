@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\Fields\HasArgumentsField;
 use GraphQL\Type\Definition\Type;
@@ -18,6 +19,7 @@ use Stringable;
 abstract class Field implements Stringable
 {
     use ResolvesArguments;
+    use ResolvesAttributes;
     use ResolvesDirectives;
 
     /**
@@ -102,7 +104,11 @@ abstract class Field implements Stringable
      */
     public function directives(): array
     {
-        return [];
+        $field = $this->resolveFieldAttribute();
+
+        return [
+            ...(is_string($field) ? ['field' => ['resolver' => $field]] : []),
+        ];
     }
 
     /**

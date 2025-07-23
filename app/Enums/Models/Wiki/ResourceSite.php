@@ -22,6 +22,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 use RuntimeException;
 
 /**
@@ -103,7 +104,7 @@ enum ResourceSite: int implements HasLabel
      */
     public static function valueOf(string $link): ?ResourceSite
     {
-        $parsedHost = parse_url($link, PHP_URL_HOST);
+        $parsedHost = Uri::of($link)->host();
 
         return Arr::first(
             ResourceSite::cases(),

@@ -28,7 +28,7 @@ trait ResolvesAttributes
         if (count($attributes) === 1) {
             $instance = $attributes[0]->newInstance();
 
-            return $instance->builderClass.'@'.$instance->method;
+            return sprintf('%s@%s', $instance->builderClass, $instance->method);
         }
 
         if (count($attributes) > 1) {
@@ -52,7 +52,7 @@ trait ResolvesAttributes
         if (count($attributes) === 1) {
             $instance = $attributes[0]->newInstance();
 
-            return $instance->fieldClass.'@'.$instance->method;
+            return sprintf('%s@%s', $instance->fieldClass, $instance->method);
         }
 
         if (count($attributes) > 1) {

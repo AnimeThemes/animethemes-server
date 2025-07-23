@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistImage;
 
+use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Definition\Fields\IntField;
+use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\ArtistImage;
 
 /**
  * Class ArtistImageDepthField.
  */
+#[UseField(PivotResolver::class)]
 class ArtistImageDepthField extends IntField
 {
     /**

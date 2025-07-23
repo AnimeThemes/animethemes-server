@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
+use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\ImplodeArrayResolver;
 use App\Models\Wiki\Video;
@@ -11,6 +12,7 @@ use App\Models\Wiki\Video;
 /**
  * Class VideoTagsField.
  */
+#[UseField(ImplodeArrayResolver::class)]
 class VideoTagsField extends StringField
 {
     /**
@@ -29,20 +31,6 @@ class VideoTagsField extends StringField
     public function description(): string
     {
         return 'The attributes used to distinguish the file within the context of a theme';
-    }
-
-    /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'field' => [
-                'resolver' => ImplodeArrayResolver::class,
-            ],
-        ];
     }
 
     /**

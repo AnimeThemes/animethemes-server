@@ -8,9 +8,9 @@ use App\Actions\Models\Wiki\AttachResourceAction as AttachResource;
 use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\BaseAction;
+use App\Filament\Components\Fields\TextInput;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -75,7 +75,7 @@ abstract class AttachResourceAction extends BaseAction
             $components[] = TextInput::make($resourceSite->name)
                 ->label($resourceSite->localize())
                 ->helperText(__("filament.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
-                ->url()
+                ->uri()
                 ->maxLength(192)
                 ->rule($resourceSite->getFormatRule($model));
         }

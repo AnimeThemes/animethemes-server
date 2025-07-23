@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Types;
 
 use App\Contracts\GraphQL\HasFields;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Search\SearchAnimeField;
 use App\GraphQL\Definition\Fields\Search\SearchAnimeThemesField;
 use App\GraphQL\Definition\Fields\Search\SearchArtistsField;
@@ -32,7 +33,7 @@ class SearchType extends BaseType implements HasFields
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return Field[]
      */
     public function fields(): array
     {

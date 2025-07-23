@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Auth;
 use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Auth\Permission\Pages\ListPermissions;
@@ -15,7 +16,6 @@ use App\Filament\Resources\Auth\Permission\RelationManagers\RolePermissionRelati
 use App\Filament\Resources\Auth\Permission\RelationManagers\UserPermissionRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Permission as PermissionModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;

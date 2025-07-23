@@ -140,7 +140,7 @@ class ActionLog extends Model implements Nameable
                 ->where(ActionLog::ATTRIBUTE_STATUS, ActionLogStatus::RUNNING->value)
                 ->update([
                     ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FAILED->value,
-                    ActionLog::ATTRIBUTE_EXCEPTION => (string) $e,
+                    ActionLog::ATTRIBUTE_EXCEPTION => $e->__toString(),
                     ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
                 ]);
         }
@@ -434,7 +434,7 @@ class ActionLog extends Model implements Nameable
             ->whereNotIn(ActionLog::ATTRIBUTE_STATUS, [ActionLogStatus::FINISHED->value, ActionLogStatus::FAILED->value])
             ->update([
                 ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FAILED->value,
-                ActionLog::ATTRIBUTE_EXCEPTION => $exception ? (string) $exception : null,
+                ActionLog::ATTRIBUTE_EXCEPTION => $exception ? $exception->__toString() : null,
                 ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
             ]);
     }
@@ -481,7 +481,7 @@ class ActionLog extends Model implements Nameable
     {
         $this->update([
             ActionLog::ATTRIBUTE_STATUS => $status->value,
-            ActionLog::ATTRIBUTE_EXCEPTION => (string) $exception,
+            ActionLog::ATTRIBUTE_EXCEPTION => $exception->__toString(),
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
     }

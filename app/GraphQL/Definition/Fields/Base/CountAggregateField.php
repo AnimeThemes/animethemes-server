@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\Base;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
+use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
@@ -12,6 +13,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * Class CountAggregateField.
  */
+#[UseField(CountAggregateResolver::class)]
 class CountAggregateField extends Field implements DisplayableField
 {
     /**
@@ -41,9 +43,6 @@ class CountAggregateField extends Field implements DisplayableField
         return [
             'with' => [
                 'relation' => $this->aggregateRelation,
-            ],
-            'field' => [
-                'resolver' => CountAggregateResolver::class,
             ],
         ];
     }

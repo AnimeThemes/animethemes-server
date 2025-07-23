@@ -19,10 +19,11 @@ use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\MorphManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\List\PlaylistEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\VideoEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\User\NotificationType;
-use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,8 +52,8 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
         return [
             new MorphManyRelation(new NotificationType(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
-            new BelongsToManyRelation(new PlaylistType(), 'likedplaylists'),
-            new BelongsToManyRelation(new VideoType(), 'likedvideos'),
+            new BelongsToManyRelation(new PlaylistEdgeType(), 'likedplaylists'),
+            new BelongsToManyRelation(new VideoEdgeType(), 'likedvideos'),
         ];
     }
 

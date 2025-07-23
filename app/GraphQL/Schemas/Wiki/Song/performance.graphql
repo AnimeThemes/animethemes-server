@@ -6,9 +6,3 @@ enum PerformanceColumnsOrderable {
     UPDATED_AT
     DELETED_AT
 }
-
-# extend type Query {
-#     performances(
-#         hasSong: [WhereHasConditions!] @whereHasConditions(relation: "song", columns: ["title"])
-#     ): [Performance!]!
-# }

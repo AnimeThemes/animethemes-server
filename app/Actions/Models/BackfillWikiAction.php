@@ -17,6 +17,7 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 
 /**
  * Class BackfillWikiAction.
@@ -74,7 +75,7 @@ abstract class BackfillWikiAction
                 continue;
             }
 
-            $this->createResource($url, $site, $this->getModel());
+            $this->createResource(Uri::of($url), $site, $this->getModel());
 
             $this->backfilled($site, self::RESOURCES);
         }

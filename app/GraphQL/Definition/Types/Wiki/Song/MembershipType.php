@@ -43,7 +43,7 @@ class MembershipType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new ArtistType(), Membership::RELATION_ARTIST, 'group', false),
+            new BelongsToRelation(new ArtistType(), Membership::RELATION_ARTIST, 'group', nullable: false),
             new BelongsToRelation(new ArtistType(), Membership::RELATION_MEMBER, nullable: false),
             new MorphManyRelation(new PerformanceType(), Membership::RELATION_PERFORMANCES),
         ];

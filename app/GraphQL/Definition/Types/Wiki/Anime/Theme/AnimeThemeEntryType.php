@@ -19,9 +19,9 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryVersionF
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\VideoEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
-use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 /**
@@ -48,7 +48,7 @@ class AnimeThemeEntryType extends EloquentType implements HasFields, HasRelation
     {
         return [
             new BelongsToRelation(new AnimeThemeType(), AnimeThemeEntry::RELATION_THEME, nullable: false),
-            new BelongsToManyRelation(new VideoType(), AnimeThemeEntry::RELATION_VIDEOS),
+            new BelongsToManyRelation(new VideoEdgeType(), AnimeThemeEntry::RELATION_VIDEOS),
         ];
     }
 

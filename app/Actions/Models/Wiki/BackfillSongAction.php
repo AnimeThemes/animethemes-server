@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Uri;
 
 /**
  * Class BackfillVideoAudioAction.
@@ -67,7 +68,7 @@ class BackfillSongAction extends BackfillAction
                     continue;
                 }
 
-                $this->createResource($link, $resourceSite, $this->getModel());
+                $this->createResource(Uri::of($link), $resourceSite, $this->getModel());
             }
 
             DB::commit();

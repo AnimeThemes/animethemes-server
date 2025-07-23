@@ -8,10 +8,6 @@ type Query {
     @field(resolver: "App\\GraphQL\\Queries\\Search")
 }
 
-type MessageResponse {
-    message: String
-}
-
 input WhereHasConditions {
   relation: String!
   where: [WhereConditions!]
@@ -20,7 +16,6 @@ input WhereHasConditions {
 }
 
 #import Admin/*.graphql
-#import Auth/*.graphql
 #import Document/*.graphql
 #import List/*.graphql
 #import List/External/*.graphql

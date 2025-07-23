@@ -9,12 +9,12 @@ use App\Discord\DiscordEmbed;
 use App\Discord\DiscordEmbedField;
 use App\Discord\DiscordMessage;
 use App\Filament\Actions\BaseAction;
+use App\Filament\Components\Fields\TextInput;
 use App\Models\Discord\DiscordThread;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Gate;
 

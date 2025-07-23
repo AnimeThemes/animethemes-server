@@ -18,6 +18,9 @@ use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\MorphManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\Artist\ArtistImageEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\Artist\ArtistMemberEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\Artist\ArtistResourceEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
@@ -46,10 +49,10 @@ class ArtistType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new ArtistType(), Artist::RELATION_GROUPS, edgeType: 'ArtistMemberEdge'),
-            new BelongsToManyRelation(new ArtistType(), Artist::RELATION_MEMBERS, edgeType: 'ArtistMemberEdge'),
-            new BelongsToManyRelation(new ImageType(), Artist::RELATION_IMAGES, edgeType: 'ArtistImageEdge'),
-            new BelongsToManyRelation(new ExternalResourceType(), Artist::RELATION_RESOURCES),
+            new BelongsToManyRelation(new ArtistMemberEdgeType(), Artist::RELATION_GROUPS),
+            new BelongsToManyRelation(new ArtistMemberEdgeType(), Artist::RELATION_MEMBERS),
+            new BelongsToManyRelation(new ArtistImageEdgeType(), Artist::RELATION_IMAGES),
+            new BelongsToManyRelation(new ArtistResourceEdgeType(), Artist::RELATION_RESOURCES),
             new HasManyRelation(new MembershipType(), Artist::RELATION_MEMBERSHIPS),
             new MorphManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),
         ];
