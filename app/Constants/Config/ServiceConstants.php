@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Constants\Config;
 
-/**
- * Class ServiceConstants.
- */
 class ServiceConstants
 {
     final public const ADMIN_DISCORD_CHANNEL_QUALIFIED = 'services.discord.admin_discord_channel';

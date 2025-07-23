@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Constants;
 
-/**
- * Class FeatureConstants.
- */
 class FeatureConstants
 {
     final public const ALLOW_DISCORD_NOTIFICATIONS = 'allow_discord_notifications';

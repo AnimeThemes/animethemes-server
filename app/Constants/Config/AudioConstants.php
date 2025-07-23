@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Constants\Config;
 
-/**
- * Class AudioConstants.
- */
 class AudioConstants
 {
     final public const DEFAULT_DISK_QUALIFIED = 'audio.default_disk';

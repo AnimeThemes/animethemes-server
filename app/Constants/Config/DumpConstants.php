@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Constants\Config;
 
-/**
- * Class DumpConstants.
- */
 class DumpConstants
 {
     final public const DISK_QUALIFIED = 'dump.disk';
