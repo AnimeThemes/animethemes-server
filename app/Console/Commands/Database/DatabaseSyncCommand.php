@@ -16,29 +16,20 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
-/**
- * Class DatabaseSyncCommand.
- */
 class DatabaseSyncCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'db:sync';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Sync the local database with the latest dumps';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -82,8 +73,6 @@ class DatabaseSyncCommand extends BaseCommand
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     protected function validator(): Validator
     {

@@ -12,15 +12,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Validation\Rule;
 
-/**
- * Class DatabaseDumpCommand.
- */
 abstract class DumpCommand extends BaseCommand
 {
     /**
      * Execute the console command.
-     *
-     * @return int
      *
      * @throws Exception
      */
@@ -49,8 +44,6 @@ abstract class DumpCommand extends BaseCommand
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     protected function validator(): Validator
     {
@@ -62,8 +55,6 @@ abstract class DumpCommand extends BaseCommand
 
     /**
      * Get the underlying action.
-     *
-     * @return DumpAction
      */
     abstract protected function action(): DumpAction;
 }

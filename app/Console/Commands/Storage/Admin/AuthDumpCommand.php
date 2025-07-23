@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Storage\Admin;
 
-use App\Actions\Storage\Admin\Dump\DumpAction;
 use App\Actions\Storage\Admin\Dump\DumpAuthAction;
 
-/**
- * Class AuthDumpCommand.
- */
 class AuthDumpCommand extends DumpCommand
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'db:dump-auth
         {--comments : Write additional information in the MySQL dump such as program version, server version and host}
@@ -44,10 +38,8 @@ class AuthDumpCommand extends DumpCommand
 
     /**
      * Get the underlying action.
-     *
-     * @return DumpAction
      */
-    protected function action(): DumpAction
+    protected function action(): DumpAuthAction
     {
         return new DumpAuthAction($this->options());
     }

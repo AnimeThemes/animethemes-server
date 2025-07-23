@@ -9,17 +9,12 @@ use App\Console\Commands\BaseCommand;
 use Exception;
 use Illuminate\Contracts\Validation\Validator;
 
-/**
- * Class ReconcileCommand.
- */
 abstract class ReconcileCommand extends BaseCommand
 {
     use ReconcilesRepositories;
 
     /**
      * Execute the console command.
-     *
-     * @return int
      *
      * @throws Exception
      */
@@ -44,8 +39,6 @@ abstract class ReconcileCommand extends BaseCommand
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     abstract protected function validator(): Validator;
 }

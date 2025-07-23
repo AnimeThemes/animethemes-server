@@ -14,6 +14,7 @@ trait ValidatesIncludes
 
     /**
      * Restrict the allowed values for the schema includes.
+     *
      * @return array<string, array>
      */
     protected function restrictAllowedIncludeValues(string $param, SchemaInterface $schema): array

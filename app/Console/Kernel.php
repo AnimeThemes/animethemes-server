@@ -30,16 +30,10 @@ use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Propaganistas\LaravelDisposableEmail\Console\UpdateDisposableDomainsCommand;
 
-/**
- * Class Kernel.
- */
 class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
-     *
-     * @param  Schedule  $schedule
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -180,8 +174,6 @@ class Kernel extends ConsoleKernel
 
     /**
      * Register the commands for the application.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

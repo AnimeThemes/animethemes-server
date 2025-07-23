@@ -13,18 +13,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
-/**
- * Class StorageReconcileCommand.
- */
 abstract class StorageReconcileCommand extends ReconcileCommand implements InteractsWithDisk
 {
     /**
      * Apply filters to repositories before reconciliation.
      *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
      * @param  array  $data
-     * @return void
      */
     protected function handleFilters(
         RepositoryInterface $sourceRepository,
@@ -42,8 +36,6 @@ abstract class StorageReconcileCommand extends ReconcileCommand implements Inter
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     protected function validator(): Validator
     {

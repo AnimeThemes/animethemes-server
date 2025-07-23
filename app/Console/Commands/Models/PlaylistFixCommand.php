@@ -10,29 +10,20 @@ use App\Models\List\Playlist;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
-/**
- * Class PlaylistFixCommand.
- */
 class PlaylistFixCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'playlist:fix {playlistId}';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Fix playlist tracks to remove cycles';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -52,8 +43,6 @@ class PlaylistFixCommand extends BaseCommand
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     protected function validator(): Validator
     {

@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Storage\Admin;
 
-use App\Actions\Storage\Admin\Dump\DumpAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 
-/**
- * Class WikiDumpCommand.
- */
 class WikiDumpCommand extends DumpCommand
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'db:dump-wiki
         {--comments : Write additional information in the MySQL dump such as program version, server version and host}
@@ -37,17 +31,13 @@ class WikiDumpCommand extends DumpCommand
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Produces sanitized database dump, targeting wiki-related tables for seeding purposes';
 
     /**
      * Get the underlying action.
-     *
-     * @return DumpAction
      */
-    protected function action(): DumpAction
+    protected function action(): DumpWikiAction
     {
         return new DumpWikiAction($this->options());
     }
