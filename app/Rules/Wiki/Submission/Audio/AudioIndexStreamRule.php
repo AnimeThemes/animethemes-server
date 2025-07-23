@@ -11,25 +11,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use Laravel\Pennant\Feature;
 
-/**
- * Class AudioIndexStreamRule.
- */
 class AudioIndexStreamRule extends SubmissionRule
 {
-    /**
-     * Create new rule instance.
-     *
-     * @param  int  $expected
-     */
     public function __construct(protected readonly int $expected) {}
 
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

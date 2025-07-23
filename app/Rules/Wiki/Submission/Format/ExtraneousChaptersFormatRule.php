@@ -10,18 +10,12 @@ use Closure;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use Laravel\Pennant\Feature;
 
-/**
- * Class ExtraneousChaptersFormatRule.
- */
 class ExtraneousChaptersFormatRule extends SubmissionRule
 {
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

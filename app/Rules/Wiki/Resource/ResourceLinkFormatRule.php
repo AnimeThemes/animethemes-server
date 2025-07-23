@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-/**
- * Class ResourceLinkFormatRule.
- */
 class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
 {
     /**
@@ -29,7 +26,6 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
      * Set the data under validation.
      *
      * @param  array  $data
-     * @return $this
      */
     public function setData(array $data): self
     {
@@ -38,17 +34,10 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
         return $this;
     }
 
-    /**
-     * Create a new rule instance.
-     *
-     * @param  ResourceSite|null  $site
-     */
     public function __construct(protected ?ResourceSite $site = null) {}
 
     /**
      * Resolve the site.
-     *
-     * @return ResourceSite|null
      */
     protected function site(): ?ResourceSite
     {
@@ -67,10 +56,7 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
