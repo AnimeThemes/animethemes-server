@@ -36,6 +36,7 @@ class NodeField extends Field implements DisplayableField
     {
         $type = Str::of(class_basename($this->type))
             ->remove('Type')
+            ->remove('Edge')
             ->__toString();
 
         // Necessary to prevent memory leak at compile time.

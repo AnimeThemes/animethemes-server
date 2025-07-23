@@ -21,7 +21,7 @@ abstract class EloquentType extends BaseType
     {
         return Str::of(get_class($this))
             ->replace('GraphQL\\Definition\\Types', 'Models')
-            ->replace('Type', '')
+            ->remove('Type')
             ->__toString();
     }
 }

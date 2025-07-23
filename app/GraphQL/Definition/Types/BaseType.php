@@ -101,7 +101,7 @@ abstract class BaseType extends ObjectType
     public function getName(): string
     {
         return Str::of(class_basename($this))
-            ->replace('Type', '')
+            ->remove('Type')
             ->__toString();
     }
 
