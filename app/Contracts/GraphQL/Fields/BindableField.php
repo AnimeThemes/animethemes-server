@@ -6,9 +6,6 @@ namespace App\Contracts\GraphQL\Fields;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Interface BindableField.
- */
 interface BindableField
 {
     /**
@@ -20,8 +17,6 @@ interface BindableField
 
     /**
      * Get the column that the field should use to bind.
-     *
-     * @return string
      */
     public function bindUsingColumn(): string;
 }

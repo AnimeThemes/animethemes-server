@@ -6,9 +6,6 @@ namespace App\Contracts\GraphQL;
 
 use App\GraphQL\Definition\Relations\Relation;
 
-/**
- * Interface HasRelations.
- */
 interface HasRelations
 {
     /**

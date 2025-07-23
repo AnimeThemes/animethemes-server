@@ -6,9 +6,6 @@ namespace App\Contracts\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * Interface HasImages.
- */
 interface HasImages
 {
     /**
