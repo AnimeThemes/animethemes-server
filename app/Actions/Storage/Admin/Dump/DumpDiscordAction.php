@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-/**
- * Class DumpDiscordAction.
- */
 class DumpDiscordAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
@@ -35,8 +32,6 @@ class DumpDiscordAction extends DumpAction
      * The temporary path for the database dump.
      * Note: The dumper library does not support writing to disk, so we have to write to the local filesystem first.
      * Pattern: "animethemes-db-dump-discord-{milliseconds from epoch}.sql".
-     *
-     * @return string
      */
     protected function getDumpFile(): string
     {

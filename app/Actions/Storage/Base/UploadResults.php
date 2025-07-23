@@ -11,22 +11,15 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class UploadResults.
- */
 readonly class UploadResults implements StorageResults
 {
     /**
-     * Create a new action result instance.
-     *
      * @param  array<string, string|false>  $uploads
      */
     public function __construct(protected array $uploads = []) {}
 
     /**
      * Write results to log.
-     *
-     * @return void
      */
     public function toLog(): void
     {
@@ -42,9 +35,6 @@ readonly class UploadResults implements StorageResults
 
     /**
      * Write results to console output.
-     *
-     * @param  Command  $command
-     * @return void
      */
     public function toConsole(Command $command): void
     {
@@ -60,8 +50,6 @@ readonly class UploadResults implements StorageResults
 
     /**
      * Transform to Action Result.
-     *
-     * @return ActionResult
      */
     public function toActionResult(): ActionResult
     {

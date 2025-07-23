@@ -18,16 +18,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 abstract class DownloadAction implements InteractsWithDisk
 {
     /**
-     * Create a new action instance.
-     *
      * @param  TModel  $model
      */
     public function __construct(protected readonly BaseModel $model) {}
 
     /**
      * Download the resource.
-     *
-     * @return StreamedResponse
      */
     public function download(): StreamedResponse
     {
@@ -39,8 +35,6 @@ abstract class DownloadAction implements InteractsWithDisk
 
     /**
      * Get the path of the resource in storage.
-     *
-     * @return string
      */
     abstract protected function path(): string;
 }

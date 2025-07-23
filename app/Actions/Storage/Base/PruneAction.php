@@ -13,24 +13,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class PruneAction.
- */
 abstract class PruneAction implements InteractsWithDisk, StorageAction
 {
     use ReconcilesRepositories;
 
-    /**
-     * Create a new action instance.
-     *
-     * @param  int  $hours
-     */
     public function __construct(protected readonly int $hours = 72) {}
 
     /**
      * Handle action.
-     *
-     * @return StorageResults
      */
     public function handle(): StorageResults
     {
@@ -54,9 +44,6 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
     /**
      * Processes to be completed after handling action.
      *
-     * @param  StorageResults  $storageResults
-     * @return null
-     *
      * @throws Exception
      */
     public function then(StorageResults $storageResults): null
@@ -70,10 +57,6 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
 
     /**
      * Determine whether the file should be pruned.
-     *
-     * @param  string  $path
-     * @param  Carbon  $lastModified
-     * @return bool
      */
     abstract protected function shouldBePruned(string $path, Carbon $lastModified): bool;
 }

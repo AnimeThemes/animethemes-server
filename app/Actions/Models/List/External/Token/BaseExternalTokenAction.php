@@ -16,7 +16,6 @@ abstract class BaseExternalTokenAction
      * Use the authorization code to get the tokens and store them.
      *
      * @param  array  $parameters
-     * @return ExternalToken
      *
      * @throws Exception
      */

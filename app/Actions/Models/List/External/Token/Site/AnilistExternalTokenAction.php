@@ -14,16 +14,12 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class AnilistExternalTokenAction.
- */
 class AnilistExternalTokenAction extends BaseExternalTokenAction
 {
     /**
      * Use the authorization code to get the tokens and store them.
      *
      * @param  array  $parameters
-     * @return ExternalToken
      *
      * @throws Exception
      */

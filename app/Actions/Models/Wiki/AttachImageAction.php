@@ -10,9 +10,6 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
 
-/**
- * Class AttachImageAction.
- */
 class AttachImageAction
 {
     use CanCreateImage;
@@ -20,10 +17,8 @@ class AttachImageAction
     /**
      * Perform the action on the given models.
      *
-     * @param  BaseModel&HasImages  $model
      * @param  array  $fields
      * @param  ImageFacet[]  $facets
-     * @return void
      */
     public function handle(BaseModel&HasImages $model, array $fields, array $facets): void
     {

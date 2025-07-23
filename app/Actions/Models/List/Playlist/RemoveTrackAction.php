@@ -10,17 +10,10 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class RemoveTrackAction.
- */
 class RemoveTrackAction
 {
     /**
      * Remove track from playlist.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @return void
      *
      * @throws Exception
      */

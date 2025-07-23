@@ -17,15 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-/**
- * Class AnilistAnimeExternalApiAction.
- */
 class AnilistAnimeExternalApiAction extends ExternalApiAction implements BackfillImages, BackfillResources, BackfillSynonyms
 {
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     public function getSite(): ResourceSite
     {
@@ -36,7 +31,6 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
      * Set the response after the request.
      *
      * @param  BelongsToMany<ExternalResource, Anime>  $resources
-     * @return static
      */
     public function handle(BelongsToMany $resources): static
     {

@@ -17,11 +17,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteScriptAction extends DeleteAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  VideoScript  $script
-     */
     public function __construct(VideoScript $script)
     {
         parent::__construct($script);
@@ -39,8 +34,6 @@ class DeleteScriptAction extends DeleteAction
 
     /**
      * Get the path to delete.
-     *
-     * @return string
      */
     protected function path(): string
     {

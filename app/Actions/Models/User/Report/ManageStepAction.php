@@ -11,16 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class ManageStepAction.
- */
 class ManageStepAction
 {
     /**
      * Execute the action and approve the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     public static function approveStep(ReportStep $step): void
     {
@@ -36,9 +30,6 @@ class ManageStepAction
 
     /**
      * Create the model according the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function approveCreate(ReportStep $step): void
     {
@@ -52,9 +43,6 @@ class ManageStepAction
 
     /**
      * Delete the model according the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function approveDelete(ReportStep $step): void
     {
@@ -65,9 +53,6 @@ class ManageStepAction
 
     /**
      * Update the model according the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function approveUpdate(ReportStep $step): void
     {
@@ -78,9 +63,6 @@ class ManageStepAction
 
     /**
      * Attach a model to another according the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function approveAttach(ReportStep $step): void
     {
@@ -94,9 +76,6 @@ class ManageStepAction
 
     /**
      * Detach a model from another according the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function approveDetach(ReportStep $step): void
     {
@@ -110,9 +89,6 @@ class ManageStepAction
 
     /**
      * Approve the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function markAsApproved(ReportStep $step): void
     {
@@ -121,9 +97,6 @@ class ManageStepAction
 
     /**
      * Reject the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function markAsRejected(ReportStep $step): void
     {
@@ -132,9 +105,6 @@ class ManageStepAction
 
     /**
      * Approve partially the step.
-     *
-     * @param  ReportStep  $step
-     * @return void
      */
     protected static function markAsPartiallyApproved(ReportStep $step): void
     {
@@ -143,10 +113,6 @@ class ManageStepAction
 
     /**
      * Update the status of the step.
-     *
-     * @param  ReportStep  $step
-     * @param  ApprovableStatus  $status
-     * @return void
      */
     protected static function updateStatus(ReportStep $step, ApprovableStatus $status): void
     {

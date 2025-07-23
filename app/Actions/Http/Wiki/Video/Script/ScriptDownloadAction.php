@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Config;
  */
 class ScriptDownloadAction extends DownloadAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  VideoScript  $script
-     */
     public function __construct(VideoScript $script)
     {
         parent::__construct($script);
@@ -28,8 +23,6 @@ class ScriptDownloadAction extends DownloadAction
 
     /**
      * Get the path of the resource in storage.
-     *
-     * @return string
      */
     protected function path(): string
     {
@@ -38,8 +31,6 @@ class ScriptDownloadAction extends DownloadAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

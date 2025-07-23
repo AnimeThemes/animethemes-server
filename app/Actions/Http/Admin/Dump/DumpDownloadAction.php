@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DumpDownloadAction extends DownloadAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Dump  $dump
-     */
     public function __construct(Dump $dump)
     {
         parent::__construct($dump);
@@ -28,8 +23,6 @@ class DumpDownloadAction extends DownloadAction
 
     /**
      * Get the path of the resource in storage.
-     *
-     * @return string
      */
     protected function path(): string
     {
@@ -38,8 +31,6 @@ class DumpDownloadAction extends DownloadAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

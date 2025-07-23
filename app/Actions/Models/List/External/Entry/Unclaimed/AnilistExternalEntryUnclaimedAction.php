@@ -13,9 +13,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class AnilistExternalEntryUnclaimedAction.
- */
 class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedAction
 {
     /**
@@ -51,8 +48,6 @@ class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedActi
 
     /**
      * Get the id of the external user.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -65,8 +60,6 @@ class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedActi
 
     /**
      * Make the request to the external api.
-     *
-     * @return void
      *
      * @throws RequestException
      */

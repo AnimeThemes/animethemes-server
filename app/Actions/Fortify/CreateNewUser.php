@@ -14,16 +14,12 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
-/**
- * Class CreateNewUser.
- */
 class CreateNewUser implements CreatesNewUsers
 {
     /**
      * Validate and create a newly registered user.
      *
      * @param  array<string, string>  $input
-     * @return User
      *
      * @throws ValidationException
      */

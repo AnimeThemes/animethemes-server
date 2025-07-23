@@ -10,9 +10,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
 
-/**
- * Class AttachResourceAction.
- */
 class AttachResourceAction
 {
     use CanCreateExternalResource;
@@ -20,10 +17,8 @@ class AttachResourceAction
     /**
      * Handle the action.
      *
-     * @param  BaseModel&HasResources  $model
      * @param  array  $fields
      * @param  ResourceSite[]  $sites
-     * @return void
      */
     public function handle(BaseModel&HasResources $model, array $fields, array $sites): void
     {

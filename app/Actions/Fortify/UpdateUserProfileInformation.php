@@ -12,17 +12,12 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
-/**
- * Class UpdateUserProfileInformation.
- */
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
     /**
      * Validate and update the given user's profile information.
      *
-     * @param  User  $user
      * @param  array<string, string>  $input
-     * @return void
      *
      * @throws ValidationException
      */

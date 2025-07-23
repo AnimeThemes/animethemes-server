@@ -11,23 +11,12 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class UploadAction.
- */
 abstract class UploadAction implements InteractsWithDisks, StorageAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  UploadedFile  $file
-     * @param  string  $path
-     */
     public function __construct(protected readonly UploadedFile $file, protected readonly string $path) {}
 
     /**
      * Handle action.
-     *
-     * @return StorageResults
      */
     public function handle(): StorageResults
     {

@@ -9,15 +9,10 @@ use App\Enums\Actions\ActionStatus;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Class SyncViewAggregatesAction.
- */
 class SyncViewAggregatesAction
 {
     /**
      * Handles the action.
-     *
-     * @return ActionResult
      *
      * @throws Exception
      */

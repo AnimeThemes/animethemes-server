@@ -9,20 +9,12 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ShowAction.
- */
 class ShowAction
 {
     use ConstrainsEagerLoads;
 
     /**
      * Show model.
-     *
-     * @param  Model  $model
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return Model
      */
     public function show(Model $model, Query $query, Schema $schema): Model
     {

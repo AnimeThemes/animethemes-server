@@ -24,9 +24,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class BackfillAnimeAction.
- */
 class BackfillAnimeAction extends BackfillWikiAction
 {
     use CanCreateAnimeSynonym;
@@ -36,9 +33,6 @@ class BackfillAnimeAction extends BackfillWikiAction
     final public const SYNONYMS = 'synonyms';
 
     /**
-     * Create a new action instance.
-     *
-     * @param  Anime  $anime
      * @param  array  $toBackfill
      */
     public function __construct(protected Anime $anime, protected array $toBackfill)
@@ -48,8 +42,6 @@ class BackfillAnimeAction extends BackfillWikiAction
 
     /**
      * Handle the action.
-     *
-     * @return ActionResult
      */
     public function handle(): ActionResult
     {
@@ -71,19 +63,19 @@ class BackfillAnimeAction extends BackfillWikiAction
 
                 $response = $api->handle($this->getModel()->resources());
 
-                if ($api instanceof BackfillResources) {
+                if ($response instanceof BackfillResources) {
                     $this->forResources($response);
                 }
 
-                if ($api instanceof BackfillImages) {
+                if ($response instanceof BackfillImages) {
                     $this->forImages($response);
                 }
 
-                if ($api instanceof BackfillStudios) {
+                if ($response instanceof BackfillStudios) {
                     $this->forStudios($response);
                 }
 
-                if ($api instanceof BackfillSynonyms) {
+                if ($response instanceof BackfillSynonyms) {
                     $this->forSynonyms($response);
                 }
 
@@ -103,7 +95,7 @@ class BackfillAnimeAction extends BackfillWikiAction
     /**
      * Get the external API actions available for the backfill action.
      *
-     * @return array
+     * @return ExternalApiAction[]
      */
     protected function getExternalApiActions(): array
     {
@@ -117,9 +109,6 @@ class BackfillAnimeAction extends BackfillWikiAction
 
     /**
      * Create the studios given the response.
-     *
-     * @param  ExternalApiAction&BackfillStudios  $response
-     * @return void
      */
     protected function forStudios(ExternalApiAction&BackfillStudios $response): void
     {
@@ -153,9 +142,6 @@ class BackfillAnimeAction extends BackfillWikiAction
 
     /**
      * Create the synonyms given the response.
-     *
-     * @param  ExternalApiAction&BackfillSynonyms  $api
-     * @return void
      */
     protected function forSynonyms(ExternalApiAction&BackfillSynonyms $api): void
     {
@@ -181,8 +167,6 @@ class BackfillAnimeAction extends BackfillWikiAction
 
     /**
      * Get the model for the action.
-     *
-     * @return Anime
      */
     protected function getModel(): Anime
     {

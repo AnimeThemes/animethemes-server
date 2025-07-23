@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-/**
- * Class DumpAuthAction.
- */
 class DumpAuthAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
@@ -48,8 +45,6 @@ class DumpAuthAction extends DumpAction
      * The temporary path for the database dump.
      * Note: The dumper library does not support writing to disk, so we have to write to the local filesystem first.
      * Pattern: "animethemes-db-dump-auth-{milliseconds from epoch}.sql".
-     *
-     * @return string
      */
     protected function getDumpFile(): string
     {

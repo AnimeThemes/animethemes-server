@@ -14,9 +14,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class ManageSongPerformances.
- */
 class ManageSongPerformances
 {
     protected int $song;
@@ -25,9 +22,6 @@ class ManageSongPerformances
 
     /**
      * Add the song of the performances.
-     *
-     * @param  Song|int  $song
-     * @return static
      */
     public function forSong(Song|int $song): static
     {
@@ -38,11 +32,6 @@ class ManageSongPerformances
 
     /**
      * Add a single artist to the song performance.
-     *
-     * @param  int  $artist
-     * @param  string|null  $alias
-     * @param  string|null  $as
-     * @return static
      */
     public function addSingleArtist(int $artist, ?string $alias = null, ?string $as = null): static
     {
@@ -58,11 +47,6 @@ class ManageSongPerformances
 
     /**
      * Add a group data to the performance.
-     *
-     * @param  int  $group
-     * @param  string|null  $alias
-     * @param  string|null  $as
-     * @return static
      */
     public function addGroupData(int $group, ?string $alias = null, ?string $as = null): static
     {
@@ -76,12 +60,6 @@ class ManageSongPerformances
 
     /**
      * Add a membership to the song.
-     *
-     * @param  int  $group
-     * @param  int  $member
-     * @param  string|null  $alias
-     * @param  string|null  $as
-     * @return static
      */
     public function addMembership(int $group, int $member, ?string $alias = null, ?string $as = null): static
     {
@@ -102,8 +80,6 @@ class ManageSongPerformances
 
     /**
      * Commit the performances to the song.
-     *
-     * @return static
      */
     public function commit(): static
     {

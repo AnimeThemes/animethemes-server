@@ -17,18 +17,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class StoreTrackAction.
- */
 class StoreTrackAction
 {
     /**
      * Store playlist track.
      *
-     * @param  Playlist  $playlist
-     * @param  Builder  $builder
      * @param  array  $parameters
-     * @return PlaylistTrack
      *
      * @throws Exception
      */

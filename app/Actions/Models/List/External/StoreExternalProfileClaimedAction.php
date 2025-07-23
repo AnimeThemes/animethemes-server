@@ -18,9 +18,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
-/**
- * Class StoreExternalProfileClaimedAction.
- */
 class StoreExternalProfileClaimedAction
 {
     protected Collection $resources;
@@ -28,9 +25,7 @@ class StoreExternalProfileClaimedAction
     /**
      * Get the first record or store external profile given determined external token.
      *
-     * @param  ExternalToken  $token
      * @param  array  $parameters
-     * @return ExternalProfile
      *
      * @throws Exception
      */
@@ -56,11 +51,7 @@ class StoreExternalProfileClaimedAction
     /**
      * Get the first record or create the profile for a userId and site.
      *
-     * @param  int  $userId
-     * @param  ExternalProfileSite  $site
-     * @param  BaseExternalEntryClaimedAction  $action
      * @param  array  $parameters
-     * @return ExternalProfile
      */
     protected function firstForUserIdOrCreate(int $userId, ExternalProfileSite $site, BaseExternalEntryClaimedAction $action, array $parameters): ExternalProfile
     {
@@ -107,10 +98,6 @@ class StoreExternalProfileClaimedAction
 
     /**
      * Get the mapping for the entries token class.
-     *
-     * @param  ExternalProfileSite  $site
-     * @param  ExternalToken  $token
-     * @return BaseExternalEntryClaimedAction
      *
      * @throws RuntimeException
      */

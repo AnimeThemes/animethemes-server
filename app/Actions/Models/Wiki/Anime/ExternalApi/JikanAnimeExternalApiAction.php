@@ -13,15 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-/**
- * Class JikanAnimeExternalApiAction.
- */
 class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     public function getSite(): ResourceSite
     {
@@ -32,7 +27,6 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
      * Set the response after the request.
      *
      * @param  BelongsToMany<ExternalResource, Anime>  $resources
-     * @return static
      */
     public function handle(BelongsToMany $resources): static
     {

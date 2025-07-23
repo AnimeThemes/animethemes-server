@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
-/**
- * Class StoreExternalProfileUnclaimedAction.
- */
 class StoreExternalProfileUnclaimedAction
 {
     /**
      * Get the first record or store an external profile and its entries given determined username.
      *
-     * @param  Builder  $builder
      * @param  array  $profileParameters
-     * @return ExternalProfile
      *
      * @throws Exception
      */
@@ -84,9 +79,7 @@ class StoreExternalProfileUnclaimedAction
     /**
      * Get the mapping for the entries class.
      *
-     * @param  ExternalProfileSite  $site
      * @param  ExternalProfile|array  $profile
-     * @return BaseExternalEntryUnclaimedAction
      *
      * @throws RuntimeException
      */

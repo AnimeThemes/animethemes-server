@@ -35,7 +35,6 @@ class DestroyAction
      * Force delete model that doesn't apply soft deletes.
      *
      * @param  TModel&Nameable  $model
-     * @return string
      */
     public function forceDelete(Model&Nameable $model): string
     {

@@ -11,17 +11,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class FixPlaylistAction.
- */
 class FixPlaylistAction
 {
     /**
      * Handle the action.
-     *
-     * @param  Playlist  $playlist,
-     * @param  mixed  $context
-     * @return int
      */
     public function handle(Playlist $playlist, mixed $context = null): int
     {
@@ -114,11 +107,6 @@ class FixPlaylistAction
 
     /**
      * Send the message given the context.
-     *
-     * @param  string  $message
-     * @param  mixed  $context
-     * @param  string  $type
-     * @return void
      */
     protected function sendMessage(string $message, mixed $context, string $type): void
     {

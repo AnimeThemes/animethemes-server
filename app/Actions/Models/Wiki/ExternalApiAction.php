@@ -11,9 +11,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
-/**
- * Class ExternalApiAction.
- */
 abstract class ExternalApiAction
 {
     /**
@@ -25,8 +22,6 @@ abstract class ExternalApiAction
 
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     abstract public function getSite(): ResourceSite;
 
@@ -34,7 +29,6 @@ abstract class ExternalApiAction
      * Set the response after the request.
      *
      * @param  BelongsToMany  $resources
-     * @return static
      */
     abstract public function handle(BelongsToMany $resources): static;
 

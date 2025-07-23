@@ -19,8 +19,6 @@ class MalStudioExternalApiAction extends ExternalApiAction implements BackfillIm
 {
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     public function getSite(): ResourceSite
     {
@@ -31,7 +29,6 @@ class MalStudioExternalApiAction extends ExternalApiAction implements BackfillIm
      * Set the response after the request.
      *
      * @param  BelongsToMany<ExternalResource, Studio>  $resources
-     * @return static
      */
     public function handle(BelongsToMany $resources): static
     {

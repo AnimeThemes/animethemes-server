@@ -19,18 +19,12 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class SyncExternalProfileAction.
- */
 class SyncExternalProfileAction
 {
     protected Collection $resources;
 
     /**
      * Sync the profile.
-     *
-     * @param  ExternalProfile  $profile
-     * @return ExternalProfile
      *
      * @throws Exception
      */
@@ -95,9 +89,6 @@ class SyncExternalProfileAction
 
     /**
      * Get the mapping for the entries token class.
-     *
-     * @param  ExternalProfile  $profile
-     * @return BaseExternalEntryClaimedAction
      */
     protected function getClaimedActionClass(ExternalProfile $profile): BaseExternalEntryClaimedAction
     {
@@ -106,9 +97,6 @@ class SyncExternalProfileAction
 
     /**
      * Get the mapping for the entries class.
-     *
-     * @param  ExternalProfile  $profile
-     * @return BaseExternalEntryUnclaimedAction
      */
     protected function getUnclaimedActionClass(ExternalProfile $profile): BaseExternalEntryUnclaimedAction
     {
@@ -117,9 +105,6 @@ class SyncExternalProfileAction
 
     /**
      * Cache the resources for performance proposals.
-     *
-     * @param  ExternalProfileSite  $profileSite
-     * @return void
      */
     protected function cacheResources(ExternalProfileSite $profileSite): void
     {
@@ -137,7 +122,6 @@ class SyncExternalProfileAction
     /**
      * Get the animes by the external id.
      *
-     * @param  int  $externalId
      * @return Collection<int, int>
      */
     protected function getAnimesByExternalId(int $externalId): Collection

@@ -27,22 +27,15 @@ use Spatie\DbDumper\Databases\Sqlite;
 use Spatie\DbDumper\DbDumper;
 use Spatie\DbDumper\Exceptions\CannotSetParameter;
 
-/**
- * Class DumpAction.
- */
 abstract class DumpAction
 {
     /**
-     * Create a new action instance.
-     *
      * @param  array<string, mixed>  $options
      */
     public function __construct(protected readonly array $options = []) {}
 
     /**
      * Handle action.
-     *
-     * @return ActionResult
      *
      * @throws Exception
      */
@@ -92,9 +85,6 @@ abstract class DumpAction
     /**
      * Get the dumper for the database connection.
      *
-     * @param  Connection  $connection
-     * @return DbDumper|null
-     *
      * @throws CannotSetParameter
      */
     protected function getDumper(Connection $connection): ?DbDumper
@@ -117,9 +107,6 @@ abstract class DumpAction
     /**
      * Configure Sqlite database dumper.
      *
-     * @param  Connection  $connection
-     * @return Sqlite
-     *
      * @throws RuntimeException
      * @throws CannotSetParameter
      */
@@ -139,9 +126,6 @@ abstract class DumpAction
 
     /**
      * Configure MySQL database dumper.
-     *
-     * @param  Connection  $connection
-     * @return MySql
      *
      * @throws CannotSetParameter
      */
@@ -226,9 +210,6 @@ abstract class DumpAction
     /**
      * Configure PostgreSql database dumper.
      *
-     * @param  Connection  $connection
-     * @return PostgreSql
-     *
      * @throws CannotSetParameter
      */
     protected function preparePostgreSqlDumper(Connection $connection): PostgreSql
@@ -264,9 +245,6 @@ abstract class DumpAction
 
     /**
      * Determine if the string option is set.
-     *
-     * @param  string  $key
-     * @return bool
      */
     protected function hasOption(string $key): bool
     {
@@ -275,9 +253,6 @@ abstract class DumpAction
 
     /**
      * Get the option by key.
-     *
-     * @param  string  $key
-     * @return mixed
      */
     protected function option(string $key): mixed
     {
@@ -288,8 +263,6 @@ abstract class DumpAction
      * The temporary path for the database dump.
      * Note: The dumper library does not support writing to disk, so we have to write to the local filesystem first.
      * Pattern: "animethemes-db-dump-{concern}-{milliseconds from epoch}.sql".
-     *
-     * @return string
      */
     abstract protected function getDumpFile(): string;
 

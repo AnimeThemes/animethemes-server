@@ -33,8 +33,6 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
 
     /**
      * Callback for create and delete set operation item comparison.
-     *
-     * @return Closure
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
@@ -53,8 +51,6 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
 
     /**
      * Callback for update set operation item comparison.
-     *
-     * @return Closure
      */
     protected function diffCallbackForUpdate(): Closure
     {
@@ -65,8 +61,6 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
      * Get source model that has been updated for destination model.
      *
      * @param  Collection  $sourceModels
-     * @param  Model  $destinationModel
-     * @return Model|null
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
@@ -79,7 +73,6 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
      * @param  Collection  $created
      * @param  Collection  $deleted
      * @param  Collection  $updated
-     * @return ReconcileResults
      */
     protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
     {

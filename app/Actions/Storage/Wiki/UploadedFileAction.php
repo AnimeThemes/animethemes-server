@@ -9,9 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
 
-/**
- * Class UploadedFileAction.
- */
 class UploadedFileAction
 {
     /**
@@ -28,11 +25,6 @@ class UploadedFileAction
      */
     public array $loudnessStats = [];
 
-    /**
-     * Create a new action instance.
-     *
-     * @param  UploadedFile  $file
-     */
     public function __construct(protected UploadedFile $file)
     {
         $this->setFFprobeData();
@@ -40,8 +32,6 @@ class UploadedFileAction
 
     /**
      * Set the FFprobe data for the uploaded file.
-     *
-     * @return void
      */
     protected function setFFprobeData(): void
     {
@@ -102,8 +92,6 @@ class UploadedFileAction
 
     /**
      * Get the resolution.
-     *
-     * @return int
      */
     public function resolution(): int
     {
@@ -147,9 +135,6 @@ class UploadedFileAction
 
     /**
      * Format FFprobe command.
-     *
-     * @param  UploadedFile  $file
-     * @return string
      */
     public static function formatFfprobeCommand(UploadedFile $file): string
     {
@@ -170,9 +155,6 @@ class UploadedFileAction
 
     /**
      * Format loudness command.
-     *
-     * @param  UploadedFile  $file
-     * @return string
      */
     public static function formatLoudnessCommand(UploadedFile $file): string
     {

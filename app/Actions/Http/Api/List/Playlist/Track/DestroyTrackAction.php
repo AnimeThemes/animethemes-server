@@ -13,17 +13,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Class DestroyTrackAction.
- */
 class DestroyTrackAction
 {
     /**
      * Destroy playlist track.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @return string
      *
      * @throws Exception
      */

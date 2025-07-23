@@ -12,16 +12,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-/**
- * Class UploadAudioAction.
- */
 class UploadAudioAction extends UploadAction
 {
     /**
      * Processes to be completed after handling action.
-     *
-     * @param  StorageResults  $storageResults
-     * @return Audio|null
      */
     public function then(StorageResults $storageResults): ?Audio
     {
@@ -34,8 +28,6 @@ class UploadAudioAction extends UploadAction
 
     /**
      * Get existing or create new audio for file upload.
-     *
-     * @return Audio
      */
     protected function getOrCreateAudio(): Audio
     {
