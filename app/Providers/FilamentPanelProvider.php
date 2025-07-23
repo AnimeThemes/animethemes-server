@@ -33,15 +33,10 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 // use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
-/**
- * Class FilamentPanelProvider.
- */
 class FilamentPanelProvider extends PanelProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
