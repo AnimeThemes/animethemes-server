@@ -27,10 +27,6 @@ class DumpRepository extends EloquentRepository
 
     /**
      * Filter repository models.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return void
      */
     public function handleFilter(string $filter, mixed $value = null): void
     {

@@ -25,9 +25,6 @@ abstract class EloquentRepository implements RepositoryInterface
      */
     protected Builder $query;
 
-    /**
-     * Create new repository instance.
-     */
     public function __construct()
     {
         $this->query = $this->builder();
@@ -46,9 +43,6 @@ abstract class EloquentRepository implements RepositoryInterface
 
     /**
      * Save model to the repository.
-     *
-     * @param  Model  $model
-     * @return bool
      */
     public function save(Model $model): bool
     {
@@ -57,9 +51,6 @@ abstract class EloquentRepository implements RepositoryInterface
 
     /**
      * Delete model from the repository.
-     *
-     * @param  Model  $model
-     * @return bool
      */
     public function delete(Model $model): bool
     {
@@ -69,9 +60,7 @@ abstract class EloquentRepository implements RepositoryInterface
     /**
      * Update model in the repository.
      *
-     * @param  Model  $model
      * @param  array  $attributes
-     * @return bool
      */
     public function update(Model $model, array $attributes): bool
     {

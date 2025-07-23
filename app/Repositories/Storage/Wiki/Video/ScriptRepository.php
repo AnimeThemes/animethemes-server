@@ -21,8 +21,6 @@ class ScriptRepository extends StorageRepository
 {
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {
