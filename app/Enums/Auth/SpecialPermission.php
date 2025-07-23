@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\Auth;
 
-/**
- * Enum SpecialPermission.
- */
 enum SpecialPermission: string
 {
     case BYPASS_API_RATE_LIMITER = 'bypass api rate limiter';

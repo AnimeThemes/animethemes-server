@@ -7,9 +7,6 @@ namespace App\Enums\Models\Wiki;
 use App\Concerns\Enums\LocalizesName;
 use App\Concerns\Filament\Enums\HasColorOrEmoji;
 
-/**
- * Enum AnimeSeason.
- */
 enum AnimeSeason: int
 {
     use HasColorOrEmoji;
@@ -22,8 +19,6 @@ enum AnimeSeason: int
 
     /**
      * Get the rgb color for the enum.
-     *
-     * @return string
      */
     public function getColor(): string
     {
@@ -37,8 +32,6 @@ enum AnimeSeason: int
 
     /**
      * Get the unicode emoji for the enum.
-     *
-     * @return string
      */
     public function getEmoji(): string
     {
@@ -52,8 +45,6 @@ enum AnimeSeason: int
 
     /**
      * Get the current season.
-     *
-     * @return AnimeSeason
      */
     public static function getCurrentSeason(): self
     {

@@ -7,9 +7,6 @@ namespace App\Enums\Models\Wiki;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum ImageFacet.
- */
 enum ImageFacet: int implements HasLabel
 {
     use LocalizesName;

@@ -8,9 +8,6 @@ use App\Concerns\Enums\LocalizesName;
 use App\GraphQL\Attributes\Hidden;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum ThemeType.
- */
 enum ThemeType: int implements HasLabel
 {
     use LocalizesName;

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\GraphQL;
 
-/**
- * Enum RelationType.
- */
 enum RelationType
 {
     case BELONGS_TO;

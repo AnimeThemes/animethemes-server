@@ -8,9 +8,6 @@ use App\Concerns\Enums\CoercesInstances;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum VideoSource.
- */
 enum VideoSource: int implements HasLabel
 {
     use CoercesInstances;
@@ -26,8 +23,6 @@ enum VideoSource: int implements HasLabel
     /**
      * Score sources to help prioritize videos.
      * Note: This should be refactored into attributes.
-     *
-     * @return int
      */
     public function getPriority(): int
     {

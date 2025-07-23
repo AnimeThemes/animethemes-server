@@ -6,9 +6,6 @@ namespace App\Enums\Http\Api\Filter;
 
 use App\Concerns\Enums\CoercesInstances;
 
-/**
- * Enum ComparisonOperator.
- */
 enum ComparisonOperator: string
 {
     use CoercesInstances;

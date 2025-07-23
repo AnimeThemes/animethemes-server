@@ -6,9 +6,6 @@ namespace App\Enums\Http\Api\Filter;
 
 use App\Concerns\Enums\CoercesInstances;
 
-/**
- * Enum BinaryLogicalOperator.
- */
 enum BinaryLogicalOperator: string
 {
     use CoercesInstances;

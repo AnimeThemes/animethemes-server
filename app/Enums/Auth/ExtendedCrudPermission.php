@@ -6,9 +6,6 @@ namespace App\Enums\Auth;
 
 use App\Concerns\Enums\FormatsPermission;
 
-/**
- * Enum ExtendedCrudPermission.
- */
 enum ExtendedCrudPermission: string
 {
     use FormatsPermission;
