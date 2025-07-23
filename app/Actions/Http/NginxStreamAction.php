@@ -7,7 +7,6 @@ namespace App\Actions\Http;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Uri;
 
 /**
  * Class NginxStreamAction.
@@ -25,18 +24,14 @@ abstract class NginxStreamAction extends StreamAction
         /** @var FilesystemAdapter $fs */
         $fs = Storage::disk($this->disk());
 
-        // Generate temporary link for the object
-        $temporaryURL = Uri::of($fs->temporaryUrl($this->streamable->path(), now()->addMinutes(5)));
+        $temporaryURL = $fs->temporaryUrl($this->streamable->path(), now()->addMinutes(5));
 
-        // Construct the new link for the redirect
-        $link = Uri::of()
-            ->withHost($temporaryURL->host())
-            ->withScheme($temporaryURL->scheme())
-            ->withPath($temporaryURL->path())
-            ->withQuery($temporaryURL->query()->toArray())
-            ->__toString();
+        // Get the url information
+        $url_scheme = parse_url($temporaryURL, PHP_URL_SCHEME);
+        $url_host = parse_url($temporaryURL, PHP_URL_HOST);
+        $url_path_query = parse_url($temporaryURL, PHP_URL_PATH).'?'.parse_url($temporaryURL, PHP_URL_QUERY);
 
-        $link = "{$this->nginxRedirect()}$link";
+        $link = "{$this->nginxRedirect()}$url_scheme/$url_host$url_path_query";
 
         $response = new Response();
 
