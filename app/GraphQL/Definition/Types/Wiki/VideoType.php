@@ -31,8 +31,8 @@ use App\GraphQL\Definition\Fields\Wiki\Video\VideoViewsCountField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasOneRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\Anime\Theme\AnimeThemeEntryEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
-use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\Models\Wiki\Video;
 
@@ -59,7 +59,7 @@ class VideoType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeThemeEntryType(), Video::RELATION_ANIMETHEMEENTRIES),
+            new BelongsToManyRelation(new AnimeThemeEntryEdgeType(), Video::RELATION_ANIMETHEMEENTRIES),
             new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
         ];
     }

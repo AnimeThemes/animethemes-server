@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistResource;
 
+use App\GraphQL\Attributes\UseField;
 use App\GraphQL\Definition\Fields\StringField;
+use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\ArtistResource;
 
 /**
  * Class ArtistResourceAsField.
  */
+#[UseField(PivotResolver::class)]
 class ArtistResourceAsField extends StringField
 {
     /**

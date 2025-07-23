@@ -1,34 +1,3 @@
-"Default edge to use in simple belongs to many relationships"
-type ArtistEdge {
-    node: Artist!
-    "The date that the resource was last modified"
-    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "The date that the resource was deleted"
-    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-}
-
-"Artist Member has extra pivots"
-type ArtistMemberEdge {
-    node: Artist!
-    "Used to distinguish member by alias"
-    alias: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "Used to distinguish member by character"
-    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "Used to extra annotation, like member role"
-    notes: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-}
-
-"Artist Image has an extra pivot that others image relationships don't"
-type ArtistImageEdge {
-    node: Image!
-    "Used to sort the artist images"
-    depth: Int @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "The date that the resource was last modified"
-    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "The date that the resource was deleted"
-    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-}
-
 enum ArtistColumnsOrderable {
     ID @enum(value: "artist_id")
     NAME

@@ -24,15 +24,15 @@ abstract class Relation implements Stringable
      * @param  Type  $type
      * @param  string  $relationName
      * @param  string  $field
+     * @param  class-string|null  $edgeType
      * @param  bool|null  $nullable
-     * @param  string|null  $edgeType
      */
     public function __construct(
         protected Type $type,
         protected string $relationName,
         protected ?string $field = null,
-        protected ?bool $nullable = true,
         protected ?string $edgeType = null,
+        protected ?bool $nullable = true,
     ) {}
 
     /**
@@ -45,7 +45,7 @@ abstract class Relation implements Stringable
         $directives = $this->resolveDirectives(
             $this->relation()->getDirective([
                 'relation' => $this->relationName,
-                'edgeType' => $this->edgeType,
+                'edgeType' => class_exists($this->edgeType ?? '') ? (new $this->edgeType)->getName() : null,
             ])
         );
 

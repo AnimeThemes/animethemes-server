@@ -21,6 +21,10 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYearField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\Anime\AnimeResourceEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\ImageEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\SeriesEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\StudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
@@ -51,10 +55,10 @@ class AnimeType extends EloquentType implements HasFields, HasRelations
         return [
             new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
             new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
-            new BelongsToManyRelation(new ImageType(), Anime::RELATION_IMAGES),
-            new BelongsToManyRelation(new ExternalResourceType(), Anime::RELATION_RESOURCES),
-            new BelongsToManyRelation(new SeriesType(), Anime::RELATION_SERIES),
-            new BelongsToManyRelation(new StudioType(), Anime::RELATION_STUDIOS),
+            new BelongsToManyRelation(new ImageEdgeType(), Anime::RELATION_IMAGES),
+            new BelongsToManyRelation(new AnimeResourceEdgeType(), Anime::RELATION_RESOURCES),
+            new BelongsToManyRelation(new SeriesEdgeType(), Anime::RELATION_SERIES),
+            new BelongsToManyRelation(new StudioEdgeType(), Anime::RELATION_STUDIOS),
         ];
     }
 

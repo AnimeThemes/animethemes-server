@@ -15,6 +15,7 @@ use App\GraphQL\Definition\Fields\Wiki\Series\SeriesNameField;
 use App\GraphQL\Definition\Fields\Wiki\Series\SeriesSlugField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\AnimeEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Series;
 
@@ -41,7 +42,7 @@ class SeriesType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeType(), Series::RELATION_ANIME),
+            new BelongsToManyRelation(new AnimeEdgeType(), Series::RELATION_ANIME),
         ];
     }
 

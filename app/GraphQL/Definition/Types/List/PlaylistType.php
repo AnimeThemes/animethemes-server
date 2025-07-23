@@ -22,9 +22,9 @@ use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
+use App\GraphQL\Definition\Types\Edges\Wiki\ImageEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
-use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\Models\List\Playlist;
 
 /**
@@ -54,7 +54,7 @@ class PlaylistType extends EloquentType implements HasFields, HasRelations
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
             new BelongsToRelation(new UserType(), Playlist::RELATION_USER),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new BelongsToManyRelation(new ImageType(), Playlist::RELATION_IMAGES, edgeType: 'PlaylistImageEdge'),
+            new BelongsToManyRelation(new ImageEdgeType(), Playlist::RELATION_IMAGES),
         ];
     }
 

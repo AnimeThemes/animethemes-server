@@ -18,14 +18,18 @@ class PivotResolver
     /**
      * Resolve the pivot field.
      *
-     * @param  array  $root
+     * @param  array|Model  $root
      * @param  array  $args
      * @param  GraphQLContext  $context
      * @param  ResolveInfo  $resolveInfo
      * @return mixed
      */
-    public function resolve(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
+    public function __invoke(array|Model $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
+        if ($root instanceof Model) {
+            return $root->getAttribute(Str::snake($resolveInfo->fieldName));
+        }
+
         /** @var Model $model */
         $model = Arr::get($root, 'node');
 

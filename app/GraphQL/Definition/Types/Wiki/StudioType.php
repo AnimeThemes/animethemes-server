@@ -15,6 +15,9 @@ use App\GraphQL\Definition\Fields\Wiki\Studio\StudioNameField;
 use App\GraphQL\Definition\Fields\Wiki\Studio\StudioSlugField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Wiki\AnimeEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\ImageEdgeType;
+use App\GraphQL\Definition\Types\Edges\Wiki\Studio\StudioResourceEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Studio;
 
@@ -41,9 +44,9 @@ class StudioType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeType(), Studio::RELATION_ANIME),
-            new BelongsToManyRelation(new ImageType(), Studio::RELATION_IMAGES),
-            new BelongsToManyRelation(new ExternalResourceType(), Studio::RELATION_RESOURCES),
+            new BelongsToManyRelation(new AnimeEdgeType(), Studio::RELATION_ANIME),
+            new BelongsToManyRelation(new ImageEdgeType(), Studio::RELATION_IMAGES),
+            new BelongsToManyRelation(new StudioResourceEdgeType(), Studio::RELATION_RESOURCES),
         ];
     }
 

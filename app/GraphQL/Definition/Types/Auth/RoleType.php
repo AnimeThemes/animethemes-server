@@ -17,6 +17,7 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Definition\Types\Edges\Auth\PermissionEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Role;
 
@@ -43,7 +44,7 @@ class RoleType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new PermissionType(), Role::RELATION_PERMISSIONS, edgeType: 'RolePermissionEdge'),
+            new BelongsToManyRelation(new PermissionEdgeType(), Role::RELATION_PERMISSIONS),
         ];
     }
 

@@ -1,7 +1,0 @@
-type RolePermissionEdge {
-    node: Permission!
-    "The date that the resource was last modified"
-    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-    "The date that the resource was deleted"
-    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
-}
