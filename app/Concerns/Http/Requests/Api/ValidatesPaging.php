@@ -10,9 +10,6 @@ use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Parser\PagingParser;
 use Illuminate\Support\Str;
 
-/**
- * Trait ValidatesPaging.
- */
 trait ValidatesPaging
 {
     use ValidatesParameters;
@@ -47,8 +44,6 @@ trait ValidatesPaging
     /**
      * Validate minimum value for optional field.
      *
-     * @param  string  $param
-     * @param  int  $min
      * @return array<string, array>
      */
     protected function min(string $param, int $min = 1): array
@@ -59,9 +54,6 @@ trait ValidatesPaging
     /**
      * Validate minimum and maximum value for optional field.
      *
-     * @param  string  $param
-     * @param  int  $min
-     * @param  int  $max
      * @return array<string, array>
      */
     protected function range(string $param, int $min = 1, int $max = Criteria::MAX_RESULTS): array

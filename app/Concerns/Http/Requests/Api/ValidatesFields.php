@@ -10,9 +10,6 @@ use App\Http\Api\Parser\FieldParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Trait ValidatesFields.
- */
 trait ValidatesFields
 {
     use ValidatesParameters;
@@ -20,7 +17,6 @@ trait ValidatesFields
     /**
      * Restrict the allowed values for the schema fields.
      *
-     * @param  SchemaInterface  $schema
      * @return array<string, array>
      */
     protected function restrictAllowedFieldValues(SchemaInterface $schema): array

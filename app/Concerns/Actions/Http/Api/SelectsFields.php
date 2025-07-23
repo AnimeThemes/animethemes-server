@@ -10,18 +10,10 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class SelectsFields.
- */
 trait SelectsFields
 {
     /**
      * Selects fields for the query builder.
-     *
-     * @param  Builder  $builder
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return Builder
      */
     public function select(Builder $builder, Query $query, Schema $schema): Builder
     {

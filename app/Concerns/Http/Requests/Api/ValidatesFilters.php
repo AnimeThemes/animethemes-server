@@ -17,9 +17,6 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-/**
- * Trait ValidatesFilters.
- */
 trait ValidatesFilters
 {
     use ValidatesParameters;
@@ -27,7 +24,6 @@ trait ValidatesFilters
     /**
      * Get the list of formatted filters for the schema.
      *
-     * @param  SchemaInterface  $schema
      * @return string[]
      */
     protected function getSchemaFormattedFilters(SchemaInterface $schema): array
@@ -48,7 +44,6 @@ trait ValidatesFilters
     /**
      * Get the allowed list of filter keys with possible conditions.
      *
-     * @param  Filter  $filter
      * @param  array<int, BinaryLogicalOperator|UnaryLogicalOperator>  $logicalOperators
      * @return string[]
      */
@@ -75,8 +70,6 @@ trait ValidatesFilters
     /**
      * Get possible qualified parameter values for formatted filter.
      *
-     * @param  SchemaInterface  $schema
-     * @param  string  $formattedFilter
      * @return string[]
      */
     protected function getFormattedParameters(SchemaInterface $schema, string $formattedFilter): array
@@ -98,11 +91,6 @@ trait ValidatesFilters
 
     /**
      * Restrict filter based on allowed formats and provided values.
-     *
-     * @param  Validator  $validator
-     * @param  SchemaInterface  $schema
-     * @param  Filter  $filter
-     * @return void
      */
     protected function conditionallyRestrictFilter(Validator $validator, SchemaInterface $schema, Filter $filter): void
     {
@@ -130,11 +118,6 @@ trait ValidatesFilters
 
     /**
      * Restrict where in clause based on allowed formats and provided values.
-     *
-     * @param  Validator  $validator
-     * @param  SchemaInterface  $schema
-     * @param  Filter  $filter
-     * @return void
      */
     protected function validateMultiValueFilterForWhereClause(Validator $validator, SchemaInterface $schema, Filter $filter): void
     {
@@ -159,11 +142,6 @@ trait ValidatesFilters
 
     /**
      * Prohibit multi value filter in having clause which is not supported in the SQL standard.
-     *
-     * @param  Validator  $validator
-     * @param  SchemaInterface  $schema
-     * @param  Filter  $filter
-     * @return void
      */
     protected function prohibitMultiValueFilterForHavingClause(Validator $validator, SchemaInterface $schema, Filter $filter): void
     {

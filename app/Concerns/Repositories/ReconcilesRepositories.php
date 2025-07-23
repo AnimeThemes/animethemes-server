@@ -10,16 +10,12 @@ use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Actions\ActionStatus;
 use Exception;
 
-/**
- * Trait ReconcilesRepositories.
- */
 trait ReconcilesRepositories
 {
     /**
      * Reconcile repositories.
      *
      * @param  array  $data
-     * @return ActionResult
      *
      * @throws Exception
      */
@@ -50,8 +46,6 @@ trait ReconcilesRepositories
 
     /**
      * Get the reconcile action.
-     *
-     * @return ReconcileRepositoriesAction
      */
     abstract protected function reconcileAction(): ReconcileRepositoriesAction;
 
@@ -59,7 +53,6 @@ trait ReconcilesRepositories
      * Get source repository.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     abstract protected function getSourceRepository(array $data = []): ?RepositoryInterface;
 
@@ -67,17 +60,13 @@ trait ReconcilesRepositories
      * Get destination repository.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     abstract protected function getDestinationRepository(array $data = []): ?RepositoryInterface;
 
     /**
      * Apply filters to repositories before reconciliation.
      *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
      * @param  array  $data
-     * @return void
      */
     protected function handleFilters(
         RepositoryInterface $sourceRepository,

@@ -16,20 +16,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-/**
- * Trait CanCreateImage.
- */
 trait CanCreateImage
 {
     use HasLabel;
 
     /**
      * Create Image from response.
-     *
-     * @param  string  $url
-     * @param  ImageFacet  $facet
-     * @param  (BaseModel&HasImages)|null  $model
-     * @return Image
      *
      * @throws RequestException
      */
@@ -60,11 +52,6 @@ trait CanCreateImage
 
     /**
      * Create the images.
-     *
-     * @param  mixed  $image
-     * @param  ImageFacet  $facet
-     * @param  (BaseModel&HasImages)|null  $model
-     * @return Image
      */
     public function createImageFromFile(mixed $image, ImageFacet $facet, (BaseModel&HasImages)|null $model = null): Image
     {
@@ -87,10 +74,6 @@ trait CanCreateImage
 
     /**
      * Path to storage image in filesystem.
-     *
-     * @param  ImageFacet  $facet
-     * @param  (BaseModel&HasImages)|null  $model
-     * @return string
      */
     protected function path(ImageFacet $facet, (BaseModel&HasImages)|null $model): string
     {
@@ -109,10 +92,6 @@ trait CanCreateImage
 
     /**
      * Try attach the image.
-     *
-     * @param  Image  $image
-     * @param  (BaseModel&HasImages)|null  $model
-     * @return void
      */
     protected function attachImage(Image $image, (BaseModel&HasImages)|null $model): void
     {

@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
-/**
- * Trait DetectsRedis.
- */
 trait DetectsRedis
 {
     /**
      * Determine if the application uses any Redis services.
-     *
-     * @return bool
      */
     protected function appUsesRedis(): bool
     {

@@ -11,19 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * Trait HasPivotActionLogs.
- */
 trait HasPivotActionLogs
 {
     /**
      * Create the pivot action log.
-     *
-     * @param  string  $actionName
-     * @param  BaseRelationManager  $livewire
-     * @param  Model  $record
-     * @param  Action|null  $action
-     * @return void
      */
     public function pivotActionLog(string $actionName, BaseRelationManager $livewire, Model $record, ?Action $action = null): void
     {
@@ -52,12 +43,6 @@ trait HasPivotActionLogs
 
     /**
      * Create the associate action log.
-     *
-     * @param  string  $actionName
-     * @param  BaseRelationManager  $livewire
-     * @param  Model  $record
-     * @param  Action  $action
-     * @return void
      */
     public function associateActionLog(string $actionName, BaseRelationManager $livewire, Model $record, Action $action): void
     {

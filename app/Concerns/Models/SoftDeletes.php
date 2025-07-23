@@ -25,8 +25,6 @@ trait SoftDeletes
 
     /**
      * Restore a soft-deleted model instance.
-     *
-     * @return bool|null
      */
     public function restore(): ?bool
     {

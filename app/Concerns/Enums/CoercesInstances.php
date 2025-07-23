@@ -7,9 +7,6 @@ namespace App\Concerns\Enums;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Trait CoercesInstances.
- */
 trait CoercesInstances
 {
     /**

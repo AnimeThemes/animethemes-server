@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Concerns\GraphQL;
 
-/**
- * Trait ResolvesDirectives.
- */
 trait ResolvesDirectives
 {
     /**
      * Convert the array of directives into a string format for GraphQL.
      *
      * @param  array<string, array<string, mixed>>  $directives
-     * @return string
      */
     public function resolveDirectives(array $directives): string
     {

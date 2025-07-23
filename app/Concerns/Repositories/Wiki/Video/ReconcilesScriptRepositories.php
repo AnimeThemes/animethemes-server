@@ -11,16 +11,12 @@ use App\Repositories\Eloquent\Wiki\Video\ScriptRepository as ScriptDestinationRe
 use App\Repositories\Storage\Wiki\Video\ScriptRepository as ScriptSourceRepository;
 use Illuminate\Support\Facades\App;
 
-/**
- * Trait ReconcilesScriptRepositories.
- */
 trait ReconcilesScriptRepositories
 {
     /**
      * Get source repository for action.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
@@ -31,7 +27,6 @@ trait ReconcilesScriptRepositories
      * Get destination repository for action.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
@@ -40,8 +35,6 @@ trait ReconcilesScriptRepositories
 
     /**
      * Get the reconcile action.
-     *
-     * @return ReconcileRepositoriesAction
      */
     protected function reconcileAction(): ReconcileRepositoriesAction
     {

@@ -7,9 +7,6 @@ namespace App\Concerns\Models;
 use App\Models\User\Report\ReportStep;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-/**
- * Trait Reportable.
- */
 trait Reportable
 {
     /**

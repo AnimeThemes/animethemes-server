@@ -6,9 +6,6 @@ namespace App\Concerns\Discord;
 
 use App\Discord\DiscordEmbedField;
 
-/**
- * Trait HasDiscordEmbedFields.
- */
 trait HasDiscordEmbedFields
 {
     /**
@@ -20,9 +17,6 @@ trait HasDiscordEmbedFields
 
     /**
      * Add discord embed field.
-     *
-     * @param  DiscordEmbedField  $embedField
-     * @return void
      */
     protected function addEmbedField(DiscordEmbedField $embedField): void
     {

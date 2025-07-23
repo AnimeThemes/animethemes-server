@@ -11,16 +11,10 @@ use App\Pivots\Wiki\StudioResource;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Trait CanCreateStudio.
- */
 trait CanCreateStudio
 {
     /**
      * Get or create Studio from name (case-insensitive).
-     *
-     * @param  string  $name
-     * @return Studio
      */
     public function getOrCreateStudio(string $name): Studio
     {
@@ -43,11 +37,6 @@ trait CanCreateStudio
 
     /**
      * Ensure Studio has Resource.
-     *
-     * @param  Studio  $studio
-     * @param  ResourceSite  $site
-     * @param  int  $id
-     * @return void
      */
     public function ensureStudioHasResource(Studio $studio, ResourceSite $site, int $id): void
     {

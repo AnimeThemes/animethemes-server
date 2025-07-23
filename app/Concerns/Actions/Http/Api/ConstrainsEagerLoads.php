@@ -10,9 +10,6 @@ use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use RuntimeException;
 
-/**
- * Trait ConstrainsEagerLoads.
- */
 trait ConstrainsEagerLoads
 {
     use AggregatesFields;
@@ -23,8 +20,6 @@ trait ConstrainsEagerLoads
     /**
      * Constrain eager loads by binding callbacks that filter on the relations.
      *
-     * @param  Query  $query
-     * @param  Schema  $schema
      * @return array
      */
     protected function constrainEagerLoads(Query $query, Schema $schema): array

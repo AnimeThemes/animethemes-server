@@ -12,20 +12,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Uri;
 
-/**
- * Trait CanCreateExternalResource.
- */
 trait CanCreateExternalResource
 {
     use HasLabel;
 
     /**
      * Get or Create Resource from response.
-     *
-     * @param  Uri  $uri
-     * @param  ResourceSite  $site
-     * @param  (BaseModel&HasResources)|null  $model
-     * @return ExternalResource
      */
     public function createResource(Uri $uri, ResourceSite $site, (BaseModel&HasResources)|null $model = null): ExternalResource
     {
@@ -70,10 +62,6 @@ trait CanCreateExternalResource
 
     /**
      * Try attach the resource.
-     *
-     * @param  ExternalResource  $resource
-     * @param  (BaseModel&HasResources)|null  $model
-     * @return void
      */
     protected function attachResource(ExternalResource $resource, (BaseModel&HasResources)|null $model): void
     {

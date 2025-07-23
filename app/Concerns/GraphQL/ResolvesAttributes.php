@@ -9,15 +9,10 @@ use App\GraphQL\Attributes\UseField;
 use Exception;
 use ReflectionClass;
 
-/**
- * Trait ResolvesAttributes.
- */
 trait ResolvesAttributes
 {
     /**
      * Resolve the builder directive as an attribute.
-     *
-     * @return string|null
      */
     protected function resolveBuilderAttribute(): ?string
     {
@@ -40,8 +35,6 @@ trait ResolvesAttributes
 
     /**
      * Resolve the field directive as an attribute.
-     *
-     * @return string|null
      */
     protected function resolveFieldAttribute(): ?string
     {

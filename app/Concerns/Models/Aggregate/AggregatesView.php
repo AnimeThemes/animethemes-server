@@ -7,9 +7,6 @@ namespace App\Concerns\Models\Aggregate;
 use App\Models\Aggregate\ViewAggregate;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-/**
- * Trait AggregatesView.
- */
 trait AggregatesView
 {
     final public const RELATION_VIEW_AGGREGATE = 'viewAggregate';

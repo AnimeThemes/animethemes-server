@@ -14,9 +14,6 @@ use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Support\Arr;
 
-/**
- * Trait ResolvesArguments.
- */
 trait ResolvesArguments
 {
     use ResolvesDirectives;
@@ -25,7 +22,6 @@ trait ResolvesArguments
      * Build the arguments array into string.
      *
      * @param  array  $arguments
-     * @return string
      */
     public function buildArguments(array $arguments): string
     {
@@ -99,7 +95,6 @@ trait ResolvesArguments
      * Resolve the bind argument.
      *
      * @param  array<int, Field>  $fields
-     * @param  bool  $shouldRequire
      * @return string[]
      */
     public function resolveBindArgument(array $fields, bool $shouldRequire = true): array

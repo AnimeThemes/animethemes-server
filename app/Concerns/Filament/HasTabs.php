@@ -6,9 +6,6 @@ namespace App\Concerns\Filament;
 
 use App\Filament\Tabs\BaseTab;
 
-/**
- * Trait HasTabs.
- */
 trait HasTabs
 {
     /**
