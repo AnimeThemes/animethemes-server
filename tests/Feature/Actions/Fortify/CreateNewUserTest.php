@@ -11,6 +11,7 @@ use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
@@ -52,7 +53,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker->password(20),
@@ -82,7 +83,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $name,
@@ -104,7 +105,7 @@ class CreateNewUserTest extends TestCase
     {
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -140,7 +141,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -170,7 +171,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -208,7 +209,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -236,7 +237,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -262,7 +263,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -294,7 +295,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker->word(),

@@ -19,10 +19,10 @@ class NodeField extends Field implements DisplayableField
     /**
      * Create a new field instance.
      *
-     * @param  class-string<EloquentType>  $type
+     * @param  class-string<EloquentType>  $nodeType
      */
     public function __construct(
-        protected string $type,
+        protected string $nodeType,
     ) {
         parent::__construct('node', nullable: false);
     }
@@ -34,9 +34,8 @@ class NodeField extends Field implements DisplayableField
      */
     public function type(): Type
     {
-        $type = Str::of(class_basename($this->type))
+        $type = Str::of(class_basename($this->nodeType))
             ->remove('Type')
-            ->remove('Edge')
             ->__toString();
 
         // Necessary to prevent memory leak at compile time.
