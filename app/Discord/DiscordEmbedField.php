@@ -11,9 +11,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JsonSerializable;
 
-/**
- * Class DiscordEmbedField.
- */
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
     final public const DEFAULT_FIELD_VALUE = '-';
@@ -23,18 +20,9 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
 
     /**
      * The formatted value of the field.
-     *
-     * @var string
      */
     protected readonly string $formattedValue;
 
-    /**
-     * Create a new field instance.
-     *
-     * @param  string  $name
-     * @param  mixed  $value
-     * @param  bool  $inline
-     */
     final public function __construct(
         protected readonly string $name,
         protected readonly mixed $value,
@@ -47,7 +35,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * Create a new DiscordEmbedField instance from an array.
      *
      * @param  array<string, mixed>  $array
-     * @return static
      */
     public static function from(array $array): static
     {
@@ -61,7 +48,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     /**
      * Get the instance as an array.
      *
-     * @param  bool  $formatted
      * @return array<string, mixed>
      */
     public function toArray(bool $formatted = true): array
@@ -85,9 +71,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
 
     /**
      * Format embed value to circumvent exceptions caused by empty or null values.
-     *
-     * @param  mixed  $value
-     * @return string
      */
     public static function formatEmbedFieldValue(mixed $value): string
     {

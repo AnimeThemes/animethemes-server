@@ -7,9 +7,6 @@ namespace App\Discord;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
-/**
- * Class DiscordEmbed.
- */
 class DiscordEmbed implements Arrayable
 {
     final public const ATTRIBUTE_TYPE = 'type';
@@ -32,7 +29,6 @@ class DiscordEmbed implements Arrayable
      * Create a new DiscordEmbed instance from an array.
      *
      * @param  array<string, mixed>  $array
-     * @return DiscordEmbed
      */
     public static function from(array $array): DiscordEmbed
     {
@@ -48,8 +44,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Get the type of the embed.
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -58,8 +52,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Get the title of the embed.
-     *
-     * @return string
      */
     public function getTitle(): string
     {
@@ -68,8 +60,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Get the description of the embed.
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -78,8 +68,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Get the color of the embed.
-     *
-     * @return int
      */
     public function getColor(): int
     {
@@ -118,9 +106,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Set the type of the embed.
-     *
-     * @param  string  $type
-     * @return static
      */
     public function setType(string $type): static
     {
@@ -131,9 +116,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Set the title of the embed.
-     *
-     * @param  string  $title
-     * @return static
      */
     public function setTitle(string $title): static
     {
@@ -144,9 +126,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Set the description of the embed.
-     *
-     * @param  string  $description
-     * @return static
      */
     public function setDescription(string $description): static
     {
@@ -157,9 +136,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Set the color of the embed.
-     *
-     * @param  int|string  $color
-     * @return static
      */
     public function setColor(int|string $color): static
     {
@@ -170,9 +146,6 @@ class DiscordEmbed implements Arrayable
 
     /**
      * Set the thumbnail of the embed.
-     *
-     * @param  array  $thumbnail
-     * @return static
      */
     public function setThumbnail(array $thumbnail): static
     {
@@ -185,7 +158,6 @@ class DiscordEmbed implements Arrayable
      * Set the image of the embed.
      *
      * @param  array  $image
-     * @return static
      */
     public function setImage(array $image): static
     {
@@ -198,7 +170,6 @@ class DiscordEmbed implements Arrayable
      * Set the fields of the embed.
      *
      * @param  DiscordEmbedField[]  $fields
-     * @return static
      */
     public function setFields(array $fields): static
     {
@@ -210,7 +181,7 @@ class DiscordEmbed implements Arrayable
     /**
      * Convert the embed to an array.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

@@ -7,9 +7,6 @@ namespace App\Discord;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
-/**
- * Class DiscordMessage.
- */
 class DiscordMessage implements Arrayable
 {
     final public const ATTRIBUTE_CHANNEL_ID = 'channelId';
@@ -29,7 +26,6 @@ class DiscordMessage implements Arrayable
      * Create a new DiscordMessage instance from an array.
      *
      * @param  array<string, mixed>  $array
-     * @return DiscordMessage
      */
     public static function from(array $array): DiscordMessage
     {
@@ -43,8 +39,6 @@ class DiscordMessage implements Arrayable
 
     /**
      * Get the channelId of the message.
-     *
-     * @return string
      */
     public function getChannelId(): string
     {
@@ -53,8 +47,6 @@ class DiscordMessage implements Arrayable
 
     /**
      * Get the id of the message.
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -63,8 +55,6 @@ class DiscordMessage implements Arrayable
 
     /**
      * Get the content of the message.
-     *
-     * @return string
      */
     public function getContent(): string
     {
@@ -74,7 +64,7 @@ class DiscordMessage implements Arrayable
     /**
      * Get the embeds of the message.
      *
-     * @return array<int, DiscordEmbed>
+     * @return DiscordEmbed[]
      */
     public function getEmbeds(): array
     {
@@ -84,7 +74,7 @@ class DiscordMessage implements Arrayable
     /**
      * Get the images of the message.
      *
-     * @return array<string>
+     * @return string[]
      */
     public function getImages(): array
     {
@@ -93,9 +83,6 @@ class DiscordMessage implements Arrayable
 
     /**
      * Set the content of the message.
-     *
-     * @param  string  $content
-     * @return static
      */
     public function setContent(string $content): static
     {
@@ -108,7 +95,6 @@ class DiscordMessage implements Arrayable
      * Set the embeds of the message.
      *
      * @param  DiscordEmbed[]  $embeds
-     * @return static
      */
     public function setEmbeds(array $embeds): static
     {
@@ -120,8 +106,7 @@ class DiscordMessage implements Arrayable
     /**
      * Set the images of the message.
      *
-     * @param  array<string>  $images
-     * @return static
+     * @param  string[]  $images
      */
     public function setImages(array $images): static
     {
@@ -132,9 +117,6 @@ class DiscordMessage implements Arrayable
 
     /**
      * Set the channelId of the message.
-     *
-     * @param  string  $channelId
-     * @return static
      */
     public function setChannelId(string $channelId): static
     {
@@ -145,9 +127,6 @@ class DiscordMessage implements Arrayable
 
     /**
      * Set the id of the message.
-     *
-     * @param  string  $id
-     * @return static
      */
     public function setId(string $id = '0'): static
     {
