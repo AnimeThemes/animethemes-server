@@ -15,8 +15,6 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
 {
     /**
      * Define the directive.
-     *
-     * @return string
      */
     public static function definition(): string
     {
@@ -27,8 +25,6 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
 
     /**
      * Wrap around the final field resolver.
-     *
-     * @param  FieldValue  $fieldValue
      */
     public function handleField(FieldValue $fieldValue): void
     {
@@ -39,8 +35,6 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
 
     /**
      * Handle a type AST as it is converted to an executable type.
-     *
-     * @param  TypeValue  $value
      */
     public function handleNode(TypeValue $value): void
     {

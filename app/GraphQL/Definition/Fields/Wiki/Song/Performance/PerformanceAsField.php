@@ -9,9 +9,6 @@ use App\Models\Wiki\Song\Performance;
 
 class PerformanceAsField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Performance::ATTRIBUTE_AS);
@@ -19,8 +16,6 @@ class PerformanceAsField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

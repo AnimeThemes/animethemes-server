@@ -19,8 +19,6 @@ class DumpsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -43,8 +41,6 @@ class DumpsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return DumpType
      */
     public function baseType(): DumpType
     {

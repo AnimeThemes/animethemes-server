@@ -14,9 +14,6 @@ use Illuminate\Validation\Rules\Enum;
 
 class PlaylistVisibilityField extends EnumField implements CreatableField, RequiredOnCreation, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::class, nullable: false);
@@ -24,8 +21,6 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Requi
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

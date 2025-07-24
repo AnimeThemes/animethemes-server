@@ -9,9 +9,6 @@ use App\Models\Wiki\Audio;
 
 class AudioBasenameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Audio::ATTRIBUTE_BASENAME, nullable: false);
@@ -19,8 +16,6 @@ class AudioBasenameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

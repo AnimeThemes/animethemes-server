@@ -20,8 +20,6 @@ class AnimeYearQuery extends BaseQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -60,8 +58,6 @@ class AnimeYearQuery extends BaseQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return AnimeYearType
      */
     public function baseType(): AnimeYearType
     {

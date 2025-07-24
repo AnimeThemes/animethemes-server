@@ -16,8 +16,6 @@ class AnimeSynonymsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -40,8 +38,6 @@ class AnimeSynonymsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return AnimeSynonymType
      */
     public function baseType(): AnimeSynonymType
     {

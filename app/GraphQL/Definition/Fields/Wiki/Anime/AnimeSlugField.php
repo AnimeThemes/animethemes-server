@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime;
 
 class AnimeSlugField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::ATTRIBUTE_SLUG, nullable: false);
@@ -19,8 +16,6 @@ class AnimeSlugField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

@@ -15,9 +15,6 @@ use Illuminate\Support\Str;
 
 class LikePlaylistField extends Field implements BindableField, CreatableField, DeletableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct('playlist');
@@ -25,8 +22,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -35,8 +30,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

@@ -12,9 +12,6 @@ use App\Models\BaseModel;
 #[UseField(PivotResolver::class)]
 class UpdatedAtField extends DateTimeTzField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(BaseModel::ATTRIBUTE_UPDATED_AT);
@@ -22,8 +19,6 @@ class UpdatedAtField extends DateTimeTzField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

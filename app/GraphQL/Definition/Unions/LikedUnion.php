@@ -12,8 +12,6 @@ class LikedUnion extends BaseUnion
 {
     /**
      * The name of the union type.
-     *
-     * @return string
      */
     public function name(): string
     {
@@ -22,8 +20,6 @@ class LikedUnion extends BaseUnion
 
     /**
      * The description of the union type.
-     *
-     * @return string
      */
     public function description(): string
     {

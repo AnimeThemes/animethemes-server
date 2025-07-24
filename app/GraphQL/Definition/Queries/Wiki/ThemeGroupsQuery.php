@@ -16,8 +16,6 @@ class ThemeGroupsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -40,8 +38,6 @@ class ThemeGroupsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return ThemeGroupType
      */
     public function baseType(): ThemeGroupType
     {

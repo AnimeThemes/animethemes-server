@@ -9,9 +9,6 @@ use Attribute;
 #[Attribute(Attribute::TARGET_ALL)]
 class Hidden
 {
-    /**
-     * @param  bool  $hidden
-     */
     public function __construct(
         public bool $hidden = true,
     ) {}

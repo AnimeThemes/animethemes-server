@@ -18,7 +18,6 @@ class SyncExternalProfileController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return JsonResponse
      */
     public function store($_, array $args): JsonResponse
     {

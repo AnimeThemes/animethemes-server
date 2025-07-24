@@ -9,9 +9,6 @@ use App\Models\Wiki\Song\Membership;
 
 class MembershipAliasField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Membership::ATTRIBUTE_ALIAS);
@@ -19,8 +16,6 @@ class MembershipAliasField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

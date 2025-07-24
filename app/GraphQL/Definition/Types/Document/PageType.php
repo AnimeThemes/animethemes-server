@@ -20,8 +20,6 @@ class PageType extends EloquentType implements HasFields
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

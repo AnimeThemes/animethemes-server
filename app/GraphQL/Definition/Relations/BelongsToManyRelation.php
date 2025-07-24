@@ -10,11 +10,6 @@ use GraphQL\Type\Definition\Type;
 
 class BelongsToManyRelation extends Relation
 {
-    /**
-     * @param  BaseEdgeType  $edge
-     * @param  string  $relationName
-     * @param  string  $field
-     */
     public function __construct(
         protected BaseEdgeType $edge,
         protected string $relationName,
@@ -26,8 +21,6 @@ class BelongsToManyRelation extends Relation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -40,8 +33,6 @@ class BelongsToManyRelation extends Relation
 
     /**
      * The Relation type.
-     *
-     * @return RelationType
      */
     protected function relation(): RelationType
     {

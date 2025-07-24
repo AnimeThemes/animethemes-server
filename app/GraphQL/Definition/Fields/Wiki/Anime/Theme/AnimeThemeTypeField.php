@@ -10,9 +10,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 
 class AnimeThemeTypeField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class, nullable: false);
@@ -20,8 +17,6 @@ class AnimeThemeTypeField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

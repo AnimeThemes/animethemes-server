@@ -16,8 +16,6 @@ class StudiosQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -42,8 +40,6 @@ class StudiosQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return StudioType
      */
     public function baseType(): StudioType
     {

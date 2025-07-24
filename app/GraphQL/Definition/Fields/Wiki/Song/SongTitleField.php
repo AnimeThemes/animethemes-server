@@ -9,9 +9,6 @@ use App\Models\Wiki\Song;
 
 class SongTitleField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Song::ATTRIBUTE_TITLE);
@@ -19,8 +16,6 @@ class SongTitleField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

@@ -60,7 +60,6 @@ class EnumType extends BaseEnumType
 
     /**
      * @param  mixed  $value
-     * @return string
      */
     public function serialize($value): string
     {
@@ -69,7 +68,6 @@ class EnumType extends BaseEnumType
 
     /**
      * @param  class-string  $class
-     * @return string
      */
     protected function baseName(string $class): string
     {
@@ -80,7 +78,6 @@ class EnumType extends BaseEnumType
 
     /**
      * @param  ReflectionClassConstant|ReflectionClass<UnitEnum>  $reflection
-     * @return string|null
      *
      * @throws Exception
      */
@@ -104,7 +101,6 @@ class EnumType extends BaseEnumType
 
     /**
      * @param  ReflectionClassConstant  $reflection
-     * @return string|null
      *
      * @throws Exception
      */
@@ -125,9 +121,6 @@ class EnumType extends BaseEnumType
 
     /**
      * Determine whether the enum case should be hidden.
-     *
-     * @param  ReflectionClassConstant  $reflection
-     * @return bool
      *
      * @throws Exception
      */

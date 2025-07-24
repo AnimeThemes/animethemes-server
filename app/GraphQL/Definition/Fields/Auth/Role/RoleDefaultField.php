@@ -9,9 +9,6 @@ use App\Models\Auth\Role;
 
 class RoleDefaultField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Role::ATTRIBUTE_DEFAULT, nullable: false);
@@ -19,8 +16,6 @@ class RoleDefaultField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

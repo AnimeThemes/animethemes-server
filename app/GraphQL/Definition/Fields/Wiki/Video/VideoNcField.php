@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 
 class VideoNcField extends BooleanField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_NC, nullable: false);
@@ -19,8 +16,6 @@ class VideoNcField extends BooleanField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

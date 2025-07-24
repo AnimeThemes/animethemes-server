@@ -9,9 +9,6 @@ use App\Models\Wiki\Series;
 
 class SeriesNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Series::ATTRIBUTE_NAME, nullable: false);
@@ -19,8 +16,6 @@ class SeriesNameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

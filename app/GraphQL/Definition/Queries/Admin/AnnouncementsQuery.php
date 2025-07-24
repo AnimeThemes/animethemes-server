@@ -19,8 +19,6 @@ class AnnouncementsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -43,8 +41,6 @@ class AnnouncementsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return AnnouncementType
      */
     public function baseType(): AnnouncementType
     {

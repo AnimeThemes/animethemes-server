@@ -11,7 +11,6 @@ class UseField
 {
     /**
      * @param  class-string  $fieldClass
-     * @param  string  $method
      */
     public function __construct(
         public string $fieldClass,

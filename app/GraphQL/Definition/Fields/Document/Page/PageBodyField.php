@@ -9,9 +9,6 @@ use App\Models\Document\Page;
 
 class PageBodyField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Page::ATTRIBUTE_BODY, nullable: false);
@@ -19,8 +16,6 @@ class PageBodyField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

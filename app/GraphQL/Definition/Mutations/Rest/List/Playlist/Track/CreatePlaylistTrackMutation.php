@@ -13,9 +13,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 #[UseField(PlaylistTrackController::class, 'store')]
 class CreatePlaylistTrackMutation extends CreateMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::class);
@@ -23,8 +20,6 @@ class CreatePlaylistTrackMutation extends CreateMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -33,8 +28,6 @@ class CreatePlaylistTrackMutation extends CreateMutation
 
     /**
      * The base return type of the query.
-     *
-     * @return PlaylistTrackType
      */
     public function baseType(): PlaylistTrackType
     {

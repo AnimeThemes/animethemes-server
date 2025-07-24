@@ -46,8 +46,6 @@ class CountAggregateField extends Field implements DisplayableField
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -56,8 +54,6 @@ class CountAggregateField extends Field implements DisplayableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

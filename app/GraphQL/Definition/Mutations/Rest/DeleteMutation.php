@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 abstract class DeleteMutation extends BaseMutation
 {
     /**
-     * Create a new mutation instance.
-     *
      * @param  class-string<Model>  $model
      */
     public function __construct(protected string $model)
@@ -61,8 +59,6 @@ abstract class DeleteMutation extends BaseMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

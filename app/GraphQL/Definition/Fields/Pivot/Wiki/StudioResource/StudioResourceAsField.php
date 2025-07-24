@@ -9,9 +9,6 @@ use App\Pivots\Wiki\StudioResource;
 
 class StudioResourceAsField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(StudioResource::ATTRIBUTE_AS);
@@ -19,8 +16,6 @@ class StudioResourceAsField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

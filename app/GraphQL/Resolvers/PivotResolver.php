@@ -17,8 +17,6 @@ class PivotResolver
      *
      * @param  array|Model  $root
      * @param  array  $args
-     * @param  GraphQLContext  $context
-     * @param  ResolveInfo  $resolveInfo
      */
     public function __invoke(array|Model $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

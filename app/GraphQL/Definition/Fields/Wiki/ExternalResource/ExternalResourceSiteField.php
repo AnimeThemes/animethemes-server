@@ -10,9 +10,6 @@ use App\Models\Wiki\ExternalResource;
 
 class ExternalResourceSiteField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalResource::ATTRIBUTE_SITE, ResourceSite::class, nullable: false);
@@ -20,8 +17,6 @@ class ExternalResourceSiteField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

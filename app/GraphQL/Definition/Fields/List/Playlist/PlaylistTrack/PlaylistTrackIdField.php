@@ -10,9 +10,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 
 class PlaylistTrackIdField extends StringField implements BindableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::ATTRIBUTE_HASHID, 'id', false);
@@ -20,8 +17,6 @@ class PlaylistTrackIdField extends StringField implements BindableField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

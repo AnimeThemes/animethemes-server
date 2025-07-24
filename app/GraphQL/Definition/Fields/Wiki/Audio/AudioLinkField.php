@@ -9,9 +9,6 @@ use App\Models\Wiki\Audio;
 
 class AudioLinkField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Audio::ATTRIBUTE_LINK, nullable: false);
@@ -19,8 +16,6 @@ class AudioLinkField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

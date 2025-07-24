@@ -9,9 +9,6 @@ use App\Models\Wiki\Audio;
 
 class AudioFilenameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Audio::ATTRIBUTE_FILENAME, nullable: false);
@@ -19,8 +16,6 @@ class AudioFilenameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

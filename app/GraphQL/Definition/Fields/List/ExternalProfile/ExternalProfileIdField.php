@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExternalProfileIdField extends IdField implements BindableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalProfile::ATTRIBUTE_ID);

@@ -12,9 +12,6 @@ use App\Pivots\Wiki\ArtistMember;
 #[UseField(PivotResolver::class)]
 class ArtistMemberNotesField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ArtistMember::ATTRIBUTE_NOTES);
@@ -22,8 +19,6 @@ class ArtistMemberNotesField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

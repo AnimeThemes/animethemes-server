@@ -9,9 +9,6 @@ use App\Models\Wiki\Song\Performance;
 
 class PerformanceAliasField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Performance::ATTRIBUTE_ALIAS);
@@ -19,8 +16,6 @@ class PerformanceAliasField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

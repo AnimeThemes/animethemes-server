@@ -16,8 +16,6 @@ class VideoScriptsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -40,8 +38,6 @@ class VideoScriptsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return VideoScriptType
      */
     public function baseType(): VideoScriptType
     {

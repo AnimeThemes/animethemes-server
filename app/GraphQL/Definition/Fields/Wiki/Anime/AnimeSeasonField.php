@@ -10,9 +10,6 @@ use App\Models\Wiki\Anime;
 
 class AnimeSeasonField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::ATTRIBUTE_SEASON, AnimeSeason::class);
@@ -20,8 +17,6 @@ class AnimeSeasonField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

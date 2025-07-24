@@ -16,8 +16,6 @@ class PagesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -40,8 +38,6 @@ class PagesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return PageType
      */
     public function baseType(): PageType
     {

@@ -9,9 +9,6 @@ use App\Models\Admin\Dump;
 
 class DumpPathField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Dump::ATTRIBUTE_PATH, nullable: false);
@@ -19,8 +16,6 @@ class DumpPathField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -29,8 +24,6 @@ class DumpPathField extends StringField
 
     /**
      * Determine if the field is nullable.
-     *
-     * @return bool
      */
     protected function nullable(): bool
     {

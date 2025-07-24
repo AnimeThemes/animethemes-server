@@ -9,9 +9,6 @@ use App\Models\Wiki\Video\VideoScript;
 
 class VideoScriptPathField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(VideoScript::ATTRIBUTE_PATH, nullable: false);
@@ -19,8 +16,6 @@ class VideoScriptPathField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

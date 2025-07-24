@@ -22,8 +22,6 @@ class ArtistMemberType extends PivotType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

@@ -9,9 +9,6 @@ use App\Models\User\Notification;
 
 class NotificationReadAtField extends DateTimeTzField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Notification::ATTRIBUTE_READ_AT);
@@ -19,8 +16,6 @@ class NotificationReadAtField extends DateTimeTzField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

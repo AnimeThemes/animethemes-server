@@ -12,9 +12,6 @@ use App\Pivots\Wiki\ArtistResource;
 #[UseField(PivotResolver::class)]
 class ArtistResourceAsField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ArtistResource::ATTRIBUTE_AS);
@@ -22,8 +19,6 @@ class ArtistResourceAsField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

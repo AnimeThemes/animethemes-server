@@ -20,8 +20,6 @@ class IdField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

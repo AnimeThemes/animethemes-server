@@ -9,9 +9,6 @@ use App\Models\Wiki\Artist;
 
 class ArtistInformationField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Artist::ATTRIBUTE_INFORMATION);
@@ -19,8 +16,6 @@ class ArtistInformationField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

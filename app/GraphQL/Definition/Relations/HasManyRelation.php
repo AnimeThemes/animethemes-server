@@ -11,8 +11,6 @@ class HasManyRelation extends Relation
 {
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -25,8 +23,6 @@ class HasManyRelation extends Relation
 
     /**
      * The Relation type.
-     *
-     * @return RelationType
      */
     protected function relation(): RelationType
     {

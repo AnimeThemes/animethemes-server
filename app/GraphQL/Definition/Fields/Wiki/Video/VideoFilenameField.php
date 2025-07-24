@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 
 class VideoFilenameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_FILENAME, nullable: false);
@@ -19,8 +16,6 @@ class VideoFilenameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

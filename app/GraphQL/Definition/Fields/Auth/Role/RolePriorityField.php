@@ -9,9 +9,6 @@ use App\Models\Auth\Role;
 
 class RolePriorityField extends IntField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Role::ATTRIBUTE_PRIORITY, nullable: false);
@@ -19,8 +16,6 @@ class RolePriorityField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

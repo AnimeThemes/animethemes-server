@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 
 class VideoLikesCountField extends CountAggregateField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::RELATION_LIKE_AGGREGATE, 'likesCount');
@@ -19,8 +16,6 @@ class VideoLikesCountField extends CountAggregateField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

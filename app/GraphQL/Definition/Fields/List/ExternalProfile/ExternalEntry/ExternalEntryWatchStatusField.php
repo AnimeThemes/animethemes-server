@@ -10,9 +10,6 @@ use App\Models\List\External\ExternalEntry;
 
 class ExternalEntryWatchStatusField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalEntry::ATTRIBUTE_WATCH_STATUS, ExternalEntryWatchStatus::class, nullable: false);
@@ -20,8 +17,6 @@ class ExternalEntryWatchStatusField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

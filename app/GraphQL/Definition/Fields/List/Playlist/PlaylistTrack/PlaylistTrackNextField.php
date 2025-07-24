@@ -17,9 +17,6 @@ use Illuminate\Validation\Rule;
 
 class PlaylistTrackNextField extends Field implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::RELATION_NEXT, nullable: true);
@@ -27,8 +24,6 @@ class PlaylistTrackNextField extends Field implements CreatableField, UpdatableF
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -37,8 +32,6 @@ class PlaylistTrackNextField extends Field implements CreatableField, UpdatableF
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

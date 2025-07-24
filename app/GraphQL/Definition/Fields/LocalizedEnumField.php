@@ -10,11 +10,6 @@ use Illuminate\Support\Arr;
 
 class LocalizedEnumField extends Field implements DisplayableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  EnumField  $field
-     */
     public function __construct(
         protected EnumField $field,
     ) {
@@ -23,8 +18,6 @@ class LocalizedEnumField extends Field implements DisplayableField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -33,8 +26,6 @@ class LocalizedEnumField extends Field implements DisplayableField
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -67,8 +58,6 @@ class LocalizedEnumField extends Field implements DisplayableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

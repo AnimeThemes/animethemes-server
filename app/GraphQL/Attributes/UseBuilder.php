@@ -11,7 +11,6 @@ class UseBuilder
 {
     /**
      * @param  class-string  $builderClass
-     * @param  string  $method
      */
     public function __construct(
         public string $builderClass,

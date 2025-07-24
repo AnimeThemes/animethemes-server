@@ -16,8 +16,6 @@ use Illuminate\Support\Arr;
 abstract class CreateMutation extends BaseMutation
 {
     /**
-     * Create a new mutation instance.
-     *
      * @param  class-string<Model>  $model
      */
     public function __construct(protected string $model)
@@ -86,8 +84,6 @@ abstract class CreateMutation extends BaseMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

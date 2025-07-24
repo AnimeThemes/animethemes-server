@@ -64,8 +64,6 @@ abstract class EloquentQuery extends BaseQuery
 
     /**
      * Determine if the return model is trashable.
-     *
-     * @return bool
      */
     protected function isTrashable(): bool
     {

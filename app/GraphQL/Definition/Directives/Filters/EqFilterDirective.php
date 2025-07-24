@@ -10,8 +10,6 @@ class EqFilterDirective extends FilterDirective
 {
     /**
      * Create the argument for the directive.
-     *
-     * @return string
      */
     public function __toString(): string
     {

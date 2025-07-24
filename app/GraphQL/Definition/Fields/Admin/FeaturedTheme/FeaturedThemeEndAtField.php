@@ -9,9 +9,6 @@ use App\Models\Admin\FeaturedTheme;
 
 class FeaturedThemeEndAtField extends DateTimeTzField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(FeaturedTheme::ATTRIBUTE_END_AT, 'endAt', nullable: false);
@@ -19,8 +16,6 @@ class FeaturedThemeEndAtField extends DateTimeTzField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

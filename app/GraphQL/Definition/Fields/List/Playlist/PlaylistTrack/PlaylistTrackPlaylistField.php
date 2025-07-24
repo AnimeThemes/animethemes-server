@@ -16,9 +16,6 @@ use GraphQL\Type\Definition\Type;
 
 class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::RELATION_PLAYLIST, nullable: false);
@@ -26,8 +23,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -36,8 +31,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

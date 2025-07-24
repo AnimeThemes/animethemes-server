@@ -17,9 +17,6 @@ use GraphQL\Type\Definition\Type;
 #[UseField(LikeController::class, 'store')]
 class LikeMutation extends BaseMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct('like');
@@ -27,8 +24,6 @@ class LikeMutation extends BaseMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -81,8 +76,6 @@ class LikeMutation extends BaseMutation
 
     /**
      * The base return type of the mutation.
-     *
-     * @return Type
      */
     public function baseType(): Type
     {
@@ -91,8 +84,6 @@ class LikeMutation extends BaseMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

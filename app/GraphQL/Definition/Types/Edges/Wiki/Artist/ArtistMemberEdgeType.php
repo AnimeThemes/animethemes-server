@@ -14,8 +14,6 @@ class ArtistMemberEdgeType extends BaseEdgeType
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

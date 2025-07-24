@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 class AnimeThemeEntryEpisodesField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_EPISODES);
@@ -19,8 +16,6 @@ class AnimeThemeEntryEpisodesField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

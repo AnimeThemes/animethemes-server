@@ -38,8 +38,6 @@ class MeQuery extends BaseQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -48,8 +46,6 @@ class MeQuery extends BaseQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return MeType
      */
     public function baseType(): MeType
     {

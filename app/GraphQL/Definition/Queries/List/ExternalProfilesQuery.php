@@ -20,8 +20,6 @@ class ExternalProfilesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -62,8 +60,6 @@ class ExternalProfilesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return ExternalProfileType
      */
     public function baseType(): ExternalProfileType
     {

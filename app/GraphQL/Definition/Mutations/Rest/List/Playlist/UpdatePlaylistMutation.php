@@ -13,9 +13,6 @@ use App\Models\List\Playlist;
 #[UseField(PlaylistController::class, 'update')]
 class UpdatePlaylistMutation extends UpdateMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::class);
@@ -23,8 +20,6 @@ class UpdatePlaylistMutation extends UpdateMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -33,8 +28,6 @@ class UpdatePlaylistMutation extends UpdateMutation
 
     /**
      * The base return type of the query.
-     *
-     * @return PlaylistType
      */
     public function baseType(): PlaylistType
     {

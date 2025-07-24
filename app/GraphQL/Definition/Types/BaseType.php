@@ -46,8 +46,6 @@ abstract class BaseType extends ObjectType
     /**
      * Mount the type definition string.
      *
-     * @return string
-     *
      * @throws RuntimeException
      */
     public function toGraphQLString(): string
@@ -92,8 +90,6 @@ abstract class BaseType extends ObjectType
 
     /**
      * The name displayed of type.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -104,8 +100,6 @@ abstract class BaseType extends ObjectType
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     abstract public function getDescription(): string;
 }

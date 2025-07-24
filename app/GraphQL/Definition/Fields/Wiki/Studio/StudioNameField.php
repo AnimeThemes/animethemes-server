@@ -9,9 +9,6 @@ use App\Models\Wiki\Studio;
 
 class StudioNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Studio::ATTRIBUTE_NAME, nullable: false);
@@ -19,8 +16,6 @@ class StudioNameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

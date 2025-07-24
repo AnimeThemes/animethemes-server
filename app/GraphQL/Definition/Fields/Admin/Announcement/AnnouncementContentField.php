@@ -9,9 +9,6 @@ use App\Models\Admin\Announcement;
 
 class AnnouncementContentField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Announcement::ATTRIBUTE_CONTENT, nullable: false);
@@ -19,8 +16,6 @@ class AnnouncementContentField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

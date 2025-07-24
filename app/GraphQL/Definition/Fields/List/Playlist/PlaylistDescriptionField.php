@@ -12,9 +12,6 @@ use App\Rules\ModerationRule;
 
 class PlaylistDescriptionField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::ATTRIBUTE_DESCRIPTION);
@@ -22,8 +19,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

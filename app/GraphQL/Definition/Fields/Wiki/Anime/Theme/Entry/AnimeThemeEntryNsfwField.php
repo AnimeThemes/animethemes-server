@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 class AnimeThemeEntryNsfwField extends BooleanField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_NSFW, nullable: false);
@@ -19,8 +16,6 @@ class AnimeThemeEntryNsfwField extends BooleanField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

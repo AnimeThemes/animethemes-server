@@ -26,7 +26,6 @@ class PlaylistController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return Playlist
      */
     public function store($_, array $args): Playlist
     {
@@ -47,7 +46,6 @@ class PlaylistController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return Playlist
      */
     public function update($_, array $args): Playlist
     {
@@ -66,7 +64,6 @@ class PlaylistController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return JsonResponse
      */
     public function destroy($_, array $args): JsonResponse
     {

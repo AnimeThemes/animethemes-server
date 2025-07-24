@@ -19,8 +19,6 @@ class CurrentFeaturedThemeQuery extends BaseQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -53,8 +51,6 @@ class CurrentFeaturedThemeQuery extends BaseQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return FeaturedThemeType
      */
     public function baseType(): FeaturedThemeType
     {

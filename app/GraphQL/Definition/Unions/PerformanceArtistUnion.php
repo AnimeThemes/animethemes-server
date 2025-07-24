@@ -12,8 +12,6 @@ class PerformanceArtistUnion extends BaseUnion
 {
     /**
      * The description of the union type.
-     *
-     * @return string
      */
     public function description(): string
     {

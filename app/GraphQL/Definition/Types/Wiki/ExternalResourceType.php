@@ -28,8 +28,6 @@ class ExternalResourceType extends EloquentType implements HasFields, HasRelatio
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

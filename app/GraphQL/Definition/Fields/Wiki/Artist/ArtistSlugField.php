@@ -9,9 +9,6 @@ use App\Models\Wiki\Artist;
 
 class ArtistSlugField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Artist::ATTRIBUTE_SLUG, nullable: false);
@@ -19,8 +16,6 @@ class ArtistSlugField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

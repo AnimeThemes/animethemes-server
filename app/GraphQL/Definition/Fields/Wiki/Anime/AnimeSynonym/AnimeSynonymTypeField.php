@@ -10,9 +10,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 
 class AnimeSynonymTypeField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::class);
@@ -20,8 +17,6 @@ class AnimeSynonymTypeField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

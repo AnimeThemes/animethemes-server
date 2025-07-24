@@ -31,8 +31,6 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

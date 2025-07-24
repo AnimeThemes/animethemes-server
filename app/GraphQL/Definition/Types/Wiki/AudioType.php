@@ -27,8 +27,6 @@ class AudioType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

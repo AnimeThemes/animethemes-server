@@ -14,8 +14,6 @@ class EnumFieldDirective extends BaseDirective implements FieldMiddleware
 {
     /**
      * Define the directive.
-     *
-     * @return string
      */
     public static function definition(): string
     {
@@ -29,8 +27,6 @@ class EnumFieldDirective extends BaseDirective implements FieldMiddleware
 
     /**
      * Wrap around the final field resolver.
-     *
-     * @param  FieldValue  $fieldValue
      */
     public function handleField(FieldValue $fieldValue): void
     {

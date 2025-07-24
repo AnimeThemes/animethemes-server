@@ -13,9 +13,7 @@ class UserPolicy extends BasePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User|null  $user
      * @param  array|null  $injected
-     * @return bool
      */
     public function viewAny(?User $user, ?array $injected = null): bool
     {
@@ -25,10 +23,7 @@ class UserPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  array|null  $injected
-     * @param  string|null  $keyName
-     * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */

@@ -17,9 +17,6 @@ use Illuminate\Validation\Rule;
 
 class PlaylistTrackEntryIdField extends Field implements CreatableField, RequiredOnCreation, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::ATTRIBUTE_ENTRY, nullable: false);
@@ -27,8 +24,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -37,8 +32,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

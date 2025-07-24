@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\DateTimeTzField;
 
 class DeletedAtField extends DateTimeTzField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ModelConstants::ATTRIBUTE_DELETED_AT);
@@ -19,8 +16,6 @@ class DeletedAtField extends DateTimeTzField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

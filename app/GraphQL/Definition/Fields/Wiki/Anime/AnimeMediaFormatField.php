@@ -10,9 +10,6 @@ use App\Models\Wiki\Anime;
 
 class AnimeMediaFormatField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
@@ -20,8 +17,6 @@ class AnimeMediaFormatField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

@@ -22,8 +22,7 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  User  $userModel
+     *Model.
      */
     public function view(?User $user, Model $userModel): bool
     {

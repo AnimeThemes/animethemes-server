@@ -9,9 +9,6 @@ use App\Models\List\Playlist;
 
 class PlaylistTracksExistsField extends ExistsField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::RELATION_TRACKS, 'tracksExists');
@@ -19,8 +16,6 @@ class PlaylistTracksExistsField extends ExistsField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

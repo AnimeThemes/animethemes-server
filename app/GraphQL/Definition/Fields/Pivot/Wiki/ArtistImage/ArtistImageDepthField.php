@@ -12,9 +12,6 @@ use App\Pivots\Wiki\ArtistImage;
 #[UseField(PivotResolver::class)]
 class ArtistImageDepthField extends IntField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ArtistImage::ATTRIBUTE_DEPTH);
@@ -22,8 +19,6 @@ class ArtistImageDepthField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

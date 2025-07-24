@@ -20,8 +20,6 @@ class AnimeThemeEntryVideoType extends BaseType implements HasFields, HasRelatio
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

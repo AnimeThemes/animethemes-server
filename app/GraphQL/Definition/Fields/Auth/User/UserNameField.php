@@ -9,9 +9,6 @@ use App\Models\Auth\User;
 
 class UserNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(User::ATTRIBUTE_NAME, nullable: false);
@@ -19,8 +16,6 @@ class UserNameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

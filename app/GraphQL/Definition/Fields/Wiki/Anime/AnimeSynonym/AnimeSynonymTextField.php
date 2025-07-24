@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 
 class AnimeSynonymTextField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeSynonym::ATTRIBUTE_TEXT, nullable: false);
@@ -19,8 +16,6 @@ class AnimeSynonymTextField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

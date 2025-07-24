@@ -9,9 +9,6 @@ use App\Models\List\External\ExternalEntry;
 
 class ExternalEntryScoreField extends FloatField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalEntry::ATTRIBUTE_SCORE);
@@ -19,8 +16,6 @@ class ExternalEntryScoreField extends FloatField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

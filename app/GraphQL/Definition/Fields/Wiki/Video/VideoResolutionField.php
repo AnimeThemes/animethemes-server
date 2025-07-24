@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 
 class VideoResolutionField extends IntField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_RESOLUTION);
@@ -19,8 +16,6 @@ class VideoResolutionField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

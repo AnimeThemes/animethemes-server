@@ -13,10 +13,6 @@ abstract class FilterDirective implements Stringable
 {
     use ResolvesDirectives;
 
-    /**
-     * @param  Field  $field
-     * @param  Type  $type
-     */
     public function __construct(
         protected Field $field,
         protected Type $type,

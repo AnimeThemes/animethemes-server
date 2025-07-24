@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime;
 
 class AnimeSynopsisField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::ATTRIBUTE_SYNOPSIS);
@@ -19,8 +16,6 @@ class AnimeSynopsisField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

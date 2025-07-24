@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 
 class VideoSizeField extends IntField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_SIZE);
@@ -19,8 +16,6 @@ class VideoSizeField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

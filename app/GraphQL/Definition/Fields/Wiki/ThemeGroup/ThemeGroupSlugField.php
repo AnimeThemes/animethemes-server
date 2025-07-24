@@ -9,9 +9,6 @@ use App\Models\Wiki\Group;
 
 class ThemeGroupSlugField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Group::ATTRIBUTE_SLUG, nullable: false);
@@ -19,8 +16,6 @@ class ThemeGroupSlugField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

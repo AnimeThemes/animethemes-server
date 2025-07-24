@@ -18,10 +18,7 @@ class CountAggregateResolver
     /**
      * Resolve count field with aggregates.
      *
-     * @param  Model  $aggregatable
      * @param  array  $args
-     * @param  GraphQLContext  $context
-     * @param  ResolveInfo  $resolveInfo
      */
     public function __invoke(Model $aggregatable, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
