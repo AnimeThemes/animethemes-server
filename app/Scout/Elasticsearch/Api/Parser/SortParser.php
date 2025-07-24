@@ -11,16 +11,10 @@ use App\Scout\Elasticsearch\Api\Criteria\Sort\Criteria;
 use App\Scout\Elasticsearch\Api\Criteria\Sort\FieldCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
 
-/**
- * Class SortParser.
- */
 class SortParser
 {
     /**
      * Parse Elasticsearch sort criteria from core sort criteria.
-     *
-     * @param  BaseCriteria  $criteria
-     * @return Criteria|null
      */
     public static function parse(BaseCriteria $criteria): ?Criteria
     {

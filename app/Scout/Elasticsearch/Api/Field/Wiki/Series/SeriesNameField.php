@@ -8,16 +8,8 @@ use App\Models\Wiki\Series;
 use App\Scout\Elasticsearch\Api\Field\StringField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class SeriesNameField.
- */
 class SeriesNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Series::ATTRIBUTE_NAME);

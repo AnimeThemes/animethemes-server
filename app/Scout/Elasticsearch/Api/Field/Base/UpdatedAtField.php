@@ -8,16 +8,8 @@ use App\Models\BaseModel;
 use App\Scout\Elasticsearch\Api\Field\DateField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class UpdatedAtField.
- */
 class UpdatedAtField extends DateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, BaseModel::ATTRIBUTE_UPDATED_AT);

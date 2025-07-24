@@ -25,9 +25,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Class Elasticsearch.
- */
 class Elasticsearch extends Search
 {
     use AggregatesFields;
@@ -35,16 +32,9 @@ class Elasticsearch extends Search
 
     /**
      * Is the ES instance reachable?
-     *
-     * @var bool
      */
     protected bool $alive;
 
-    /**
-     * Create a new search instance.
-     *
-     * @param  ClientBuilderInterface  $builder
-     */
     public function __construct(ClientBuilderInterface $builder)
     {
         try {
@@ -57,8 +47,6 @@ class Elasticsearch extends Search
 
     /**
      * Is the ES instance reachable?
-     *
-     * @return bool
      */
     public function isAlive(): bool
     {
@@ -67,9 +55,6 @@ class Elasticsearch extends Search
 
     /**
      * Should the search be performed?
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldSearch(Query $query): bool
     {
@@ -79,9 +64,6 @@ class Elasticsearch extends Search
     /**
      * Perform the search.
      *
-     * @param  Query  $query
-     * @param  EloquentSchema  $schema
-     * @param  PaginationStrategy  $paginationStrategy
      * @return Collection|Paginator
      */
     public function search(
@@ -150,9 +132,6 @@ class Elasticsearch extends Search
 
     /**
      * Resolve Elasticsearch schema from Eloquent schema.
-     *
-     * @param  EloquentSchema  $schema
-     * @return Schema
      */
     private function elasticSchema(EloquentSchema $schema): Schema
     {

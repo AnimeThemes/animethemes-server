@@ -7,16 +7,10 @@ namespace App\Scout\Elasticsearch\Api\Query;
 use App\Http\Api\Criteria\Search\Criteria;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 
-/**
- * Class ElasticQuery.
- */
 abstract class ElasticQuery
 {
     /**
      * Build Elasticsearch query.
-     *
-     * @param  Criteria  $criteria
-     * @return SearchParametersBuilder
      */
     abstract public function build(Criteria $criteria): SearchParametersBuilder;
 
@@ -27,8 +21,6 @@ abstract class ElasticQuery
      * - Matching at least one term (word) (x0.6)
      * - Matching fuzzy (x0.4)
      *
-     * @param  string  $field
-     * @param  string  $searchTerm
      * @return array
      */
     protected function createTextQuery(string $field, string $searchTerm): array
@@ -71,7 +63,6 @@ abstract class ElasticQuery
     /**
      * Helper function for raw queries. This will wrap queries in nested queries.
      *
-     * @param  string  $nestedResource
      * @param  array  $nestedQueries
      * @return array
      */
@@ -92,9 +83,6 @@ abstract class ElasticQuery
      * Shorthand function for calling `$this->createNestedQuery()` with the output from
      * `$this->createTextQuery()`.
      *
-     * @param  string  $nestedResource
-     * @param  string  $field
-     * @param  string  $searchTerm
      * @return array
      */
     protected function createNestedTextQuery(string $nestedResource, string $field, string $searchTerm): array

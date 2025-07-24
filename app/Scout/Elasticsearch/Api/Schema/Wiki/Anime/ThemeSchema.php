@@ -14,7 +14,6 @@ use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeTypeField;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\ThemeQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -24,9 +23,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ThemeSchema.
- */
 class ThemeSchema extends Schema
 {
     final public const SORT_SEASON = 'anime.season';
@@ -39,18 +35,14 @@ class ThemeSchema extends Schema
 
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
-    public function query(): ElasticQuery
+    public function query(): ThemeQuery
     {
         return new ThemeQuery();
     }
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {
@@ -111,10 +103,8 @@ class ThemeSchema extends Schema
 
     /**
      * Get the model of the schema.
-     *
-     * @return Model
      */
-    public function model(): Model
+    public function model(): AnimeTheme
     {
         return new AnimeTheme();
     }

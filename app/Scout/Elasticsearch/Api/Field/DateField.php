@@ -10,15 +10,10 @@ use App\Http\Api\Filter\DateFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Sort\Sort;
 
-/**
- * Class DateField.
- */
 abstract class DateField extends Field implements FilterableField, SortableField
 {
     /**
      * Get the filter that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -27,8 +22,6 @@ abstract class DateField extends Field implements FilterableField, SortableField
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {

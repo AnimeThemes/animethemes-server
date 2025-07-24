@@ -9,16 +9,8 @@ use App\Models\Wiki\Video;
 use App\Scout\Elasticsearch\Api\Field\EnumField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class VideoSourceField.
- */
 class VideoSourceField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Video::ATTRIBUTE_SOURCE, VideoSource::class);

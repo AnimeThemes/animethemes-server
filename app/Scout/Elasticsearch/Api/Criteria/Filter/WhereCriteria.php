@@ -15,16 +15,8 @@ use Elastic\ScoutDriverPlus\Support\Query as ElasticQuery;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class WhereCriteria.
- */
 class WhereCriteria extends Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  BaseCriteria  $criteria
-     */
     public function __construct(BaseCriteria $criteria)
     {
         parent::__construct($criteria);
@@ -32,11 +24,6 @@ class WhereCriteria extends Criteria
 
     /**
      * Apply criteria to builder.
-     *
-     * @param  BoolQueryBuilder  $builder
-     * @param  Filter  $filter
-     * @param  Query  $query
-     * @return BoolQueryBuilder
      */
     public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder
     {
@@ -59,9 +46,6 @@ class WhereCriteria extends Criteria
 
     /**
      * Build clause for Elasticsearch filter based on comparison operator.
-     *
-     * @param  Filter  $filter
-     * @return QueryBuilderInterface
      */
     protected function getElasticsearchClause(Filter $filter): QueryBuilderInterface
     {
@@ -88,9 +72,6 @@ class WhereCriteria extends Criteria
 
     /**
      * Coerce filter value for elasticsearch range and term queries.
-     *
-     * @param  Filter  $filter
-     * @return string
      */
     protected function coerceFilterValue(Filter $filter): string
     {

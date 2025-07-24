@@ -12,16 +12,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
-/**
- * Class OffsetCriteria.
- */
 class OffsetCriteria extends Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  BaseCriteria  $criteria
-     */
     public function __construct(BaseCriteria $criteria)
     {
         parent::__construct($criteria);
@@ -30,7 +22,6 @@ class OffsetCriteria extends Criteria
     /**
      * Paginate the search query.
      *
-     * @param  SearchParametersBuilder  $builder
      * @return Collection|Paginator
      */
     public function paginate(SearchParametersBuilder $builder): Collection|Paginator

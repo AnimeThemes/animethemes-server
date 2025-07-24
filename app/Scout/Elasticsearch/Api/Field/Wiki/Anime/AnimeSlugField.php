@@ -8,16 +8,8 @@ use App\Models\Wiki\Anime;
 use App\Scout\Elasticsearch\Api\Field\StringField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class AnimeSlugField.
- */
 class AnimeSlugField extends StringField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Anime::ATTRIBUTE_SLUG);

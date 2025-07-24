@@ -10,16 +10,10 @@ use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
-/**
- * Class PlaylistQuery.
- */
 class PlaylistQuery extends ElasticQuery
 {
     /**
      * Build Elasticsearch query.
-     *
-     * @param  Criteria  $criteria
-     * @return SearchParametersBuilder
      */
     public function build(Criteria $criteria): SearchParametersBuilder
     {

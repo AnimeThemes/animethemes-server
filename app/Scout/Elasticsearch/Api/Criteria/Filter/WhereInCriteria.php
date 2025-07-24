@@ -11,18 +11,10 @@ use App\Http\Api\Query\Query;
 use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
 use Elastic\ScoutDriverPlus\Support\Query as ElasticQuery;
 
-/**
- * Class WhereInCriteria.
- */
 class WhereInCriteria extends Criteria
 {
     protected readonly bool $not;
 
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  BaseCriteria  $criteria
-     */
     public function __construct(BaseCriteria $criteria)
     {
         parent::__construct($criteria);
@@ -31,11 +23,6 @@ class WhereInCriteria extends Criteria
 
     /**
      * Apply criteria to builder.
-     *
-     * @param  BoolQueryBuilder  $builder
-     * @param  Filter  $filter
-     * @param  Query  $query
-     * @return BoolQueryBuilder
      */
     public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder
     {
