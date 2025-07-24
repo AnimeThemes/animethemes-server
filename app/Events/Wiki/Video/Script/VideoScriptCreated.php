@@ -14,11 +14,6 @@ use App\Models\Wiki\Video\VideoScript;
  */
 class VideoScriptCreated extends WikiCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  VideoScript  $script
-     */
     public function __construct(VideoScript $script)
     {
         parent::__construct($script);
@@ -26,8 +21,6 @@ class VideoScriptCreated extends WikiCreatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return VideoScript
      */
     public function getModel(): VideoScript
     {
@@ -36,8 +29,6 @@ class VideoScriptCreated extends WikiCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

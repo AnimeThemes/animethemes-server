@@ -14,11 +14,6 @@ use App\Models\Wiki\Video;
  */
 class VideoUpdated extends WikiUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Video  $video
-     */
     public function __construct(Video $video)
     {
         parent::__construct($video);
@@ -27,8 +22,6 @@ class VideoUpdated extends WikiUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Video
      */
     public function getModel(): Video
     {
@@ -37,8 +30,6 @@ class VideoUpdated extends WikiUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

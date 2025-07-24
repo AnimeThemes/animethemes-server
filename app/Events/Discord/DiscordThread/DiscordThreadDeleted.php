@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Http;
  */
 class DiscordThreadDeleted extends AdminDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  DiscordThread  $thread
-     */
     public function __construct(DiscordThread $thread)
     {
         parent::__construct($thread);
@@ -29,8 +24,6 @@ class DiscordThreadDeleted extends AdminDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return DiscordThread
      */
     public function getModel(): DiscordThread
     {
@@ -39,8 +32,6 @@ class DiscordThreadDeleted extends AdminDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

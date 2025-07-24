@@ -14,11 +14,6 @@ use App\Models\Wiki\Audio;
  */
 class AudioUpdated extends WikiUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Audio  $audio
-     */
     public function __construct(Audio $audio)
     {
         parent::__construct($audio);
@@ -27,8 +22,6 @@ class AudioUpdated extends WikiUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Audio
      */
     public function getModel(): Audio
     {
@@ -37,8 +30,6 @@ class AudioUpdated extends WikiUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

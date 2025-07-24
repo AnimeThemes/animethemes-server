@@ -53,8 +53,6 @@ abstract class BaseCreatedEvent extends BaseEvent implements DiscordMessageEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     abstract protected function getDiscordMessageDescription(): string;
 }

@@ -16,11 +16,6 @@ use App\Pivots\Wiki\AnimeImage;
  */
 class AnimeImageCreated extends PivotCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeImage  $animeImage
-     */
     public function __construct(AnimeImage $animeImage)
     {
         parent::__construct($animeImage->anime, $animeImage->image);
@@ -28,8 +23,6 @@ class AnimeImageCreated extends PivotCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

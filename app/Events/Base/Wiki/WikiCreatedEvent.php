@@ -19,8 +19,6 @@ abstract class WikiCreatedEvent extends BaseCreatedEvent
 {
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {

@@ -16,11 +16,6 @@ use App\Models\Wiki\Video;
  */
 class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Video  $video
-     */
     public function __construct(Video $video)
     {
         parent::__construct($video);
@@ -28,8 +23,6 @@ class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Video
      */
     public function getModel(): Video
     {
@@ -37,7 +30,7 @@ class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent
     }
 
     /**
-     * Remove the image from the bucket.
+     * Remove the video from the buckets.
      */
     public function removeFromStorage(): void
     {

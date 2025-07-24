@@ -22,8 +22,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
 {
     /**
      * The user that fired this event.
-     *
-     * @var User|null
      */
     protected ?User $authenticatedUser;
 
@@ -60,8 +58,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
 
     /**
      * Get the user that fired this event.
-     *
-     * @return User|null
      */
     protected function getAuthenticatedUser(): ?User
     {
@@ -71,7 +67,7 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     /**
      * Get the user info for the footer.
      *
-     * @return array<string, array<string, mixed>>
+     * @return array<string, array<string, string>>
      */
     protected function getUserFooter(): array
     {
@@ -109,8 +105,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     abstract protected function getDiscordMessageDescription(): string;
 }

@@ -14,11 +14,6 @@ use App\Models\Wiki\Series;
  */
 class SeriesUpdated extends WikiUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Series  $series
-     */
     public function __construct(Series $series)
     {
         parent::__construct($series);
@@ -27,8 +22,6 @@ class SeriesUpdated extends WikiUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Series
      */
     public function getModel(): Series
     {
@@ -37,8 +30,6 @@ class SeriesUpdated extends WikiUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

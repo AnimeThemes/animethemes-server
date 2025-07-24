@@ -21,11 +21,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Performance  $performance
-     */
     public function __construct(Performance $performance)
     {
         parent::__construct($performance);
@@ -33,8 +28,6 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Performance
      */
     public function getModel(): Performance
     {
@@ -43,8 +36,6 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

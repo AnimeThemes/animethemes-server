@@ -16,11 +16,6 @@ use App\Models\Wiki\Song\Membership;
  */
 class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Membership  $membership
-     */
     public function __construct(Membership $membership)
     {
         parent::__construct($membership);
@@ -28,8 +23,6 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Membership
      */
     public function getModel(): Membership
     {
@@ -38,8 +31,6 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -48,8 +39,6 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -58,8 +47,6 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {

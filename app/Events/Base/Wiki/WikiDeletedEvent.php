@@ -28,8 +28,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
 {
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {
@@ -38,15 +36,11 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     abstract protected function getNotificationMessage(): string;
 
     /**
      * Determine if the notifications should be sent.
-     *
-     * @return bool
      */
     public function shouldSendFilamentNotification(): bool
     {
@@ -61,8 +55,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
 
     /**
      * Get the filament notification.
-     *
-     * @return Notification
      */
     public function getFilamentNotification(): Notification
     {
@@ -92,8 +84,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
 
     /**
      * Get the URL for the filament notification.
-     *
-     * @return string
      */
     abstract protected function getFilamentNotificationUrl(): string;
 }

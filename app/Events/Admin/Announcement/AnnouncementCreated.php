@@ -14,11 +14,6 @@ use App\Models\Admin\Announcement;
  */
 class AnnouncementCreated extends AdminCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Announcement  $announcement
-     */
     public function __construct(Announcement $announcement)
     {
         parent::__construct($announcement);
@@ -26,8 +21,6 @@ class AnnouncementCreated extends AdminCreatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Announcement
      */
     public function getModel(): Announcement
     {
@@ -36,8 +29,6 @@ class AnnouncementCreated extends AdminCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

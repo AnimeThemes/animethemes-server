@@ -14,11 +14,6 @@ class ExternalProfileSynced implements NotifiesUsersEvent
 {
     use Dispatchable;
 
-    /**
-     * Create new event instance.
-     *
-     * @param  ExternalProfile  $profile
-     */
     public function __construct(protected ExternalProfile $profile) {}
 
     /**

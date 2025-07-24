@@ -18,11 +18,6 @@ use Illuminate\Support\Facades\Config;
  */
 class PlaylistImageCreated extends PivotCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  PlaylistImage  $playlistImage
-     */
     public function __construct(PlaylistImage $playlistImage)
     {
         parent::__construct($playlistImage->playlist, $playlistImage->image);
@@ -30,8 +25,6 @@ class PlaylistImageCreated extends PivotCreatedEvent
 
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -42,8 +35,6 @@ class PlaylistImageCreated extends PivotCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

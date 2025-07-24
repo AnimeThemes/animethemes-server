@@ -15,11 +15,6 @@ use App\Pivots\Wiki\ArtistMember;
  */
 class ArtistMemberDeleted extends PivotDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ArtistMember  $artistMember
-     */
     public function __construct(ArtistMember $artistMember)
     {
         parent::__construct($artistMember->artist, $artistMember->member);
@@ -27,8 +22,6 @@ class ArtistMemberDeleted extends PivotDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

@@ -14,11 +14,6 @@ use App\Models\Wiki\Image;
  */
 class ImageUpdated extends WikiUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Image  $image
-     */
     public function __construct(Image $image)
     {
         parent::__construct($image);
@@ -27,8 +22,6 @@ class ImageUpdated extends WikiUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Image
      */
     public function getModel(): Image
     {
@@ -37,8 +30,6 @@ class ImageUpdated extends WikiUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

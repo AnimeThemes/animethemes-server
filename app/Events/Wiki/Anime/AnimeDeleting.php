@@ -19,11 +19,6 @@ use Illuminate\Support\Facades\Event;
  */
 class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Anime  $anime
-     */
     public function __construct(Anime $anime)
     {
         parent::__construct($anime);
@@ -31,8 +26,6 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Anime
      */
     public function getModel(): Anime
     {

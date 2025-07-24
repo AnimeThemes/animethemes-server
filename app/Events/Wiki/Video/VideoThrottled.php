@@ -18,18 +18,10 @@ class VideoThrottled implements DiscordMessageEvent
     use Dispatchable;
     use SerializesModels;
 
-    /**
-     * Create new event instance.
-     *
-     * @param  Video  $video
-     * @param  string  $user
-     */
     public function __construct(protected Video $video, protected string $user) {}
 
     /**
      * Get Discord message payload.
-     *
-     * @return DiscordMessage
      */
     public function getDiscordMessage(): DiscordMessage
     {
@@ -41,8 +33,6 @@ class VideoThrottled implements DiscordMessageEvent
 
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {
@@ -51,8 +41,6 @@ class VideoThrottled implements DiscordMessageEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {

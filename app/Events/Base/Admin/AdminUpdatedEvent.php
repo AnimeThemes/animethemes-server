@@ -19,8 +19,6 @@ abstract class AdminUpdatedEvent extends BaseUpdatedEvent
 {
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {
@@ -29,8 +27,6 @@ abstract class AdminUpdatedEvent extends BaseUpdatedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

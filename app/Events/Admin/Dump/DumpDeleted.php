@@ -14,11 +14,6 @@ use App\Models\Admin\Dump;
  */
 class DumpDeleted extends AdminDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Dump  $dump
-     */
     public function __construct(Dump $dump)
     {
         parent::__construct($dump);
@@ -26,8 +21,6 @@ class DumpDeleted extends AdminDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Dump
      */
     public function getModel(): Dump
     {
@@ -36,8 +29,6 @@ class DumpDeleted extends AdminDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

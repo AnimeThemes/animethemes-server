@@ -15,11 +15,6 @@ use App\Models\Wiki\ExternalResource;
  */
 class ExternalResourceDeleted extends WikiDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ExternalResource  $resource
-     */
     public function __construct(ExternalResource $resource)
     {
         parent::__construct($resource);
@@ -27,8 +22,6 @@ class ExternalResourceDeleted extends WikiDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return ExternalResource
      */
     public function getModel(): ExternalResource
     {
@@ -37,8 +30,6 @@ class ExternalResourceDeleted extends WikiDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -47,8 +38,6 @@ class ExternalResourceDeleted extends WikiDeletedEvent
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -57,8 +46,6 @@ class ExternalResourceDeleted extends WikiDeletedEvent
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {

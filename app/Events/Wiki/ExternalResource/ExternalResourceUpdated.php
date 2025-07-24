@@ -14,11 +14,6 @@ use App\Models\Wiki\ExternalResource;
  */
 class ExternalResourceUpdated extends WikiUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ExternalResource  $resource
-     */
     public function __construct(ExternalResource $resource)
     {
         parent::__construct($resource);
@@ -27,8 +22,6 @@ class ExternalResourceUpdated extends WikiUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return ExternalResource
      */
     public function getModel(): ExternalResource
     {
@@ -37,8 +30,6 @@ class ExternalResourceUpdated extends WikiUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

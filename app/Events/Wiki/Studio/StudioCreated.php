@@ -14,11 +14,6 @@ use App\Models\Wiki\Studio;
  */
 class StudioCreated extends WikiCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Studio  $studio
-     */
     public function __construct(Studio $studio)
     {
         parent::__construct($studio);
@@ -26,8 +21,6 @@ class StudioCreated extends WikiCreatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Studio
      */
     public function getModel(): Studio
     {
@@ -36,8 +29,6 @@ class StudioCreated extends WikiCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

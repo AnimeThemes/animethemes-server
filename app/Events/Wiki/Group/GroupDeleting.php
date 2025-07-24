@@ -18,11 +18,6 @@ use App\Models\Wiki\Video;
  */
 class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Group  $group
-     */
     public function __construct(Group $group)
     {
         parent::__construct($group);
@@ -30,8 +25,6 @@ class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Group
      */
     public function getModel(): Group
     {

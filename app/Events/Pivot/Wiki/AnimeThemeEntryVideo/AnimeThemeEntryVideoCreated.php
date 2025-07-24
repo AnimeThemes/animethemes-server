@@ -19,11 +19,6 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
  */
 class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeThemeEntryVideo  $entryVideo
-     */
     public function __construct(AnimeThemeEntryVideo $entryVideo)
     {
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
@@ -31,8 +26,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

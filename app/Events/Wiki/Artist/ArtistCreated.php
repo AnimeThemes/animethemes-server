@@ -14,11 +14,6 @@ use App\Models\Wiki\Artist;
  */
 class ArtistCreated extends WikiCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Artist  $artist
-     */
     public function __construct(Artist $artist)
     {
         parent::__construct($artist);
@@ -26,8 +21,6 @@ class ArtistCreated extends WikiCreatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Artist
      */
     public function getModel(): Artist
     {
@@ -36,8 +29,6 @@ class ArtistCreated extends WikiCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

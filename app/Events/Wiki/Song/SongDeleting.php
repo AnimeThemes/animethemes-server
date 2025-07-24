@@ -19,11 +19,6 @@ use App\Models\Wiki\Video;
  */
 class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Song  $song
-     */
     public function __construct(Song $song)
     {
         parent::__construct($song);
@@ -31,8 +26,6 @@ class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Song
      */
     public function getModel(): Song
     {

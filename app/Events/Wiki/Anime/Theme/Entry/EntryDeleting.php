@@ -16,11 +16,6 @@ use App\Models\Wiki\Video;
  */
 class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeThemeEntry  $entry
-     */
     public function __construct(AnimeThemeEntry $entry)
     {
         parent::__construct($entry);
@@ -28,8 +23,6 @@ class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return AnimeThemeEntry
      */
     public function getModel(): AnimeThemeEntry
     {

@@ -14,11 +14,6 @@ use App\Models\List\ExternalProfile;
  */
 class ExternalProfileDeleted extends ListDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ExternalProfile  $profile
-     */
     public function __construct(ExternalProfile $profile)
     {
         parent::__construct($profile);
@@ -26,8 +21,6 @@ class ExternalProfileDeleted extends ListDeletedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -38,8 +31,6 @@ class ExternalProfileDeleted extends ListDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return ExternalProfile
      */
     public function getModel(): ExternalProfile
     {
@@ -48,8 +39,6 @@ class ExternalProfileDeleted extends ListDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

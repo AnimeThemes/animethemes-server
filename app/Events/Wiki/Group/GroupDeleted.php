@@ -19,11 +19,6 @@ use App\Models\Wiki\Video;
  */
 class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Group  $group
-     */
     public function __construct(Group $group)
     {
         parent::__construct($group);
@@ -31,8 +26,6 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Group
      */
     public function getModel(): Group
     {
@@ -41,8 +34,6 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -51,8 +42,6 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -61,8 +50,6 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {

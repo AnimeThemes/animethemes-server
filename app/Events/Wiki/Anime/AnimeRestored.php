@@ -20,11 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  */
 class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Anime  $anime
-     */
     public function __construct(Anime $anime)
     {
         parent::__construct($anime);
@@ -32,8 +27,6 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Anime
      */
     public function getModel(): Anime
     {
@@ -42,8 +35,6 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

@@ -19,8 +19,6 @@ abstract class ListRestoredEvent extends BaseRestoredEvent
 {
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {
@@ -29,8 +27,6 @@ abstract class ListRestoredEvent extends BaseRestoredEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

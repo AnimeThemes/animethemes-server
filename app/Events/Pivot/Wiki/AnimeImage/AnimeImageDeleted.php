@@ -16,11 +16,6 @@ use App\Pivots\Wiki\AnimeImage;
  */
 class AnimeImageDeleted extends PivotDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeImage  $animeImage
-     */
     public function __construct(AnimeImage $animeImage)
     {
         parent::__construct($animeImage->anime, $animeImage->image);
@@ -28,8 +23,6 @@ class AnimeImageDeleted extends PivotDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

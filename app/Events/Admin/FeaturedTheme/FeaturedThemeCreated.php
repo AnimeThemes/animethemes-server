@@ -14,11 +14,6 @@ use App\Models\Admin\FeaturedTheme;
  */
 class FeaturedThemeCreated extends AdminCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  FeaturedTheme  $featuredTheme
-     */
     public function __construct(FeaturedTheme $featuredTheme)
     {
         parent::__construct($featuredTheme);
@@ -26,8 +21,6 @@ class FeaturedThemeCreated extends AdminCreatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return FeaturedTheme
      */
     public function getModel(): FeaturedTheme
     {
@@ -36,8 +29,6 @@ class FeaturedThemeCreated extends AdminCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

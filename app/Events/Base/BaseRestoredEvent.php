@@ -53,8 +53,6 @@ abstract class BaseRestoredEvent extends BaseEvent implements DiscordMessageEven
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     abstract protected function getDiscordMessageDescription(): string;
 }

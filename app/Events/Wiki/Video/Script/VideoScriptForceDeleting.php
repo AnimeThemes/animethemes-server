@@ -16,11 +16,6 @@ use App\Models\Wiki\Video\VideoScript;
  */
 class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  VideoScript  $script
-     */
     public function __construct(VideoScript $script)
     {
         parent::__construct($script);
@@ -28,8 +23,6 @@ class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEve
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return VideoScript
      */
     public function getModel(): VideoScript
     {

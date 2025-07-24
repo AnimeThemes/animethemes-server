@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Http;
  */
 class DiscordThreadUpdated extends AdminUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  DiscordThread  $thread
-     */
     public function __construct(DiscordThread $thread)
     {
         parent::__construct($thread);
@@ -30,8 +25,6 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return DiscordThread
      */
     public function getModel(): DiscordThread
     {
@@ -40,8 +33,6 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

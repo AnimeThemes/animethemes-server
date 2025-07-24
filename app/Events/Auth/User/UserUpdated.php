@@ -14,11 +14,6 @@ use App\Models\Auth\User;
  */
 class UserUpdated extends AdminUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  User  $user
-     */
     public function __construct(User $user)
     {
         parent::__construct($user);
@@ -27,8 +22,6 @@ class UserUpdated extends AdminUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return User
      */
     public function getModel(): User
     {
@@ -37,8 +30,6 @@ class UserUpdated extends AdminUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

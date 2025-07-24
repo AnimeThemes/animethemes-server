@@ -16,11 +16,6 @@ use App\Pivots\Wiki\SongResource;
  */
 class SongResourceCreated extends PivotCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  SongResource  $songResource
-     */
     public function __construct(SongResource $songResource)
     {
         parent::__construct($songResource->song, $songResource->resource);
@@ -28,8 +23,6 @@ class SongResourceCreated extends PivotCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

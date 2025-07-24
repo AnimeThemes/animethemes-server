@@ -14,11 +14,6 @@ use App\Models\List\Playlist;
  */
 class PlaylistDeleted extends ListDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Playlist  $playlist
-     */
     public function __construct(Playlist $playlist)
     {
         parent::__construct($playlist);
@@ -26,8 +21,6 @@ class PlaylistDeleted extends ListDeletedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -38,8 +31,6 @@ class PlaylistDeleted extends ListDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Playlist
      */
     public function getModel(): Playlist
     {
@@ -48,8 +39,6 @@ class PlaylistDeleted extends ListDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

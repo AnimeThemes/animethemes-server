@@ -18,16 +18,9 @@ class TrackDeleted extends ListDeletedEvent
 {
     /**
      * The playlist the track belongs to.
-     *
-     * @var Playlist|null
      */
     protected ?Playlist $playlist;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  PlaylistTrack  $track
-     */
     public function __construct(PlaylistTrack $track)
     {
         parent::__construct($track);
@@ -36,8 +29,6 @@ class TrackDeleted extends ListDeletedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -48,8 +39,6 @@ class TrackDeleted extends ListDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return PlaylistTrack
      */
     public function getModel(): PlaylistTrack
     {
@@ -58,8 +47,6 @@ class TrackDeleted extends ListDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
