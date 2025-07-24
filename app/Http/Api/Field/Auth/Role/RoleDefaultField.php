@@ -10,11 +10,6 @@ use App\Models\Auth\Role;
 
 class RoleDefaultField extends BooleanField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Role::ATTRIBUTE_DEFAULT);

@@ -36,8 +36,6 @@ class VideoSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

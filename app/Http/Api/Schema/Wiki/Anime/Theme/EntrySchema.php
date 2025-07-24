@@ -26,8 +26,6 @@ class EntrySchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {
@@ -71,10 +69,8 @@ class EntrySchema extends EloquentSchema implements SearchableSchema
 
     /**
      * Get the model of the schema.
-     *
-     * @return Model
      */
-    public function model(): Model
+    public function model(): AnimeThemeEntry
     {
         return new AnimeThemeEntry();
     }

@@ -21,7 +21,6 @@ class FeatureCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

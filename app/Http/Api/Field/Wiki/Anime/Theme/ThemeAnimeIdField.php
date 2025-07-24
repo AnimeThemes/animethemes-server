@@ -16,11 +16,6 @@ use Illuminate\Validation\Rule;
 
 class ThemeAnimeIdField extends Field implements CreatableField, SelectableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_ANIME);
@@ -29,7 +24,6 @@ class ThemeAnimeIdField extends Field implements CreatableField, SelectableField
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -43,10 +37,6 @@ class ThemeAnimeIdField extends Field implements CreatableField, SelectableField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

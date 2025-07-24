@@ -10,11 +10,6 @@ use App\Http\Resources\List\Collection\PlaylistCollection;
 
 class SearchPlaylistField extends Field
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, PlaylistCollection::$wrap);

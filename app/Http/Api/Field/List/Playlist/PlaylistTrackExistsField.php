@@ -10,11 +10,6 @@ use App\Models\List\Playlist;
 
 class PlaylistTrackExistsField extends ExistsField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Playlist::RELATION_TRACKS);

@@ -43,7 +43,6 @@ class IntFilter extends Filter
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     public function isAllFilterValues(array $filterValues): bool
     {

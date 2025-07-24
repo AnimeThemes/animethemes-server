@@ -40,7 +40,6 @@ abstract class WriteRequest extends BaseRequest
     /**
      * Convert enum description parameter value to enum value.
      *
-     * @param  string  $attribute
      * @param  class-string  $enumClass
      */
     protected function convertEnumDescriptionToValue(string $attribute, string $enumClass): void
@@ -58,8 +57,6 @@ abstract class WriteRequest extends BaseRequest
 
     /**
      * Convert enum parameter values.
-     *
-     * @param  string  $attribute
      */
     protected function convertBoolean(string $attribute): void
     {

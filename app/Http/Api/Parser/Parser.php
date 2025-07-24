@@ -8,8 +8,6 @@ abstract class Parser
 {
     /**
      * The parameter to parse.
-     *
-     * @return string
      */
     abstract public static function param(): string;
 

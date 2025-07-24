@@ -9,8 +9,6 @@ use Illuminate\Support\Collection;
 class ResourceCriteria extends Criteria
 {
     /**
-     * Create a new criteria instance.
-     *
      * @param  string  $type
      * @param  Collection<int, string>  $paths
      */
@@ -21,8 +19,6 @@ class ResourceCriteria extends Criteria
 
     /**
      * Get the resource type.
-     *
-     * @return string
      */
     public function getType(): string
     {

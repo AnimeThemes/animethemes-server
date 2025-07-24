@@ -13,10 +13,6 @@ class FieldCriteria extends Criteria
 {
     /**
      * Create a new criteria instance.
-     *
-     * @param  Scope  $scope
-     * @param  string  $field
-     * @param  Direction  $direction
      */
     public function __construct(Scope $scope, string $field, protected readonly Direction $direction)
     {
@@ -25,8 +21,6 @@ class FieldCriteria extends Criteria
 
     /**
      * Get the sort direction.
-     *
-     * @return Direction
      */
     public function getDirection(): Direction
     {
@@ -37,7 +31,6 @@ class FieldCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Sort  $sort
      * @return Builder
      */
     public function sort(Builder $builder, Sort $sort): Builder

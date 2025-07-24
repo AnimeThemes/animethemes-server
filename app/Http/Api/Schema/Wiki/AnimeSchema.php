@@ -42,8 +42,6 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

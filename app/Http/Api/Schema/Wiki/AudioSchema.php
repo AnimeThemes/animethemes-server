@@ -22,8 +22,6 @@ class AudioSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

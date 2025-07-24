@@ -98,8 +98,6 @@ class ShowRequest extends ReadRequest
      * Otherwise, this is a single-value filter that builds a where clause.
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
      *
-     * @param  Validator  $validator
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void

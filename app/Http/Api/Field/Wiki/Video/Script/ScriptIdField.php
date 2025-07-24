@@ -11,11 +11,6 @@ use App\Models\Wiki\Video\VideoScript;
 
 class ScriptIdField extends IdField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, VideoScript::ATTRIBUTE_ID);
@@ -23,10 +18,6 @@ class ScriptIdField extends IdField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

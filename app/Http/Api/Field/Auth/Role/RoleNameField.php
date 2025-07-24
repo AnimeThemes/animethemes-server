@@ -10,11 +10,6 @@ use App\Models\Auth\Role;
 
 class RoleNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Role::ATTRIBUTE_NAME);

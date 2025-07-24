@@ -11,11 +11,6 @@ use App\Models\BaseModel;
 
 class CreatedAtField extends DateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, BaseModel::ATTRIBUTE_CREATED_AT);
@@ -23,9 +18,6 @@ class CreatedAtField extends DateField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -38,10 +30,6 @@ class CreatedAtField extends DateField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -18,8 +18,6 @@ readonly class Criteria
 
     /**
      * Get the type that this sparse fieldsets mapping belongs to.
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -38,9 +36,6 @@ readonly class Criteria
 
     /**
      * Is the field allowed?
-     *
-     * @param  string  $field
-     * @return bool
      */
     public function isAllowedField(string $field): bool
     {

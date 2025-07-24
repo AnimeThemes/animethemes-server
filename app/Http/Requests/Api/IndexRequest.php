@@ -101,8 +101,6 @@ class IndexRequest extends ReadRequest
 
     /**
      * Configure validator with needed conditional validation.
-     *
-     * @param  Validator  $validator
      */
     protected function handleConditionalValidation(Validator $validator): void
     {
@@ -116,8 +114,6 @@ class IndexRequest extends ReadRequest
      * If the value contains a separator, this is a multi-value filter that builds a where in clause.
      * Otherwise, this is a single-value filter that builds a where clause.
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
-     *
-     * @param  Validator  $validator
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -142,8 +138,6 @@ class IndexRequest extends ReadRequest
      * Sort types can be scoped globally or by type for index endpoints.
      * Ex: /api/anime?sort=year.
      * Ex: /api/anime?sort[anime]=year.
-     *
-     * @param  Validator  $validator
      */
     protected function conditionallyRestrictAllowedSortTypes(Validator $validator): void
     {

@@ -16,9 +16,7 @@ class UserExceedsExternalProfileLimit
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
     {

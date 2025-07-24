@@ -42,8 +42,6 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

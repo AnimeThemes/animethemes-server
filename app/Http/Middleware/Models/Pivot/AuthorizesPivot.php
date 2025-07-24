@@ -16,13 +16,9 @@ class AuthorizesPivot
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @param  string  $foreignClass
-     * @param  string  $foreignParameter
-     * @param  string  $relatedClass
-     * @param  string  $relatedParameter
-     * @return mixed
+     * @param  class-string  $foreignClass
+     * @param  class-string  $relatedClass
      */
     public function handle(Request $request, Closure $next, string $foreignClass, string $foreignParameter, string $relatedClass, string $relatedParameter): mixed
     {
@@ -51,10 +47,8 @@ class AuthorizesPivot
     /**
      * Get the authorization to index.
      *
-     * @param  User|null  $user
-     * @param  string  $foreignClass
-     * @param  string  $relatedClass
-     * @return bool
+     * @param  class-string  $foreignClass
+     * @param  class-string  $relatedClass
      */
     protected function forIndex(?User $user, string $foreignClass, string $relatedClass): bool
     {
@@ -64,11 +58,6 @@ class AuthorizesPivot
 
     /**
      * Get the authorization to show a pivot.
-     *
-     * @param  User|null  $user
-     * @param  Model  $foreignModel
-     * @param  Model  $relatedModel
-     * @return bool
      */
     protected function forShow(?User $user, Model $foreignModel, Model $relatedModel): bool
     {
@@ -78,11 +67,6 @@ class AuthorizesPivot
 
     /**
      * Get the authorization to store a pivot.
-     *
-     * @param  User  $user
-     * @param  Model  $foreignModel
-     * @param  Model  $relatedModel
-     * @return bool
      */
     protected function forStore(User $user, Model $foreignModel, Model $relatedModel): bool
     {
@@ -95,11 +79,6 @@ class AuthorizesPivot
 
     /**
      * Get the authorization to destroy a pivot.
-     *
-     * @param  User  $user
-     * @param  Model  $foreignModel
-     * @param  Model  $relatedModel
-     * @return bool
      */
     protected function forDestroy(User $user, Model $foreignModel, Model $relatedModel): bool
     {
@@ -116,11 +95,6 @@ class AuthorizesPivot
 
     /**
      * Get the authorization to update a pivot.
-     *
-     * @param  User  $user
-     * @param  Model  $foreignModel
-     * @param  Model  $relatedModel
-     * @return bool
      */
     protected function forUpdate(User $user, Model $foreignModel, Model $relatedModel): bool
     {

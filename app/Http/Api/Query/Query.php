@@ -65,8 +65,6 @@ class Query
     protected array $pagingCriteria;
 
     /**
-     * Create a new query instance.
-     *
      * @param  array  $parameters
      */
     public function __construct(array $parameters = [])
@@ -81,9 +79,6 @@ class Query
 
     /**
      * Get the field criteria.
-     *
-     * @param  string  $type
-     * @return FieldCriteria|null
      */
     public function getFieldCriteria(string $type): ?FieldCriteria
     {
@@ -92,9 +87,6 @@ class Query
 
     /**
      * Get include criteria.
-     *
-     * @param  string  $type
-     * @return IncludeCriteria|null
      */
     public function getIncludeCriteria(string $type): ?IncludeCriteria
     {
@@ -107,9 +99,6 @@ class Query
 
     /**
      * Get the resource include criteria.
-     *
-     * @param  string  $type
-     * @return IncludeCriteria|null
      */
     public function getResourceIncludeCriteria(string $type): ?IncludeCriteria
     {
@@ -141,8 +130,6 @@ class Query
 
     /**
      * Does the query have search criteria?
-     *
-     * @return bool
      */
     public function hasSearchCriteria(): bool
     {
@@ -152,8 +139,6 @@ class Query
     /**
      * Get search criteria.
      * Note: At the time of writing, the API shall only support a single search term.
-     *
-     * @return SearchCriteria|null
      */
     public function getSearchCriteria(): ?SearchCriteria
     {
@@ -162,9 +147,6 @@ class Query
 
     /**
      * Get paging criteria that matches pagination strategy.
-     *
-     * @param  PaginationStrategy  $strategy
-     * @return PagingCriteria|null
      */
     public function getPagingCriteria(PaginationStrategy $strategy): ?PagingCriteria
     {

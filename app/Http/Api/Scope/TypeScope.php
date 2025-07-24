@@ -6,17 +6,10 @@ namespace App\Http\Api\Scope;
 
 class TypeScope extends Scope
 {
-    /**
-     * Create a new scope instance.
-     *
-     * @param  string  $type
-     */
     public function __construct(protected readonly string $type) {}
 
     /**
      * Get the type of the scope.
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -25,9 +18,6 @@ class TypeScope extends Scope
 
     /**
      * Determine if the provided scope is within this scope.
-     *
-     * @param  Scope  $scope
-     * @return bool
      */
     public function isWithinScope(Scope $scope): bool
     {

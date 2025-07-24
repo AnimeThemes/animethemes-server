@@ -12,9 +12,6 @@ use App\Http\Api\Criteria\Filter\TrashedCriteria;
 
 class TrashedFilter extends EnumFilter
 {
-    /**
-     * Create a new filter instance.
-     */
     public function __construct()
     {
         parent::__construct(TrashedCriteria::PARAM_VALUE, TrashedStatus::class);
@@ -22,10 +19,6 @@ class TrashedFilter extends EnumFilter
 
     /**
      * Format filter string with conditions.
-     *
-     * @param  BinaryLogicalOperator|UnaryLogicalOperator|null  $logicalOperator
-     * @param  ComparisonOperator|null  $comparisonOperator
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

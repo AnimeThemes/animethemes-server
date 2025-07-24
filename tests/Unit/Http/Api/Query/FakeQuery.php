@@ -14,8 +14,6 @@ class FakeQuery extends Query
 {
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
-use BackedEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 

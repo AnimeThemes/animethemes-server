@@ -45,8 +45,6 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

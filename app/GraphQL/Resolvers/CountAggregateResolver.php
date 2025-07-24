@@ -22,7 +22,6 @@ class CountAggregateResolver
      * @param  array  $args
      * @param  GraphQLContext  $context
      * @param  ResolveInfo  $resolveInfo
-     * @return mixed
      */
     public function __invoke(Model $aggregatable, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

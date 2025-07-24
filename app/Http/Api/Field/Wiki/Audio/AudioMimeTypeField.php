@@ -13,11 +13,6 @@ use Illuminate\Http\Request;
 
 class AudioMimeTypeField extends StringField implements CreatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Audio::ATTRIBUTE_MIMETYPE);
@@ -26,7 +21,6 @@ class AudioMimeTypeField extends StringField implements CreatableField
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -41,9 +35,6 @@ class AudioMimeTypeField extends StringField implements CreatableField
     /**
      * Determine if the field should be displayed to the user.
      *
-     * @param  Query  $query
-     * @return bool
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function shouldRender(Query $query): bool
@@ -55,10 +46,6 @@ class AudioMimeTypeField extends StringField implements CreatableField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

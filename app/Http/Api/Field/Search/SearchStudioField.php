@@ -10,11 +10,6 @@ use App\Http\Resources\Wiki\Collection\StudioCollection;
 
 class SearchStudioField extends Field
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, StudioCollection::$wrap);

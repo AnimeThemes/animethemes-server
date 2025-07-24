@@ -10,11 +10,6 @@ use App\Models\User\Notification;
 
 class NotificationDataField extends JsonField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Notification::ATTRIBUTE_DATA);

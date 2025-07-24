@@ -26,8 +26,6 @@ class ForwardBackwardSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {
@@ -69,10 +67,8 @@ class ForwardBackwardSchema extends EloquentSchema
 
     /**
      * Get the model of the schema.
-     *
-     * @return Model
      */
-    public function model(): Model
+    public function model(): PlaylistTrack
     {
         return new PlaylistTrack();
     }

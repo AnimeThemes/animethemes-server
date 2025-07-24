@@ -29,8 +29,6 @@ abstract class PivotController extends Controller implements InteractsWithSchema
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

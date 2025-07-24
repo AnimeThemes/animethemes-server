@@ -10,18 +10,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  Scope  $scope
-     * @param  string  $field
-     */
     public function __construct(protected readonly Scope $scope, protected readonly string $field) {}
 
     /**
      * Get the scope of the criteria.
-     *
-     * @return Scope
      */
     public function getScope(): Scope
     {
@@ -30,8 +22,6 @@ abstract class Criteria
 
     /**
      * Get the criteria field.
-     *
-     * @return string
      */
     public function getField(): string
     {
@@ -40,10 +30,6 @@ abstract class Criteria
 
     /**
      * Determine if this sort should be applied.
-     *
-     * @param  Sort  $sort
-     * @param  Scope  $scope
-     * @return bool
      */
     public function shouldSort(Sort $sort, Scope $scope): bool
     {
@@ -64,7 +50,6 @@ abstract class Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Sort  $sort
      * @return Builder
      */
     abstract public function sort(Builder $builder, Sort $sort): Builder;

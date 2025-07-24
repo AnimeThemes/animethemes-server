@@ -43,8 +43,6 @@ class CurrentFeaturedThemeController extends Controller implements InteractsWith
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

@@ -16,11 +16,6 @@ use Illuminate\Validation\Rules\Enum;
 
 class VideoSourceField extends EnumField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Video::ATTRIBUTE_SOURCE, VideoSource::class);
@@ -29,7 +24,6 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -43,10 +37,6 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
@@ -59,7 +49,6 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

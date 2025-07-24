@@ -304,9 +304,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be edited.
-     *
-     * @param  Model  $record
-     * @return bool
      */
     public static function canEdit(Model $record): bool
     {
@@ -315,9 +312,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be deleted.
-     *
-     * @param  Model  $record
-     * @return bool
      */
     public static function canDelete(Model $record): bool
     {
@@ -326,9 +320,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be force-deleted.
-     *
-     * @param  Model  $record
-     * @return bool
      */
     public static function canForceDelete(Model $record): bool
     {
@@ -337,8 +328,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine if the user can access the table.
-     *
-     * @return bool
      */
     public static function canAccess(): bool
     {

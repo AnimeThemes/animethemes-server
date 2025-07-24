@@ -37,8 +37,6 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

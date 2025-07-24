@@ -17,11 +17,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class VideoViewCountField extends AggregateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Video::RELATION_VIEW_AGGREGATE, AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
@@ -39,8 +34,6 @@ class VideoViewCountField extends AggregateField
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {
@@ -49,9 +42,6 @@ class VideoViewCountField extends AggregateField
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {

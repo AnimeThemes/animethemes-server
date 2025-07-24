@@ -21,11 +21,6 @@ use Illuminate\Validation\Rule;
 
 class TrackEntryIdField extends Field implements CreatableField, FilterableField, SelectableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, PlaylistTrack::ATTRIBUTE_ENTRY);
@@ -34,7 +29,6 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -50,8 +44,6 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
 
     /**
      * Get the filter that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -60,10 +52,6 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
@@ -74,7 +62,6 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array
@@ -98,9 +85,6 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
 
     /**
      * Get dependent video_id field.
-     *
-     * @param  Request  $request
-     * @return mixed
      */
     private function resolveVideoId(Request $request): mixed
     {

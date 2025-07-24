@@ -13,11 +13,6 @@ use Illuminate\Http\Request;
 
 class ThemeSequenceField extends IntField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_SEQUENCE);
@@ -26,7 +21,6 @@ class ThemeSequenceField extends IntField implements CreatableField, UpdatableFi
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -42,7 +36,6 @@ class ThemeSequenceField extends IntField implements CreatableField, UpdatableFi
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

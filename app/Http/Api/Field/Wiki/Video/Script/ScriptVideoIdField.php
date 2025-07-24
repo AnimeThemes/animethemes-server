@@ -17,11 +17,6 @@ use Illuminate\Validation\Rule;
 
 class ScriptVideoIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, VideoScript::ATTRIBUTE_VIDEO);
@@ -30,7 +25,6 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -45,10 +39,6 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
@@ -59,7 +49,6 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

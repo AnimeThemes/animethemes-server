@@ -15,8 +15,6 @@ class LimitCriteria extends Criteria
 
     /**
      * Get the intended pagination strategy.
-     *
-     * @return PaginationStrategy
      */
     public function getStrategy(): PaginationStrategy
     {

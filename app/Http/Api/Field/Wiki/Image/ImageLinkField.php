@@ -13,11 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ImageLinkField extends Field implements RenderableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Image::ATTRIBUTE_LINK);
@@ -25,9 +20,6 @@ class ImageLinkField extends Field implements RenderableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {

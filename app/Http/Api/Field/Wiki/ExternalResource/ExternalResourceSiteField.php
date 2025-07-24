@@ -16,11 +16,6 @@ use Illuminate\Validation\Rules\Enum;
 
 class ExternalResourceSiteField extends EnumField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ExternalResource::ATTRIBUTE_SITE, ResourceSite::class);
@@ -29,7 +24,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -45,7 +39,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array
@@ -62,7 +55,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     /**
      * Resolve link field from request.
      *
-     * @param  Request  $request
      * @return string
      */
     protected function resolveLink(Request $request): string

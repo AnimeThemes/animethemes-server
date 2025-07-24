@@ -9,12 +9,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 abstract class BaseCollection extends ResourceCollection
 {
-    /**
-     * Create a new resource instance.
-     *
-     * @param  mixed  $resource
-     * @param  Query  $query
-     */
     public function __construct(mixed $resource, protected readonly Query $query)
     {
         parent::__construct($resource);

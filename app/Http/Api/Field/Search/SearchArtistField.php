@@ -10,11 +10,6 @@ use App\Http\Resources\Wiki\Collection\ArtistCollection;
 
 class SearchArtistField extends Field
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ArtistCollection::$wrap);

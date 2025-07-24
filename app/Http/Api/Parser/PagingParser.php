@@ -13,8 +13,6 @@ class PagingParser extends Parser
 {
     /**
      * The parameter to parse.
-     *
-     * @return string
      */
     public static function param(): string
     {
@@ -42,7 +40,6 @@ class PagingParser extends Parser
      * Parse limit criteria instance from query string.
      *
      * @param  array  $pagingParam
-     * @return LimitCriteria
      */
     protected static function parseLimitCriteria(array $pagingParam): LimitCriteria
     {
@@ -61,7 +58,6 @@ class PagingParser extends Parser
      * Parse offset criteria instance from query string.
      *
      * @param  array  $pagingParam
-     * @return OffsetCriteria
      */
     protected static function parseOffsetCriteria(array $pagingParam): OffsetCriteria
     {

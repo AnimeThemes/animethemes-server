@@ -15,11 +15,6 @@ use Illuminate\Http\Request;
 
 class ExternalResourceLinkField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ExternalResource::ATTRIBUTE_LINK);
@@ -28,7 +23,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -45,7 +39,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array
@@ -63,7 +56,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
     /**
      * Resolve site field from request.
      *
-     * @param  Request  $request
      * @return ResourceSite|null
      */
     protected function resolveSite(Request $request): ?ResourceSite

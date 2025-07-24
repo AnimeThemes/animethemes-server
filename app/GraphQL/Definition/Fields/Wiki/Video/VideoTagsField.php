@@ -34,7 +34,6 @@ class VideoTagsField extends StringField
      * Resolve the field.
      *
      * @param  mixed  $root
-     * @return mixed
      */
     public function resolve($root): mixed
     {

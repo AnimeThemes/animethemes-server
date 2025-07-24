@@ -13,11 +13,6 @@ use Illuminate\Http\Request;
 
 class SynonymTextField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeSynonym::ATTRIBUTE_TEXT);
@@ -26,7 +21,6 @@ class SynonymTextField extends StringField implements CreatableField, UpdatableF
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -41,7 +35,6 @@ class SynonymTextField extends StringField implements CreatableField, UpdatableF
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

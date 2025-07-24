@@ -14,11 +14,6 @@ use Illuminate\Http\Request;
 
 class PerformanceArtistIdField extends Field implements CreatableField, SelectableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Performance::ATTRIBUTE_ARTIST_ID);
@@ -27,7 +22,6 @@ class PerformanceArtistIdField extends Field implements CreatableField, Selectab
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -40,10 +34,6 @@ class PerformanceArtistIdField extends Field implements CreatableField, Selectab
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

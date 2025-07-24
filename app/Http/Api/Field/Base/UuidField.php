@@ -30,8 +30,6 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
 
     /**
      * Get the filter that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -40,9 +38,6 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -53,9 +48,6 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -64,10 +56,6 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

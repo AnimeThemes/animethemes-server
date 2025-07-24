@@ -14,11 +14,6 @@ use Illuminate\Validation\Rule;
 
 class ArtistSlugField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Artist::ATTRIBUTE_SLUG);
@@ -27,7 +22,6 @@ class ArtistSlugField extends StringField implements CreatableField, UpdatableFi
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -43,7 +37,6 @@ class ArtistSlugField extends StringField implements CreatableField, UpdatableFi
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

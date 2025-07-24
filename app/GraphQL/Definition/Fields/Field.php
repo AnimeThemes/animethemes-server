@@ -87,7 +87,6 @@ abstract class Field implements Stringable
      * Resolve the field.
      *
      * @param  mixed  $root
-     * @return mixed
      */
     public function resolve($root): mixed
     {

@@ -18,12 +18,6 @@ abstract class BaseResource extends JsonResource
 {
     final public const ATTRIBUTE_ID = 'id';
 
-    /**
-     * Create a new resource instance.
-     *
-     * @param  mixed  $resource
-     * @param  Query  $query
-     */
     public function __construct(mixed $resource, protected readonly Query $query)
     {
         parent::__construct($resource);
@@ -32,7 +26,6 @@ abstract class BaseResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -115,8 +108,6 @@ abstract class BaseResource extends JsonResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     abstract protected function schema(): Schema;
 }

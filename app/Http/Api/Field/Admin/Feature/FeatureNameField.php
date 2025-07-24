@@ -10,11 +10,6 @@ use App\Models\Admin\Feature;
 
 class FeatureNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Feature::ATTRIBUTE_NAME);

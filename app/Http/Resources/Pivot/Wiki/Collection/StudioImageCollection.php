@@ -21,7 +21,6 @@ class StudioImageCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

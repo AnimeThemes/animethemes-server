@@ -10,11 +10,6 @@ use App\Http\Resources\Wiki\Collection\VideoCollection;
 
 class SearchVideoField extends Field
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, VideoCollection::$wrap);

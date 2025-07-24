@@ -6,17 +6,10 @@ namespace App\Http\Api\Criteria\Search;
 
 readonly class Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  string  $term
-     */
     public function __construct(protected string $term) {}
 
     /**
      * Get the search term.
-     *
-     * @return string
      */
     public function getTerm(): string
     {

@@ -9,13 +9,6 @@ use App\Http\Api\Schema\Schema;
 
 abstract class Field implements FieldInterface
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $key
-     * @param  string|null  $column
-     */
     public function __construct(
         protected readonly Schema $schema,
         protected readonly string $key,
@@ -24,8 +17,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {
@@ -34,8 +25,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the field key.
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -44,8 +33,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the field column.
-     *
-     * @return string|null
      */
     public function getColumn(): ?string
     {

@@ -17,11 +17,6 @@ use Illuminate\Http\Request;
 
 class PageBodyField extends Field implements CreatableField, RenderableField, SelectableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Page::ATTRIBUTE_BODY);
@@ -30,7 +25,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -44,9 +38,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -57,9 +48,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -68,10 +56,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
@@ -83,7 +67,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

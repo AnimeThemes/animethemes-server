@@ -34,8 +34,6 @@ class ImageSchema extends EloquentSchema implements InteractsWithPivots
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

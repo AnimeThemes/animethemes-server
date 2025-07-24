@@ -15,11 +15,6 @@ use Illuminate\Validation\Rules\Enum;
 
 class SynonymTypeField extends EnumField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::class);
@@ -28,7 +23,6 @@ class SynonymTypeField extends EnumField implements CreatableField, UpdatableFie
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -42,7 +36,6 @@ class SynonymTypeField extends EnumField implements CreatableField, UpdatableFie
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

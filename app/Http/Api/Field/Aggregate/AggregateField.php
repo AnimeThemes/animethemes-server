@@ -42,9 +42,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -55,9 +52,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -66,8 +60,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {

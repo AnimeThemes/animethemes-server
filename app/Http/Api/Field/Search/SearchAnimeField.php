@@ -10,11 +10,6 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 
 class SearchAnimeField extends Field
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeCollection::$wrap);

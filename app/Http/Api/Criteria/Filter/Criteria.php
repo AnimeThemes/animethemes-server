@@ -20,13 +20,6 @@ abstract class Criteria
 
     final public const VALUE_SEPARATOR = ',';
 
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  Predicate  $predicate
-     * @param  BinaryLogicalOperator  $operator
-     * @param  Scope  $scope
-     */
     public function __construct(
         protected readonly Predicate $predicate,
         protected readonly BinaryLogicalOperator $operator,
@@ -35,8 +28,6 @@ abstract class Criteria
 
     /**
      * Get the scope of the criteria.
-     *
-     * @return Scope
      */
     public function getScope(): Scope
     {
@@ -45,8 +36,6 @@ abstract class Criteria
 
     /**
      * Get the field that the predicate is applying an expression on.
-     *
-     * @return string
      */
     public function getField(): string
     {
@@ -55,8 +44,6 @@ abstract class Criteria
 
     /**
      * Get the comparison operator.
-     *
-     * @return ComparisonOperator|null
      */
     public function getComparisonOperator(): ?ComparisonOperator
     {
@@ -65,8 +52,6 @@ abstract class Criteria
 
     /**
      * Get the logical operator.
-     *
-     * @return BinaryLogicalOperator
      */
     public function getLogicalOperator(): BinaryLogicalOperator
     {
@@ -91,10 +76,6 @@ abstract class Criteria
 
     /**
      * Determine if this filter should be applied.
-     *
-     * @param  Filter  $filter
-     * @param  Scope  $scope
-     * @return bool
      */
     public function shouldFilter(Filter $filter, Scope $scope): bool
     {
@@ -118,20 +99,12 @@ abstract class Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Filter  $filter
-     * @param  Query  $query
-     * @param  Schema  $schema
      * @return Builder
      */
     abstract public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder;
 
     /**
      * Create a new criteria instance from query string.
-     *
-     * @param  Scope  $scope
-     * @param  string  $filterParam
-     * @param  mixed  $filterValues
-     * @return static
      */
     abstract public static function make(Scope $scope, string $filterParam, mixed $filterValues): static;
 }

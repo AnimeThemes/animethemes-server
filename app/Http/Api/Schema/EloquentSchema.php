@@ -17,10 +17,6 @@ abstract class EloquentSchema extends Schema
 {
     /**
      * Get the resource of the schema.
-     *
-     * @param  mixed  $resource
-     * @param  Query  $query
-     * @return BaseResource
      */
     public function resource(mixed $resource, Query $query): BaseResource
     {
@@ -35,10 +31,6 @@ abstract class EloquentSchema extends Schema
 
     /**
      * Get the collection of the schema.
-     *
-     * @param  mixed  $resource
-     * @param  Query  $query
-     * @return BaseCollection
      */
     public function collection(mixed $resource, Query $query): BaseCollection
     {
@@ -53,8 +45,6 @@ abstract class EloquentSchema extends Schema
 
     /**
      * Resolve the owner model of the schema.
-     *
-     * @return Model
      */
     public function model(): Model
     {
@@ -110,9 +100,6 @@ abstract class EloquentSchema extends Schema
 
     /**
      * Resolve the schema by path.
-     *
-     * @param  string  $path
-     * @return Schema
      *
      * @throws RuntimeException
      */

@@ -11,11 +11,6 @@ use App\Http\Api\Schema\Schema;
 
 class DeletedAtField extends DateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ModelConstants::ATTRIBUTE_DELETED_AT);
@@ -23,9 +18,6 @@ class DeletedAtField extends DateField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -38,10 +30,6 @@ class DeletedAtField extends DateField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -18,7 +18,6 @@ class ExistsResolver
      * @param  array  $args
      * @param  GraphQLContext  $context
      * @param  ResolveInfo  $resolveInfo
-     * @return mixed
      */
     public function __invoke(Model $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

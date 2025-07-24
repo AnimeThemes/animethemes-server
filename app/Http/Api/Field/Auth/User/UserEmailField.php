@@ -10,11 +10,6 @@ use App\Models\Auth\User;
 
 class UserEmailField extends StringField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, User::ATTRIBUTE_EMAIL);

@@ -25,8 +25,6 @@ class AnimeResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

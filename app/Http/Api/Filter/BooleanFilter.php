@@ -45,7 +45,6 @@ class BooleanFilter extends Filter
      * Determine if both true and false have been specified.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     public function isAllFilterValues(array $filterValues): bool
     {

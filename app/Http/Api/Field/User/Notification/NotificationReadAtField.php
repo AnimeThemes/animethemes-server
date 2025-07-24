@@ -11,11 +11,6 @@ use App\Models\User\Notification;
 
 class NotificationReadAtField extends DateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Notification::ATTRIBUTE_READ_AT);
@@ -23,9 +18,6 @@ class NotificationReadAtField extends DateField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

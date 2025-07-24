@@ -11,8 +11,6 @@ class SearchParser extends Parser
 {
     /**
      * The parameter to parse.
-     *
-     * @return string
      */
     public static function param(): string
     {
@@ -41,9 +39,6 @@ class SearchParser extends Parser
 
     /**
      * Parse criteria instance from query string.
-     *
-     * @param  string  $searchParam
-     * @return Criteria
      */
     protected static function parseCriteria(string $searchParam): Criteria
     {

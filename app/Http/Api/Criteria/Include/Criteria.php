@@ -9,8 +9,6 @@ use Illuminate\Support\Collection;
 class Criteria
 {
     /**
-     * Create a new criteria instance.
-     *
      * @param  Collection<int, string>  $paths
      */
     public function __construct(protected readonly Collection $paths) {}

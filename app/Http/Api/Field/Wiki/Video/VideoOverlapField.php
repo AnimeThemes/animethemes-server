@@ -15,11 +15,6 @@ use Illuminate\Validation\Rules\Enum;
 
 class VideoOverlapField extends EnumField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Video::ATTRIBUTE_OVERLAP, VideoOverlap::class);
@@ -28,7 +23,6 @@ class VideoOverlapField extends EnumField implements CreatableField, UpdatableFi
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -43,7 +37,6 @@ class VideoOverlapField extends EnumField implements CreatableField, UpdatableFi
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

@@ -18,11 +18,6 @@ use Illuminate\Validation\Rule;
 
 class TrackPreviousHashidsField extends Field implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, PlaylistTrack::RELATION_PREVIOUS);
@@ -31,7 +26,6 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -67,7 +61,6 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

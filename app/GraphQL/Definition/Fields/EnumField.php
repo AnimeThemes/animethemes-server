@@ -68,7 +68,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
      * Resolve the field.
      *
      * @param  mixed  $root
-     * @return mixed
      */
     public function resolve(mixed $root): mixed
     {
