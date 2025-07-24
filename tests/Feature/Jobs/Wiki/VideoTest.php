@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoTest.
- */
 class VideoTest extends TestCase
 {
     /**
      * When a video is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class VideoTest extends TestCase
 
     /**
      * When a video is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class VideoTest extends TestCase
 
     /**
      * When a video is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class VideoTest extends TestCase
 
     /**
      * When a video is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoUpdatedSendsDiscordNotification(): void
     {

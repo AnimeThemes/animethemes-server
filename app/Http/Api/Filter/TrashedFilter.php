@@ -10,9 +10,6 @@ use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 
-/**
- * Class TrashedFilter.
- */
 class TrashedFilter extends EnumFilter
 {
     /**

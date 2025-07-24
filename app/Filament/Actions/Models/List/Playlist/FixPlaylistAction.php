@@ -10,15 +10,10 @@ use App\Filament\Actions\BaseAction;
 use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class FixPlaylistAction.
- */
 class FixPlaylistAction extends BaseAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -27,8 +22,6 @@ class FixPlaylistAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

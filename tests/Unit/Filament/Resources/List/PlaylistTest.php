@@ -15,15 +15,10 @@ use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class PlaylistTest.
- */
 class PlaylistTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -58,8 +53,6 @@ class PlaylistTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -84,8 +77,6 @@ class PlaylistTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -107,8 +98,6 @@ class PlaylistTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountCreateAction(): void
     {
@@ -129,8 +118,6 @@ class PlaylistTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {

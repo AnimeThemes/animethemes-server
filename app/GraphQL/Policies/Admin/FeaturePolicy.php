@@ -9,9 +9,6 @@ use App\Models\Admin\Feature;
 use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 
-/**
- * Class FeaturePolicy.
- */
 class FeaturePolicy extends BasePolicy
 {
     /**

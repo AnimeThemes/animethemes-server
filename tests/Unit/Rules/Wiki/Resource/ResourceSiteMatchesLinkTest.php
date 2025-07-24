@@ -11,17 +11,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class ResourceSiteMatchesLinkTest.
- */
 class ResourceSiteMatchesLinkTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Resource Site Matches Link Rule shall return true if the site matches the link.
-     *
-     * @return void
      */
     public function testPassesIfSiteMatchesLink(): void
     {
@@ -52,8 +47,6 @@ class ResourceSiteMatchesLinkTest extends TestCase
 
     /**
      * The Resource Site Matches Link Rule shall return true if the site does not have a domain.
-     *
-     * @return void
      */
     public function testResourceSiteDomainRuleOfficialPasses(): void
     {
@@ -69,8 +62,6 @@ class ResourceSiteMatchesLinkTest extends TestCase
 
     /**
      * The Resource Site Matches Link Rule shall return false if the site does not match the link.
-     *
-     * @return void
      */
     public function testResourceSiteDomainRuleFails(): void
     {

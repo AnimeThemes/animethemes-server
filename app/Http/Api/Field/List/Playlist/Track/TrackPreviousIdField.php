@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
 
-/**
- * Class TrackPreviousIdField.
- */
 class TrackPreviousIdField extends Field implements SelectableField
 {
     /**

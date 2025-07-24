@@ -10,15 +10,10 @@ use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceRestoreTest.
- */
 class ExternalResourceRestoreTest extends TestCase
 {
     /**
      * The External Resource Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ExternalResourceRestoreTest extends TestCase
 
     /**
      * The External Resource Restore Endpoint shall forbid users without the restore external resource permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ExternalResourceRestoreTest extends TestCase
 
     /**
      * The External Resource Restore Endpoint shall forbid users from restoring a resource that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class ExternalResourceRestoreTest extends TestCase
 
     /**
      * The External Resource Restore Endpoint shall restore the resource.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

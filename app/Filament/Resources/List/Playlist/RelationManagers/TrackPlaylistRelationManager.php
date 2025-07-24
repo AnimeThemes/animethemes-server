@@ -9,9 +9,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Tables\Table;
 
-/**
- * Class TrackPlaylistRelationManager.
- */
 class TrackPlaylistRelationManager extends TrackRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class TrackPlaylistRelationManager extends TrackRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

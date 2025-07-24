@@ -7,9 +7,6 @@ namespace App\Filament\Components\Infolist;
 use Closure;
 use Filament\Infolists\Components\Entry;
 
-/**
- * Class KeyValueThreeEntry.
- */
 class KeyValueThreeEntry extends Entry
 {
     /**
@@ -24,8 +21,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Initial setup for the entry.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

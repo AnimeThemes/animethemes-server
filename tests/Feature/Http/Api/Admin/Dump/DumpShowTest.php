@@ -13,17 +13,12 @@ use App\Models\Admin\Dump;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class DumpShowTest.
- */
 class DumpShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Dump Show Endpoint shall return a Dump Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -45,8 +40,6 @@ class DumpShowTest extends TestCase
 
     /**
      * The Dump Show Endpoint shall forbid access to an unsafe dump.
-     *
-     * @return void
      */
     public function testCannotViewUnsafe(): void
     {
@@ -59,8 +52,6 @@ class DumpShowTest extends TestCase
 
     /**
      * The Dump Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

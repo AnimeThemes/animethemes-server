@@ -10,17 +10,12 @@ use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class RemoveTrackTest.
- */
 class RemoveTrackTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Remove Track Action shall remove the sole track.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -45,8 +40,6 @@ class RemoveTrackTest extends TestCase
 
     /**
      * The Remove Track Action shall remove the first track and set the second track as first.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -74,8 +67,6 @@ class RemoveTrackTest extends TestCase
     /**
      * The Remove Track Action shall remove the last track and set the penultimate track as last.
      *
-     * @return void
-     *
      * @throws Exception
      */
     public function testRemoveLast(): void
@@ -101,8 +92,6 @@ class RemoveTrackTest extends TestCase
 
     /**
      * The Remove Track Action shall remove the second track and fill next and previous relations.
-     *
-     * @return void
      *
      * @throws Exception
      */

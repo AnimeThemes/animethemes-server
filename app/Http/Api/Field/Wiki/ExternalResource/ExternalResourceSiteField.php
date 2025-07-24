@@ -14,9 +14,6 @@ use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ExternalResourceSiteField.
- */
 class ExternalResourceSiteField extends EnumField implements CreatableField, UpdatableField
 {
     /**

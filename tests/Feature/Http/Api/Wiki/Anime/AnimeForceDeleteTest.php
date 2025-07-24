@@ -10,15 +10,10 @@ use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeForceDeleteTest.
- */
 class AnimeForceDeleteTest extends TestCase
 {
     /**
      * The Anime Force Delete Endpoint shall require authorization.
-     *
-     * @return void
      */
     public function testAuthorized(): void
     {
@@ -31,8 +26,6 @@ class AnimeForceDeleteTest extends TestCase
 
     /**
      * The Anime Force Delete Endpoint shall forbid users without the force delete anime permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AnimeForceDeleteTest extends TestCase
 
     /**
      * The Anime Force Delete Endpoint shall force delete the anime.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

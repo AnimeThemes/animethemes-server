@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoPixelFormatStreamTest.
- */
 class VideoPixelFormatStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Video Pixel Format Stream Rule shall fail if the pixel format is not yuv420p.
-     *
-     * @return void
      */
     public function testFailsWhenCodecIsNotYuv420p(): void
     {
@@ -67,8 +62,6 @@ class VideoPixelFormatStreamTest extends TestCase
 
     /**
      * The Video Pixel Format Stream Rule shall pass if the pixel format is yuv420p.
-     *
-     * @return void
      */
     public function testPassesWhenCodecIsYuv420p(): void
     {

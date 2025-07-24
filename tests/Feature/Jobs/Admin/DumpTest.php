@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class DumpTest.
- */
 class DumpTest extends TestCase
 {
     /**
      * When a dump is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testDumpCreatedSendsDiscordNotification(): void
     {
@@ -38,8 +33,6 @@ class DumpTest extends TestCase
 
     /**
      * When a dump is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testDumpDeletedSendsDiscordNotification(): void
     {
@@ -56,8 +49,6 @@ class DumpTest extends TestCase
 
     /**
      * When a dump is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testDumpUpdatedSendsDiscordNotification(): void
     {

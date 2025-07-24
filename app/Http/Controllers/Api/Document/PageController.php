@@ -22,9 +22,6 @@ use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class PageController.
- */
 class PageController extends BaseController
 {
     /**

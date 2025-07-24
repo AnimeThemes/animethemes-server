@@ -12,9 +12,6 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 use Stringable;
 
-/**
- * Class Relation.
- */
 abstract class Relation implements Stringable
 {
     use ResolvesArguments;

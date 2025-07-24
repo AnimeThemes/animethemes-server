@@ -15,9 +15,6 @@ use App\Models\Aggregate\ViewAggregate;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class AudioViewCountField.
- */
 class AudioViewCountField extends AggregateField
 {
     /**

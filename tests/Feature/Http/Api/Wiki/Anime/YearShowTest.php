@@ -18,17 +18,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class YearShowTest.
- */
 class YearShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Year Show Endpoint shall return a grouping of Anime Resources of year by season.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -82,8 +77,6 @@ class YearShowTest extends TestCase
 
     /**
      * The Year Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -153,8 +146,6 @@ class YearShowTest extends TestCase
 
     /**
      * The Year Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\ArtistSong;
 
-/**
- * Class ArtistSongArtistIdField.
- */
 class ArtistSongArtistIdField extends Field implements SelectableField
 {
     /**

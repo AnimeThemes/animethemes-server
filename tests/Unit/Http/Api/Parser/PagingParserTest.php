@@ -12,17 +12,12 @@ use App\Http\Api\Parser\PagingParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class PagingParserTest.
- */
 class PagingParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Paging Parser shall return Limit Criteria.
-     *
-     * @return void
      */
     public function testParseLimitCriteriaByDefault(): void
     {
@@ -37,8 +32,6 @@ class PagingParserTest extends TestCase
 
     /**
      * If the provided limit is invalid, the Limit Parser shall use the default.
-     *
-     * @return void
      */
     public function testParseInvalidLimitCriteria(): void
     {
@@ -62,8 +55,6 @@ class PagingParserTest extends TestCase
 
     /**
      * The Paging Parser shall parse valid limits.
-     *
-     * @return void
      */
     public function testParseValidLimitCriteria(): void
     {
@@ -87,8 +78,6 @@ class PagingParserTest extends TestCase
 
     /**
      * By default, the Paging Parser shall return Offset Criteria.
-     *
-     * @return void
      */
     public function testParseOffsetCriteriaByDefault(): void
     {
@@ -103,8 +92,6 @@ class PagingParserTest extends TestCase
 
     /**
      * If the provided size is invalid, the Limit Parser shall use the default.
-     *
-     * @return void
      */
     public function testParseInvalidOffsetCriteria(): void
     {
@@ -128,8 +115,6 @@ class PagingParserTest extends TestCase
 
     /**
      * The Paging Parser shall parse valid sizes.
-     *
-     * @return void
      */
     public function testParseValidOffsetCriteria(): void
     {

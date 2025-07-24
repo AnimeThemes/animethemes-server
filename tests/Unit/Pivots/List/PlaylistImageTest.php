@@ -10,15 +10,10 @@ use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class PlaylistImageTest.
- */
 class PlaylistImageTest extends TestCase
 {
     /**
      * An PlaylistImage shall belong to a Playlist.
-     *
-     * @return void
      */
     public function testPlaylist(): void
     {
@@ -33,8 +28,6 @@ class PlaylistImageTest extends TestCase
 
     /**
      * An PlaylistImage shall belong to an Image.
-     *
-     * @return void
      */
     public function testImage(): void
     {

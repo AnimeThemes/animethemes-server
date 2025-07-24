@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class CountAggregateResolver.
- */
 class CountAggregateResolver
 {
     /**

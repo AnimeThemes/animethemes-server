@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ArtistResourceTest.
- */
 class ArtistResourceTest extends TestCase
 {
     /**
      * When an Artist is attached to a Resource or vice versa, an ArtistResourceCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistResourceCreatedEventDispatched(): void
     {
@@ -36,8 +31,6 @@ class ArtistResourceTest extends TestCase
 
     /**
      * When an Artist is detached from a Resource or vice versa, an ArtistResourceDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistResourceDeletedEventDispatched(): void
     {
@@ -52,8 +45,6 @@ class ArtistResourceTest extends TestCase
 
     /**
      * When an Artist Resource pivot is updated, an ArtistResourceUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistResourceUpdatedEventDispatched(): void
     {
@@ -78,8 +69,6 @@ class ArtistResourceTest extends TestCase
 
     /**
      * The ArtistResourceUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testArtistResourceUpdatedEventEmbedFields(): void
     {

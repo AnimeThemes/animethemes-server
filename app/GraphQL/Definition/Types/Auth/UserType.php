@@ -17,9 +17,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\Auth\User;
 
-/**
- * Class UserType.
- */
 class UserType extends EloquentType implements HasFields, HasRelations
 {
     /**

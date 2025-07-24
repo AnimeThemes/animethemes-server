@@ -11,17 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class GroupTest.
- */
 class GroupTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Groups shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -32,8 +27,6 @@ class GroupTest extends TestCase
 
     /**
      * Groups shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -44,8 +37,6 @@ class GroupTest extends TestCase
 
     /**
      * Group shall have a one-to-many relationship with the type Theme.
-     *
-     * @return void
      */
     public function testThemes(): void
     {

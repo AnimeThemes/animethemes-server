@@ -11,15 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class PruneDumpAction.
- */
 class PruneDumpAction extends PruneAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -28,8 +23,6 @@ class PruneDumpAction extends PruneAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Anime\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Anime\AnimeResourceTab;
 
-/**
- * Class AnimeAnidbResourceTab.
- */
 class AnimeAnidbResourceTab extends AnimeResourceTab
 {
     /**

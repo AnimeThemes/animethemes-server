@@ -21,17 +21,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class SynonymShowTest.
- */
 class SynonymShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Synonym Show Endpoint shall return a Synonym Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -55,8 +50,6 @@ class SynonymShowTest extends TestCase
 
     /**
      * The Synonym Show Endpoint shall return a Synonym Resource for soft deleted synonyms.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -83,8 +76,6 @@ class SynonymShowTest extends TestCase
 
     /**
      * The Synonym Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -118,8 +109,6 @@ class SynonymShowTest extends TestCase
 
     /**
      * The Synonym Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -155,8 +144,6 @@ class SynonymShowTest extends TestCase
 
     /**
      * The Synonym Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -193,8 +180,6 @@ class SynonymShowTest extends TestCase
 
     /**
      * The Synonym Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -231,8 +216,6 @@ class SynonymShowTest extends TestCase
 
     /**
      * The Synonym Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

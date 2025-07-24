@@ -13,9 +13,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Stringable;
 
-/**
- * Class Field.
- */
 abstract class Field implements Stringable
 {
     use ResolvesArguments;

@@ -22,9 +22,6 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Song.
- */
 class Song extends BaseResource
 {
     /**
@@ -85,8 +82,6 @@ class Song extends BaseResource
     /**
      * Determine if the resource can globally search.
      *
-     * @return bool
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function canGloballySearch(): bool
@@ -96,8 +91,6 @@ class Song extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -106,8 +99,6 @@ class Song extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -138,9 +129,6 @@ class Song extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {

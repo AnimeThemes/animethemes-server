@@ -21,9 +21,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ArtistMemberController.
- */
 class ArtistMemberController extends PivotController
 {
     /**

@@ -11,15 +11,10 @@ use App\Pivots\Wiki\ArtistMember;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistMemberDestroyTest.
- */
 class ArtistMemberDestroyTest extends TestCase
 {
     /**
      * The Artist Member Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class ArtistMemberDestroyTest extends TestCase
 
     /**
      * The Artist Member Destroy Endpoint shall forbid users without the delete artist permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -56,8 +49,6 @@ class ArtistMemberDestroyTest extends TestCase
 
     /**
      * The Artist Member Destroy Endpoint shall return an error if the artist member does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -75,8 +66,6 @@ class ArtistMemberDestroyTest extends TestCase
 
     /**
      * The Artist Member Destroy Endpoint shall delete the artist member.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

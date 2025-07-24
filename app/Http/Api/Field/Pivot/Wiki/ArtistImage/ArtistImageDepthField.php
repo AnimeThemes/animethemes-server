@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\ArtistImage;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistImageDepthField.
- */
 class ArtistImageDepthField extends IntField implements CreatableField, UpdatableField
 {
     /**

@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchStudiosField.
- */
 class SearchStudiosField extends Field implements DisplayableField
 {
     /**

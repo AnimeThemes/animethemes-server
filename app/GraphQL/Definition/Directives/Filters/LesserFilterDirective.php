@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Directives\Filters;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Illuminate\Support\Str;
 
-/**
- * Class LesserFilterDirective.
- */
 class LesserFilterDirective extends FilterDirective
 {
     /**

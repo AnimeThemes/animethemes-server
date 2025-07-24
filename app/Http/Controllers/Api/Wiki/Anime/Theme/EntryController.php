@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class EntryController.
- */
 class EntryController extends BaseController
 {
     /**

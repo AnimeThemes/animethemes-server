@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Admin\FeaturedThemeSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class FeaturedThemeResource.
- */
 class FeaturedThemeResource extends BaseResource
 {
     /**

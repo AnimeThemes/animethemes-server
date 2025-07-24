@@ -17,9 +17,6 @@ use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\Pivots\Wiki\StudioResource;
 
-/**
- * Class StudioResourceType.
- */
 class StudioResourceType extends PivotType implements HasFields, HasRelations
 {
     /**

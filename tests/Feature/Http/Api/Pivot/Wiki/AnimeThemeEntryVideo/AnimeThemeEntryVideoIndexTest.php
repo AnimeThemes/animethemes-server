@@ -36,9 +36,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoIndexTest.
- */
 class AnimeThemeEntryVideoIndexTest extends TestCase
 {
     use SortsModels;
@@ -46,8 +43,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * By default, the Anime Theme Entry Video Index Endpoint shall return a collection of Anime Theme Entry Video Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -76,8 +71,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -99,8 +92,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -141,8 +132,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -183,8 +172,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -227,8 +214,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -280,8 +265,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -333,8 +316,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of entries by nsfw.
-     *
-     * @return void
      */
     public function testEntriesByNsfw(): void
     {
@@ -377,8 +358,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of entries by spoiler.
-     *
-     * @return void
      */
     public function testEntriesBySpoiler(): void
     {
@@ -421,8 +400,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of entries by version.
-     *
-     * @return void
      */
     public function testEntriesByVersion(): void
     {
@@ -465,8 +442,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by lyrics.
-     *
-     * @return void
      */
     public function testVideosByLyrics(): void
     {
@@ -509,8 +484,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by nc.
-     *
-     * @return void
      */
     public function testVideosByNc(): void
     {
@@ -553,8 +526,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by overlap.
-     *
-     * @return void
      */
     public function testVideosByOverlap(): void
     {
@@ -597,8 +568,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by resolution.
-     *
-     * @return void
      */
     public function testVideosByResolution(): void
     {
@@ -641,8 +610,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by source.
-     *
-     * @return void
      */
     public function testVideosBySource(): void
     {
@@ -685,8 +652,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by subbed.
-     *
-     * @return void
      */
     public function testVideosBySubbed(): void
     {
@@ -729,8 +694,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by uncen.
-     *
-     * @return void
      */
     public function testVideosByUncen(): void
     {

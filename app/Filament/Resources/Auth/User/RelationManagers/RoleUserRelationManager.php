@@ -10,9 +10,6 @@ use App\Models\Auth\User;
 use Filament\Actions\EditAction;
 use Filament\Tables\Table;
 
-/**
- * Class RoleUserRelationManager.
- */
 class RoleUserRelationManager extends RoleRelationManager
 {
     /**
@@ -24,9 +21,6 @@ class RoleUserRelationManager extends RoleRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

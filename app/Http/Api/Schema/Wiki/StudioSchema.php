@@ -17,9 +17,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 
-/**
- * Class StudioSchema.
- */
 class StudioSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**

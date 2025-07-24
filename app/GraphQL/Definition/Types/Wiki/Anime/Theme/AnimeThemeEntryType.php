@@ -24,9 +24,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
-/**
- * Class AnimeThemeEntryType.
- */
 class AnimeThemeEntryType extends EloquentType implements HasFields, HasRelations
 {
     /**

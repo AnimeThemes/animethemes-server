@@ -11,9 +11,6 @@ use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class PlaylistTrackBuilder.
- */
 class PlaylistTrackBuilder
 {
     /**

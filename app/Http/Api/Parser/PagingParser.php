@@ -9,9 +9,6 @@ use App\Http\Api\Criteria\Paging\LimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use Illuminate\Support\Arr;
 
-/**
- * Class PagingParser.
- */
 class PagingParser extends Parser
 {
     /**

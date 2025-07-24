@@ -15,17 +15,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class FilterParserTest.
- */
 class FilterParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Filter Parser shall return no criteria.
-     *
-     * @return void
      */
     public function testNoCriteriaByDefault(): void
     {
@@ -36,8 +31,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse Trashed Criteria.
-     *
-     * @return void
      */
     public function testParseTrashedCriteria(): void
     {
@@ -54,8 +47,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse Where In criteria.
-     *
-     * @return void
      */
     public function testParseWhereInCriteria(): void
     {
@@ -74,8 +65,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse Has Criteria.
-     *
-     * @return void
      */
     public function testParseHasCriteria(): void
     {
@@ -92,8 +81,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse Where criteria.
-     *
-     * @return void
      */
     public function testParseWhereCriteria(): void
     {
@@ -110,8 +97,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse a global scope if scope is not provided.
-     *
-     * @return void
      */
     public function testParseGlobalScope(): void
     {
@@ -128,8 +113,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse a scope if provided.
-     *
-     * @return void
      */
     public function testParseTypeScope(): void
     {

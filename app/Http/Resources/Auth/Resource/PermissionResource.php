@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Auth\PermissionSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PermissionResource.
- */
 class PermissionResource extends BaseResource
 {
     /**

@@ -15,9 +15,6 @@ use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class ScriptVideoIdField.
- */
 class ScriptVideoIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**

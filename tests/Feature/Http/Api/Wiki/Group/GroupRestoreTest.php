@@ -10,15 +10,10 @@ use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class GroupRestoreTest.
- */
 class GroupRestoreTest extends TestCase
 {
     /**
      * The Group Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class GroupRestoreTest extends TestCase
 
     /**
      * The Group Restore Endpoint shall forbid users without the restore group permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class GroupRestoreTest extends TestCase
 
     /**
      * The Group Restore Endpoint shall forbid users from restoring a group that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class GroupRestoreTest extends TestCase
 
     /**
      * The Group Restore Endpoint shall restore the group.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

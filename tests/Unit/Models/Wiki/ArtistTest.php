@@ -16,17 +16,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class ArtistTest.
- */
 class ArtistTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Artist shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -37,8 +32,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artist shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -49,8 +42,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artists shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -61,8 +52,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artists shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -73,8 +62,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artist shall have a many-to-many relationship with the type Song.
-     *
-     * @return void
      */
     public function testSongs(): void
     {
@@ -92,8 +79,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artist shall have a many-to-many relationship with the type ExternalResource.
-     *
-     * @return void
      */
     public function testExternalResources(): void
     {
@@ -111,8 +96,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artist shall have a many-to-many relationship to the type Artist as "members".
-     *
-     * @return void
      */
     public function testMembers(): void
     {
@@ -130,8 +113,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artist shall have a many-to-many relationship to the type Artist as "groups".
-     *
-     * @return void
      */
     public function testGroups(): void
     {
@@ -149,8 +130,6 @@ class ArtistTest extends TestCase
 
     /**
      * Artist shall have a many-to-many relationship with the type Image.
-     *
-     * @return void
      */
     public function testImages(): void
     {

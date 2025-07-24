@@ -12,9 +12,6 @@ use App\Models\List\Playlist;
 use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
-/**
- * Class PlaylistDescriptionField.
- */
 class PlaylistDescriptionField extends StringField implements CreatableField, UpdatableField
 {
     /**

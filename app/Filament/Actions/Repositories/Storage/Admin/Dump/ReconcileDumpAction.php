@@ -12,17 +12,12 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class ReconcileDumpAction.
- */
 class ReconcileDumpAction extends ReconcileStorageAction
 {
     use ReconcilesDumpRepositories;
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -31,8 +26,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -45,9 +38,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

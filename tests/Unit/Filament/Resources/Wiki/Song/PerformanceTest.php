@@ -18,9 +18,6 @@ use App\Models\Wiki\Song\Performance as PerformanceModel;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class PerformanceTest.
- */
 class PerformanceTest extends BaseResourceTestCase
 {
     /**
@@ -49,8 +46,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -77,8 +72,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -102,8 +95,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountCreateAction(): void
     {
@@ -123,8 +114,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {
@@ -149,8 +138,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot create a record.
-     *
-     * @return void
      */
     public function testUserCannotCreateRecord(): void
     {
@@ -160,8 +147,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot edit a record.
-     *
-     * @return void
      */
     public function testUserCannotEditRecord(): void
     {
@@ -176,8 +161,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot delete a record.
-     *
-     * @return void
      */
     public function testUserCannotDeleteRecord(): void
     {
@@ -195,8 +178,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot restore a record.
-     *
-     * @return void
      */
     public function testUserCannotRestoreRecord(): void
     {
@@ -216,8 +197,6 @@ class PerformanceTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot force delete a record.
-     *
-     * @return void
      */
     public function testUserCannotForceDeleteRecord(): void
     {

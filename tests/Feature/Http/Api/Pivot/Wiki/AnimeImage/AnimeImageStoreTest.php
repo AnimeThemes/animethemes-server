@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeImage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeImageStoreTest.
- */
 class AnimeImageStoreTest extends TestCase
 {
     /**
      * The Anime Image Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class AnimeImageStoreTest extends TestCase
 
     /**
      * The Anime Image Store Endpoint shall forbid users without the create anime & create image permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class AnimeImageStoreTest extends TestCase
 
     /**
      * The Anime Image Store Endpoint shall create an anime image.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

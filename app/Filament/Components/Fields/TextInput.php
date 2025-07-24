@@ -7,9 +7,6 @@ namespace App\Filament\Components\Fields;
 use App\Filament\StateCasts\UriStateCast;
 use Filament\Forms\Components\TextInput as BaseTextInput;
 
-/**
- * Class TextInput.
- */
 class TextInput extends BaseTextInput
 {
     /**

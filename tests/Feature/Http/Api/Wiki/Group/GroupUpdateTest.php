@@ -10,15 +10,10 @@ use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class GroupUpdateTest.
- */
 class GroupUpdateTest extends TestCase
 {
     /**
      * The Group Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class GroupUpdateTest extends TestCase
 
     /**
      * The Group Store Endpoint shall forbid users without the create group permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class GroupUpdateTest extends TestCase
 
     /**
      * The Group Update Endpoint shall forbid users from updating a group that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -73,8 +64,6 @@ class GroupUpdateTest extends TestCase
 
     /**
      * The Group Update Endpoint shall update a group.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

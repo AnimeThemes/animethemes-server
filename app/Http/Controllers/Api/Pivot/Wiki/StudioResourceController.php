@@ -22,9 +22,6 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class StudioResourceController.
- */
 class StudioResourceController extends PivotController
 {
     /**

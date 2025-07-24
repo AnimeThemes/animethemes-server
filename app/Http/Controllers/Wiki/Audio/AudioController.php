@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Config;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class AudioController.
- */
 class AudioController extends Controller
 {
     /**

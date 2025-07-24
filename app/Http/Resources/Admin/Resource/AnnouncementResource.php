@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class AnnouncementResource.
- */
 class AnnouncementResource extends BaseResource
 {
     /**

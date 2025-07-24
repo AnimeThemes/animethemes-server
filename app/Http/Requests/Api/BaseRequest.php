@@ -9,9 +9,6 @@ use App\Http\Api\Schema\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 use RuntimeException;
 
-/**
- * Class BaseRequest.
- */
 abstract class BaseRequest extends FormRequest
 {
     /**
@@ -40,8 +37,6 @@ abstract class BaseRequest extends FormRequest
 
     /**
      * Prepare the data for validation.
-     *
-     * @return void
      */
     protected function prepareForValidation(): void
     {

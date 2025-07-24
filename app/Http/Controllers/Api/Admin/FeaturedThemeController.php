@@ -22,9 +22,6 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class FeaturedThemeController.
- */
 class FeaturedThemeController extends BaseController
 {
     /**

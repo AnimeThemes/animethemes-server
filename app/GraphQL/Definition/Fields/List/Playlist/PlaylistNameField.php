@@ -11,9 +11,6 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist;
 use App\Rules\ModerationRule;
 
-/**
- * Class PlaylistNameField.
- */
 class PlaylistNameField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     /**

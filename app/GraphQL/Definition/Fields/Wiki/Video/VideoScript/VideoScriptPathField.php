@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video\VideoScript;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Video\VideoScript;
 
-/**
- * Class VideoScriptPathField.
- */
 class VideoScriptPathField extends StringField
 {
     /**

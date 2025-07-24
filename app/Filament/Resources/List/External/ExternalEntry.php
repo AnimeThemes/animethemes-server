@@ -31,9 +31,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ExternalEntry.
- */
 class ExternalEntry extends BaseResource
 {
     /**
@@ -93,8 +90,6 @@ class ExternalEntry extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -159,9 +154,6 @@ class ExternalEntry extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Auth\User;
 use Illuminate\Http\Request;
 
-/**
- * Class UserCollection.
- */
 class UserCollection extends BaseCollection
 {
     /**

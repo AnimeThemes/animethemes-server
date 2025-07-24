@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoTest.
- */
 class AnimeThemeEntryVideoTest extends TestCase
 {
     /**
      * An AnimeThemeEntryVideo shall belong to a Video.
-     *
-     * @return void
      */
     public function testVideo(): void
     {
@@ -35,8 +30,6 @@ class AnimeThemeEntryVideoTest extends TestCase
 
     /**
      * An AnimeThemeEntryVideo shall belong to an Entry.
-     *
-     * @return void
      */
     public function testEntry(): void
     {

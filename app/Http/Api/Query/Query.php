@@ -20,9 +20,6 @@ use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
 use Illuminate\Support\Arr;
 
-/**
- * Class Query.
- */
 class Query
 {
     /**

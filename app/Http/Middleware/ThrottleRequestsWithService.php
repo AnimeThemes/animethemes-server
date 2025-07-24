@@ -12,9 +12,6 @@ use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\RateLimiter;
 
-/**
- * Class ThrottleRequestsWithService.
- */
 class ThrottleRequestsWithService
 {
     use DetectsRedis;

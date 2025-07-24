@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 
-/**
- * Class SeriesNameField.
- */
 class SeriesNameField extends StringField implements CreatableField, UpdatableField
 {
     /**

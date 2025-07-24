@@ -14,9 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Builder as ScoutBuilder;
 
-/**
- * Class GlobalSearchScoutProvider.
- */
 class GlobalSearchScoutProvider implements GlobalSearchProvider
 {
     /**

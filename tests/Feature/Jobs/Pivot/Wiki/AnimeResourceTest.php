@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceTest.
- */
 class AnimeResourceTest extends TestCase
 {
     /**
      * When an Anime is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeResourceCreatedSendsDiscordNotification(): void
     {
@@ -43,8 +38,6 @@ class AnimeResourceTest extends TestCase
 
     /**
      * When an Anime is detached from a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeResourceDeletedSendsDiscordNotification(): void
     {
@@ -64,8 +57,6 @@ class AnimeResourceTest extends TestCase
 
     /**
      * When an Anime Resource pivot is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeResourceUpdatedSendsDiscordNotification(): void
     {

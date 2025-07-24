@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoSizeField.
- */
 class VideoSizeField extends IntField
 {
     /**

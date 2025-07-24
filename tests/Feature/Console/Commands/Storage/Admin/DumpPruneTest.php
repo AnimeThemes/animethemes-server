@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class DumpPruneTest.
- */
 class DumpPruneTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Prune Database Dumps Command shall output 'No database dumps deleted'.
-     *
-     * @return void
      */
     public function testNoResults(): void
     {
@@ -37,8 +32,6 @@ class DumpPruneTest extends TestCase
 
     /**
      * If dumps are deleted, the Prune Database Dumps Command shall output '{Deleted Count} database dumps deleted'.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

@@ -16,9 +16,6 @@ use App\Models\List\Playlist\BackwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class PlaylistBackwardController.
- */
 class PlaylistBackwardController extends BaseController
 {
     /**

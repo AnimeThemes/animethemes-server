@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Types\Edges\Wiki;
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 
-/**
- * Class ImageEdgeType.
- */
 class ImageEdgeType extends BaseEdgeType
 {
     /**

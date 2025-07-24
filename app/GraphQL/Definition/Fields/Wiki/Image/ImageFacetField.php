@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Image;
 
-/**
- * Class ImageFacetField.
- */
 class ImageFacetField extends EnumField
 {
     /**

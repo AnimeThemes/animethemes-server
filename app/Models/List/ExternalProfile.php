@@ -202,8 +202,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Dispatch the sync external profile job.
-     *
-     * @return void
      */
     public function startSyncJob(): void
     {

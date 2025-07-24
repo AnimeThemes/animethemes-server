@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\ThemeGroup;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Group;
 
-/**
- * Class ThemeGroupSlugField.
- */
 class ThemeGroupSlugField extends StringField
 {
     /**

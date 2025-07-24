@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class PlaylistTest.
- */
 class PlaylistTest extends TestCase
 {
     /**
      * When a playlist is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistCreatedSendsDiscordNotification(): void
     {
@@ -38,8 +33,6 @@ class PlaylistTest extends TestCase
 
     /**
      * When a playlist is deleted, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistDeletedSendsDiscordNotification(): void
     {
@@ -56,8 +49,6 @@ class PlaylistTest extends TestCase
 
     /**
      * When a playlist is updated, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistUpdatedSendsDiscordNotification(): void
     {

@@ -15,9 +15,6 @@ use App\Models\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class FeaturedThemeUserIdField.
- */
 class FeaturedThemeUserIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**

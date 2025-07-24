@@ -47,8 +47,6 @@ class MembershipRestored extends WikiRestoredEvent implements UpdateRelatedIndic
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

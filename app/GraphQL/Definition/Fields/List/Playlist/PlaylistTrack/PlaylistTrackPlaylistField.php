@@ -14,9 +14,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class PlaylistTrackPlaylistField.
- */
 class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, UpdatableField
 {
     /**

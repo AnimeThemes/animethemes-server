@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 
-/**
- * Class ImageCollection.
- */
 class ImageCollection extends BaseCollection
 {
     /**

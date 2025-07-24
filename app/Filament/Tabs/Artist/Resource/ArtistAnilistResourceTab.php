@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Artist\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Artist\ArtistResourceTab;
 
-/**
- * Class ArtistAnilistResourceTab.
- */
 class ArtistAnilistResourceTab extends ArtistResourceTab
 {
     /**

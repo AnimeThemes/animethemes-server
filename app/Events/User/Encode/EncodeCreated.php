@@ -46,8 +46,6 @@ class EncodeCreated extends BaseEvent implements ManagesTrackEvent
 
     /**
      * Manages a track in a playlist.
-     *
-     * @return void
      */
     public function manageTrack(): void
     {

@@ -16,17 +16,12 @@ use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class ArtistMemberShowTest.
- */
 class ArtistMemberShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Artist Member Show Endpoint shall return an error if the artist member does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -40,8 +35,6 @@ class ArtistMemberShowTest extends TestCase
 
     /**
      * By default, the Artist Member Show Endpoint shall return an Artist Member Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -68,8 +61,6 @@ class ArtistMemberShowTest extends TestCase
 
     /**
      * The Artist Member Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -108,8 +99,6 @@ class ArtistMemberShowTest extends TestCase
 
     /**
      * The Artist Member Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

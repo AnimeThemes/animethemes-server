@@ -15,9 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class WhereCriteria.
- */
 class WhereCriteria extends Criteria
 {
     /**

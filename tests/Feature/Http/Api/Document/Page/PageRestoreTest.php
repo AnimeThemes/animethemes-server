@@ -10,15 +10,10 @@ use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PageRestoreTest.
- */
 class PageRestoreTest extends TestCase
 {
     /**
      * The Page Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class PageRestoreTest extends TestCase
 
     /**
      * The Page Restore Endpoint shall forbid users without the restore page permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class PageRestoreTest extends TestCase
 
     /**
      * The Page Restore Endpoint shall forbid users from restoring a page that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class PageRestoreTest extends TestCase
 
     /**
      * The Page Restore Endpoint shall restore the page.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

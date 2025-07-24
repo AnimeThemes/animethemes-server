@@ -6,9 +6,6 @@ namespace App\GraphQL\Definition\Fields\Admin\Dump;
 
 use App\GraphQL\Definition\Fields\StringField;
 
-/**
- * Class DumpLinkField.
- */
 class DumpLinkField extends StringField
 {
     final public const FIELD = 'link';

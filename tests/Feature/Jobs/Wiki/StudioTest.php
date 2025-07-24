@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class StudioTest.
- */
 class StudioTest extends TestCase
 {
     /**
      * When a studio is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class StudioTest extends TestCase
 
     /**
      * When a studio is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class StudioTest extends TestCase
 
     /**
      * When a studio is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class StudioTest extends TestCase
 
     /**
      * When a studio is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioUpdatedSendsDiscordNotification(): void
     {

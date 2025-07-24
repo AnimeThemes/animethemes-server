@@ -13,9 +13,6 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-/**
- * Class FeaturedThemeEndAtField.
- */
 class FeaturedThemeEndAtField extends DateField implements CreatableField, UpdatableField
 {
     /**

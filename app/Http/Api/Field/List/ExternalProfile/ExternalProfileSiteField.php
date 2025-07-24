@@ -12,9 +12,6 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ExternalProfileSiteField.
- */
 class ExternalProfileSiteField extends EnumField implements CreatableField
 {
     /**

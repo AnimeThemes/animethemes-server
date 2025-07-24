@@ -15,9 +15,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class UuidField.
- */
 class UuidField extends Field implements FilterableField, RenderableField, SelectableField
 {
     /**

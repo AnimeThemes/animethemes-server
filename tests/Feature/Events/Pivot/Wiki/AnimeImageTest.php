@@ -11,15 +11,10 @@ use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnimeImageTest.
- */
 class AnimeImageTest extends TestCase
 {
     /**
      * When an Anime is attached to an Image or vice versa, an AnimeImageCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeImageCreatedEventDispatched(): void
     {
@@ -33,8 +28,6 @@ class AnimeImageTest extends TestCase
 
     /**
      * When an Anime is detached from an Image or vice versa, an AnimeImageDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeImageDeletedEventDispatched(): void
     {

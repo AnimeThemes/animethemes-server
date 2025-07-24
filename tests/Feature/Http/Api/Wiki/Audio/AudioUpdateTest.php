@@ -10,15 +10,10 @@ use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AudioUpdateTest.
- */
 class AudioUpdateTest extends TestCase
 {
     /**
      * The Audio Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class AudioUpdateTest extends TestCase
 
     /**
      * The Audio Update Endpoint shall forbid users without the update audio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class AudioUpdateTest extends TestCase
 
     /**
      * The Audio Update Endpoint shall forbid users from updating an audio that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -73,8 +64,6 @@ class AudioUpdateTest extends TestCase
 
     /**
      * The Audio Update Endpoint shall update an audio.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

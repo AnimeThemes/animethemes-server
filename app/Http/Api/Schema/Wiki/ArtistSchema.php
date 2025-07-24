@@ -26,9 +26,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 
-/**
- * Class ArtistSchema.
- */
 class ArtistSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**

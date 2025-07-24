@@ -12,9 +12,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * Class MalStudioExternalApiAction.
- */
 class MalStudioExternalApiAction extends ExternalApiAction implements BackfillImages
 {
     /**

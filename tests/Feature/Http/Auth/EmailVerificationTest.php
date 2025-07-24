@@ -16,17 +16,12 @@ use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
-/**
- * Class EmailVerificationTest.
- */
 class EmailVerificationTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Email Verification route shall assign default roles.
-     *
-     * @return void
      */
     public function testAssignsDefaultRoles(): void
     {

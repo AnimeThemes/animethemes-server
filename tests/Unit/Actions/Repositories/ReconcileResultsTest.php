@@ -9,15 +9,10 @@ use App\Enums\Actions\ActionStatus;
 use Illuminate\Database\Eloquent\Model;
 use Tests\TestCase;
 
-/**
- * Class ReconcileResultsTest.
- */
 class ReconcileResultsTest extends TestCase
 {
     /**
      * The Reconcile Results shall always return true.
-     *
-     * @return void
      */
     public function testDefault(): void
     {

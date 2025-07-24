@@ -23,9 +23,6 @@ use App\Models\Wiki\Artist as ArtistModel;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListArtists.
- */
 class ListArtists extends BaseListResources
 {
     use HasTabs;

@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class DumpStoreTest.
- */
 class DumpStoreTest extends TestCase
 {
     /**
      * The Dump Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class DumpStoreTest extends TestCase
 
     /**
      * The Dump Store Endpoint shall forbid users without the create dump permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class DumpStoreTest extends TestCase
 
     /**
      * The Dump Store Endpoint shall require the path field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -67,8 +58,6 @@ class DumpStoreTest extends TestCase
 
     /**
      * The Dump Store Endpoint shall create a dump.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

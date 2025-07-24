@@ -14,9 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-/**
- * Class Criteria.
- */
 abstract class Criteria
 {
     final public const PARAM_SEPARATOR = '-';

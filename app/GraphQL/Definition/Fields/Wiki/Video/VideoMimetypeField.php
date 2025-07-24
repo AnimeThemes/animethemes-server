@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoMimetypeField.
- */
 class VideoMimetypeField extends StringField
 {
     /**

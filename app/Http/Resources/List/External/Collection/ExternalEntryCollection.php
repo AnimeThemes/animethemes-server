@@ -9,9 +9,6 @@ use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalEntryCollection.
- */
 class ExternalEntryCollection extends BaseCollection
 {
     /**

@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\ExistsResolver;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class ExistsField.
- */
 #[UseField(ExistsResolver::class)]
 class ExistsField extends Field implements DisplayableField
 {

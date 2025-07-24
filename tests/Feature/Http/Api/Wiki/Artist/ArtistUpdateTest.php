@@ -10,15 +10,10 @@ use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistUpdateTest.
- */
 class ArtistUpdateTest extends TestCase
 {
     /**
      * The Artist Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class ArtistUpdateTest extends TestCase
 
     /**
      * The Artist Update Endpoint shall forbid users without the update artist permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class ArtistUpdateTest extends TestCase
 
     /**
      * The Artist Update Endpoint shall forbid users from updating an artist that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -73,8 +64,6 @@ class ArtistUpdateTest extends TestCase
 
     /**
      * The Artist Update Endpoint shall update an artist.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

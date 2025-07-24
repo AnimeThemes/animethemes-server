@@ -11,9 +11,6 @@ use App\Http\Api\Filter\BooleanFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Schema\Schema;
 
-/**
- * Class ExistsField.
- */
 abstract class ExistsField extends AggregateField
 {
     /**

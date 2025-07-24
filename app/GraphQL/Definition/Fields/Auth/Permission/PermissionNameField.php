@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Auth\Permission;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Auth\Permission;
 
-/**
- * Class PermissionNameField.
- */
 class PermissionNameField extends StringField
 {
     /**

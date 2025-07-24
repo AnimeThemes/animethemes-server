@@ -13,9 +13,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalResourceLinkField.
- */
 class ExternalResourceLinkField extends StringField implements CreatableField, UpdatableField
 {
     /**

@@ -11,15 +11,10 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class TrackTest.
- */
 class TrackTest extends TestCase
 {
     /**
      * Playlist Tracks shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -32,8 +27,6 @@ class TrackTest extends TestCase
 
     /**
      * Playlist Tracks shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -46,8 +39,6 @@ class TrackTest extends TestCase
 
     /**
      * Playlists shall include playlist and track ids for hashids encoding.
-     *
-     * @return void
      */
     public function testHashids(): void
     {
@@ -63,8 +54,6 @@ class TrackTest extends TestCase
 
     /**
      * Playlist Tracks shall belong to a Playlist.
-     *
-     * @return void
      */
     public function testPlaylist(): void
     {
@@ -78,8 +67,6 @@ class TrackTest extends TestCase
 
     /**
      * Playlist Tracks shall link to a previous Track.
-     *
-     * @return void
      */
     public function testPrevious(): void
     {
@@ -101,8 +88,6 @@ class TrackTest extends TestCase
 
     /**
      * Playlist Tracks shall link to a next Track.
-     *
-     * @return void
      */
     public function testNext(): void
     {
@@ -124,8 +109,6 @@ class TrackTest extends TestCase
 
     /**
      * Playlist Tracks shall belong to a Video.
-     *
-     * @return void
      */
     public function testVideo(): void
     {

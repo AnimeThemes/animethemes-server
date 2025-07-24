@@ -12,17 +12,12 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-/**
- * Class BooleanFilterTest.
- */
 class BooleanFilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If values that are not mappable to booleans are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfNoBooleans(): void
     {
@@ -37,8 +32,6 @@ class BooleanFilterTest extends TestCase
 
     /**
      * If both boolean values are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfAllBooleans(): void
     {
@@ -53,8 +46,6 @@ class BooleanFilterTest extends TestCase
 
     /**
      * The boolean filter shall convert validated boolean options to boolean values.
-     *
-     * @return void
      */
     public function testConvertsValidatedBoolean(): void
     {

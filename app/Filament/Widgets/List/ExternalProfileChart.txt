@@ -8,9 +8,6 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\List\ExternalProfile;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class ExternalProfileChart.
- */
 class ExternalProfileChart extends BaseChartWidget
 {
     /**

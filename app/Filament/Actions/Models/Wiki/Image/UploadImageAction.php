@@ -15,9 +15,6 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class UploadImageAction.
- */
 class UploadImageAction extends BaseAction
 {
     use CanCreateImage;
@@ -26,8 +23,6 @@ class UploadImageAction extends BaseAction
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -36,8 +31,6 @@ class UploadImageAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -65,7 +58,6 @@ class UploadImageAction extends BaseAction
      * Perform the action on the table.
      *
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(array $data): void
     {
@@ -77,9 +69,6 @@ class UploadImageAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): Schema
     {

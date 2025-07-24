@@ -20,9 +20,6 @@ use App\Models\Wiki\Image;
 use App\Pivots\Wiki\ArtistImage;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ArtistImageController.
- */
 class ArtistImageController extends PivotController
 {
     /**

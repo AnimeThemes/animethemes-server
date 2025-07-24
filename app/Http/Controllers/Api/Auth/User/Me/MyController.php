@@ -15,9 +15,6 @@ use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class MyController.
- */
 class MyController extends BaseController
 {
     /**

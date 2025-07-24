@@ -47,8 +47,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * Setup the test environment.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -59,8 +57,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall forbid a private profile from being publicly viewed.
-     *
-     * @return void
      */
     public function testPrivateExternalEntryCannotBePubliclyViewed(): void
     {
@@ -78,8 +74,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall forbid the user from viewing private profile entries if not owned.
-     *
-     * @return void
      */
     public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
     {
@@ -101,8 +95,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall allow private profile entries to be viewed by the owner.
-     *
-     * @return void
      */
     public function testPrivateExternalEntryCanBeViewedByOwner(): void
     {
@@ -124,8 +116,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall allow public profile entries to be viewed.
-     *
-     * @return void
      */
     public function testPublicExternalEntryCanBeViewed(): void
     {
@@ -143,8 +133,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * By default, the External Entry Index Endpoint shall return a collection of External Entry Resources that belong to the External Profile.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -183,8 +171,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -205,8 +191,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -254,8 +238,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -293,8 +275,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -336,8 +316,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -392,8 +370,6 @@ class ExternalEntryIndexTest extends TestCase
 
     /**
      * The External Entry Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

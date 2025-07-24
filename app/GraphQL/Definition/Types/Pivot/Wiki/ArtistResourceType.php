@@ -17,9 +17,6 @@ use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\Pivots\Wiki\ArtistResource;
 
-/**
- * Class ArtistResourceType.
- */
 class ArtistResourceType extends PivotType implements HasFields, HasRelations
 {
     /**

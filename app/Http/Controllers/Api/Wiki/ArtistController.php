@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ArtistController.
- */
 class ArtistController extends BaseController
 {
     /**

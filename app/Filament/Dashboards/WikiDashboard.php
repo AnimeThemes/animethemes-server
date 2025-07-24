@@ -11,9 +11,6 @@ use Filament\Panel;
 // use App\Filament\Widgets\Wiki\Series\SeriesChart;
 // use App\Filament\Widgets\Wiki\Video\VideoChart;
 
-/**
- * Class WikiDashboard.
- */
 class WikiDashboard extends BaseDashboard
 {
     /**

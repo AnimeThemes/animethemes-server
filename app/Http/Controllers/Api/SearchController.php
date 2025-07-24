@@ -12,9 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SearchRequest;
 use App\Http\Resources\SearchResource;
 
-/**
- * Class SearchController.
- */
 class SearchController extends Controller implements InteractsWithSchema
 {
     /**

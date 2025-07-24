@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeSeriesCollection.
- */
 class AnimeSeriesCollection extends BaseCollection
 {
     /**

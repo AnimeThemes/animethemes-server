@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class EntrySchema.
- */
 class EntrySchema extends EloquentSchema implements SearchableSchema
 {
     /**

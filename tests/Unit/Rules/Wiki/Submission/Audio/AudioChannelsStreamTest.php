@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioChannelsStreamTest.
- */
 class AudioChannelsStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Channels Stream Rule shall fail if the channel count is not 2.
-     *
-     * @return void
      */
     public function testFailsWhenChannelCountIsNotTwo(): void
     {
@@ -63,8 +58,6 @@ class AudioChannelsStreamTest extends TestCase
 
     /**
      * The Audio Channels Stream Rule shall pass if the channel count is 2.
-     *
-     * @return void
      */
     public function testPassesWhenChannelCountIsTwo(): void
     {

@@ -31,9 +31,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-/**
- * Class FeaturedTheme.
- */
 class FeaturedTheme extends BaseResource
 {
     /**
@@ -93,8 +90,6 @@ class FeaturedTheme extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -197,9 +192,6 @@ class FeaturedTheme extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {

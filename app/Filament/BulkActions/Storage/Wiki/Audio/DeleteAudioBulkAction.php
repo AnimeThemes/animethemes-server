@@ -10,15 +10,10 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DeleteAudioBulkAction.
- */
 class DeleteAudioBulkAction extends DeleteBulkAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -27,8 +22,6 @@ class DeleteAudioBulkAction extends DeleteBulkAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

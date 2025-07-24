@@ -13,9 +13,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-/**
- * Class SearchRequest.
- */
 class SearchRequest extends ReadRequest
 {
     /**
@@ -175,7 +172,6 @@ class SearchRequest extends ReadRequest
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
      *
      * @param  Validator  $validator
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

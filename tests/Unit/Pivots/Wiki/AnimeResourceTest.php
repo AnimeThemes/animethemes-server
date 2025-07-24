@@ -10,15 +10,10 @@ use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceTest.
- */
 class AnimeResourceTest extends TestCase
 {
     /**
      * An AnimeResource shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -33,8 +28,6 @@ class AnimeResourceTest extends TestCase
 
     /**
      * An AnimeResource shall belong to an ExternalResource.
-     *
-     * @return void
      */
     public function testResource(): void
     {

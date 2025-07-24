@@ -6,9 +6,6 @@ namespace App\GraphQL\Definition\Directives\Filters;
 
 use Illuminate\Support\Str;
 
-/**
- * Class EqFilterDirective.
- */
 class EqFilterDirective extends FilterDirective
 {
     /**

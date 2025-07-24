@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SongController.
- */
 class SongController extends BaseController
 {
     /**

@@ -15,9 +15,6 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-/**
- * Class PlaylistTrackVideoIdField.
- */
 class PlaylistTrackVideoIdField extends Field implements CreatableField, RequiredOnCreation, UpdatableField
 {
     /**

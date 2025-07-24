@@ -10,15 +10,10 @@ use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class AnimeSeriesTest.
- */
 class AnimeSeriesTest extends TestCase
 {
     /**
      * An AnimeSeries shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -33,8 +28,6 @@ class AnimeSeriesTest extends TestCase
 
     /**
      * An AnimeSeries shall belong to a Series.
-     *
-     * @return void
      */
     public function testSeries(): void
     {

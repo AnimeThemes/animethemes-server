@@ -17,9 +17,6 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class SynonymSchema.
- */
 class SynonymSchema extends EloquentSchema implements SearchableSchema
 {
     /**

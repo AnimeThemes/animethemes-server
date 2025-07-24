@@ -17,17 +17,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileTest.
- */
 class ExternalProfileTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The site attribute of a profile shall be cast to a ExternalProfileSite enum instance.
-     *
-     * @return void
      */
     public function testCastsSiteToEnum(): void
     {
@@ -40,8 +35,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * The visibility attribute of a profile shall be cast to a ExternalProfileVisibility enum instance.
-     *
-     * @return void
      */
     public function testCastsVisibilityToEnum(): void
     {
@@ -54,8 +47,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profile shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -66,8 +57,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profile shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -80,8 +69,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Public profiles shall be searchable.
-     *
-     * @return void
      */
     public function testSearchableIfPublic(): void
     {
@@ -95,8 +82,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profiles shall not be searchable if not public.
-     *
-     * @return void
      */
     public function testNotSearchableIfNotPublic(): void
     {
@@ -119,8 +104,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profile with a user shall be claimed.
-     *
-     * @return void
      */
     public function testClaimed(): void
     {
@@ -137,8 +120,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profiles shall belong to a user.
-     *
-     * @return void
      */
     public function testUser(): void
     {
@@ -152,8 +133,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profiles shall have a one-to-one relationship with the type external token.
-     *
-     * @return void
      */
     public function testExternalToken(): void
     {
@@ -167,8 +146,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * Profiles shall have a one-to-many relationship with the type ExternalEntry.
-     *
-     * @return void
      */
     public function testExternalEntries(): void
     {

@@ -59,8 +59,6 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

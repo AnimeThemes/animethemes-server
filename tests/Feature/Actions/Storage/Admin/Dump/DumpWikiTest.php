@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class DumpWikiTest.
- */
 class DumpWikiTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Database Dump Command shall output "Database dump '{dumpFile}' has been created".
-     *
-     * @return void
      *
      * @throws Exception
      */

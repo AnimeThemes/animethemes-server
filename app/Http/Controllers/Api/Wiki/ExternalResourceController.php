@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ExternalResourceController.
- */
 class ExternalResourceController extends BaseController
 {
     /**

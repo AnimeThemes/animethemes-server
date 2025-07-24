@@ -20,17 +20,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
-/**
- * Class CreateAction.
- */
 class CreateAction extends BaseCreateAction
 {
     use HasPivotActionLogs;
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

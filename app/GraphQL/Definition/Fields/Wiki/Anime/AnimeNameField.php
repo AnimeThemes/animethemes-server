@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeNameField.
- */
 class AnimeNameField extends StringField
 {
     /**

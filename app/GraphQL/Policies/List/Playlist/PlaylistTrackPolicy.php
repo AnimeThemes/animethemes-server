@@ -13,9 +13,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
 
-/**
- * Class PlaylistTrackPolicy.
- */
 class PlaylistTrackPolicy extends BasePolicy
 {
     /**

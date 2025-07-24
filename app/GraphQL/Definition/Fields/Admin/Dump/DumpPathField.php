@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Admin\Dump;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Admin\Dump;
 
-/**
- * Class DumpPathField.
- */
 class DumpPathField extends StringField
 {
     /**

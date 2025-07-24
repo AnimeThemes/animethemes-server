@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class EntryCollection.
- */
 class EntryCollection extends BaseCollection
 {
     /**

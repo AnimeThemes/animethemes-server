@@ -19,9 +19,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Wiki\Video\VideoScript;
 
-/**
- * Class VideoScriptType.
- */
 class VideoScriptType extends EloquentType implements HasFields, HasRelations
 {
     /**

@@ -11,9 +11,6 @@ use App\GraphQL\Definition\Fields\User\Notification\NotificationData\Notificatio
 use App\GraphQL\Definition\Fields\User\Notification\NotificationData\NotificationDataTitleField;
 use App\GraphQL\Definition\Types\BaseType;
 
-/**
- * Class NotificationDataType.
- */
 class NotificationDataType extends BaseType implements HasFields
 {
     /**

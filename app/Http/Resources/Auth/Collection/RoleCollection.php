@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Auth\Role;
 use Illuminate\Http\Request;
 
-/**
- * Class RoleCollection.
- */
 class RoleCollection extends BaseCollection
 {
     /**

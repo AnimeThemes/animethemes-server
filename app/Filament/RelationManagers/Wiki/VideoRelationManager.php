@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Wiki\Video;
 use Filament\Tables\Table;
 
-/**
- * Class VideoRelationManager.
- */
 abstract class VideoRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class VideoRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeSeries;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeSeriesStoreTest.
- */
 class AnimeSeriesStoreTest extends TestCase
 {
     /**
      * The Anime Series Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class AnimeSeriesStoreTest extends TestCase
 
     /**
      * The Anime Series Store Endpoint shall forbid users without the create anime & create series permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class AnimeSeriesStoreTest extends TestCase
 
     /**
      * The Anime Series Store Endpoint shall create an anime series.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

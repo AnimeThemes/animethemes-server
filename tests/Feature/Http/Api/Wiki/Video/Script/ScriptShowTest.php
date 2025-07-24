@@ -21,17 +21,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ScriptShowTest.
- */
 class ScriptShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Script Show Endpoint shall return a Script Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -53,8 +48,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall return a Script Resource for soft deleted scripts.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -76,8 +69,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -113,8 +104,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -148,8 +137,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by lyrics.
-     *
-     * @return void
      */
     public function testVideosByLyrics(): void
     {
@@ -188,8 +175,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by nc.
-     *
-     * @return void
      */
     public function testVideosByNc(): void
     {
@@ -228,8 +213,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by overlap.
-     *
-     * @return void
      */
     public function testVideosByOverlap(): void
     {
@@ -268,8 +251,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by resolution.
-     *
-     * @return void
      */
     public function testVideosByResolution(): void
     {
@@ -313,8 +294,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by source.
-     *
-     * @return void
      */
     public function testVideosBySource(): void
     {
@@ -353,8 +332,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by subbed.
-     *
-     * @return void
      */
     public function testVideosBySubbed(): void
     {
@@ -393,8 +370,6 @@ class ScriptShowTest extends TestCase
 
     /**
      * The Script Show Endpoint shall support constrained eager loading of videos by uncen.
-     *
-     * @return void
      */
     public function testVideosByUncen(): void
     {

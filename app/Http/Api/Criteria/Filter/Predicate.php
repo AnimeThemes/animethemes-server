@@ -6,9 +6,6 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 
-/**
- * Class Predicate.
- */
 readonly class Predicate
 {
     /**

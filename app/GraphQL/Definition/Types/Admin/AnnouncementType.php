@@ -13,9 +13,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Announcement;
 
-/**
- * Class AnnouncementType.
- */
 class AnnouncementType extends EloquentType implements HasFields
 {
     /**

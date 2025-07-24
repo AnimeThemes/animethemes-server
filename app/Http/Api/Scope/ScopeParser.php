@@ -6,9 +6,6 @@ namespace App\Http\Api\Scope;
 
 use Illuminate\Support\Str;
 
-/**
- * Class ScopeParser.
- */
 class ScopeParser
 {
     /**

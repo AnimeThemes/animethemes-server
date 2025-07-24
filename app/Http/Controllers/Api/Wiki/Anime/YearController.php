@@ -16,9 +16,6 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 
-/**
- * Class YearController.
- */
 class YearController extends Controller implements InteractsWithSchema
 {
     /**

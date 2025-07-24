@@ -17,9 +17,6 @@ use App\Http\Resources\Admin\Collection\FeatureCollection;
 use App\Http\Resources\Admin\Resource\FeatureResource;
 use App\Models\Admin\Feature;
 
-/**
- * Class FeatureController.
- */
 class FeatureController extends BaseController
 {
     /**

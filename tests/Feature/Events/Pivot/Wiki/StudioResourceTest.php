@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class StudioResourceTest.
- */
 class StudioResourceTest extends TestCase
 {
     /**
      * When a Studio is attached to a Resource or vice versa, a StudioResourceCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioResourceCreatedEventDispatched(): void
     {
@@ -36,8 +31,6 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio is detached to a Resource or vice versa, a StudioResourceDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioResourceDeletedEventDispatched(): void
     {
@@ -52,8 +45,6 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio Resource pivot is updated, a StudioResourceUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioResourceUpdatedEventDispatched(): void
     {
@@ -78,8 +69,6 @@ class StudioResourceTest extends TestCase
 
     /**
      * The StudioResourceUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testStudioResourceUpdatedEventEmbedFields(): void
     {

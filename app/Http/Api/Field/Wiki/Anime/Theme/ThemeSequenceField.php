@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 
-/**
- * Class ThemeSequenceField.
- */
 class ThemeSequenceField extends IntField implements CreatableField, UpdatableField
 {
     /**

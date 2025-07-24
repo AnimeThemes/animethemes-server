@@ -16,9 +16,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Document\Page;
 
-/**
- * Class PageType.
- */
 class PageType extends EloquentType implements HasFields
 {
     /**

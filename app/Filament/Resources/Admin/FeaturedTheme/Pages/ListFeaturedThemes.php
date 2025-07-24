@@ -7,9 +7,6 @@ namespace App\Filament\Resources\Admin\FeaturedTheme\Pages;
 use App\Filament\Resources\Admin\FeaturedTheme;
 use App\Filament\Resources\Base\BaseListResources;
 
-/**
- * Class ListFeaturedThemes.
- */
 class ListFeaturedThemes extends BaseListResources
 {
     protected static string $resource = FeaturedTheme::class;

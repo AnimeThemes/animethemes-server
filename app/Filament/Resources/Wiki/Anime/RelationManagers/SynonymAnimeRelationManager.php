@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use Filament\Tables\Table;
 
-/**
- * Class SynonymAnimeRelationManager.
- */
 class SynonymAnimeRelationManager extends SynonymRelationManager
 {
     /**

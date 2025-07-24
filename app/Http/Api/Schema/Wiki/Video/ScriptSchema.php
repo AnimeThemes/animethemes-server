@@ -16,9 +16,6 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ScriptSchema.
- */
 class ScriptSchema extends EloquentSchema
 {
     /**

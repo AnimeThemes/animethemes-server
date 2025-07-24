@@ -15,9 +15,6 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\FeatureResource;
 use App\Models\Admin\Feature;
 
-/**
- * Class FeatureSchema.
- */
 class FeatureSchema extends EloquentSchema
 {
     /**

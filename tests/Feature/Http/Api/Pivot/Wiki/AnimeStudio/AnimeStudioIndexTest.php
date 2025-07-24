@@ -34,9 +34,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class AnimeStudioIndexTest.
- */
 class AnimeStudioIndexTest extends TestCase
 {
     use SortsModels;
@@ -44,8 +41,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * By default, the Anime Studio Index Endpoint shall return a collection of Anime Studio Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -74,8 +69,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -97,8 +90,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -139,8 +130,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -181,8 +170,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -225,8 +212,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -278,8 +263,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -331,8 +314,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -375,8 +356,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -419,8 +398,6 @@ class AnimeStudioIndexTest extends TestCase
 
     /**
      * The Anime Studio Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

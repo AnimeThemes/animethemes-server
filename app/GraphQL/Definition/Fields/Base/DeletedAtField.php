@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Base;
 use App\Constants\ModelConstants;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
 
-/**
- * Class DeletedAtField.
- */
 class DeletedAtField extends DateTimeTzField
 {
     /**

@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchSeriesField.
- */
 class SearchSeriesField extends Field implements DisplayableField
 {
     /**

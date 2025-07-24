@@ -9,15 +9,10 @@ use App\Enums\Actions\ActionStatus;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ActionResultTest.
- */
 class ActionResultTest extends TestCase
 {
     /**
      * The Action Result has failed if the status is Failed.
-     *
-     * @return void
      */
     public function testHasFailed(): void
     {
@@ -28,8 +23,6 @@ class ActionResultTest extends TestCase
 
     /**
      * The Action Result has not failed if the status is not Failed.
-     *
-     * @return void
      */
     public function testHasNotFailed(): void
     {

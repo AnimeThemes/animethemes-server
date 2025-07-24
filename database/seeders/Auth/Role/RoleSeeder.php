@@ -11,15 +11,10 @@ use App\Models\Auth\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
-/**
- * Class RoleSeeder.
- */
 class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -39,7 +34,6 @@ class RoleSeeder extends Seeder
      * @param  Role  $role
      * @param  string  $resource
      * @param  array  $abilities
-     * @return void
      */
     protected function configureResource(Role $role, string $resource, array $abilities): void
     {
@@ -56,7 +50,6 @@ class RoleSeeder extends Seeder
      *
      * @param  Role  $role
      * @param  string[]  $abilities
-     * @return void
      */
     protected function configureAbilities(Role $role, array $abilities): void
     {

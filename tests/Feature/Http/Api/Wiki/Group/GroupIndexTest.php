@@ -39,9 +39,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class GroupIndexTest.
- */
 class GroupIndexTest extends TestCase
 {
     use SortsModels;
@@ -49,8 +46,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * By default, the Group Index Endpoint shall return a collection of Group Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -72,8 +67,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -90,8 +83,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -130,8 +121,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -165,8 +154,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -204,8 +191,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -247,8 +232,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -290,8 +273,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -326,8 +307,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -362,8 +341,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -398,8 +375,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -442,8 +417,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -493,8 +466,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -535,8 +506,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -577,8 +546,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -619,8 +586,6 @@ class GroupIndexTest extends TestCase
 
     /**
      * The Group Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

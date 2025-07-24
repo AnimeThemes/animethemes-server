@@ -13,17 +13,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class MyExternalProfileIndexTest.
- */
 class MyExternalProfileIndexTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The My External Profile Index Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class MyExternalProfileIndexTest extends TestCase
 
     /**
      * The My External Profile Index Endpoint shall forbid users without the view external profile permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -50,8 +43,6 @@ class MyExternalProfileIndexTest extends TestCase
 
     /**
      * The My External Profile Index Endpoint shall return profiles owned by the user.
-     *
-     * @return void
      */
     public function testOnlySeesOwnedProfiles(): void
     {

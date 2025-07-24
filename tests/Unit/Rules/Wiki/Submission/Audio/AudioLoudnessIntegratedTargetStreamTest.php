@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioLoudnessIntegratedTargetStreamTest.
- */
 class AudioLoudnessIntegratedTargetStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Loudness Integrated Target Stream Rule shall fail if the integrated target is not within the accepted range.
-     *
-     * @return void
      */
     public function testFailsWhenIntegratedTargetIsNotExpected(): void
     {
@@ -62,8 +57,6 @@ class AudioLoudnessIntegratedTargetStreamTest extends TestCase
 
     /**
      * The Audio Loudness Integrated Target Stream Rule shall pass if the integrated target is within the accepted range.
-     *
-     * @return void
      */
     public function testPassesWhenIntegratedTargetIsNotExpected(): void
     {

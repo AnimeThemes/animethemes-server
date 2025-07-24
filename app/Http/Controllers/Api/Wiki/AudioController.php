@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AudioController.
- */
 class AudioController extends BaseController
 {
     /**

@@ -10,9 +10,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Class LogGraphQLRequest.
- */
 class LogGraphQLRequest
 {
     /**

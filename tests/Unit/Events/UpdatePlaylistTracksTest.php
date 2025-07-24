@@ -9,15 +9,10 @@ use App\Listeners\List\UpdatePlaylistTracks;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class UpdatePlaylistTracksTest.
- */
 class UpdatePlaylistTracksTest extends TestCase
 {
     /**
      * UpdatePlaylistTracks shall listen to UpdatePlaylistTracksEvent.
-     *
-     * @return void
      */
     public function testListening(): void
     {

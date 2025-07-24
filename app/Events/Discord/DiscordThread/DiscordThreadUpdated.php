@@ -50,8 +50,6 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
 
     /**
      * Update the thread on discord.
-     *
-     * @return void
      */
     protected function updateThread(): void
     {

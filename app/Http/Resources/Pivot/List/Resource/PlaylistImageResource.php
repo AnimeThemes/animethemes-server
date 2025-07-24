@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\List\PlaylistImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PlaylistImageResource.
- */
 class PlaylistImageResource extends BaseResource
 {
     /**

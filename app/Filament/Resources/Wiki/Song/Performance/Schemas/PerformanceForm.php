@@ -20,9 +20,6 @@ use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
-/**
- * Class PerformanceForm.
- */
 class PerformanceForm
 {
     final public const REPEATER_PERFORMANCES = SongModel::RELATION_PERFORMANCES;

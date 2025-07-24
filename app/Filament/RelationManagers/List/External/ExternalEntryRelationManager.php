@@ -10,9 +10,6 @@ use App\Filament\Resources\List\External\ExternalEntry as ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use Filament\Tables\Table;
 
-/**
- * Class ExternalEntryRelationManager.
- */
 abstract class ExternalEntryRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

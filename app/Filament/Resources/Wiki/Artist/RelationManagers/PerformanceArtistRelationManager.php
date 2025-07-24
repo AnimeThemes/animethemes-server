@@ -12,9 +12,6 @@ use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Table;
 
-/**
- * Class PerformanceArtistRelationManager.
- */
 class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
@@ -47,9 +44,6 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

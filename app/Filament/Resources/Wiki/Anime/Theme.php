@@ -51,9 +51,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 
-/**
- * Class Theme.
- */
 class Theme extends BaseResource
 {
     /**
@@ -127,8 +124,6 @@ class Theme extends BaseResource
     /**
      * Determine if the resource can globally search.
      *
-     * @return bool
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function canGloballySearch(): bool
@@ -138,8 +133,6 @@ class Theme extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -260,9 +253,6 @@ class Theme extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {
@@ -346,7 +336,6 @@ class Theme extends BaseResource
      *
      * @param  Set  $set
      * @param  Get  $get
-     * @return void
      */
     protected static function setThemeSlug(Set $set, Get $get): void
     {

@@ -8,9 +8,6 @@ use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryWatchStatusField.
- */
 class ExternalEntryWatchStatusField extends EnumField
 {
     /**

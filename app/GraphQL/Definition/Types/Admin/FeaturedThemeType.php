@@ -20,9 +20,6 @@ use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Admin\FeaturedTheme;
 
-/**
- * Class FeaturedThemeType.
- */
 class FeaturedThemeType extends EloquentType implements HasFields, HasRelations
 {
     /**

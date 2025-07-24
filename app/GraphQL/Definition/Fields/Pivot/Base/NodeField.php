@@ -11,9 +11,6 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class NodeField.
- */
 class NodeField extends Field implements DisplayableField
 {
     /**

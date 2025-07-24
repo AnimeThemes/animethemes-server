@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 
-/**
- * Class SynonymCollection.
- */
 class SynonymCollection extends BaseCollection
 {
     /**

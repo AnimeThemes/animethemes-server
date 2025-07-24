@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Series;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Series;
 
-/**
- * Class SeriesSlugField.
- */
 class SeriesSlugField extends StringField
 {
     /**

@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class EncoderVersionFormatTest.
- */
 class EncoderVersionFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Encoder Version Format Rule shall fail if the encoder version is older than the required version.
-     *
-     * @return void
      */
     public function testFailsWhenEncoderVersionIsOlderThanRequired(): void
     {
@@ -66,8 +61,6 @@ class EncoderVersionFormatTest extends TestCase
 
     /**
      * The Encoder Version Format Rule shall pass if the encoder version is up to date with the required version.
-     *
-     * @return void
      */
     public function testFailsWhenEncoderVersionIsUpToDate(): void
     {

@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class EloquentQuery.
- */
 abstract class EloquentQuery extends BaseQuery
 {
     /**

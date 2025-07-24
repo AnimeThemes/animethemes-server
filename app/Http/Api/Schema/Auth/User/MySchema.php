@@ -21,9 +21,6 @@ use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class MySchema.
- */
 class MySchema extends EloquentSchema
 {
     /**

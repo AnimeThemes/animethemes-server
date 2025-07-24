@@ -10,15 +10,10 @@ use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class StudioImageTest.
- */
 class StudioImageTest extends TestCase
 {
     /**
      * An StudioImage shall belong to a Studio.
-     *
-     * @return void
      */
     public function testStudio(): void
     {
@@ -33,8 +28,6 @@ class StudioImageTest extends TestCase
 
     /**
      * An StudioImage shall belong to an Image.
-     *
-     * @return void
      */
     public function testImage(): void
     {

@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\Request;
 
-/**
- * Class AnnouncementContentField.
- */
 class AnnouncementContentField extends StringField implements CreatableField, UpdatableField
 {
     /**

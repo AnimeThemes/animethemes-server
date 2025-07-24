@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\Playlist;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistLikesCountField.
- */
 class PlaylistLikesCountField extends CountAggregateField
 {
     /**

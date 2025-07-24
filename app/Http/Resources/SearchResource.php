@@ -27,9 +27,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 
-/**
- * Class SearchResource.
- */
 class SearchResource extends JsonResource
 {
     /**
@@ -43,7 +40,6 @@ class SearchResource extends JsonResource
      * Create a new resource instance.
      *
      * @param  Query  $query
-     * @return void
      */
     public function __construct(protected readonly Query $query)
     {

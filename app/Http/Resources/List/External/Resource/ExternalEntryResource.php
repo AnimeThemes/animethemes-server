@@ -8,9 +8,6 @@ use App\Http\Api\Schema\List\External\ExternalEntrySchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ExternalEntryResource.
- */
 class ExternalEntryResource extends BaseResource
 {
     /**

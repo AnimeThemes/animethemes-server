@@ -13,9 +13,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class SynonymTypeField.
- */
 class SynonymTypeField extends EnumField implements CreatableField, UpdatableField
 {
     /**

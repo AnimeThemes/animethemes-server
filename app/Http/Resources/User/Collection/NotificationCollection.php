@@ -9,9 +9,6 @@ use App\Http\Resources\User\Resource\NotificationResource;
 use App\Models\User\Notification;
 use Illuminate\Http\Request;
 
-/**
- * Class NotificationCollection.
- */
 class NotificationCollection extends BaseCollection
 {
     /**

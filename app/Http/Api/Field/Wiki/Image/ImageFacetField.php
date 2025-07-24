@@ -13,9 +13,6 @@ use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ImageFacetField.
- */
 class ImageFacetField extends EnumField implements CreatableField, UpdatableField
 {
     /**

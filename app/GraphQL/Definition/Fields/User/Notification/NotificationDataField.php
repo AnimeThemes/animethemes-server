@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
 use App\Models\User\Notification;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class NotificationDataField.
- */
 class NotificationDataField extends JsonField
 {
     /**

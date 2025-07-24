@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Filament\Tables\Table;
 
-/**
- * Class ScriptVideoRelationManager.
- */
 class ScriptVideoRelationManager extends ScriptRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class ScriptVideoRelationManager extends ScriptRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

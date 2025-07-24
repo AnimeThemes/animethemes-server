@@ -13,9 +13,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ThemeTypeField.
- */
 class ThemeTypeField extends EnumField implements CreatableField, UpdatableField
 {
     /**

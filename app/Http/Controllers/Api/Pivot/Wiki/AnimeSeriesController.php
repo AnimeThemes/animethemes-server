@@ -20,9 +20,6 @@ use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnimeSeriesController.
- */
 class AnimeSeriesController extends PivotController
 {
     /**

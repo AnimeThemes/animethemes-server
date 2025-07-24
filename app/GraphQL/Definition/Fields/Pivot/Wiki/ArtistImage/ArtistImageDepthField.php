@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\IntField;
 use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\ArtistImage;
 
-/**
- * Class ArtistImageDepthField.
- */
 #[UseField(PivotResolver::class)]
 class ArtistImageDepthField extends IntField
 {

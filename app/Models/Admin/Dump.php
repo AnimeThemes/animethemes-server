@@ -107,7 +107,6 @@ class Dump extends BaseModel
      * Scope a query to only include safe dumps.
      *
      * @param  Builder  $query
-     * @return void
      */
     #[Scope]
     public function onlySafeDumps(Builder $query): void

@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeYearField.
- */
 class AnimeYearField extends IntField implements CreatableField, UpdatableField
 {
     /**

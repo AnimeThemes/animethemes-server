@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
 
-/**
- * Class PageNameField.
- */
 class PageNameField extends StringField implements CreatableField, UpdatableField
 {
     /**

@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 
-/**
- * Class ExternalProfilesQuery.
- */
 #[UseBuilder(ExternalProfileBuilder::class)]
 class ExternalProfilesQuery extends EloquentQuery
 {

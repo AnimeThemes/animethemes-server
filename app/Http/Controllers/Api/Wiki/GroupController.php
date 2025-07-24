@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Group;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class GroupController.
- */
 class GroupController extends BaseController
 {
     /**

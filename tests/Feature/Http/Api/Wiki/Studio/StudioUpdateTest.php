@@ -10,15 +10,10 @@ use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioUpdateTest.
- */
 class StudioUpdateTest extends TestCase
 {
     /**
      * The Studio Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class StudioUpdateTest extends TestCase
 
     /**
      * The Studio Update Endpoint shall forbid users without the update studio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class StudioUpdateTest extends TestCase
 
     /**
      * The Studio Update Endpoint shall forbid users from updating a studio that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -73,8 +64,6 @@ class StudioUpdateTest extends TestCase
 
     /**
      * The Studio Update Endpoint shall update a studio.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

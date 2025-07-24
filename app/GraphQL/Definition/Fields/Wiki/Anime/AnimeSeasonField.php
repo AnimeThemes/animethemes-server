@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeSeasonField.
- */
 class AnimeSeasonField extends EnumField
 {
     /**

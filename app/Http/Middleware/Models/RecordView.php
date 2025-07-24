@@ -13,9 +13,6 @@ use Laravel\Pennant\Feature;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class RecordView.
- */
 class RecordView
 {
     /**
@@ -49,7 +46,6 @@ class RecordView
      *
      * @param  Request  $request
      * @param  Response  $response
-     * @return void
      */
     public function terminate(Request $request, Response $response): void
     {

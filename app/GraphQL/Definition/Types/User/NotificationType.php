@@ -15,9 +15,6 @@ use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\User\Notification;
 
-/**
- * Class NotificationType.
- */
 class NotificationType extends EloquentType implements HasFields, HasRelations
 {
     /**

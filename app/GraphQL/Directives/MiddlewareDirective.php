@@ -11,9 +11,6 @@ use Nuwave\Lighthouse\Schema\Values\TypeValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\TypeMiddleware;
 
-/**
- * Class MiddlewareDirective.
- */
 class MiddlewareDirective extends BaseDirective implements FieldMiddleware, TypeMiddleware
 {
     /**
@@ -32,7 +29,6 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
      * Wrap around the final field resolver.
      *
      * @param  FieldValue  $fieldValue
-     * @return void
      */
     public function handleField(FieldValue $fieldValue): void
     {
@@ -45,7 +41,6 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
      * Handle a type AST as it is converted to an executable type.
      *
      * @param  TypeValue  $value
-     * @return void
      */
     public function handleNode(TypeValue $value): void
     {

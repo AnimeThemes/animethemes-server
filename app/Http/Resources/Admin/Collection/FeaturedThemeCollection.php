@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\Request;
 
-/**
- * Class FeaturedThemeCollection.
- */
 class FeaturedThemeCollection extends BaseCollection
 {
     /**

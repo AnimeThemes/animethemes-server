@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\ExternalResource;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceExternalIdField.
- */
 class ExternalResourceExternalIdField extends IntField
 {
     /**

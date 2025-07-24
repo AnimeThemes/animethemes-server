@@ -8,9 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 
-/**
- * Class UserPolicy.
- */
 class UserPolicy extends BasePolicy
 {
     /**

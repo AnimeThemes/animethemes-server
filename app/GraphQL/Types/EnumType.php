@@ -15,9 +15,6 @@ use ReflectionClass;
 use ReflectionClassConstant;
 use UnitEnum;
 
-/**
- * Class EnumType.
- */
 class EnumType extends BaseEnumType
 {
     public const MULTIPLE_DESCRIPTIONS_DISALLOWED = 'Using more than 1 Description attribute is not supported.';

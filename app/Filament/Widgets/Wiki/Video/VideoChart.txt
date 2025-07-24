@@ -8,9 +8,6 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Video;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class VideoChart.
- */
 class VideoChart extends BaseChartWidget
 {
     /**

@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class FeatureBuilder.
- */
 class FeatureBuilder
 {
     /**

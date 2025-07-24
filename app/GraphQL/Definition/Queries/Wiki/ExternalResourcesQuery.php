@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 
-/**
- * Class ExternalResourcesQuery.
- */
 class ExternalResourcesQuery extends EloquentQuery
 {
     public function __construct()

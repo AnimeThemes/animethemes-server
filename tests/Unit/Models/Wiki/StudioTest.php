@@ -15,17 +15,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class StudioTest.
- */
 class StudioTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Studio shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -36,8 +31,6 @@ class StudioTest extends TestCase
 
     /**
      * Studio shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -48,8 +41,6 @@ class StudioTest extends TestCase
 
     /**
      * Studio shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -60,8 +51,6 @@ class StudioTest extends TestCase
 
     /**
      * Studio shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -72,8 +61,6 @@ class StudioTest extends TestCase
 
     /**
      * Studio shall have a many-to-many relationship with the type Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -91,8 +78,6 @@ class StudioTest extends TestCase
 
     /**
      * Studio shall have a many-to-many relationship with the type ExternalResource.
-     *
-     * @return void
      */
     public function testExternalResources(): void
     {
@@ -110,8 +95,6 @@ class StudioTest extends TestCase
 
     /**
      * Studio shall have a many-to-many relationship with the type Image.
-     *
-     * @return void
      */
     public function testImages(): void
     {

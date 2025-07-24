@@ -9,15 +9,10 @@ use App\Contracts\Actions\Storage\StorageAction as StorageActionContract;
 use App\Filament\Actions\Storage\StorageAction;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class DeleteAction.
- */
 abstract class DeleteAction extends StorageAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

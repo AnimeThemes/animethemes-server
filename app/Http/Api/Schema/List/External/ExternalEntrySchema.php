@@ -21,9 +21,6 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntrySchema.
- */
 class ExternalEntrySchema extends EloquentSchema
 {
     /**

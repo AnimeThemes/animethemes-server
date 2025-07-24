@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
-/**
- * Class VideoCollection.
- */
 class VideoCollection extends BaseCollection
 {
     /**

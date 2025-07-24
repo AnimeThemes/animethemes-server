@@ -14,11 +14,7 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Synonym\SynonymTypeField;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
-use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class SynonymSchema.
- */
 class SynonymSchema extends Schema
 {
     /**

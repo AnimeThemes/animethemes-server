@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\DumpBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
 
-/**
- * Class DumpsQuery.
- */
 #[UseBuilder(DumpBuilder::class)]
 class DumpsQuery extends EloquentQuery
 {

@@ -10,9 +10,6 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class StudioImageTab.
- */
 abstract class StudioImageTab extends BaseTab
 {
     /**

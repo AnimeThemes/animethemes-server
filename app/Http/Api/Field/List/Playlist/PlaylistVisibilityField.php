@@ -13,9 +13,6 @@ use App\Models\List\Playlist;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class PlaylistVisibilityField.
- */
 class PlaylistVisibilityField extends EnumField implements CreatableField, UpdatableField
 {
     /**

@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class VideoTest.
- */
 class VideoTest extends TestCase
 {
     /**
      * When a Video is created, a VideoCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class VideoTest extends TestCase
 
     /**
      * When a Video is deleted, a VideoDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class VideoTest extends TestCase
 
     /**
      * When a Video is restored, a VideoRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class VideoTest extends TestCase
      * When a Video is restored, a VideoUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testVideoRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class VideoTest extends TestCase
 
     /**
      * When a Video is updated, a VideoUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class VideoTest extends TestCase
 
     /**
      * The VideoUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testVideoUpdatedEventEmbedFields(): void
     {

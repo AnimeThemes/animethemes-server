@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Pivots\List\PlaylistImage;
 
-/**
- * Class PlaylistImageImageIdField.
- */
 class PlaylistImageImageIdField extends Field implements SelectableField
 {
     /**

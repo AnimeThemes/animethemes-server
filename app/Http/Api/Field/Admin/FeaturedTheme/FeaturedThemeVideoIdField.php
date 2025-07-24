@@ -16,9 +16,6 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class FeaturedThemeVideoIdField.
- */
 class FeaturedThemeVideoIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**

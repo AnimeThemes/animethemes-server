@@ -10,15 +10,10 @@ use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ScriptStoreTest.
- */
 class ScriptStoreTest extends TestCase
 {
     /**
      * The Script Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ScriptStoreTest extends TestCase
 
     /**
      * The Script Store Endpoint shall forbid users without the create video script permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ScriptStoreTest extends TestCase
 
     /**
      * The Script Store Endpoint shall require the path field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -67,8 +58,6 @@ class ScriptStoreTest extends TestCase
 
     /**
      * The Script Store Endpoint shall create a script.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

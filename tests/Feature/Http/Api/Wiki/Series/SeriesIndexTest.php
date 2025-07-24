@@ -36,9 +36,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class SeriesIndexTest.
- */
 class SeriesIndexTest extends TestCase
 {
     use SortsModels;
@@ -46,8 +43,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * By default, the Series Index Endpoint shall return a collection of Series Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -69,8 +64,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -87,8 +80,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -127,8 +118,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -162,8 +151,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -201,8 +188,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -244,8 +229,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -287,8 +270,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -323,8 +304,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -359,8 +338,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -395,8 +372,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -439,8 +414,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -481,8 +454,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -523,8 +494,6 @@ class SeriesIndexTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Feature;
 use Illuminate\Http\Request;
 
-/**
- * Class FeatureCollection.
- */
 class FeatureCollection extends BaseCollection
 {
     /**

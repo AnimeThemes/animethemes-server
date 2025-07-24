@@ -17,17 +17,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class TestCase.
- */
 class PlaylistTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The visibility attribute of a playlist shall be cast to a PlaylistVisibility enum instance.
-     *
-     * @return void
      */
     public function testCastsSeasonToEnum(): void
     {
@@ -40,8 +35,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlist shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -52,8 +45,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlist shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -66,8 +57,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Public playlists shall be searchable.
-     *
-     * @return void
      */
     public function testSearchableIfPublic(): void
     {
@@ -81,8 +70,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall not be searchable if not public.
-     *
-     * @return void
      */
     public function testNotSearchableIfNotPublic(): void
     {
@@ -105,8 +92,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall filter null user_id values from hashids.
-     *
-     * @return void
      */
     public function testHashidsNullableUser(): void
     {
@@ -118,8 +103,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall include nonnull user_id values from hashids.
-     *
-     * @return void
      */
     public function testHashidsNonNullUser(): void
     {
@@ -135,8 +118,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall belong to a User.
-     *
-     * @return void
      */
     public function testUser(): void
     {
@@ -150,8 +131,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall link to the first Track.
-     *
-     * @return void
      */
     public function testFirst(): void
     {
@@ -170,8 +149,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall link to the last Track.
-     *
-     * @return void
      */
     public function testLast(): void
     {
@@ -189,8 +166,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall have a many-to-many relationship with the type Image.
-     *
-     * @return void
      */
     public function testImages(): void
     {
@@ -208,8 +183,6 @@ class PlaylistTest extends TestCase
 
     /**
      * Playlists shall have a one-to-many relationship with the type PlaylistTrack.
-     *
-     * @return void
      */
     public function testTracks(): void
     {

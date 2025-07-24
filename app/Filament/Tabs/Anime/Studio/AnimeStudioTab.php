@@ -8,9 +8,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AnimeStudioTab.
- */
 class AnimeStudioTab extends BaseTab
 {
     /**

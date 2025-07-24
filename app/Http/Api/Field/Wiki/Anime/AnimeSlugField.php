@@ -12,9 +12,6 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class AnimeSlugField.
- */
 class AnimeSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

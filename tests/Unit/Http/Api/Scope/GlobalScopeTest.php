@@ -10,17 +10,12 @@ use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class GlobalScopeTest.
- */
 class GlobalScopeTest extends TestCase
 {
     use WithFaker;
 
     /**
      * A global scope shall be within the scope of a global scope.
-     *
-     * @return void
      */
     public function testGlobalScopeIsWithinScope(): void
     {
@@ -33,8 +28,6 @@ class GlobalScopeTest extends TestCase
 
     /**
      * A type scope shall be within the scope of a global scope.
-     *
-     * @return void
      */
     public function testTypeScopeIsWithinScope(): void
     {
@@ -47,8 +40,6 @@ class GlobalScopeTest extends TestCase
 
     /**
      * A relation scope shall be within the scope of a global scope.
-     *
-     * @return void
      */
     public function testRelationScopeIsWithinScope(): void
     {

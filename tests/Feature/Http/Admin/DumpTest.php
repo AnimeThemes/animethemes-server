@@ -17,9 +17,6 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class DumpTest.
- */
 class DumpTest extends TestCase
 {
     use WithFaker;
@@ -27,8 +24,6 @@ class DumpTest extends TestCase
     /**
      * If dump downloading is disabled through the Allow Dump Downloading feature,
      * the user shall receive a forbidden exception.
-     *
-     * @return void
      */
     public function testDumpDownloadingNotAllowedForbidden(): void
     {
@@ -43,8 +38,6 @@ class DumpTest extends TestCase
 
     /**
      * Unsafe dumps shall be forbidden.
-     *
-     * @return void
      */
     public function testDumpDownloadingForbiddenForUnsafeDumps(): void
     {
@@ -62,8 +55,6 @@ class DumpTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to download dumps
      * even if the Allow Dump Downloading feature is disabled.
-     *
-     * @return void
      */
     public function testVideoStreamingPermittedForBypass(): void
     {
@@ -89,8 +80,6 @@ class DumpTest extends TestCase
 
     /**
      * If dump downloading is enabled, the dump is downloaded from storage through the response.
-     *
-     * @return void
      */
     public function testDownloadedThroughResponse(): void
     {

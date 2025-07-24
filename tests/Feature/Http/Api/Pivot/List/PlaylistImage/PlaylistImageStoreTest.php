@@ -18,17 +18,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PlaylistImageStoreTest.
- */
 class PlaylistImageStoreTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Playlist Image Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -46,8 +41,6 @@ class PlaylistImageStoreTest extends TestCase
 
     /**
      * The Playlist Image Store Endpoint shall forbid users without the create playlist & create image permissions.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -70,8 +63,6 @@ class PlaylistImageStoreTest extends TestCase
     /**
      * The Playlist Image Store Endpoint shall forbid users from creating playlist images
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -98,8 +89,6 @@ class PlaylistImageStoreTest extends TestCase
 
     /**
      * The Playlist Image Store Endpoint shall create an playlist image.
-     *
-     * @return void
      */
     public function testCreate(): void
     {
@@ -131,8 +120,6 @@ class PlaylistImageStoreTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to create playlist images
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testCreatePermittedForBypass(): void
     {

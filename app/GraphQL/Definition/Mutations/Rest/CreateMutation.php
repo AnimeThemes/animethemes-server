@@ -13,9 +13,6 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
-/**
- * Class CreateMutation.
- */
 abstract class CreateMutation extends BaseMutation
 {
     /**

@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Image;
 use App\Filament\Tabs\Image\ImageUnlinkedTab;
 use Filament\Schemas\Components\Tabs\Tab;
 
-/**
- * Class ListImages.
- */
 class ListImages extends BaseListResources
 {
     use HasTabs;

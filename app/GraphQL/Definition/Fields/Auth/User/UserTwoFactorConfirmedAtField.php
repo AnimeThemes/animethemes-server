@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Auth\User;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
 use App\Models\Auth\User;
 
-/**
- * Class UserTwoFactorConfirmedAtField.
- */
 class UserTwoFactorConfirmedAtField extends DateTimeTzField
 {
     /**

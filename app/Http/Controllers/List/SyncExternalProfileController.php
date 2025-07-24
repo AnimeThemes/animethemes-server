@@ -13,9 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class SyncExternalProfileController.
- */
 class SyncExternalProfileController extends Controller
 {
     /**

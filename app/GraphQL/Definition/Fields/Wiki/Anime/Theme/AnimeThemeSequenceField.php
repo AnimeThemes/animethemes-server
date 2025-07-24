@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\Theme;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\Anime\AnimeTheme;
 
-/**
- * Class AnimeThemeSequenceField.
- */
 class AnimeThemeSequenceField extends IntField
 {
     /**

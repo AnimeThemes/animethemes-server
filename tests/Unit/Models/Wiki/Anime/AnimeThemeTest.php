@@ -15,17 +15,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class ThemeTest.
- */
 class AnimeThemeTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The type attribute of a theme shall be cast to a ThemeType enum instance.
-     *
-     * @return void
      */
     public function testCastsTypeToEnum(): void
     {
@@ -40,8 +35,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Theme shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -54,8 +47,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Theme shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -68,8 +59,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Themes shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -82,8 +71,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Themes shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -96,8 +83,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Themes shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -111,8 +96,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Themes shall belong to a Group.
-     *
-     * @return void
      */
     public function testGroup(): void
     {
@@ -127,8 +110,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Themes shall belong to a Song.
-     *
-     * @return void
      */
     public function testSong(): void
     {
@@ -143,8 +124,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Theme shall have a one-to-many relationship with the type Entry.
-     *
-     * @return void
      */
     public function testEntries(): void
     {
@@ -162,8 +141,6 @@ class AnimeThemeTest extends TestCase
 
     /**
      * Themes shall have a generated slug on creation.
-     *
-     * @return void
      */
     public function testThemeCreatesSlug(): void
     {

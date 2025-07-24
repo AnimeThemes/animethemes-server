@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Pivot\Wiki\StudioResource;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Pivots\Wiki\StudioResource;
 
-/**
- * Class StudioResourceAsField.
- */
 class StudioResourceAsField extends StringField
 {
     /**

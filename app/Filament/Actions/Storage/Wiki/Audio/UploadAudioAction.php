@@ -29,15 +29,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\File as FileRule;
 
-/**
- * Class UploadAudioAction.
- */
 class UploadAudioAction extends UploadAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -46,8 +41,6 @@ class UploadAudioAction extends UploadAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

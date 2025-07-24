@@ -8,9 +8,6 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 
-/**
- * Class SearchSeriesField.
- */
 class SearchSeriesField extends Field
 {
     /**

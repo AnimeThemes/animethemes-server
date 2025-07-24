@@ -9,9 +9,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Admin\Dump;
 
-/**
- * Class DumpIdField.
- */
 class DumpIdField extends IdField
 {
     /**

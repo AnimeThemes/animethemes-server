@@ -7,9 +7,6 @@ namespace App\Http\Api\Field;
 use App\Contracts\Http\Api\Field\FieldInterface;
 use App\Http\Api\Schema\Schema;
 
-/**
- * Class Field.
- */
 abstract class Field implements FieldInterface
 {
     /**

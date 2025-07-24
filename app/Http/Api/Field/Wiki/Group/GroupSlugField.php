@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Group;
 use Illuminate\Http\Request;
 
-/**
- * Class GroupSlugField.
- */
 class GroupSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

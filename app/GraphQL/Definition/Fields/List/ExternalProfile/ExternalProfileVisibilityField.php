@@ -8,9 +8,6 @@ use App\Enums\Models\List\ExternalProfileVisibility;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalProfileVisibilityField.
- */
 class ExternalProfileVisibilityField extends EnumField
 {
     /**

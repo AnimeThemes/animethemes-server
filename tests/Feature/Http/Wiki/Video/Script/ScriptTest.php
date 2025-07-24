@@ -17,9 +17,6 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ScriptTest.
- */
 class ScriptTest extends TestCase
 {
     use WithFaker;
@@ -27,8 +24,6 @@ class ScriptTest extends TestCase
     /**
      * If script downloading is disabled through the Allow Script Downloading feature,
      * the user shall receive a forbidden exception.
-     *
-     * @return void
      */
     public function testScriptDownloadingNotAllowedForbidden(): void
     {
@@ -44,8 +39,6 @@ class ScriptTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to download scripts
      * even if the Allow Script Downloading feature is disabled.
-     *
-     * @return void
      */
     public function testVideoStreamingPermittedForBypass(): void
     {
@@ -70,8 +63,6 @@ class ScriptTest extends TestCase
 
     /**
      * If the script is soft-deleted, the user shall receive a not found exception.
-     *
-     * @return void
      */
     public function testCannotStreamSoftDeletedVideo(): void
     {
@@ -86,8 +77,6 @@ class ScriptTest extends TestCase
 
     /**
      * If script downloading is enabled, the script is downloaded from storage through the response.
-     *
-     * @return void
      */
     public function testDownloadedThroughResponse(): void
     {

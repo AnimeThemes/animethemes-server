@@ -15,15 +15,10 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoTest.
- */
 class AnimeThemeEntryVideoTest extends TestCase
 {
     /**
      * When a Video is attached to an AnimeThemeEntry or vice versa, an AnimeThemeEntryVideoTest event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoCreatedEventDispatched(): void
     {
@@ -39,8 +34,6 @@ class AnimeThemeEntryVideoTest extends TestCase
 
     /**
      * When a Video is detached from an AnimeThemeEntry or vice versa, an AnimeThemeEntryVideoDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoDeletedEventDispatched(): void
     {
@@ -57,8 +50,6 @@ class AnimeThemeEntryVideoTest extends TestCase
 
     /**
      * When a Video is attached to an AnimeThemeEntry, the playlist tracks should be updated.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoCreatedEventUpdatePlaylistTracks(): void
     {
@@ -83,8 +74,6 @@ class AnimeThemeEntryVideoTest extends TestCase
 
     /**
      * When a Video is detached from an AnimeThemeEntry, the playlist tracks should be updated.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoDeletedEventUpdatePlaylistTracks(): void
     {

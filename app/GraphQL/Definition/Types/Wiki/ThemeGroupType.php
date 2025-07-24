@@ -21,9 +21,6 @@ use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Group;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ThemeGroupType.
- */
 class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, HasRelations
 {
     /**

@@ -12,17 +12,12 @@ use Illuminate\Support\Collection;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class AudioReconcileTest.
- */
 class AudioReconcileTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Audio Command shall output 'No Audio created or deleted or updated'.
-     *
-     * @return void
      */
     public function testNoResults(): void
     {
@@ -37,8 +32,6 @@ class AudioReconcileTest extends TestCase
 
     /**
      * If audios are created, the Reconcile Audio Command shall output '{Created Count} Audio created, 0 Audio deleted, 0 Audio updated'.
-     *
-     * @return void
      */
     public function testCreated(): void
     {
@@ -57,8 +50,6 @@ class AudioReconcileTest extends TestCase
 
     /**
      * If audios are deleted, the Reconcile Audio Command shall output '0 Audio created, {Deleted Count} Audio deleted, 0 Audio updated'.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {
@@ -77,8 +68,6 @@ class AudioReconcileTest extends TestCase
 
     /**
      * If audios are updated, the Reconcile Audio Command shall output '0 Audio created, 0 Audio deleted, {Updated Count} Audio updated'.
-     *
-     * @return void
      */
     public function testUpdated(): void
     {

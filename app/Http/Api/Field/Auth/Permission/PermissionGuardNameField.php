@@ -8,9 +8,6 @@ use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Auth\Permission;
 
-/**
- * Class PermissionGuardNameField.
- */
 class PermissionGuardNameField extends StringField
 {
     /**

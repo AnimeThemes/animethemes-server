@@ -12,9 +12,6 @@ use App\Models\Wiki\Artist;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class ArtistSlugField.
- */
 class ArtistSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

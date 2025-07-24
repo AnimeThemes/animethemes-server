@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Mutations\Rest\UpdateMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\List\Playlist;
 
-/**
- * Class UpdatePlaylistMutation.
- */
 #[UseField(PlaylistController::class, 'update')]
 class UpdatePlaylistMutation extends UpdateMutation
 {

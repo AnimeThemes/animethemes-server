@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Song\Performance;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Song\Performance;
 
-/**
- * Class PerformanceAliasField.
- */
 class PerformanceAliasField extends StringField
 {
     /**

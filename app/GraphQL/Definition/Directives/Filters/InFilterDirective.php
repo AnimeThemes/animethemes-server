@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Directives\Filters;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class InFilterDirective.
- */
 class InFilterDirective extends FilterDirective
 {
     /**

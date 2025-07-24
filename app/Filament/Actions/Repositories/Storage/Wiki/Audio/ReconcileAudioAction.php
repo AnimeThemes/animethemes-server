@@ -11,17 +11,12 @@ use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class ReconcileAudioAction.
- */
 class ReconcileAudioAction extends ReconcileStorageAction
 {
     use ReconcilesAudioRepositories;
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -30,8 +25,6 @@ class ReconcileAudioAction extends ReconcileStorageAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

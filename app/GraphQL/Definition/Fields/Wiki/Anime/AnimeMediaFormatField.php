@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeMediaFormatField.
- */
 class AnimeMediaFormatField extends EnumField
 {
     /**

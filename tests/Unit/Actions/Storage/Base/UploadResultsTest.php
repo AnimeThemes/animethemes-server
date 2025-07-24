@@ -9,17 +9,12 @@ use App\Enums\Actions\ActionStatus;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class UploadResultsTest.
- */
 class UploadResultsTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Action result has failed if there are no uploads.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -32,8 +27,6 @@ class UploadResultsTest extends TestCase
 
     /**
      * The Action result has failed if any uploads have returned false.
-     *
-     * @return void
      */
     public function testFailed(): void
     {
@@ -56,8 +49,6 @@ class UploadResultsTest extends TestCase
 
     /**
      * The Action result has passed if all uploads have returned the file path.
-     *
-     * @return void
      */
     public function testPassed(): void
     {

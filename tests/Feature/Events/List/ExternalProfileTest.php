@@ -12,15 +12,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileTest.
- */
 class ExternalProfileTest extends TestCase
 {
     /**
      * When a profile is created, a ExternalProfileCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalProfileCreatedEventDispatched(): void
     {
@@ -31,8 +26,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * When a profile is deleted, a ExternalProfileDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalProfileDeletedEventDispatched(): void
     {
@@ -45,8 +38,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * When a profile is updated, a ExternalProfileUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalProfileUpdatedEventDispatched(): void
     {
@@ -61,8 +52,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * The ExternalProfileUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testExternalProfileUpdatedEventEmbedFields(): void
     {

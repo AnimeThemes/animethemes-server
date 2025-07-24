@@ -18,9 +18,6 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 
-/**
- * Class AudioSchema.
- */
 class AudioSchema extends EloquentSchema
 {
     /**

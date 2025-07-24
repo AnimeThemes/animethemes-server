@@ -16,17 +16,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileDestroyTest.
- */
 class ExternalProfileDestroyTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The External Profile Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -43,8 +38,6 @@ class ExternalProfileDestroyTest extends TestCase
 
     /**
      * The External Profile Destroy Endpoint shall forbid users without the delete profile permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -65,8 +58,6 @@ class ExternalProfileDestroyTest extends TestCase
 
     /**
      * The External Profile Destroy Endpoint shall forbid users from deleting the profile if they don't own it.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnExternalProfile(): void
     {
@@ -90,8 +81,6 @@ class ExternalProfileDestroyTest extends TestCase
     /**
      * The External Profile Destroy Endpoint shall forbid users from destroying profiles
      * if the Allow ExternalProfile Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -114,8 +103,6 @@ class ExternalProfileDestroyTest extends TestCase
 
     /**
      * The External Profile Destroy Endpoint shall delete the profile.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {
@@ -140,8 +127,6 @@ class ExternalProfileDestroyTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to destroy profiles
      * even if the Allow ExternalProfile Management feature is inactive.
-     *
-     * @return void
      */
     public function testDestroyPermittedForBypass(): void
     {

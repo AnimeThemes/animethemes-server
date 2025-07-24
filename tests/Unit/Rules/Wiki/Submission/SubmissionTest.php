@@ -34,17 +34,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class SubmissionTest.
- */
 class SubmissionTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Submission Rules shall execute FFmpeg processes once.
-     *
-     * @return void
      */
     public function testRunsProcessesOnce(): void
     {

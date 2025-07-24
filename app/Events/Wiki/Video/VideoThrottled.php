@@ -13,9 +13,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
-/**
- * Class VideoThrottled.
- */
 class VideoThrottled implements DiscordMessageEvent
 {
     use Dispatchable;

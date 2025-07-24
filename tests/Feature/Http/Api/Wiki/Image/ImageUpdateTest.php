@@ -12,15 +12,10 @@ use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ImageUpdateTest.
- */
 class ImageUpdateTest extends TestCase
 {
     /**
      * The Image Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -40,8 +35,6 @@ class ImageUpdateTest extends TestCase
 
     /**
      * The Image Update Endpoint shall forbid users without the update image permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -65,8 +58,6 @@ class ImageUpdateTest extends TestCase
 
     /**
      * The Image Update Endpoint shall forbid users from updating an image that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -90,8 +81,6 @@ class ImageUpdateTest extends TestCase
 
     /**
      * The Image Update Endpoint shall update an image.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

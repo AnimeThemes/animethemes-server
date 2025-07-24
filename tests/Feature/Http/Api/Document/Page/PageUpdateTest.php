@@ -10,15 +10,10 @@ use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PageUpdateTest.
- */
 class PageUpdateTest extends TestCase
 {
     /**
      * The Page Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class PageUpdateTest extends TestCase
 
     /**
      * The Page Update Endpoint shall forbid users without the update page permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class PageUpdateTest extends TestCase
 
     /**
      * The Page Update Endpoint shall forbid users from updating a page that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -73,8 +64,6 @@ class PageUpdateTest extends TestCase
 
     /**
      * The Page Update Endpoint shall update an page.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

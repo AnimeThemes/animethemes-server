@@ -7,9 +7,6 @@ namespace App\Filament\Resources\Wiki\Song\Membership\Pages;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Song\Membership;
 
-/**
- * Class ListMemberships.
- */
 class ListMemberships extends BaseListResources
 {
     protected static string $resource = Membership::class;

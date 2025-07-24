@@ -8,9 +8,6 @@ use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Auth\User;
 
-/**
- * Class UserEmailField.
- */
 class UserEmailField extends StringField
 {
     /**

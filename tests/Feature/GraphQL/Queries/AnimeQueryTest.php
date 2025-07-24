@@ -8,17 +8,12 @@ use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class AnimeQueryTest.
- */
 class AnimeQueryTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The animeyears Query shall return a list of years.
-     *
-     * @return void
      */
     public function testAnimeYearsQuery(): void
     {

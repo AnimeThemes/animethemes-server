@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Studio\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Studio\StudioResourceTab;
 
-/**
- * Class StudioAnimePlanetResourceTab.
- */
 class StudioAnimePlanetResourceTab extends StudioResourceTab
 {
     /**

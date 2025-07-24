@@ -15,17 +15,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
-/**
- * Class EntryTest.
- */
 class AnimeThemeEntryTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Entry shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -38,8 +33,6 @@ class AnimeThemeEntryTest extends TestCase
 
     /**
      * Entry shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -52,8 +45,6 @@ class AnimeThemeEntryTest extends TestCase
 
     /**
      * Entries shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -66,8 +57,6 @@ class AnimeThemeEntryTest extends TestCase
 
     /**
      * Entries shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -80,8 +69,6 @@ class AnimeThemeEntryTest extends TestCase
 
     /**
      * Entries shall belong to a Theme.
-     *
-     * @return void
      */
     public function testTheme(): void
     {
@@ -95,8 +82,6 @@ class AnimeThemeEntryTest extends TestCase
 
     /**
      * Entries shall have a many-to-many relationship with the type Video.
-     *
-     * @return void
      */
     public function testVideos(): void
     {
@@ -115,8 +100,6 @@ class AnimeThemeEntryTest extends TestCase
 
     /**
      * Entries shall belong to an Anime through a Theme.
-     *
-     * @return void
      */
     public function testAnime(): void
     {

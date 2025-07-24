@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\AnimeResource;
 
-/**
- * Class AnimeResourceAsField.
- */
 #[UseField(PivotResolver::class)]
 class AnimeResourceAsField extends StringField
 {

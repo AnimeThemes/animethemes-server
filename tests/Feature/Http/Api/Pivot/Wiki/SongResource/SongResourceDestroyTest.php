@@ -12,15 +12,10 @@ use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SongResourceDestroyTest.
- */
 class SongResourceDestroyTest extends TestCase
 {
     /**
      * The Song Resource Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class SongResourceDestroyTest extends TestCase
 
     /**
      * The Song Resource Destroy Endpoint shall forbid users without the delete song & delete resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class SongResourceDestroyTest extends TestCase
 
     /**
      * The Song Resource Destroy Endpoint shall return an error if the song resource does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class SongResourceDestroyTest extends TestCase
 
     /**
      * The Song Resource Destroy Endpoint shall delete the song resource.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

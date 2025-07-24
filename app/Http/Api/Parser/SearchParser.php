@@ -7,9 +7,6 @@ namespace App\Http\Api\Parser;
 use App\Http\Api\Criteria\Search\Criteria;
 use Illuminate\Support\Arr;
 
-/**
- * Class SearchParser.
- */
 class SearchParser extends Parser
 {
     /**

@@ -106,7 +106,6 @@ class Announcement extends BaseModel
      * Scope a query to only include public announcements.
      *
      * @param  Builder  $query
-     * @return void
      */
     #[Scope]
     public function public(Builder $query): void

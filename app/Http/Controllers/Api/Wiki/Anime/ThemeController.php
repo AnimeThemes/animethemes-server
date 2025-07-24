@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ThemeController.
- */
 class ThemeController extends BaseController
 {
     /**

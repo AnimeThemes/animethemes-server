@@ -29,9 +29,6 @@ use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class TrackSchema.
- */
 class TrackSchema extends EloquentSchema
 {
     /**

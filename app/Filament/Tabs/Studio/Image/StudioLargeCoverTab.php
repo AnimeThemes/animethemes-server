@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Studio\Image;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\Studio\StudioImageTab;
 
-/**
- * Class StudioLargeCoverTab.
- */
 class StudioLargeCoverTab extends StudioImageTab
 {
     /**

@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use GraphQL\Type\Definition\Type;
 use Stringable;
 
-/**
- * Class FilterDirective.
- */
 abstract class FilterDirective implements Stringable
 {
     use ResolvesDirectives;

@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Pivot\Wiki\SongResoure;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Pivots\Wiki\SongResource;
 
-/**
- * Class SongResourceAsField.
- */
 class SongResourceAsField extends StringField
 {
     /**

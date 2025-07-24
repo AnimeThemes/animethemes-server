@@ -6,9 +6,6 @@ use Elastic\Adapter\Indices\Mapping;
 use Elastic\Migrations\Facades\Index;
 use Elastic\Migrations\MigrationInterface;
 
-/**
- * Class CreateVideoIndex.
- */
 final class CreateVideoIndex implements MigrationInterface
 {
     /**

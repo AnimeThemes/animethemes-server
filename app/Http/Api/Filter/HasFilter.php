@@ -10,9 +10,6 @@ use App\Http\Api\Include\AllowedInclude;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-/**
- * Class HasFilter.
- */
 class HasFilter extends Filter
 {
     /**

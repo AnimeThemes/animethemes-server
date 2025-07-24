@@ -16,9 +16,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-/**
- * Class BaseType.
- */
 abstract class BaseType extends ObjectType
 {
     use ResolvesDirectives;

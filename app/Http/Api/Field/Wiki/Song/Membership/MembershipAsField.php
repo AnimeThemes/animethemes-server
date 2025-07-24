@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Http\Request;
 
-/**
- * Class MembershipAsField.
- */
 class MembershipAsField extends StringField implements CreatableField, UpdatableField
 {
     /**

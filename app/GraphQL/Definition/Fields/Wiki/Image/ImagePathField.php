@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Image;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Image;
 
-/**
- * Class ImagePathField.
- */
 class ImagePathField extends StringField
 {
     /**

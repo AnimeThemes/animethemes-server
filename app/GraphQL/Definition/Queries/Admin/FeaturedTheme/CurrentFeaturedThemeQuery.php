@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
-/**
- * Class CurrentFeaturedThemeQuery.
- */
 #[UseBuilder(FeaturedThemeBuilder::class, 'current')]
 class CurrentFeaturedThemeQuery extends BaseQuery
 {

@@ -35,17 +35,12 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class TrackBackwardIndexTest.
- */
 class TrackBackwardIndexTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Track Backward Index Endpoint shall forbid a private playlist from being publicly viewed.
-     *
-     * @return void
      */
     public function testPrivatePlaylistCannotBePubliclyViewed(): void
     {
@@ -67,8 +62,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
-     *
-     * @return void
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
@@ -94,8 +87,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall allow private playlist tracks to be viewed by the owner.
-     *
-     * @return void
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
@@ -121,8 +112,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall allow unlisted playlist tracks to be viewed.
-     *
-     * @return void
      */
     public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
@@ -144,8 +133,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall allow public playlist tracks to be viewed.
-     *
-     * @return void
      */
     public function testPublicPlaylistTrackCanBeViewed(): void
     {
@@ -167,8 +154,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * By default, the Track Backward Index Endpoint shall return a collection of Track Resources that belong to the Playlist.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -205,8 +190,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -231,8 +214,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -282,8 +263,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -326,8 +305,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall forbid sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -362,8 +339,6 @@ class TrackBackwardIndexTest extends TestCase
 
     /**
      * The Track Backward Index Endpoint shall forbid filter resources.
-     *
-     * @return void
      */
     public function testFilters(): void
     {

@@ -9,9 +9,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-/**
- * Class Criteria.
- */
 abstract class Criteria
 {
     final public const MAX_RESULTS = 100;

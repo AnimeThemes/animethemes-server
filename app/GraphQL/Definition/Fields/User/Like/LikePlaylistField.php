@@ -13,9 +13,6 @@ use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class LikePlaylistField.
- */
 class LikePlaylistField extends Field implements BindableField, CreatableField, DeletableField
 {
     /**

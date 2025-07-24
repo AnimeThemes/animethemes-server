@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class CountAggregateField.
- */
 #[UseField(CountAggregateResolver::class)]
 class CountAggregateField extends Field implements DisplayableField
 {

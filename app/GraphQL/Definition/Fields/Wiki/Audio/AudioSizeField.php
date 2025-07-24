@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Audio;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\Audio;
 
-/**
- * Class AudioSizeField.
- */
 class AudioSizeField extends IntField
 {
     /**

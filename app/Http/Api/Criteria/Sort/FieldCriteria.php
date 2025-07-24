@@ -9,9 +9,6 @@ use App\Http\Api\Scope\Scope;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class FieldSort.
- */
 class FieldCriteria extends Criteria
 {
     /**

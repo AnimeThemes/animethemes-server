@@ -13,9 +13,6 @@ use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Filament\Panel;
 
-/**
- * Class AdminDashboard.
- */
 class AdminDashboard extends BaseDashboard
 {
     /**

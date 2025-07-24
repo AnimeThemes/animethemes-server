@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 
-/**
- * Class SeriesCollection.
- */
 class SeriesCollection extends BaseCollection
 {
     /**

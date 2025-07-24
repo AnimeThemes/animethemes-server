@@ -12,15 +12,10 @@ use App\Pivots\Wiki\StudioResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioResourceStoreTest.
- */
 class StudioResourceStoreTest extends TestCase
 {
     /**
      * The Studio Resource Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class StudioResourceStoreTest extends TestCase
 
     /**
      * The Studio Resource Store Endpoint shall forbid users without the create studio & create resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class StudioResourceStoreTest extends TestCase
 
     /**
      * The Studio Resource Store Endpoint shall create a studio resource.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

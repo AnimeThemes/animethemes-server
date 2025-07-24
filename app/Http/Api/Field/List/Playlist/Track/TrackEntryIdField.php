@@ -19,9 +19,6 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class TrackEntryIdField.
- */
 class TrackEntryIdField extends Field implements CreatableField, FilterableField, SelectableField, UpdatableField
 {
     /**

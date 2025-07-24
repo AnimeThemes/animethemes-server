@@ -6,9 +6,6 @@ namespace App\GraphQL\Definition\Fields\User\Notification\NotificationData;
 
 use App\GraphQL\Definition\Fields\StringField;
 
-/**
- * Class NotificationDataTitleField.
- */
 class NotificationDataTitleField extends StringField
 {
     /**

@@ -16,9 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-/**
- * Class TrackPreviousHashidsField.
- */
 class TrackPreviousHashidsField extends Field implements CreatableField, UpdatableField
 {
     /**

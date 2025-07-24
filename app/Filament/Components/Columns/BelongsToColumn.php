@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-/**
- * Class BelongsToColumn.
- */
 class BelongsToColumn extends TextColumn
 {
     protected BaseResource $resource;

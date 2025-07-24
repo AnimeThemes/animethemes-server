@@ -8,9 +8,6 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\List\Playlist\PlaylistTrack;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class PlaylistTrackChart.
- */
 class PlaylistTrackChart extends BaseChartWidget
 {
     /**

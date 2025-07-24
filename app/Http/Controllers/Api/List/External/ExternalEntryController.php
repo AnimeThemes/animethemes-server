@@ -16,9 +16,6 @@ use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalEntryController.
- */
 class ExternalEntryController extends BaseController
 {
     /**

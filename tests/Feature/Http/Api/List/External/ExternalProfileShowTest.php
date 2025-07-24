@@ -22,17 +22,12 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileShowTest.
- */
 class ExternalProfileShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The External Profile Show Endpoint shall forbid a private profile from being publicly viewed.
-     *
-     * @return void
      */
     public function testPrivateExternalProfileCannotBePubliclyViewed(): void
     {
@@ -51,8 +46,6 @@ class ExternalProfileShowTest extends TestCase
 
     /**
      * The External Profile Show Endpoint shall forbid the user from viewing a private profile if not owned.
-     *
-     * @return void
      */
     public function testPrivateExternalProfileCannotBePubliclyIfNotOwned(): void
     {
@@ -75,8 +68,6 @@ class ExternalProfileShowTest extends TestCase
 
     /**
      * The External Profile Show Endpoint shall allow a private profile to be viewed by the owner.
-     *
-     * @return void
      */
     public function testPrivateExternalProfileCanBeViewedByOwner(): void
     {
@@ -99,8 +90,6 @@ class ExternalProfileShowTest extends TestCase
 
     /**
      * The External Profile Show Endpoint shall allow a public profile to be viewed.
-     *
-     * @return void
      */
     public function testPublicExternalProfileCanBeViewed(): void
     {
@@ -119,8 +108,6 @@ class ExternalProfileShowTest extends TestCase
 
     /**
      * By default, the External Profile Show Endpoint shall return a External Profile Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -147,8 +134,6 @@ class ExternalProfileShowTest extends TestCase
 
     /**
      * The External Profile Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -189,8 +174,6 @@ class ExternalProfileShowTest extends TestCase
 
     /**
      * The External Profile Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

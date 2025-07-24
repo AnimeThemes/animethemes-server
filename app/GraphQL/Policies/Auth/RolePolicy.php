@@ -9,9 +9,6 @@ use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 
-/**
- * Class RolePolicy.
- */
 class RolePolicy extends BasePolicy
 {
     /**

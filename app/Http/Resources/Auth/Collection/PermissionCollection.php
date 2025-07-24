@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Auth\Permission;
 use Illuminate\Http\Request;
 
-/**
- * Class PermissionCollection.
- */
 class PermissionCollection extends BaseCollection
 {
     /**

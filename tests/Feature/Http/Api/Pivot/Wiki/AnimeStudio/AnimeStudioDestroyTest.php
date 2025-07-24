@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeStudio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeStudioDestroyTest.
- */
 class AnimeStudioDestroyTest extends TestCase
 {
     /**
      * The Anime Studio Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class AnimeStudioDestroyTest extends TestCase
 
     /**
      * The Anime Studio Destroy Endpoint shall forbid users without the delete anime & delete studio permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class AnimeStudioDestroyTest extends TestCase
 
     /**
      * The Anime Studio Destroy Endpoint shall return an error if the anime studio does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class AnimeStudioDestroyTest extends TestCase
 
     /**
      * The Anime Studio Destroy Endpoint shall delete the anime studio.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

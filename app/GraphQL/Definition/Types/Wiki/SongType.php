@@ -21,9 +21,6 @@ use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
 use App\Models\Wiki\Song;
 
-/**
- * Class SongType.
- */
 class SongType extends EloquentType implements HasFields, HasRelations
 {
     /**

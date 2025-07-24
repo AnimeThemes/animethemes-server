@@ -6,9 +6,6 @@ namespace App\GraphQL\Attributes;
 
 use Attribute;
 
-/**
- * Class Hidden.
- */
 #[Attribute(Attribute::TARGET_ALL)]
 class Hidden
 {

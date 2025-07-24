@@ -27,9 +27,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class ExternalProfileController.
- */
 class ExternalProfileController extends BaseController
 {
     /**

@@ -12,9 +12,6 @@ use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Criteria\Filter\Criteria;
 use Illuminate\Support\Str;
 
-/**
- * Class Filter.
- */
 abstract class Filter
 {
     /**

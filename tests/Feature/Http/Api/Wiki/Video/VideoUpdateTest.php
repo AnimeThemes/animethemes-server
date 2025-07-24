@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class VideoUpdateTest.
- */
 class VideoUpdateTest extends TestCase
 {
     /**
      * The Video Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -45,8 +40,6 @@ class VideoUpdateTest extends TestCase
 
     /**
      * The Video Update Endpoint shall forbid users without the update video permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -74,8 +67,6 @@ class VideoUpdateTest extends TestCase
 
     /**
      * The Video Update Endpoint shall forbid users from updating a video that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -103,8 +94,6 @@ class VideoUpdateTest extends TestCase
 
     /**
      * The Video Update Endpoint shall update a video.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

@@ -12,17 +12,12 @@ use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class InsertTrackAfterTest.
- */
 class InsertTrackAfterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Insert Track After Action shall set the track as the playlist's last track if inserting after the last track.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -53,8 +48,6 @@ class InsertTrackAfterTest extends TestCase
 
     /**
      * The Insert Track After Action shall set the track as the first track's next track if inserting after it.
-     *
-     * @return void
      *
      * @throws Exception
      */

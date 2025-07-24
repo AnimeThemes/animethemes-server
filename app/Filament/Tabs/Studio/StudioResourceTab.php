@@ -10,9 +10,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class StudioResourceTab.
- */
 abstract class StudioResourceTab extends BaseTab
 {
     /**

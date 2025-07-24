@@ -17,9 +17,6 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\Pivots\Wiki\AnimeResource;
 
-/**
- * Class AnimeResourceType.
- */
 class AnimeResourceType extends PivotType implements HasFields, HasRelations
 {
     /**

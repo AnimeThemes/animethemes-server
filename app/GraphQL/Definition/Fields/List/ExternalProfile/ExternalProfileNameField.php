@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\ExternalProfile;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalProfileNameField.
- */
 class ExternalProfileNameField extends StringField
 {
     /**

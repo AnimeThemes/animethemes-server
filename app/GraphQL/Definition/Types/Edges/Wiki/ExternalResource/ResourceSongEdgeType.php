@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\SongResourceType;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 
-/**
- * Class ResourceSongEdgeType.
- */
 class ResourceSongEdgeType extends BaseEdgeType
 {
     /**

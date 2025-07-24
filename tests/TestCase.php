@@ -16,9 +16,6 @@ use Illuminate\Support\Sleep;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Nuwave\Lighthouse\Testing\RefreshesSchemaCache;
 
-/**
- * Class TestCase.
- */
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
@@ -28,8 +25,6 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Setup the test environment.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

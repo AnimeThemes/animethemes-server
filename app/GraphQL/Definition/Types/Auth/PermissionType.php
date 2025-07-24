@@ -14,9 +14,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Permission;
 
-/**
- * Class PermissionType.
- */
 class PermissionType extends EloquentType implements HasFields
 {
     /**

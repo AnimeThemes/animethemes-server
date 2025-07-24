@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 
-/**
- * Class ThemeSlugField.
- */
 class ThemeSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

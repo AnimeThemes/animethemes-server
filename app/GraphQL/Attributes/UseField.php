@@ -6,9 +6,6 @@ namespace App\GraphQL\Attributes;
 
 use Attribute;
 
-/**
- * Class UseField.
- */
 #[Attribute(Attribute::TARGET_CLASS)]
 class UseField
 {

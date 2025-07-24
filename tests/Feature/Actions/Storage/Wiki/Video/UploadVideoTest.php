@@ -25,17 +25,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class UploadVideoTest.
- */
 class UploadVideoTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Upload Video Action shall fail if there are no uploads.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -55,8 +50,6 @@ class UploadVideoTest extends TestCase
 
     /**
      * The Upload Video Action shall pass if given a valid file.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -76,8 +69,6 @@ class UploadVideoTest extends TestCase
 
     /**
      * The Upload Video Action shall upload the file to the configured disk.
-     *
-     * @return void
      */
     public function testUploadedToDisk(): void
     {
@@ -95,8 +86,6 @@ class UploadVideoTest extends TestCase
 
     /**
      * The Upload Video Action shall upload the file to the configured disk.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -128,8 +117,6 @@ class UploadVideoTest extends TestCase
 
     /**
      * The Upload Video Action shall set additional video attributes.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -174,8 +161,6 @@ class UploadVideoTest extends TestCase
     /**
      * The Upload Video Action shall attach the provided entry.
      *
-     * @return void
-     *
      * @throws Exception
      */
     public function testAttachesEntry(): void
@@ -210,8 +195,6 @@ class UploadVideoTest extends TestCase
 
     /**
      * The Upload Video Action shall attach the provided script.
-     *
-     * @return void
      *
      * @throws Exception
      */

@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class DeleteVideoTest.
- */
 class DeleteVideoTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Delete Video Action shall fail if there are no deletions.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -47,8 +42,6 @@ class DeleteVideoTest extends TestCase
 
     /**
      * The Delete Video Action shall pass if there are deletions.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -75,8 +68,6 @@ class DeleteVideoTest extends TestCase
 
     /**
      * The Delete Video Action shall delete the file from the configured disks.
-     *
-     * @return void
      */
     public function testDeletedFromDisk(): void
     {
@@ -101,8 +92,6 @@ class DeleteVideoTest extends TestCase
 
     /**
      * The Delete Video Action shall delete the video.
-     *
-     * @return void
      *
      * @throws Exception
      */

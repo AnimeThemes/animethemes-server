@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ThemeUpdateTest.
- */
 class ThemeUpdateTest extends TestCase
 {
     /**
      * The Theme Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -41,8 +36,6 @@ class ThemeUpdateTest extends TestCase
 
     /**
      * The Theme Update Endpoint shall forbid users without the update anime theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -66,8 +59,6 @@ class ThemeUpdateTest extends TestCase
 
     /**
      * The Theme Update Endpoint shall forbid users from updating an anime theme that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -94,8 +85,6 @@ class ThemeUpdateTest extends TestCase
 
     /**
      * The Theme Update Endpoint shall update a theme.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

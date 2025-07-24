@@ -6,9 +6,6 @@ namespace App\GraphQL\Definition\Fields\Base;
 
 use App\GraphQL\Definition\Fields\IntField;
 
-/**
- * Class IdField.
- */
 class IdField extends IntField
 {
     /**

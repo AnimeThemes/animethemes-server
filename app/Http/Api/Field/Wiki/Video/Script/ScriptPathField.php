@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\Request;
 
-/**
- * Class ScriptPathField.
- */
 class ScriptPathField extends StringField implements CreatableField, UpdatableField
 {
     /**

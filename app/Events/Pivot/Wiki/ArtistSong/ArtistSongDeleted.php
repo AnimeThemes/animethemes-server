@@ -42,8 +42,6 @@ class ArtistSongDeleted extends PivotDeletedEvent implements UpdateRelatedIndice
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

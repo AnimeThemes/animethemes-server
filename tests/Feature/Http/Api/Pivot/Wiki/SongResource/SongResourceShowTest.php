@@ -21,17 +21,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class SongResourceShowTest.
- */
 class SongResourceShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Song Resource Show Endpoint shall return an error if the song resource does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -45,8 +40,6 @@ class SongResourceShowTest extends TestCase
 
     /**
      * By default, the Song Resource Show Endpoint shall return an Song Resource Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -73,8 +66,6 @@ class SongResourceShowTest extends TestCase
 
     /**
      * The Song Resource Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -113,8 +104,6 @@ class SongResourceShowTest extends TestCase
 
     /**
      * The Song Resource Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -153,8 +142,6 @@ class SongResourceShowTest extends TestCase
 
     /**
      * The Song Resource Show Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {

@@ -13,17 +13,12 @@ use App\Models\Admin\Announcement;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementShowTest.
- */
 class AnnouncementShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Announcement Show Endpoint shall return an Announcement Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -45,8 +40,6 @@ class AnnouncementShowTest extends TestCase
 
     /**
      * The Announcement Show Endpoint shall forbid access to a private announcement.
-     *
-     * @return void
      */
     public function testCannotViewPrivate(): void
     {
@@ -59,8 +52,6 @@ class AnnouncementShowTest extends TestCase
 
     /**
      * The Announcement Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

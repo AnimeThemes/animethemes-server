@@ -10,9 +10,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AnimeResourceTab.
- */
 abstract class AnimeResourceTab extends BaseTab
 {
     /**

@@ -12,9 +12,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class RedirectIfAuthenticated.
- */
 class RedirectIfAuthenticated
 {
     /**

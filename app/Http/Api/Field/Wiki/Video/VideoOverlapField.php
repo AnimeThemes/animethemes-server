@@ -13,9 +13,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class VideoOverlapField.
- */
 class VideoOverlapField extends EnumField implements CreatableField, UpdatableField
 {
     /**

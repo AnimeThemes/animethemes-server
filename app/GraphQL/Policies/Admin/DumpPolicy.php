@@ -11,9 +11,6 @@ use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class DumpPolicy.
- */
 class DumpPolicy extends BasePolicy
 {
     /**

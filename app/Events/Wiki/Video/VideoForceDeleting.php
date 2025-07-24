@@ -38,8 +38,6 @@ class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 
     /**
      * Remove the image from the bucket.
-     *
-     * @return void
      */
     public function removeFromStorage(): void
     {

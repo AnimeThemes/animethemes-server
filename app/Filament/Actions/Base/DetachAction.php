@@ -16,17 +16,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
-/**
- * Class DetachAction.
- */
 class DetachAction extends BaseDetachAction
 {
     use HasPivotActionLogs;
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

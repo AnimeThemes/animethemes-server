@@ -22,9 +22,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\External\ExternalEntryType;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalProfileType.
- */
 class ExternalProfileType extends EloquentType implements HasFields, HasRelations
 {
     /**

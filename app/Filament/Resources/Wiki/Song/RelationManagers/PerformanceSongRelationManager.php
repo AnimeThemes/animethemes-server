@@ -15,9 +15,6 @@ use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
 
-/**
- * Class PerformanceSongRelationManager.
- */
 class PerformanceSongRelationManager extends PerformanceRelationManager
 {
     /**
@@ -29,9 +26,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
@@ -113,7 +107,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      *
      * @param  Song|int|null  $song
      * @param  array|null  $data
-     * @return void
      */
     public static function saveArtists(Song|int|null $song = null, ?array $data = []): void
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
 use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeImageCollection.
- */
 class AnimeImageCollection extends BaseCollection
 {
     /**

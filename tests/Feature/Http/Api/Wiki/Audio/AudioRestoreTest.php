@@ -10,15 +10,10 @@ use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AudioRestoreTest.
- */
 class AudioRestoreTest extends TestCase
 {
     /**
      * The Audio Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AudioRestoreTest extends TestCase
 
     /**
      * The Audio Restore Endpoint shall forbid users without the restore audio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AudioRestoreTest extends TestCase
 
     /**
      * The Audio Restore Endpoint shall forbid users from restoring an audio that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class AudioRestoreTest extends TestCase
 
     /**
      * The Audio Restore Endpoint shall restore the audio.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

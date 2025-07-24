@@ -13,9 +13,6 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class DateFilter.
- */
 class DateFilter extends Filter
 {
     protected string $fromLabel = 'From';

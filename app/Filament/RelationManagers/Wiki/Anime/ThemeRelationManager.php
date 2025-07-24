@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Filament\Tables\Table;
 
-/**
- * Class ThemeRelationManager.
- */
 abstract class ThemeRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class ThemeRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

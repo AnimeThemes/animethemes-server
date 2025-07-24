@@ -15,9 +15,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class IntField.
- */
 abstract class IntField extends Field implements FilterableField, RenderableField, SelectableField, SortableField
 {
     /**

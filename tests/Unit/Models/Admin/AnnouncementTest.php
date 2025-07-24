@@ -7,15 +7,10 @@ namespace Tests\Unit\Models\Admin;
 use App\Models\Admin\Announcement;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementTest.
- */
 class AnnouncementTest extends TestCase
 {
     /**
      * Announcements shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -26,8 +21,6 @@ class AnnouncementTest extends TestCase
 
     /**
      * Announcements shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {

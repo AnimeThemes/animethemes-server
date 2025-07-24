@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Auth\User;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Auth\User;
 
-/**
- * Class UserNameField.
- */
 class UserNameField extends StringField
 {
     /**

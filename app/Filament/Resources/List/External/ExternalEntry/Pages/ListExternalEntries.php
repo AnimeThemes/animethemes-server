@@ -7,9 +7,6 @@ namespace App\Filament\Resources\List\External\ExternalEntry\Pages;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\List\External\ExternalEntry;
 
-/**
- * Class ListExternalEntries.
- */
 class ListExternalEntries extends BaseListResources
 {
     protected static string $resource = ExternalEntry::class;

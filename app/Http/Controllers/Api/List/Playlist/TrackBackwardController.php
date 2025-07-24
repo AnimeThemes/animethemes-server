@@ -15,9 +15,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\BackwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 
-/**
- * Class TrackBackwardController.
- */
 class TrackBackwardController extends BaseController
 {
     /**

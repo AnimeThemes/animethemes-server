@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Anime\AnimeTheme;
 
-/**
- * Class AnimeThemeTypeField.
- */
 class AnimeThemeTypeField extends EnumField
 {
     /**

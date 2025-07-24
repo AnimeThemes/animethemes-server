@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Song\Resource\MembershipResource;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class MembershipController.
- */
 class MembershipController extends BaseController
 {
     /**

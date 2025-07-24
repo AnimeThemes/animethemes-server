@@ -11,9 +11,6 @@ use App\Http\Middleware\Auth\Authenticate;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Str;
 
-/**
- * Class BaseController.
- */
 abstract class BaseController extends Controller implements InteractsWithSchema
 {
     /**

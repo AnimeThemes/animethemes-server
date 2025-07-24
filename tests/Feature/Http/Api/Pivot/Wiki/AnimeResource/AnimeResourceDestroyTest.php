@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceDestroyTest.
- */
 class AnimeResourceDestroyTest extends TestCase
 {
     /**
      * The Anime Resource Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class AnimeResourceDestroyTest extends TestCase
 
     /**
      * The Anime Resource Destroy Endpoint shall forbid users without the delete anime & delete resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class AnimeResourceDestroyTest extends TestCase
 
     /**
      * The Anime Resource Destroy Endpoint shall return an error if the anime resource does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class AnimeResourceDestroyTest extends TestCase
 
     /**
      * The Anime Resource Destroy Endpoint shall delete the anime resource.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

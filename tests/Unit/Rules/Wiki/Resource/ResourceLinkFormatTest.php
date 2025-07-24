@@ -16,17 +16,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class ResourceLinkFormatTest.
- */
 class ResourceLinkFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Resource Link Format Rule shall pass if the site cannot be resolved.
-     *
-     * @return void
      */
     public function testPassesForNoSite(): void
     {
@@ -42,8 +37,6 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall pass for sites with no expected pattern.
-     *
-     * @return void
      */
     public function testPassesForNoPattern(): void
     {
@@ -59,8 +52,6 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall pass for anime resources.
-     *
-     * @return void
      */
     public function testPassesForAnimeResource(): void
     {
@@ -90,8 +81,6 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall pass for artist resources.
-     *
-     * @return void
      */
     public function testPassesForArtistResource(): void
     {
@@ -121,8 +110,6 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall pass for song resources.
-     *
-     * @return void
      */
     public function testPassesForSongResource(): void
     {
@@ -149,8 +136,6 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall pass for studio resources.
-     *
-     * @return void
      */
     public function testPassesForStudioResource(): void
     {
@@ -178,8 +163,6 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall fail for trailing slashes in URLs with defined patterns.
-     *
-     * @return void
      */
     public function testFailsForTrailingSlash(): void
     {

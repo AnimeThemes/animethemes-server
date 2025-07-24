@@ -27,9 +27,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistType.
- */
 class PlaylistType extends EloquentType implements HasFields, HasRelations
 {
     /**

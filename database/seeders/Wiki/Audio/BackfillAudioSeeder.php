@@ -10,15 +10,10 @@ use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
-/**
- * Class BackfillAudioSeeder.
- */
 class BackfillAudioSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @throws Exception
      */

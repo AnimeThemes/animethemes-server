@@ -22,9 +22,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ArtistResourceController.
- */
 class ArtistResourceController extends PivotController
 {
     /**

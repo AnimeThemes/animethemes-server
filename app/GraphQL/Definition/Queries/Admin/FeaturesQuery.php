@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\FeatureBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeatureType;
 
-/**
- * Class FeaturesQuery.
- */
 #[UseBuilder(FeatureBuilder::class)]
 class FeaturesQuery extends EloquentQuery
 {

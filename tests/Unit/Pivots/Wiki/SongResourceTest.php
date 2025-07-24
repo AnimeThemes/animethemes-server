@@ -10,15 +10,10 @@ use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class SongResourceTest.
- */
 class SongResourceTest extends TestCase
 {
     /**
      * An SongResource shall belong to an Song.
-     *
-     * @return void
      */
     public function testSong(): void
     {
@@ -33,8 +28,6 @@ class SongResourceTest extends TestCase
 
     /**
      * An SongResource shall belong to an ExternalResource.
-     *
-     * @return void
      */
     public function testResource(): void
     {

@@ -7,9 +7,6 @@ namespace App\Filament\Resources\User\Report\Pages;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\User\Report;
 
-/**
- * Class ListReports.
- */
 class ListReports extends BaseListResources
 {
     protected static string $resource = Report::class;

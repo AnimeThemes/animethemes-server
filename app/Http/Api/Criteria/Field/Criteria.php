@@ -6,9 +6,6 @@ namespace App\Http\Api\Criteria\Field;
 
 use Illuminate\Support\Collection;
 
-/**
- * Class Criteria.
- */
 readonly class Criteria
 {
     /**

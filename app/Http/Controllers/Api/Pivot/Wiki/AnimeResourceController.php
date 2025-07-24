@@ -22,9 +22,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnimeResourceController.
- */
 class AnimeResourceController extends PivotController
 {
     /**

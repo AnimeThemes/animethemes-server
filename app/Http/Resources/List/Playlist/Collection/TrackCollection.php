@@ -9,9 +9,6 @@ use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Http\Request;
 
-/**
- * Class TrackCollection.
- */
 class TrackCollection extends BaseCollection
 {
     /**

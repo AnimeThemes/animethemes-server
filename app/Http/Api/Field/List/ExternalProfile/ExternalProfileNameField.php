@@ -11,9 +11,6 @@ use App\Models\List\ExternalProfile;
 use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalProfileNameField.
- */
 class ExternalProfileNameField extends StringField implements CreatableField
 {
     /**

@@ -11,17 +11,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class RandomSortTest.
- */
 class RandomSortTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Random Sort shall be formatted as "{key}" for the any Direction.
-     *
-     * @return void
      */
     public function testFormat(): void
     {

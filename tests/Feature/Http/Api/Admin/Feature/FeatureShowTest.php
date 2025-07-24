@@ -13,17 +13,12 @@ use App\Models\Admin\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class FeatureShowTest.
- */
 class FeatureShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Feature Show Endpoint shall return a Feature Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -45,8 +40,6 @@ class FeatureShowTest extends TestCase
 
     /**
      * The Feature Show Endpoint shall forbid showing features of nonnull scope.
-     *
-     * @return void
      */
     public function testNonNullForbidden(): void
     {
@@ -61,8 +54,6 @@ class FeatureShowTest extends TestCase
 
     /**
      * The Feature Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

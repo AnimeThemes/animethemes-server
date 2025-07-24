@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Mutations\Rest\CreateMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\List\Playlist;
 
-/**
- * Class CreatePlaylistMutation.
- */
 #[UseField(PlaylistController::class, 'store')]
 class CreatePlaylistMutation extends CreateMutation
 {

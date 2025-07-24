@@ -7,9 +7,6 @@ namespace App\Filament\Resources\Base;
 use App\Filament\Actions\Base\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
-/**
- * Class BaseManageResources.
- */
 abstract class BaseManageResources extends ManageRecords
 {
     /**

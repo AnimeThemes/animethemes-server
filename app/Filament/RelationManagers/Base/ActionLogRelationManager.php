@@ -10,9 +10,6 @@ use App\Filament\Resources\BaseResource;
 use App\Models\Admin\ActionLog as ActionLogModel;
 use Filament\Tables\Table;
 
-/**
- * Class ActionLogRelationManager.
- */
 class ActionLogRelationManager extends BaseRelationManager
 {
     protected static string $relationship = 'actionlogs';
@@ -28,9 +25,6 @@ class ActionLogRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

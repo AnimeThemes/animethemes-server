@@ -18,9 +18,6 @@ use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Pivots\Wiki\ArtistSong;
 
-/**
- * Class ArtistSongSchema.
- */
 class ArtistSongSchema extends EloquentSchema
 {
     /**

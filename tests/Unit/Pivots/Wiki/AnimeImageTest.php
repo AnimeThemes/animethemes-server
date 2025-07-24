@@ -10,15 +10,10 @@ use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class AnimeImageTest.
- */
 class AnimeImageTest extends TestCase
 {
     /**
      * An AnimeImage shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -33,8 +28,6 @@ class AnimeImageTest extends TestCase
 
     /**
      * An AnimeImage shall belong to an Image.
-     *
-     * @return void
      */
     public function testImage(): void
     {

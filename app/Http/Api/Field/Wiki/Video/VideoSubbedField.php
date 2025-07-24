@@ -12,9 +12,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
-/**
- * Class VideoSubbedField.
- */
 class VideoSubbedField extends BooleanField implements CreatableField, UpdatableField
 {
     /**

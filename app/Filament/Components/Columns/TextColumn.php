@@ -6,9 +6,6 @@ namespace App\Filament\Components\Columns;
 
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
-/**
- * Class TextColumn.
- */
 class TextColumn extends ColumnsTextColumn
 {
     /**

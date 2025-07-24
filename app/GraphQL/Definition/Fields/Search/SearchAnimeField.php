@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchAnimeField.
- */
 class SearchAnimeField extends Field implements DisplayableField
 {
     /**

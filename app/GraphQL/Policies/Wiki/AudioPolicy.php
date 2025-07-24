@@ -6,7 +6,4 @@ namespace App\GraphQL\Policies\Wiki;
 
 use App\GraphQL\Policies\BasePolicy;
 
-/**
- * Class AudioPolicy.
- */
 class AudioPolicy extends BasePolicy {}

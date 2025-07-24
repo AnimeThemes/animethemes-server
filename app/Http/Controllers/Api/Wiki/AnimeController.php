@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnimeController.
- */
 class AnimeController extends BaseController
 {
     /**

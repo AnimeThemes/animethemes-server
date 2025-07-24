@@ -13,9 +13,6 @@ use App\Http\Api\Scope\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-/**
- * Class TrashedCriteria.
- */
 class TrashedCriteria extends Criteria
 {
     final public const PARAM_VALUE = 'trashed';

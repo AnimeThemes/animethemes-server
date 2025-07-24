@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PerformanceResource.
- */
 class PerformanceResource extends BaseResource
 {
     /**

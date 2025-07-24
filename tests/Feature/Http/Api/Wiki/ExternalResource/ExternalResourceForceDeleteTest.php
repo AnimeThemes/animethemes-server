@@ -10,15 +10,10 @@ use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceForceDeleteTest.
- */
 class ExternalResourceForceDeleteTest extends TestCase
 {
     /**
      * The External Resource Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ExternalResourceForceDeleteTest extends TestCase
 
     /**
      * The External Resource Force Delete Endpoint shall forbid users without the force delete external resource permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ExternalResourceForceDeleteTest extends TestCase
 
     /**
      * The External Resource Force Delete Endpoint shall force delete the resource.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

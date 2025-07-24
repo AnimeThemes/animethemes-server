@@ -20,17 +20,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class TrackUpdateTest.
- */
 class TrackUpdateTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Track Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -56,8 +51,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall forbid users without the update playlist track permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -87,8 +80,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall forbid users from updating the track if they don't the playlist.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
@@ -120,8 +111,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall scope bindings.
-     *
-     * @return void
      */
     public function testScoped(): void
     {
@@ -156,8 +145,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall restrict the previous track to a track within the playlist.
-     *
-     * @return void
      */
     public function testScopePrevious(): void
     {
@@ -198,8 +185,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall forbid the previous track to be itself.
-     *
-     * @return void
      */
     public function testPreviousIsNotSelf(): void
     {
@@ -236,8 +221,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall restrict the next track to a track within the playlist.
-     *
-     * @return void
      */
     public function testScopeNext(): void
     {
@@ -278,8 +261,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall forbid the next track to be itself.
-     *
-     * @return void
      */
     public function testNextIsNotSelf(): void
     {
@@ -316,8 +297,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Store Endpoint shall prohibit the next and previous fields from both being present.
-     *
-     * @return void
      */
     public function testProhibitsNextAndPrevious(): void
     {
@@ -365,8 +344,6 @@ class TrackUpdateTest extends TestCase
     /**
      * The Playlist Update Endpoint shall forbid users from updating playlists
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -400,8 +377,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall update a playlist track.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {
@@ -435,8 +410,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the first track after the second track.
-     *
-     * @return void
      */
     public function testInsertFirstAfterSecond(): void
     {
@@ -485,8 +458,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the first track after the third track.
-     *
-     * @return void
      */
     public function testInsertFirstAfterThird(): void
     {
@@ -535,8 +506,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the first track before the third track.
-     *
-     * @return void
      */
     public function testInsertFirstBeforeThird(): void
     {
@@ -585,8 +554,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the second track after the third track.
-     *
-     * @return void
      */
     public function testInsertSecondAfterThird(): void
     {
@@ -635,8 +602,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the second track before the first track.
-     *
-     * @return void
      */
     public function testInsertSecondBeforeFirst(): void
     {
@@ -685,8 +650,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the third track after the first track.
-     *
-     * @return void
      */
     public function testInsertThirdAfterFirst(): void
     {
@@ -735,8 +698,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the third track before the second track.
-     *
-     * @return void
      */
     public function testInsertThirdBeforeSecond(): void
     {
@@ -785,8 +746,6 @@ class TrackUpdateTest extends TestCase
 
     /**
      * The Track Update Endpoint shall insert the third track before the first track.
-     *
-     * @return void
      */
     public function testInsertThirdBeforeFirst(): void
     {
@@ -836,8 +795,6 @@ class TrackUpdateTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to update playlist tracks
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testUpdatePermittedForBypass(): void
     {

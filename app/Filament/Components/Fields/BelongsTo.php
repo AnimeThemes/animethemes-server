@@ -16,9 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-/**
- * Class BelongsTo.
- */
 class BelongsTo extends ComponentsSelect
 {
     protected string $relation;
@@ -28,8 +25,6 @@ class BelongsTo extends ComponentsSelect
 
     /**
      * This should reload after every method.
-     *
-     * @return void
      */
     protected function reload(): void
     {

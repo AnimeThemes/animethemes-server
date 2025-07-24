@@ -9,9 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Dump;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * Class DumpController.
- */
 class DumpController extends Controller
 {
     /**

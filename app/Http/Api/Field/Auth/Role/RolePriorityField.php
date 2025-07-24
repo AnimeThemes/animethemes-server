@@ -8,9 +8,6 @@ use App\Http\Api\Field\IntField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Auth\Role;
 
-/**
- * Class RolePriorityField.
- */
 class RolePriorityField extends IntField
 {
     /**

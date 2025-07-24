@@ -26,8 +26,6 @@ return new class extends Migration
 
     /**
      * Create a new migration instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -40,8 +38,6 @@ return new class extends Migration
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
@@ -64,8 +60,6 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {

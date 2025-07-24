@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchArtistsField.
- */
 class SearchArtistsField extends Field implements DisplayableField
 {
     /**

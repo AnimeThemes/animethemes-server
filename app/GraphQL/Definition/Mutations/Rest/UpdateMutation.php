@@ -11,9 +11,6 @@ use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class UpdateMutation.
- */
 abstract class UpdateMutation extends BaseMutation
 {
     /**

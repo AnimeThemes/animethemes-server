@@ -9,9 +9,6 @@ use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 
-/**
- * Class PermissionPolicy.
- */
 class PermissionPolicy extends BasePolicy
 {
     /**

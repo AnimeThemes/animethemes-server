@@ -12,9 +12,6 @@ use App\Models\Document\Page;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class PageSlugField.
- */
 class PageSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

@@ -14,9 +14,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class ThemeAnimeIdField.
- */
 class ThemeAnimeIdField extends Field implements CreatableField, SelectableField
 {
     /**

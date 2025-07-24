@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceTest.
- */
 class AnimeResourceTest extends TestCase
 {
     /**
      * When an Anime is attached to a Resource or vice versa, an AnimeResourceCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeResourceCreatedEventDispatched(): void
     {
@@ -36,8 +31,6 @@ class AnimeResourceTest extends TestCase
 
     /**
      * When an Anime is detached from a Resource or vice versa, an AnimeResourceDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeResourceDeletedEventDispatched(): void
     {
@@ -52,8 +45,6 @@ class AnimeResourceTest extends TestCase
 
     /**
      * When an Anime Resource pivot is updated, an AnimeResourceUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeResourceUpdatedEventDispatched(): void
     {
@@ -78,8 +69,6 @@ class AnimeResourceTest extends TestCase
 
     /**
      * The AnimeResourceUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testAnimeResourceUpdatedEventEmbedFields(): void
     {

@@ -11,15 +11,10 @@ use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
-/**
- * Class VideoSeeder.
- */
 class VideoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @throws Exception
      */

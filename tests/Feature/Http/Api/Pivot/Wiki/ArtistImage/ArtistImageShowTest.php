@@ -21,17 +21,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ArtistImageShowTest.
- */
 class ArtistImageShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Artist Image Show Endpoint shall return an error if the artist image does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -45,8 +40,6 @@ class ArtistImageShowTest extends TestCase
 
     /**
      * By default, the Artist Image Show Endpoint shall return an Artist Image Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -73,8 +66,6 @@ class ArtistImageShowTest extends TestCase
 
     /**
      * The Artist Image Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -113,8 +104,6 @@ class ArtistImageShowTest extends TestCase
 
     /**
      * The Artist Image Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -153,8 +142,6 @@ class ArtistImageShowTest extends TestCase
 
     /**
      * The Artist Image Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

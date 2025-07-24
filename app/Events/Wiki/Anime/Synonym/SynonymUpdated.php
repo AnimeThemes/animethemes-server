@@ -60,8 +60,6 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

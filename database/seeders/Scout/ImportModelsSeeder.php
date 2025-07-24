@@ -18,15 +18,10 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class ImportModelsSeeder.
- */
 class ImportModelsSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -53,7 +48,6 @@ class ImportModelsSeeder extends Seeder
      * Call the scout import command for the given model.
      *
      * @param  string  $modelClass
-     * @return void
      */
     private function scoutImport(string $modelClass): void
     {

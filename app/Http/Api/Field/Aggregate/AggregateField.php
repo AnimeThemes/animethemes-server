@@ -19,9 +19,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * Class AggregateField.
- */
 abstract class AggregateField extends Field implements FilterableField, RenderableField, SortableField
 {
     use FiltersModels;

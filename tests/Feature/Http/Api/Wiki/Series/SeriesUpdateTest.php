@@ -10,15 +10,10 @@ use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SeriesUpdateTest.
- */
 class SeriesUpdateTest extends TestCase
 {
     /**
      * The Series Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class SeriesUpdateTest extends TestCase
 
     /**
      * The Series Update Endpoint shall forbid users without the update series permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class SeriesUpdateTest extends TestCase
 
     /**
      * The Series Update Endpoint shall forbid users from updating a series that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -73,8 +64,6 @@ class SeriesUpdateTest extends TestCase
 
     /**
      * The Series Update Endpoint shall update a series.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

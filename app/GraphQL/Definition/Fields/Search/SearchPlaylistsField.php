@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchPlaylistsField.
- */
 class SearchPlaylistsField extends Field implements DisplayableField
 {
     /**

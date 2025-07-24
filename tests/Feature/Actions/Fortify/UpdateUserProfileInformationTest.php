@@ -18,17 +18,12 @@ use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 use Tests\TestCase;
 
-/**
- * Class UpdateUserProfileInformationTest.
- */
 class UpdateUserProfileInformationTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Update User Profile Information Action shall require the name, email, password & terms fields.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -45,8 +40,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall require usernames to be restricted to alphanumeric characters and dashes.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -65,8 +58,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall require usernames to be unique.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -91,8 +82,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall update the user name.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -121,8 +110,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall update the user email.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -153,8 +140,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall update the user if the name is not flagged by OpenAI.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -196,8 +181,6 @@ class UpdateUserProfileInformationTest extends TestCase
     /**
      * The Update User Profile Information Action shall update the user if the moderation service returns some error.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testCreatedIfOpenAiFails(): void
@@ -231,8 +214,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall prohibit users from updating usernames flagged by OpenAI.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -268,8 +249,6 @@ class UpdateUserProfileInformationTest extends TestCase
     /**
      * The Update User Profile Information Action shall prohibit updating user emails using disposable email services.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testDisposableEmail(): void
@@ -295,8 +274,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall permit updating user emails using indisposable email services.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -331,8 +308,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
     /**
      * The Update User Profile Information Action shall require emails to be unique.
-     *
-     * @return void
      *
      * @throws ValidationException
      */

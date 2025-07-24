@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Studio as StudioResource;
 use App\Models\Wiki\Studio;
 use Filament\Tables\Table;
 
-/**
- * Class StudioRelationManager.
- */
 abstract class StudioRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class StudioRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

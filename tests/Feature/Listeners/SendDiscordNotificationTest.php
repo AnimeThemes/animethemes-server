@@ -14,16 +14,11 @@ use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
-/**
- * Class SendDiscordNotificationTest.
- */
 class SendDiscordNotificationTest extends TestCase
 {
     /**
      * If discord notifications are disabled through the Allow Discord Notifications feature,
      * discord notification jobs shall not be dispatched.
-     *
-     * @return void
      */
     public function testDiscordNotificationsNotAllowed(): void
     {
@@ -75,8 +70,6 @@ class SendDiscordNotificationTest extends TestCase
     /**
      * If discord notifications are enabled through the Allow Discord Notifications feature,
      * discord notification jobs shall be dispatched.
-     *
-     * @return void
      */
     public function testDiscordNotificationsAllowed(): void
     {

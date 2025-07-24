@@ -19,17 +19,12 @@ use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class ReconcileDumpRepositoriesTest.
- */
 class ReconcileDumpRepositoriesTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Dump Repository Action shall indicate no changes were made.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -55,8 +50,6 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
     /**
      * If dumps are created, the Reconcile Dump Repository Action shall return created dumps.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -87,8 +80,6 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
     /**
      * If dumps are deleted, the Reconcile Dump Repository Action shall return deleted dumps.
-     *
-     * @return void
      *
      * @throws Exception
      */

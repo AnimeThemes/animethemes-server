@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist;
 use App\Rules\ModerationRule;
 
-/**
- * Class PlaylistDescriptionField.
- */
 class PlaylistDescriptionField extends StringField implements CreatableField, UpdatableField
 {
     /**

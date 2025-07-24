@@ -8,9 +8,6 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use DateTime;
 
-/**
- * Class DateFilter.
- */
 class DateFilter extends Filter
 {
     /**

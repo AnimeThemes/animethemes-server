@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeResourceAsField.
- */
 class AnimeResourceAsField extends StringField implements CreatableField, UpdatableField
 {
     /**

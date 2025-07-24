@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchVideosField.
- */
 class SearchVideosField extends Field implements DisplayableField
 {
     /**

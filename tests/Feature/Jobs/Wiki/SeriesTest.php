@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class SeriesTest.
- */
 class SeriesTest extends TestCase
 {
     /**
      * When a series is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class SeriesTest extends TestCase
 
     /**
      * When a series is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class SeriesTest extends TestCase
 
     /**
      * When a series is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class SeriesTest extends TestCase
 
     /**
      * When a series is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesUpdatedSendsDiscordNotification(): void
     {

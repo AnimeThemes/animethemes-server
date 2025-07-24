@@ -38,8 +38,6 @@ class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEve
 
     /**
      * Remove the image from the bucket.
-     *
-     * @return void
      */
     public function removeFromStorage(): void
     {

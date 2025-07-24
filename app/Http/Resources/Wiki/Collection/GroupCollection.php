@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Group;
 use Illuminate\Http\Request;
 
-/**
- * Class GroupCollection.
- */
 class GroupCollection extends BaseCollection
 {
     /**

@@ -12,9 +12,6 @@ use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class SeriesSlugField.
- */
 class SeriesSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

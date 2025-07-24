@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Song\Membership;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Song\Membership;
 
-/**
- * Class MembershipAliasField.
- */
 class MembershipAliasField extends StringField
 {
     /**

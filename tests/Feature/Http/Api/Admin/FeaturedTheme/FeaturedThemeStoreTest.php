@@ -17,17 +17,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeStoreTest.
- */
 class FeaturedThemeStoreTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Featured Theme Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -40,8 +35,6 @@ class FeaturedThemeStoreTest extends TestCase
 
     /**
      * The Featured Theme Store Endpoint shall forbid users without the create featured theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -58,8 +51,6 @@ class FeaturedThemeStoreTest extends TestCase
 
     /**
      * The Featured Theme Store Endpoint shall require the end_at and start_at fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -77,8 +68,6 @@ class FeaturedThemeStoreTest extends TestCase
 
     /**
      * The Featured Theme Store Endpoint shall require the start_at field to be before the end_at field and vice versa.
-     *
-     * @return void
      */
     public function testStartAtBeforeEndDate(): void
     {
@@ -101,8 +90,6 @@ class FeaturedThemeStoreTest extends TestCase
 
     /**
      * The Featured Theme Store Endpoint shall require the entry and video to have an association.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoExists(): void
     {
@@ -131,8 +118,6 @@ class FeaturedThemeStoreTest extends TestCase
 
     /**
      * The Featured Theme Store Endpoint shall create a featured theme.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

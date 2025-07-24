@@ -10,9 +10,6 @@ use App\Models\Wiki\Image;
 use App\Pivots\Wiki\ArtistImage;
 use Filament\Tables\Table;
 
-/**
- * Class ImageArtistRelationManager.
- */
 class ImageArtistRelationManager extends ImageRelationManager
 {
     /**
@@ -24,9 +21,6 @@ class ImageArtistRelationManager extends ImageRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

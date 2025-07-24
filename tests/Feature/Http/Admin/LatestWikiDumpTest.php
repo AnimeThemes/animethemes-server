@@ -22,9 +22,6 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class LatestWikiDumpTest.
- */
 class LatestWikiDumpTest extends TestCase
 {
     use WithFaker;
@@ -32,8 +29,6 @@ class LatestWikiDumpTest extends TestCase
     /**
      * If dump downloading is disabled through the Allow Dump Downloading feature,
      * the user shall receive a forbidden exception.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -56,8 +51,6 @@ class LatestWikiDumpTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to download the latest wiki dump
      * even if the Allow Dump Downloading feature is disabled.
-     *
-     * @return void
      */
     public function testVideoStreamingPermittedForBypass(): void
     {
@@ -101,8 +94,6 @@ class LatestWikiDumpTest extends TestCase
 
     /**
      * If no dumps exist, the user shall receive a not found error.
-     *
-     * @return void
      */
     public function testNotFoundIfNoWikiDumps(): void
     {
@@ -118,8 +109,6 @@ class LatestWikiDumpTest extends TestCase
 
     /**
      * If no wiki dumps exist, the user shall receive a not found error.
-     *
-     * @return void
      */
     public function testNotFoundIfDocumentDumpsExist(): void
     {
@@ -141,8 +130,6 @@ class LatestWikiDumpTest extends TestCase
 
     /**
      * If wiki dumps exist, the latest wiki dump is downloaded from storage through the response.
-     *
-     * @return void
      */
     public function testLatestWikiDumpDownloaded(): void
     {

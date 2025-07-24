@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-/**
- * Class EloquentSchema.
- */
 abstract class EloquentSchema extends Schema
 {
     /**

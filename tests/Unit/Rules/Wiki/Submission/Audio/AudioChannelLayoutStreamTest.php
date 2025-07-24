@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioChannelLayoutStreamTest.
- */
 class AudioChannelLayoutStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Channel Layout Rule Stream shall fail if the channel layout is not stereo.
-     *
-     * @return void
      */
     public function testFailsWhenLayoutIsNotStereo(): void
     {
@@ -63,8 +58,6 @@ class AudioChannelLayoutStreamTest extends TestCase
 
     /**
      * The Audio Channel Layout Rule Stream shall pass if the channel layout is stereo.
-     *
-     * @return void
      */
     public function testPassesWhenLayoutIsStereo(): void
     {

@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Admin\Dump;
 use Illuminate\Http\Request;
 
-/**
- * Class DumpPathField.
- */
 class DumpPathField extends StringField implements CreatableField, UpdatableField
 {
     /**

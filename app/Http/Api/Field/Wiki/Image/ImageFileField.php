@@ -9,9 +9,6 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Http\Request;
 
-/**
- * Class ImageFileField.
- */
 class ImageFileField extends Field implements CreatableField
 {
     final public const ATTRIBUTE_FILE = 'file';

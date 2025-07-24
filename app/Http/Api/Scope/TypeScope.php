@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Scope;
 
-/**
- * CLass TypeScope.
- */
 class TypeScope extends Scope
 {
     /**

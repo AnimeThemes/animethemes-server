@@ -6,9 +6,6 @@ namespace App\Http\Api\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 
-/**
- * Class StringFilter.
- */
 class StringFilter extends Filter
 {
     /**

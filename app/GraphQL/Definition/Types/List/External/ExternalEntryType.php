@@ -21,9 +21,6 @@ use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryType.
- */
 class ExternalEntryType extends EloquentType implements HasFields, HasRelations
 {
     /**

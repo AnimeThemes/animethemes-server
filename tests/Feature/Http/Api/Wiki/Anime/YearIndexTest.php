@@ -8,17 +8,12 @@ use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class YearIndexTest.
- */
 class YearIndexTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Year Index Endpoint shall display a list of unique years of anime.
-     *
-     * @return void
      */
     public function testDefault(): void
     {

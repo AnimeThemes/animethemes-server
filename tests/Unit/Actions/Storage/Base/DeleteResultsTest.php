@@ -10,17 +10,12 @@ use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class DeleteResultsTest.
- */
 class DeleteResultsTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Action result has failed if there are no deletions.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -35,8 +30,6 @@ class DeleteResultsTest extends TestCase
 
     /**
      * The Action result has failed if any deletions have returned false.
-     *
-     * @return void
      */
     public function testFailed(): void
     {
@@ -61,8 +54,6 @@ class DeleteResultsTest extends TestCase
 
     /**
      * The Action result has passed if all deletions have returned true.
-     *
-     * @return void
      */
     public function testPassed(): void
     {

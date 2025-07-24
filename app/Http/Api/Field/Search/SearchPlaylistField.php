@@ -8,9 +8,6 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 
-/**
- * Class SearchPlaylistField.
- */
 class SearchPlaylistField extends Field
 {
     /**

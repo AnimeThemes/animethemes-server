@@ -32,9 +32,6 @@ use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoSchema.
- */
 class VideoSchema extends EloquentSchema implements SearchableSchema
 {
     /**

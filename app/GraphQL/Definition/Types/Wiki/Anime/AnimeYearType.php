@@ -12,9 +12,6 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSummerField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearWinterField;
 use App\GraphQL\Definition\Types\BaseType;
 
-/**
- * Class AnimeYearType.
- */
 class AnimeYearType extends BaseType implements HasFields
 {
     /**

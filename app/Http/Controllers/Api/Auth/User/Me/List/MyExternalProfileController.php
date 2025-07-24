@@ -16,9 +16,6 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class MyExternalProfileController.
- */
 class MyExternalProfileController extends BaseController
 {
     /**

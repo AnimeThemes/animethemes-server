@@ -8,9 +8,6 @@ use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Response\MessageResponseField;
 
-/**
- * Class MessageResponseType.
- */
 class MessageResponseType extends BaseType implements HasFields
 {
     /**

@@ -8,9 +8,6 @@ use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class PerformanceArtistUnion.
- */
 class PerformanceArtistUnion extends BaseUnion
 {
     /**

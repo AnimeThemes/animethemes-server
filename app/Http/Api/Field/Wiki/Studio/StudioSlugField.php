@@ -12,9 +12,6 @@ use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class StudioSlugField.
- */
 class StudioSlugField extends StringField implements CreatableField, UpdatableField
 {
     /**

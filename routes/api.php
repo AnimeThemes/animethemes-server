@@ -71,7 +71,6 @@ if (! function_exists('apiResource')) {
      *
      * @param  string  $name
      * @param  string  $controller
-     * @return void
      */
     function apiResource(string $name, string $controller): void
     {
@@ -94,7 +93,6 @@ if (! function_exists('apiResourceWhere')) {
      * @param  string  $name
      * @param  string  $controller
      * @param  mixed  $wheres
-     * @return void
      */
     function apiResourceWhere(string $name, string $controller, mixed $wheres): void
     {
@@ -120,7 +118,6 @@ if (! function_exists('apiScopedResource')) {
      *
      * @param  string  $name
      * @param  string  $controller
-     * @return void
      */
     function apiScopedResource(string $name, string $controller): void
     {
@@ -175,7 +172,6 @@ if (! function_exists('apiPivotResource')) {
      * @param  string  $related
      * @param  string  $foreign
      * @param  string  $controller
-     * @return void
      */
     function apiPivotResource(string $name, string $related, string $foreign, string $controller): void
     {
@@ -194,7 +190,6 @@ if (! function_exists('apiEditablePivotResource')) {
      * @param  string  $related
      * @param  string  $foreign
      * @param  string  $controller
-     * @return void
      */
     function apiEditablePivotResource(string $name, string $related, string $foreign, string $controller): void
     {

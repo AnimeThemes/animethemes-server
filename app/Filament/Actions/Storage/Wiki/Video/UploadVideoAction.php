@@ -59,15 +59,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File as FileRule;
 
-/**
- * Class UploadVideoAction.
- */
 class UploadVideoAction extends UploadAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -76,8 +71,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -90,9 +83,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): Schema
     {
@@ -251,7 +241,6 @@ class UploadVideoAction extends UploadAction
      *
      * @param  Video  $video
      * @param  array<string, mixed>  $data
-     * @return void
      */
     protected function afterUploaded(?Model $video, array $data): void
     {

@@ -14,9 +14,6 @@ use App\GraphQL\Definition\Unions\LikedUnion;
 use App\Models\User\Like;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class LikeMutation.
- */
 #[UseField(LikeController::class, 'store')]
 class LikeMutation extends BaseMutation
 {

@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class StudioController.
- */
 class StudioController extends BaseController
 {
     /**

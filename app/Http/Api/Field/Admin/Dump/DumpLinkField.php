@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class DumpLinkField.
- */
 class DumpLinkField extends Field implements RenderableField
 {
     /**

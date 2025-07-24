@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class SynonymTest.
- */
 class SynonymTest extends TestCase
 {
     /**
      * When a synonym is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymCreatedSendsDiscordNotification(): void
     {
@@ -42,8 +37,6 @@ class SynonymTest extends TestCase
 
     /**
      * When a synonym is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymDeletedSendsDiscordNotification(): void
     {
@@ -62,8 +55,6 @@ class SynonymTest extends TestCase
 
     /**
      * When a synonym is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymRestoredSendsDiscordNotification(): void
     {
@@ -82,8 +73,6 @@ class SynonymTest extends TestCase
 
     /**
      * When a synonym is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymUpdatedSendsDiscordNotification(): void
     {

@@ -22,17 +22,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class AnimeTest.
- */
 class AnimeTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The season attribute of an anime shall be cast to an AnimeSeason enum instance.
-     *
-     * @return void
      */
     public function testCastsSeasonToEnum(): void
     {
@@ -45,8 +40,6 @@ class AnimeTest extends TestCase
 
     /**
      * The media_format attribute of an anime shall be cast to an AnimeMediaFormat enum instance.
-     *
-     * @return void
      */
     public function testCastsMediaFormatToEnum(): void
     {
@@ -59,8 +52,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -71,8 +62,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -83,8 +72,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -95,8 +82,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -107,8 +92,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have a one-to-many relationship with the type Synonym.
-     *
-     * @return void
      */
     public function testSynonyms(): void
     {
@@ -125,8 +108,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have a many-to-many relationship with the type Series.
-     *
-     * @return void
      */
     public function testSeries(): void
     {
@@ -144,8 +125,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have a one-to-many relationship with the type Theme.
-     *
-     * @return void
      */
     public function testThemes(): void
     {
@@ -162,8 +141,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have a many-to-many relationship with the type ExternalResource.
-     *
-     * @return void
      */
     public function testExternalResources(): void
     {
@@ -181,8 +158,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have a many-to-many relationship with the type Image.
-     *
-     * @return void
      */
     public function testImages(): void
     {
@@ -200,8 +175,6 @@ class AnimeTest extends TestCase
 
     /**
      * Anime shall have a many-to-many relationship with the type Studio.
-     *
-     * @return void
      */
     public function testStudios(): void
     {

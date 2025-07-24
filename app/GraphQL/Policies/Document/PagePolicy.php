@@ -6,7 +6,4 @@ namespace App\GraphQL\Policies\Document;
 
 use App\GraphQL\Policies\BasePolicy;
 
-/**
- * Class PagePolicy.
- */
 class PagePolicy extends BasePolicy {}

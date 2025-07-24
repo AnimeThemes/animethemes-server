@@ -6,9 +6,6 @@ namespace App\GraphQL\Attributes;
 
 use Attribute;
 
-/**
- * Class UseBuilder.
- */
 #[Attribute(Attribute::TARGET_CLASS)]
 class UseBuilder
 {

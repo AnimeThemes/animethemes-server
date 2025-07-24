@@ -6,9 +6,6 @@ namespace App\Http\Api\Criteria\Include;
 
 use Illuminate\Support\Collection;
 
-/**
- * Class ResourceCriteria.
- */
 class ResourceCriteria extends Criteria
 {
     /**

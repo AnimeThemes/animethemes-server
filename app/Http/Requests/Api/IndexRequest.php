@@ -15,9 +15,6 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-/**
- * Class IndexRequest.
- */
 class IndexRequest extends ReadRequest
 {
     /**
@@ -106,7 +103,6 @@ class IndexRequest extends ReadRequest
      * Configure validator with needed conditional validation.
      *
      * @param  Validator  $validator
-     * @return void
      */
     protected function handleConditionalValidation(Validator $validator): void
     {
@@ -122,7 +118,6 @@ class IndexRequest extends ReadRequest
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
      *
      * @param  Validator  $validator
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -149,7 +144,6 @@ class IndexRequest extends ReadRequest
      * Ex: /api/anime?sort[anime]=year.
      *
      * @param  Validator  $validator
-     * @return void
      */
     protected function conditionallyRestrictAllowedSortTypes(Validator $validator): void
     {

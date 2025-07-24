@@ -10,9 +10,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
-/**
- * Class AudioSizeField.
- */
 class AudioSizeField extends IntField implements CreatableField
 {
     /**

@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoSourceField.
- */
 class VideoSourceField extends EnumField
 {
     /**

@@ -11,17 +11,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class MyShowTest.
- */
 class MyShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The My Show Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -32,8 +27,6 @@ class MyShowTest extends TestCase
 
     /**
      * The My Show Endpoint shall return the resource of the current user.
-     *
-     * @return void
      */
     public function testDefault(): void
     {

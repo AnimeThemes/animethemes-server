@@ -20,9 +20,6 @@ use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnnouncementController.
- */
 class AnnouncementController extends BaseController
 {
     /**

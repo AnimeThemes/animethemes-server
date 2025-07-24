@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\ImplodeArrayResolver;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoTagsField.
- */
 #[UseField(ImplodeArrayResolver::class)]
 class VideoTagsField extends StringField
 {

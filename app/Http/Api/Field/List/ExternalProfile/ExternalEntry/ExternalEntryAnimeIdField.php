@@ -14,9 +14,6 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class ExternalEntryAnimeIdField.
- */
 class ExternalEntryAnimeIdField extends Field implements CreatableField, SelectableField
 {
     /**

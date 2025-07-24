@@ -9,9 +9,6 @@ use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PlaylistHashidsField.
- */
 class PlaylistHashidsField extends StringField
 {
     /**

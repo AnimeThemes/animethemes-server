@@ -15,9 +15,6 @@ use App\Models\Document\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-/**
- * Class PageBodyField.
- */
 class PageBodyField extends Field implements CreatableField, RenderableField, SelectableField, UpdatableField
 {
     /**

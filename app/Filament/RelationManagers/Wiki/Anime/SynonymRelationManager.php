@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Anime\Synonym as SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Filament\Tables\Table;
 
-/**
- * Class SynonymRelationManager.
- */
 abstract class SynonymRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class SynonymRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

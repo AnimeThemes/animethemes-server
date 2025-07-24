@@ -13,9 +13,6 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class NumberFilter.
- */
 class NumberFilter extends Filter
 {
     /**

@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Types\Edges\Wiki\Anime\Theme;
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
-/**
- * Class AnimeThemeEntryEdgeType.
- */
 class AnimeThemeEntryEdgeType extends BaseEdgeType
 {
     /**

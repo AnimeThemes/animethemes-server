@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Filter;
 
-/**
- * Class Expression.
- */
 readonly class Expression
 {
     /**

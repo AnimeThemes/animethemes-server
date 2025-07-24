@@ -79,8 +79,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     /**
      * The "booting" method of the model.
-     *
-     * @return void
      */
     protected static function boot(): void
     {

@@ -7,15 +7,10 @@ namespace Tests\Unit\Models\Document;
 use App\Models\Document\Page;
 use Tests\TestCase;
 
-/**
- * Class PageTest.
- */
 class PageTest extends TestCase
 {
     /**
      * Pages shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -26,8 +21,6 @@ class PageTest extends TestCase
 
     /**
      * Pages shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {

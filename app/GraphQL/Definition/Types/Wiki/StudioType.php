@@ -21,9 +21,6 @@ use App\GraphQL\Definition\Types\Edges\Wiki\Studio\StudioResourceEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Studio;
 
-/**
- * Class StudioType.
- */
 class StudioType extends EloquentType implements HasFields, HasRelations
 {
     /**

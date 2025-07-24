@@ -11,9 +11,6 @@ use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class DeleteMutation.
- */
 abstract class DeleteMutation extends BaseMutation
 {
     /**

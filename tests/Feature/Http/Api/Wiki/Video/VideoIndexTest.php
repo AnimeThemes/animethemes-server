@@ -44,9 +44,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class VideoIndexTest.
- */
 class VideoIndexTest extends TestCase
 {
     use SortsModels;
@@ -54,8 +51,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * By default, the Video Index Endpoint shall return a collection of Video Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -79,8 +74,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -99,8 +92,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -145,8 +136,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -182,8 +171,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Synonym Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -223,8 +210,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -266,8 +251,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -309,8 +292,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -345,8 +326,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -381,8 +360,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -417,8 +394,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -461,8 +436,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by lyrics.
-     *
-     * @return void
      */
     public function testLyricsFilter(): void
     {
@@ -496,8 +469,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by nc.
-     *
-     * @return void
      */
     public function testNcFilter(): void
     {
@@ -531,8 +502,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by overlap.
-     *
-     * @return void
      */
     public function testOverlapFilter(): void
     {
@@ -566,8 +535,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by resolution.
-     *
-     * @return void
      */
     public function testResolutionFilter(): void
     {
@@ -606,8 +573,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by source.
-     *
-     * @return void
      */
     public function testSourceFilter(): void
     {
@@ -641,8 +606,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by subbed.
-     *
-     * @return void
      */
     public function testSubbedFilter(): void
     {
@@ -676,8 +639,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support filtering by uncen.
-     *
-     * @return void
      */
     public function testUncenFilter(): void
     {
@@ -711,8 +672,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of entries by nsfw.
-     *
-     * @return void
      */
     public function testEntriesByNsfw(): void
     {
@@ -757,8 +716,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of entries by spoiler.
-     *
-     * @return void
      */
     public function testEntriesBySpoiler(): void
     {
@@ -803,8 +760,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of entries by version.
-     *
-     * @return void
      */
     public function testEntriesByVersion(): void
     {
@@ -854,8 +809,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -907,8 +860,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -953,8 +904,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -999,8 +948,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -1045,8 +992,6 @@ class VideoIndexTest extends TestCase
 
     /**
      * The Video Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

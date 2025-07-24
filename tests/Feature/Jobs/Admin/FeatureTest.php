@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class FeatureTest.
- */
 class FeatureTest extends TestCase
 {
     /**
      * When a feature is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testFeatureCreatedSendsDiscordNotification(): void
     {
@@ -38,8 +33,6 @@ class FeatureTest extends TestCase
 
     /**
      * When a feature is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testFeatureDeletedSendsDiscordNotification(): void
     {
@@ -56,8 +49,6 @@ class FeatureTest extends TestCase
 
     /**
      * When a feature is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testFeatureUpdatedSendsDiscordNotification(): void
     {

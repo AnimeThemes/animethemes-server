@@ -9,9 +9,6 @@ use App\Filament\Resources\Wiki\Series;
 use App\Models\Wiki\Series as SeriesModel;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListSeries.
- */
 class ListSeries extends BaseListResources
 {
     protected static string $resource = Series::class;

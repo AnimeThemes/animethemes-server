@@ -16,9 +16,6 @@ use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Pivots\Wiki\AnimeStudio;
 
-/**
- * Class AnimeStudioSchema.
- */
 class AnimeStudioSchema extends EloquentSchema
 {
     /**

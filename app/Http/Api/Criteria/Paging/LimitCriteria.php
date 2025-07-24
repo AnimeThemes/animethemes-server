@@ -9,9 +9,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-/**
- * Class LimitCriteria.
- */
 class LimitCriteria extends Criteria
 {
     final public const PARAM = 'limit';

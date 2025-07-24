@@ -7,9 +7,6 @@ namespace App\Filament\Dashboards;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 
-/**
- * Class BaseDashboard.
- */
 abstract class BaseDashboard extends Dashboard
 {
     /**

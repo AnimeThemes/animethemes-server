@@ -12,17 +12,12 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class GiveRoleAction.
- */
 class GiveRoleAction extends BaseAction
 {
     final public const FIELD_ROLE = 'role';
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -31,8 +26,6 @@ class GiveRoleAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -48,7 +41,6 @@ class GiveRoleAction extends BaseAction
      *
      * @param  User  $user
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(User $user, array $data): void
     {
@@ -59,9 +51,6 @@ class GiveRoleAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

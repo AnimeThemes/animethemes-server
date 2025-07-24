@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistInformationField.
- */
 class ArtistInformationField extends StringField implements CreatableField, UpdatableField
 {
     /**

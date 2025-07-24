@@ -15,9 +15,6 @@ use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class SortParser.
- */
 class SortParser extends Parser
 {
     /**

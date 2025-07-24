@@ -9,9 +9,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class VideoUnlinkedTab.
- */
 class VideoUnlinkedTab extends BaseTab
 {
     /**

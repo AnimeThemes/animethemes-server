@@ -7,9 +7,6 @@ namespace App\Http\Middleware\Api;
 use Closure;
 use Illuminate\Http\Request;
 
-/**
- * Class SetAcceptJsonHeader.
- */
 class SetAcceptJsonHeader
 {
     /**

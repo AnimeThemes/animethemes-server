@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistIdField.
- */
 class PlaylistIdField extends Field implements SelectableField
 {
     /**

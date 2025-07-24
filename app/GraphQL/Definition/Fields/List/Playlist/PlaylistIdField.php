@@ -8,9 +8,6 @@ use App\Contracts\GraphQL\Fields\BindableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistIdField.
- */
 class PlaylistIdField extends StringField implements BindableField
 {
     /**

@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class EntryResource.
- */
 class EntryResource extends BaseResource
 {
     /**

@@ -16,17 +16,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class MoveScriptTest.
- */
 class MoveScriptTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Move Script Action shall fail if there are no moves.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -46,8 +41,6 @@ class MoveScriptTest extends TestCase
 
     /**
      * The Move Script Action shall pass if there are moves.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -73,8 +66,6 @@ class MoveScriptTest extends TestCase
 
     /**
      * The Move Script Action shall move the file in the configured disks.
-     *
-     * @return void
      */
     public function testMovedInDisk(): void
     {
@@ -102,8 +93,6 @@ class MoveScriptTest extends TestCase
 
     /**
      * The Move Script Action shall move the script.
-     *
-     * @return void
      */
     public function testScriptUpdated(): void
     {

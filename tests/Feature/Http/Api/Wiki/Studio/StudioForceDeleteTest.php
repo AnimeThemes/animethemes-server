@@ -10,15 +10,10 @@ use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioForceDeleteTest.
- */
 class StudioForceDeleteTest extends TestCase
 {
     /**
      * The Studio Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class StudioForceDeleteTest extends TestCase
 
     /**
      * The Studio Force Delete Endpoint shall forbid users without the force delete studio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class StudioForceDeleteTest extends TestCase
 
     /**
      * The Studio Force Delete Endpoint shall force delete the studio.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

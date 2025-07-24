@@ -10,9 +10,6 @@ use App\Models\List\ExternalProfile;
 use App\Notifications\UserNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 
-/**
- * Class ExternalProfileSynced.
- */
 class ExternalProfileSynced implements NotifiesUsersEvent
 {
     use Dispatchable;
@@ -26,8 +23,6 @@ class ExternalProfileSynced implements NotifiesUsersEvent
 
     /**
      * Notify the users.
-     *
-     * @return void
      */
     public function notify(): void
     {

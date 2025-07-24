@@ -11,9 +11,6 @@ use App\Http\Api\Parser\SortParser;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-/**
- * Class ShowRequest.
- */
 class ShowRequest extends ReadRequest
 {
     /**
@@ -102,7 +99,6 @@ class ShowRequest extends ReadRequest
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
      *
      * @param  Validator  $validator
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -10,9 +10,6 @@ use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class FeaturedThemePolicy.
- */
 class FeaturedThemePolicy extends BasePolicy
 {
     /**

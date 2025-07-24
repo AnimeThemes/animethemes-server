@@ -20,15 +20,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\File as FileRule;
 
-/**
- * Class UploadScriptAction.
- */
 class UploadScriptAction extends UploadAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -37,8 +32,6 @@ class UploadScriptAction extends UploadAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -51,9 +44,6 @@ class UploadScriptAction extends UploadAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): Schema
     {

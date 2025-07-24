@@ -10,15 +10,10 @@ use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class AnimeStudioTest.
- */
 class AnimeStudioTest extends TestCase
 {
     /**
      * An AnimeStudio shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -33,8 +28,6 @@ class AnimeStudioTest extends TestCase
 
     /**
      * An AnimeStudio shall belong to a Studio.
-     *
-     * @return void
      */
     public function testStudio(): void
     {

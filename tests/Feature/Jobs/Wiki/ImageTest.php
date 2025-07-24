@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ImageTest.
- */
 class ImageTest extends TestCase
 {
     /**
      * When an image is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testImageCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class ImageTest extends TestCase
 
     /**
      * When an image is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testImageDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class ImageTest extends TestCase
 
     /**
      * When an image is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testImageRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class ImageTest extends TestCase
 
     /**
      * When an image is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testImageUpdatedSendsDiscordNotification(): void
     {

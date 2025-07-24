@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Song as SongModel;
 use Filament\Tables\Table;
 
-/**
- * Class ThemeSongRelationManager.
- */
 class ThemeSongRelationManager extends ThemeRelationManager
 {
     /**

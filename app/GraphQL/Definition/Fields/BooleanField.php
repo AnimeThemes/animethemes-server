@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BooleanField.
- */
 abstract class BooleanField extends Field implements DisplayableField, FilterableField
 {
     /**

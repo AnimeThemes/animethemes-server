@@ -15,9 +15,6 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
-/**
- * Class AttachResourceAction.
- */
 abstract class AttachResourceAction extends BaseAction
 {
     /**
@@ -29,8 +26,6 @@ abstract class AttachResourceAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -45,10 +40,7 @@ abstract class AttachResourceAction extends BaseAction
     }
 
     /**
-     * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema|null
+     * Get the schema available on the action.|null.
      */
     public function getSchema(Schema $schema): ?Schema
     {

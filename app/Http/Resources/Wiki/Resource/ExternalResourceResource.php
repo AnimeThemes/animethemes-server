@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ExternalResourceResource.
- */
 class ExternalResourceResource extends BaseResource
 {
     /**

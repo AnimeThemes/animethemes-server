@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoOverlapField.
- */
 class VideoOverlapField extends EnumField
 {
     /**

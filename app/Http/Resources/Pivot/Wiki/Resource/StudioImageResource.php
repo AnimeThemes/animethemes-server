@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\Wiki\StudioImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class StudioImageResource.
- */
 class StudioImageResource extends BaseResource
 {
     /**

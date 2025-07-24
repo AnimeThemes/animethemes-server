@@ -22,9 +22,6 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SongResourceController.
- */
 class SongResourceController extends PivotController
 {
     /**

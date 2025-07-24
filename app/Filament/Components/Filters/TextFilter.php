@@ -10,9 +10,6 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class TextFilter.
- */
 class TextFilter extends Filter
 {
     /**

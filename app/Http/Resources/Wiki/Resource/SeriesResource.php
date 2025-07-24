@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class SeriesResource.
- */
 class SeriesResource extends BaseResource
 {
     /**

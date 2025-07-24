@@ -12,9 +12,6 @@ use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\List\Playlist;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class PlaylistVisibilityField.
- */
 class PlaylistVisibilityField extends EnumField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     /**

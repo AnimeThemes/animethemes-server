@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalEntryIsFavoriteField.
- */
 class ExternalEntryIsFavoriteField extends BooleanField implements CreatableField, UpdatableField
 {
     /**

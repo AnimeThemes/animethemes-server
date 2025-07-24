@@ -26,17 +26,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class StudioShowTest.
- */
 class StudioShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Studio Show Endpoint shall return a Studio Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -58,8 +53,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall return a Studio Resource for soft deleted studios.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -83,8 +76,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -120,8 +111,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -155,8 +144,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -195,8 +182,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -235,8 +220,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {
@@ -283,8 +266,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {
@@ -323,8 +304,6 @@ class StudioShowTest extends TestCase
 
     /**
      * The Studio Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

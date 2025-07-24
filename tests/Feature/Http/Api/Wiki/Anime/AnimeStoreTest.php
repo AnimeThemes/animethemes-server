@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeStoreTest.
- */
 class AnimeStoreTest extends TestCase
 {
     /**
      * The Anime Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class AnimeStoreTest extends TestCase
 
     /**
      * The Anime Store Endpoint shall forbid users without the create anime permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -52,8 +45,6 @@ class AnimeStoreTest extends TestCase
 
     /**
      * The Anime Store Endpoint shall require name, season, media_format, slug & year fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -74,8 +65,6 @@ class AnimeStoreTest extends TestCase
 
     /**
      * The Anime Store Endpoint shall create an anime.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

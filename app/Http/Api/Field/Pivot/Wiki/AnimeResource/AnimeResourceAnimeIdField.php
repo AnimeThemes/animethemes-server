@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\AnimeResource;
 
-/**
- * Class AnimeResourceAnimeIdField.
- */
 class AnimeResourceAnimeIdField extends Field implements SelectableField
 {
     /**

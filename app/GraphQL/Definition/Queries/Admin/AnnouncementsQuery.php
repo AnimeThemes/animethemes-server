@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\AnnouncementBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\AnnouncementType;
 
-/**
- * Class AnnouncementsQuery.
- */
 #[UseBuilder(AnnouncementBuilder::class)]
 class AnnouncementsQuery extends EloquentQuery
 {

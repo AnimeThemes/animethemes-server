@@ -10,15 +10,10 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DeleteScriptBulkAction.
- */
 class DeleteScriptBulkAction extends DeleteBulkAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -27,8 +22,6 @@ class DeleteScriptBulkAction extends DeleteBulkAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ArtistSongTest.
- */
 class ArtistSongTest extends TestCase
 {
     /**
      * When an Artist is attached to a Song or vice versa, an ArtistSongCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistSongCreatedEventDispatched(): void
     {
@@ -36,8 +31,6 @@ class ArtistSongTest extends TestCase
 
     /**
      * When an Artist is detached from a Song or vice versa, an ArtistSongDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistSongDeletedEventDispatched(): void
     {
@@ -52,8 +45,6 @@ class ArtistSongTest extends TestCase
 
     /**
      * When an Artist Song pivot is updated, an ArtistSongUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistSongUpdatedEventDispatched(): void
     {
@@ -78,8 +69,6 @@ class ArtistSongTest extends TestCase
 
     /**
      * The ArtistSongUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testArtistSongUpdatedEventEmbedFields(): void
     {

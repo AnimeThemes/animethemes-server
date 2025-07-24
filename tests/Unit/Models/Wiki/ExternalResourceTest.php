@@ -18,17 +18,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceTest.
- */
 class ExternalResourceTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The site attribute of a resource shall be cast to a ResourceSite enum instance.
-     *
-     * @return void
      */
     public function testCastsSeasonToEnum(): void
     {
@@ -41,8 +36,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * Resources shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -53,8 +46,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * Resources shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -65,8 +56,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * Resource shall have a many-to-many relationship with the type Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -84,8 +73,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * Resource shall have a many-to-many relationship with the type Artist.
-     *
-     * @return void
      */
     public function testArtists(): void
     {
@@ -120,8 +107,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * Resource shall have a many-to-many relationship with the type Studio.
-     *
-     * @return void
      */
     public function testStudio(): void
     {

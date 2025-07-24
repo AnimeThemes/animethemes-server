@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry;
 use App\GraphQL\Definition\Fields\FloatField;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryScoreField.
- */
 class ExternalEntryScoreField extends FloatField
 {
     /**

@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class GroupTest.
- */
 class GroupTest extends TestCase
 {
     /**
      * When a group is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testGroupCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class GroupTest extends TestCase
 
     /**
      * When a group is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testGroupDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class GroupTest extends TestCase
 
     /**
      * When a group is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testGroupRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class GroupTest extends TestCase
 
     /**
      * When a group is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testGroupUpdatedSendsDiscordNotification(): void
     {

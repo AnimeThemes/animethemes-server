@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\Wiki\AnimeStudioSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class AnimeStudioResource.
- */
 class AnimeStudioResource extends BaseResource
 {
     /**

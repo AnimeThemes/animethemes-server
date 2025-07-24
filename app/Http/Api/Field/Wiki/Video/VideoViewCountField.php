@@ -15,9 +15,6 @@ use App\Models\Aggregate\ViewAggregate;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class VideoViewCountField.
- */
 class VideoViewCountField extends AggregateField
 {
     /**

@@ -13,9 +13,6 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ExternalProfileVisibilityField.
- */
 class ExternalProfileVisibilityField extends EnumField implements CreatableField, UpdatableField
 {
     /**

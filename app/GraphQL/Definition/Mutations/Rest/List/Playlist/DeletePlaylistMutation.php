@@ -12,9 +12,6 @@ use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class DeletePlaylistMutation.
- */
 #[UseField(PlaylistController::class, 'destroy')]
 class DeletePlaylistMutation extends DeleteMutation
 {

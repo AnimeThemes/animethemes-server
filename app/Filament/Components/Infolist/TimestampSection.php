@@ -8,9 +8,6 @@ use App\Constants\ModelConstants;
 use App\Models\BaseModel;
 use Filament\Schemas\Components\Section;
 
-/**
- * Class TimestampSection.
- */
 class TimestampSection
 {
     /**

@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-/**
- * Class DateFilterTest.
- */
 class DateFilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If values that are not mappable to dates are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfNoDates(): void
     {
@@ -40,8 +35,6 @@ class DateFilterTest extends TestCase
 
     /**
      * If values do not use allowed date formats, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfWrongFormat(): void
     {
@@ -56,8 +49,6 @@ class DateFilterTest extends TestCase
 
     /**
      * If values do use allowed date formats, apply the filter.
-     *
-     * @return void
      */
     public function testShouldApplyIfAcceptedFormat(): void
     {
@@ -74,8 +65,6 @@ class DateFilterTest extends TestCase
 
     /**
      * The date filter shall convert validated boolean options to boolean values.
-     *
-     * @return void
      */
     public function testConvertsDatesToCanonicalFormat(): void
     {

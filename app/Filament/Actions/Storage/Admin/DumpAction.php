@@ -18,15 +18,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
-/**
- * Class DumpAction.
- */
 abstract class DumpAction extends BaseAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -41,7 +36,6 @@ abstract class DumpAction extends BaseAction
      * Perform the action on the given models.
      *
      * @param  array<string, mixed>  $data
-     * @return void
      *
      * @throws Exception
      */
@@ -56,9 +50,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

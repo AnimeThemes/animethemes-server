@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\StudioResource;
 
-/**
- * Class StudioResourceResourceIdField.
- */
 class StudioResourceResourceIdField extends Field implements SelectableField
 {
     /**

@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Auth\User;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 
-/**
- * Class MeQuery.
- */
 class MeQuery extends BaseQuery
 {
     public function __construct()

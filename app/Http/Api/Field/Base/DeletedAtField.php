@@ -9,9 +9,6 @@ use App\Http\Api\Field\DateField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 
-/**
- * Class DeletedAtField.
- */
 class DeletedAtField extends DateField
 {
     /**

@@ -21,17 +21,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PlaylistStoreTest.
- */
 class PlaylistStoreTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Playlist Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -46,8 +41,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall forbid users without the create playlist permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -67,8 +60,6 @@ class PlaylistStoreTest extends TestCase
     /**
      * The Playlist Store Endpoint shall forbid users from creating playlists
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -92,8 +83,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall require name & visibility fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -113,8 +102,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall create a playlist.
-     *
-     * @return void
      */
     public function testCreate(): void
     {
@@ -141,8 +128,6 @@ class PlaylistStoreTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to create playlists
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testCreatePermittedForBypass(): void
     {
@@ -171,8 +156,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall forbid users from creating playlists that exceed the user playlist limit.
-     *
-     * @return void
      */
     public function testMaxTrackLimit(): void
     {
@@ -203,8 +186,6 @@ class PlaylistStoreTest extends TestCase
     /**
      * The Playlist Store Endpoint shall permit users with bypass feature flag permission
      * to create playlists that exceed the user playlist limit.
-     *
-     * @return void
      */
     public function testMaxTrackLimitPermittedForBypass(): void
     {
@@ -237,8 +218,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall create a playlist if the name is not flagged by OpenAI.
-     *
-     * @return void
      */
     public function testCreatedIfNotFlaggedByOpenAi(): void
     {
@@ -273,8 +252,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall create a playlist if the moderation service returns some error.
-     *
-     * @return void
      */
     public function testCreatedIfOpenAiFails(): void
     {
@@ -303,8 +280,6 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall prohibit users from creating playlists with names flagged by OpenAI.
-     *
-     * @return void
      */
     public function testValidationErrorWhenFlaggedByOpenAi(): void
     {

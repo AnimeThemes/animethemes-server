@@ -12,9 +12,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 
-/**
- * Class PerformanceArtistTypeField.
- */
 class PerformanceArtistTypeField extends Field implements CreatableField, SelectableField
 {
     /**

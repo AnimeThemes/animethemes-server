@@ -8,9 +8,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AnimeThemeEntryVideoTab.
- */
 class AnimeThemeEntryVideoTab extends BaseTab
 {
     /**

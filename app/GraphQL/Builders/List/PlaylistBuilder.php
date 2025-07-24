@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class PlaylistBuilder.
- */
 class PlaylistBuilder
 {
     /**

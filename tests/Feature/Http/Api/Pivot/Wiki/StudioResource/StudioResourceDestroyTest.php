@@ -12,15 +12,10 @@ use App\Pivots\Wiki\StudioResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioResourceDestroyTest.
- */
 class StudioResourceDestroyTest extends TestCase
 {
     /**
      * The Studio Resource Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class StudioResourceDestroyTest extends TestCase
 
     /**
      * The Studio Resource Destroy Endpoint shall forbid users without the delete studio & delete resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class StudioResourceDestroyTest extends TestCase
 
     /**
      * The Studio Resource Destroy Endpoint shall return an error if the studio resource does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class StudioResourceDestroyTest extends TestCase
 
     /**
      * The Studio Resource Destroy Endpoint shall delete the studio resource.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

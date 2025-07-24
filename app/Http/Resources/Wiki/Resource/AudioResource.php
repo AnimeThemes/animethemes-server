@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class AudioResource.
- */
 class AudioResource extends BaseResource
 {
     /**

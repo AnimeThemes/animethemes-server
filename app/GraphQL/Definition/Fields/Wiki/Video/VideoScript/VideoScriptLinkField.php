@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video\VideoScript;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Video\VideoScript;
 
-/**
- * Class VideoScriptLinkField.
- */
 class VideoScriptLinkField extends StringField
 {
     /**

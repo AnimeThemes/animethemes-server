@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Artist;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Artist;
 
-/**
- * Class ArtistSlugField.
- */
 class ArtistSlugField extends StringField
 {
     /**

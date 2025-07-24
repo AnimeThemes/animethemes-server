@@ -23,9 +23,6 @@ use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Audio;
 
-/**
- * Class AudioType.
- */
 class AudioType extends EloquentType implements HasFields, HasRelations
 {
     /**

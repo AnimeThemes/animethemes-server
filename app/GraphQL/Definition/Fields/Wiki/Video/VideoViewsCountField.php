@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoViewsCountField.
- */
 class VideoViewsCountField extends CountAggregateField
 {
     /**

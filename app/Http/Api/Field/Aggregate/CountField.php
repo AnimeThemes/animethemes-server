@@ -11,9 +11,6 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Schema\Schema;
 
-/**
- * Class CountField.
- */
 abstract class CountField extends AggregateField
 {
     /**

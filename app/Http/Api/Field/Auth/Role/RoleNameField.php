@@ -8,9 +8,6 @@ use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Auth\Role;
 
-/**
- * Class RoleNameField.
- */
 class RoleNameField extends StringField
 {
     /**

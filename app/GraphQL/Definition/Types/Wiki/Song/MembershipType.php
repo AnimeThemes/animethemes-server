@@ -20,9 +20,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\Models\Wiki\Song\Membership;
 
-/**
- * Class MembershipType.
- */
 class MembershipType extends EloquentType implements HasFields, HasRelations
 {
     /**

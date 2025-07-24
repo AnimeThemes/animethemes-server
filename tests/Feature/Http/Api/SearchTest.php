@@ -20,17 +20,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
-/**
- * Class SearchTest.
- */
 class SearchTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Search Endpoint shall require a search term.
-     *
-     * @return void
      */
     public function testNoSearchTerm(): void
     {
@@ -41,8 +36,6 @@ class SearchTest extends TestCase
 
     /**
      * The Search Endpoint shall display the Search attributes.
-     *
-     * @return void
      */
     public function testSearchAttributes(): void
     {
@@ -75,8 +68,6 @@ class SearchTest extends TestCase
 
     /**
      * The Search Endpoint shall allow each resource to be included/excluded in a sparse fieldset.
-     *
-     * @return void
      */
     public function testSearchSparseFieldsets(): void
     {

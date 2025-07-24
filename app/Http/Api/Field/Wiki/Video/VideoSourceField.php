@@ -14,9 +14,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class VideoSourceField.
- */
 class VideoSourceField extends EnumField implements CreatableField, UpdatableField
 {
     /**

@@ -85,8 +85,6 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -112,8 +110,6 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
     /**
      * Sync the performance with the artist song.
      * Temporary function.
-     *
-     * @return void
      */
     public function syncArtistSong(): void
     {

@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ThemeStoreTest.
- */
 class ThemeStoreTest extends TestCase
 {
     /**
      * The Theme Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class ThemeStoreTest extends TestCase
 
     /**
      * The Theme Store Endpoint shall forbid users without the store anime theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -52,8 +45,6 @@ class ThemeStoreTest extends TestCase
 
     /**
      * The Theme Store Endpoint shall require the anime_id & type field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -72,8 +63,6 @@ class ThemeStoreTest extends TestCase
 
     /**
      * The Theme Store Endpoint shall create a theme.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

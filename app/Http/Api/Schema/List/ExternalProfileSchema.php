@@ -25,9 +25,6 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalProfileSchema.
- */
 class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
 {
     /**

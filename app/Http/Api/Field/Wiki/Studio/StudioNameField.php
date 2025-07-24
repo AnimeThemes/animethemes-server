@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 
-/**
- * Class StudioNameField.
- */
 class StudioNameField extends StringField implements CreatableField, UpdatableField
 {
     /**

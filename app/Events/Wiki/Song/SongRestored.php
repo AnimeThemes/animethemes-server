@@ -51,8 +51,6 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

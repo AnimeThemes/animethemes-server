@@ -9,9 +9,6 @@ use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\User\Like;
 
-/**
- * Class LikePolicy.
- */
 class LikePolicy extends BasePolicy
 {
     /**

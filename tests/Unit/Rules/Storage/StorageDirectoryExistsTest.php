@@ -10,17 +10,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class StorageDirectoryExistsTest.
- */
 class StorageDirectoryExistsTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Storage Directory Exists Rule shall return true if the directory exists in the filesystem.
-     *
-     * @return void
      */
     public function testPassesIfDirectoryExists(): void
     {
@@ -42,8 +37,6 @@ class StorageDirectoryExistsTest extends TestCase
 
     /**
      * The Storage Directory Exists Rule shall return false if the directory does not exist in the filesystem.
-     *
-     * @return void
      */
     public function testFailsIfDirectoryDoesNotExist(): void
     {

@@ -9,17 +9,12 @@ use App\Http\Api\Filter\Filter;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class FilterTest.
- */
 class FilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the filter column shall be derived from the filter key.
-     *
-     * @return void
      */
     public function testDefaultColumn(): void
     {

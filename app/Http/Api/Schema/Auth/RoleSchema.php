@@ -18,9 +18,6 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Auth\Resource\RoleResource;
 use App\Models\Auth\Role;
 
-/**
- * Class RoleSchema.
- */
 class RoleSchema extends EloquentSchema
 {
     /**

@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\ArtistMember;
 
-/**
- * Class ArtistMemberAliasField.
- */
 #[UseField(PivotResolver::class)]
 class ArtistMemberAliasField extends StringField
 {

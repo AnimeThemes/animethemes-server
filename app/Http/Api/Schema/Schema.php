@@ -18,9 +18,6 @@ use App\Http\Api\Sort\RandomSort;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Support\Arr;
 
-/**
- * Class Schema.
- */
 abstract class Schema implements SchemaInterface
 {
     /**

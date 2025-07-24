@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class StudioImageTest.
- */
 class StudioImageTest extends TestCase
 {
     /**
      * When a Studio is attached to an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioImageCreatedSendsDiscordNotification(): void
     {
@@ -41,8 +36,6 @@ class StudioImageTest extends TestCase
 
     /**
      * When a Studio is detached from an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioImageDeletedSendsDiscordNotification(): void
     {

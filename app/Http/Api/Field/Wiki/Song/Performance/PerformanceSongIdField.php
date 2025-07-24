@@ -14,9 +14,6 @@ use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class PerformanceSongIdField.
- */
 class PerformanceSongIdField extends Field implements CreatableField, SelectableField
 {
     /**

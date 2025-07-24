@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class GroupResource.
- */
 class GroupResource extends BaseResource
 {
     /**

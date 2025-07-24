@@ -106,8 +106,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Boostrap the model.
-     *
-     * @return void
      */
     protected static function boot(): void
     {
@@ -130,7 +128,6 @@ class ActionLog extends Model implements Nameable
      * When an exception is thrown, the current action logs should be handled.
      *
      * @param  Throwable  $e
-     * @return void
      */
     public static function updateCurrentActionLogToFailed(Throwable $e): void
     {
@@ -395,8 +392,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Update the all the models status of a batch to running.
-     *
-     * @return void
      */
     public function batchRunning(): void
     {
@@ -409,8 +404,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Update the all the models status of a batch to finished.
-     *
-     * @return void
      */
     public function batchFinished(): void
     {
@@ -426,7 +419,6 @@ class ActionLog extends Model implements Nameable
      * Update the all the models status of a batch to failed.
      *
      * @param  Throwable|string|null  $exception
-     * @return void
      */
     public function batchFailed(Throwable|string|null $exception = null): void
     {
@@ -441,8 +433,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Update the model status to finished.
-     *
-     * @return void
      */
     public function finished(): void
     {
@@ -453,7 +443,6 @@ class ActionLog extends Model implements Nameable
      * Update the model status to failed.
      *
      * @param  Throwable|string|null  $exception
-     * @return void
      */
     public function failed(Throwable|string|null $exception = null): void
     {
@@ -475,7 +464,6 @@ class ActionLog extends Model implements Nameable
      *
      * @param  ActionLogStatus  $status
      * @param  Throwable|string|null  $exception
-     * @return void
      */
     public function updateStatus(ActionLogStatus $status, Throwable|string|null $exception = null): void
     {

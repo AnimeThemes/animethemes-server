@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
-/**
- * Class VideoUncenField.
- */
 class VideoUncenField extends BooleanField implements CreatableField, UpdatableField
 {
     /**

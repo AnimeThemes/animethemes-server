@@ -31,17 +31,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ArtistShowTest.
- */
 class ArtistShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Artist Show Endpoint shall return an Artist Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -63,8 +58,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall return an Artist Resource for soft deleted images.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -88,8 +81,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -123,8 +114,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -158,8 +147,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -211,8 +198,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -259,8 +244,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -307,8 +290,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -355,8 +336,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {
@@ -409,8 +388,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {
@@ -449,8 +426,6 @@ class ArtistShowTest extends TestCase
 
     /**
      * The Artist Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

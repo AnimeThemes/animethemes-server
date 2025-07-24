@@ -8,9 +8,6 @@ use App\Http\Api\Field\JsonField;
 use App\Http\Api\Schema\Schema;
 use App\Models\User\Notification;
 
-/**
- * Class NotificationDataField.
- */
 class NotificationDataField extends JsonField
 {
     /**

@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Base\IdField;
 use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ExternalProfileIdField.
- */
 class ExternalProfileIdField extends IdField implements BindableField
 {
     /**

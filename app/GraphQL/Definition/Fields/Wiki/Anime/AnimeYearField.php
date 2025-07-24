@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeYearField.
- */
 class AnimeYearField extends IntField
 {
     /**

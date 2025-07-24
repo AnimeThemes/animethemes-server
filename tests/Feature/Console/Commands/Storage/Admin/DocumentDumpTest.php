@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class DocumentDumpTest.
- */
 class DocumentDumpTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Database Dump Command shall output "Database dump '{dumpFile}' has been created".
-     *
-     * @return void
      */
     public function testDataBaseDumpOutput(): void
     {
@@ -38,8 +33,6 @@ class DocumentDumpTest extends TestCase
 
     /**
      * The Database Dump Command shall produce a file in the /path/to/project/storage/db-dumps directory.
-     *
-     * @return void
      */
     public function testDataBaseDumpFile(): void
     {

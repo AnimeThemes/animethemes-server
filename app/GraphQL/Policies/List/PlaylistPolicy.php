@@ -12,9 +12,6 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 
-/**
- * Class PlaylistPolicy.
- */
 class PlaylistPolicy extends BasePolicy
 {
     /**

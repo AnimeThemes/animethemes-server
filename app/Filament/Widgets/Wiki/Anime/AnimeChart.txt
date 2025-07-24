@@ -8,9 +8,6 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Anime;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class AnimeChart.
- */
 class AnimeChart extends BaseChartWidget
 {
     /**

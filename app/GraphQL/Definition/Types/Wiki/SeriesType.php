@@ -19,9 +19,6 @@ use App\GraphQL\Definition\Types\Edges\Wiki\AnimeEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Series;
 
-/**
- * Class SeriesType.
- */
 class SeriesType extends EloquentType implements HasFields, HasRelations
 {
     /**

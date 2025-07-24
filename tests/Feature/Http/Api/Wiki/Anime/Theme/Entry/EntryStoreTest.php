@@ -12,15 +12,10 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class EntryStoreTest.
- */
 class EntryStoreTest extends TestCase
 {
     /**
      * The Entry Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class EntryStoreTest extends TestCase
 
     /**
      * The Entry Store Endpoint shall forbid users without the create anime theme entry permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -55,8 +48,6 @@ class EntryStoreTest extends TestCase
 
     /**
      * The Entry Store Endpoint shall require the theme_id field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -73,8 +64,6 @@ class EntryStoreTest extends TestCase
 
     /**
      * The Entry Store Endpoint shall create an entry.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

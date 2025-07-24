@@ -10,15 +10,10 @@ use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeRestoreTest.
- */
 class AnimeRestoreTest extends TestCase
 {
     /**
      * The Anime Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AnimeRestoreTest extends TestCase
 
     /**
      * The Anime Restore Endpoint shall forbid users without the restore anime permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AnimeRestoreTest extends TestCase
 
     /**
      * The Anime Restore Endpoint shall forbid users from restoring an anime that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class AnimeRestoreTest extends TestCase
 
     /**
      * The Anime Restore Endpoint shall restore the anime.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

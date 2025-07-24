@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class VideoLinkField.
- */
 class VideoLinkField extends Field implements RenderableField
 {
     /**

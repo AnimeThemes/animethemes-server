@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\ExternalResource;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceLinkField.
- */
 class ExternalResourceLinkField extends StringField
 {
     /**

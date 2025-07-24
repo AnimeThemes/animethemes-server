@@ -16,9 +16,6 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
 use App\Pivots\Wiki\AnimeSeries;
 
-/**
- * Class AnimeSeriesType.
- */
 class AnimeSeriesType extends PivotType implements HasFields, HasRelations
 {
     /**

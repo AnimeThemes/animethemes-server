@@ -44,8 +44,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -56,8 +54,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
 
     /**
      * Update the related playlist tracks.
-     *
-     * @return void
      */
     public function updatePlaylistTracks(): void
     {

@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Song;
 use Filament\Tables\Table;
 
-/**
- * Class SongRelationManager.
- */
 abstract class SongRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class SongRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

@@ -12,9 +12,6 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
-/**
- * Class ExternalProfilePolicy.
- */
 class ExternalProfilePolicy extends BasePolicy
 {
     /**

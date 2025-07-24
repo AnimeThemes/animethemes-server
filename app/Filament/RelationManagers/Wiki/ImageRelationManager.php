@@ -11,9 +11,6 @@ use App\Filament\Resources\Wiki\Image as ImageResource;
 use App\Models\Wiki\Image;
 use Filament\Tables\Table;
 
-/**
- * Class ImageRelationManager.
- */
 abstract class ImageRelationManager extends BaseRelationManager
 {
     /**
@@ -25,9 +22,6 @@ abstract class ImageRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

@@ -11,9 +11,6 @@ use Filament\Support\Enums\FontWeight;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
-/**
- * Class BelongsToEntry.
- */
 class BelongsToEntry extends TextEntry
 {
     protected BaseResource $resource;

@@ -14,17 +14,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class WhereCriteriaTest.
- */
 class WhereCriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Where Criteria shall parse the field.
-     *
-     * @return void
      */
     public function testField(): void
     {
@@ -37,8 +32,6 @@ class WhereCriteriaTest extends TestCase
 
     /**
      * By default, the Where Criteria shall use the EQ comparison operator.
-     *
-     * @return void
      */
     public function testDefaultComparisonOperator(): void
     {
@@ -49,8 +42,6 @@ class WhereCriteriaTest extends TestCase
 
     /**
      * The Where Criteria shall parse the comparison operator.
-     *
-     * @return void
      */
     public function testComparisonOperator(): void
     {
@@ -65,8 +56,6 @@ class WhereCriteriaTest extends TestCase
 
     /**
      * By default, the Where Criteria shall use the AND logical operator.
-     *
-     * @return void
      */
     public function testDefaultLogicalOperator(): void
     {
@@ -77,8 +66,6 @@ class WhereCriteriaTest extends TestCase
 
     /**
      * The Where Criteria shall parse the logical operator.
-     *
-     * @return void
      */
     public function testLogicalOperator(): void
     {

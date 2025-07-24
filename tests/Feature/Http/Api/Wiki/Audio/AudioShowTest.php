@@ -16,17 +16,12 @@ use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class AudioShowTest.
- */
 class AudioShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Audio Show Endpoint shall return an Audio Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -48,8 +43,6 @@ class AudioShowTest extends TestCase
 
     /**
      * The Audio Show Endpoint shall return an Audio Resource for soft deleted audios.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -71,8 +64,6 @@ class AudioShowTest extends TestCase
 
     /**
      * The Audio Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -108,8 +99,6 @@ class AudioShowTest extends TestCase
 
     /**
      * The Audio Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

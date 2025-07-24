@@ -15,9 +15,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class BooleanField.
- */
 abstract class BooleanField extends Field implements FilterableField, RenderableField, SelectableField, SortableField
 {
     /**

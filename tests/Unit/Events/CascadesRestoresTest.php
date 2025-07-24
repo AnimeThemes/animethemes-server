@@ -9,15 +9,10 @@ use App\Listeners\CascadesRestores;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class CascadesRestoresTest.
- */
 class CascadesRestoresTest extends TestCase
 {
     /**
      * CascadesRestores shall listen to CascadesRestoresEvent.
-     *
-     * @return void
      */
     public function testListening(): void
     {

@@ -59,8 +59,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -74,8 +72,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Update the sequence attribute of the first theme when creating a new sequence theme.
-     *
-     * @return void
      */
     protected function updateFirstTheme(): void
     {

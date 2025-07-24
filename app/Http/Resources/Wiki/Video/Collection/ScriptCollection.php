@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\Request;
 
-/**
- * Class ScriptCollection.
- */
 class ScriptCollection extends BaseCollection
 {
     /**

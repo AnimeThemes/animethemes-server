@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Http\Request;
 
-/**
- * Class SongResourceCollection.
- */
 class SongResourceCollection extends BaseCollection
 {
     /**

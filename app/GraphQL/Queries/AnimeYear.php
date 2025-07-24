@@ -10,9 +10,6 @@ use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class AnimeYear.
- */
 class AnimeYear
 {
     /**

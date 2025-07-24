@@ -18,17 +18,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class MoveVideoTest.
- */
 class MoveVideoTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Move Video Action shall fail if there are no moves.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -48,8 +43,6 @@ class MoveVideoTest extends TestCase
 
     /**
      * The Move Video Action shall pass if there are moves.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -79,8 +72,6 @@ class MoveVideoTest extends TestCase
 
     /**
      * The Move Video Action shall move the file in the configured disks.
-     *
-     * @return void
      */
     public function testMovedInDisk(): void
     {
@@ -112,8 +103,6 @@ class MoveVideoTest extends TestCase
 
     /**
      * The Move Video Action shall move the video.
-     *
-     * @return void
      */
     public function testVideoUpdated(): void
     {

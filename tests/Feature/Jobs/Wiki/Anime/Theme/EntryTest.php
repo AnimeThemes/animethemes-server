@@ -18,15 +18,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class EntryTest.
- */
 class EntryTest extends TestCase
 {
     /**
      * When an entry is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryCreatedSendsDiscordNotification(): void
     {
@@ -45,8 +40,6 @@ class EntryTest extends TestCase
 
     /**
      * When an entry is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryDeletedSendsDiscordNotification(): void
     {
@@ -65,8 +58,6 @@ class EntryTest extends TestCase
 
     /**
      * When an entry is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryRestoredSendsDiscordNotification(): void
     {
@@ -85,8 +76,6 @@ class EntryTest extends TestCase
 
     /**
      * When an entry is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryUpdatedSendsDiscordNotification(): void
     {

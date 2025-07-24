@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\DateTimeTzField;
 use App\GraphQL\Resolvers\PivotResolver;
 use App\Models\BaseModel;
 
-/**
- * Class UpdatedAtField.
- */
 #[UseField(PivotResolver::class)]
 class UpdatedAtField extends DateTimeTzField
 {

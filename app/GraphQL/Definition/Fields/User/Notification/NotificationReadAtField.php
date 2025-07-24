@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\User\Notification;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
 use App\Models\User\Notification;
 
-/**
- * Class NotificationReadAtField.
- */
 class NotificationReadAtField extends DateTimeTzField
 {
     /**

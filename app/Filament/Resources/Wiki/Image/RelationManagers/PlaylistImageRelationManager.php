@@ -9,9 +9,6 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use Filament\Tables\Table;
 
-/**
- * Class PlaylistImageRelationManager.
- */
 class PlaylistImageRelationManager extends PlaylistRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class PlaylistImageRelationManager extends PlaylistRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

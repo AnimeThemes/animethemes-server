@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Auth\User\MySchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class UserResource.
- */
 class MyResource extends BaseResource
 {
     /**

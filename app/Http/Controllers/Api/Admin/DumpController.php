@@ -20,9 +20,6 @@ use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class DumpController.
- */
 class DumpController extends BaseController
 {
     /**

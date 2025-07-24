@@ -8,9 +8,6 @@ use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PlaylistResource.
- */
 class PlaylistResource extends BaseResource
 {
     /**

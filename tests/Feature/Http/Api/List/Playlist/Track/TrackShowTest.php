@@ -24,17 +24,12 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class TrackShowTest.
- */
 class TrackShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Track Show Endpoint shall forbid a private playlist from being publicly viewed.
-     *
-     * @return void
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewed(): void
     {
@@ -57,8 +52,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall forbid the user from viewing a private playlist track if not owned.
-     *
-     * @return void
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
@@ -85,8 +78,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall allow a private playlist track to be viewed by the owner.
-     *
-     * @return void
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
@@ -113,8 +104,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall allow an unlisted playlist track to be viewed.
-     *
-     * @return void
      */
     public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
@@ -137,8 +126,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall allow a public playlist track to be viewed.
-     *
-     * @return void
      */
     public function testPublicPlaylistTrackCanBeViewed(): void
     {
@@ -161,8 +148,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall scope bindings.
-     *
-     * @return void
      */
     public function testScoped(): void
     {
@@ -188,8 +173,6 @@ class TrackShowTest extends TestCase
 
     /**
      * By default, the Track Show Endpoint shall return a Track Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -222,8 +205,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -271,8 +252,6 @@ class TrackShowTest extends TestCase
 
     /**
      * The Track Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

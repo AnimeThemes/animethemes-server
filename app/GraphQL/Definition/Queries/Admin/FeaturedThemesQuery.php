@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
-/**
- * Class FeaturedThemesQuery.
- */
 #[UseBuilder(FeaturedThemeBuilder::class)]
 class FeaturedThemesQuery extends EloquentQuery
 {

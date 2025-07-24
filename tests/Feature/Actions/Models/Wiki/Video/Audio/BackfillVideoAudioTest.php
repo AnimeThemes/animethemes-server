@@ -21,17 +21,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class BackfillVideoAudioTest.
- */
 class BackfillVideoAudioTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Backfill Audio Action shall skip the Anime if the relation already exists.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -56,8 +51,6 @@ class BackfillVideoAudioTest extends TestCase
     /**
      * The Backfill Audio Action shall fail if the Video is not attached to any Entries.
      *
-     * @return void
-     *
      * @throws Exception
      */
     public function testFailedWhenNoEntries(): void
@@ -78,8 +71,6 @@ class BackfillVideoAudioTest extends TestCase
 
     /**
      * The Backfill Audio Action shall pass if the Video is a source.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -110,8 +101,6 @@ class BackfillVideoAudioTest extends TestCase
 
     /**
      * The Backfill Audio Action shall pass if the Video has a higher priority source.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -147,8 +136,6 @@ class BackfillVideoAudioTest extends TestCase
 
     /**
      * The Backfill Audio Action shall pass if the Video has a primary version source.
-     *
-     * @return void
      *
      * @throws Exception
      */

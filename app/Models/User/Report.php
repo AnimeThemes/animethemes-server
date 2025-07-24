@@ -132,7 +132,6 @@ class Report extends BaseModel
      * Scope a query to only include pending reports.
      *
      * @param  Builder  $query
-     * @return void
      */
     #[Scope]
     public function pending(Builder $query): void

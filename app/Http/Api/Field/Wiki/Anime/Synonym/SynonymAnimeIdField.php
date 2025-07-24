@@ -14,9 +14,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class SynonymAnimeIdField.
- */
 class SynonymAnimeIdField extends Field implements CreatableField, SelectableField
 {
     /**

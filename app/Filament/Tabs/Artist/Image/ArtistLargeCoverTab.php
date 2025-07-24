@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Artist\Image;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\Artist\ArtistImageTab;
 
-/**
- * Class ArtistLargeCoverTab.
- */
 class ArtistLargeCoverTab extends ArtistImageTab
 {
     /**

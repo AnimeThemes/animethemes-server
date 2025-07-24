@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class ExternalTokenCallbackController.
- */
 class ExternalTokenCallbackController extends Controller
 {
     /**

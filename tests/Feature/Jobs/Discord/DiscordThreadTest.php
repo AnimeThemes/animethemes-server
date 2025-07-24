@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class DiscordThreadTest.
- */
 class DiscordThreadTest extends TestCase
 {
     /**
      * When a thread is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThreadDeletedSendsDiscordNotification(): void
     {
@@ -44,8 +39,6 @@ class DiscordThreadTest extends TestCase
 
     /**
      * When a thread is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThreadUpdatedSendsDiscordNotification(): void
     {

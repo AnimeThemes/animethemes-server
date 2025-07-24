@@ -7,9 +7,6 @@ namespace App\Filament\StateCasts;
 use Filament\Schemas\Components\StateCasts\Contracts\StateCast;
 use Illuminate\Support\Uri;
 
-/**
- * Class UriStateCast.
- */
 class UriStateCast implements StateCast
 {
     public function __construct(

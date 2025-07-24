@@ -24,9 +24,6 @@ use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceStudioEdgeT
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceType.
- */
 class ExternalResourceType extends EloquentType implements HasFields, HasRelations
 {
     /**

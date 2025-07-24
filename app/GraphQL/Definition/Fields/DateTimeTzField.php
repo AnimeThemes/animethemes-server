@@ -12,9 +12,6 @@ use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-/**
- * Class DateTimeTzField.
- */
 abstract class DateTimeTzField extends Field implements DisplayableField, FilterableField
 {
     /**

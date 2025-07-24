@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\Wiki\SongResourceSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class SongResourceResource.
- */
 class SongResourceResource extends BaseResource
 {
     /**

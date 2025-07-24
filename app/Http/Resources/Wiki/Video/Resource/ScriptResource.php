@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ScriptResource.
- */
 class ScriptResource extends BaseResource
 {
     /**

@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ScriptTest.
- */
 class ScriptTest extends TestCase
 {
     /**
      * When a script is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class ScriptTest extends TestCase
 
     /**
      * When a script is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class ScriptTest extends TestCase
 
     /**
      * When a script is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class ScriptTest extends TestCase
 
     /**
      * When a script is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoUpdatedSendsDiscordNotification(): void
     {

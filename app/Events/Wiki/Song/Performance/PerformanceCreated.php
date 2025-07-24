@@ -60,8 +60,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -80,8 +78,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
     /**
      * Sync the performance with the artist song.
      * Temporary function.
-     *
-     * @return void
      */
     public function syncArtistSong(): void
     {

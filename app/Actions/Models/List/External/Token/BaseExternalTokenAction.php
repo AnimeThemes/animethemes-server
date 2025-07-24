@@ -7,9 +7,6 @@ namespace App\Actions\Models\List\External\Token;
 use App\Models\List\External\ExternalToken;
 use Exception;
 
-/**
- * Class BaseExternalTokenAction.
- */
 abstract class BaseExternalTokenAction
 {
     /**

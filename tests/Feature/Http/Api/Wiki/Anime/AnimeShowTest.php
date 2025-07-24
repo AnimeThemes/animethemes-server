@@ -34,17 +34,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class AnimeShowTest.
- */
 class AnimeShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Anime Show Endpoint shall return an Anime Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -66,8 +61,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall return an Anime Resource for soft deleted anime.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -91,8 +84,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -126,8 +117,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -161,8 +150,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of synonyms by type.
-     *
-     * @return void
      */
     public function testSynonymsByType(): void
     {
@@ -203,8 +190,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -251,8 +236,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -293,8 +276,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of entries by nsfw.
-     *
-     * @return void
      */
     public function testEntriesByNsfw(): void
     {
@@ -337,8 +318,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of entries by spoiler.
-     *
-     * @return void
      */
     public function testEntriesBySpoiler(): void
     {
@@ -381,8 +360,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of entries by version.
-     *
-     * @return void
      */
     public function testEntriesByVersion(): void
     {
@@ -433,8 +410,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {
@@ -473,8 +448,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {
@@ -513,8 +486,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by lyrics.
-     *
-     * @return void
      */
     public function testVideosByLyrics(): void
     {
@@ -551,8 +522,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by nc.
-     *
-     * @return void
      */
     public function testVideosByNc(): void
     {
@@ -589,8 +558,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by overlap.
-     *
-     * @return void
      */
     public function testVideosByOverlap(): void
     {
@@ -627,8 +594,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by resolution.
-     *
-     * @return void
      */
     public function testVideosByResolution(): void
     {
@@ -683,8 +648,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by source.
-     *
-     * @return void
      */
     public function testVideosBySource(): void
     {
@@ -721,8 +684,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by subbed.
-     *
-     * @return void
      */
     public function testVideosBySubbed(): void
     {
@@ -759,8 +720,6 @@ class AnimeShowTest extends TestCase
 
     /**
      * The Anime Show Endpoint shall support constrained eager loading of videos by uncen.
-     *
-     * @return void
      */
     public function testVideosByUncen(): void
     {

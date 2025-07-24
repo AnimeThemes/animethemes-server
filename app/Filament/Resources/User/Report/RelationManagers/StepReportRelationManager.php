@@ -9,9 +9,6 @@ use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
 use Filament\Tables\Table;
 
-/**
- * Class StepReportRelationManager.
- */
 class StepReportRelationManager extends ReportStepRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class StepReportRelationManager extends ReportStepRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

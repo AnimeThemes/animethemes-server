@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeCollection.
- */
 class AnimeCollection extends BaseCollection
 {
     /**

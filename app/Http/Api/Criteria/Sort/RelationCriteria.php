@@ -8,9 +8,6 @@ use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-/**
- * Class RelationCriteria.
- */
 class RelationCriteria extends FieldCriteria
 {
     /**

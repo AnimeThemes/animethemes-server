@@ -10,17 +10,12 @@ use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class TypeScopeTest.
- */
 class TypeScopeTest extends TestCase
 {
     use WithFaker;
 
     /**
      * A global scope shall not be within the scope of a type scope.
-     *
-     * @return void
      */
     public function testGlobalScopeIsNotWithinScope(): void
     {
@@ -33,8 +28,6 @@ class TypeScopeTest extends TestCase
 
     /**
      * A type scope of unequal value shall not be within the scope of a type scope.
-     *
-     * @return void
      */
     public function testTypeScopeIsNotWithinScope(): void
     {
@@ -47,8 +40,6 @@ class TypeScopeTest extends TestCase
 
     /**
      * A type scope of equal value shall be within the scope of a type scope.
-     *
-     * @return void
      */
     public function testTypeScopeIsWithinScope(): void
     {
@@ -63,8 +54,6 @@ class TypeScopeTest extends TestCase
 
     /**
      * A relation scope of unequal type shall not be within the scope of a type scope.
-     *
-     * @return void
      */
     public function testRelationScopeIsNotWithinScope(): void
     {
@@ -77,8 +66,6 @@ class TypeScopeTest extends TestCase
 
     /**
      * A relation scope of equal value shall be within the scope of a type scope.
-     *
-     * @return void
      */
     public function testRelationScopeIsWithinScope(): void
     {

@@ -14,17 +14,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class ReportTest.
- */
 class ReportTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Reports shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -35,8 +30,6 @@ class ReportTest extends TestCase
 
     /**
      * Reports shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -47,8 +40,6 @@ class ReportTest extends TestCase
 
     /**
      * Reports shall cast the finished_at attribute to datetime.
-     *
-     * @return void
      */
     public function testCastsFinishedAt(): void
     {
@@ -59,8 +50,6 @@ class ReportTest extends TestCase
 
     /**
      * The status attribute of a report shall be cast to an ApprovableStatus enum instance.
-     *
-     * @return void
      */
     public function testCastsStatusToEnum(): void
     {
@@ -71,8 +60,6 @@ class ReportTest extends TestCase
 
     /**
      * Reports shall have a one-to-many relationship with the type ReportStep.
-     *
-     * @return void
      */
     public function testSteps(): void
     {
@@ -92,8 +79,6 @@ class ReportTest extends TestCase
 
     /**
      * A report shall have a user attached.
-     *
-     * @return void
      */
     public function testUser(): void
     {
@@ -107,8 +92,6 @@ class ReportTest extends TestCase
 
     /**
      * A report shall have a moderator attached.
-     *
-     * @return void
      */
     public function testModerator(): void
     {

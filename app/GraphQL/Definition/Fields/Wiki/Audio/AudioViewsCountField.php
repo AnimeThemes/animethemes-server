@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Audio;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\Wiki\Audio;
 
-/**
- * Class AudioViewsCountField.
- */
 class AudioViewsCountField extends CountAggregateField
 {
     /**

@@ -14,9 +14,6 @@ use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 
-/**
- * Class ArtistResourceRelationManager.
- */
 class ArtistResourceRelationManager extends ArtistRelationManager
 {
     /**
@@ -55,9 +52,6 @@ class ArtistResourceRelationManager extends ArtistRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

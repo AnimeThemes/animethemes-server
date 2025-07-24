@@ -20,9 +20,6 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class StudioImageController.
- */
 class StudioImageController extends PivotController
 {
     /**

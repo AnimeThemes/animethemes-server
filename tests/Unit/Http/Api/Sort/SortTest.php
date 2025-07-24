@@ -9,17 +9,12 @@ use App\Http\Api\Sort\Sort;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class SortTest.
- */
 class SortTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the sort column shall be derived from the sort key.
-     *
-     * @return void
      */
     public function testDefaultColumn(): void
     {
@@ -30,8 +25,6 @@ class SortTest extends TestCase
 
     /**
      * The Sort shall be formatted as "{key}" for the Ascending Direction.
-     *
-     * @return void
      */
     public function testFormatAsc(): void
     {
@@ -44,8 +37,6 @@ class SortTest extends TestCase
 
     /**
      * The Sort shall be formatted as "-{key}" for the Descending Direction.
-     *
-     * @return void
      */
     public function testFormatDesc(): void
     {

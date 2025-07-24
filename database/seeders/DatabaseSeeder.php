@@ -12,15 +12,10 @@ use Database\Seeders\Wiki\Audio\AudioSeeder;
 use Database\Seeders\Wiki\Video\VideoSeeder;
 use Illuminate\Database\Seeder;
 
-/**
- * Class DatabaseSeeder.
- */
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run(): void
     {

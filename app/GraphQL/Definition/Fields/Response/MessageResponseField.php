@@ -8,9 +8,6 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class MessageResponseField.
- */
 class MessageResponseField extends Field implements DisplayableField
 {
     /**

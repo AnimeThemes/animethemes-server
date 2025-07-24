@@ -16,17 +16,12 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-/**
- * Class HasFilterTest.
- */
 class HasFilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If values that are not allowed paths are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfNoAllowedPaths(): void
     {
@@ -79,8 +74,6 @@ class HasFilterTest extends TestCase
 
     /**
      * If values that are allowed paths are specified for the key, apply the filter.
-     *
-     * @return void
      */
     public function testShouldApplyIfAllowedPaths(): void
     {

@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ThemeTest.
- */
 class ThemeTest extends TestCase
 {
     /**
      * When a Theme is created, a ThemeCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeCreatedEventDispatched(): void
     {
@@ -35,8 +30,6 @@ class ThemeTest extends TestCase
 
     /**
      * When a Theme is deleted, a ThemeDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeDeletedEventDispatched(): void
     {
@@ -51,8 +44,6 @@ class ThemeTest extends TestCase
 
     /**
      * When a Theme is restored, a ThemeRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeRestoredEventDispatched(): void
     {
@@ -69,8 +60,6 @@ class ThemeTest extends TestCase
      * When a Theme is restored, a ThemeUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testThemeRestoresQuietly(): void
     {
@@ -85,8 +74,6 @@ class ThemeTest extends TestCase
 
     /**
      * When a Theme is updated, a ThemeUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeUpdatedEventDispatched(): void
     {
@@ -106,8 +93,6 @@ class ThemeTest extends TestCase
 
     /**
      * The ThemeUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testThemeUpdatedEventEmbedFields(): void
     {

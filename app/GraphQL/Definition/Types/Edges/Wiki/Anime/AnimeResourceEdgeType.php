@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeResourceType;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 
-/**
- * Class AnimeResourceEdgeType.
- */
 class AnimeResourceEdgeType extends BaseEdgeType
 {
     /**

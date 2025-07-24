@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Relations;
 use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BelongsToRelation.
- */
 class BelongsToRelation extends Relation
 {
     /**

@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
-/**
- * Class AnimeThemeEntryNotesField.
- */
 class AnimeThemeEntryNotesField extends StringField
 {
     /**

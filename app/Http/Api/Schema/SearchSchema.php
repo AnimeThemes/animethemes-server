@@ -24,9 +24,6 @@ use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\SearchResource;
 
-/**
- * Class SearchSchema.
- */
 class SearchSchema extends Schema
 {
     /**

@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry;
 use App\GraphQL\Definition\Fields\BooleanField;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
-/**
- * Class AnimeThemeEntryNsfwField.
- */
 class AnimeThemeEntryNsfwField extends BooleanField
 {
     /**

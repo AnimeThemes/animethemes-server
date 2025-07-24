@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class AudioLinkField.
- */
 class AudioLinkField extends Field implements RenderableField
 {
     /**

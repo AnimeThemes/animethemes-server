@@ -11,9 +11,6 @@ use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Models\Pivot\AuthorizesPivot;
 use Illuminate\Support\Str;
 
-/**
- * Class PivotController.
- */
 abstract class PivotController extends Controller implements InteractsWithSchema
 {
     /**

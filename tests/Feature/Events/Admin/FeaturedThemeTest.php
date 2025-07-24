@@ -12,15 +12,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeTest.
- */
 class FeaturedThemeTest extends TestCase
 {
     /**
      * When a Featured Theme is created, a FeaturedThemeCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testFeaturedThemeCreatedEventDispatched(): void
     {
@@ -31,8 +26,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * When a Featured Theme is deleted, a FeaturedThemeDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testFeaturedThemeDeletedEventDispatched(): void
     {
@@ -45,8 +38,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * When a Featured Theme is updated, a FeaturedThemeUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testFeaturedThemeUpdatedEventDispatched(): void
     {
@@ -61,8 +52,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * The FeaturedThemeUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testFeaturedThemeUpdatedEventEmbedFields(): void
     {

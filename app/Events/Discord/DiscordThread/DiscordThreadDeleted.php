@@ -49,8 +49,6 @@ class DiscordThreadDeleted extends AdminDeletedEvent
 
     /**
      * Delete the thread on discord.
-     *
-     * @return void
      */
     protected function deleteThread(): void
     {

@@ -16,15 +16,10 @@ use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
-/**
- * Class SendDiscordNotificationTest.
- */
 class SendDiscordNotificationTest extends TestCase
 {
     /**
      * The Send Discord Notification Job shall send a DiscordNotification.
-     *
-     * @return void
      */
     public function testSendDiscordNotificationJobSendsNotification(): void
     {
@@ -78,8 +73,6 @@ class SendDiscordNotificationTest extends TestCase
 
     /**
      * The Send Discord Notification Job shall use the RateLimited middleware.
-     *
-     * @return void
      */
     public function testRateLimited(): void
     {

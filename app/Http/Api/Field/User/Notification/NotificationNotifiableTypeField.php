@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\User\Notification;
 
-/**
- * Class NotificationNotifiableTypeField.
- */
 class NotificationNotifiableTypeField extends Field implements SelectableField
 {
     /**

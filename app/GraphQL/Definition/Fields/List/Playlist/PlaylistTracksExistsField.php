@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\Playlist;
 use App\GraphQL\Definition\Fields\Base\ExistsField;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistTracksExistsField.
- */
 class PlaylistTracksExistsField extends ExistsField
 {
     /**

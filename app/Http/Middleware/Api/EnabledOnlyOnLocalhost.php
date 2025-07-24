@@ -9,9 +9,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Laravel\Pennant\Feature;
 
-/**
- * Class EnabledOnlyOnLocalhost.
- */
 class EnabledOnlyOnLocalhost
 {
     /**

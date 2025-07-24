@@ -11,17 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class SeriesTest.
- */
 class SeriesTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Series shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -32,8 +27,6 @@ class SeriesTest extends TestCase
 
     /**
      * Series shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -44,8 +37,6 @@ class SeriesTest extends TestCase
 
     /**
      * Series shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -56,8 +47,6 @@ class SeriesTest extends TestCase
 
     /**
      * Series shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -68,8 +57,6 @@ class SeriesTest extends TestCase
 
     /**
      * Series shall have a many-to-many relationship with the type Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {

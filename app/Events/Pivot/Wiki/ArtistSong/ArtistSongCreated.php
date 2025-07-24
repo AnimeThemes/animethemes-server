@@ -42,8 +42,6 @@ class ArtistSongCreated extends PivotCreatedEvent implements UpdateRelatedIndice
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

@@ -15,9 +15,6 @@ use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-/**
- * Class HasCriteria.
- */
 class HasCriteria extends Criteria
 {
     use FiltersModels {

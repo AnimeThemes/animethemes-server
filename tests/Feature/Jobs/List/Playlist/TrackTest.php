@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class TrackTest.
- */
 class TrackTest extends TestCase
 {
     /**
      * When a track is created, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistCreatedSendsDiscordNotification(): void
     {
@@ -44,8 +39,6 @@ class TrackTest extends TestCase
 
     /**
      * When a track is deleted, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistDeletedSendsDiscordNotification(): void
     {
@@ -66,8 +59,6 @@ class TrackTest extends TestCase
 
     /**
      * When a track is updated, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistUpdatedSendsDiscordNotification(): void
     {

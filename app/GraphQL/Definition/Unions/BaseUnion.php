@@ -10,9 +10,6 @@ use GraphQL\Type\Definition\UnionType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class BaseUnion.
- */
 abstract class BaseUnion extends UnionType
 {
     /**

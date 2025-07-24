@@ -17,9 +17,6 @@ use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\Wiki\Song\Resource\MembershipResource;
 use App\Models\Wiki\Song\Membership;
 
-/**
- * Class MembershipSchema.
- */
 class MembershipSchema extends EloquentSchema implements SearchableSchema
 {
     /**

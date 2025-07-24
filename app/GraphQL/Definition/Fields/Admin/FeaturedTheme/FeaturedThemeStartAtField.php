@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Admin\FeaturedTheme;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
 use App\Models\Admin\FeaturedTheme;
 
-/**
- * Class FeaturedThemeStartAtField.
- */
 class FeaturedThemeStartAtField extends DateTimeTzField
 {
     /**

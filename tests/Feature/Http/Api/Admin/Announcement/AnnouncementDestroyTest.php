@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementDestroyTest.
- */
 class AnnouncementDestroyTest extends TestCase
 {
     /**
      * The Announcement Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AnnouncementDestroyTest extends TestCase
 
     /**
      * The Announcement Destroy Endpoint shall forbid users without the delete announcement permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AnnouncementDestroyTest extends TestCase
 
     /**
      * The Announcement Destroy Endpoint shall delete the announcement.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

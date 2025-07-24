@@ -41,8 +41,6 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function cascadeDeletes(): void
     {

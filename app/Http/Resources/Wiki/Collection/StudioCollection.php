@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 
-/**
- * Class StudioCollection.
- */
 class StudioCollection extends BaseCollection
 {
     /**

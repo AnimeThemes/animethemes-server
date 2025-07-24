@@ -16,9 +16,6 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
 use App\Pivots\List\PlaylistImage;
 
-/**
- * Class PlaylistImageSchema.
- */
 class PlaylistImageSchema extends EloquentSchema
 {
     /**

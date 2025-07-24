@@ -7,9 +7,6 @@ namespace App\Http\Api\Filter;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Rules\Api\EnumLocalizedNameRule;
 
-/**
- * Class EnumFilter.
- */
 class EnumFilter extends Filter
 {
     /**

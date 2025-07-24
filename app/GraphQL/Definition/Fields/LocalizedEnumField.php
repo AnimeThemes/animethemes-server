@@ -8,9 +8,6 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
-/**
- * Class LocalizedEnumField.
- */
 class LocalizedEnumField extends Field implements DisplayableField
 {
     /**

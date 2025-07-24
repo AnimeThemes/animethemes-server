@@ -15,9 +15,6 @@ use App\Http\Api\Scope\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class FakeCriteria.
- */
 class FakeCriteria extends Criteria
 {
     /**

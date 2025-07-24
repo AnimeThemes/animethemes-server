@@ -16,9 +16,6 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\Pivots\Wiki\AnimeStudio;
 
-/**
- * Class AnimeStudioType.
- */
 class AnimeStudioType extends PivotType implements HasFields, HasRelations
 {
     /**

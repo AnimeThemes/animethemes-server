@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Auth\Role;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Auth\Role;
 
-/**
- * Class RolePriorityField.
- */
 class RolePriorityField extends IntField
 {
     /**

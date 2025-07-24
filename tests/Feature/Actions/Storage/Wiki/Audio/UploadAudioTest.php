@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class UploadAudioTest.
- */
 class UploadAudioTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Upload Audio Action shall fail if there are no uploads.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -44,8 +39,6 @@ class UploadAudioTest extends TestCase
 
     /**
      * The Upload Audio Action shall pass if given a valid file.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -65,8 +58,6 @@ class UploadAudioTest extends TestCase
 
     /**
      * The Upload Audio Action shall upload the file to the configured disk.
-     *
-     * @return void
      */
     public function testUploadedToDisk(): void
     {
@@ -84,8 +75,6 @@ class UploadAudioTest extends TestCase
 
     /**
      * The Upload Audio Action shall upload the file to the configured disk.
-     *
-     * @return void
      */
     public function testCreatedAudio(): void
     {

@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\Request;
 
-/**
- * Class StudioResourceAsField.
- */
 class StudioResourceAsField extends StringField implements CreatableField, UpdatableField
 {
     /**

@@ -10,15 +10,10 @@ use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PageStoreTest.
- */
 class PageStoreTest extends TestCase
 {
     /**
      * The Page Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class PageStoreTest extends TestCase
 
     /**
      * The Page Store Endpoint shall forbid users without the create page permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class PageStoreTest extends TestCase
 
     /**
      * The Page Store Endpoint shall require body, name & slug fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -69,8 +60,6 @@ class PageStoreTest extends TestCase
 
     /**
      * The Page Store Endpoint shall create a page.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

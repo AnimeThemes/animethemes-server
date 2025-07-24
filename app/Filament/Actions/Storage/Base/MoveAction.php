@@ -14,15 +14,10 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class MoveAction.
- */
 abstract class MoveAction extends StorageAction implements InteractsWithDisk
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -33,9 +28,6 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

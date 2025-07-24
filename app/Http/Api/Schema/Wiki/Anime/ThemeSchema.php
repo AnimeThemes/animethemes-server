@@ -28,9 +28,6 @@ use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ThemeSchema.
- */
 class ThemeSchema extends EloquentSchema implements SearchableSchema
 {
     final public const SORT_SEASON = 'anime.season';

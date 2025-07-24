@@ -10,9 +10,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AnimeImageTab.
- */
 abstract class AnimeImageTab extends BaseTab
 {
     /**

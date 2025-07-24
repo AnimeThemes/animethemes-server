@@ -13,9 +13,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class UserExceedsReportLimit.
- */
 class UserExceedsReportLimit
 {
     /**

@@ -24,17 +24,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoShowTest.
- */
 class AnimeThemeEntryVideoShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall return an error if the anime video does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -51,8 +46,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * By default, the Anime Theme Entry Video Show Endpoint shall return an Anime Theme Entry Video Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -79,8 +72,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -119,8 +110,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -159,8 +148,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of entries by nsfw.
-     *
-     * @return void
      */
     public function testEntryByNsfw(): void
     {
@@ -200,8 +187,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of entries by spoiler.
-     *
-     * @return void
      */
     public function testEntryBySpoiler(): void
     {
@@ -241,8 +226,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of entries by version.
-     *
-     * @return void
      */
     public function testEntryByVersion(): void
     {
@@ -282,8 +265,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by lyrics.
-     *
-     * @return void
      */
     public function testVideoByLyrics(): void
     {
@@ -323,8 +304,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by nc.
-     *
-     * @return void
      */
     public function testVideoByNc(): void
     {
@@ -364,8 +343,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by overlap.
-     *
-     * @return void
      */
     public function testVideoByOverlap(): void
     {
@@ -405,8 +382,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by resolution.
-     *
-     * @return void
      */
     public function testVideoByResolution(): void
     {
@@ -446,8 +421,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by source.
-     *
-     * @return void
      */
     public function testVideoBySource(): void
     {
@@ -487,8 +460,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by subbed.
-     *
-     * @return void
      */
     public function testVideoBySubbed(): void
     {
@@ -528,8 +499,6 @@ class AnimeThemeEntryVideoShowTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall support constrained eager loading of videos by uncen.
-     *
-     * @return void
      */
     public function testVideoByUncen(): void
     {

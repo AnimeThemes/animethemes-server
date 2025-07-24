@@ -10,15 +10,10 @@ use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class ArtistSongTest.
- */
 class ArtistSongTest extends TestCase
 {
     /**
      * An ArtistSong shall belong to an Artist.
-     *
-     * @return void
      */
     public function testArtist(): void
     {
@@ -33,8 +28,6 @@ class ArtistSongTest extends TestCase
 
     /**
      * An ArtistSong shall belong to a Song.
-     *
-     * @return void
      */
     public function testSong(): void
     {

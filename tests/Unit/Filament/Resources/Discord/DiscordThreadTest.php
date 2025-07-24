@@ -16,9 +16,6 @@ use App\Models\Wiki\Anime;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class DiscordThreadTest.
- */
 class DiscordThreadTest extends BaseResourceTestCase
 {
     /**
@@ -47,8 +44,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -75,8 +70,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -99,8 +92,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountCreateAction(): void
     {
@@ -120,8 +111,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {
@@ -145,8 +134,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot create a record.
-     *
-     * @return void
      */
     public function testUserCannotCreateRecord(): void
     {
@@ -156,8 +143,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot edit a record.
-     *
-     * @return void
      */
     public function testUserCannotEditRecord(): void
     {
@@ -171,8 +156,6 @@ class DiscordThreadTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot delete a record.
-     *
-     * @return void
      */
     public function testUserCannotDeleteRecord(): void
     {

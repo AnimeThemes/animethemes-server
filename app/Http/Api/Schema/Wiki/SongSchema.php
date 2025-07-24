@@ -20,9 +20,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 
-/**
- * Class SongSchema.
- */
 class SongSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**

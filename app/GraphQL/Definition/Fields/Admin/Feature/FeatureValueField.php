@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Admin\Feature;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Admin\Feature;
 
-/**
- * Class FeatureValueField.
- */
 class FeatureValueField extends StringField
 {
     /**

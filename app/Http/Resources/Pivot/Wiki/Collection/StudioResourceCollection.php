@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\Request;
 
-/**
- * Class StudioResourceCollection.
- */
 class StudioResourceCollection extends BaseCollection
 {
     /**

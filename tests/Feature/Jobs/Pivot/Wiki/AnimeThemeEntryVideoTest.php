@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoTest.
- */
 class AnimeThemeEntryVideoTest extends TestCase
 {
     /**
      * When a Video is attached to an AnimeThemeEntry or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoCreatedSendsDiscordNotification(): void
     {
@@ -45,8 +40,6 @@ class AnimeThemeEntryVideoTest extends TestCase
 
     /**
      * When a Video is detached from an AnimeThemeEntry or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoDeletedSendsDiscordNotification(): void
     {

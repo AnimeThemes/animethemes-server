@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioIndexStreamTest.
- */
 class AudioIndexStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Index Stream Rule shall fail if the stream index is not expected.
-     *
-     * @return void
      */
     public function testFailsWhenIndexIsNotExpected(): void
     {
@@ -63,8 +58,6 @@ class AudioIndexStreamTest extends TestCase
 
     /**
      * The Audio Index Stream Rule shall pass if the stream index is expected.
-     *
-     * @return void
      */
     public function testPassesWhenIndexIsExpected(): void
     {

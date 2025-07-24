@@ -15,9 +15,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-/**
- * Class PlaylistTrackNextField.
- */
 class PlaylistTrackNextField extends Field implements CreatableField, UpdatableField
 {
     /**

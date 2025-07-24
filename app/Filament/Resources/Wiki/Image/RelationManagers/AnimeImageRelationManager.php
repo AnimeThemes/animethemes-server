@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use Filament\Tables\Table;
 
-/**
- * Class AnimeImageRelationManager.
- */
 class AnimeImageRelationManager extends AnimeRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class AnimeImageRelationManager extends AnimeRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

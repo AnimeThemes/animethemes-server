@@ -24,17 +24,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class CurrentFeaturedThemeShowTest.
- */
 class CurrentFeaturedThemeShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Current Featured Theme Show Endpoint shall return a Not Found exception if there are no featured themes.
-     *
-     * @return void
      */
     public function testNotFoundIfNoFeaturedThemes(): void
     {
@@ -45,8 +40,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme has no start date.
-     *
-     * @return void
      */
     public function testNotFoundIfThemeStartAtNull(): void
     {
@@ -61,8 +54,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme has no end date.
-     *
-     * @return void
      */
     public function testNotFoundIfThemeEndAtNull(): void
     {
@@ -77,8 +68,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme starts after today.
-     *
-     * @return void
      */
     public function testNotFoundIfThemeStartAtAfterNow(): void
     {
@@ -93,8 +82,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme ends before today.
-     *
-     * @return void
      */
     public function testNotFoundIfThemeEndAtBeforeNow(): void
     {
@@ -109,8 +96,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * By default, the Current Featured Theme Show Endpoint shall return a Featured Theme Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -156,8 +141,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * The Featured Theme Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -202,8 +185,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
     /**
      * The Current Featured Theme Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

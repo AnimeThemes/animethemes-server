@@ -13,9 +13,6 @@ use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ExternalEntryWatchStatusField.
- */
 class ExternalEntryWatchStatusField extends EnumField implements CreatableField, UpdatableField
 {
     /**

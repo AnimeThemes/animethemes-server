@@ -12,9 +12,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
 use Illuminate\Support\Arr;
 
-/**
- * Class ListPerformances.
- */
 class ListPerformances extends BaseListResources
 {
     protected static string $resource = Performance::class;

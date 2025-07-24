@@ -14,9 +14,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Dump;
 
-/**
- * Class DumpType.
- */
 class DumpType extends EloquentType implements HasFields
 {
     /**

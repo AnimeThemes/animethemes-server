@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SeriesController.
- */
 class SeriesController extends BaseController
 {
     /**

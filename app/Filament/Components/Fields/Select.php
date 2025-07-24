@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-/**
- * Class Select.
- */
 class Select extends ComponentsSelect
 {
     /**

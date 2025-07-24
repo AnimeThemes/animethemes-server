@@ -9,9 +9,6 @@ use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalProfileCollection.
- */
 class ExternalProfileCollection extends BaseCollection
 {
     /**

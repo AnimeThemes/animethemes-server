@@ -14,17 +14,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class MyNotificationIndexTest.
- */
 class MyNotificationIndexTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The My Notification Index Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class MyNotificationIndexTest extends TestCase
 
     /**
      * The My Notification Index Endpoint shall forbid users without the view notification permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -51,8 +44,6 @@ class MyNotificationIndexTest extends TestCase
 
     /**
      * The My Notification Index Endpoint shall return notifications owned by the user.
-     *
-     * @return void
      */
     public function testOnlySeesOwnedNotifications(): void
     {

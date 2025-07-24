@@ -18,9 +18,6 @@ use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Wiki\Song\Resource\PerformanceResource;
 use App\Models\Wiki\Song\Performance;
 
-/**
- * Class PerformanceSchema.
- */
 class PerformanceSchema extends EloquentSchema implements SearchableSchema
 {
     /**

@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class PlaylistImageTest.
- */
 class PlaylistImageTest extends TestCase
 {
     /**
      * When a Playlist is attached to an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistImageCreatedSendsDiscordNotification(): void
     {
@@ -41,8 +36,6 @@ class PlaylistImageTest extends TestCase
 
     /**
      * When a Playlist is detached from an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistImageDeletedSendsDiscordNotification(): void
     {

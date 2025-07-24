@@ -11,9 +11,6 @@ use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\LikeFilterDirective;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class StringField.
- */
 abstract class StringField extends Field implements DisplayableField, FilterableField
 {
     /**

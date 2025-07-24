@@ -32,9 +32,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileIndexTest.
- */
 class ExternalProfileIndexTest extends TestCase
 {
     use AggregatesFields;
@@ -43,8 +40,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * By default, the External Profile Index Endpoint shall return a collection of External Profile Resources with public visibility.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -78,8 +73,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * The External Profile Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -98,8 +91,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * The External Profile Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -141,8 +132,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * The External Profile Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -178,8 +167,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * The External Profile Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -221,8 +208,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * The External Profile Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -268,8 +253,6 @@ class ExternalProfileIndexTest extends TestCase
 
     /**
      * The External Profile Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

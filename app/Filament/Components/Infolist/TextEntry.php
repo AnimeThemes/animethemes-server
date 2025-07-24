@@ -6,9 +6,6 @@ namespace App\Filament\Components\Infolist;
 
 use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
 
-/**
- * Class TextEntry.
- */
 class TextEntry extends ComponentsTextEntry
 {
     /**

@@ -53,8 +53,6 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -80,8 +78,6 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
     /**
      * Sync the performance with the artist song.
      * Temporary function.
-     *
-     * @return void
      */
     public function syncArtistSong(): void
     {

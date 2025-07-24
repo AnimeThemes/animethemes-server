@@ -10,9 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-/**
- * Class IncludeParser.
- */
 class IncludeParser extends Parser
 {
     /**

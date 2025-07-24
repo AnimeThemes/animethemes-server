@@ -17,17 +17,12 @@ use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class ArtistSongShowTest.
- */
 class ArtistSongShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Artist Song Show Endpoint shall return an error if the artist song does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -41,8 +36,6 @@ class ArtistSongShowTest extends TestCase
 
     /**
      * By default, the Artist Song Show Endpoint shall return an Artist Song Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -69,8 +62,6 @@ class ArtistSongShowTest extends TestCase
 
     /**
      * The Artist Song Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -109,8 +100,6 @@ class ArtistSongShowTest extends TestCase
 
     /**
      * The Artist Song Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

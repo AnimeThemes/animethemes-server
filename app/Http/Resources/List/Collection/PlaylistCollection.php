@@ -9,9 +9,6 @@ use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\Request;
 
-/**
- * Class PlaylistCollection.
- */
 class PlaylistCollection extends BaseCollection
 {
     /**

@@ -9,9 +9,6 @@ use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
 
-/**
- * Class PageCollection.
- */
 class PageCollection extends BaseCollection
 {
     /**

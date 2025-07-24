@@ -11,15 +11,10 @@ use App\Models\Wiki\Series;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnimeSeriesTest.
- */
 class AnimeSeriesTest extends TestCase
 {
     /**
      * When an Anime is attached to a Series or vice versa, an AnimeSeriesCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeSeriesCreatedEventDispatched(): void
     {
@@ -33,8 +28,6 @@ class AnimeSeriesTest extends TestCase
 
     /**
      * When an Anime is detached from a Series or vice versa, an AnimeSeriesDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeSeriesDeletedEventDispatched(): void
     {

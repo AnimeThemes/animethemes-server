@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Auth\Role;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Auth\Role;
 
-/**
- * Class RoleNameField.
- */
 class RoleNameField extends StringField
 {
     /**

@@ -52,8 +52,6 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 
     /**
      * Perform cascading restores.
-     *
-     * @return void
      */
     public function cascadeRestores(): void
     {

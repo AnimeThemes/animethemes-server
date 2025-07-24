@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\Playlist;
 use App\GraphQL\Definition\Fields\Base\CountField;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistTracksCountField.
- */
 class PlaylistTracksCountField extends CountField
 {
     /**

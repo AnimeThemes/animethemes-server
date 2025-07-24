@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AnimeTest.
- */
 class AnimeTest extends TestCase
 {
     /**
      * When an anime is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class AnimeTest extends TestCase
 
     /**
      * When an anime is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class AnimeTest extends TestCase
 
     /**
      * When an anime is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class AnimeTest extends TestCase
 
     /**
      * When an anime is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeUpdatedSendsDiscordNotification(): void
     {

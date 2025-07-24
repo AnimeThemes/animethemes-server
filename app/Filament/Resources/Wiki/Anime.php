@@ -35,9 +35,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Anime.
- */
 class Anime extends BaseResource
 {
     /**
@@ -98,8 +95,6 @@ class Anime extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
@@ -110,8 +105,6 @@ class Anime extends BaseResource
     /**
      * Determine if the resource can globally search.
      *
-     * @return bool
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function canGloballySearch(): bool
@@ -121,8 +114,6 @@ class Anime extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -191,9 +182,6 @@ class Anime extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {

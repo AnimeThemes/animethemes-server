@@ -10,9 +10,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ArtistResourceTab.
- */
 abstract class ArtistResourceTab extends BaseTab
 {
     /**

@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Song\Resource\PerformanceResource;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 
-/**
- * Class PerformanceCollection.
- */
 class PerformanceCollection extends BaseCollection
 {
     /**

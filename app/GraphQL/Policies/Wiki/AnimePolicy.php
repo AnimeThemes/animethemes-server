@@ -6,7 +6,4 @@ namespace App\GraphQL\Policies\Wiki;
 
 use App\GraphQL\Policies\BasePolicy;
 
-/**
- * Class AnimePolicy.
- */
 class AnimePolicy extends BasePolicy {}

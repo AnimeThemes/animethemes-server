@@ -7,9 +7,6 @@ namespace App\Http\Resources;
 use App\Http\Api\Query\Query;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-/**
- * Class BaseCollection.
- */
 abstract class BaseCollection extends ResourceCollection
 {
     /**
@@ -17,7 +14,6 @@ abstract class BaseCollection extends ResourceCollection
      *
      * @param  mixed  $resource
      * @param  Query  $query
-     * @return void
      */
     public function __construct(mixed $resource, protected readonly Query $query)
     {

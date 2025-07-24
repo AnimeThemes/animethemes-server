@@ -7,9 +7,6 @@ namespace App\Http\Api\Sort;
 use App\Enums\Http\Api\QualifyColumn;
 use App\Enums\Http\Api\Sort\Direction;
 
-/**
- * Class Sort.
- */
 class Sort
 {
     /**

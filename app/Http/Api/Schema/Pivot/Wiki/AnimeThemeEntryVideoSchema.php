@@ -16,9 +16,6 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
-/**
- * Class AnimeThemeEntryVideoSchema.
- */
 class AnimeThemeEntryVideoSchema extends EloquentSchema
 {
     /**

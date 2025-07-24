@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchSongsField.
- */
 class SearchSongsField extends Field implements DisplayableField
 {
     /**

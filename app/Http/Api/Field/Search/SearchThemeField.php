@@ -8,9 +8,6 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 
-/**
- * Class SearchThemeField.
- */
 class SearchThemeField extends Field
 {
     /**

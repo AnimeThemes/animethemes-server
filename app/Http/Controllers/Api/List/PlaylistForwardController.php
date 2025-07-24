@@ -16,9 +16,6 @@ use App\Models\List\Playlist\ForwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class PlaylistForwardController.
- */
 class PlaylistForwardController extends BaseController
 {
     /**

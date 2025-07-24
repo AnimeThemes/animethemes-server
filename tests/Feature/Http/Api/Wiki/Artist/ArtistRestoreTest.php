@@ -10,15 +10,10 @@ use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistRestoreTest.
- */
 class ArtistRestoreTest extends TestCase
 {
     /**
      * The Artist Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ArtistRestoreTest extends TestCase
 
     /**
      * The Artist Restore Endpoint shall forbid users without the restore artist permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ArtistRestoreTest extends TestCase
 
     /**
      * The Artist Restore Endpoint shall forbid users from restoring an artist that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class ArtistRestoreTest extends TestCase
 
     /**
      * The Artist Restore Endpoint shall restore the artist.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

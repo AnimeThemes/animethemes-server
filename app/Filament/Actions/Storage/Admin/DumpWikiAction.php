@@ -7,15 +7,10 @@ namespace App\Filament\Actions\Storage\Admin;
 use App\Actions\Storage\Admin\Dump\DumpAction as DumpDatabase;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction as DumpWikiDatabase;
 
-/**
- * Class DumpWikiAction.
- */
 class DumpWikiAction extends DumpAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -24,8 +19,6 @@ class DumpWikiAction extends DumpAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

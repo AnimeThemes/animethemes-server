@@ -13,9 +13,6 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class AnimeMediaFormatField.
- */
 class AnimeMediaFormatField extends EnumField implements CreatableField, UpdatableField
 {
     /**

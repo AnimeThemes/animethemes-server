@@ -20,9 +20,6 @@ use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnimeImageController.
- */
 class AnimeImageController extends PivotController
 {
     /**

@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
-/**
- * Class AudioBasenameField.
- */
 class AudioBasenameField extends StringField implements CreatableField
 {
     /**

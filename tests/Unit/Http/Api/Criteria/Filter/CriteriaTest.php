@@ -16,17 +16,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class CriteriaTest.
- */
 class CriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If the criteria and filter keys do not match, the filter should not be applied.
-     *
-     * @return void
      */
     public function testShouldNotFilterIfKeyMismatch(): void
     {
@@ -100,8 +95,6 @@ class CriteriaTest extends TestCase
 
     /**
      * If the criteria and filter keys match, the filter should be applied.
-     *
-     * @return void
      */
     public function testShouldFilterIfKeyMatch(): void
     {
@@ -177,8 +170,6 @@ class CriteriaTest extends TestCase
 
     /**
      * If the criteria and filter keys match, the filter should be applied.
-     *
-     * @return void
      */
     public function testShouldNotFilterIfNotWithinScope(): void
     {
@@ -254,8 +245,6 @@ class CriteriaTest extends TestCase
 
     /**
      * If the criteria and filter keys match, the filter should be applied.
-     *
-     * @return void
      */
     public function testShouldFilterIfWithinScope(): void
     {

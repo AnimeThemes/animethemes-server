@@ -15,9 +15,6 @@ use App\Models\Wiki\Song;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class ThemeSongIdField.
- */
 class ThemeSongIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**

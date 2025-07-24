@@ -8,9 +8,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Model;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class ImplodeArrayResolver.
- */
 class ImplodeArrayResolver
 {
     /**

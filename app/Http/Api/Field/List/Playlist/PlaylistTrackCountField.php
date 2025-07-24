@@ -8,9 +8,6 @@ use App\Http\Api\Field\Aggregate\CountField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistTrackCountField.
- */
 class PlaylistTrackCountField extends CountField
 {
     /**

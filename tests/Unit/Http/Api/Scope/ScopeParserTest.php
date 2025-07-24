@@ -11,17 +11,12 @@ use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class ScopeParserTest.
- */
 class ScopeParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Scope Parser shall parse global scopes.
-     *
-     * @return void
      */
     public function testParseGlobalScope(): void
     {
@@ -30,8 +25,6 @@ class ScopeParserTest extends TestCase
 
     /**
      * The Scope Parser shall parse type scopes.
-     *
-     * @return void
      */
     public function testParseTypeScope(): void
     {
@@ -40,8 +33,6 @@ class ScopeParserTest extends TestCase
 
     /**
      * The Scope Parser shall parse relation scopes.
-     *
-     * @return void
      */
     public function testParseRelationScope(): void
     {

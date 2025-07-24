@@ -7,9 +7,6 @@ namespace App\Http\Api\Include;
 use App\Contracts\Http\Api\Schema\SchemaInterface;
 use Illuminate\Support\Str;
 
-/**
- * Class AllowedInclude.
- */
 readonly class AllowedInclude
 {
     /**

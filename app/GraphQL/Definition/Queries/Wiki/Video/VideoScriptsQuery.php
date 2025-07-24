@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Wiki\Video;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 
-/**
- * Class VideoScriptsQuery.
- */
 class VideoScriptsQuery extends EloquentQuery
 {
     public function __construct()

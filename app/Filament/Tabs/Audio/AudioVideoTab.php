@@ -8,9 +8,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AudioVideoTab.
- */
 class AudioVideoTab extends BaseTab
 {
     /**

@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Audio;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Audio;
 
-/**
- * Class AudioBasenameField.
- */
 class AudioBasenameField extends StringField
 {
     /**

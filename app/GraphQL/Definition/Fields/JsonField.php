@@ -6,9 +6,6 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 
-/**
- * Class JsonField.
- */
 abstract class JsonField extends Field implements DisplayableField
 {
     /**

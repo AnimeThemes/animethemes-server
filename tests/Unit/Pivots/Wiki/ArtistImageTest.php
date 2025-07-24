@@ -10,15 +10,10 @@ use App\Pivots\Wiki\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class ArtistImageTest.
- */
 class ArtistImageTest extends TestCase
 {
     /**
      * An ArtistImage shall belong to an Artist.
-     *
-     * @return void
      */
     public function testArtist(): void
     {
@@ -33,8 +28,6 @@ class ArtistImageTest extends TestCase
 
     /**
      * An ArtistImage shall belong to an Image.
-     *
-     * @return void
      */
     public function testImage(): void
     {

@@ -11,15 +11,10 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SynonymRestoreTest.
- */
 class SynonymRestoreTest extends TestCase
 {
     /**
      * The Synonym Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class SynonymRestoreTest extends TestCase
 
     /**
      * The Synonym Restore Endpoint shall forbid users without the restore anime synonym permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -56,8 +49,6 @@ class SynonymRestoreTest extends TestCase
 
     /**
      * The Synonym Restore Endpoint shall forbid users from restoring an anime synonym that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -74,8 +65,6 @@ class SynonymRestoreTest extends TestCase
 
     /**
      * The Synonym Restore Endpoint shall restore the synonym.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

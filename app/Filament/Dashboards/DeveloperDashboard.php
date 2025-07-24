@@ -10,9 +10,6 @@ use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Filament\Panel;
 
-/**
- * Class DeveloperDashboard.
- */
 class DeveloperDashboard extends BaseDashboard
 {
     /**

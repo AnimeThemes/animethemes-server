@@ -10,17 +10,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-/**
- * Class FloatFilterTest.
- */
 class FloatFilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If values that are not mappable to floats are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfNoFloats(): void
     {
@@ -35,8 +30,6 @@ class FloatFilterTest extends TestCase
 
     /**
      * The float filter shall convert validated float inputs to float values.
-     *
-     * @return void
      */
     public function testConvertsValidatedFloats(): void
     {

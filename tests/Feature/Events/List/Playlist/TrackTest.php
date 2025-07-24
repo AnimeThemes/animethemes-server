@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class TrackTest.
- */
 class TrackTest extends TestCase
 {
     /**
      * When a Playlist Track is created, a TrackCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testTrackCreatedEventDispatched(): void
     {
@@ -35,8 +30,6 @@ class TrackTest extends TestCase
 
     /**
      * When a Playlist Track is deleted, a TrackDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testTrackDeletedEventDispatched(): void
     {
@@ -51,8 +44,6 @@ class TrackTest extends TestCase
 
     /**
      * When a Track is updated, a TrackUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testTrackUpdatedEventDispatched(): void
     {
@@ -72,8 +63,6 @@ class TrackTest extends TestCase
 
     /**
      * The TrackUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testPlaylistUpdatedEventEmbedFields(): void
     {
@@ -97,8 +86,6 @@ class TrackTest extends TestCase
 
     /**
      * The Track Created event shall assign hashids to the track.
-     *
-     * @return void
      */
     public function testPlaylistCreatedAssignsHashids(): void
     {

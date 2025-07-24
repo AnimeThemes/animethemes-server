@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Filament\Tables\Table;
 
-/**
- * Class VideoEntryRelationManager.
- */
 class VideoEntryRelationManager extends VideoRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class VideoEntryRelationManager extends VideoRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

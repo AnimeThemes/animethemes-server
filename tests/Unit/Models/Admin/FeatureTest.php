@@ -8,17 +8,12 @@ use App\Models\Admin\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class FeatureTest.
- */
 class FeatureTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Features shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -29,8 +24,6 @@ class FeatureTest extends TestCase
 
     /**
      * Features shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -41,8 +34,6 @@ class FeatureTest extends TestCase
 
     /**
      * Feature shall indicate if the scope is null.
-     *
-     * @return void
      */
     public function testNullableScope(): void
     {
@@ -53,8 +44,6 @@ class FeatureTest extends TestCase
 
     /**
      * Feature shall indicate if the scope is not null.
-     *
-     * @return void
      */
     public function testNonNullScope(): void
     {

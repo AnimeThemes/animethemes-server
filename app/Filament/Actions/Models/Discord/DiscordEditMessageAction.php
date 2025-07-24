@@ -21,15 +21,10 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DiscordEditMessageAction.
- */
 class DiscordEditMessageAction extends BaseAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -38,8 +33,6 @@ class DiscordEditMessageAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -55,7 +48,6 @@ class DiscordEditMessageAction extends BaseAction
      * Perform the action on the table.
      *
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(array $data): void
     {
@@ -68,9 +60,6 @@ class DiscordEditMessageAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): Schema
     {

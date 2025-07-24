@@ -22,15 +22,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class MoveAllAction.
- */
 class MoveAllAction extends BaseAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -39,8 +34,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -56,9 +49,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): ?Schema
     {
@@ -107,7 +97,6 @@ class MoveAllAction extends BaseAction
      * Handle the action.
      *
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(array $data): void
     {
@@ -138,7 +127,6 @@ class MoveAllAction extends BaseAction
      * Resolve an action.
      *
      * @param  MoveAction  $action
-     * @return void
      */
     protected function resolveAction(MoveAction $action): void
     {

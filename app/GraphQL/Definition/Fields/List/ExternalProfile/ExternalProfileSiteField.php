@@ -8,9 +8,6 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalProfileSiteField.
- */
 class ExternalProfileSiteField extends EnumField
 {
     /**

@@ -16,9 +16,6 @@ use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class CurrentFeaturedThemeController.
- */
 class CurrentFeaturedThemeController extends Controller implements InteractsWithSchema
 {
     /**

@@ -10,9 +10,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
-/**
- * Class AudioFilenameField.
- */
 class AudioFilenameField extends StringField implements CreatableField
 {
     /**

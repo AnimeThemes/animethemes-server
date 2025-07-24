@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry;
 use App\GraphQL\Definition\Fields\BooleanField;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryIsFavoriteField.
- */
 class ExternalEntryIsFavoriteField extends BooleanField
 {
     /**

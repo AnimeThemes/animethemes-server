@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Wiki\Song;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 
-/**
- * Class MembershipsQuery.
- */
 class MembershipsQuery extends EloquentQuery
 {
     public function __construct()

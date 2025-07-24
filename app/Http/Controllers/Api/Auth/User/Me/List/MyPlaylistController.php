@@ -16,9 +16,6 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class MyPlaylistController.
- */
 class MyPlaylistController extends BaseController
 {
     /**

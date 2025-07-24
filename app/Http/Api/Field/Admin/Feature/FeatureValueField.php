@@ -10,9 +10,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Admin\Feature;
 use Illuminate\Http\Request;
 
-/**
- * Class FeatureValueField.
- */
 class FeatureValueField extends StringField implements UpdatableField
 {
     /**

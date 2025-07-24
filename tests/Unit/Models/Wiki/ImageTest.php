@@ -23,17 +23,12 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class ImageTest.
- */
 class ImageTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The facet attribute of an image shall be cast to an ImageFacet enum instance.
-     *
-     * @return void
      */
     public function testCastsFacetToEnum(): void
     {
@@ -46,8 +41,6 @@ class ImageTest extends TestCase
 
     /**
      * Images shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -58,8 +51,6 @@ class ImageTest extends TestCase
 
     /**
      * Images shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -70,8 +61,6 @@ class ImageTest extends TestCase
 
     /**
      * Image shall have a many-to-many relationship with the type Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {
@@ -89,8 +78,6 @@ class ImageTest extends TestCase
 
     /**
      * Image shall have a many-to-many relationship with the type Artist.
-     *
-     * @return void
      */
     public function testArtists(): void
     {
@@ -108,8 +95,6 @@ class ImageTest extends TestCase
 
     /**
      * Image shall have a many-to-many relationship with the type Studio.
-     *
-     * @return void
      */
     public function testStudios(): void
     {
@@ -127,8 +112,6 @@ class ImageTest extends TestCase
 
     /**
      * Image shall have a many-to-many relationship with the type Playlist.
-     *
-     * @return void
      */
     public function testPlaylists(): void
     {
@@ -145,8 +128,6 @@ class ImageTest extends TestCase
 
     /**
      * The image shall not be deleted from storage when the Image is deleted.
-     *
-     * @return void
      */
     public function testImageStorageDeletion(): void
     {
@@ -168,8 +149,6 @@ class ImageTest extends TestCase
 
     /**
      * The image shall be deleted from storage when the Image is force deleted.
-     *
-     * @return void
      */
     public function testImageStorageForceDeletion(): void
     {

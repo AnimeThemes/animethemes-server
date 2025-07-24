@@ -11,15 +11,10 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ThemeRestoreTest.
- */
 class ThemeRestoreTest extends TestCase
 {
     /**
      * The Theme Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class ThemeRestoreTest extends TestCase
 
     /**
      * The Theme Restore Endpoint shall forbid users without the restore anime theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -56,8 +49,6 @@ class ThemeRestoreTest extends TestCase
 
     /**
      * The Theme Restore Endpoint shall forbid users from restoring an anime theme that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -74,8 +65,6 @@ class ThemeRestoreTest extends TestCase
 
     /**
      * The Theme Restore Endpoint shall restore the theme.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

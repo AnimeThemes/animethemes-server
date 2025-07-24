@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalEntryScoreField.
- */
 class ExternalEntryScoreField extends FloatField implements CreatableField, UpdatableField
 {
     /**

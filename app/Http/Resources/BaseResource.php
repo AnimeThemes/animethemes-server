@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 
-/**
- * Class BaseResource.
- */
 abstract class BaseResource extends JsonResource
 {
     final public const ATTRIBUTE_ID = 'id';
@@ -26,7 +23,6 @@ abstract class BaseResource extends JsonResource
      *
      * @param  mixed  $resource
      * @param  Query  $query
-     * @return void
      */
     public function __construct(mixed $resource, protected readonly Query $query)
     {

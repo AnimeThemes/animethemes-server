@@ -8,9 +8,6 @@ use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BelongsToManyRelation.
- */
 class BelongsToManyRelation extends Relation
 {
     /**

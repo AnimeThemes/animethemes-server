@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Admin\FeatureSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class FeatureResource.
- */
 class FeatureResource extends BaseResource
 {
     /**

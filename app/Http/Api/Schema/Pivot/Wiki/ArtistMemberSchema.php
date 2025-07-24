@@ -18,9 +18,6 @@ use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Pivots\Wiki\ArtistMember;
 
-/**
- * Class ArtistMemberSchema.
- */
 class ArtistMemberSchema extends EloquentSchema
 {
     /**

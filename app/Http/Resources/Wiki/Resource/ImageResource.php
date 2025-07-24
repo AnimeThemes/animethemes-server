@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ImageResource.
- */
 class ImageResource extends BaseResource
 {
     /**

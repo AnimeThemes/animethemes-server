@@ -39,9 +39,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class EntryIndexTest.
- */
 class EntryIndexTest extends TestCase
 {
     use SortsModels;
@@ -49,8 +46,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * By default, the Entry Index Endpoint shall return a collection of Entry Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -75,8 +70,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -96,8 +89,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -137,8 +128,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -175,8 +164,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -217,8 +204,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -266,8 +251,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -315,8 +298,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -358,8 +339,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -401,8 +380,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -444,8 +421,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -496,8 +471,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by nsfw.
-     *
-     * @return void
      */
     public function testEntriesByNsfw(): void
     {
@@ -532,8 +505,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by spoiler.
-     *
-     * @return void
      */
     public function testEntriesBySpoiler(): void
     {
@@ -568,8 +539,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support filtering by version.
-     *
-     * @return void
      */
     public function testEntriesByVersion(): void
     {
@@ -609,8 +578,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -651,8 +618,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -693,8 +658,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {
@@ -743,8 +706,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -792,8 +753,6 @@ class EntryIndexTest extends TestCase
 
     /**
      * The Entry Index Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Date;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class FeaturedThemeBuilder.
- */
 class FeaturedThemeBuilder
 {
     /**

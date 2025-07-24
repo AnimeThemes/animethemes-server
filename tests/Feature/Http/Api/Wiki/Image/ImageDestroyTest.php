@@ -10,15 +10,10 @@ use App\Models\Wiki\Image;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ImageDestroyTest.
- */
 class ImageDestroyTest extends TestCase
 {
     /**
      * The Image Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ImageDestroyTest extends TestCase
 
     /**
      * The Image Destroy Endpoint shall forbid users without the delete image permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ImageDestroyTest extends TestCase
 
     /**
      * The Image Destroy Endpoint shall forbid users from deleting an image that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class ImageDestroyTest extends TestCase
 
     /**
      * The Image Destroy Endpoint shall delete the image.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

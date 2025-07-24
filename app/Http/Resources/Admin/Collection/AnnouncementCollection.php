@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\Request;
 
-/**
- * Class AnnouncementCollection.
- */
 class AnnouncementCollection extends BaseCollection
 {
     /**

@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class VideoController.
- */
 class VideoController extends BaseController
 {
     /**

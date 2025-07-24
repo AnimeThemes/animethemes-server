@@ -48,8 +48,6 @@ class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEve
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

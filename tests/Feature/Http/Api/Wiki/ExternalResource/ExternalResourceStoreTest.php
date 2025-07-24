@@ -11,15 +11,10 @@ use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceStoreTest.
- */
 class ExternalResourceStoreTest extends TestCase
 {
     /**
      * The External Resource Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -32,8 +27,6 @@ class ExternalResourceStoreTest extends TestCase
 
     /**
      * The External Resource Store Endpoint shall forbid users without the create external resource permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -50,8 +43,6 @@ class ExternalResourceStoreTest extends TestCase
 
     /**
      * The External Resource Store Endpoint shall require link & site fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -69,8 +60,6 @@ class ExternalResourceStoreTest extends TestCase
 
     /**
      * The External Resource Store Endpoint shall create an resource.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

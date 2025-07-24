@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistCollection.
- */
 class ArtistCollection extends BaseCollection
 {
     /**

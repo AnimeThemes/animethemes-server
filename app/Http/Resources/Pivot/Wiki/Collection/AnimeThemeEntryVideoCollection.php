@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeThemeEntryVideoCollection.
- */
 class AnimeThemeEntryVideoCollection extends BaseCollection
 {
     /**

@@ -12,9 +12,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Http\Request;
 
-/**
- * Class MembershipMemberIdField.
- */
 class MembershipMemberIdField extends Field implements CreatableField, SelectableField
 {
     /**

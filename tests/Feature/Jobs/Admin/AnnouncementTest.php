@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementTest.
- */
 class AnnouncementTest extends TestCase
 {
     /**
      * When an announcement is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnnouncementCreatedSendsDiscordNotification(): void
     {
@@ -38,8 +33,6 @@ class AnnouncementTest extends TestCase
 
     /**
      * When an announcement is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnnouncementDeletedSendsDiscordNotification(): void
     {
@@ -56,8 +49,6 @@ class AnnouncementTest extends TestCase
 
     /**
      * When an announcement is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnnouncementUpdatedSendsDiscordNotification(): void
     {

@@ -10,15 +10,10 @@ use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SongStoreTest.
- */
 class SongStoreTest extends TestCase
 {
     /**
      * The Song Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class SongStoreTest extends TestCase
 
     /**
      * The Song Store Endpoint shall forbid users without the create song permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class SongStoreTest extends TestCase
 
     /**
      * The Song Store Endpoint shall create a song.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

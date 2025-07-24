@@ -11,15 +11,10 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ThemeDestroyTest.
- */
 class ThemeDestroyTest extends TestCase
 {
     /**
      * The Theme Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -32,8 +27,6 @@ class ThemeDestroyTest extends TestCase
 
     /**
      * The Theme Destroy Endpoint shall forbid users without the delete anime theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -50,8 +43,6 @@ class ThemeDestroyTest extends TestCase
 
     /**
      * The Theme Destroy Endpoint shall forbid users from updating an anime theme that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -71,8 +62,6 @@ class ThemeDestroyTest extends TestCase
 
     /**
      * The Theme Destroy Endpoint shall delete the theme.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

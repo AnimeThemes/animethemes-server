@@ -18,9 +18,6 @@ use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\Pivots\Wiki\ArtistMember;
 
-/**
- * Class ArtistMemberType.
- */
 class ArtistMemberType extends PivotType implements HasFields, HasRelations
 {
     /**

@@ -15,9 +15,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class VideoAudioIdField.
- */
 class VideoAudioIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**

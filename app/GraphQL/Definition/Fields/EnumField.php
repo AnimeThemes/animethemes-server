@@ -13,9 +13,6 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-/**
- * Class EnumField.
- */
 abstract class EnumField extends Field implements DisplayableField, FilterableField
 {
     /**

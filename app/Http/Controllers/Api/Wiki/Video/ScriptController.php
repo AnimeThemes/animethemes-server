@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ScriptController.
- */
 class ScriptController extends BaseController
 {
     /**

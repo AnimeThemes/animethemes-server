@@ -37,8 +37,6 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

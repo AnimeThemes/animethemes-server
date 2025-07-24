@@ -13,17 +13,12 @@ use stdClass;
 use Tests\TestCase;
 use Tests\Unit\Enums\LocalizedEnum;
 
-/**
- * Class DiscordEmbedFieldTest.
- */
 class DiscordEmbedFieldTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Discord Embed Fields shall format an Enum value by its description.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatEnum(): void
     {
@@ -36,8 +31,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall format a date value by the Y-m-d date format.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatDate(): void
     {
@@ -50,8 +43,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall format a boolean value by pretty printing.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatBoolean(): void
     {
@@ -64,8 +55,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall format numbers by their string value.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatNumber(): void
     {
@@ -78,8 +67,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall format floats by their string value.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatFloat(): void
     {
@@ -92,8 +79,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall format non-empty string by their string value.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatString(): void
     {
@@ -106,8 +91,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall use a default value for empty string values.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatEmptyString(): void
     {
@@ -118,8 +101,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall use a default value for null values.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatNull(): void
     {
@@ -130,8 +111,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall use a default value for arrays.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatArray(): void
     {
@@ -142,8 +121,6 @@ class DiscordEmbedFieldTest extends TestCase
 
     /**
      * Discord Embed Fields shall use a default value for objects.
-     *
-     * @return void
      */
     public function testDiscordEmbedFormatObject(): void
     {

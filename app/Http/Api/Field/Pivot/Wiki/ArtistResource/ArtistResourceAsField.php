@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistResourceAsField.
- */
 class ArtistResourceAsField extends StringField implements CreatableField, UpdatableField
 {
     /**

@@ -19,17 +19,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
-/**
- * Class AttachAction.
- */
 class AttachAction extends BaseAttachAction
 {
     use HasPivotActionLogs;
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -89,7 +84,6 @@ class AttachAction extends BaseAttachAction
      * Determine whether the create option should be shown.
      *
      * @param  class-string<Model>  $model
-     * @return bool
      */
     private function shouldShowCreateOption(string $model): bool
     {

@@ -10,15 +10,10 @@ use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AudioDestroyTest.
- */
 class AudioDestroyTest extends TestCase
 {
     /**
      * The Audio Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AudioDestroyTest extends TestCase
 
     /**
      * The Audio Destroy Endpoint shall forbid users without the delete audio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AudioDestroyTest extends TestCase
 
     /**
      * The Audio Destroy Endpoint shall forbid users from updating an audio that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class AudioDestroyTest extends TestCase
 
     /**
      * The Audio Destroy Endpoint shall delete the audio.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

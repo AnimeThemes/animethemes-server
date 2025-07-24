@@ -13,9 +13,6 @@ use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Resources\Auth\Resource\UserResource;
 use App\Models\Auth\User;
 
-/**
- * Class UserSchema.
- */
 class UserSchema extends EloquentSchema
 {
     /**

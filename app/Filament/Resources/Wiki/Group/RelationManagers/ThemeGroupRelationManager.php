@@ -9,9 +9,6 @@ use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Group;
 use Filament\Tables\Table;
 
-/**
- * Class ThemeGroupRelationManager.
- */
 class ThemeGroupRelationManager extends ThemeRelationManager
 {
     /**

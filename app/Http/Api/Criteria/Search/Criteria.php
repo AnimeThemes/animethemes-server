@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Search;
 
-/**
- * Class Criteria.
- */
 readonly class Criteria
 {
     /**

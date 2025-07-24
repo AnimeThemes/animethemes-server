@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
-/**
- * Class AnimeSynonymTextField.
- */
 class AnimeSynonymTextField extends StringField
 {
     /**

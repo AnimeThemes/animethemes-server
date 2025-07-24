@@ -21,9 +21,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
-/**
- * Class BaseRelationManager.
- */
 abstract class BaseRelationManager extends RelationManager
 {
     protected static bool $isLazy = false;

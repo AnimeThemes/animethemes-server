@@ -8,9 +8,6 @@ use App\Http\Api\Field\DateField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Auth\User;
 
-/**
- * Class UserEmailVerifiedAtField.
- */
 class UserEmailVerifiedAtField extends DateField
 {
     /**

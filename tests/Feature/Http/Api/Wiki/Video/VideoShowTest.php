@@ -28,17 +28,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class VideoShowTest.
- */
 class VideoShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Video Show Endpoint shall return a Video Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -60,8 +55,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall return a Video Resource for soft deleted videos.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -83,8 +76,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -126,8 +117,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -161,8 +150,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of entries by nsfw.
-     *
-     * @return void
      */
     public function testEntriesByNsfw(): void
     {
@@ -205,8 +192,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of entries by spoiler.
-     *
-     * @return void
      */
     public function testEntriesBySpoiler(): void
     {
@@ -249,8 +234,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of entries by version.
-     *
-     * @return void
      */
     public function testEntriesByVersion(): void
     {
@@ -298,8 +281,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -349,8 +330,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -393,8 +372,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -437,8 +414,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -481,8 +456,6 @@ class VideoShowTest extends TestCase
 
     /**
      * The Video Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

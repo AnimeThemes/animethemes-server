@@ -31,9 +31,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class ArtistSongIndexTest.
- */
 class ArtistSongIndexTest extends TestCase
 {
     use SortsModels;
@@ -41,8 +38,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * By default, the Artist Song Index Endpoint shall return a collection of Artist Song Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -71,8 +66,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * The Artist Song Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -94,8 +87,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * The Artist Song Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -136,8 +127,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * The Artist Song Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -178,8 +167,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * The Artist Song Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -222,8 +209,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * The Artist Song Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -275,8 +260,6 @@ class ArtistSongIndexTest extends TestCase
 
     /**
      * The Artist Song Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

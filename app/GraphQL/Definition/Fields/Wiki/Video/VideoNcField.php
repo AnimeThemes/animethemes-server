@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 use App\GraphQL\Definition\Fields\BooleanField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoNcField.
- */
 class VideoNcField extends BooleanField
 {
     /**

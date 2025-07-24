@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class ExistsResolver.
- */
 class ExistsResolver
 {
     /**

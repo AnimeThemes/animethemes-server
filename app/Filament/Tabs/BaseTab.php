@@ -8,9 +8,6 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
-/**
- * Class BaseTab.
- */
 abstract class BaseTab extends Tab
 {
     /**

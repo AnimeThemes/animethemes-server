@@ -9,9 +9,6 @@ use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Filament\Tables\Table;
 
-/**
- * Class PermissionUserRelationManager.
- */
 class PermissionUserRelationManager extends PermissionRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class PermissionUserRelationManager extends PermissionRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

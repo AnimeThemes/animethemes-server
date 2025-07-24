@@ -12,9 +12,6 @@ use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * Class LatestDocumentDumpController.
- */
 class LatestDocumentDumpController extends Controller
 {
     /**

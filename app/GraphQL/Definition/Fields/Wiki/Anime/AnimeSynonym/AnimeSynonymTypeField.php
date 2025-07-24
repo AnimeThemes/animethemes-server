@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
-/**
- * Class AnimeSynonymTypeField.
- */
 class AnimeSynonymTypeField extends EnumField
 {
     /**

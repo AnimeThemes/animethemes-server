@@ -9,15 +9,10 @@ use App\Listeners\AssignHashids;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AssignHashidsTest.
- */
 class AssignHashidsTest extends TestCase
 {
     /**
      * AssignHashids shall listen to AssignHashidsEvent.
-     *
-     * @return void
      */
     public function testListening(): void
     {

@@ -10,15 +10,10 @@ use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeDestroyTest.
- */
 class AnimeDestroyTest extends TestCase
 {
     /**
      * The Anime Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AnimeDestroyTest extends TestCase
 
     /**
      * The Anime Destroy Endpoint shall forbid users without the delete anime permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AnimeDestroyTest extends TestCase
 
     /**
      * The Anime Destroy Endpoint shall forbid users from updating an anime that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class AnimeDestroyTest extends TestCase
 
     /**
      * The Anime Destroy Endpoint shall delete the anime.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

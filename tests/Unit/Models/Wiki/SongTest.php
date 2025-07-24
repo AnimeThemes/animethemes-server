@@ -16,17 +16,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class SongTest.
- */
 class SongTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Song shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -37,8 +32,6 @@ class SongTest extends TestCase
 
     /**
      * Song shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -49,8 +42,6 @@ class SongTest extends TestCase
 
     /**
      * Songs shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -61,8 +52,6 @@ class SongTest extends TestCase
 
     /**
      * Songs shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -75,8 +64,6 @@ class SongTest extends TestCase
 
     /**
      * Song shall have a one-to-many relationship with the type Theme.
-     *
-     * @return void
      */
     public function testThemes(): void
     {
@@ -93,8 +80,6 @@ class SongTest extends TestCase
 
     /**
      * Song shall have a many-to-many relationship with the type Artist.
-     *
-     * @return void
      */
     public function testArtists(): void
     {
@@ -112,8 +97,6 @@ class SongTest extends TestCase
 
     /**
      * Song shall have a many-to-many relationship with the type ExternalResource.
-     *
-     * @return void
      */
     public function testExternalResources(): void
     {

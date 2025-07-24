@@ -8,9 +8,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ExternalResourceUnlinkedTab.
- */
 class ExternalResourceUnlinkedTab extends BaseTab
 {
     /**

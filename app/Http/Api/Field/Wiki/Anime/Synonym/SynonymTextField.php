@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 
-/**
- * Class SynonymTextField.
- */
 class SynonymTextField extends StringField implements CreatableField, UpdatableField
 {
     /**

@@ -8,9 +8,6 @@ use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class TrackResource.
- */
 class TrackResource extends BaseResource
 {
     /**

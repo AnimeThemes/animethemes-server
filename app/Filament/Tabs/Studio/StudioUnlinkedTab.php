@@ -8,9 +8,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class StudioUnlinkedTab.
- */
 class StudioUnlinkedTab extends BaseTab
 {
     /**

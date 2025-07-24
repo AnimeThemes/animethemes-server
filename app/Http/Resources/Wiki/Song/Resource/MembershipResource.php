@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Song\MembershipSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class MembershipResource.
- */
 class MembershipResource extends BaseResource
 {
     /**

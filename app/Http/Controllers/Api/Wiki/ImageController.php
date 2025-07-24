@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ImageController.
- */
 class ImageController extends BaseController
 {
     /**

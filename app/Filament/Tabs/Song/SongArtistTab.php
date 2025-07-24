@@ -8,9 +8,6 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class SongArtistTab.
- */
 class SongArtistTab extends BaseTab
 {
     /**

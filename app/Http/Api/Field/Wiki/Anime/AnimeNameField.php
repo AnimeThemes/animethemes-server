@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeNameField.
- */
 class AnimeNameField extends StringField implements CreatableField, UpdatableField
 {
     /**

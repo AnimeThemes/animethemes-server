@@ -8,9 +8,6 @@ use App\Http\Api\Criteria\Field\Criteria;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class FieldParser.
- */
 class FieldParser extends Parser
 {
     /**

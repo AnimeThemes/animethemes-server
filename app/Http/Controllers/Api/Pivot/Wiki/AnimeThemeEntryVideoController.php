@@ -20,9 +20,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnimeThemeEntryVideoController.
- */
 class AnimeThemeEntryVideoController extends PivotController
 {
     /**

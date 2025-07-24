@@ -6,9 +6,6 @@ namespace App\Http\Api\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 
-/**
- * Class FloatFilter.
- */
 class FloatFilter extends Filter
 {
     /**

@@ -6,9 +6,6 @@ namespace App\Http\Api\Scope;
 
 use Illuminate\Support\Str;
 
-/**
- * CLass RelationScope.
- */
 class RelationScope extends Scope
 {
     /**

@@ -16,9 +16,6 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
 use App\Pivots\Wiki\AnimeImage;
 
-/**
- * Class AnimeImageSchema.
- */
 class AnimeImageSchema extends EloquentSchema
 {
     /**

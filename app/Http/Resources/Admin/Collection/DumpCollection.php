@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Dump;
 use Illuminate\Http\Request;
 
-/**
- * Class DumpCollection.
- */
 class DumpCollection extends BaseCollection
 {
     /**

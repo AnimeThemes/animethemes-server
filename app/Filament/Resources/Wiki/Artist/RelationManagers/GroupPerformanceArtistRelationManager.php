@@ -9,9 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
 use Filament\Tables\Table;
 
-/**
- * Class GroupPerformanceArtistRelationManager.
- */
 class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
@@ -23,9 +20,6 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

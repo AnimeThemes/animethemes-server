@@ -14,9 +14,6 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\DumpResource;
 
-/**
- * Class DumpSchema.
- */
 class DumpSchema extends EloquentSchema
 {
     /**

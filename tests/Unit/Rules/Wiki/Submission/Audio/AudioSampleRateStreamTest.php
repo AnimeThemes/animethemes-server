@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioSampleRateStreamTest.
- */
 class AudioSampleRateStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Sample Rate Stream Rule shall fail if the sample rate is not 48k.
-     *
-     * @return void
      */
     public function testFailsWhenSampleRateIsNotExpected(): void
     {
@@ -63,8 +58,6 @@ class AudioSampleRateStreamTest extends TestCase
 
     /**
      * The Audio Sample Rate Stream Rule shall pass if the sample rate is 48k.
-     *
-     * @return void
      */
     public function testPassesWhenSampleRateIsExpected(): void
     {

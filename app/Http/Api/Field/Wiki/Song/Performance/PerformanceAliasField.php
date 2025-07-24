@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 
-/**
- * Class PerformanceAliasField.
- */
 class PerformanceAliasField extends StringField implements CreatableField, UpdatableField
 {
     /**

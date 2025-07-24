@@ -22,17 +22,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceShowTest.
- */
 class ExternalResourceShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Resource Show Endpoint shall return an ExternalResource Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -54,8 +49,6 @@ class ExternalResourceShowTest extends TestCase
 
     /**
      * The Resource Show Endpoint shall return an External Resource for soft deleted images.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -79,8 +72,6 @@ class ExternalResourceShowTest extends TestCase
 
     /**
      * The Resource Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -117,8 +108,6 @@ class ExternalResourceShowTest extends TestCase
 
     /**
      * The Resource Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -152,8 +141,6 @@ class ExternalResourceShowTest extends TestCase
 
     /**
      * The Resource Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -192,8 +179,6 @@ class ExternalResourceShowTest extends TestCase
 
     /**
      * The Resource Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -232,8 +217,6 @@ class ExternalResourceShowTest extends TestCase
 
     /**
      * The Resource Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

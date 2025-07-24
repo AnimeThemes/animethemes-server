@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class EntrySpoilerField.
- */
 class EntrySpoilerField extends BooleanField implements CreatableField, UpdatableField
 {
     /**

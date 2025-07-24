@@ -15,15 +15,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class EntryTest.
- */
 class EntryTest extends TestCase
 {
     /**
      * When an Entry is created, an EntryCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryCreatedEventDispatched(): void
     {
@@ -36,8 +31,6 @@ class EntryTest extends TestCase
 
     /**
      * When an Entry is deleted, an EntryDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryDeletedEventDispatched(): void
     {
@@ -52,8 +45,6 @@ class EntryTest extends TestCase
 
     /**
      * When an Entry is restored, an EntryRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryRestoredEventDispatched(): void
     {
@@ -70,8 +61,6 @@ class EntryTest extends TestCase
      * When an Entry is restored, an EntryUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testEntryRestoresQuietly(): void
     {
@@ -86,8 +75,6 @@ class EntryTest extends TestCase
 
     /**
      * When an Entry is updated, an EntryUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testEntryUpdatedEventDispatched(): void
     {
@@ -107,8 +94,6 @@ class EntryTest extends TestCase
 
     /**
      * The EntryUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testEntryUpdatedEventEmbedFields(): void
     {

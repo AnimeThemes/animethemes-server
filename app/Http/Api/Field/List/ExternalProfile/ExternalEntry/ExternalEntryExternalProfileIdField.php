@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryExternalProfileIdField.
- */
 class ExternalEntryExternalProfileIdField extends Field implements SelectableField
 {
     /**

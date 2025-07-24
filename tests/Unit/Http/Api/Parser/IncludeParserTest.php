@@ -10,17 +10,12 @@ use App\Http\Api\Parser\IncludeParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class IncludeParserTest.
- */
 class IncludeParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Field Parser shall return no criteria.
-     *
-     * @return void
      */
     public function testNoCriteriaByDefault(): void
     {
@@ -31,8 +26,6 @@ class IncludeParserTest extends TestCase
 
     /**
      * The Include Parser shall parse Include Criteria.
-     *
-     * @return void
      */
     public function testParseCriteria(): void
     {
@@ -49,8 +42,6 @@ class IncludeParserTest extends TestCase
 
     /**
      * The Include Parser shall parse Include Criteria paths.
-     *
-     * @return void
      */
     public function testParseCriteriaPaths(): void
     {
@@ -67,8 +58,6 @@ class IncludeParserTest extends TestCase
 
     /**
      * The Include Parser shall parse Resource Criteria.
-     *
-     * @return void
      */
     public function testParseResourceCriteria(): void
     {
@@ -87,8 +76,6 @@ class IncludeParserTest extends TestCase
 
     /**
      * The Include Parser shall parse Resource Criteria type.
-     *
-     * @return void
      */
     public function testParseResourceCriteriaType(): void
     {
@@ -112,8 +99,6 @@ class IncludeParserTest extends TestCase
 
     /**
      * The Include Parser shall parse Include Resource Criteria paths.
-     *
-     * @return void
      */
     public function testParseResourceCriteriaPaths(): void
     {

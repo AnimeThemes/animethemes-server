@@ -10,15 +10,10 @@ use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
-/**
- * Class DiscordNotificationTest.
- */
 class DiscordNotificationTest extends TestCase
 {
     /**
      * A Discord Notification shall be delivered to a Discord Channel.
-     *
-     * @return void
      */
     public function testViaDiscordMessage(): void
     {
@@ -31,8 +26,6 @@ class DiscordNotificationTest extends TestCase
 
     /**
      * A Discord Notification shall deliver a Discord Message.
-     *
-     * @return void
      */
     public function testToDiscordMessage(): void
     {

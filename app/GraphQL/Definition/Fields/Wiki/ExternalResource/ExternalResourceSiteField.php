@@ -8,9 +8,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceSiteField.
- */
 class ExternalResourceSiteField extends EnumField
 {
     /**

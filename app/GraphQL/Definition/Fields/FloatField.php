@@ -13,9 +13,6 @@ use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\NotInFilterDirective;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class FloatField.
- */
 abstract class FloatField extends Field implements DisplayableField, FilterableField
 {
     /**

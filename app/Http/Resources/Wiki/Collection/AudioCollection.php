@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
-/**
- * Class AudioCollection.
- */
 class AudioCollection extends BaseCollection
 {
     /**

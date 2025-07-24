@@ -15,9 +15,6 @@ use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Group;
 
-/**
- * Class GroupSchema.
- */
 class GroupSchema extends EloquentSchema implements SearchableSchema
 {
     /**

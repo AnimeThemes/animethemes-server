@@ -26,9 +26,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class TrackController.
- */
 class TrackController extends BaseController
 {
     /**

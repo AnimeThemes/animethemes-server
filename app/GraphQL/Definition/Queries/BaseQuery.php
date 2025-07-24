@@ -11,9 +11,6 @@ use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BaseQuery.
- */
 abstract class BaseQuery
 {
     use ResolvesArguments;

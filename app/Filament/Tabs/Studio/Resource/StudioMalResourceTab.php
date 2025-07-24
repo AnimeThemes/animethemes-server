@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Studio\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Studio\StudioResourceTab;
 
-/**
- * Class StudioMalResourceTab.
- */
 class StudioMalResourceTab extends StudioResourceTab
 {
     /**

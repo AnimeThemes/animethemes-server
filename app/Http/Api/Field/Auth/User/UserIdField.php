@@ -10,9 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Auth\User;
 
-/**
- * Class UserIdField.
- */
 class UserIdField extends Field implements SelectableField
 {
     /**

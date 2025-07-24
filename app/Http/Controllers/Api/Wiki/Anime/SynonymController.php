@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SynonymController.
- */
 class SynonymController extends BaseController
 {
     /**

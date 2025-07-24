@@ -15,9 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-/**
- * Class WhereInCriteria.
- */
 class WhereInCriteria extends Criteria
 {
     /**

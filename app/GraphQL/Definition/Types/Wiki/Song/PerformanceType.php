@@ -21,9 +21,6 @@ use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
 use App\Models\Wiki\Song\Performance;
 
-/**
- * Class PerformanceType.
- */
 class PerformanceType extends EloquentType implements HasFields, HasRelations
 {
     /**

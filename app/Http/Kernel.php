@@ -34,9 +34,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
-/**
- * Class Kernel.
- */
 class Kernel extends HttpKernel
 {
     /**

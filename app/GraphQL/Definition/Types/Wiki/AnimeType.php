@@ -30,9 +30,6 @@ use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeType.
- */
 class AnimeType extends EloquentType implements HasFields, HasRelations
 {
     /**

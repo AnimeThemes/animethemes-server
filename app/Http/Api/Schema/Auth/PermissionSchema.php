@@ -15,9 +15,6 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Auth\Resource\PermissionResource;
 use App\Models\Auth\Permission;
 
-/**
- * Class PermissionSchema.
- */
 class PermissionSchema extends EloquentSchema
 {
     /**

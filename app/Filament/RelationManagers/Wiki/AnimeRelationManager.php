@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Models\Wiki\Anime;
 use Filament\Tables\Table;
 
-/**
- * Class AnimeRelationManager.
- */
 abstract class AnimeRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class AnimeRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

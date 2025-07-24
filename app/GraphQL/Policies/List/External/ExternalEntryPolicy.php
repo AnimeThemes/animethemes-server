@@ -12,9 +12,6 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
-/**
- * Class ExternalEntryPolicy.
- */
 class ExternalEntryPolicy extends BasePolicy
 {
     /**

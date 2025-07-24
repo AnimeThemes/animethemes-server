@@ -20,8 +20,6 @@ abstract class BaseBulkAction extends BulkAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -47,7 +45,6 @@ abstract class BaseBulkAction extends BulkAction
      *
      * @param  Collection  $records
      * @param  array<string, mixed>  $data
-     * @return void
      */
     abstract public function handle(Collection $records, array $data): void;
 }

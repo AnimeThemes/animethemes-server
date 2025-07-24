@@ -16,9 +16,6 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\Pivots\Wiki\AnimeImage;
 
-/**
- * Class AnimeImageType.
- */
 class AnimeImageType extends PivotType implements HasFields, HasRelations
 {
     /**

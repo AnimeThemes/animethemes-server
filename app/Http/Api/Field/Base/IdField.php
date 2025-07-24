@@ -9,9 +9,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class IdField.
- */
 class IdField extends IntField
 {
     /**

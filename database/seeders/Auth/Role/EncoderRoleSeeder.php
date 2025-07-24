@@ -33,15 +33,10 @@ use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
-/**
- * Class EncoderRoleSeeder.
- */
 class EncoderRoleSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

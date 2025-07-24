@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AudioTest.
- */
 class AudioTest extends TestCase
 {
     /**
      * When an Audio is created, an AudioCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class AudioTest extends TestCase
 
     /**
      * When an Audio is deleted, an AudioDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class AudioTest extends TestCase
 
     /**
      * When an Audio is restored, an AudioRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class AudioTest extends TestCase
      * When an Audio is restored, an AudioUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testAudioRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class AudioTest extends TestCase
 
     /**
      * When an Audio is updated, an AudioUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class AudioTest extends TestCase
 
     /**
      * The AudioUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testAudioUpdatedEventEmbedFields(): void
     {

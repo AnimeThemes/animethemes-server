@@ -15,9 +15,6 @@ use App\Models\Wiki\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class ThemeGroupIdField.
- */
 class ThemeGroupIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**

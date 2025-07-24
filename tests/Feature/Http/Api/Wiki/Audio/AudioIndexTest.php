@@ -32,9 +32,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class AudioIndexTest.
- */
 class AudioIndexTest extends TestCase
 {
     use SortsModels;
@@ -42,8 +39,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * By default, the Audio Index Endpoint shall return a collection of Audio Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -67,8 +62,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -87,8 +80,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -127,8 +118,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -164,8 +153,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Synonym Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -205,8 +192,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -248,8 +233,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -291,8 +274,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -327,8 +308,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -363,8 +342,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -399,8 +376,6 @@ class AudioIndexTest extends TestCase
 
     /**
      * The Audio Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {

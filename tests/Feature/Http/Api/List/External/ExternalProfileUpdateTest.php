@@ -18,17 +18,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileUpdateTest.
- */
 class ExternalProfileUpdateTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The External Profile Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -52,8 +47,6 @@ class ExternalProfileUpdateTest extends TestCase
 
     /**
      * The External Profile Update Endpoint shall forbid users without the update profile permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -81,8 +74,6 @@ class ExternalProfileUpdateTest extends TestCase
 
     /**
      * The External Profile Update Endpoint shall forbid users from updating the profile if they don't own it.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnExternalProfile(): void
     {
@@ -113,8 +104,6 @@ class ExternalProfileUpdateTest extends TestCase
     /**
      * The External Profile Update Endpoint shall forbid users from updating profiles
      * if the Allow ExternalProfile Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -146,8 +135,6 @@ class ExternalProfileUpdateTest extends TestCase
 
     /**
      * The External Profile Update Endpoint shall update a profile.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {
@@ -180,8 +167,6 @@ class ExternalProfileUpdateTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to update profiles
      * even if the Allow ExternalProfile Management feature is inactive.
-     *
-     * @return void
      */
     public function testUpdatePermittedForBypass(): void
     {

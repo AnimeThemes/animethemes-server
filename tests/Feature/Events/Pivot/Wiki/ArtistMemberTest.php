@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ArtistMemberTest.
- */
 class ArtistMemberTest extends TestCase
 {
     /**
      * When an Artist is attached to a Member or vice versa, an ArtistMemberCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistMemberCreatedEventDispatched(): void
     {
@@ -35,8 +30,6 @@ class ArtistMemberTest extends TestCase
 
     /**
      * When an Artist is detached from a Member or vice versa, an ArtistMemberDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistMemberDeletedEventDispatched(): void
     {
@@ -51,8 +44,6 @@ class ArtistMemberTest extends TestCase
 
     /**
      * When an Artist Member pivot is updated, an ArtistMemberUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistMemberUpdatedEventDispatched(): void
     {
@@ -77,8 +68,6 @@ class ArtistMemberTest extends TestCase
 
     /**
      * The ArtistMemberUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testArtistMemberUpdatedEventEmbedFields(): void
     {

@@ -9,9 +9,6 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
-/**
- * Class SyncExternalProfileController.
- */
 class SyncExternalProfileController extends BaseController
 {
     final public const ROUTE_SLUG = 'id';

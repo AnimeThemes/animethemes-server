@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
 
-/**
- * Class UserTest.
- */
 class UserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Users shall have a one-to-many polymorphic relationship to PersonalAccessToken.
-     *
-     * @return void
      */
     public function testTokens(): void
     {
@@ -39,8 +34,6 @@ class UserTest extends TestCase
 
     /**
      * Users shall verify email.
-     *
-     * @return void
      */
     public function testVerificationEmailNotification(): void
     {
@@ -53,8 +46,6 @@ class UserTest extends TestCase
 
     /**
      * Users shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -65,8 +56,6 @@ class UserTest extends TestCase
 
     /**
      * Users shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -77,8 +66,6 @@ class UserTest extends TestCase
 
     /**
      * User shall have a one-to-many relationship with the type Playlist.
-     *
-     * @return void
      */
     public function testPlaylists(): void
     {

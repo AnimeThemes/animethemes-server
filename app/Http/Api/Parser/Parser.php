@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Parser;
 
-/**
- * Class Parser.
- */
 abstract class Parser
 {
     /**

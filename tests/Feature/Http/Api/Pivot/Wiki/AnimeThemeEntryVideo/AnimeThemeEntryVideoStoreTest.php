@@ -14,15 +14,10 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoStoreTest.
- */
 class AnimeThemeEntryVideoStoreTest extends TestCase
 {
     /**
      * The Anime Theme Entry Video Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -39,8 +34,6 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Store Endpoint shall forbid users without the create anime theme entry & create video permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -61,8 +54,6 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Store Endpoint shall create an Anime Theme Entry Video.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

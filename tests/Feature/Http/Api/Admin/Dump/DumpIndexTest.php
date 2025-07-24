@@ -26,9 +26,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class DumpIndexTest.
- */
 class DumpIndexTest extends TestCase
 {
     use SortsModels;
@@ -36,8 +33,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * By default, the Dump Index Endpoint shall return a collection of Dump Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -59,8 +54,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * The Dump Index Endpoint shall return a collection of safe Dump Resources.
-     *
-     * @return void
      */
     public function testUnsafe(): void
     {
@@ -89,8 +82,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * The Dump Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -107,8 +98,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * The Dump Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -142,8 +131,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * The Dump Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -181,8 +168,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * The Dump Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -224,8 +209,6 @@ class DumpIndexTest extends TestCase
 
     /**
      * The Dump Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

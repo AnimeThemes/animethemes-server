@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ArtistResource.
- */
 class ArtistResource extends BaseResource
 {
     /**

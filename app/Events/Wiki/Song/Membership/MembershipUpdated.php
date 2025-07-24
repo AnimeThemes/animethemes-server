@@ -48,8 +48,6 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistResourceCollection.
- */
 class ArtistResourceCollection extends BaseCollection
 {
     /**

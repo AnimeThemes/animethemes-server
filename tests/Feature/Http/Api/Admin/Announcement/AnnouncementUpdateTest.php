@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementUpdateTest.
- */
 class AnnouncementUpdateTest extends TestCase
 {
     /**
      * The Announcement Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class AnnouncementUpdateTest extends TestCase
 
     /**
      * The Announcement Update Endpoint shall forbid users without the update announcement permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class AnnouncementUpdateTest extends TestCase
 
     /**
      * The Announcement Update Endpoint shall update an announcement.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

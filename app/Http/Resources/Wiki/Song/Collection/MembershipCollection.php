@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Song\Resource\MembershipResource;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Http\Request;
 
-/**
- * Class MembershipCollection.
- */
 class MembershipCollection extends BaseCollection
 {
     /**

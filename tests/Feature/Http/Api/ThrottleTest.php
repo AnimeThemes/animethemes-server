@@ -9,15 +9,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ThrottleTest.
- */
 class ThrottleTest extends TestCase
 {
     /**
      * Client with forwarded ip shall be rate limited.
-     *
-     * @return void
      */
     public function testForwardedIpRateLimited(): void
     {
@@ -29,8 +24,6 @@ class ThrottleTest extends TestCase
 
     /**
      * Client with no forwarded ip shall not be rate limited.
-     *
-     * @return void
      */
     public function testClientNoForwardedIpNotRateLimited(): void
     {
@@ -42,8 +35,6 @@ class ThrottleTest extends TestCase
 
     /**
      * Users with the 'bypass api rate limiter' permission  shall not be rate limited.
-     *
-     * @return void
      */
     public function testUserNotRateLimited(): void
     {

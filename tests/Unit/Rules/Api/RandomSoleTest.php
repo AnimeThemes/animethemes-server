@@ -10,17 +10,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class RandomSoleTest.
- */
 class RandomSoleTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Random Sole Rule shall return false if the random key is provided and is not the sole sort.
-     *
-     * @return void
      */
     public function testFailsIfRandomIsNotSoleSort(): void
     {
@@ -40,8 +35,6 @@ class RandomSoleTest extends TestCase
 
     /**
      * The Random Sole Rule shall return true if the random key is not provided.
-     *
-     * @return void
      */
     public function testPassesIfRandomIsNotIncluded(): void
     {
@@ -59,8 +52,6 @@ class RandomSoleTest extends TestCase
 
     /**
      * The Random Sole Rule shall return true if the random key is the only sort provided.
-     *
-     * @return void
      */
     public function testPassesIfRandomIsSoleSort(): void
     {

@@ -13,9 +13,6 @@ use App\Models\Wiki\Video;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class LikeVideoField.
- */
 class LikeVideoField extends Field implements BindableField, CreatableField, DeletableField
 {
     /**

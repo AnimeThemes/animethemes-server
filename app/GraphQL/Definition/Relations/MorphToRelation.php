@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Relations;
 use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class MorphToRelation.
- */
 class MorphToRelation extends Relation
 {
     /**

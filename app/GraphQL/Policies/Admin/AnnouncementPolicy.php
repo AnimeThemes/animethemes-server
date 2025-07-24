@@ -9,9 +9,6 @@ use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 
-/**
- * Class AnnouncementPolicy.
- */
 class AnnouncementPolicy extends BasePolicy
 {
     /**

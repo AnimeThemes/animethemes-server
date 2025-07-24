@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistResourceType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 
-/**
- * Class ResourceArtistEdgeType.
- */
 class ResourceArtistEdgeType extends BaseEdgeType
 {
     /**

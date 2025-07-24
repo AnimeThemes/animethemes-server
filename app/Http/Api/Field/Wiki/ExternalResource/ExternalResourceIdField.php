@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalResourceIdField.
- */
 class ExternalResourceIdField extends IntField implements CreatableField, UpdatableField
 {
     /**

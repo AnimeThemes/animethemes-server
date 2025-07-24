@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Anime\Image;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\Anime\AnimeImageTab;
 
-/**
- * Class AnimeLargeCoverTab.
- */
 class AnimeLargeCoverTab extends AnimeImageTab
 {
     /**

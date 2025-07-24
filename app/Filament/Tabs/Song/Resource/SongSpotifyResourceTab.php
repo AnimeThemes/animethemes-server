@@ -7,9 +7,6 @@ namespace App\Filament\Tabs\Song\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Song\SongResourceTab;
 
-/**
- * Class SongSpotifyResourceTab.
- */
 class SongSpotifyResourceTab extends SongResourceTab
 {
     /**

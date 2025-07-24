@@ -12,15 +12,10 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class EntryForceDeleteTest.
- */
 class EntryForceDeleteTest extends TestCase
 {
     /**
      * The Entry Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class EntryForceDeleteTest extends TestCase
 
     /**
      * The Entry Force Delete Endpoint shall forbid users without the force delete anime theme entry permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -55,8 +48,6 @@ class EntryForceDeleteTest extends TestCase
 
     /**
      * The Entry Force Delete Endpoint shall force delete the entry.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

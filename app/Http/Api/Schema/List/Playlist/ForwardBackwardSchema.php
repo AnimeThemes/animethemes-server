@@ -22,9 +22,6 @@ use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ForwardBackwardSchema.
- */
 class ForwardBackwardSchema extends EloquentSchema
 {
     /**

@@ -22,9 +22,6 @@ use App\Http\Resources\Wiki\Song\Resource\PerformanceResource;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class PerformanceController.
- */
 class PerformanceController extends BaseController
 {
     /**

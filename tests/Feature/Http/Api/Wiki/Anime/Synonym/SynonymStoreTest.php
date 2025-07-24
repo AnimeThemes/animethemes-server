@@ -11,15 +11,10 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SynonymStoreTest.
- */
 class SynonymStoreTest extends TestCase
 {
     /**
      * The Synonym Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -32,8 +27,6 @@ class SynonymStoreTest extends TestCase
 
     /**
      * The Synonym Store Endpoint shall forbid users without the create anime synonym permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -50,8 +43,6 @@ class SynonymStoreTest extends TestCase
 
     /**
      * The Synonym Store Endpoint shall require the text field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -68,8 +59,6 @@ class SynonymStoreTest extends TestCase
 
     /**
      * The Synonym Store Endpoint shall create a synonym.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

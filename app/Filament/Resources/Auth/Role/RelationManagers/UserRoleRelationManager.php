@@ -11,9 +11,6 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
 
-/**
- * Class UserRoleRelationManager.
- */
 class UserRoleRelationManager extends UserRelationManager
 {
     /**
@@ -25,9 +22,6 @@ class UserRoleRelationManager extends UserRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

@@ -27,17 +27,12 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PlaylistImageShowTest.
- */
 class PlaylistImageShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Playlist Image Show Endpoint shall return an error if the playlist image does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -57,8 +52,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall forbid a private playlist image from being publicly viewed.
-     *
-     * @return void
      */
     public function testPrivatePlaylistImageCannotBePubliclyViewed(): void
     {
@@ -82,8 +75,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall forbid the user from viewing a private playlist image if not owned.
-     *
-     * @return void
      */
     public function testPrivatePlaylistImageCannotBePubliclyIfNotOwned(): void
     {
@@ -111,8 +102,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall allow a private playlist image to be viewed by the owner.
-     *
-     * @return void
      */
     public function testPrivatePlaylistImageCanBeViewedByOwner(): void
     {
@@ -140,8 +129,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall allow an unlisted playlist image to be viewed.
-     *
-     * @return void
      */
     public function testUnlistedPlaylistImageCanBeViewed(): void
     {
@@ -165,8 +152,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall allow a public playlist image to be viewed.
-     *
-     * @return void
      */
     public function testPublicPlaylistCanBeViewed(): void
     {
@@ -190,8 +175,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * By default, the Playlist Image Show Endpoint shall return an Playlist Image Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -226,8 +209,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -274,8 +255,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -322,8 +301,6 @@ class PlaylistImageShowTest extends TestCase
 
     /**
      * The Playlist Image Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

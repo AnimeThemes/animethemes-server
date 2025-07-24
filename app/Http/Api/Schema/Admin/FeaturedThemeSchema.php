@@ -27,9 +27,6 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme;
 
-/**
- * Class FeaturedThemeSchema.
- */
 class FeaturedThemeSchema extends EloquentSchema
 {
     /**

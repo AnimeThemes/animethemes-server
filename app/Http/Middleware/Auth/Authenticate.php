@@ -8,9 +8,6 @@ use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class Authenticate.
- */
 class Authenticate extends Middleware
 {
     /**

@@ -7,9 +7,6 @@ namespace App\Http\Api\Sort;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 
-/**
- * Class RandomSort.
- */
 class RandomSort extends Sort
 {
     /**

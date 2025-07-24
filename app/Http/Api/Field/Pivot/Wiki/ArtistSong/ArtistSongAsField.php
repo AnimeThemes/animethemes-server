@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistSongAsField.
- */
 class ArtistSongAsField extends StringField implements CreatableField, UpdatableField
 {
     /**

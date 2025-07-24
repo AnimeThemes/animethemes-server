@@ -10,9 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class PivotResolver.
- */
 class PivotResolver
 {
     /**

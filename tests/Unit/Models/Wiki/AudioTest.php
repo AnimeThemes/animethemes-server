@@ -18,17 +18,12 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class AudioTest.
- */
 class AudioTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Audios shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -39,8 +34,6 @@ class AudioTest extends TestCase
 
     /**
      * Audios shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -51,8 +44,6 @@ class AudioTest extends TestCase
 
     /**
      * Audio shall have a one-to-many relationship with the type Video.
-     *
-     * @return void
      */
     public function testVideos(): void
     {
@@ -69,8 +60,6 @@ class AudioTest extends TestCase
 
     /**
      * Audios shall have a one-to-many polymorphic relationship to View.
-     *
-     * @return void
      */
     public function testViews(): void
     {
@@ -85,8 +74,6 @@ class AudioTest extends TestCase
 
     /**
      * The audio shall not be deleted from storage when the Audio is deleted.
-     *
-     * @return void
      */
     public function testAudioStorageDeletion(): void
     {
@@ -105,8 +92,6 @@ class AudioTest extends TestCase
 
     /**
      * The audio shall be deleted from storage when the Audio is force deleted.
-     *
-     * @return void
      */
     public function testAudioStorageForceDeletion(): void
     {

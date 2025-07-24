@@ -11,9 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ImageLinkField.
- */
 class ImageLinkField extends Field implements RenderableField
 {
     /**

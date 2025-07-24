@@ -12,17 +12,12 @@ use Tests\TestCase;
 use Tests\Unit\Enums\LocalizedEnum;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-/**
- * Class EnumFilterTest.
- */
 class EnumFilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If values that are not mappable to enum instances are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfNoEnums(): void
     {
@@ -37,8 +32,6 @@ class EnumFilterTest extends TestCase
 
     /**
      * If all enum values are specified for the key, don't apply the filter.
-     *
-     * @return void
      */
     public function testShouldNotApplyIfAllEnums(): void
     {
@@ -57,8 +50,6 @@ class EnumFilterTest extends TestCase
 
     /**
      * The enum filter shall convert enum keys to enum values.
-     *
-     * @return void
      */
     public function testEnumKeyConvertedToValue(): void
     {

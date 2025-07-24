@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\Request;
 
-/**
- * Class SongCollection.
- */
 class SongCollection extends BaseCollection
 {
     /**

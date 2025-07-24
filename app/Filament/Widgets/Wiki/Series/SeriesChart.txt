@@ -8,9 +8,6 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Series;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class SeriesChart.
- */
 class SeriesChart extends BaseChartWidget
 {
     /**

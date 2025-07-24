@@ -15,9 +15,6 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SyncExternalProfileMutation.
- */
 #[UseField(SyncExternalProfileController::class, 'store')]
 class SyncExternalProfileMutation extends BaseMutation
 {

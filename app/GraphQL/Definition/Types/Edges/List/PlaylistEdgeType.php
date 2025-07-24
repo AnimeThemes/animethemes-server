@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Types\Edges\List;
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 
-/**
- * Class PlaylistEdgeType.
- */
 class PlaylistEdgeType extends BaseEdgeType
 {
     /**

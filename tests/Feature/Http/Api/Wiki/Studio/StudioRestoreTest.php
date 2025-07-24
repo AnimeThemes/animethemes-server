@@ -10,15 +10,10 @@ use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioRestoreTest.
- */
 class StudioRestoreTest extends TestCase
 {
     /**
      * The Studio Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class StudioRestoreTest extends TestCase
 
     /**
      * The Studio Restore Endpoint shall forbid users without the restore studio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class StudioRestoreTest extends TestCase
 
     /**
      * The Studio Restore Endpoint shall forbid users from restoring a studio that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class StudioRestoreTest extends TestCase
 
     /**
      * The Studio Restore Endpoint shall restore the studio.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

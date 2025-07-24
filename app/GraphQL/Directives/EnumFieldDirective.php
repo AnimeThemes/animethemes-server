@@ -10,9 +10,6 @@ use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class EnumFieldDirective.
- */
 class EnumFieldDirective extends BaseDirective implements FieldMiddleware
 {
     /**
@@ -34,7 +31,6 @@ class EnumFieldDirective extends BaseDirective implements FieldMiddleware
      * Wrap around the final field resolver.
      *
      * @param  FieldValue  $fieldValue
-     * @return void
      */
     public function handleField(FieldValue $fieldValue): void
     {

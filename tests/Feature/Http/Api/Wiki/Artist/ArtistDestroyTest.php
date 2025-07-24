@@ -10,15 +10,10 @@ use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistDestroyTest.
- */
 class ArtistDestroyTest extends TestCase
 {
     /**
      * The Artist Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ArtistDestroyTest extends TestCase
 
     /**
      * The Artist Destroy Endpoint shall forbid users without the delete artist permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ArtistDestroyTest extends TestCase
 
     /**
      * The Artist Destroy Endpoint shall forbid users from updating an artist that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class ArtistDestroyTest extends TestCase
 
     /**
      * The Artist Destroy Endpoint shall delete the artist.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

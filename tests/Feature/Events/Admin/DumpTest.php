@@ -12,15 +12,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class DumpTest.
- */
 class DumpTest extends TestCase
 {
     /**
      * When a Dump is created, a DumpCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testDumpCreatedEventDispatched(): void
     {
@@ -31,8 +26,6 @@ class DumpTest extends TestCase
 
     /**
      * When a Dump is deleted, a DumpDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testDumpDeletedEventDispatched(): void
     {
@@ -45,8 +38,6 @@ class DumpTest extends TestCase
 
     /**
      * When a Dump is updated, a DumpUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testDumpUpdatedEventDispatched(): void
     {
@@ -61,8 +52,6 @@ class DumpTest extends TestCase
 
     /**
      * The DumpUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testDumpUpdatedEventEmbedFields(): void
     {

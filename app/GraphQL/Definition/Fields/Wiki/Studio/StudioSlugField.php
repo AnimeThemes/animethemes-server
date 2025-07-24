@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Fields\Wiki\Studio;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Studio;
 
-/**
- * Class StudioSlugField.
- */
 class StudioSlugField extends StringField
 {
     /**

@@ -26,9 +26,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class PlaylistController.
- */
 class PlaylistController extends BaseController
 {
     /**

@@ -50,8 +50,6 @@ class GroupRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEve
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

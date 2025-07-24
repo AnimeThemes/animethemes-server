@@ -21,17 +21,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileStoreTest.
- */
 class ExternalProfileStoreTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The External Profile Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -46,8 +41,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The External Profile Store Endpoint shall forbid users without the create profile permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -67,8 +60,6 @@ class ExternalProfileStoreTest extends TestCase
     /**
      * The External Profile Store Endpoint shall forbid users from creating profiles
      * if the Allow ExternalProfile Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -92,8 +83,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The External Profile Store Endpoint shall require name & site fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -113,8 +102,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The External Profile Store Endpoint shall create a profile.
-     *
-     * @return void
      */
     public function testCreate(): void
     {
@@ -141,8 +128,6 @@ class ExternalProfileStoreTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to create profiles
      * even if the Allow ExternalProfile Management feature is inactive.
-     *
-     * @return void
      */
     public function testCreatePermittedForBypass(): void
     {
@@ -171,8 +156,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The External Profile Store Endpoint shall forbid users from creating profiles that exceed the user profile limit.
-     *
-     * @return void
      */
     public function testMaxProfileLimit(): void
     {
@@ -203,8 +186,6 @@ class ExternalProfileStoreTest extends TestCase
     /**
      * The External Profile Store Endpoint shall permit users with bypass feature flag permission
      * to create profiles that exceed the user profile limit.
-     *
-     * @return void
      */
     public function testMaxProfileLimitPermittedForBypass(): void
     {
@@ -237,8 +218,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The ExternalProfile Store Endpoint shall create a profile if the name is not flagged by OpenAI.
-     *
-     * @return void
      */
     public function testCreatedIfNotFlaggedByOpenAi(): void
     {
@@ -273,8 +252,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The External Profile Store Endpoint shall create a profile if the moderation service returns some error.
-     *
-     * @return void
      */
     public function testCreatedIfOpenAiFails(): void
     {
@@ -303,8 +280,6 @@ class ExternalProfileStoreTest extends TestCase
 
     /**
      * The External Profile Store Endpoint shall prohibit users from creating profiles with names flagged by OpenAI.
-     *
-     * @return void
      */
     public function testValidationErrorWhenFlaggedByOpenAi(): void
     {
