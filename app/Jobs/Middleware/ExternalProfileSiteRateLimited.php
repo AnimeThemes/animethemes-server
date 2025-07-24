@@ -11,19 +11,12 @@ use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redis;
 
-/**
- * Class ExternalProfileSiteRateLimited.
- */
 class ExternalProfileSiteRateLimited
 {
     use DetectsRedis;
 
     /**
      * Process the queued job.
-     *
-     * @param  SyncExternalProfileJob  $job
-     * @param  callable  $next
-     * @return void
      *
      * @throws LimiterTimeoutException
      */

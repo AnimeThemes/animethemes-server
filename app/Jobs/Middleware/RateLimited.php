@@ -8,19 +8,12 @@ use App\Concerns\DetectsRedis;
 use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Support\Facades\Redis;
 
-/**
- * Class RateLimited.
- */
 class RateLimited
 {
     use DetectsRedis;
 
     /**
      * Process the queued job.
-     *
-     * @param  mixed  $job
-     * @param  callable  $next
-     * @return void
      *
      * @throws LimiterTimeoutException
      */
