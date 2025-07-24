@@ -9,9 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-/**
- * Class RemoveFromStorage.
- */
 class RemoveFromStorage implements ShouldQueue
 {
     use Dispatchable;
@@ -19,9 +16,6 @@ class RemoveFromStorage implements ShouldQueue
 
     /**
      * Handle the event.
-     *
-     * @param  RemoveFromStorageEvent  $event
-     * @return void
      */
     public function handle(RemoveFromStorageEvent $event): void
     {

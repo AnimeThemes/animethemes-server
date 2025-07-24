@@ -9,16 +9,10 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotificationJob;
 use Laravel\Pennant\Feature;
 
-/**
- * Class SendDiscordNotification.
- */
 class SendDiscordNotification
 {
     /**
      * Handle the event.
-     *
-     * @param  DiscordMessageEvent  $event
-     * @return void
      */
     public function handle(DiscordMessageEvent $event): void
     {

@@ -8,16 +8,10 @@ use Illuminate\Auth\Events\Failed;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class LogFailed.
- */
 class LogFailed
 {
     /**
      * Handle the event.
-     *
-     * @param  Failed  $event
-     * @return void
      */
     public function handle(Failed $event): void
     {
