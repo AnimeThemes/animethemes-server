@@ -19,6 +19,7 @@ class EnumType extends BaseEnumType
 {
     public const MULTIPLE_DESCRIPTIONS_DISALLOWED = 'Using more than 1 Description attribute is not supported.';
     public const MULTIPLE_DEPRECATIONS_DISALLOWED = 'Using more than 1 Deprecated attribute is not supported.';
+    public const MULTIPLE_HIDDEN_DISALLOWED = 'Using more than 1 Hidden attribute is not supported.';
 
     /**
      * The enum class.
@@ -133,7 +134,7 @@ class EnumType extends BaseEnumType
         }
 
         if (count($attributes) > 1) {
-            throw new Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
+            throw new Exception(self::MULTIPLE_HIDDEN_DISALLOWED);
         }
 
         return false;
