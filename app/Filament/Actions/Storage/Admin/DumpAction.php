@@ -67,9 +67,6 @@ abstract class DumpAction extends BaseAction
     /**
      * Get the fields available on the action for a MySql db connection.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fieldsForMySql(Schema $schema): Schema
@@ -140,9 +137,6 @@ abstract class DumpAction extends BaseAction
     /**
      * Get the fields available on the action for a PostgreSql db connection.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fieldsForPostgreSql(Schema $schema): Schema
@@ -163,7 +157,6 @@ abstract class DumpAction extends BaseAction
      * Get the underlying action.
      *
      * @param  array<string, mixed>  $data
-     * @return DumpDatabase
      */
     abstract protected function storageAction(array $data): DumpDatabase;
 }

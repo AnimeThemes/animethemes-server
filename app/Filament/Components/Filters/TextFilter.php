@@ -15,7 +15,7 @@ class TextFilter extends Filter
     /**
      * Get the schema components for the filter.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getSchemaComponents(): array
     {

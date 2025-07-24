@@ -15,7 +15,6 @@ class UriStateCast implements StateCast
 
     /**
      * @param  string|null  $state
-     * @return Uri|null
      */
     public function get(mixed $state): ?Uri
     {
@@ -28,7 +27,6 @@ class UriStateCast implements StateCast
 
     /**
      * @param  Uri|null  $state
-     * @return string
      */
     public function set(mixed $state): ?string
     {

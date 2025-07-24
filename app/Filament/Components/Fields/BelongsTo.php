@@ -55,8 +55,6 @@ class BelongsTo extends ComponentsSelect
      * Set the filament resource for the relation. Relation should be set if BelongsToThrough.
      *
      * @param  class-string<BaseResource>  $resource
-     * @param  string|null  $relation
-     * @return static
      */
     public function resource(string $resource, ?string $relation = ''): static
     {
@@ -70,9 +68,7 @@ class BelongsTo extends ComponentsSelect
     /**
      * Determine if the create option is available. The resource is required for this.
      *
-     * @param  bool  $condition
      * @param  array|null  $eagerLoads
-     * @return static
      */
     public function showCreateOption(bool $condition = true, ?array $eagerLoads = []): static
     {
@@ -84,9 +80,6 @@ class BelongsTo extends ComponentsSelect
 
     /**
      * Determine if the subtitle should be shown.
-     *
-     * @param  bool  $condition
-     * @return static
      */
     public function withSubtitle(bool $condition = true): static
     {
@@ -99,7 +92,6 @@ class BelongsTo extends ComponentsSelect
      * Make the field searchable and use laravel scout if available.
      *
      * @param  class-string<Model>  $model
-     * @return static
      */
     protected function tryScout(string $model): static
     {
@@ -142,8 +134,6 @@ class BelongsTo extends ComponentsSelect
      * Use the blade to make the results.
      *
      * @param  Model|User|Nameable|HasSubtitle  $model
-     * @param  bool  $withSubtitle
-     * @return string
      */
     public static function getSearchLabelWithBlade($model, bool $withSubtitle = true): string
     {

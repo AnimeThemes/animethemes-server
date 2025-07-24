@@ -38,8 +38,6 @@ class ReportStep extends BaseResource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
@@ -49,8 +47,6 @@ class ReportStep extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -62,8 +58,6 @@ class ReportStep extends BaseResource
     /**
      * The logical group associated with the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
@@ -73,8 +67,6 @@ class ReportStep extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -119,9 +111,6 @@ class ReportStep extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function form(Schema $schema): Schema
@@ -159,9 +148,6 @@ class ReportStep extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

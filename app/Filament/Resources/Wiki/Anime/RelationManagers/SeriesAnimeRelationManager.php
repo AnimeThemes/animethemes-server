@@ -13,8 +13,6 @@ class SeriesAnimeRelationManager extends SeriesRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Anime::RELATION_SERIES;
 

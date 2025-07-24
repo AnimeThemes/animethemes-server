@@ -12,8 +12,6 @@ class AnimeThemeEntryVideoTab extends BaseTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -22,8 +20,6 @@ class AnimeThemeEntryVideoTab extends BaseTab
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

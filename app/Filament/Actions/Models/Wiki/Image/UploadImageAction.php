@@ -102,7 +102,6 @@ class UploadImageAction extends BaseAction
      * Get the facets available for the action.
      *
      * @param  ImageFacet[]  $facets
-     * @return static
      */
     public function facets(array $facets): static
     {

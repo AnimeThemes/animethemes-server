@@ -62,9 +62,7 @@ class UploadScriptAction extends UploadAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return UploadScript
      */
     protected function storageAction(?Model $record, array $data): UploadScript
     {
@@ -81,8 +79,6 @@ class UploadScriptAction extends UploadAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

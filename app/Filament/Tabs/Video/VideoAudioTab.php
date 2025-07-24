@@ -13,8 +13,6 @@ class VideoAudioTab extends BaseTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -23,8 +21,6 @@ class VideoAudioTab extends BaseTab
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -48,8 +44,6 @@ class VideoAudioTab extends BaseTab
 
     /**
      * Get the badge for the tab.
-     *
-     * @return int
      */
     public function getBadge(): int
     {

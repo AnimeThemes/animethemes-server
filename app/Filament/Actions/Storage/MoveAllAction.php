@@ -125,8 +125,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Resolve an action.
-     *
-     * @param  MoveAction  $action
      */
     protected function resolveAction(MoveAction $action): void
     {
@@ -145,8 +143,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Get the video.
-     *
-     * @return Video|null
      */
     protected function getVideo(): ?Video
     {
@@ -159,8 +155,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Resolve the default value for the path field of the video.
-     *
-     * @return string|null
      */
     protected function videoDefaultPath(): ?string
     {
@@ -173,8 +167,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Resolve the default value for the path field of the audio.
-     *
-     * @return string|null
      */
     protected function audioDefaultPath(): ?string
     {
@@ -189,8 +181,6 @@ class MoveAllAction extends BaseAction
 
     /**
      * Resolve the default value for the path field of the script.
-     *
-     * @return string|null
      */
     protected function scriptDefaultPath(): ?string
     {

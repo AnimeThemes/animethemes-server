@@ -25,9 +25,7 @@ abstract class DeleteBulkAction extends StorageBulkAction
     /**
      * Get the underlying storage action.
      *
-     * @param  BaseModel  $model
      * @param  array<string, mixed>  $data
-     * @return BaseDeleteAction
      */
     abstract protected function storageAction(BaseModel $model, array $data): BaseDeleteAction;
 }

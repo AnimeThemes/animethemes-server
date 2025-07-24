@@ -11,8 +11,6 @@ class AnimeSmallCoverTab extends AnimeImageTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -21,8 +19,6 @@ class AnimeSmallCoverTab extends AnimeImageTab
 
     /**
      * The image facet.
-     *
-     * @return ImageFacet
      */
     protected static function facet(): ImageFacet
     {

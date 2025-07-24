@@ -17,7 +17,7 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
     /**
      * Get the pivot components of the relation.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getPivotComponents(): array
     {
@@ -37,8 +37,6 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
 
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Artist::RELATION_PERFORMANCES;
 

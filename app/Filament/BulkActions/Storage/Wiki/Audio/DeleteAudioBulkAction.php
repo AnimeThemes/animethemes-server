@@ -37,7 +37,6 @@ class DeleteAudioBulkAction extends DeleteBulkAction
      *
      * @param  Audio  $audio
      * @param  array<string, mixed>  $data
-     * @return DeleteAudio
      */
     protected function storageAction(BaseModel $audio, array $data): DeleteAudio
     {

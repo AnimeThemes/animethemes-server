@@ -38,7 +38,6 @@ class DeleteVideoBulkAction extends DeleteBulkAction
      *
      * @param  Video  $video
      * @param  array<string, mixed>  $data
-     * @return DeleteVideo
      */
     protected function storageAction(BaseModel $video, array $data): DeleteVideo
     {

@@ -40,7 +40,6 @@ class MoveAudioAction extends MoveAction
      *
      * @param  Audio  $audio
      * @param  array<string, mixed>  $data
-     * @return MoveAudio
      */
     protected function storageAction(?Model $audio, array $data): MoveAudio
     {
@@ -52,8 +51,6 @@ class MoveAudioAction extends MoveAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {
@@ -62,8 +59,6 @@ class MoveAudioAction extends MoveAction
 
     /**
      * Resolve the default value for the path field.
-     *
-     * @return string|null
      */
     protected function defaultPath(): ?string
     {
@@ -76,8 +71,6 @@ class MoveAudioAction extends MoveAction
 
     /**
      * The file extension that the path must end with.
-     *
-     * @return string
      */
     protected function allowedFileExtension(): string
     {

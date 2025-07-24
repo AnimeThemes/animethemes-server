@@ -14,15 +14,11 @@ abstract class ArtistImageTab extends BaseTab
 {
     /**
      * The image facet.
-     *
-     * @return ImageFacet
      */
     abstract protected static function facet(): ImageFacet;
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -16,10 +16,7 @@ class Select extends ComponentsSelect
     /**
      * Use laravel scout to make fields searchable.
      *
-     * @param  mixed  $livewire
      * @param  class-string<Model>  $model
-     * @param  string|null  $loadRelation
-     * @return static
      */
     public function useScout(mixed $livewire, string $model, ?string $loadRelation = null): static
     {

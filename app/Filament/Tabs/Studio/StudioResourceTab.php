@@ -14,15 +14,11 @@ abstract class StudioResourceTab extends BaseTab
 {
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     abstract protected static function site(): ResourceSite;
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

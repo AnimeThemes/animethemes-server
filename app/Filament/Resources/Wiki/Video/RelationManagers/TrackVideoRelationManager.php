@@ -13,8 +13,6 @@ class TrackVideoRelationManager extends TrackRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Video::RELATION_TRACKS;
 

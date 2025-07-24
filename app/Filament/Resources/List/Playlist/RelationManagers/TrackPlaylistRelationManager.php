@@ -13,8 +13,6 @@ class TrackPlaylistRelationManager extends TrackRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Playlist::RELATION_TRACKS;
 

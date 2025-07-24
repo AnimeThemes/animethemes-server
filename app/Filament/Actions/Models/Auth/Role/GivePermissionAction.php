@@ -39,7 +39,6 @@ class GivePermissionAction extends BaseAction
     /**
      * Perform the action on the given model.
      *
-     * @param  Role  $role
      * @param  array<string, mixed>  $data
      */
     public function handle(Role $role, array $data): void

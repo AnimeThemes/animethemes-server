@@ -18,15 +18,13 @@ class StudioResourceRelationManager extends StudioRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = ExternalResource::RELATION_STUDIOS;
 
     /**
      * Get the pivot components of the relation.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getPivotComponents(): array
     {
@@ -40,7 +38,7 @@ class StudioResourceRelationManager extends StudioRelationManager
     /**
      * Get the pivot columns of the relation.
      *
-     * @return array<int, Column>
+     * @return Column[]
      */
     public function getPivotColumns(): array
     {

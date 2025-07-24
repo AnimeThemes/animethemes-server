@@ -57,9 +57,6 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
 
     /**
      * Get the form for the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): ?Schema
     {

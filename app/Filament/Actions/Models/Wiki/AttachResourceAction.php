@@ -20,7 +20,7 @@ abstract class AttachResourceAction extends BaseAction
     /**
      * The sites available for the action.
      *
-     * @var array<int, ResourceSite>
+     * @var ResourceSite[]
      */
     protected array $sites = [];
 
@@ -80,7 +80,6 @@ abstract class AttachResourceAction extends BaseAction
      * Get the sites available for the action.
      *
      * @param  ResourceSite[]  $sites
-     * @return static
      */
     public function sites($sites): static
     {

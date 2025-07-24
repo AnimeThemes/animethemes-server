@@ -13,8 +13,6 @@ class PlaylistImageRelationManager extends PlaylistRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Image::RELATION_PLAYLISTS;
 

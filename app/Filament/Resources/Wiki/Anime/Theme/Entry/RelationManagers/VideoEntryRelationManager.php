@@ -13,8 +13,6 @@ class VideoEntryRelationManager extends VideoRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = AnimeThemeEntry::RELATION_VIDEOS;
 

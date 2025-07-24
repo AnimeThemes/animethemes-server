@@ -11,8 +11,6 @@ class SongAmazonMusicResourceTab extends SongResourceTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -21,8 +19,6 @@ class SongAmazonMusicResourceTab extends SongResourceTab
 
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     protected static function site(): ResourceSite
     {

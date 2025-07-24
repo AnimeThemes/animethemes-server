@@ -31,9 +31,6 @@ class BaseChartWidget extends ApexChartWidget
 
     /**
      * Translate the dates.
-     *
-     * @param  string  $date
-     * @return string
      */
     protected function translateDate(string $date): string
     {

@@ -13,16 +13,11 @@ class SynonymAnimeRelationManager extends SynonymRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Anime::RELATION_SYNONYMS;
 
     /**
-     * The index page of the Synonym.
-     *
-     * @param  Table  $table
-     * @return Table
+     * The index page of the resource.
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

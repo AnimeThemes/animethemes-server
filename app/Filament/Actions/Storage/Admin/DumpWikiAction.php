@@ -31,7 +31,6 @@ class DumpWikiAction extends DumpAction
      * Get the underlying action.
      *
      * @param  array<string, mixed>  $data
-     * @return DumpDatabase
      */
     protected function storageAction(array $data): DumpDatabase
     {

@@ -37,7 +37,6 @@ class DeleteAudioAction extends DeleteAction
      *
      * @param  Audio  $audio
      * @param  array<string, mixed>  $data
-     * @return DeleteAudio
      */
     protected function storageAction(?Model $audio, array $data): DeleteAudio
     {

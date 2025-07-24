@@ -54,9 +54,7 @@ class UploadAudioAction extends UploadAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return UploadAudio
      */
     protected function storageAction(?Model $record, array $data): UploadAudio
     {
@@ -71,8 +69,6 @@ class UploadAudioAction extends UploadAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

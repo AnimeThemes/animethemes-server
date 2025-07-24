@@ -41,9 +41,7 @@ abstract class PruneAction extends StorageAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return BasePruneAction
      */
     abstract protected function storageAction(?Model $record, array $data): BasePruneAction;
 }

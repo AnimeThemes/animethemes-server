@@ -34,7 +34,7 @@ abstract class RoleRelationManager extends BaseRelationManager
     /**
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -57,7 +57,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     /**
      * Perform the action on the given models.
      *
-     * @param  Studio  $studio
      * @param  array<string, mixed>  $data
      */
     public function handle(Studio $studio, array $data): void

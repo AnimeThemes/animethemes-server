@@ -40,7 +40,6 @@ class MoveVideoAction extends MoveAction
      *
      * @param  Video  $video
      * @param  array<string, mixed>  $data
-     * @return MoveVideo
      */
     protected function storageAction(?Model $video, array $data): MoveVideo
     {
@@ -52,8 +51,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {
@@ -62,8 +59,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * Resolve the default value for the path field.
-     *
-     * @return string|null
      */
     protected function defaultPath(): ?string
     {
@@ -76,8 +71,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * The file extension that the path must end with.
-     *
-     * @return string
      */
     protected function allowedFileExtension(): string
     {

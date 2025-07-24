@@ -14,9 +14,7 @@ abstract class StorageBulkAction extends BaseBulkAction
     /**
      * Get the underlying storage action.
      *
-     * @param  BaseModel  $model
      * @param  array<string, mixed>  $data
-     * @return BaseStorageAction
      */
     abstract protected function storageAction(BaseModel $model, array $data): BaseStorageAction;
 

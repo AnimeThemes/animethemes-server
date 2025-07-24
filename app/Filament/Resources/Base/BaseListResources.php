@@ -14,7 +14,7 @@ abstract class BaseListResources extends ListRecords
     /**
      * Get the header actions available.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -53,9 +53,6 @@ abstract class BaseListResources extends ListRecords
 
     /**
      * Prepare the search query for Elasticsearch.
-     *
-     * @param  string  $search
-     * @return string
      */
     public function escapeReservedChars(string $search): string
     {

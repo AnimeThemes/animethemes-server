@@ -66,7 +66,6 @@ class BackfillAnimeAction extends BaseAction
     /**
      * Perform the action on the given models.
      *
-     * @param  Anime  $anime
      * @param  array<string, mixed>  $data
      */
     public function handle(Anime $anime, array $data): void

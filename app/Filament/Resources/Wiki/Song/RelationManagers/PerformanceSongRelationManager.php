@@ -19,8 +19,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Song::RELATION_PERFORMANCES;
 

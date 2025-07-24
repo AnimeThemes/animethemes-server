@@ -35,7 +35,7 @@ abstract class ImageRelationManager extends BaseRelationManager
     /**
      * Get the header actions available for the relation.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      */
     public static function getHeaderActions(): array
     {
@@ -48,8 +48,6 @@ abstract class ImageRelationManager extends BaseRelationManager
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public function canCreate(): bool
     {

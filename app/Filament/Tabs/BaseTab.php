@@ -12,20 +12,8 @@ abstract class BaseTab extends Tab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     abstract public static function getSlug(): string;
-
-    /**
-     * Get the displayable name of the tab.
-     *
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->getLabel();
-    }
 
     /**
      * The query used to refine the models for the tab.
@@ -42,8 +30,6 @@ abstract class BaseTab extends Tab
 
     /**
      * Get the badge for the tab.
-     *
-     * @return mixed
      */
     public function count(): mixed
     {
@@ -58,8 +44,6 @@ abstract class BaseTab extends Tab
 
     /**
      * Determine if the tab should be hidden.
-     *
-     * @return bool
      */
     public function shouldBeHidden(): bool
     {

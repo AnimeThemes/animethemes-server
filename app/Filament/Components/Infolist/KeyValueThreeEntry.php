@@ -43,9 +43,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Set the label for the left column.
-     *
-     * @param  string|Closure|null  $label
-     * @return static
      */
     public function leftLabel(string|Closure|null $label): static
     {
@@ -56,9 +53,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Set the label for the middle column.
-     *
-     * @param  string|Closure|null  $label
-     * @return static
      */
     public function middleLabel(string|Closure|null $label): static
     {
@@ -69,9 +63,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Set the label for the right column.
-     *
-     * @param  string|Closure|null  $label
-     * @return static
      */
     public function rightLabel(string|Closure|null $label): static
     {
@@ -82,8 +73,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Get the label for the left column.
-     *
-     * @return string
      */
     public function getLeftLabel(): string
     {
@@ -92,8 +81,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Get the label for the left column.
-     *
-     * @return string
      */
     public function getMiddleLabel(): string
     {
@@ -102,8 +89,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Get the label for the left column.
-     *
-     * @return string
      */
     public function getRightLabel(): string
     {

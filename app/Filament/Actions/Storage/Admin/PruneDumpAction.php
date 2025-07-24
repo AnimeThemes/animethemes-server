@@ -36,9 +36,7 @@ class PruneDumpAction extends PruneAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return PruneDump
      */
     protected function storageAction(?Model $record, array $data): PruneDump
     {

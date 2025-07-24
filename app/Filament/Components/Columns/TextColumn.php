@@ -10,9 +10,6 @@ class TextColumn extends ColumnsTextColumn
 {
     /**
      * Make the column copyable.
-     *
-     * @param  bool  $condition
-     * @return static
      */
     public function copyableWithMessage(bool $condition = true): static
     {

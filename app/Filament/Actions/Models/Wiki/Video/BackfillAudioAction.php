@@ -55,7 +55,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     /**
      * Perform the action on the given models.
      *
-     * @param  Video  $video
      * @param  array<string, mixed>  $data
      */
     public function handle(Video $video, array $data): void

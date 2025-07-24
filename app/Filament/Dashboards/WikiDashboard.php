@@ -15,9 +15,6 @@ class WikiDashboard extends BaseDashboard
 {
     /**
      * Get the slug used to the dashboard route path.
-     *
-     * @param  Panel|null  $panel
-     * @return string
      */
     public static function getSlug(?Panel $panel = null): string
     {
@@ -26,8 +23,6 @@ class WikiDashboard extends BaseDashboard
 
     /**
      * Get the displayed label for the dashboard.
-     *
-     * @return string
      */
     public static function getNavigationLabel(): string
     {
@@ -36,8 +31,6 @@ class WikiDashboard extends BaseDashboard
 
     /**
      * Get the icon for the dashboard.
-     *
-     * @return string
      */
     public static function getNavigationIcon(): string
     {

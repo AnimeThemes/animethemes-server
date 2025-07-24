@@ -53,7 +53,6 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $record
      * @param  array<string, mixed>  $data
      * @return BaseMoveAction
      */
@@ -61,15 +60,11 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
 
     /**
      * Resolve the default value for the path field.
-     *
-     * @return string|null
      */
     abstract protected function defaultPath(): ?string;
 
     /**
      * The file extension that the path must end with.
-     *
-     * @return string
      */
     abstract protected function allowedFileExtension(): string;
 }

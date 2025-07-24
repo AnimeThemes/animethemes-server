@@ -35,8 +35,6 @@ class ActionLogRelationManager extends BaseRelationManager
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public function canCreate(): bool
     {

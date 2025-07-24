@@ -15,8 +15,6 @@ class UserRoleRelationManager extends UserRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Role::RELATION_USERS;
 

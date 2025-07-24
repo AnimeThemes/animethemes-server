@@ -40,8 +40,6 @@ class AssignHashidsAction extends BaseAction
 
     /**
      * Perform the action on the given models.
-     *
-     * @param  BaseModel  $model
      */
     public function handle(BaseModel $model): void
     {
@@ -58,9 +56,6 @@ class AssignHashidsAction extends BaseAction
 
     /**
      * Set the connection.
-     *
-     * @param  string|null  $connection
-     * @return static
      */
     public function setConnection(?string $connection): static
     {

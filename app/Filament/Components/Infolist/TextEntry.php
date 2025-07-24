@@ -10,9 +10,6 @@ class TextEntry extends ComponentsTextEntry
 {
     /**
      * Make the entry copyable.
-     *
-     * @param  bool  $condition
-     * @return static
      */
     public function copyableWithMessage(bool $condition = true): static
     {

@@ -48,8 +48,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

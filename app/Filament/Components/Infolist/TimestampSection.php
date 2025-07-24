@@ -12,8 +12,6 @@ class TimestampSection
 {
     /**
      * Create a section for displaying timestamps.
-     *
-     * @return Section
      */
     public static function make(): Section
     {

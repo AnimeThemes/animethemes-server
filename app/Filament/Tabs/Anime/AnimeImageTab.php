@@ -14,15 +14,11 @@ abstract class AnimeImageTab extends BaseTab
 {
     /**
      * The image facet.
-     *
-     * @return ImageFacet
      */
     abstract protected static function facet(): ImageFacet;
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -46,8 +42,6 @@ abstract class AnimeImageTab extends BaseTab
 
     /**
      * Get the badge for the tab.
-     *
-     * @return int
      */
     public function getBadge(): int
     {

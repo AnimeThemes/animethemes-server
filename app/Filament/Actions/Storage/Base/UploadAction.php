@@ -61,9 +61,7 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return BaseUploadAction
      */
     abstract protected function storageAction(?Model $record, array $data): BaseUploadAction;
 

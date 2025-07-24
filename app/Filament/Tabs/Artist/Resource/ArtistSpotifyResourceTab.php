@@ -11,8 +11,6 @@ class ArtistSpotifyResourceTab extends ArtistResourceTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -21,8 +19,6 @@ class ArtistSpotifyResourceTab extends ArtistResourceTab
 
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     protected static function site(): ResourceSite
     {

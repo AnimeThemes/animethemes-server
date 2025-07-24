@@ -26,7 +26,6 @@ abstract class DeleteAction extends StorageAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
      * @return BaseDeleteAction
      */

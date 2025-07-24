@@ -11,8 +11,6 @@ class TextInput extends BaseTextInput
 {
     /**
      * Set the field to be a URI input.
-     *
-     * @return static
      */
     public function uri(): static
     {

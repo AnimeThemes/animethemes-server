@@ -90,7 +90,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @return array<int, \Filament\Tables\Filters\BaseFilter>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -143,7 +143,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the record actions exclusive to the resource.
      *
-     * @return array<int, Action>
+     * @return Action[]
      */
     public static function getRecordActions(): array
     {

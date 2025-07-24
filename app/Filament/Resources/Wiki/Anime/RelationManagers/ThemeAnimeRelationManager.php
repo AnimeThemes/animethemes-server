@@ -13,16 +13,11 @@ class ThemeAnimeRelationManager extends ThemeRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Anime::RELATION_THEMES;
 
     /**
-     * The index page of the Theme.
-     *
-     * @param  Table  $table
-     * @return Table
+     * The index page of the resource.
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
