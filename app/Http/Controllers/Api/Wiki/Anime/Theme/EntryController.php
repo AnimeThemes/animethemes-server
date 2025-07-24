@@ -24,9 +24,6 @@ use Illuminate\Http\JsonResponse;
 
 class EntryController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeThemeEntry::class, 'animethemeentry');

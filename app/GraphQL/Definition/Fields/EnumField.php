@@ -15,14 +15,6 @@ use Nuwave\Lighthouse\Schema\TypeRegistry;
 
 abstract class EnumField extends Field implements DisplayableField, FilterableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  string  $column
-     * @param  string  $enum
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         public string $column,
         public string $enum,

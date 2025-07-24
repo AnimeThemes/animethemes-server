@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FieldCriteria extends Criteria
 {
-    /**
-     * Create a new criteria instance.
-     */
     public function __construct(Scope $scope, string $field, protected readonly Direction $direction)
     {
         parent::__construct($scope, $field);

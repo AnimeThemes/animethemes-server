@@ -13,12 +13,6 @@ use App\Http\Api\Schema\Schema;
 
 abstract class CountField extends AggregateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $relation
-     */
     public function __construct(Schema $schema, string $relation)
     {
         parent::__construct($schema, $relation, AggregateFunction::COUNT, '*');
@@ -26,8 +20,6 @@ abstract class CountField extends AggregateField
 
     /**
      * Get the filters that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {

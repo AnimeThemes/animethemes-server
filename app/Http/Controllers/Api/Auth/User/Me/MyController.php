@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Auth;
 class MyController extends BaseController
 {
     /**
-     * Create a new controller instance.
-     *
      * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct()

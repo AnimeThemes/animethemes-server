@@ -43,8 +43,6 @@ abstract class BaseRestoredEvent extends BaseEvent implements DiscordMessageEven
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {

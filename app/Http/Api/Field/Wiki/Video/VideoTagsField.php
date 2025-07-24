@@ -30,9 +30,6 @@ class VideoTagsField extends Field implements RenderableField
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return string
      */
     public function render(Model $model): string
     {

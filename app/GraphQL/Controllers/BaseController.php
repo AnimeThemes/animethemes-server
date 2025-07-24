@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Validator;
 abstract class BaseController
 {
     /**
-     * Create a new controller instance.
-     *
      * @param  StoreAction<TModel>  $storeAction
      * @param  UpdateAction<TModel>  $updateAction
      * @param  DestroyAction<TModel>  $destroyAction

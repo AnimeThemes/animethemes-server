@@ -29,9 +29,6 @@ use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class ExternalProfileController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalProfile::class, 'externalprofile');

@@ -24,9 +24,6 @@ use Illuminate\Http\JsonResponse;
 
 class ExternalResourceController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalResource::class, 'resource');

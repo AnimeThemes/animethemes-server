@@ -24,9 +24,6 @@ return new class extends Migration
      */
     protected mixed $table;
 
-    /**
-     * Create a new migration instance.
-     */
     public function __construct()
     {
         $this->schema = Schema::connection(

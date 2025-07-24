@@ -24,8 +24,6 @@ class AudioViewCountField extends AggregateField
 
     /**
      * Get the filters that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -50,8 +48,6 @@ class AudioViewCountField extends AggregateField
 
     /**
      * Format the aggregate value to its sub-select alias / model attribute.
-     *
-     * @return string
      */
     public function alias(): string
     {

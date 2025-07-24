@@ -24,9 +24,6 @@ use Illuminate\Http\JsonResponse;
 
 class StudioResourceController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Studio::class, 'studio', ExternalResource::class, 'resource');

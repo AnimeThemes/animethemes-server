@@ -13,14 +13,6 @@ use GraphQL\Type\Definition\Type;
 #[UseField(CountAggregateResolver::class)]
 class CountAggregateField extends Field implements DisplayableField
 {
-    /**
-     * Create a new Field instance.
-     *
-     * @param  string  $aggregateRelation
-     * @param  string  $column
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         protected string $aggregateRelation,
         protected string $column,

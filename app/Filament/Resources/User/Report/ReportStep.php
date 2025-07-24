@@ -202,10 +202,6 @@ class ReportStep extends BaseResource
 
     /**
      * The title of the report step.
-     *
-     * @param  ReportStepModel  $record
-     * @param  ReportActionType  $state
-     * @return string
      */
     protected static function getActionName(ReportStepModel $record, ReportActionType $state): string
     {

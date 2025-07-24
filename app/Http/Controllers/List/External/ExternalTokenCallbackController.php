@@ -19,9 +19,6 @@ use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class ExternalTokenCallbackController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)

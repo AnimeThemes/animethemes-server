@@ -36,11 +36,6 @@ class SearchResource extends JsonResource
      */
     public static $wrap = 'search';
 
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Query  $query
-     */
     public function __construct(protected readonly Query $query)
     {
         parent::__construct(new MissingValue());

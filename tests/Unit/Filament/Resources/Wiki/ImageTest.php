@@ -20,8 +20,6 @@ class ImageTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -32,8 +30,6 @@ class ImageTest extends BaseResourceTestCase
 
     /**
      * Get the edit page class of the resource.
-     *
-     * @return string
      */
     protected static function getEditPage(): string
     {
@@ -44,8 +40,6 @@ class ImageTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {

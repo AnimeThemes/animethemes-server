@@ -46,10 +46,6 @@ class TrackNextHashidsField extends Field implements CreatableField, UpdatableFi
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function shouldSelect(Query $query, Schema $schema): bool

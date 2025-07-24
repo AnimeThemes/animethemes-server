@@ -19,9 +19,6 @@ use App\Models\Admin\Feature;
 
 class FeatureController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Feature::class, 'feature');

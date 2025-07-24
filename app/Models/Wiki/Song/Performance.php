@@ -129,8 +129,6 @@ class Performance extends BaseModel implements SoftDeletable
 
     /**
      * Determine if the performance is a membership.
-     *
-     * @return bool
      */
     public function isMembership(): bool
     {

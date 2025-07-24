@@ -20,8 +20,6 @@ class YearController extends Controller implements InteractsWithSchema
 {
     /**
      * Display a listing of unique years of anime.
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -35,10 +33,6 @@ class YearController extends Controller implements InteractsWithSchema
 
     /**
      * Display a listing of anime of year by season.
-     *
-     * @param  YearShowRequest  $request
-     * @param  string  $year
-     * @return JsonResponse
      */
     public function show(YearShowRequest $request, string $year): JsonResponse
     {

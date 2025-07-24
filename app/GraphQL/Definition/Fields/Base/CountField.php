@@ -10,14 +10,6 @@ use GraphQL\Type\Definition\Type;
 
 class CountField extends Field implements DisplayableField
 {
-    /**
-     * Create a new Field instance.
-     *
-     * @param  string  $relation
-     * @param  string  $column
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         protected string $relation,
         protected string $column,

@@ -18,9 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MyExternalProfileController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $this->middleware(Authenticate::using('sanctum'));

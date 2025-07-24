@@ -18,9 +18,6 @@ use App\Models\List\ExternalProfile;
 
 class ExternalEntryController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalEntry::class, 'externalentry,externalprofile');

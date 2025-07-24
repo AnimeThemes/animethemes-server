@@ -48,8 +48,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
 
     /**
      * Get the column that the field should use to bind.
-     *
-     * @return string
      */
     public function bindUsingColumn(): string
     {

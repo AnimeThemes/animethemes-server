@@ -22,9 +22,6 @@ use Illuminate\Http\JsonResponse;
 
 class AnimeThemeEntryVideoController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeThemeEntry::class, 'animethemeentry', Video::class, 'video');

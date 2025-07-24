@@ -31,8 +31,6 @@ class HasFilterTest extends TestCase
         {
             /**
              * Get the type of the resource.
-             *
-             * @return string
              */
             public function type(): string
             {
@@ -81,8 +79,6 @@ class HasFilterTest extends TestCase
         {
             /**
              * Get the type of the resource.
-             *
-             * @return string
              */
             public function type(): string
             {

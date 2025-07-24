@@ -41,8 +41,6 @@ abstract class BaseDeletedEvent extends BaseEvent implements DiscordMessageEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {

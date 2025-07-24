@@ -13,8 +13,6 @@ use Illuminate\Validation\Rule;
 class HasFilter extends Filter
 {
     /**
-     * Create a new filter instance.
-     *
      * @param  AllowedInclude[]  $allowedIncludePaths
      */
     public function __construct(protected readonly array $allowedIncludePaths)

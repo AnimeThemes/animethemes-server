@@ -24,9 +24,6 @@ use Illuminate\Http\JsonResponse;
 
 class SynonymController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeSynonym::class, 'animesynonym');

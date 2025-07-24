@@ -63,8 +63,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
 
     /**
      * Get dependent start_at field.
-     *
-     * @return string|null
      */
     private function resolveStartAt(Request $request): ?string
     {

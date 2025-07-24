@@ -27,9 +27,6 @@ use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class PlaylistImageController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::class, 'playlist', Image::class, 'image');

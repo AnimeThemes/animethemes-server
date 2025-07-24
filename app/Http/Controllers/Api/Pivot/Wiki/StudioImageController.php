@@ -22,9 +22,6 @@ use Illuminate\Http\JsonResponse;
 
 class StudioImageController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Studio::class, 'studio', Image::class, 'image');

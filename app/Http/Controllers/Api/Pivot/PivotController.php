@@ -13,14 +13,6 @@ use Illuminate\Support\Str;
 
 abstract class PivotController extends Controller implements InteractsWithSchema
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @param  string  $foreignModel
-     * @param  string  $foreignParameter
-     * @param  string  $relatedModel
-     * @param  string  $relatedParameter
-     */
     public function __construct(string $foreignModel, string $foreignParameter, string $relatedModel, string $relatedParameter)
     {
         $this->middleware(AuthorizesPivot::class.":{$foreignModel},{$foreignParameter},{$relatedModel},{$relatedParameter}");

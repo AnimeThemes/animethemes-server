@@ -22,8 +22,6 @@ abstract class BaseEvent
     protected ?User $authenticatedUser;
 
     /**
-     * Create a new event instance.
-     *
      * @param  TModel&Nameable  $model
      */
     public function __construct(protected Model&Nameable $model)

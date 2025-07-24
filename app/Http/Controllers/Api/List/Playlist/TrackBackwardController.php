@@ -17,9 +17,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 
 class TrackBackwardController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::class, 'track,playlist');

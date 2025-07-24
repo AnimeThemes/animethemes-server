@@ -22,9 +22,6 @@ use Illuminate\Http\JsonResponse;
 
 class AnimeStudioController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::class, 'anime', Studio::class, 'studio');

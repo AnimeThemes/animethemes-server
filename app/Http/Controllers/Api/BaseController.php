@@ -13,12 +13,6 @@ use Illuminate\Support\Str;
 
 abstract class BaseController extends Controller implements InteractsWithSchema
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @param  string  $model
-     * @param  string  $parameter
-     */
     public function __construct(string $model, string $parameter)
     {
         $this->authorizeResource($model, $parameter);

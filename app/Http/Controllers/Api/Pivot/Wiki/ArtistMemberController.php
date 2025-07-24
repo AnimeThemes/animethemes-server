@@ -23,9 +23,6 @@ use Illuminate\Http\JsonResponse;
 
 class ArtistMemberController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Artist::class, 'artist', Artist::class, 'member');

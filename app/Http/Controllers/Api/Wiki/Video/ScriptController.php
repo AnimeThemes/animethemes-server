@@ -24,9 +24,6 @@ use Illuminate\Http\JsonResponse;
 
 class ScriptController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(VideoScript::class, 'videoscript');

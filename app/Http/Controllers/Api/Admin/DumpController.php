@@ -22,9 +22,6 @@ use Illuminate\Http\JsonResponse;
 
 class DumpController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Dump::class, 'dump');

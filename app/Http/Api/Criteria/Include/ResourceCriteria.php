@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 class ResourceCriteria extends Criteria
 {
     /**
-     * @param  string  $type
      * @param  Collection<int, string>  $paths
      */
     public function __construct(protected readonly string $type, Collection $paths)

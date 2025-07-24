@@ -54,8 +54,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
 
     /**
      * Resolve link field from request.
-     *
-     * @return string
      */
     protected function resolveLink(Request $request): string
     {

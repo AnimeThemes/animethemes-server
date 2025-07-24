@@ -14,8 +14,6 @@ use Illuminate\Support\Str;
 class NodeField extends Field implements DisplayableField
 {
     /**
-     * Create a new field instance.
-     *
      * @param  class-string<EloquentType>  $nodeType
      */
     public function __construct(

@@ -83,8 +83,6 @@ class Exception extends ExceptionResource
 
     /**
      * Determine if the user can access the table.
-     *
-     * @return bool
      */
     public static function canViewAny(): bool
     {

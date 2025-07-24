@@ -68,9 +68,6 @@ use Illuminate\Support\Str;
 if (! function_exists('apiResource')) {
     /**
      * API resource route registration with soft-delete routes.
-     *
-     * @param  string  $name
-     * @param  string  $controller
      */
     function apiResource(string $name, string $controller): void
     {
@@ -89,10 +86,6 @@ if (! function_exists('apiResource')) {
 if (! function_exists('apiResourceWhere')) {
     /**
      * API resource route registration with soft-delete routes & custom constraints.
-     *
-     * @param  string  $name
-     * @param  string  $controller
-     * @param  mixed  $wheres
      */
     function apiResourceWhere(string $name, string $controller, mixed $wheres): void
     {
@@ -115,9 +108,6 @@ if (! function_exists('apiResourceWhere')) {
 if (! function_exists('apiScopedResource')) {
     /**
      * API scoped resource route registration with soft-delete routes.
-     *
-     * @param  string  $name
-     * @param  string  $controller
      */
     function apiScopedResource(string $name, string $controller): void
     {
@@ -141,10 +131,6 @@ if (! function_exists('apiResourceUri')) {
     /**
      * Uri for ability.
      * Note: Route model binding is not resolved correctly for "ability/$name/{$name}" so we need a string builder.
-     *
-     * @param  string  $ability
-     * @param  string  $name
-     * @return string
      */
     function apiResourceUri(string $ability, string $name): string
     {
@@ -167,11 +153,6 @@ if (! function_exists('apiResourceUri')) {
 if (! function_exists('apiPivotResource')) {
     /**
      * API pivot resource route registration.
-     *
-     * @param  string  $name
-     * @param  string  $related
-     * @param  string  $foreign
-     * @param  string  $controller
      */
     function apiPivotResource(string $name, string $related, string $foreign, string $controller): void
     {
@@ -185,11 +166,6 @@ if (! function_exists('apiPivotResource')) {
 if (! function_exists('apiEditablePivotResource')) {
     /**
      * API pivot resource route registration with update action.
-     *
-     * @param  string  $name
-     * @param  string  $related
-     * @param  string  $foreign
-     * @param  string  $controller
      */
     function apiEditablePivotResource(string $name, string $related, string $foreign, string $controller): void
     {
@@ -202,11 +178,6 @@ if (! function_exists('apiPivotResourceUri')) {
     /**
      * Uri for ability.
      * Note: Route model binding is not resolved correctly for "$name/{$related}/{$foreign}" so we need a string builder.
-     *
-     * @param  string  $name
-     * @param  string  $related
-     * @param  string  $foreign
-     * @return string
      */
     function apiPivotResourceUri(string $name, string $related, string $foreign): string
     {

@@ -22,9 +22,6 @@ use Illuminate\Http\JsonResponse;
 
 class AnnouncementController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Announcement::class, 'announcement');

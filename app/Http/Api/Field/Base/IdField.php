@@ -11,12 +11,6 @@ use App\Http\Resources\BaseResource;
 
 class IdField extends IntField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $column
-     */
     public function __construct(Schema $schema, string $column)
     {
         parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);

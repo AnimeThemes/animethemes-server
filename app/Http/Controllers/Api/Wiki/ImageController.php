@@ -24,9 +24,6 @@ use Illuminate\Http\JsonResponse;
 
 class ImageController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Image::class, 'image');

@@ -26,8 +26,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     protected ?User $authenticatedUser;
 
     /**
-     * Create a new event instance.
-     *
      * @param  TModelRelated&Nameable  $related
      * @param  TModelForeign&Nameable  $foreign
      */
@@ -85,8 +83,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
 
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {
@@ -95,8 +91,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {

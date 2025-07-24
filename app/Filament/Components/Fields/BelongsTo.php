@@ -146,9 +146,6 @@ class BelongsTo extends ComponentsSelect
 
     /**
      * Prepare the search query for Elasticsearch.
-     *
-     * @param  string  $search
-     * @return string
      */
     public function escapeReservedChars(string $search): string
     {
