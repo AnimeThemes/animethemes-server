@@ -111,6 +111,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Eager load the aggregate value for the query builder.
+     *
      * @param  Builder  $builder
      * @return Builder
      */
