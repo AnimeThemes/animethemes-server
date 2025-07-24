@@ -36,8 +36,6 @@ class ArtistImage extends BasePivot
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected $table = ArtistImage::TABLE;
 

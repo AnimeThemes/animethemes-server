@@ -34,8 +34,6 @@ class PlaylistImage extends BasePivot
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected $table = PlaylistImage::TABLE;
 

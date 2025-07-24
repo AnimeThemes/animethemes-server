@@ -25,16 +25,11 @@ abstract class BasePivot extends Pivot
 
     /**
      * The storage format of the model's date columns.
-     *
-     * @var string
      */
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
      * Set the keys for a select query.
-     *
-     * @param  Builder  $query
-     * @return Builder
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

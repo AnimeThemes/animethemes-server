@@ -48,8 +48,6 @@ class ArtistResource extends BasePivot
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected $table = ArtistResource::TABLE;
 

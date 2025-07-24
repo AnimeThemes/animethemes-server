@@ -34,8 +34,6 @@ class AnimeImage extends BasePivot
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected $table = AnimeImage::TABLE;
 

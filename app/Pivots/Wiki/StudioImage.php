@@ -34,8 +34,6 @@ class StudioImage extends BasePivot
 
     /**
      * The table associated with the model.
-     *
-     * @var string
      */
     protected $table = StudioImage::TABLE;
 
