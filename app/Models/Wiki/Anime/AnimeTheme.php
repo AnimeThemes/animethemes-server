@@ -106,7 +106,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => ThemeCreated::class,
@@ -177,8 +177,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -202,8 +200,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -264,10 +260,8 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     /**
      * Get the schema for the model.
-     *
-     * @return Schema
      */
-    public function schema(): Schema
+    public function schema(): ThemeSchema
     {
         return new ThemeSchema();
     }

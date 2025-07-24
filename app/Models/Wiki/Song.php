@@ -74,7 +74,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => SongCreated::class,
@@ -100,8 +100,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -114,8 +112,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

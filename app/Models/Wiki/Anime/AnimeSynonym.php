@@ -63,7 +63,7 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => SynonymCreated::class,
@@ -100,8 +100,6 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -110,8 +108,6 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

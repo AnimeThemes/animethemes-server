@@ -126,8 +126,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * When an exception is thrown, the current action logs should be handled.
-     *
-     * @param  Throwable  $e
      */
     public static function updateCurrentActionLogToFailed(Throwable $e): void
     {
@@ -158,8 +156,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -205,8 +201,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Get the user id for the action log.
-     *
-     * @return int
      */
     public static function getUserId(): int
     {
@@ -215,9 +209,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model created.
-     *
-     * @param  Model  $model
-     * @return ActionLog
      */
     public static function modelCreated(Model $model): ActionLog
     {
@@ -239,9 +230,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model updated.
-     *
-     * @param  Model  $model
-     * @return ActionLog
      */
     public static function modelUpdated(Model $model): ActionLog
     {
@@ -263,9 +251,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model deleted.
-     *
-     * @param  Model  $model
-     * @return ActionLog
      */
     public static function modelDeleted(Model $model): ActionLog
     {
@@ -274,9 +259,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model restored.
-     *
-     * @param  Model  $model
-     * @return ActionLog
      */
     public static function modelRestored(Model $model): ActionLog
     {
@@ -285,10 +267,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model that is soft-deleted.
-     *
-     * @param  string  $actionName
-     * @param  Model  $model
-     * @return ActionLog
      */
     public static function modelSoftDeleted(string $actionName, Model $model): ActionLog
     {
@@ -310,13 +288,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model attached.
-     *
-     * @param  string  $actionName
-     * @param  Model  $related
-     * @param  Model  $parent
-     * @param  Model  $pivot
-     * @param  Action|null  $action
-     * @return ActionLog
      */
     public static function modelPivot(string $actionName, Model $related, Model $parent, Model $pivot, ?Action $action = null): ActionLog
     {
@@ -340,12 +311,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for a model associated (HasMany).
-     *
-     * @param  string  $actionName
-     * @param  Model  $related
-     * @param  Model  $parent
-     * @param  Action  $action
-     * @return ActionLog
      */
     public static function modelAssociated(string $actionName, Model $related, Model $parent, Action $action): ActionLog
     {
@@ -367,11 +332,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Register an action log for when a model has an action executed.
-     *
-     * @param  string  $batchId
-     * @param  Action  $action
-     * @param  Model  $model
-     * @return ActionLog
      */
     public static function modelActioned(string $batchId, Action $action, Model $model): ActionLog
     {
@@ -417,8 +377,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Update the all the models status of a batch to failed.
-     *
-     * @param  Throwable|string|null  $exception
      */
     public function batchFailed(Throwable|string|null $exception = null): void
     {
@@ -441,8 +399,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Update the model status to failed.
-     *
-     * @param  Throwable|string|null  $exception
      */
     public function failed(Throwable|string|null $exception = null): void
     {
@@ -451,8 +407,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Check if the model status is failed.
-     *
-     * @return bool
      */
     public function isFailed(): bool
     {
@@ -461,9 +415,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Update the status of a given action event.
-     *
-     * @param  ActionLogStatus  $status
-     * @param  Throwable|string|null  $exception
      */
     public function updateStatus(ActionLogStatus $status, Throwable|string|null $exception = null): void
     {
@@ -478,7 +429,6 @@ class ActionLog extends Model implements Nameable
      * Format the fields to store.
      *
      * @param  array  $fields
-     * @param  Model|null  $model
      * @return array
      */
     protected static function getFields(array $fields, ?Model $model = null): array

@@ -9,8 +9,6 @@ class BackwardPlaylistTrack extends PlaylistTrack
     /**
      * Get the name of the parent key column.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getParentKeyName(): string

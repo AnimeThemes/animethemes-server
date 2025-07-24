@@ -34,6 +34,8 @@ class PlaylistImage extends BasePivot
 
     /**
      * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = PlaylistImage::TABLE;
 
@@ -65,7 +67,7 @@ class PlaylistImage extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => PlaylistImageCreated::class,

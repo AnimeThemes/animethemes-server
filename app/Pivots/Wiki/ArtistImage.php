@@ -36,6 +36,8 @@ class ArtistImage extends BasePivot
 
     /**
      * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = ArtistImage::TABLE;
 
@@ -68,7 +70,7 @@ class ArtistImage extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => ArtistImageCreated::class,

@@ -80,7 +80,7 @@ class Image extends BaseModel implements SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => ImageCreated::class,
@@ -128,8 +128,6 @@ class Image extends BaseModel implements SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -138,8 +136,6 @@ class Image extends BaseModel implements SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -148,8 +144,6 @@ class Image extends BaseModel implements SoftDeletable
 
     /**
      * The link of the image model.
-     *
-     * @return string|null
      */
     public function getLinkAttribute(): ?string
     {

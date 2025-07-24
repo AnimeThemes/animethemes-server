@@ -113,7 +113,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
@@ -163,8 +163,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -173,8 +171,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -183,9 +179,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Determine if the user can access the filament panel.
-     *
-     * @param  Panel  $panel
-     * @return bool
      */
     public function canAccessPanel(Panel $panel): bool
     {
@@ -195,8 +188,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Get the filament avatar.
-     *
-     * @return string
      */
     public function getFilamentAvatarUrl(): string
     {

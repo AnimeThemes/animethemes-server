@@ -33,8 +33,6 @@ class Permission extends BasePermission implements Nameable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {

@@ -76,7 +76,7 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => AudioCreated::class,
@@ -111,8 +111,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * The link of the audio.
-     *
-     * @return string|null
      */
     public function getLinkAttribute(): ?string
     {
@@ -125,8 +123,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get the route key for the model.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -149,8 +145,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -159,8 +153,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -169,8 +161,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get the path of the streamable model in the filesystem.
-     *
-     * @return string
      */
     public function path(): string
     {
@@ -179,8 +169,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get the basename of the streamable model.
-     *
-     * @return string
      */
     public function basename(): string
     {
@@ -189,8 +177,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get the MIME type / content type of the streamable model.
-     *
-     * @return string
      */
     public function mimetype(): string
     {
@@ -199,8 +185,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 
     /**
      * Get the content length of the streamable model.
-     *
-     * @return int
      */
     public function size(): int
     {

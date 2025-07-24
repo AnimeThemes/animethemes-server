@@ -78,7 +78,7 @@ class DiscordThread extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'deleted' => DiscordThreadDeleted::class,
@@ -87,8 +87,6 @@ class DiscordThread extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -97,8 +95,6 @@ class DiscordThread extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

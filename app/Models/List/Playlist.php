@@ -87,7 +87,7 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => PlaylistCreated::class,
@@ -111,8 +111,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
 
     /**
      * Get the route key for the model.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -148,8 +146,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -158,8 +154,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -180,8 +174,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
 
     /**
      * Determine if the model should be searchable.
-     *
-     * @return bool
      */
     public function shouldBeSearchable(): bool
     {
@@ -244,7 +236,7 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     /**
      * Only get the attributes as an array to prevent recursive toArray() calls.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toSearchableArray(): array
     {

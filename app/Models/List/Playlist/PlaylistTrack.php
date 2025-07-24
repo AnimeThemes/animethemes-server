@@ -78,7 +78,7 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => TrackCreated::class,
@@ -103,8 +103,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     /**
      * Get the route key for the model.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
@@ -127,8 +125,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -137,8 +133,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -219,10 +213,8 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     /**
      * Get the schema for the model.
-     *
-     * @return Schema
      */
-    public function schema(): Schema
+    public function schema(): TrackSchema
     {
         return new TrackSchema();
     }

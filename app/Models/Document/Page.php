@@ -63,7 +63,7 @@ class Page extends BaseModel implements SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => PageCreated::class,
@@ -89,8 +89,6 @@ class Page extends BaseModel implements SoftDeletable
     /**
      * Get the route key for the model.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
@@ -100,8 +98,6 @@ class Page extends BaseModel implements SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -110,8 +106,6 @@ class Page extends BaseModel implements SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

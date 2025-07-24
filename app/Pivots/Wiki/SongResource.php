@@ -48,6 +48,8 @@ class SongResource extends BasePivot
 
     /**
      * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = SongResource::TABLE;
 
@@ -69,7 +71,7 @@ class SongResource extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => SongResourceCreated::class,

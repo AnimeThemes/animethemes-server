@@ -52,8 +52,6 @@ class Role extends BaseRole implements Nameable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
