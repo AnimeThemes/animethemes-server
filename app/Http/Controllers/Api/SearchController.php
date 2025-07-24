@@ -16,9 +16,6 @@ class SearchController extends Controller implements InteractsWithSchema
 {
     /**
      * Search resource.
-     *
-     * @param  SearchRequest  $request
-     * @return SearchResource
      */
     public function show(SearchRequest $request): SearchResource
     {

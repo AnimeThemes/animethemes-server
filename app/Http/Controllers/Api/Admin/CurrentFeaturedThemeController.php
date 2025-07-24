@@ -21,9 +21,7 @@ class CurrentFeaturedThemeController extends Controller implements InteractsWith
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
      * @param  ShowAction  $action
-     * @return FeaturedThemeResource
      */
     public function show(ShowRequest $request, ShowAction $action): FeaturedThemeResource
     {

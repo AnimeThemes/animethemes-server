@@ -30,9 +30,7 @@ class AnimeSeriesController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return AnimeSeriesCollection
      */
     public function index(IndexRequest $request, IndexAction $action): AnimeSeriesCollection
     {
@@ -46,11 +44,7 @@ class AnimeSeriesController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Anime  $anime
-     * @param  Series  $series
      * @param  StoreAction<AnimeSeries>  $action
-     * @return AnimeSeriesResource
      */
     public function store(StoreRequest $request, Anime $anime, Series $series, StoreAction $action): AnimeSeriesResource
     {
@@ -70,11 +64,7 @@ class AnimeSeriesController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Anime  $anime
-     * @param  Series  $series
      * @param  ShowAction  $action
-     * @return AnimeSeriesResource
      */
     public function show(ShowRequest $request, Anime $anime, Series $series, ShowAction $action): AnimeSeriesResource
     {
@@ -93,10 +83,7 @@ class AnimeSeriesController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Anime  $anime
-     * @param  Series  $series
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Anime $anime, Series $series, DestroyAction $action): JsonResponse
     {

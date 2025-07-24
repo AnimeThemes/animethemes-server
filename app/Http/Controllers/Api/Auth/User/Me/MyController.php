@@ -28,9 +28,7 @@ class MyController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  ShowRequest  $request
      * @param  ShowAction  $action
-     * @return MyResource
      */
     public function show(ShowRequest $request, ShowAction $action): MyResource
     {
@@ -47,11 +45,9 @@ class MyController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): MySchema
     {
         return new MySchema();
     }

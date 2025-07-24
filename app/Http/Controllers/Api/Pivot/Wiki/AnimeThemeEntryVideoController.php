@@ -30,9 +30,7 @@ class AnimeThemeEntryVideoController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return AnimeThemeEntryVideoCollection
      */
     public function index(IndexRequest $request, IndexAction $action): AnimeThemeEntryVideoCollection
     {
@@ -46,11 +44,7 @@ class AnimeThemeEntryVideoController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  AnimeThemeEntry  $animethemeentry
-     * @param  Video  $video
      * @param  StoreAction<AnimeThemeEntryVideo>  $action
-     * @return AnimeThemeEntryVideoResource
      */
     public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): AnimeThemeEntryVideoResource
     {
@@ -70,11 +64,7 @@ class AnimeThemeEntryVideoController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  AnimeThemeEntry  $animethemeentry
-     * @param  Video  $video
      * @param  ShowAction  $action
-     * @return AnimeThemeEntryVideoResource
      */
     public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, Video $video, ShowAction $action): AnimeThemeEntryVideoResource
     {
@@ -93,10 +83,7 @@ class AnimeThemeEntryVideoController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  AnimeThemeEntry  $animethemeentry
-     * @param  Video  $video
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(AnimeThemeEntry $animethemeentry, Video $video, DestroyAction $action): JsonResponse
     {

@@ -32,9 +32,7 @@ class ArtistResourceController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ArtistResourceCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistResourceCollection
     {
@@ -48,11 +46,7 @@ class ArtistResourceController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Artist  $artist
-     * @param  ExternalResource  $resource
      * @param  StoreAction<ArtistResource>  $action
-     * @return ArtistResourceResource
      */
     public function store(StoreRequest $request, Artist $artist, ExternalResource $resource, StoreAction $action): ArtistResourceResource
     {
@@ -72,11 +66,7 @@ class ArtistResourceController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Artist  $artist
-     * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return ArtistResourceResource
      */
     public function show(ShowRequest $request, Artist $artist, ExternalResource $resource, ShowAction $action): ArtistResourceResource
     {
@@ -95,11 +85,7 @@ class ArtistResourceController extends PivotController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Artist  $artist
-     * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return ArtistResourceResource
      */
     public function update(UpdateRequest $request, Artist $artist, ExternalResource $resource, UpdateAction $action): ArtistResourceResource
     {
@@ -118,10 +104,7 @@ class ArtistResourceController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Artist  $artist
-     * @param  ExternalResource  $resource
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Artist $artist, ExternalResource $resource, DestroyAction $action): JsonResponse
     {

@@ -32,9 +32,7 @@ class PageController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return PageCollection
      */
     public function index(IndexRequest $request, IndexAction $action): PageCollection
     {
@@ -48,9 +46,7 @@ class PageController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Page>  $action
-     * @return PageResource
      */
     public function store(StoreRequest $request, StoreAction $action): PageResource
     {
@@ -62,10 +58,7 @@ class PageController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Page  $page
      * @param  ShowAction  $action
-     * @return PageResource
      */
     public function show(ShowRequest $request, Page $page, ShowAction $action): PageResource
     {
@@ -79,10 +72,7 @@ class PageController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Page  $page
      * @param  UpdateAction  $action
-     * @return PageResource
      */
     public function update(UpdateRequest $request, Page $page, UpdateAction $action): PageResource
     {
@@ -94,9 +84,7 @@ class PageController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Page  $page
      * @param  DestroyAction  $action
-     * @return PageResource
      */
     public function destroy(Page $page, DestroyAction $action): PageResource
     {
@@ -108,9 +96,7 @@ class PageController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Page  $page
      * @param  RestoreAction  $action
-     * @return PageResource
      */
     public function restore(Page $page, RestoreAction $action): PageResource
     {
@@ -122,9 +108,7 @@ class PageController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Page  $page
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Page $page, ForceDeleteAction $action): JsonResponse
     {

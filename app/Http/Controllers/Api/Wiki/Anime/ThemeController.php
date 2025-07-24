@@ -32,9 +32,7 @@ class ThemeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ThemeCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ThemeCollection
     {
@@ -50,9 +48,7 @@ class ThemeController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<AnimeTheme>  $action
-     * @return ThemeResource
      */
     public function store(StoreRequest $request, StoreAction $action): ThemeResource
     {
@@ -64,10 +60,7 @@ class ThemeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  AnimeTheme  $animetheme
      * @param  ShowAction  $action
-     * @return ThemeResource
      */
     public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): ThemeResource
     {
@@ -81,10 +74,7 @@ class ThemeController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  AnimeTheme  $animetheme
      * @param  UpdateAction  $action
-     * @return ThemeResource
      */
     public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): ThemeResource
     {
@@ -96,9 +86,7 @@ class ThemeController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  AnimeTheme  $animetheme
      * @param  DestroyAction  $action
-     * @return ThemeResource
      */
     public function destroy(AnimeTheme $animetheme, DestroyAction $action): ThemeResource
     {
@@ -110,9 +98,7 @@ class ThemeController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  AnimeTheme  $animetheme
      * @param  RestoreAction  $action
-     * @return ThemeResource
      */
     public function restore(AnimeTheme $animetheme, RestoreAction $action): ThemeResource
     {
@@ -124,9 +110,7 @@ class ThemeController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  AnimeTheme  $animetheme
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(AnimeTheme $animetheme, ForceDeleteAction $action): JsonResponse
     {

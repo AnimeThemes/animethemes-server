@@ -32,9 +32,7 @@ class AnimeResourceController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return AnimeResourceCollection
      */
     public function index(IndexRequest $request, IndexAction $action): AnimeResourceCollection
     {
@@ -48,11 +46,7 @@ class AnimeResourceController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Anime  $anime
-     * @param  ExternalResource  $resource
      * @param  StoreAction<AnimeResource>  $action
-     * @return AnimeResourceResource
      */
     public function store(StoreRequest $request, Anime $anime, ExternalResource $resource, StoreAction $action): AnimeResourceResource
     {
@@ -72,11 +66,7 @@ class AnimeResourceController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Anime  $anime
-     * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return AnimeResourceResource
      */
     public function show(ShowRequest $request, Anime $anime, ExternalResource $resource, ShowAction $action): AnimeResourceResource
     {
@@ -95,11 +85,7 @@ class AnimeResourceController extends PivotController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Anime  $anime
-     * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return AnimeResourceResource
      */
     public function update(UpdateRequest $request, Anime $anime, ExternalResource $resource, UpdateAction $action): AnimeResourceResource
     {
@@ -118,10 +104,7 @@ class AnimeResourceController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Anime  $anime
-     * @param  ExternalResource  $resource
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Anime $anime, ExternalResource $resource, DestroyAction $action): JsonResponse
     {

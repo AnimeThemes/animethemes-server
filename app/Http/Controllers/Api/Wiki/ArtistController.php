@@ -32,9 +32,7 @@ class ArtistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ArtistCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistCollection
     {
@@ -50,9 +48,7 @@ class ArtistController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Artist>  $action
-     * @return ArtistResource
      */
     public function store(StoreRequest $request, StoreAction $action): ArtistResource
     {
@@ -64,10 +60,7 @@ class ArtistController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Artist  $artist
      * @param  ShowAction  $action
-     * @return ArtistResource
      */
     public function show(ShowRequest $request, Artist $artist, ShowAction $action): ArtistResource
     {
@@ -81,10 +74,7 @@ class ArtistController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Artist  $artist
      * @param  UpdateAction  $action
-     * @return ArtistResource
      */
     public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): ArtistResource
     {
@@ -96,9 +86,7 @@ class ArtistController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Artist  $artist
      * @param  DestroyAction  $action
-     * @return ArtistResource
      */
     public function destroy(Artist $artist, DestroyAction $action): ArtistResource
     {
@@ -110,9 +98,7 @@ class ArtistController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Artist  $artist
      * @param  RestoreAction  $action
-     * @return ArtistResource
      */
     public function restore(Artist $artist, RestoreAction $action): ArtistResource
     {
@@ -124,9 +110,7 @@ class ArtistController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Artist  $artist
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Artist $artist, ForceDeleteAction $action): JsonResponse
     {

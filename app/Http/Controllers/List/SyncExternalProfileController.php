@@ -29,7 +29,6 @@ class SyncExternalProfileController extends Controller
     /**
      * Display the current progress status of the sync.
      *
-     * @param  ShowRequest  $request
      * @param  ExternalProfile  $externalprofile
      */
     public function show(ShowRequest $request, ExternalProfile $externalprofile)

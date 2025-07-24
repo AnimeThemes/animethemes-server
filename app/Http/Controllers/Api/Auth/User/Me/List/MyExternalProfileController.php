@@ -27,9 +27,7 @@ class MyExternalProfileController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ExternalProfileCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection
     {
@@ -48,11 +46,9 @@ class MyExternalProfileController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): ExternalProfileSchema
     {
         return new ExternalProfileSchema();
     }

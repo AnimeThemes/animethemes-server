@@ -30,9 +30,7 @@ class ArtistImageController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ArtistImageCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistImageCollection
     {
@@ -46,11 +44,7 @@ class ArtistImageController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Artist  $artist
-     * @param  Image  $image
      * @param  StoreAction<ArtistImage>  $action
-     * @return ArtistImageResource
      */
     public function store(StoreRequest $request, Artist $artist, Image $image, StoreAction $action): ArtistImageResource
     {
@@ -70,11 +64,7 @@ class ArtistImageController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Artist  $artist
-     * @param  Image  $image
      * @param  ShowAction  $action
-     * @return ArtistImageResource
      */
     public function show(ShowRequest $request, Artist $artist, Image $image, ShowAction $action): ArtistImageResource
     {
@@ -93,10 +83,7 @@ class ArtistImageController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Artist  $artist
-     * @param  Image  $image
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Artist $artist, Image $image, DestroyAction $action): JsonResponse
     {

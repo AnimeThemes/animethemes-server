@@ -30,9 +30,7 @@ class AnnouncementController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return AnnouncementCollection
      */
     public function index(IndexRequest $request, IndexAction $action): AnnouncementCollection
     {
@@ -47,9 +45,7 @@ class AnnouncementController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Announcement>  $action
-     * @return AnnouncementResource
      */
     public function store(StoreRequest $request, StoreAction $action): AnnouncementResource
     {
@@ -61,10 +57,7 @@ class AnnouncementController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Announcement  $announcement
      * @param  ShowAction  $action
-     * @return AnnouncementResource
      */
     public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): AnnouncementResource
     {
@@ -78,10 +71,7 @@ class AnnouncementController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Announcement  $announcement
      * @param  UpdateAction  $action
-     * @return AnnouncementResource
      */
     public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): AnnouncementResource
     {
@@ -93,9 +83,7 @@ class AnnouncementController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Announcement  $announcement
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Announcement $announcement, DestroyAction $action): JsonResponse
     {

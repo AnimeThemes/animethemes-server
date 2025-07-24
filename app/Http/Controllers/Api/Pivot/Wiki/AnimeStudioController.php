@@ -30,9 +30,7 @@ class AnimeStudioController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return AnimeStudioCollection
      */
     public function index(IndexRequest $request, IndexAction $action): AnimeStudioCollection
     {
@@ -46,11 +44,7 @@ class AnimeStudioController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Anime  $anime
-     * @param  Studio  $studio
      * @param  StoreAction<AnimeStudio>  $action
-     * @return AnimeStudioResource
      */
     public function store(StoreRequest $request, Anime $anime, Studio $studio, StoreAction $action): AnimeStudioResource
     {
@@ -70,11 +64,7 @@ class AnimeStudioController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Anime  $anime
-     * @param  Studio  $studio
      * @param  ShowAction  $action
-     * @return AnimeStudioResource
      */
     public function show(ShowRequest $request, Anime $anime, Studio $studio, ShowAction $action): AnimeStudioResource
     {
@@ -93,10 +83,7 @@ class AnimeStudioController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Anime  $anime
-     * @param  Studio  $studio
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Anime $anime, Studio $studio, DestroyAction $action): JsonResponse
     {

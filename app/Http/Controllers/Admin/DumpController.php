@@ -18,9 +18,6 @@ class DumpController extends Controller
 
     /**
      * Download dump.
-     *
-     * @param  Dump  $dump
-     * @return StreamedResponse
      */
     public function show(Dump $dump): StreamedResponse
     {

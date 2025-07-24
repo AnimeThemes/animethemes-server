@@ -28,10 +28,7 @@ class ExternalEntryController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
-     * @param  ExternalProfile  $externalprofile
      * @param  IndexAction  $action
-     * @return ExternalEntryCollection
      */
     public function index(IndexRequest $request, ExternalProfile $externalprofile, IndexAction $action): ExternalEntryCollection
     {
@@ -47,11 +44,7 @@ class ExternalEntryController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  ExternalProfile  $externalprofile
-     * @param  ExternalEntry  $externalentry
      * @param  ShowAction  $action
-     * @return ExternalEntryResource
      */
     public function show(ShowRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, ShowAction $action): ExternalEntryResource
     {

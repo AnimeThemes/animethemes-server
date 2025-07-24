@@ -31,9 +31,7 @@ class ArtistMemberController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ArtistMemberCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistMemberCollection
     {
@@ -47,11 +45,7 @@ class ArtistMemberController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Artist  $artist
-     * @param  Artist  $member
      * @param  StoreAction<ArtistMember>  $action
-     * @return ArtistMemberResource
      */
     public function store(StoreRequest $request, Artist $artist, Artist $member, StoreAction $action): ArtistMemberResource
     {
@@ -71,11 +65,7 @@ class ArtistMemberController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Artist  $artist
-     * @param  Artist  $member
      * @param  ShowAction  $action
-     * @return ArtistMemberResource
      */
     public function show(ShowRequest $request, Artist $artist, Artist $member, ShowAction $action): ArtistMemberResource
     {
@@ -94,11 +84,7 @@ class ArtistMemberController extends PivotController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Artist  $artist
-     * @param  Artist  $member
      * @param  UpdateAction  $action
-     * @return ArtistMemberResource
      */
     public function update(UpdateRequest $request, Artist $artist, Artist $member, UpdateAction $action): ArtistMemberResource
     {
@@ -117,10 +103,7 @@ class ArtistMemberController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Artist  $artist
-     * @param  Artist  $member
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Artist $artist, Artist $member, DestroyAction $action): JsonResponse
     {

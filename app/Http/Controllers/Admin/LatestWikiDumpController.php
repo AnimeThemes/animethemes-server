@@ -17,8 +17,6 @@ class LatestWikiDumpController extends Controller
     /**
      * Download dump.
      *
-     * @return StreamedResponse
-     *
      * @throws ModelNotFoundException
      */
     public function show(): StreamedResponse

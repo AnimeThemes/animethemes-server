@@ -32,9 +32,7 @@ class MembershipController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return MembershipCollection
      */
     public function index(IndexRequest $request, IndexAction $action): MembershipCollection
     {
@@ -50,9 +48,7 @@ class MembershipController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Membership>  $action
-     * @return MembershipResource
      */
     public function store(StoreRequest $request, StoreAction $action): MembershipResource
     {
@@ -64,10 +60,7 @@ class MembershipController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Membership  $membership
      * @param  ShowAction  $action
-     * @return MembershipResource
      */
     public function show(ShowRequest $request, Membership $membership, ShowAction $action): MembershipResource
     {
@@ -81,10 +74,7 @@ class MembershipController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Membership  $membership
      * @param  UpdateAction  $action
-     * @return MembershipResource
      */
     public function update(UpdateRequest $request, Membership $membership, UpdateAction $action): MembershipResource
     {
@@ -96,9 +86,7 @@ class MembershipController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Membership  $membership
      * @param  DestroyAction  $action
-     * @return MembershipResource
      */
     public function destroy(Membership $membership, DestroyAction $action): MembershipResource
     {
@@ -110,9 +98,7 @@ class MembershipController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Membership  $membership
      * @param  RestoreAction  $action
-     * @return MembershipResource
      */
     public function restore(Membership $membership, RestoreAction $action): MembershipResource
     {
@@ -124,9 +110,7 @@ class MembershipController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Membership  $membership
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Membership $membership, ForceDeleteAction $action): JsonResponse
     {

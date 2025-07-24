@@ -27,9 +27,7 @@ class PlaylistBackwardController extends BaseController
      * Display a listing of the resource.
      *
      * @param  ForwardBackwardIndexRequest  $request
-     * @param  Playlist  $playlist
      * @param  IndexAction  $action
-     * @return TrackCollection
      */
     public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
@@ -49,11 +47,9 @@ class PlaylistBackwardController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): ForwardBackwardSchema
     {
         return new ForwardBackwardSchema();
     }

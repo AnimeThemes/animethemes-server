@@ -26,10 +26,7 @@ class TrackBackwardController extends BaseController
      * Display the specified resource.
      *
      * @param  ForwardBackwardIndexRequest  $request
-     * @param  Playlist  $playlist
-     * @param  BackwardPlaylistTrack  $track
      * @param  IndexAction  $action
-     * @return TrackCollection
      *
      * @noinspection PhpUnusedParameterInspection
      */
@@ -47,11 +44,9 @@ class TrackBackwardController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): ForwardBackwardSchema
     {
         return new ForwardBackwardSchema();
     }

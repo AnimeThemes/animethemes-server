@@ -44,10 +44,7 @@ class TrackController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
-     * @param  Playlist  $playlist
      * @param  IndexAction  $action
-     * @return TrackCollection
      */
     public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
@@ -63,10 +60,7 @@ class TrackController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Playlist  $playlist
      * @param  StoreTrackAction  $action
-     * @return TrackResource
      *
      * @throws Exception
      */
@@ -80,11 +74,7 @@ class TrackController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
      * @param  ShowAction  $action
-     * @return TrackResource
      *
      * @noinspection PhpUnusedParameterInspection
      */
@@ -100,11 +90,7 @@ class TrackController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
      * @param  UpdateTrackAction  $action
-     * @return TrackResource
      *
      * @throws Exception
      */
@@ -118,10 +104,7 @@ class TrackController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
      * @param  DestroyTrackAction  $action
-     * @return JsonResponse
      *
      * @throws Exception
      */

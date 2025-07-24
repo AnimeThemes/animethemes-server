@@ -27,9 +27,7 @@ class FeatureController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return FeatureCollection
      */
     public function index(IndexRequest $request, IndexAction $action): FeatureCollection
     {
@@ -45,10 +43,7 @@ class FeatureController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Feature  $feature
      * @param  ShowAction  $action
-     * @return FeatureResource
      */
     public function show(ShowRequest $request, Feature $feature, ShowAction $action): FeatureResource
     {
@@ -62,10 +57,7 @@ class FeatureController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Feature  $feature
      * @param  UpdateAction  $action
-     * @return FeatureResource
      */
     public function update(UpdateRequest $request, Feature $feature, UpdateAction $action): FeatureResource
     {
