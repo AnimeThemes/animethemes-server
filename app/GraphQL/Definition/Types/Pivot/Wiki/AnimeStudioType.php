@@ -16,15 +16,10 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\Pivots\Wiki\AnimeStudio;
 
-/**
- * Class AnimeStudioType.
- */
 class AnimeStudioType extends PivotType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

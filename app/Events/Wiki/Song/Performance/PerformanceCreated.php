@@ -20,11 +20,6 @@ use Exception;
  */
 class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Performance  $performance
-     */
     public function __construct(Performance $performance)
     {
         parent::__construct($performance);
@@ -32,8 +27,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Performance
      */
     public function getModel(): Performance
     {
@@ -42,8 +35,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -60,8 +51,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -80,8 +69,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
     /**
      * Sync the performance with the artist song.
      * Temporary function.
-     *
-     * @return void
      */
     public function syncArtistSong(): void
     {

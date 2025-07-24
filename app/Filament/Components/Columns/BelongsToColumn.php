@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-/**
- * Class BelongsToColumn.
- */
 class BelongsToColumn extends TextColumn
 {
     protected BaseResource $resource;
@@ -22,10 +19,7 @@ class BelongsToColumn extends TextColumn
     /**
      * Rename the parameter to make it more readable.
      *
-     * @param  string|null  $relation
      * @param  class-string<BaseResource>|null  $resource
-     * @param  bool|null  $shouldUseModelName
-     * @return static
      */
     public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
@@ -47,8 +41,6 @@ class BelongsToColumn extends TextColumn
 
     /**
      * Configure the column.
-     *
-     * @return static
      */
     public function configure(): static
     {

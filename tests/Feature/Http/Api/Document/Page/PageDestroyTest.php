@@ -10,15 +10,10 @@ use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PageDestroyTest.
- */
 class PageDestroyTest extends TestCase
 {
     /**
      * The Page Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class PageDestroyTest extends TestCase
 
     /**
      * The Page Destroy Endpoint shall forbid users without the delete page permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class PageDestroyTest extends TestCase
 
     /**
      * The Page Destroy Endpoint shall forbid users from updating a page that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class PageDestroyTest extends TestCase
 
     /**
      * The Page Destroy Endpoint shall delete the page.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

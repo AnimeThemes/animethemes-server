@@ -8,9 +8,6 @@ use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ExternalProfileResource.
- */
 class ExternalProfileResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class ExternalProfileResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

@@ -10,16 +10,8 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Pivots\Wiki\AnimeImage;
 
-/**
- * Class AnimeImageImageIdField.
- */
 class AnimeImageImageIdField extends Field implements SelectableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeImage::ATTRIBUTE_IMAGE);
@@ -27,10 +19,6 @@ class AnimeImageImageIdField extends Field implements SelectableField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

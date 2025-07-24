@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioLoudnessTruePeakStreamTest.
- */
 class AudioLoudnessTruePeakStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Loudness True Peak Stream Rule shall fail if the true peak is greater than to 0.
-     *
-     * @return void
      */
     public function testFailsWhenTruePeakIsNotExpected(): void
     {
@@ -62,8 +57,6 @@ class AudioLoudnessTruePeakStreamTest extends TestCase
 
     /**
      * The Audio Loudness True Peak Stream Rule shall pass if the true peak is less than or equal to 0.
-     *
-     * @return void
      */
     public function testPassesWhenTruePeakIsExpected(): void
     {

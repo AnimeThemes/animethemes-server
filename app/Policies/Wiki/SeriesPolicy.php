@@ -11,16 +11,10 @@ use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Policies\BasePolicy;
 
-/**
- * Class SeriesPolicy.
- */
 class SeriesPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can attach any anime to the series.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyAnime(User $user): bool
     {
@@ -29,11 +23,6 @@ class SeriesPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an anime to the series.
-     *
-     * @param  User  $user
-     * @param  Series  $series
-     * @param  Anime  $anime
-     * @return bool
      */
     public function attachAnime(User $user, Series $series, Anime $anime): bool
     {
@@ -49,9 +38,6 @@ class SeriesPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any anime from the series.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyAnime(User $user): bool
     {

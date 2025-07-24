@@ -111,7 +111,7 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => AnimeCreated::class,
@@ -162,8 +162,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     /**
      * Get the route key for the model.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getRouteKeyName(): string
@@ -187,8 +185,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -197,8 +193,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

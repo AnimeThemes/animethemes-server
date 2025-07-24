@@ -12,15 +12,10 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class EntryRestoreTest.
- */
 class EntryRestoreTest extends TestCase
 {
     /**
      * The Entry Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class EntryRestoreTest extends TestCase
 
     /**
      * The Entry Restore Endpoint shall forbid users without the restore anime theme entry permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class EntryRestoreTest extends TestCase
 
     /**
      * The Entry Restore Endpoint shall forbid users from restoring an anime theme entry that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -77,8 +68,6 @@ class EntryRestoreTest extends TestCase
 
     /**
      * The Entry Restore Endpoint shall restore the entry.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

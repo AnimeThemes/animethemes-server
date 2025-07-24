@@ -39,8 +39,6 @@ class AnnouncementFactory extends Factory
 
     /**
      * Set the public state to false.
-     *
-     * @return static
      */
     public function private(): static
     {

@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PageResource.
- */
 class PageResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class PageResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

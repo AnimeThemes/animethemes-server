@@ -7,18 +7,8 @@ namespace App\Http\Api\Sort;
 use App\Enums\Http\Api\QualifyColumn;
 use App\Enums\Http\Api\Sort\Direction;
 
-/**
- * Class Sort.
- */
 class Sort
 {
-    /**
-     * Create a new sort instance.
-     *
-     * @param  string  $key
-     * @param  string|null  $column
-     * @param  QualifyColumn  $qualifyColumn
-     */
     public function __construct(
         protected readonly string $key,
         protected readonly ?string $column = null,
@@ -27,8 +17,6 @@ class Sort
 
     /**
      * Get sort key value.
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -37,8 +25,6 @@ class Sort
 
     /**
      * Get sort column.
-     *
-     * @return string
      */
     public function getColumn(): string
     {
@@ -47,8 +33,6 @@ class Sort
 
     /**
      * Determine if the column should be qualified for the sort.
-     *
-     * @return bool
      */
     public function shouldQualifyColumn(): bool
     {
@@ -57,9 +41,6 @@ class Sort
 
     /**
      * Format the sort based on direction.
-     *
-     * @param  Direction  $direction
-     * @return string
      */
     public function format(Direction $direction): string
     {

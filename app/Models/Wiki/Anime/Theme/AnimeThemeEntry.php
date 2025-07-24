@@ -95,7 +95,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => EntryCreated::class,
@@ -170,8 +170,6 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -200,8 +198,6 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -270,10 +266,8 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
 
     /**
      * Get the schema for the model.
-     *
-     * @return Schema
      */
-    public function schema(): Schema
+    public function schema(): EntrySchema
     {
         return new EntrySchema();
     }

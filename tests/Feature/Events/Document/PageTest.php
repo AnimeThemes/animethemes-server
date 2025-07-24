@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class PageTest.
- */
 class PageTest extends TestCase
 {
     /**
      * When a Page is created, an PageCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testPageCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class PageTest extends TestCase
 
     /**
      * When a Page is deleted, an PageDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testPageDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class PageTest extends TestCase
 
     /**
      * When a Page is restored, an PageRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testPageRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class PageTest extends TestCase
      * When a Page is restored, a PageUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testPageRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class PageTest extends TestCase
 
     /**
      * When a Page is updated, an PageUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testPageUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class PageTest extends TestCase
 
     /**
      * The PageUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testPageUpdatedEventEmbedFields(): void
     {

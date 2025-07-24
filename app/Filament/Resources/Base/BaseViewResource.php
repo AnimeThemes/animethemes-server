@@ -7,9 +7,6 @@ namespace App\Filament\Resources\Base;
 // use Awcodes\Recently\Concerns\HasRecentHistoryRecorder;
 use Filament\Resources\Pages\ViewRecord;
 
-/**
- * Class BaseViewResource.
- */
 class BaseViewResource extends ViewRecord
 {
     // use HasRecentHistoryRecorder;
@@ -21,7 +18,7 @@ class BaseViewResource extends ViewRecord
     /**
      * Get the header actions available.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

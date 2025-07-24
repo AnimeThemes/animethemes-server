@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class EncoderNameFormatTest.
- */
 class EncoderNameFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Encoder Name Format Rule shall fail if the encoder is not FFmpeg.
-     *
-     * @return void
      */
     public function testFailsWhenEncoderNameIsNotFFmpeg(): void
     {
@@ -62,8 +57,6 @@ class EncoderNameFormatTest extends TestCase
 
     /**
      * The Encoder Name Format Rule shall pass if the encoder is FFmpeg.
-     *
-     * @return void
      */
     public function testPassesWhenEncoderNameIsFFmpeg(): void
     {

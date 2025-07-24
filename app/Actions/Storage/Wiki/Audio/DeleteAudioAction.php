@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteAudioAction extends DeleteAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Audio  $audio
-     */
     public function __construct(Audio $audio)
     {
         parent::__construct($audio);
@@ -28,8 +23,6 @@ class DeleteAudioAction extends DeleteAction
 
     /**
      * The list of disk names.
-     *
-     * @return array
      */
     public function disks(): array
     {
@@ -38,8 +31,6 @@ class DeleteAudioAction extends DeleteAction
 
     /**
      * Get the path to delete.
-     *
-     * @return string
      */
     protected function path(): string
     {

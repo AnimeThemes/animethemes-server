@@ -10,15 +10,10 @@ use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ScriptRestoreTest.
- */
 class ScriptRestoreTest extends TestCase
 {
     /**
      * The Script Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ScriptRestoreTest extends TestCase
 
     /**
      * The Script Restore Endpoint shall forbid users without the restore video script permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ScriptRestoreTest extends TestCase
 
     /**
      * The Script Restore Endpoint shall forbid users from restoring a script that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class ScriptRestoreTest extends TestCase
 
     /**
      * The Script Restore Endpoint shall restore the script.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

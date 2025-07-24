@@ -18,15 +18,10 @@ use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Pivots\Wiki\ArtistSong;
 
-/**
- * Class ArtistSongSchema.
- */
 class ArtistSongSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

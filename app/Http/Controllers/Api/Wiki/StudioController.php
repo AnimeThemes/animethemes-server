@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class StudioController.
- */
 class StudioController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Studio::class, 'studio');
@@ -38,9 +32,7 @@ class StudioController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return StudioCollection
      */
     public function index(IndexRequest $request, IndexAction $action): StudioCollection
     {
@@ -56,9 +48,7 @@ class StudioController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Studio>  $action
-     * @return StudioResource
      */
     public function store(StoreRequest $request, StoreAction $action): StudioResource
     {
@@ -70,10 +60,7 @@ class StudioController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Studio  $studio
      * @param  ShowAction  $action
-     * @return StudioResource
      */
     public function show(ShowRequest $request, Studio $studio, ShowAction $action): StudioResource
     {
@@ -87,10 +74,7 @@ class StudioController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Studio  $studio
      * @param  UpdateAction  $action
-     * @return StudioResource
      */
     public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): StudioResource
     {
@@ -102,9 +86,7 @@ class StudioController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Studio  $studio
      * @param  DestroyAction  $action
-     * @return StudioResource
      */
     public function destroy(Studio $studio, DestroyAction $action): StudioResource
     {
@@ -116,9 +98,7 @@ class StudioController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Studio  $studio
      * @param  RestoreAction  $action
-     * @return StudioResource
      */
     public function restore(Studio $studio, RestoreAction $action): StudioResource
     {

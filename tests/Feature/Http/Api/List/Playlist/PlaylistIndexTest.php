@@ -35,9 +35,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class PlaylistIndexTest.
- */
 class PlaylistIndexTest extends TestCase
 {
     use AggregatesFields;
@@ -46,8 +43,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * By default, the Playlist Index Endpoint shall return a collection of Playlist Resources with public visibility.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -87,8 +82,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -107,8 +100,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -153,8 +144,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -190,8 +179,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -233,8 +220,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -280,8 +265,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -327,8 +310,6 @@ class PlaylistIndexTest extends TestCase
 
     /**
      * The Playlist Index Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

@@ -7,15 +7,10 @@ namespace App\GraphQL\Definition\Relations;
 use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BelongsToRelation.
- */
 class BelongsToRelation extends Relation
 {
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -28,8 +23,6 @@ class BelongsToRelation extends Relation
 
     /**
      * The Relation type.
-     *
-     * @return RelationType
      */
     protected function relation(): RelationType
     {

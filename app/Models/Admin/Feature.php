@@ -50,7 +50,7 @@ class Feature extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => FeatureCreated::class,
@@ -74,8 +74,6 @@ class Feature extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -84,8 +82,6 @@ class Feature extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -94,8 +90,6 @@ class Feature extends BaseModel
 
     /**
      * Determine if the feature scope is global.
-     *
-     * @return bool
      */
     public function isNullScope(): bool
     {

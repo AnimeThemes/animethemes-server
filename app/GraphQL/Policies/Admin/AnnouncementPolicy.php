@@ -9,18 +9,12 @@ use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 
-/**
- * Class AnnouncementPolicy.
- */
 class AnnouncementPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  array|null  $injected
-     * @param  string|null  $keyName
-     * @return bool
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {

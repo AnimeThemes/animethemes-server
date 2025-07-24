@@ -12,9 +12,6 @@ use App\GraphQL\Definition\Fields\Pivot\Base\NodeField;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
 
-/**
- * Class BaseEdgeType.
- */
 abstract class BaseEdgeType extends BaseType implements HasFields
 {
     /**

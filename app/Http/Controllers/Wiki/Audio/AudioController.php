@@ -16,16 +16,12 @@ use Illuminate\Support\Facades\Config;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class AudioController.
- */
 class AudioController extends Controller
 {
     /**
      * Stream audio through configured streaming method.
      *
      * @param  Audio  $audio
-     * @param  Request  $request
      * @return Response
      */
     public function show(Audio $audio, Request $request): Response

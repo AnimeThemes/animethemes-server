@@ -8,14 +8,8 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoSourceField.
- */
 class VideoSourceField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_SOURCE, VideoSource::class);
@@ -23,8 +17,6 @@ class VideoSourceField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

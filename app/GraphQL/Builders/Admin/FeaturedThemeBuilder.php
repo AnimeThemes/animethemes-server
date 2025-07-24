@@ -11,20 +11,13 @@ use Illuminate\Support\Facades\Date;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class FeaturedThemeBuilder.
- */
 class FeaturedThemeBuilder
 {
     /**
      * Apply the query builder to the index query.
      *
      * @param  Builder<FeaturedTheme>  $builder
-     * @param  mixed  $value
-     * @param  mixed  $root
      * @param  array  $args
-     * @param  GraphQLContext  $context
-     * @param  ResolveInfo  $resolveInfo
      * @return Builder<FeaturedTheme>
      */
     public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
@@ -37,11 +30,7 @@ class FeaturedThemeBuilder
      * Apply the query builder to the index query.
      *
      * @param  Builder<FeaturedTheme>  $builder
-     * @param  mixed  $value
-     * @param  mixed  $root
      * @param  array  $args
-     * @param  GraphQLContext  $context
-     * @param  ResolveInfo  $resolveInfo
      * @return Builder<FeaturedTheme>
      */
     public function current(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder

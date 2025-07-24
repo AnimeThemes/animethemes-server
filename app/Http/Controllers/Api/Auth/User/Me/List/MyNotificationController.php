@@ -17,14 +17,8 @@ use App\Models\User\Notification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class MyNotificationController.
- */
 class MyNotificationController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $this->middleware(Authenticate::using('sanctum'));
@@ -34,9 +28,7 @@ class MyNotificationController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return NotificationCollection
      */
     public function index(IndexRequest $request, IndexAction $action): NotificationCollection
     {
@@ -54,9 +46,6 @@ class MyNotificationController extends BaseController
 
     /**
      * Mark an unread notification as read.
-     *
-     * @param  Notification  $notification
-     * @return JsonResponse
      */
     public function read(Notification $notification): JsonResponse
     {
@@ -71,9 +60,6 @@ class MyNotificationController extends BaseController
 
     /**
      * Mark a read notification as unread.
-     *
-     * @param  Notification  $notification
-     * @return JsonResponse
      */
     public function unread(Notification $notification): JsonResponse
     {
@@ -88,8 +74,6 @@ class MyNotificationController extends BaseController
 
     /**
      * Mark unread notifications as read.
-     *
-     * @return JsonResponse
      */
     public function readall(): JsonResponse
     {
@@ -108,11 +92,9 @@ class MyNotificationController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): NotificationSchema
     {
         return new NotificationSchema();
     }

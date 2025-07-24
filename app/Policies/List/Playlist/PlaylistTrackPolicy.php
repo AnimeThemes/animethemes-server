@@ -14,16 +14,10 @@ use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class PlaylistTrackPolicy.
- */
 class PlaylistTrackPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -45,9 +39,7 @@ class PlaylistTrackPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  PlaylistTrack  $track
-     * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
@@ -69,9 +61,6 @@ class PlaylistTrackPolicy extends BasePolicy
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function create(User $user): bool
     {
@@ -88,9 +77,7 @@ class PlaylistTrackPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  User  $user
      * @param  PlaylistTrack  $track
-     * @return bool
      */
     public function update(User $user, Model $track): bool
     {
@@ -107,9 +94,7 @@ class PlaylistTrackPolicy extends BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  User  $user
      * @param  PlaylistTrack  $track
-     * @return bool
      */
     public function delete(User $user, Model $track): bool
     {
@@ -126,9 +111,7 @@ class PlaylistTrackPolicy extends BasePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  User  $user
      * @param  PlaylistTrack  $track
-     * @return bool
      */
     public function restore(User $user, Model $track): bool
     {

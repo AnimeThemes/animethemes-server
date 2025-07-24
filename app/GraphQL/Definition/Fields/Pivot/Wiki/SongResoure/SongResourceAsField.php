@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Pivot\Wiki\SongResoure;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Pivots\Wiki\SongResource;
 
-/**
- * Class SongResourceAsField.
- */
 class SongResourceAsField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(SongResource::ATTRIBUTE_AS);
@@ -22,8 +16,6 @@ class SongResourceAsField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

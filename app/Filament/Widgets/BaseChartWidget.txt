@@ -9,9 +9,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-/**
- * Class BaseChartWidget.
- */
 class BaseChartWidget extends ApexChartWidget
 {
     protected static bool $isLazy = false;
@@ -34,9 +31,6 @@ class BaseChartWidget extends ApexChartWidget
 
     /**
      * Translate the dates.
-     *
-     * @param  string  $date
-     * @return string
      */
     protected function translateDate(string $date): string
     {

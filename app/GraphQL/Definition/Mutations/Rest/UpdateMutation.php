@@ -11,14 +11,9 @@ use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class UpdateMutation.
- */
 abstract class UpdateMutation extends BaseMutation
 {
     /**
-     * Create a new mutation instance.
-     *
      * @param  class-string<Model>  $model
      */
     public function __construct(protected string $model)
@@ -85,8 +80,6 @@ abstract class UpdateMutation extends BaseMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

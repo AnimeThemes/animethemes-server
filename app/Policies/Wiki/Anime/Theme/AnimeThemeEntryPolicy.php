@@ -11,16 +11,10 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Policies\BasePolicy;
 
-/**
- * Class AnimeThemeEntryPolicy.
- */
 class AnimeThemeEntryPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can attach any video to the entry.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyVideo(User $user): bool
     {
@@ -29,11 +23,6 @@ class AnimeThemeEntryPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an entry to the video.
-     *
-     * @param  User  $user
-     * @param  AnimeThemeEntry  $entry
-     * @param  Video  $video
-     * @return bool
      */
     public function attachVideo(User $user, AnimeThemeEntry $entry, Video $video): bool
     {
@@ -49,9 +38,6 @@ class AnimeThemeEntryPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any video from the entry.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyVideo(User $user): bool
     {

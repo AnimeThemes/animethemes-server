@@ -11,19 +11,8 @@ use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Models\Pivot\AuthorizesPivot;
 use Illuminate\Support\Str;
 
-/**
- * Class PivotController.
- */
 abstract class PivotController extends Controller implements InteractsWithSchema
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @param  string  $foreignModel
-     * @param  string  $foreignParameter
-     * @param  string  $relatedModel
-     * @param  string  $relatedParameter
-     */
     public function __construct(string $foreignModel, string $foreignParameter, string $relatedModel, string $relatedParameter)
     {
         $this->middleware(AuthorizesPivot::class.":{$foreignModel},{$foreignParameter},{$relatedModel},{$relatedParameter}");
@@ -32,8 +21,6 @@ abstract class PivotController extends Controller implements InteractsWithSchema
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

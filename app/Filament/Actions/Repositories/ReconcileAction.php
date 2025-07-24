@@ -8,9 +8,6 @@ use App\Concerns\Repositories\ReconcilesRepositories;
 use App\Filament\Actions\BaseAction;
 use Exception;
 
-/**
- * Class ReconcileAction.
- */
 abstract class ReconcileAction extends BaseAction
 {
     use ReconcilesRepositories;
@@ -19,7 +16,6 @@ abstract class ReconcileAction extends BaseAction
      * Perform the action on the given models.
      *
      * @param  array<string, mixed>  $data
-     * @return void
      *
      * @throws Exception
      */

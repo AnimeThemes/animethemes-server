@@ -12,15 +12,12 @@ use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Table;
 
-/**
- * Class PerformanceArtistRelationManager.
- */
 class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
      * Get the pivot components of the relation.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getPivotComponents(): array
     {
@@ -40,16 +37,11 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
 
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Artist::RELATION_PERFORMANCES;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

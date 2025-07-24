@@ -23,16 +23,12 @@ abstract class BaseExternalEntryUnclaimedAction
     protected ?array $data = null;
 
     /**
-     * Create a new action instance.
-     *
      * @param  ExternalProfile|array  $profile
      */
     public function __construct(protected ExternalProfile|array $profile) {}
 
     /**
      * Get the username of the profile.
-     *
-     * @return string
      */
     public function getUsername(): string
     {
@@ -45,8 +41,6 @@ abstract class BaseExternalEntryUnclaimedAction
 
     /**
      * Get the id of the external user.
-     *
-     * @return int|null
      */
     abstract public function getId(): ?int;
 
@@ -59,8 +53,6 @@ abstract class BaseExternalEntryUnclaimedAction
 
     /**
      * Make the request to the external api.
-     *
-     * @return void
      *
      * @throws RequestException
      */

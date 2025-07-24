@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class UploadScriptTest.
- */
 class UploadScriptTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Upload Script Action shall fail if there are no uploads.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -45,8 +40,6 @@ class UploadScriptTest extends TestCase
 
     /**
      * The Upload Script Action shall pass if given a valid file.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -65,8 +58,6 @@ class UploadScriptTest extends TestCase
 
     /**
      * The Upload Script Action shall upload the file to the configured disk.
-     *
-     * @return void
      */
     public function testUploadedToDisk(): void
     {
@@ -83,8 +74,6 @@ class UploadScriptTest extends TestCase
 
     /**
      * The Upload Video Action shall upload the file to the configured disk.
-     *
-     * @return void
      */
     public function testCreatedVideo(): void
     {
@@ -103,8 +92,6 @@ class UploadScriptTest extends TestCase
 
     /**
      * The Upload Script Action shall attach the provided video.
-     *
-     * @return void
      */
     public function testAttachesVideo(): void
     {

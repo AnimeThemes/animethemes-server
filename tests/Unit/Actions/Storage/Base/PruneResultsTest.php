@@ -9,17 +9,12 @@ use App\Enums\Actions\ActionStatus;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class PruneResultsTest.
- */
 class PruneResultsTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Action result has failed if there are no prunings.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -32,8 +27,6 @@ class PruneResultsTest extends TestCase
 
     /**
      * The Action result has failed if any prunings have returned false.
-     *
-     * @return void
      */
     public function testFailed(): void
     {
@@ -56,8 +49,6 @@ class PruneResultsTest extends TestCase
 
     /**
      * The Action result has passed if all prunings have returned true.
-     *
-     * @return void
      */
     public function testPassed(): void
     {

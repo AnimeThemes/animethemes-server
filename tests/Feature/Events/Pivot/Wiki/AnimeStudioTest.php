@@ -11,15 +11,10 @@ use App\Models\Wiki\Studio;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnimeStudioTest.
- */
 class AnimeStudioTest extends TestCase
 {
     /**
      * When an Anime is attached to a Studio or vice versa, an AnimeStudioCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeStudioCreatedEventDispatched(): void
     {
@@ -33,8 +28,6 @@ class AnimeStudioTest extends TestCase
 
     /**
      * When an Anime is detached from a Studio or vice versa, an AnimeStudioDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeStudioDeletedEventDispatched(): void
     {

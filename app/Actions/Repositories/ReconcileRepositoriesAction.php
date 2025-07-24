@@ -24,7 +24,6 @@ abstract class ReconcileRepositoriesAction
      *
      * @param  RepositoryInterface<TModel>  $source
      * @param  RepositoryInterface<TModel>  $destination
-     * @return ReconcileResults
      *
      * @throws Exception
      */
@@ -66,8 +65,6 @@ abstract class ReconcileRepositoriesAction
 
     /**
      * Callback for create and delete set operation item comparison.
-     *
-     * @return Closure
      */
     abstract protected function diffCallbackForCreateDelete(): Closure;
 
@@ -116,8 +113,6 @@ abstract class ReconcileRepositoriesAction
 
     /**
      * Callback for update set operation item comparison.
-     *
-     * @return Closure
      */
     abstract protected function diffCallbackForUpdate(): Closure;
 
@@ -125,8 +120,6 @@ abstract class ReconcileRepositoriesAction
      * Get source model that has been updated for destination model.
      *
      * @param  Collection  $sourceModels
-     * @param  Model  $destinationModel
-     * @return Model|null
      */
     abstract protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model;
 
@@ -159,7 +152,6 @@ abstract class ReconcileRepositoriesAction
      * @param  Collection  $created
      * @param  Collection  $deleted
      * @param  Collection  $updated
-     * @return ReconcileResults
      */
     abstract protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults;
 }

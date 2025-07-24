@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Auth\User;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
 use App\Models\Auth\User;
 
-/**
- * Class UserEmailVerifiedAtField.
- */
 class UserEmailVerifiedAtField extends DateTimeTzField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(User::ATTRIBUTE_EMAIL_VERIFIED_AT, nullable: false);
@@ -22,8 +16,6 @@ class UserEmailVerifiedAtField extends DateTimeTzField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

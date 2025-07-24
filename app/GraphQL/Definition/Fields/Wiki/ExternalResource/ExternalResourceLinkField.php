@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\ExternalResource;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceLinkField.
- */
 class ExternalResourceLinkField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalResource::ATTRIBUTE_LINK, nullable: false);
@@ -22,8 +16,6 @@ class ExternalResourceLinkField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

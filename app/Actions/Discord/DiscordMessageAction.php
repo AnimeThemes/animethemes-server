@@ -10,15 +10,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
-/**
- * Class DiscordMessageAction.
- */
 class DiscordMessageAction
 {
     /**
      * Get the HTTP client for Discord API.
-     *
-     * @return PendingRequest
      */
     public static function getHttp(): PendingRequest
     {
@@ -30,7 +25,6 @@ class DiscordMessageAction
      * Make the Discord message.
      *
      * @param  array<string, mixed>  $fields
-     * @return DiscordMessage
      */
     public function makeMessage(array $fields): DiscordMessage
     {
@@ -54,9 +48,6 @@ class DiscordMessageAction
 
     /**
      * Set the Discord message.
-     *
-     * @param  string  $url
-     * @return DiscordMessage
      */
     public function get(string $url): DiscordMessage
     {
@@ -72,9 +63,6 @@ class DiscordMessageAction
 
     /**
      * Edit the Discord message.
-     *
-     * @param  DiscordMessage  $message
-     * @return void
      */
     public function edit(DiscordMessage $message): void
     {
@@ -87,9 +75,6 @@ class DiscordMessageAction
 
     /**
      * Send the Discord message.
-     *
-     * @param  DiscordMessage  $message
-     * @return void
      */
     public function send(DiscordMessage $message): void
     {

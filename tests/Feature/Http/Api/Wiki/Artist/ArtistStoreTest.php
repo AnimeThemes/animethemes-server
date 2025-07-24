@@ -10,15 +10,10 @@ use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistStoreTest.
- */
 class ArtistStoreTest extends TestCase
 {
     /**
      * The Artist Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ArtistStoreTest extends TestCase
 
     /**
      * The Artist Store Endpoint shall forbid users without the create artist permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ArtistStoreTest extends TestCase
 
     /**
      * The Artist Store Endpoint shall require name & slug fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -68,8 +59,6 @@ class ArtistStoreTest extends TestCase
 
     /**
      * The Artist Store Endpoint shall create an artist.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

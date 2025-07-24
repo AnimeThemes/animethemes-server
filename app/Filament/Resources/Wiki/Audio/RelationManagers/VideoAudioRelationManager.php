@@ -9,23 +9,15 @@ use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Filament\Tables\Table;
 
-/**
- * Class VideoAudioRelationManager.
- */
 class VideoAudioRelationManager extends VideoRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Audio::RELATION_VIDEOS;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

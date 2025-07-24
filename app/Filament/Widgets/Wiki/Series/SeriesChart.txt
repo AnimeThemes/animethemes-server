@@ -8,22 +8,15 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Series;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class SeriesChart.
- */
 class SeriesChart extends BaseChartWidget
 {
     /**
      * Chart Id.
-     *
-     * @var string|null
      */
     protected static ?string $chartId = 'seriesChart';
 
     /**
      * Get the displayed label of the widget.
-     *
-     * @return string
      */
     protected function getHeading(): string
     {

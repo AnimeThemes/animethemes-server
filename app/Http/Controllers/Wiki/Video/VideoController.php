@@ -16,16 +16,12 @@ use Illuminate\Support\Facades\Config;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class VideoController.
- */
 class VideoController extends Controller
 {
     /**
      * Stream video through configured streaming method.
      *
      * @param  Video  $video
-     * @param  Request  $request
      * @return Response
      */
     public function show(Video $video, Request $request): Response

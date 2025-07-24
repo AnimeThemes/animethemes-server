@@ -10,18 +10,10 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Trait CanCreateAnimeSynonym.
- */
 trait CanCreateAnimeSynonym
 {
     /**
      * Create Anime Synonym for the Anime.
-     *
-     * @param  string|null  $text
-     * @param  int  $type
-     * @param  Anime  $anime
-     * @return void
      */
     public function createAnimeSynonym(?string $text, int $type, Anime $anime): void
     {

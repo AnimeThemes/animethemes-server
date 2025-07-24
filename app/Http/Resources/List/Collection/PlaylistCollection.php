@@ -9,9 +9,6 @@ use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\Request;
 
-/**
- * Class PlaylistCollection.
- */
 class PlaylistCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class PlaylistCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

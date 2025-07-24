@@ -10,22 +10,15 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AnimeResourceTab.
- */
 abstract class AnimeResourceTab extends BaseTab
 {
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     abstract protected static function site(): ResourceSite;
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

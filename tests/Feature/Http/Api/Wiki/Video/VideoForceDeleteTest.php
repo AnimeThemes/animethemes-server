@@ -10,15 +10,10 @@ use App\Models\Wiki\Video;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class VideoForceDeleteTest.
- */
 class VideoForceDeleteTest extends TestCase
 {
     /**
      * The Video Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class VideoForceDeleteTest extends TestCase
 
     /**
      * The Video Force Delete Endpoint shall forbid users without the force delete video permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class VideoForceDeleteTest extends TestCase
 
     /**
      * The Video Force Delete Endpoint shall force delete the video.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

@@ -76,7 +76,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => ExternalResourceCreated::class,
@@ -115,8 +115,6 @@ class ExternalResource extends BaseModel implements SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -125,8 +123,6 @@ class ExternalResource extends BaseModel implements SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

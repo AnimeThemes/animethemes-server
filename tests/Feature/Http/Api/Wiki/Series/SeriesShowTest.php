@@ -22,17 +22,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class SeriesShowTest.
- */
 class SeriesShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Series Show Endpoint shall return a Series Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -54,8 +49,6 @@ class SeriesShowTest extends TestCase
 
     /**
      * The Series Show Endpoint shall return a Series Resource for soft deleted series.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -79,8 +72,6 @@ class SeriesShowTest extends TestCase
 
     /**
      * The Series Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -116,8 +107,6 @@ class SeriesShowTest extends TestCase
 
     /**
      * The Series Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -151,8 +140,6 @@ class SeriesShowTest extends TestCase
 
     /**
      * The Series Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -191,8 +178,6 @@ class SeriesShowTest extends TestCase
 
     /**
      * The Series Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -231,8 +216,6 @@ class SeriesShowTest extends TestCase
 
     /**
      * The Series Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class SynonymTest.
- */
 class SynonymTest extends TestCase
 {
     /**
      * When a Synonym is created, a SynonymCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymCreatedEventDispatched(): void
     {
@@ -35,8 +30,6 @@ class SynonymTest extends TestCase
 
     /**
      * When a Synonym is deleted, a SynonymDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymDeletedEventDispatched(): void
     {
@@ -51,8 +44,6 @@ class SynonymTest extends TestCase
 
     /**
      * When a Synonym is restored, a SynonymRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymRestoredEventDispatched(): void
     {
@@ -69,8 +60,6 @@ class SynonymTest extends TestCase
      * When a Synonym is restored, a SynonymUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testSynonymRestoresQuietly(): void
     {
@@ -85,8 +74,6 @@ class SynonymTest extends TestCase
 
     /**
      * When a Synonym is updated, a SynonymUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSynonymUpdatedEventDispatched(): void
     {
@@ -106,8 +93,6 @@ class SynonymTest extends TestCase
 
     /**
      * The SynonymUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testSynonymUpdatedEventEmbedFields(): void
     {

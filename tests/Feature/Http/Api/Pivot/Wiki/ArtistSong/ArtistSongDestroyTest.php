@@ -12,15 +12,10 @@ use App\Pivots\Wiki\ArtistSong;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistSongDestroyTest.
- */
 class ArtistSongDestroyTest extends TestCase
 {
     /**
      * The Artist Song Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class ArtistSongDestroyTest extends TestCase
 
     /**
      * The Artist Song Destroy Endpoint shall forbid users without the delete artist & delete song permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class ArtistSongDestroyTest extends TestCase
 
     /**
      * The Artist Song Destroy Endpoint shall return an error if the artist song does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class ArtistSongDestroyTest extends TestCase
 
     /**
      * The Artist Song Destroy Endpoint shall delete the artist song.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

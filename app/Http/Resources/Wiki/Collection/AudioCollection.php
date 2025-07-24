@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
-/**
- * Class AudioCollection.
- */
 class AudioCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class AudioCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -22,14 +22,8 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SongResourceController.
- */
 class SongResourceController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Song::class, 'song', ExternalResource::class, 'resource');
@@ -38,9 +32,7 @@ class SongResourceController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return SongResourceCollection
      */
     public function index(IndexRequest $request, IndexAction $action): SongResourceCollection
     {
@@ -54,11 +46,7 @@ class SongResourceController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Song  $song
-     * @param  ExternalResource  $resource
      * @param  StoreAction<SongResource>  $action
-     * @return SongResourceResource
      */
     public function store(StoreRequest $request, Song $song, ExternalResource $resource, StoreAction $action): SongResourceResource
     {
@@ -78,11 +66,7 @@ class SongResourceController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Song  $song
-     * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return SongResourceResource
      */
     public function show(ShowRequest $request, Song $song, ExternalResource $resource, ShowAction $action): SongResourceResource
     {
@@ -101,11 +85,7 @@ class SongResourceController extends PivotController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Song  $song
-     * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return SongResourceResource
      */
     public function update(UpdateRequest $request, Song $song, ExternalResource $resource, UpdateAction $action): SongResourceResource
     {
@@ -124,10 +104,7 @@ class SongResourceController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Song  $song
-     * @param  ExternalResource  $resource
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Song $song, ExternalResource $resource, DestroyAction $action): JsonResponse
     {

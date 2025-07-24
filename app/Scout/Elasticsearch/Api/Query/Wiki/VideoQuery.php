@@ -13,16 +13,10 @@ use Elastic\ScoutDriverPlus\Builders\NestedQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
-/**
- * Class VideoQuery.
- */
 class VideoQuery extends ElasticQuery
 {
     /**
      * Build Elasticsearch query.
-     *
-     * @param  Criteria  $criteria
-     * @return SearchParametersBuilder
      */
     public function build(Criteria $criteria): SearchParametersBuilder
     {

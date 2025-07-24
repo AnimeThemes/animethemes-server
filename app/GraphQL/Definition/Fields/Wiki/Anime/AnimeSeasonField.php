@@ -8,14 +8,8 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeSeasonField.
- */
 class AnimeSeasonField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::ATTRIBUTE_SEASON, AnimeSeason::class);
@@ -23,8 +17,6 @@ class AnimeSeasonField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeCollection.
- */
 class AnimeCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class AnimeCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

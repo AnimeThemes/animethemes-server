@@ -14,17 +14,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class HasCriteriaTest.
- */
 class HasCriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Has Criteria shall parse the field.
-     *
-     * @return void
      */
     public function testField(): void
     {
@@ -35,8 +30,6 @@ class HasCriteriaTest extends TestCase
 
     /**
      * By default, the Has Criteria shall use the GTE comparison operator.
-     *
-     * @return void
      */
     public function testDefaultComparisonOperator(): void
     {
@@ -47,8 +40,6 @@ class HasCriteriaTest extends TestCase
 
     /**
      * The Has Criteria shall parse the comparison operator.
-     *
-     * @return void
      */
     public function testComparisonOperator(): void
     {
@@ -63,8 +54,6 @@ class HasCriteriaTest extends TestCase
 
     /**
      * By default, the Has Criteria shall have a count of 1.
-     *
-     * @return void
      */
     public function testDefaultCount(): void
     {
@@ -75,8 +64,6 @@ class HasCriteriaTest extends TestCase
 
     /**
      * The Has Criteria shall parse count.
-     *
-     * @return void
      */
     public function testCount(): void
     {
@@ -91,8 +78,6 @@ class HasCriteriaTest extends TestCase
 
     /**
      * By default, the Has Criteria shall use the AND logical operator.
-     *
-     * @return void
      */
     public function testDefaultLogicalOperator(): void
     {
@@ -103,8 +88,6 @@ class HasCriteriaTest extends TestCase
 
     /**
      * The Has Criteria shall parse the logical operator.
-     *
-     * @return void
      */
     public function testLogicalOperator(): void
     {

@@ -20,15 +20,10 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
-/**
- * Class AnimeSynonymType.
- */
 class AnimeSynonymType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

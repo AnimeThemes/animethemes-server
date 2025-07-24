@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class FeatureUpdateTest.
- */
 class FeatureUpdateTest extends TestCase
 {
     /**
      * The Feature Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class FeatureUpdateTest extends TestCase
 
     /**
      * The Feature Update Endpoint shall forbid users without the update feature permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class FeatureUpdateTest extends TestCase
 
     /**
      * The Feature Update Endpoint shall update a feature.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

@@ -10,26 +10,14 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Uri;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-/**
- * Class ResourceSiteMatchesLinkRule.
- */
 readonly class ResourceSiteMatchesLinkRule implements ValidationRule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @param  string  $link
-     * @return void
-     */
     public function __construct(protected string $link) {}
 
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

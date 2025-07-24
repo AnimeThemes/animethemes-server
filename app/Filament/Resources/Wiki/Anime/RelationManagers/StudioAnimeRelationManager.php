@@ -9,23 +9,15 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use Filament\Tables\Table;
 
-/**
- * Class StudioAnimeRelationManager.
- */
 class StudioAnimeRelationManager extends StudioRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Anime::RELATION_STUDIOS;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

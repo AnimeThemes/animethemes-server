@@ -17,16 +17,9 @@ class TrackUpdated extends ListUpdatedEvent
 {
     /**
      * The playlist the track belongs to.
-     *
-     * @var Playlist
      */
     protected Playlist $playlist;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  PlaylistTrack  $track
-     */
     public function __construct(PlaylistTrack $track)
     {
         parent::__construct($track);
@@ -37,8 +30,6 @@ class TrackUpdated extends ListUpdatedEvent
     /**
      * Determine if the message should be sent.
      *
-     * @return bool
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function shouldSendDiscordMessage(): bool
@@ -48,8 +39,6 @@ class TrackUpdated extends ListUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return PlaylistTrack
      */
     public function getModel(): PlaylistTrack
     {
@@ -58,8 +47,6 @@ class TrackUpdated extends ListUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

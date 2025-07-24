@@ -10,20 +10,9 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\ExistsResolver;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class ExistsField.
- */
 #[UseField(ExistsResolver::class)]
 class ExistsField extends Field implements DisplayableField
 {
-    /**
-     * Create a new Field instance.
-     *
-     * @param  string  $relation
-     * @param  string  $column
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         protected string $relation,
         protected string $column,
@@ -49,8 +38,6 @@ class ExistsField extends Field implements DisplayableField
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -59,8 +46,6 @@ class ExistsField extends Field implements DisplayableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

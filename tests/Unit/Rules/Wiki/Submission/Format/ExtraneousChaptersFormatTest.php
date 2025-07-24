@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class ExtraneousChaptersFormatTest.
- */
 class ExtraneousChaptersFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Extraneous Chapters Format Rule shall fail if the chapter data is not empty.
-     *
-     * @return void
      */
     public function testFailsWhenChapterDataIsNotEmpty(): void
     {
@@ -60,8 +55,6 @@ class ExtraneousChaptersFormatTest extends TestCase
 
     /**
      * The Extraneous Chapters Format Rule shall pass if the chapter data is empty.
-     *
-     * @return void
      */
     public function testPassesWhenChapterDataIsEmpty(): void
     {

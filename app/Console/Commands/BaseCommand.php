@@ -9,9 +9,6 @@ use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Class BaseCommand.
- */
 abstract class BaseCommand extends Command implements Isolatable
 {
     /**
@@ -24,16 +21,12 @@ abstract class BaseCommand extends Command implements Isolatable
     /**
      * Execute the console command.
      *
-     * @return int
-     *
      * @throws ValidationException
      */
     abstract public function handle(): int;
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     abstract protected function validator(): Validator;
 }

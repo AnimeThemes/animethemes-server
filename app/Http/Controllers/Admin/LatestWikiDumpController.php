@@ -12,15 +12,10 @@ use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * Class LatestWikiDumpController.
- */
 class LatestWikiDumpController extends Controller
 {
     /**
      * Download dump.
-     *
-     * @return StreamedResponse
      *
      * @throws ModelNotFoundException
      */

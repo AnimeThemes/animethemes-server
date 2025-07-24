@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\List\Playlist;
 use App\GraphQL\Definition\Fields\Base\CountField;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistTracksCountField.
- */
 class PlaylistTracksCountField extends CountField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::RELATION_TRACKS, 'tracksCount');
@@ -22,8 +16,6 @@ class PlaylistTracksCountField extends CountField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

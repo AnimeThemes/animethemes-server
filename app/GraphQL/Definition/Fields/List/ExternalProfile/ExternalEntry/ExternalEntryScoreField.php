@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry;
 use App\GraphQL\Definition\Fields\FloatField;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryScoreField.
- */
 class ExternalEntryScoreField extends FloatField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalEntry::ATTRIBUTE_SCORE);
@@ -22,8 +16,6 @@ class ExternalEntryScoreField extends FloatField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

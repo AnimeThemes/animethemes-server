@@ -9,17 +9,12 @@ use App\Http\Api\Parser\FieldParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class FieldParserTest.
- */
 class FieldParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Field Parser shall return no criteria.
-     *
-     * @return void
      */
     public function testNoCriteriaByDefault(): void
     {
@@ -30,8 +25,6 @@ class FieldParserTest extends TestCase
 
     /**
      * The Field Parser shall parse criteria defined in the field param.
-     *
-     * @return void
      */
     public function testParseCriteria(): void
     {
@@ -50,8 +43,6 @@ class FieldParserTest extends TestCase
 
     /**
      * The Field Parser shall parse criteria type.
-     *
-     * @return void
      */
     public function testParseType(): void
     {
@@ -72,8 +63,6 @@ class FieldParserTest extends TestCase
 
     /**
      * The Field Parser shall parse criteria fields.
-     *
-     * @return void
      */
     public function testParseFields(): void
     {

@@ -16,15 +16,10 @@ use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
 use App\Pivots\Wiki\StudioImage;
 
-/**
- * Class StudioImageSchema.
- */
 class StudioImageSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

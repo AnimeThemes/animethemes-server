@@ -6,9 +6,6 @@ namespace App\Contracts\Http\Api\Schema;
 
 use App\Http\Api\Include\AllowedInclude;
 
-/**
- * Interface InteractsWithPivots.
- */
 interface InteractsWithPivots
 {
     /**

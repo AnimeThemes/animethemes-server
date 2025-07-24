@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoLinkField.
- */
 class VideoLinkField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_LINK, nullable: false);
@@ -22,8 +16,6 @@ class VideoLinkField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

@@ -8,9 +8,6 @@ use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum ApprovableStatus.
- */
 enum ApprovableStatus: int implements HasColor, HasLabel
 {
     use LocalizesName;
@@ -22,8 +19,6 @@ enum ApprovableStatus: int implements HasColor, HasLabel
 
     /**
      * Get the filament color for the enum.
-     *
-     * @return string
      */
     public function getColor(): string
     {

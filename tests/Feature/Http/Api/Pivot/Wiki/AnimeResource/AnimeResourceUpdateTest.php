@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceUpdateTest.
- */
 class AnimeResourceUpdateTest extends TestCase
 {
     /**
      * The Anime Resource Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -38,8 +33,6 @@ class AnimeResourceUpdateTest extends TestCase
 
     /**
      * The Anime Resource Update Endpoint shall forbid users without the update anime & update resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -61,8 +54,6 @@ class AnimeResourceUpdateTest extends TestCase
 
     /**
      * The Anime Resource Update Endpoint shall update an anime resource.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

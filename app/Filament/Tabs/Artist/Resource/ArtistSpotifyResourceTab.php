@@ -7,15 +7,10 @@ namespace App\Filament\Tabs\Artist\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Artist\ArtistResourceTab;
 
-/**
- * Class ArtistSpotifyResourceTab.
- */
 class ArtistSpotifyResourceTab extends ArtistResourceTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -24,8 +19,6 @@ class ArtistSpotifyResourceTab extends ArtistResourceTab
 
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     protected static function site(): ResourceSite
     {

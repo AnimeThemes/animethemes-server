@@ -10,17 +10,12 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class DiscordThreadAction.
- */
 class DiscordThreadAction
 {
     /**
      * Handle the action.
      *
-     * @param  Anime  $anime
      * @param  array<string, mixed>  $fields
-     * @return Exception|null
      */
     public function handle(Anime $anime, array $fields): ?Exception
     {
@@ -63,8 +58,7 @@ class DiscordThreadAction
     /**
      * Get the thread by ID.
      *
-     * @param  string  $id
-     * @return array
+     * @return array<string, mixed>
      */
     public function get(string $id): array
     {

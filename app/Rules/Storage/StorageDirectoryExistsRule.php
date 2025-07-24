@@ -9,26 +9,14 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-/**
- * Class StorageDirectoryExistsRule.
- */
 readonly class StorageDirectoryExistsRule implements ValidationRule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @param  Filesystem  $fs
-     * @return void
-     */
     public function __construct(protected Filesystem $fs) {}
 
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

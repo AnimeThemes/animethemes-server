@@ -26,14 +26,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class PlaylistController.
- */
 class PlaylistController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::class, 'playlist');
@@ -50,9 +44,7 @@ class PlaylistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return PlaylistCollection
      */
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
     {
@@ -70,9 +62,7 @@ class PlaylistController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Playlist>  $action
-     * @return PlaylistResource
      */
     public function store(StoreRequest $request, StoreAction $action): PlaylistResource
     {
@@ -89,10 +79,7 @@ class PlaylistController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Playlist  $playlist
      * @param  ShowAction  $action
-     * @return PlaylistResource
      */
     public function show(ShowRequest $request, Playlist $playlist, ShowAction $action): PlaylistResource
     {
@@ -106,10 +93,7 @@ class PlaylistController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Playlist  $playlist
      * @param  UpdateAction  $action
-     * @return PlaylistResource
      */
     public function update(UpdateRequest $request, Playlist $playlist, UpdateAction $action): PlaylistResource
     {
@@ -121,9 +105,7 @@ class PlaylistController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Playlist  $playlist
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Playlist $playlist, DestroyAction $action): JsonResponse
     {

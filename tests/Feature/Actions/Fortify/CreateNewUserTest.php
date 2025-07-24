@@ -11,22 +11,18 @@ use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 use Tests\TestCase;
 
-/**
- * Class CreateNewUserTest.
- */
 class CreateNewUserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Create New User Action shall require the name, email, password & terms fields.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -42,8 +38,6 @@ class CreateNewUserTest extends TestCase
     /**
      * The Create New User Action shall require usernames to be restricted to alphanumeric characters and dashes.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testUsernameAlphaDash(): void
@@ -52,7 +46,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker->password(20),
@@ -65,8 +59,6 @@ class CreateNewUserTest extends TestCase
 
     /**
      * The Create New User Action shall require usernames to be unique.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -82,7 +74,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $name,
@@ -96,15 +88,13 @@ class CreateNewUserTest extends TestCase
     /**
      * The Create New User Action shall create a new user.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testCreated(): void
     {
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -119,8 +109,6 @@ class CreateNewUserTest extends TestCase
 
     /**
      * The Create New User Action shall create a new user if the name is not flagged by OpenAI.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -140,7 +128,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -156,8 +144,6 @@ class CreateNewUserTest extends TestCase
     /**
      * The Create New User Action shall create a new user if the moderation service returns some error.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testCreatedIfOpenAiFails(): void
@@ -170,7 +156,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -185,8 +171,6 @@ class CreateNewUserTest extends TestCase
 
     /**
      * The Create New User Action shall prohibit users from creating usernames flagged by OpenAI.
-     *
-     * @return void
      *
      * @throws ValidationException
      */
@@ -208,7 +192,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -222,8 +206,6 @@ class CreateNewUserTest extends TestCase
     /**
      * The Create New User Action shall prohibit registrations using disposable email services.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testDisposableEmail(): void
@@ -236,7 +218,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -250,8 +232,6 @@ class CreateNewUserTest extends TestCase
     /**
      * The Create New User Action shall permit registrations using indisposable email services.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testIndisposableEmail(): void
@@ -262,7 +242,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker()->word(),
@@ -278,8 +258,6 @@ class CreateNewUserTest extends TestCase
     /**
      * The Create New User Action shall require emails to be unique.
      *
-     * @return void
-     *
      * @throws ValidationException
      */
     public function testEmailUnique(): void
@@ -294,7 +272,7 @@ class CreateNewUserTest extends TestCase
 
         $action = new CreateNewUser();
 
-        $password = $this->faker->password(18).$this->faker->randomDigit().$this->faker->randomElement(['!', '.', '@', '#']);
+        $password = Str::password(20);
 
         $action->create([
             User::ATTRIBUTE_NAME => $this->faker->word(),

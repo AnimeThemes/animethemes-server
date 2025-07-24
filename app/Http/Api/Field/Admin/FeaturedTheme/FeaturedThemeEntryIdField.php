@@ -16,16 +16,8 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class FeaturedThemeEntryIdField.
- */
 class FeaturedThemeEntryIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, FeaturedTheme::ATTRIBUTE_ENTRY);
@@ -34,7 +26,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -58,10 +49,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
@@ -72,7 +59,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array
@@ -96,9 +82,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
 
     /**
      * Get dependent video_id field.
-     *
-     * @param  Request  $request
-     * @return mixed
      */
     private function resolveVideoId(Request $request): mixed
     {

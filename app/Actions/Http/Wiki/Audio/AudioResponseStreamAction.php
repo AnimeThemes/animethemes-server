@@ -9,16 +9,8 @@ use App\Constants\Config\AudioConstants;
 use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class AudioResponseStreamAction.
- */
 class AudioResponseStreamAction extends ResponseStreamAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Audio  $audio
-     */
     public function __construct(Audio $audio)
     {
         parent::__construct($audio);
@@ -26,8 +18,6 @@ class AudioResponseStreamAction extends ResponseStreamAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

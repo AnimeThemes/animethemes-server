@@ -8,16 +8,10 @@ use Illuminate\Auth\Events\Attempting;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class LogAttempting.
- */
 class LogAttempting
 {
     /**
      * Handle the event.
-     *
-     * @param  Attempting  $event
-     * @return void
      */
     public function handle(Attempting $event): void
     {

@@ -12,19 +12,8 @@ use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Criteria\Filter\Criteria;
 use Illuminate\Support\Str;
 
-/**
- * Class Filter.
- */
 abstract class Filter
 {
-    /**
-     * Create a new filter instance.
-     *
-     * @param  string  $key
-     * @param  string|null  $column
-     * @param  QualifyColumn  $qualifyColumn
-     * @param  Clause  $clause
-     */
     public function __construct(
         protected readonly string $key,
         protected readonly ?string $column = null,
@@ -34,8 +23,6 @@ abstract class Filter
 
     /**
      * Get filter key value.
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -44,8 +31,6 @@ abstract class Filter
 
     /**
      * Get filter column.
-     *
-     * @return string
      */
     public function getColumn(): string
     {
@@ -54,8 +39,6 @@ abstract class Filter
 
     /**
      * Determine if the column should be qualified for the filter.
-     *
-     * @return bool
      */
     public function shouldQualifyColumn(): bool
     {
@@ -64,8 +47,6 @@ abstract class Filter
 
     /**
      * Get filter clause.
-     *
-     * @return Clause
      */
     public function clause(): Clause
     {
@@ -121,7 +102,6 @@ abstract class Filter
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     abstract public function isAllFilterValues(array $filterValues): bool;
 
@@ -141,10 +121,6 @@ abstract class Filter
 
     /**
      * Format filter string with conditions.
-     *
-     * @param  BinaryLogicalOperator|UnaryLogicalOperator|null  $logicalOperator
-     * @param  ComparisonOperator|null  $comparisonOperator
-     * @return string
      */
     public function format(
         BinaryLogicalOperator|UnaryLogicalOperator|null $logicalOperator = null,

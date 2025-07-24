@@ -19,8 +19,6 @@ abstract class AdminDeletedEvent extends BaseDeletedEvent
 {
     /**
      * Get Discord channel the message will be sent to.
-     *
-     * @return string
      */
     public function getDiscordChannel(): string
     {
@@ -29,8 +27,6 @@ abstract class AdminDeletedEvent extends BaseDeletedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

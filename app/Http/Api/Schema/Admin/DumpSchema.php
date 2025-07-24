@@ -14,15 +14,10 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\DumpResource;
 
-/**
- * Class DumpSchema.
- */
 class DumpSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

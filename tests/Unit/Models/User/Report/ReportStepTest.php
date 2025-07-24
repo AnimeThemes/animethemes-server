@@ -14,17 +14,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class ReportStepTest.
- */
 class ReportStepTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Steps shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -37,8 +32,6 @@ class ReportStepTest extends TestCase
 
     /**
      * Steps shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -51,8 +44,6 @@ class ReportStepTest extends TestCase
 
     /**
      * The action attribute of a step shall be cast to an ReportActionType enum instance.
-     *
-     * @return void
      */
     public function testCastsActionToEnum(): void
     {
@@ -65,8 +56,6 @@ class ReportStepTest extends TestCase
 
     /**
      * The action attribute of a step shall be cast to an array.
-     *
-     * @return void
      */
     public function testCastsFieldsToArray(): void
     {
@@ -81,8 +70,6 @@ class ReportStepTest extends TestCase
 
     /**
      * Steps shall cast the finished_at attribute to datetime.
-     *
-     * @return void
      */
     public function testCastsFinishedAt(): void
     {
@@ -95,8 +82,6 @@ class ReportStepTest extends TestCase
 
     /**
      * The status attribute of a step shall be cast to an ApprovableStatus enum instance.
-     *
-     * @return void
      */
     public function testCastsStatusToEnum(): void
     {
@@ -109,8 +94,6 @@ class ReportStepTest extends TestCase
 
     /**
      * A step shall have a report attached.
-     *
-     * @return void
      */
     public function testReport(): void
     {

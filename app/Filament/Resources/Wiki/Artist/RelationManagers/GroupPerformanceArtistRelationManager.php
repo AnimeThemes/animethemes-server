@@ -9,23 +9,15 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
 use Filament\Tables\Table;
 
-/**
- * Class GroupPerformanceArtistRelationManager.
- */
 class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Artist::RELATION_GROUP_PERFORMANCES;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

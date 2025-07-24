@@ -48,7 +48,7 @@ class Dump extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => DumpCreated::class,
@@ -72,8 +72,6 @@ class Dump extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -82,8 +80,6 @@ class Dump extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -107,7 +103,6 @@ class Dump extends BaseModel
      * Scope a query to only include safe dumps.
      *
      * @param  Builder  $query
-     * @return void
      */
     #[Scope]
     public function onlySafeDumps(Builder $query): void

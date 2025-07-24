@@ -8,9 +8,6 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\Field;
 use Illuminate\Support\Arr;
 
-/**
- * Class StoreRequest.
- */
 class StoreRequest extends WriteRequest
 {
     /**

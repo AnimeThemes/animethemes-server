@@ -13,17 +13,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class ResourceSiteTest.
- */
 class ResourceSiteTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Resource Site shall parse the ID from URLs that contain the Anime ID.
-     *
-     * @return void
      */
     public function testParseIdFromAnimeResource(): void
     {
@@ -45,8 +40,6 @@ class ResourceSiteTest extends TestCase
 
     /**
      * The Resource Site shall parse the ID from URLs that contain the Studio ID.
-     *
-     * @return void
      */
     public function testParseIdFromStudioResource(): void
     {
@@ -67,8 +60,6 @@ class ResourceSiteTest extends TestCase
 
     /**
      * The Resource Site shall fail to parse the ID from Anime-Planet for studio resources.
-     *
-     * @return void
      */
     public function testFailParseAnimePlanetIdFromStudioResource(): void
     {
@@ -84,8 +75,6 @@ class ResourceSiteTest extends TestCase
 
     /**
      * The Resource Site shall fail to parse the ID from Anime-Planet if the response is not expected.
-     *
-     * @return void
      */
     public function testFailParseAnimePlanetIdFromAnimeResource(): void
     {
@@ -107,8 +96,6 @@ class ResourceSiteTest extends TestCase
 
     /**
      * The Resource Site shall parse the ID from Anime-Planet if the response is expected.
-     *
-     * @return void
      */
     public function testParseAnimePlanetIdFromAnimeResource(): void
     {
@@ -138,8 +125,6 @@ class ResourceSiteTest extends TestCase
 
     /**
      * The Resource Site shall parse the ID from Kitsu if the link contains an integer.
-     *
-     * @return void
      */
     public function testParseKitsuIdForIdFromAnimeResource(): void
     {
@@ -152,8 +137,6 @@ class ResourceSiteTest extends TestCase
 
     /**
      * The Resource Site shall parse the ID from Kitsu if the link contains a slug.
-     *
-     * @return void
      */
     public function testParseKitsuIdForSlugFromAnimeResource(): void
     {

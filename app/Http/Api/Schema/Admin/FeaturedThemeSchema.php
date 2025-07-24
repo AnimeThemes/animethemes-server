@@ -27,15 +27,10 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme;
 
-/**
- * Class FeaturedThemeSchema.
- */
 class FeaturedThemeSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

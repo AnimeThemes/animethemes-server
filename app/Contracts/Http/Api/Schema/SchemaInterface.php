@@ -9,15 +9,10 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Sort\Sort;
 
-/**
- * Interface SchemaInterface.
- */
 interface SchemaInterface
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string;
 

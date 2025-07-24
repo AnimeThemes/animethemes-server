@@ -7,15 +7,10 @@ namespace App\GraphQL\Definition\Types\Edges\Auth;
 use App\GraphQL\Definition\Types\Auth\PermissionType;
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 
-/**
- * Class PermissionEdgeType.
- */
 class PermissionEdgeType extends BaseEdgeType
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

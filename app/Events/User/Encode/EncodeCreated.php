@@ -24,11 +24,6 @@ class EncodeCreated extends BaseEvent implements ManagesTrackEvent
     use Dispatchable;
     use SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  Encode  $encode
-     */
     public function __construct(Encode $encode)
     {
         parent::__construct($encode);
@@ -36,8 +31,6 @@ class EncodeCreated extends BaseEvent implements ManagesTrackEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Encode
      */
     public function getModel(): Encode
     {
@@ -46,8 +39,6 @@ class EncodeCreated extends BaseEvent implements ManagesTrackEvent
 
     /**
      * Manages a track in a playlist.
-     *
-     * @return void
      */
     public function manageTrack(): void
     {

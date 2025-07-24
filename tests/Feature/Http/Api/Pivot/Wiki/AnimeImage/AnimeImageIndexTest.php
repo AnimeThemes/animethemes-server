@@ -35,9 +35,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class AnimeImageIndexTest.
- */
 class AnimeImageIndexTest extends TestCase
 {
     use SortsModels;
@@ -45,8 +42,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * By default, the Anime Image Index Endpoint shall return a collection of Anime Image Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -75,8 +70,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -98,8 +91,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -140,8 +131,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -182,8 +171,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -226,8 +213,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -279,8 +264,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -332,8 +315,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Index Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {
@@ -376,8 +357,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -420,8 +399,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -464,8 +441,6 @@ class AnimeImageIndexTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

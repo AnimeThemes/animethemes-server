@@ -38,6 +38,13 @@ class ArtistSong extends BasePivot
     final public const RELATION_SONG = 'song';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = ArtistSong::TABLE;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -48,13 +55,6 @@ class ArtistSong extends BasePivot
         ArtistSong::ATTRIBUTE_AS,
         ArtistSong::ATTRIBUTE_SONG,
     ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ArtistSong::TABLE;
 
     /**
      * Get the composite primary key for the pivot.
@@ -74,7 +74,7 @@ class ArtistSong extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => ArtistSongCreated::class,

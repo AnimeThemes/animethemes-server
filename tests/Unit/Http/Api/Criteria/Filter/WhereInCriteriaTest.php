@@ -15,17 +15,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class WhereInCriteriaTest.
- */
 class WhereInCriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Where In Criteria shall parse the field.
-     *
-     * @return void
      */
     public function testField(): void
     {
@@ -38,8 +33,6 @@ class WhereInCriteriaTest extends TestCase
 
     /**
      * The Where In Criteria shall not parse the comparison operator.
-     *
-     * @return void
      */
     public function testComparisonOperator(): void
     {
@@ -59,8 +52,6 @@ class WhereInCriteriaTest extends TestCase
 
     /**
      * By default, the Where In Criteria shall use the AND logical operator.
-     *
-     * @return void
      */
     public function testDefaultLogicalOperator(): void
     {
@@ -71,8 +62,6 @@ class WhereInCriteriaTest extends TestCase
 
     /**
      * The Where In Criteria shall parse the logical operator.
-     *
-     * @return void
      */
     public function testLogicalOperator(): void
     {
@@ -87,8 +76,6 @@ class WhereInCriteriaTest extends TestCase
 
     /**
      * By default, the Where In Criteria shall not use the NOT operator.
-     *
-     * @return void
      */
     public function testDefaultUnaryOperator(): void
     {
@@ -99,8 +86,6 @@ class WhereInCriteriaTest extends TestCase
 
     /**
      * The Where In Criteria shall parse the NOT operator.
-     *
-     * @return void
      */
     public function testUnaryOperator(): void
     {

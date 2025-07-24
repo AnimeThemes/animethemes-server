@@ -14,11 +14,6 @@ use App\Models\Document\Page;
  */
 class PageUpdated extends WikiUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Page  $page
-     */
     public function __construct(Page $page)
     {
         parent::__construct($page);
@@ -27,8 +22,6 @@ class PageUpdated extends WikiUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Page
      */
     public function getModel(): Page
     {
@@ -37,8 +30,6 @@ class PageUpdated extends WikiUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

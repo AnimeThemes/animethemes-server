@@ -11,15 +11,10 @@ use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ArtistImageTest.
- */
 class ArtistImageTest extends TestCase
 {
     /**
      * When an Artist is attached to an Image or vice versa, an ArtistImageCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistImageCreatedEventDispatched(): void
     {
@@ -33,8 +28,6 @@ class ArtistImageTest extends TestCase
 
     /**
      * When an Artist is detached from an Image or vice versa, an ArtistImageDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistImageDeletedEventDispatched(): void
     {

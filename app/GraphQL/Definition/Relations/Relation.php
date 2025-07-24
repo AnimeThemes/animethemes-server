@@ -12,20 +12,13 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 use Stringable;
 
-/**
- * Class Relation.
- */
 abstract class Relation implements Stringable
 {
     use ResolvesArguments;
     use ResolvesDirectives;
 
     /**
-     * @param  Type  $type
-     * @param  string  $relationName
-     * @param  string  $field
      * @param  class-string|null  $edgeType
-     * @param  bool|null  $nullable
      */
     public function __construct(
         protected Type $type,
@@ -37,8 +30,6 @@ abstract class Relation implements Stringable
 
     /**
      * Get the field as a string representation.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -60,8 +51,6 @@ abstract class Relation implements Stringable
 
     /**
      * Resolve the arguments of the sub-query.
-     *
-     * @return string
      */
     protected function getArguments(): string
     {
@@ -76,15 +65,11 @@ abstract class Relation implements Stringable
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     abstract protected function type(): Type;
 
     /**
      * The Relation type.
-     *
-     * @return RelationType
      */
     abstract protected function relation(): RelationType;
 }

@@ -14,15 +14,9 @@ use App\GraphQL\Definition\Unions\LikedUnion;
 use App\Models\User\Like;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class LikeMutation.
- */
 #[UseField(LikeController::class, 'destroy')]
 class UnlikeMutation extends BaseMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct('unlike');
@@ -30,8 +24,6 @@ class UnlikeMutation extends BaseMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -85,8 +77,6 @@ class UnlikeMutation extends BaseMutation
 
     /**
      * The base return type of the mutation.
-     *
-     * @return Type
      */
     public function baseType(): Type
     {
@@ -95,8 +85,6 @@ class UnlikeMutation extends BaseMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

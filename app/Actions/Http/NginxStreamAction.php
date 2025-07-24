@@ -8,16 +8,10 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class NginxStreamAction.
- */
 abstract class NginxStreamAction extends StreamAction
 {
     /**
      * Stream the resource.
-     *
-     * @param  string  $disposition
-     * @return Response
      */
     public function stream(string $disposition = 'inline'): Response
     {
@@ -48,8 +42,6 @@ abstract class NginxStreamAction extends StreamAction
 
     /**
      * Get the location of the nginx internal redirect.
-     *
-     * @return string
      */
     abstract protected function nginxRedirect(): string;
 }

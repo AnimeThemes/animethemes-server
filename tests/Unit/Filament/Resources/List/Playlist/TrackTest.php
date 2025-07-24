@@ -16,15 +16,10 @@ use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class TrackTest.
- */
 class TrackTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -35,8 +30,6 @@ class TrackTest extends BaseResourceTestCase
 
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -47,8 +40,6 @@ class TrackTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {
@@ -59,8 +50,6 @@ class TrackTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -87,8 +76,6 @@ class TrackTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -112,8 +99,6 @@ class TrackTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountCreateAction(): void
     {
@@ -134,8 +119,6 @@ class TrackTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {

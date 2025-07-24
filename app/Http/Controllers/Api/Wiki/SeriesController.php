@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SeriesController.
- */
 class SeriesController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Series::class, 'series');
@@ -38,9 +32,7 @@ class SeriesController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return SeriesCollection
      */
     public function index(IndexRequest $request, IndexAction $action): SeriesCollection
     {
@@ -56,9 +48,7 @@ class SeriesController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Series>  $action
-     * @return SeriesResource
      */
     public function store(StoreRequest $request, StoreAction $action): SeriesResource
     {
@@ -70,10 +60,7 @@ class SeriesController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Series  $series
      * @param  ShowAction  $action
-     * @return SeriesResource
      */
     public function show(ShowRequest $request, Series $series, ShowAction $action): SeriesResource
     {
@@ -87,10 +74,7 @@ class SeriesController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Series  $series
      * @param  UpdateAction  $action
-     * @return SeriesResource
      */
     public function update(UpdateRequest $request, Series $series, UpdateAction $action): SeriesResource
     {
@@ -102,9 +86,7 @@ class SeriesController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Series  $series
      * @param  DestroyAction  $action
-     * @return SeriesResource
      */
     public function destroy(Series $series, DestroyAction $action): SeriesResource
     {
@@ -116,9 +98,7 @@ class SeriesController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Series  $series
      * @param  RestoreAction  $action
-     * @return SeriesResource
      */
     public function restore(Series $series, RestoreAction $action): SeriesResource
     {
@@ -130,9 +110,7 @@ class SeriesController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Series  $series
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Series $series, ForceDeleteAction $action): JsonResponse
     {

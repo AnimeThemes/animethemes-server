@@ -9,15 +9,9 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\AnimeResource;
 
-/**
- * Class AnimeResourceAsField.
- */
 #[UseField(PivotResolver::class)]
 class AnimeResourceAsField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeResource::ATTRIBUTE_AS);
@@ -25,8 +19,6 @@ class AnimeResourceAsField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

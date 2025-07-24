@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AudioTest.
- */
 class AudioTest extends TestCase
 {
     /**
      * When an audio is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class AudioTest extends TestCase
 
     /**
      * When an audio is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class AudioTest extends TestCase
 
     /**
      * When an audio is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class AudioTest extends TestCase
 
     /**
      * When an audio is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAudioUpdatedSendsDiscordNotification(): void
     {

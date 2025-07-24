@@ -21,17 +21,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class QueryTest.
- */
 class QueryTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Query shall retrieve field criteria by type.
-     *
-     * @return void
      */
     public function testGetFieldCriteria(): void
     {
@@ -50,8 +45,6 @@ class QueryTest extends TestCase
 
     /**
      * The Query shall retrieve include criteria by type.
-     *
-     * @return void
      */
     public function testGetIncludeCriteria(): void
     {
@@ -66,8 +59,6 @@ class QueryTest extends TestCase
 
     /**
      * The Query shall retrieve include resource criteria by type.
-     *
-     * @return void
      */
     public function testGetIncludeResourceCriteria(): void
     {
@@ -86,8 +77,6 @@ class QueryTest extends TestCase
 
     /**
      * The query shall retrieve all sort criteria.
-     *
-     * @return void
      */
     public function testGetSortCriteria(): void
     {
@@ -104,8 +93,6 @@ class QueryTest extends TestCase
 
     /**
      * The query shall retrieve all filter criteria.
-     *
-     * @return void
      */
     public function testGetFilterCriteria(): void
     {
@@ -123,8 +110,6 @@ class QueryTest extends TestCase
 
     /**
      * By default, the query shall not have a search term.
-     *
-     * @return void
      */
     public function testDoesNotHaveSearch(): void
     {
@@ -137,8 +122,6 @@ class QueryTest extends TestCase
 
     /**
      * The query shall have a search if a term is provided.
-     *
-     * @return void
      */
     public function testHasSearch(): void
     {
@@ -153,8 +136,6 @@ class QueryTest extends TestCase
 
     /**
      * By default, the query shall return null search criteria.
-     *
-     * @return void
      */
     public function testNullSearch(): void
     {
@@ -167,8 +148,6 @@ class QueryTest extends TestCase
 
     /**
      * The query shall return search criteria if a term is provided.
-     *
-     * @return void
      */
     public function testGetSearch(): void
     {
@@ -183,8 +162,6 @@ class QueryTest extends TestCase
 
     /**
      * The query shall return limit criteria.
-     *
-     * @return void
      */
     public function testGetLimitCriteria(): void
     {
@@ -197,8 +174,6 @@ class QueryTest extends TestCase
 
     /**
      * The query shall return limit criteria.
-     *
-     * @return void
      */
     public function testGetOffsetCriteria(): void
     {

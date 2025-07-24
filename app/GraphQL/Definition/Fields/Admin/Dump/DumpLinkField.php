@@ -6,16 +6,10 @@ namespace App\GraphQL\Definition\Fields\Admin\Dump;
 
 use App\GraphQL\Definition\Fields\StringField;
 
-/**
- * Class DumpLinkField.
- */
 class DumpLinkField extends StringField
 {
     final public const FIELD = 'link';
 
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(self::FIELD, nullable: false);
@@ -23,8 +17,6 @@ class DumpLinkField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -33,8 +25,6 @@ class DumpLinkField extends StringField
 
     /**
      * Determine if the field is nullable.
-     *
-     * @return bool
      */
     protected function nullable(): bool
     {

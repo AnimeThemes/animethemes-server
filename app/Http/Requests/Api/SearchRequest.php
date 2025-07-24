@@ -13,9 +13,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-/**
- * Class SearchRequest.
- */
 class SearchRequest extends ReadRequest
 {
     /**
@@ -173,9 +170,6 @@ class SearchRequest extends ReadRequest
      * If the value contains a separator, this is a multi-value filter that builds a where in clause.
      * Otherwise, this is a single-value filter that builds a where clause.
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
-     *
-     * @param  Validator  $validator
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

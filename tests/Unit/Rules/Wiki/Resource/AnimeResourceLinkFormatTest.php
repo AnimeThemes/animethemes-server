@@ -13,17 +13,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceLinkFormatRule.
- */
 class AnimeResourceLinkFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Anime Resource Link Format Rule shall fail for sites with no defined pattern.
-     *
-     * @return void
      */
     public function testFailsForNoPattern(): void
     {
@@ -39,8 +34,6 @@ class AnimeResourceLinkFormatTest extends TestCase
 
     /**
      * The Anime Resource Link Format Rule shall pass for URLs that match the expected pattern.
-     *
-     * @return void
      */
     public function testPassesForPattern(): void
     {
@@ -61,8 +54,6 @@ class AnimeResourceLinkFormatTest extends TestCase
 
     /**
      * The Anime Resource Link Format Rule shall fail for trailing slashes in URLs with defined patterns.
-     *
-     * @return void
      */
     public function testFailsForTrailingSlash(): void
     {
@@ -87,8 +78,6 @@ class AnimeResourceLinkFormatTest extends TestCase
 
     /**
      * The Anime Resource Link Format Rule shall fail for trailing slugs in URLs with defined patterns.
-     *
-     * @return void
      */
     public function testFailsForTrailingSlug(): void
     {
@@ -114,8 +103,6 @@ class AnimeResourceLinkFormatTest extends TestCase
 
     /**
      * The Anime Resource Link Format Rule shall fail for other resources not allowed.
-     *
-     * @return void
      */
     public function testFailsForOtherResources(): void
     {

@@ -10,15 +10,10 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DeleteVideoBulkAction.
- */
 class DeleteVideoBulkAction extends DeleteBulkAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -27,8 +22,6 @@ class DeleteVideoBulkAction extends DeleteBulkAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -45,7 +38,6 @@ class DeleteVideoBulkAction extends DeleteBulkAction
      *
      * @param  Video  $video
      * @param  array<string, mixed>  $data
-     * @return DeleteVideo
      */
     protected function storageAction(BaseModel $video, array $data): DeleteVideo
     {

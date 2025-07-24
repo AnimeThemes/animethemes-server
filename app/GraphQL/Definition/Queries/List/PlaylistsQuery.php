@@ -9,9 +9,6 @@ use App\GraphQL\Builders\List\PlaylistBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 
-/**
- * Class PlaylistsQuery.
- */
 #[UseBuilder(PlaylistBuilder::class)]
 class PlaylistsQuery extends EloquentQuery
 {
@@ -22,8 +19,6 @@ class PlaylistsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -53,8 +48,6 @@ class PlaylistsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return PlaylistType
      */
     public function baseType(): PlaylistType
     {

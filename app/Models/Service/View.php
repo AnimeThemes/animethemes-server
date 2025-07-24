@@ -24,8 +24,6 @@ class View extends BaseView
 
     /**
      * Perform any actions required after the model boots.
-     *
-     * @return void
      */
     protected static function booted(): void
     {

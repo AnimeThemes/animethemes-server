@@ -21,9 +21,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class BackfillAnimeAction.
- */
 class BackfillAnimeAction extends BaseAction
 {
     final public const RESOURCES = BackfillAnime::RESOURCES;
@@ -45,8 +42,6 @@ class BackfillAnimeAction extends BaseAction
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -55,8 +50,6 @@ class BackfillAnimeAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -73,9 +66,7 @@ class BackfillAnimeAction extends BaseAction
     /**
      * Perform the action on the given models.
      *
-     * @param  Anime  $anime
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(Anime $anime, array $data): void
     {
@@ -105,10 +96,7 @@ class BackfillAnimeAction extends BaseAction
     }
 
     /**
-     * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema|null
+     * Get the schema available on the action.|null.
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

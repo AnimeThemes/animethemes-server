@@ -12,17 +12,12 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class FeaturedThemePolicy.
- */
 class FeaturedThemePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  FeaturedTheme  $featuredtheme
-     * @return bool
      */
     public function view(?User $user, Model $featuredtheme): bool
     {

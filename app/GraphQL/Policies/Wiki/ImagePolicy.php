@@ -6,7 +6,4 @@ namespace App\GraphQL\Policies\Wiki;
 
 use App\GraphQL\Policies\BasePolicy;
 
-/**
- * Class ImagePolicy.
- */
 class ImagePolicy extends BasePolicy {}

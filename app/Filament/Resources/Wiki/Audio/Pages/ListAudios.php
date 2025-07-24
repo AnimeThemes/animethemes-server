@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Audio;
 use App\Filament\Tabs\Audio\AudioVideoTab;
 use Filament\Schemas\Components\Tabs\Tab;
 
-/**
- * Class ListAudios.
- */
 class ListAudios extends BaseListResources
 {
     use HasTabs;

@@ -11,15 +11,10 @@ use App\Models\Wiki\Video;
 use Exception;
 use Tests\TestCase;
 
-/**
- * Class InsertTrackTest.
- */
 class InsertTrackTest extends TestCase
 {
     /**
      * The Insert Track Action shall set the first inserted track as first and last.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -42,8 +37,6 @@ class InsertTrackTest extends TestCase
 
     /**
      * The Insert Track Action shall set the second track as the first's next track and the playlist's last track.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -78,8 +71,6 @@ class InsertTrackTest extends TestCase
 
     /**
      * The Insert Track Action shall set the third track as the second's next track and the playlist's last track.
-     *
-     * @return void
      *
      * @throws Exception
      */

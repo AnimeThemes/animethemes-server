@@ -50,9 +50,6 @@ class UserFactory extends Factory
 
     /**
      * Create and assign permission to user.
-     *
-     * @param  string  ...$abilities
-     * @return static
      */
     public function withPermissions(string ...$abilities): static
     {
@@ -69,8 +66,6 @@ class UserFactory extends Factory
 
     /**
      * Create the admin role with all permissions.
-     *
-     * @return static
      */
     public function withAdmin(): static
     {

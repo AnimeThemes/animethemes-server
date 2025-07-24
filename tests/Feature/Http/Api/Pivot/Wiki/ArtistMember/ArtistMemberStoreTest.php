@@ -11,15 +11,10 @@ use App\Pivots\Wiki\ArtistMember;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistMemberStoreTest.
- */
 class ArtistMemberStoreTest extends TestCase
 {
     /**
      * The Artist Member Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -35,8 +30,6 @@ class ArtistMemberStoreTest extends TestCase
 
     /**
      * The Artist Member Store Endpoint shall forbid users without the create artist permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -56,8 +49,6 @@ class ArtistMemberStoreTest extends TestCase
 
     /**
      * The Artist Member Store Endpoint shall create an artist member.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoCodecStreamTest.
- */
 class VideoCodecStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Video Codec Stream Rule shall fail if the video codec is not vp9.
-     *
-     * @return void
      */
     public function testFailsWhenCodecIsNotVp9(): void
     {
@@ -67,8 +62,6 @@ class VideoCodecStreamTest extends TestCase
 
     /**
      * The Video Codec Stream Rule shall pass if the video codec is vp9.
-     *
-     * @return void
      */
     public function testPassesWhenCodecIsVp9(): void
     {

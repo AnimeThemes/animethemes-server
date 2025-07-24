@@ -9,15 +9,10 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
-/**
- * Class TrackHashidsSeeder.
- */
 class TrackHashidsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {

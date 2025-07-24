@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Field;
 
-/**
- * Enum AggregateFunction.
- */
 enum AggregateFunction: string
 {
     case AVG = 'avg';

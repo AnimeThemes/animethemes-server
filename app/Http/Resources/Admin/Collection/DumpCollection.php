@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Dump;
 use Illuminate\Http\Request;
 
-/**
- * Class DumpCollection.
- */
 class DumpCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class DumpCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

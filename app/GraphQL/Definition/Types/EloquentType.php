@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Types;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * Class EloquentType.
- */
 abstract class EloquentType extends BaseType
 {
     /**

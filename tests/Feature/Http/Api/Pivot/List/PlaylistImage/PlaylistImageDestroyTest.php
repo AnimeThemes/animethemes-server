@@ -18,17 +18,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PlaylistImageDestroyTest.
- */
 class PlaylistImageDestroyTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Playlist Image Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -48,8 +43,6 @@ class PlaylistImageDestroyTest extends TestCase
 
     /**
      * The Playlist Image Destroy Endpoint shall forbid users without the delete playlist & delete image permissions.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -73,8 +66,6 @@ class PlaylistImageDestroyTest extends TestCase
 
     /**
      * The Playlist Image Destroy Endpoint shall forbid users from deleting the playlist image if they don't own the playlist.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
@@ -104,8 +95,6 @@ class PlaylistImageDestroyTest extends TestCase
     /**
      * The Playlist Image Destroy Endpoint shall forbid users from destroying playlist images
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -134,8 +123,6 @@ class PlaylistImageDestroyTest extends TestCase
 
     /**
      * The Playlist Image Destroy Endpoint shall return an error if the playlist image does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -164,8 +151,6 @@ class PlaylistImageDestroyTest extends TestCase
 
     /**
      * The Playlist Image Destroy Endpoint shall delete the playlist image.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {
@@ -196,8 +181,6 @@ class PlaylistImageDestroyTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to destroy playlist images
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testDestroyPermittedForBypass(): void
     {

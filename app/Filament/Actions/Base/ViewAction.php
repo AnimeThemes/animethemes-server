@@ -11,15 +11,10 @@ use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\ViewAction as BaseViewAction;
 use Filament\Support\Enums\IconSize;
 
-/**
- * Class ViewAction.
- */
 class ViewAction extends BaseViewAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

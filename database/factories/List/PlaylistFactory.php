@@ -50,9 +50,6 @@ class PlaylistFactory extends Factory
 
     /**
      * Define the model's track listing.
-     *
-     * @param  int  $count
-     * @return static
      */
     public function tracks(int $count): static
     {
@@ -101,8 +98,7 @@ class PlaylistFactory extends Factory
     /**
      * Define the model's track listing.
      *
-     * @param  array  $videoIds
-     * @return static
+     * @param  int[]  $videoIds
      */
     public function tracksForIds(array $videoIds): static
     {

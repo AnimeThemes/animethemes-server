@@ -16,16 +16,10 @@ use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use App\Policies\BasePolicy;
 
-/**
- * Class ArtistPolicy.
- */
 class ArtistPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can attach any song to the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnySong(User $user): bool
     {
@@ -34,11 +28,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any song to the artist.
-     *
-     * @param  User  $user
-     * @param  Artist  $artist
-     * @param  Song  $song
-     * @return bool
      */
     public function attachSong(User $user, Artist $artist, Song $song): bool
     {
@@ -54,9 +43,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any song from the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnySong(User $user): bool
     {
@@ -65,9 +51,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any resource to the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyExternalResource(User $user): bool
     {
@@ -76,11 +59,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a resource to the artist.
-     *
-     * @param  User  $user
-     * @param  Artist  $artist
-     * @param  ExternalResource  $resource
-     * @return bool
      */
     public function attachExternalResource(User $user, Artist $artist, ExternalResource $resource): bool
     {
@@ -96,9 +74,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a resource from the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyExternalResource(User $user): bool
     {
@@ -107,9 +82,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any group/member to the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyArtist(User $user): bool
     {
@@ -118,11 +90,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a group/member to the artist.
-     *
-     * @param  User  $user
-     * @param  Artist  $artist
-     * @param  Artist  $artist2
-     * @return bool
      */
     public function attachArtist(User $user, Artist $artist, Artist $artist2): bool
     {
@@ -136,9 +103,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any group/member from the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyArtist(User $user): bool
     {
@@ -147,9 +111,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any image to the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyImage(User $user): bool
     {
@@ -158,11 +119,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an image to the artist.
-     *
-     * @param  User  $user
-     * @param  Artist  $artist
-     * @param  Image  $image
-     * @return bool
      */
     public function attachImage(User $user, Artist $artist, Image $image): bool
     {
@@ -178,9 +134,6 @@ class ArtistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any image from the artist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyImage(User $user): bool
     {

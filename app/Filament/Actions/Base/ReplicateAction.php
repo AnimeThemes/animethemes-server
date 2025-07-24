@@ -14,15 +14,10 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class ReplicateAction.
- */
 class ReplicateAction extends BaseReplicateAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -17,15 +17,10 @@ use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Pivots\Wiki\StudioResource;
 
-/**
- * Class StudioResourceSchema.
- */
 class StudioResourceSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

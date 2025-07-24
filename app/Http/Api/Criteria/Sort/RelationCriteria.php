@@ -8,16 +8,12 @@ use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-/**
- * Class RelationCriteria.
- */
 class RelationCriteria extends FieldCriteria
 {
     /**
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Sort  $sort
      * @return Builder
      *
      * @noinspection PhpMissingParentCallCommonInspection

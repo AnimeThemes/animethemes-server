@@ -24,20 +24,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Class UploadVideoAction.
- */
 class UploadVideoAction extends UploadAction
 {
     /**
-     * Create a new action instance.
-     *
-     * @param  UploadedFile  $file
-     * @param  string  $path
      * @param  array  $attributes
-     * @param  AnimeThemeEntry|null  $entry
-     * @param  UploadedFile|null  $script
-     * @param  User|null  $encoder
      */
     public function __construct(
         UploadedFile $file,
@@ -52,9 +42,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Processes to be completed after handling action.
-     *
-     * @param  StorageResults  $storageResults
-     * @return Video|null
      *
      * @throws Exception
      */
@@ -89,8 +76,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Get existing or create new video for file upload.
-     *
-     * @return Video
      */
     protected function getOrCreateVideo(): Video
     {
@@ -138,9 +123,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Attach entry to created video if uploaded from entry detail screen.
-     *
-     * @param  Video  $video
-     * @return void
      */
     protected function attachEntry(Video $video): void
     {
@@ -151,9 +133,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Upload & Associate Script if video upload was successful.
-     *
-     * @param  Video  $video
-     * @return void
      */
     protected function uploadScript(Video $video): void
     {
@@ -168,9 +147,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * Mark the encoder for the video.
-     *
-     * @param  Video  $video
-     * @return void
      */
     protected function markEncode(Video $video): void
     {

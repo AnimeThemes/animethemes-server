@@ -135,7 +135,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => VideoCreated::class,
@@ -171,8 +171,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * The link of the video.
-     *
-     * @return string|null
      */
     public function getLinkAttribute(): ?string
     {
@@ -186,7 +184,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     /**
      * The array of tags used to uniquely identify the video within the context of a theme.
      *
-     * @return array
+     * @return string[]
      */
     public function getTagsAttribute(): array
     {
@@ -214,8 +212,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     /**
      * Get the priority score for the video.
      * Higher scores increase the likelihood of the video to be the source of an audio track.
-     *
-     * @return int
      */
     public function getSourcePriority(): int
     {
@@ -256,7 +252,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     /**
      * Get the indexable data array for the model.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toSearchableArray(): array
     {
@@ -271,8 +267,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get the route key for the model.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -301,8 +295,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -311,8 +303,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -321,8 +311,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get the path of the streamable model in the filesystem.
-     *
-     * @return string
      */
     public function path(): string
     {
@@ -331,8 +319,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get the basename of the streamable model.
-     *
-     * @return string
      */
     public function basename(): string
     {
@@ -341,8 +327,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get the MIME type / content type of the streamable model.
-     *
-     * @return string
      */
     public function mimetype(): string
     {
@@ -351,8 +335,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Get the content length of the streamable model.
-     *
-     * @return int
      */
     public function size(): int
     {

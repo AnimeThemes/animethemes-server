@@ -11,17 +11,12 @@ use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class ReconcileScriptAction.
- */
 class ReconcileScriptAction extends ReconcileStorageAction
 {
     use ReconcilesScriptRepositories;
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -30,8 +25,6 @@ class ReconcileScriptAction extends ReconcileStorageAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -44,8 +37,6 @@ class ReconcileScriptAction extends ReconcileStorageAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

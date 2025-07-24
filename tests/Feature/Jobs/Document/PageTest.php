@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class PageTest.
- */
 class PageTest extends TestCase
 {
     /**
      * When n page is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPageCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class PageTest extends TestCase
 
     /**
      * When a page is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPageDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class PageTest extends TestCase
 
     /**
      * When a page is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPageRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class PageTest extends TestCase
 
     /**
      * When a page is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testPageUpdatedSendsDiscordNotification(): void
     {

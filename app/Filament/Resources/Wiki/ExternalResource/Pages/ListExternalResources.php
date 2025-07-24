@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\ExternalResource;
 use App\Filament\Tabs\ExternalResource\ExternalResourceUnlinkedTab;
 use Filament\Schemas\Components\Tabs\Tab;
 
-/**
- * Class ListExternalResources.
- */
 class ListExternalResources extends BaseListResources
 {
     use HasTabs;
@@ -22,7 +19,7 @@ class ListExternalResources extends BaseListResources
     /**
      * Get the header actions available.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

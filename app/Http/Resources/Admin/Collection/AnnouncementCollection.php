@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\Request;
 
-/**
- * Class AnnouncementCollection.
- */
 class AnnouncementCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class AnnouncementCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

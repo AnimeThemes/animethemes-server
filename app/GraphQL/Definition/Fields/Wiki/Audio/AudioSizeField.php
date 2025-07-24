@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Audio;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\Audio;
 
-/**
- * Class AudioSizeField.
- */
 class AudioSizeField extends IntField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Audio::ATTRIBUTE_SIZE, nullable: false);
@@ -22,8 +16,6 @@ class AudioSizeField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

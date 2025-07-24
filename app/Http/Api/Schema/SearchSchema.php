@@ -24,15 +24,10 @@ use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\SearchResource;
 
-/**
- * Class SearchSchema.
- */
 class SearchSchema extends Schema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

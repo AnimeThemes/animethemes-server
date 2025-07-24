@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 
-/**
- * Class ThemeCollection.
- */
 class ThemeCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ThemeCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class StudioResource.
- */
 class StudioResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class StudioResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

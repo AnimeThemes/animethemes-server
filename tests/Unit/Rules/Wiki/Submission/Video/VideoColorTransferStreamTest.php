@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoColorTransferStreamTest.
- */
 class VideoColorTransferStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Video Color Transfer Stream Rule shall fail if the color transfer is not in the list of accepted values.
-     *
-     * @return void
      */
     public function testFailsWhenColorTransferIsNotAccepted(): void
     {
@@ -68,8 +63,6 @@ class VideoColorTransferStreamTest extends TestCase
 
     /**
      * The Video Color Transfer Stream Rule shall pass if the color transfer is in the list of accepted values.
-     *
-     * @return void
      */
     public function testPassesWhenColorTransferIsAccepted(): void
     {

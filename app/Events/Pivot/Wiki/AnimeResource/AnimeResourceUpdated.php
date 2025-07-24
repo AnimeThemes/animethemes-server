@@ -16,11 +16,6 @@ use App\Pivots\Wiki\AnimeResource;
  */
 class AnimeResourceUpdated extends PivotUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeResource  $animeResource
-     */
     public function __construct(AnimeResource $animeResource)
     {
         parent::__construct($animeResource->anime, $animeResource->resource);
@@ -29,8 +24,6 @@ class AnimeResourceUpdated extends PivotUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

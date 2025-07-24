@@ -24,11 +24,6 @@ return new class extends Migration
      */
     protected mixed $table;
 
-    /**
-     * Create a new migration instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->schema = Schema::connection(
@@ -40,8 +35,6 @@ return new class extends Migration
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
@@ -64,8 +57,6 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {

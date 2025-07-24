@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeSeries;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeSeriesDestroyTest.
- */
 class AnimeSeriesDestroyTest extends TestCase
 {
     /**
      * The Anime Series Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class AnimeSeriesDestroyTest extends TestCase
 
     /**
      * The Anime Series Destroy Endpoint shall forbid users without the delete anime & delete series permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class AnimeSeriesDestroyTest extends TestCase
 
     /**
      * The Anime Series Destroy Endpoint shall return an error if the anime series does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class AnimeSeriesDestroyTest extends TestCase
 
     /**
      * The Anime Series Destroy Endpoint shall delete the anime series.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

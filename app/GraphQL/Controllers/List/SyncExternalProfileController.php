@@ -9,9 +9,6 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
-/**
- * Class SyncExternalProfileController.
- */
 class SyncExternalProfileController extends BaseController
 {
     final public const ROUTE_SLUG = 'id';
@@ -21,7 +18,6 @@ class SyncExternalProfileController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return JsonResponse
      */
     public function store($_, array $args): JsonResponse
     {

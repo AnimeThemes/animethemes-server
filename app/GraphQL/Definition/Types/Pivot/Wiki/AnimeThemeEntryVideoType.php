@@ -16,15 +16,10 @@ use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
-/**
- * Class AnimeThemeEntryVideoType.
- */
 class AnimeThemeEntryVideoType extends BaseType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

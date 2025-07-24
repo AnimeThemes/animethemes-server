@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class PlaylistTest.
- */
 class PlaylistTest extends TestCase
 {
     /**
      * When a Playlist is created, a PlaylistCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistCreatedEventDispatched(): void
     {
@@ -33,8 +28,6 @@ class PlaylistTest extends TestCase
 
     /**
      * When a Playlist is deleted, a PlaylistDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistDeletedEventDispatched(): void
     {
@@ -47,8 +40,6 @@ class PlaylistTest extends TestCase
 
     /**
      * When a Playlist is updated, a PlaylistUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistUpdatedEventDispatched(): void
     {
@@ -63,8 +54,6 @@ class PlaylistTest extends TestCase
 
     /**
      * The PlaylistUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testPlaylistUpdatedEventEmbedFields(): void
     {
@@ -83,8 +72,6 @@ class PlaylistTest extends TestCase
 
     /**
      * The Playlist Created event shall assign hashids to the playlist without an owner.
-     *
-     * @return void
      */
     public function testPlaylistCreatedAssignsNullableUserHashids(): void
     {
@@ -97,8 +84,6 @@ class PlaylistTest extends TestCase
 
     /**
      * The Playlist Created event shall assign hashids to the playlist with an owner.
-     *
-     * @return void
      */
     public function testPlaylistCreatedAssignsNonNullUserHashids(): void
     {

@@ -10,9 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class PivotResolver.
- */
 class PivotResolver
 {
     /**
@@ -20,9 +17,6 @@ class PivotResolver
      *
      * @param  array|Model  $root
      * @param  array  $args
-     * @param  GraphQLContext  $context
-     * @param  ResolveInfo  $resolveInfo
-     * @return mixed
      */
     public function __invoke(array|Model $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

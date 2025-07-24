@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\List\PlaylistImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class PlaylistImageResource.
- */
 class PlaylistImageResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class PlaylistImageResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

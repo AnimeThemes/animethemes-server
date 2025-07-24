@@ -7,9 +7,6 @@ namespace App\Filament\Components\Infolist;
 use Closure;
 use Filament\Infolists\Components\Entry;
 
-/**
- * Class KeyValueThreeEntry.
- */
 class KeyValueThreeEntry extends Entry
 {
     /**
@@ -24,8 +21,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Initial setup for the entry.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -48,9 +43,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Set the label for the left column.
-     *
-     * @param  string|Closure|null  $label
-     * @return static
      */
     public function leftLabel(string|Closure|null $label): static
     {
@@ -61,9 +53,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Set the label for the middle column.
-     *
-     * @param  string|Closure|null  $label
-     * @return static
      */
     public function middleLabel(string|Closure|null $label): static
     {
@@ -74,9 +63,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Set the label for the right column.
-     *
-     * @param  string|Closure|null  $label
-     * @return static
      */
     public function rightLabel(string|Closure|null $label): static
     {
@@ -87,8 +73,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Get the label for the left column.
-     *
-     * @return string
      */
     public function getLeftLabel(): string
     {
@@ -97,8 +81,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Get the label for the left column.
-     *
-     * @return string
      */
     public function getMiddleLabel(): string
     {
@@ -107,8 +89,6 @@ class KeyValueThreeEntry extends Entry
 
     /**
      * Get the label for the left column.
-     *
-     * @return string
      */
     public function getRightLabel(): string
     {

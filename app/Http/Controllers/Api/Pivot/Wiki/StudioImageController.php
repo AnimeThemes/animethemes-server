@@ -20,14 +20,8 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class StudioImageController.
- */
 class StudioImageController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Studio::class, 'studio', Image::class, 'image');
@@ -36,9 +30,7 @@ class StudioImageController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return StudioImageCollection
      */
     public function index(IndexRequest $request, IndexAction $action): StudioImageCollection
     {
@@ -52,11 +44,7 @@ class StudioImageController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Studio  $studio
-     * @param  Image  $image
      * @param  StoreAction<StudioImage>  $action
-     * @return StudioImageResource
      */
     public function store(StoreRequest $request, Studio $studio, Image $image, StoreAction $action): StudioImageResource
     {
@@ -76,11 +64,7 @@ class StudioImageController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Studio  $studio
-     * @param  Image  $image
      * @param  ShowAction  $action
-     * @return StudioImageResource
      */
     public function show(ShowRequest $request, Studio $studio, Image $image, ShowAction $action): StudioImageResource
     {
@@ -99,10 +83,7 @@ class StudioImageController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Studio  $studio
-     * @param  Image  $image
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Studio $studio, Image $image, DestroyAction $action): JsonResponse
     {

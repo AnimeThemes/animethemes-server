@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class StudioTest.
- */
 class StudioTest extends TestCase
 {
     /**
      * When a Studio is created, a StudioCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class StudioTest extends TestCase
 
     /**
      * When a Studio is deleted, a StudioDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class StudioTest extends TestCase
 
     /**
      * When a Studio is restored, a StudioRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class StudioTest extends TestCase
      * When a Studio is restored, a StudioUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testStudioRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class StudioTest extends TestCase
 
     /**
      * When a Studio is updated, a StudioUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class StudioTest extends TestCase
 
     /**
      * The StudioUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testStudioUpdatedEventEmbedFields(): void
     {

@@ -15,21 +15,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Pennant\Feature;
 
-/**
- * Class SyncExternalProfileJob.
- */
 class SyncExternalProfileJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param  ExternalProfile  $profile
-     * @return void
-     */
     public function __construct(public readonly ExternalProfile $profile)
     {
         $this->onQueue("sync-external-profile-{$profile->site->name}");
@@ -37,8 +28,6 @@ class SyncExternalProfileJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -61,8 +50,6 @@ class SyncExternalProfileJob implements ShouldQueue
 
     /**
      * Determine the time at which the job should time out.
-     *
-     * @return DateTime
      */
     public function retryUntil(): DateTime
     {

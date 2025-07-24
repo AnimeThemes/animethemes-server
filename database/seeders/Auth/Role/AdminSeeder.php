@@ -42,15 +42,10 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Arr;
 
-/**
- * Class AdminSeeder.
- */
 class AdminSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

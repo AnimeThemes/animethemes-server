@@ -12,15 +12,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class FeatureTest.
- */
 class FeatureTest extends TestCase
 {
     /**
      * When a Feature is created, a FeatureCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testFeatureCreatedEventDispatched(): void
     {
@@ -31,8 +26,6 @@ class FeatureTest extends TestCase
 
     /**
      * When a Feature is deleted, a FeatureDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testFeatureDeletedEventDispatched(): void
     {
@@ -45,8 +38,6 @@ class FeatureTest extends TestCase
 
     /**
      * When a Feature is updated, a FeatureUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testFeatureUpdatedEventDispatched(): void
     {
@@ -61,8 +52,6 @@ class FeatureTest extends TestCase
 
     /**
      * The FeatureUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testFeatureUpdatedEventEmbedFields(): void
     {

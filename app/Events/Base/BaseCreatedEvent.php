@@ -43,8 +43,6 @@ abstract class BaseCreatedEvent extends BaseEvent implements DiscordMessageEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {
@@ -53,8 +51,6 @@ abstract class BaseCreatedEvent extends BaseEvent implements DiscordMessageEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     abstract protected function getDiscordMessageDescription(): string;
 }

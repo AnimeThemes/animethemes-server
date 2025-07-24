@@ -7,9 +7,6 @@ namespace App\Http\Api\Filter;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Rules\Api\IsValidBoolean;
 
-/**
- * Class BooleanFilter.
- */
 class BooleanFilter extends Filter
 {
     /**
@@ -48,7 +45,6 @@ class BooleanFilter extends Filter
      * Determine if both true and false have been specified.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     public function isAllFilterValues(array $filterValues): bool
     {

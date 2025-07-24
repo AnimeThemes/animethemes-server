@@ -16,15 +16,10 @@ use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Pivots\Wiki\AnimeSeries;
 
-/**
- * Class AnimeSeriesSchema.
- */
 class AnimeSeriesSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

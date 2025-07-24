@@ -10,15 +10,10 @@ use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class GroupForceDeleteTest.
- */
 class GroupForceDeleteTest extends TestCase
 {
     /**
      * The Group Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class GroupForceDeleteTest extends TestCase
 
     /**
      * The Group Force Delete Endpoint shall forbid users without the force delete group permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class GroupForceDeleteTest extends TestCase
 
     /**
      * The Group Force Delete Endpoint shall force delete the group.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

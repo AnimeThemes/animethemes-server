@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 
-/**
- * Class SeriesCollection.
- */
 class SeriesCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class SeriesCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

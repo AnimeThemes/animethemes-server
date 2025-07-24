@@ -7,16 +7,10 @@ namespace App\Actions\Http;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * Class ResponseStreamAction.
- */
 abstract class ResponseStreamAction extends StreamAction
 {
     /**
      * Stream the resource.
-     *
-     * @param  string  $disposition
-     * @return StreamedResponse
      */
     public function stream(string $disposition = 'inline'): StreamedResponse
     {

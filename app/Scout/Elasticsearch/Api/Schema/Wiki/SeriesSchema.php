@@ -11,29 +11,21 @@ use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Series\SeriesNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Series\SeriesSlugField;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\SeriesQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class SeriesSchema.
- */
 class SeriesSchema extends Schema
 {
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
-    public function query(): ElasticQuery
+    public function query(): SeriesQuery
     {
         return new SeriesQuery();
     }
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

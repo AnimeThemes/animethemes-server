@@ -17,15 +17,10 @@ use BezhanSalleh\FilamentExceptions\Resources\ExceptionResource;
 use Filament\Facades\Filament;
 use Filament\Tables\Table;
 
-/**
- * Class Exception.
- */
 class Exception extends ExceptionResource
 {
     /**
      * The logical group associated with the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -36,9 +31,6 @@ class Exception extends ExceptionResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -91,8 +83,6 @@ class Exception extends ExceptionResource
 
     /**
      * Determine if the user can access the table.
-     *
-     * @return bool
      */
     public static function canViewAny(): bool
     {

@@ -29,9 +29,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class PageIndexTest.
- */
 class PageIndexTest extends TestCase
 {
     use SortsModels;
@@ -39,8 +36,6 @@ class PageIndexTest extends TestCase
 
     /**
      * By default, the Page Index Endpoint shall return a collection of Page Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -62,8 +57,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -80,8 +73,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -115,8 +106,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -154,8 +143,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -197,8 +184,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -240,8 +225,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -276,8 +259,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -312,8 +293,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -348,8 +327,6 @@ class PageIndexTest extends TestCase
 
     /**
      * The Page Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {

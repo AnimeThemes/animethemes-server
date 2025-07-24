@@ -7,15 +7,10 @@ namespace App\Filament\Tabs\Song\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Song\SongResourceTab;
 
-/**
- * Class SongAppleMusicResourceTab.
- */
 class SongAppleMusicResourceTab extends SongResourceTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -24,8 +19,6 @@ class SongAppleMusicResourceTab extends SongResourceTab
 
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     protected static function site(): ResourceSite
     {

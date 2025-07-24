@@ -8,9 +8,6 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use DateTime;
 
-/**
- * Class DateFilter.
- */
 class DateFilter extends Filter
 {
     /**
@@ -66,7 +63,6 @@ class DateFilter extends Filter
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     public function isAllFilterValues(array $filterValues): bool
     {

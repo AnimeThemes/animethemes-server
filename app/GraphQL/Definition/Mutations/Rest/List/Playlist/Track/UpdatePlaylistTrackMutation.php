@@ -10,15 +10,9 @@ use App\GraphQL\Definition\Mutations\Rest\UpdateMutation;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist\PlaylistTrack;
 
-/**
- * Class UpdatePlaylistTrackMutation.
- */
 #[UseField(PlaylistTrackController::class, 'update')]
 class UpdatePlaylistTrackMutation extends UpdateMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::class);
@@ -26,8 +20,6 @@ class UpdatePlaylistTrackMutation extends UpdateMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -36,8 +28,6 @@ class UpdatePlaylistTrackMutation extends UpdateMutation
 
     /**
      * The base return type of the query.
-     *
-     * @return PlaylistTrackType
      */
     public function baseType(): PlaylistTrackType
     {

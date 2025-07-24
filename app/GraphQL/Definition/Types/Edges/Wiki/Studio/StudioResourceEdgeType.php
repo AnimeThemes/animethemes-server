@@ -10,15 +10,10 @@ use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\StudioResourceType;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 
-/**
- * Class StudioResourceEdgeType.
- */
 class StudioResourceEdgeType extends BaseEdgeType
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

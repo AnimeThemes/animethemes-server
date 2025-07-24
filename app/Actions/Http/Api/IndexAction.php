@@ -20,20 +20,12 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use RuntimeException;
 
-/**
- * Class IndexAction.
- */
 class IndexAction
 {
     use ConstrainsEagerLoads;
 
     /**
      * Show paginated listing of models.
-     *
-     * @param  Builder  $builder
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return Collection|Paginator
      */
     public function index(Builder $builder, Query $query, Schema $schema): Collection|Paginator
     {
@@ -68,11 +60,6 @@ class IndexAction
 
     /**
      * Search models.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @param  PaginationStrategy  $paginationStrategy
-     * @return Collection|Paginator
      */
     public function search(
         Query $query,
@@ -93,8 +80,6 @@ class IndexAction
 
     /**
      * Get the search instance.
-     *
-     * @return Search|null
      */
     protected function getSearch(): ?Search
     {

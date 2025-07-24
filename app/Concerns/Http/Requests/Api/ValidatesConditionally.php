@@ -6,18 +6,12 @@ namespace App\Concerns\Http\Requests\Api;
 
 use Illuminate\Validation\Validator;
 
-/**
- * Trait ValidatesConditionally.
- */
 trait ValidatesConditionally
 {
     /**
      * Configure the validator instance.
      * Note: This function is invoked by name if it exists.
      * We define a decorator that provides better clarity for what conditional validation needs to be applied.
-     *
-     * @param  Validator  $validator
-     * @return void
      *
      * @noinspection PhpUnused
      */
@@ -28,9 +22,6 @@ trait ValidatesConditionally
 
     /**
      * Configure conditional validation.
-     *
-     * @param  Validator  $validator
-     * @return void
      */
     protected function handleConditionalValidation(Validator $validator): void
     {
@@ -42,9 +33,6 @@ trait ValidatesConditionally
      * If the value contains a separator, we assume this is a multi-value filter that builds a where in clause.
      * Otherwise, we assume this is a single-value filter that builds a where clause.
      * Logical operators apply to specific clauses, so we must check formatted filter parameters against filter values.
-     *
-     * @param  Validator  $validator
-     * @return void
      */
     protected function conditionallyRestrictAllowedFilterValues(Validator $validator): void
     {

@@ -15,16 +15,8 @@ use App\Models\Aggregate\ViewAggregate;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class AudioViewCountField.
- */
 class AudioViewCountField extends AggregateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Audio::RELATION_VIEW_AGGREGATE, AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
@@ -32,8 +24,6 @@ class AudioViewCountField extends AggregateField
 
     /**
      * Get the filters that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -42,8 +32,6 @@ class AudioViewCountField extends AggregateField
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {
@@ -52,9 +40,6 @@ class AudioViewCountField extends AggregateField
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -63,8 +48,6 @@ class AudioViewCountField extends AggregateField
 
     /**
      * Format the aggregate value to its sub-select alias / model attribute.
-     *
-     * @return string
      */
     public function alias(): string
     {

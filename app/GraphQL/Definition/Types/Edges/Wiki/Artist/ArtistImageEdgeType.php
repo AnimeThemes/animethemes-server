@@ -10,15 +10,10 @@ use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistImageType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 
-/**
- * Class ArtistImageEdgeType.
- */
 class ArtistImageEdgeType extends BaseEdgeType
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

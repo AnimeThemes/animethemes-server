@@ -10,15 +10,10 @@ use App\Models\Wiki\Video;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class VideoDestroyTest.
- */
 class VideoDestroyTest extends TestCase
 {
     /**
      * The Video Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class VideoDestroyTest extends TestCase
 
     /**
      * The Video Destroy Endpoint shall forbid users without the delete video permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class VideoDestroyTest extends TestCase
 
     /**
      * The Video Destroy Endpoint shall forbid users from updating a video that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class VideoDestroyTest extends TestCase
 
     /**
      * The Video Destroy Endpoint shall delete the video.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

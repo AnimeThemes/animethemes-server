@@ -6,17 +6,11 @@ namespace App\Concerns\Filament\Enums;
 
 use Illuminate\Support\Str;
 
-/**
- * Trait HasColorOrEmoji.
- */
 trait HasColorOrEmoji
 {
     /**
      * Get the enum as an array formatted for a select, but styled.
      *
-     * @param  bool|null  $hasColor
-     * @param  bool|null  $hasEmoji
-     * @param  string|null  $locale
      * @return array
      */
     public static function asSelectArrayStyled(?bool $hasColor = true, ?bool $hasEmoji = true, ?string $locale = null): array
@@ -33,11 +27,6 @@ trait HasColorOrEmoji
 
     /**
      * Localize the enum, but styled.
-     *
-     * @param  bool|null  $hasColor
-     * @param  bool|null  $hasEmoji
-     * @param  string|null  $locale
-     * @return string
      */
     public function localizeStyled(?bool $hasColor = true, ?bool $hasEmoji = true, ?string $locale = null): string
     {

@@ -13,14 +13,8 @@ use App\Models\Wiki\Video;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class LikeVideoField.
- */
 class LikeVideoField extends Field implements BindableField, CreatableField, DeletableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct('video');
@@ -28,8 +22,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -38,8 +30,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -58,8 +48,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
 
     /**
      * Get the column that the field should use to bind.
-     *
-     * @return string
      */
     public function bindUsingColumn(): string
     {

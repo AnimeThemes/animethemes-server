@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\File;
  */
 class MoveAudioAction extends MoveAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Audio  $audio
-     * @param  string  $to
-     */
     public function __construct(Audio $audio, string $to)
     {
         parent::__construct($audio, $to);
@@ -40,8 +34,6 @@ class MoveAudioAction extends MoveAction
 
     /**
      * Get the path to move from.
-     *
-     * @return string
      */
     protected function from(): string
     {
@@ -52,8 +44,6 @@ class MoveAudioAction extends MoveAction
      * Update underlying model.
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
-     *
-     * @return Audio
      */
     protected function update(): Audio
     {

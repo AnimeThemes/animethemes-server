@@ -10,15 +10,10 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class AnimeStreamingResourceTab.
- */
 class AnimeStreamingResourceTab extends BaseTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -44,8 +39,6 @@ class AnimeStreamingResourceTab extends BaseTab
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

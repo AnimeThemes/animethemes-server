@@ -6,9 +6,6 @@ namespace App\Enums\Http\Api\Filter;
 
 use App\Concerns\Enums\LocalizesName;
 
-/**
- * Enum TrashedStatus.
- */
 enum TrashedStatus: string
 {
     use LocalizesName;

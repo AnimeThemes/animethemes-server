@@ -27,9 +27,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class FeatureIndexTest.
- */
 class FeatureIndexTest extends TestCase
 {
     use SortsModels;
@@ -37,8 +34,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * By default, the Feature Index Endpoint shall return a collection of Feature Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -60,8 +55,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * The Feature Show Endpoint shall list features of nonnull scope.
-     *
-     * @return void
      */
     public function testNonNullForbidden(): void
     {
@@ -95,8 +88,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * The Feature Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -113,8 +104,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * The Feature Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -148,8 +137,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * The Feature Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -187,8 +174,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * The Feature Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -230,8 +215,6 @@ class FeatureIndexTest extends TestCase
 
     /**
      * The Feature Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

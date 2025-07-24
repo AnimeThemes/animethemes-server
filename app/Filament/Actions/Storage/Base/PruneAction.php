@@ -10,15 +10,10 @@ use App\Filament\Components\Fields\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class PruneAction.
- */
 abstract class PruneAction extends StorageAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -29,9 +24,6 @@ abstract class PruneAction extends StorageAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -49,9 +41,7 @@ abstract class PruneAction extends StorageAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return BasePruneAction
      */
     abstract protected function storageAction(?Model $record, array $data): BasePruneAction;
 }

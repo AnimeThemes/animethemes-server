@@ -17,15 +17,10 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class SynonymSchema.
- */
 class SynonymSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {
@@ -64,10 +59,8 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
 
     /**
      * Get the model of the schema.
-     *
-     * @return Model
      */
-    public function model(): Model
+    public function model(): AnimeSynonym
     {
         return new AnimeSynonym();
     }

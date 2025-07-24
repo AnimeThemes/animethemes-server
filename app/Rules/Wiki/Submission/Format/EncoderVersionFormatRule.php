@@ -11,18 +11,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use Laravel\Pennant\Feature;
 
-/**
- * Class EncoderVersionFormatRule.
- */
 class EncoderVersionFormatRule extends SubmissionRule
 {
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

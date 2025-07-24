@@ -7,15 +7,10 @@ namespace App\Filament\Actions\Storage\Admin;
 use App\Actions\Storage\Admin\Dump\DumpAction as DumpDatabase;
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction as DumpDocumentDatabase;
 
-/**
- * Class DumpDocumentAction.
- */
 class DumpDocumentAction extends DumpAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -24,8 +19,6 @@ class DumpDocumentAction extends DumpAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -38,7 +31,6 @@ class DumpDocumentAction extends DumpAction
      * Get the underlying action.
      *
      * @param  array<string, mixed>  $data
-     * @return DumpDatabase
      */
     protected function storageAction(array $data): DumpDatabase
     {

@@ -23,17 +23,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class AnimeResourceShowTest.
- */
 class AnimeResourceShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Anime Resource Show Endpoint shall return an error if the anime resource does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -47,8 +42,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * By default, the Anime Resource Show Endpoint shall return an Anime Resource Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -75,8 +68,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * The Anime Resource Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -115,8 +106,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * The Anime Resource Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -155,8 +144,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * The Anime Resource Show Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {
@@ -196,8 +183,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * The Anime Resource Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -237,8 +222,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * The Anime Resource Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -278,8 +261,6 @@ class AnimeResourceShowTest extends TestCase
 
     /**
      * The Anime Resource Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

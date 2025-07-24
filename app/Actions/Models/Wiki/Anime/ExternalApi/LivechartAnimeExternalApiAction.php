@@ -12,15 +12,10 @@ use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Http;
 
-/**
- * Class LivechartAnimeExternalApiAction.
- */
 class LivechartAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     public function getSite(): ResourceSite
     {
@@ -31,7 +26,6 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
      * Set the response after the request.
      *
      * @param  BelongsToMany<ExternalResource, Anime>  $resources
-     * @return static
      */
     public function handle(BelongsToMany $resources): static
     {

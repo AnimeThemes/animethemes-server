@@ -10,9 +10,6 @@ use Filament\Facades\Filament;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
-/**
- * Class Handler.
- */
 class Handler extends ExceptionHandler
 {
     /**
@@ -28,8 +25,6 @@ class Handler extends ExceptionHandler
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
     public function register(): void
     {

@@ -10,16 +10,10 @@ use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Filament\Panel;
 
-/**
- * Class DeveloperDashboard.
- */
 class DeveloperDashboard extends BaseDashboard
 {
     /**
      * Get the slug used to the dashboard route path.
-     *
-     * @param  Panel|null  $panel
-     * @return string
      */
     public static function getSlug(?Panel $panel = null): string
     {
@@ -28,8 +22,6 @@ class DeveloperDashboard extends BaseDashboard
 
     /**
      * Determine if the user can access the dashboard.
-     *
-     * @return bool
      */
     public static function canAccess(): bool
     {
@@ -38,8 +30,6 @@ class DeveloperDashboard extends BaseDashboard
 
     /**
      * Get the displayed label for the dashboard.
-     *
-     * @return string
      */
     public static function getNavigationLabel(): string
     {
@@ -48,8 +38,6 @@ class DeveloperDashboard extends BaseDashboard
 
     /**
      * Get the icon for the dashboard.
-     *
-     * @return string
      */
     public static function getNavigationIcon(): string
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Auth\Permission;
 use Illuminate\Http\Request;
 
-/**
- * Class PermissionCollection.
- */
 class PermissionCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class PermissionCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

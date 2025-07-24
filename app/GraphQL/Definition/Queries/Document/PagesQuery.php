@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Document;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Document\PageType;
 
-/**
- * Class PagesQuery.
- */
 class PagesQuery extends EloquentQuery
 {
     public function __construct()
@@ -19,8 +16,6 @@ class PagesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -43,8 +38,6 @@ class PagesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return PageType
      */
     public function baseType(): PageType
     {

@@ -9,17 +9,8 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class IdField.
- */
 class IdField extends IntField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $column
-     */
     public function __construct(Schema $schema, string $column)
     {
         parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
@@ -27,10 +18,6 @@ class IdField extends IntField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

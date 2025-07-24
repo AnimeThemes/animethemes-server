@@ -9,17 +9,12 @@ use App\Http\Api\Parser\SearchParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class SearchParserTest.
- */
 class SearchParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Search Parser shall return no criteria.
-     *
-     * @return void
      */
     public function testNoCriteriaByDefault(): void
     {
@@ -30,8 +25,6 @@ class SearchParserTest extends TestCase
 
     /**
      * The Search parser shall parse the search query.
-     *
-     * @return void
      */
     public function testParseSearchCriteria(): void
     {
@@ -46,8 +39,6 @@ class SearchParserTest extends TestCase
 
     /**
      * The Search parser shall parse the search term.
-     *
-     * @return void
      */
     public function testParseSearchCriteriaTerm(): void
     {

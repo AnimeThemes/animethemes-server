@@ -25,9 +25,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
 use RuntimeException;
 
-/**
- * Enum ResourceSite.
- */
 enum ResourceSite: int implements HasLabel
 {
     use LocalizesName;
@@ -65,9 +62,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Get domain by resource site.
-     *
-     * @param  int|null  $value
-     * @return string|null
      */
     public static function getDomain(?int $value): ?string
     {
@@ -98,9 +92,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Get resource site by link, matching expected domain.
-     *
-     * @param  string  $link
-     * @return ResourceSite|null
      */
     public static function valueOf(string $link): ?ResourceSite
     {
@@ -114,9 +105,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Attempt to parse External ID from Site Link.
-     *
-     * @param  string  $link
-     * @return string|null
      */
     public static function parseIdFromLink(string $link): ?string
     {
@@ -138,9 +126,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Attempt to parse Anime Planet ID from link.
-     *
-     * @param  string  $link
-     * @return string|null
      */
     protected static function parseAnimePlanetIdFromLink(string $link): ?string
     {
@@ -168,9 +153,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Attempt to parse Kitsu ID from link.
-     *
-     * @param  string  $link
-     * @return string|null
      */
     protected static function parseKitsuIdFromLink(string $link): ?string
     {
@@ -208,9 +190,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Get the format rule for the model.
-     *
-     * @param  Model&HasResources  $model
-     * @return ValidationRule
      *
      * @throws RuntimeException
      */
@@ -294,10 +273,6 @@ enum ResourceSite: int implements HasLabel
      * Get the URL of the site for resources by determined model.
      *
      * @param  class-string  $modelClass
-     * @param  int|null  $id
-     * @param  string|null  $slug
-     * @param  string|null  $type
-     * @return string|null
      */
     public function formatResourceLink(string $modelClass, ?int $id = null, ?string $slug = null, ?string $type = null): ?string
     {
@@ -366,8 +341,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Determine whether the resource uses external id in the url.
-     *
-     * @return bool
      */
     public function usesIdInLink(): bool
     {
@@ -379,9 +352,6 @@ enum ResourceSite: int implements HasLabel
 
     /**
      * Get the URL capture groups of the resource site.
-     *
-     * @param  Model|null  $model
-     * @return string
      */
     public function getUrlCaptureGroups(?Model $model): string
     {
@@ -453,7 +423,6 @@ enum ResourceSite: int implements HasLabel
      * Get the pattern of the resource site by determined model.
      *
      * @param  class-string|null  $modelClass
-     * @return string|null
      */
     public function getPattern(?string $modelClass): ?string
     {

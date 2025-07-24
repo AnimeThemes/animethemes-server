@@ -41,15 +41,10 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Seeder;
 
-/**
- * Class PermissionSeeder.
- */
 class PermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -109,9 +104,7 @@ class PermissionSeeder extends Seeder
     /**
      * Register resource abilities.
      *
-     * @param  string  $resource
      * @param  array  $abilities
-     * @return void
      */
     protected function registerResource(string $resource, array $abilities): void
     {
@@ -124,7 +117,6 @@ class PermissionSeeder extends Seeder
      * Configure role with abilities.
      *
      * @param  string[]  $abilities
-     * @return void
      */
     protected function registerAbilities(array $abilities): void
     {

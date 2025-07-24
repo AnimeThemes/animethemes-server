@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ArtistImageTest.
- */
 class ArtistImageTest extends TestCase
 {
     /**
      * When an Artist is attached to an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistImageCreatedSendsDiscordNotification(): void
     {
@@ -41,8 +36,6 @@ class ArtistImageTest extends TestCase
 
     /**
      * When an Artist is detached from an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistImageDeletedSendsDiscordNotification(): void
     {

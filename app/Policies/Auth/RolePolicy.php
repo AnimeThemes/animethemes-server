@@ -10,16 +10,10 @@ use App\Models\Auth\User;
 use App\Policies\BasePolicy;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class RolePolicy.
- */
 class RolePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -29,9 +23,7 @@ class RolePolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  Role  $role
-     * @return bool
      */
     public function view(?User $user, Model $role): bool
     {
@@ -40,8 +32,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any permission to the role.
-     *
-     * @return bool
      */
     public function attachAnyPermission(): bool
     {
@@ -50,8 +40,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a permission to the role.
-     *
-     * @return bool
      */
     public function attachPermission(): bool
     {
@@ -60,8 +48,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any permission from the role.
-     *
-     * @return bool
      */
     public function detachAnyPermission(): bool
     {
@@ -70,8 +56,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a permission from the role.
-     *
-     * @return bool
      */
     public function detachPermission(): bool
     {
@@ -80,8 +64,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any user to the role.
-     *
-     * @return bool
      */
     public function attachAnyUser(): bool
     {
@@ -90,8 +72,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a user to the role.
-     *
-     * @return bool
      */
     public function attachUser(): bool
     {
@@ -100,8 +80,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any user from the role.
-     *
-     * @return bool
      */
     public function detachAnyUser(): bool
     {
@@ -110,8 +88,6 @@ class RolePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a user from the role.
-     *
-     * @return bool
      */
     public function detachUser(): bool
     {

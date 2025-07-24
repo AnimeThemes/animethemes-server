@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceTest.
- */
 class ExternalResourceTest extends TestCase
 {
     /**
      * When a Resource is created, an ExternalResourceCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalResourceCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * When a Resource is deleted, an ExternalResourceDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalResourceDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * When a Resource is restored, an ExternalResourceRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalResourceRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class ExternalResourceTest extends TestCase
      * When a Resource is restored, an ExternalResourceUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testExternalResourceRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * When an ExternalResource is updated, an ExternalResourceUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalResourceUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * The ExternalResourceUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testExternalResourceUpdatedEventEmbedFields(): void
     {

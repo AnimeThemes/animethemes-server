@@ -12,17 +12,12 @@ use App\Models\List\Playlist;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class AssignHashidsAction.
- */
 class AssignHashidsAction extends BaseAction
 {
     protected ?string $connection = null;
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -31,8 +26,6 @@ class AssignHashidsAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -47,9 +40,6 @@ class AssignHashidsAction extends BaseAction
 
     /**
      * Perform the action on the given models.
-     *
-     * @param  BaseModel  $model
-     * @return void
      */
     public function handle(BaseModel $model): void
     {
@@ -66,9 +56,6 @@ class AssignHashidsAction extends BaseAction
 
     /**
      * Set the connection.
-     *
-     * @param  string|null  $connection
-     * @return static
      */
     public function setConnection(?string $connection): static
     {

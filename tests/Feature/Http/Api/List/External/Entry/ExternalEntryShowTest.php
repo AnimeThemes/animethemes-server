@@ -23,17 +23,12 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalEntryShowTest.
- */
 class ExternalEntryShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Setup the test environment.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -44,8 +39,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall forbid a private profile from being publicly viewed.
-     *
-     * @return void
      */
     public function testPrivateExternalEntryCannotBePubliclyViewed(): void
     {
@@ -66,8 +59,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall forbid the user from viewing a private profile entry if not owned.
-     *
-     * @return void
      */
     public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
     {
@@ -92,8 +83,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall allow a private profile entry to be viewed by the owner.
-     *
-     * @return void
      */
     public function testPrivateExternalEntryCanBeViewedByOwner(): void
     {
@@ -118,8 +107,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall allow a public profile entry to be viewed.
-     *
-     * @return void
      */
     public function testPublicExternalEntryCanBeViewed(): void
     {
@@ -140,8 +127,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall scope bindings.
-     *
-     * @return void
      */
     public function testScoped(): void
     {
@@ -165,8 +150,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * By default, the External Entry Show Endpoint shall return an External Entry Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -197,8 +180,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -242,8 +223,6 @@ class ExternalEntryShowTest extends TestCase
 
     /**
      * The External Entry Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

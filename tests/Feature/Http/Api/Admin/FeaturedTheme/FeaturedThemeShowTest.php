@@ -23,17 +23,12 @@ use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeShowTest.
- */
 class FeaturedThemeShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Featured Theme Show Endpoint shall forbid the user from viewing a featured theme whose start date is in the future.
-     *
-     * @return void
      */
     public function testForbiddenIfFutureStartDate(): void
     {
@@ -48,8 +43,6 @@ class FeaturedThemeShowTest extends TestCase
 
     /**
      * By default, the Featured Theme Show Endpoint shall return a Featured Theme Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -71,8 +64,6 @@ class FeaturedThemeShowTest extends TestCase
 
     /**
      * The Featured Theme Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -117,8 +108,6 @@ class FeaturedThemeShowTest extends TestCase
 
     /**
      * The Featured Theme Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

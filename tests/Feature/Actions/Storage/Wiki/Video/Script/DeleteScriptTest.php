@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class DeleteScriptTest.
- */
 class DeleteScriptTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Delete Script Action shall fail if there are no deletions.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -45,8 +40,6 @@ class DeleteScriptTest extends TestCase
 
     /**
      * The Delete Script Action shall pass if there are deletions.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -69,8 +62,6 @@ class DeleteScriptTest extends TestCase
 
     /**
      * The Delete Script Action shall delete the file from the configured disks.
-     *
-     * @return void
      */
     public function testDeletedFromDisk(): void
     {
@@ -91,8 +82,6 @@ class DeleteScriptTest extends TestCase
 
     /**
      * The Delete Video Action shall delete the script.
-     *
-     * @return void
      *
      * @throws Exception
      */

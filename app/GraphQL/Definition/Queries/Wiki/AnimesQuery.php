@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 
-/**
- * Class AnimesQuery.
- */
 class AnimesQuery extends EloquentQuery
 {
     public function __construct()
@@ -19,8 +16,6 @@ class AnimesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -45,8 +40,6 @@ class AnimesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return AnimeType
      */
     public function baseType(): AnimeType
     {

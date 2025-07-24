@@ -10,15 +10,10 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Str;
 
-/**
- * Class FakeQuery.
- */
 class FakeQuery extends Query
 {
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {
@@ -26,8 +21,6 @@ class FakeQuery extends Query
         {
             /**
              * Get the type of the resource.
-             *
-             * @return string
              */
             public function type(): string
             {

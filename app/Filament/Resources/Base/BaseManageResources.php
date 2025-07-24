@@ -7,15 +7,12 @@ namespace App\Filament\Resources\Base;
 use App\Filament\Actions\Base\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
-/**
- * Class BaseManageResources.
- */
 abstract class BaseManageResources extends ManageRecords
 {
     /**
      * Get the header actions available.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

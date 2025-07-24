@@ -8,14 +8,8 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceSiteField.
- */
 class ExternalResourceSiteField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalResource::ATTRIBUTE_SITE, ResourceSite::class, nullable: false);
@@ -23,8 +17,6 @@ class ExternalResourceSiteField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

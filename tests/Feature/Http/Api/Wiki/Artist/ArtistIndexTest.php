@@ -45,9 +45,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class ArtistIndexTest.
- */
 class ArtistIndexTest extends TestCase
 {
     use SortsModels;
@@ -55,8 +52,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * By default, the Artist Index Endpoint shall return a collection of Artist Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -78,8 +73,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -96,8 +89,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -135,8 +126,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -170,8 +159,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -209,8 +196,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -252,8 +237,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -295,8 +278,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -331,8 +312,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -367,8 +346,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -403,8 +380,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -447,8 +422,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -502,8 +475,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -552,8 +523,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -602,8 +571,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -652,8 +619,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {
@@ -708,8 +673,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {
@@ -750,8 +713,6 @@ class ArtistIndexTest extends TestCase
 
     /**
      * The Artist Index Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

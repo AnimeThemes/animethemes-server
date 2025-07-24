@@ -11,15 +11,10 @@ use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class PlaylistImageTest.
- */
 class PlaylistImageTest extends TestCase
 {
     /**
      * When a Playlist is attached to an Image or vice versa, a PlaylistImageCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistImageCreatedEventDispatched(): void
     {
@@ -33,8 +28,6 @@ class PlaylistImageTest extends TestCase
 
     /**
      * When a Playlist is detached from an Image or vice versa, a PlaylistImageDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testPlaylistImageDeletedEventDispatched(): void
     {

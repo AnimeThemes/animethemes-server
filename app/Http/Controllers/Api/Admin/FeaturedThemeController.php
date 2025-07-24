@@ -22,14 +22,8 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class FeaturedThemeController.
- */
 class FeaturedThemeController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(FeaturedTheme::class, 'featuredtheme');
@@ -38,9 +32,7 @@ class FeaturedThemeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return FeaturedThemeCollection
      */
     public function index(IndexRequest $request, IndexAction $action): FeaturedThemeCollection
     {
@@ -58,9 +50,7 @@ class FeaturedThemeController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<FeaturedTheme>  $action
-     * @return FeaturedThemeResource
      */
     public function store(StoreRequest $request, StoreAction $action): FeaturedThemeResource
     {
@@ -72,10 +62,7 @@ class FeaturedThemeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  FeaturedTheme  $featuredtheme
      * @param  ShowAction  $action
-     * @return FeaturedThemeResource
      */
     public function show(ShowRequest $request, FeaturedTheme $featuredtheme, ShowAction $action): FeaturedThemeResource
     {
@@ -89,10 +76,7 @@ class FeaturedThemeController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  FeaturedTheme  $featuredtheme
      * @param  UpdateAction  $action
-     * @return FeaturedThemeResource
      */
     public function update(UpdateRequest $request, FeaturedTheme $featuredtheme, UpdateAction $action): FeaturedThemeResource
     {
@@ -104,9 +88,7 @@ class FeaturedThemeController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  FeaturedTheme  $featuredtheme
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): JsonResponse
     {

@@ -12,15 +12,10 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class EntryUpdateTest.
- */
 class EntryUpdateTest extends TestCase
 {
     /**
      * The Entry Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -37,8 +32,6 @@ class EntryUpdateTest extends TestCase
 
     /**
      * The Entry Update Endpoint shall forbid users without the update anime theme entry permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -59,8 +52,6 @@ class EntryUpdateTest extends TestCase
 
     /**
      * The Entry Update Endpoint shall forbid users from updating an anime theme entry that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -82,8 +73,6 @@ class EntryUpdateTest extends TestCase
 
     /**
      * The Entry Update Endpoint shall update an entry.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

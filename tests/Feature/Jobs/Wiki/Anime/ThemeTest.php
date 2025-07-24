@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ThemeTest.
- */
 class ThemeTest extends TestCase
 {
     /**
      * When a theme is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeCreatedSendsDiscordNotification(): void
     {
@@ -42,8 +37,6 @@ class ThemeTest extends TestCase
 
     /**
      * When a theme is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeDeletedSendsDiscordNotification(): void
     {
@@ -62,8 +55,6 @@ class ThemeTest extends TestCase
 
     /**
      * When a theme is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeRestoredSendsDiscordNotification(): void
     {
@@ -82,8 +73,6 @@ class ThemeTest extends TestCase
 
     /**
      * When a theme is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThemeUpdatedSendsDiscordNotification(): void
     {

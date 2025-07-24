@@ -9,9 +9,6 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum ActionLogStatus.
- */
 enum ActionLogStatus: int implements HasColor, HasLabel
 {
     use LocalizesName;
@@ -23,7 +20,7 @@ enum ActionLogStatus: int implements HasColor, HasLabel
     /**
      * Get the filament color for the enum.
      *
-     * @return string|array
+     * @return string|array<int, string>
      */
     public function getColor(): string|array
     {

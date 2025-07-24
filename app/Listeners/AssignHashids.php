@@ -7,16 +7,10 @@ namespace App\Listeners;
 use App\Actions\Models\AssignHashidsAction;
 use App\Contracts\Events\AssignHashidsEvent;
 
-/**
- * Class AssignHashids.
- */
 class AssignHashids
 {
     /**
      * Handle the event.
-     *
-     * @param  AssignHashidsEvent  $event
-     * @return void
      */
     public function handle(AssignHashidsEvent $event): void
     {

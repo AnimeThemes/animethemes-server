@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
-/**
- * Class FeaturedThemesQuery.
- */
 #[UseBuilder(FeaturedThemeBuilder::class)]
 class FeaturedThemesQuery extends EloquentQuery
 {
@@ -22,8 +19,6 @@ class FeaturedThemesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -46,8 +41,6 @@ class FeaturedThemesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return FeaturedThemeType
      */
     public function baseType(): FeaturedThemeType
     {

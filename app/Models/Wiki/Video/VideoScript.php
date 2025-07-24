@@ -60,7 +60,7 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => VideoScriptCreated::class,
@@ -95,8 +95,6 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
 
     /**
      * The link of the video script.
-     *
-     * @return string|null
      */
     public function getLinkAttribute(): ?string
     {
@@ -110,8 +108,6 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -120,8 +116,6 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -152,10 +146,8 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
 
     /**
      * Get the schema for the model.
-     *
-     * @return Schema
      */
-    public function schema(): Schema
+    public function schema(): ScriptSchema
     {
         return new ScriptSchema();
     }

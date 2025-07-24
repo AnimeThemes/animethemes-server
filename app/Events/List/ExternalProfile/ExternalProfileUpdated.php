@@ -14,11 +14,6 @@ use App\Models\List\ExternalProfile;
  */
 class ExternalProfileUpdated extends ListUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ExternalProfile  $profile
-     */
     public function __construct(ExternalProfile $profile)
     {
         parent::__construct($profile);
@@ -27,8 +22,6 @@ class ExternalProfileUpdated extends ListUpdatedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -39,8 +32,6 @@ class ExternalProfileUpdated extends ListUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return ExternalProfile
      */
     public function getModel(): ExternalProfile
     {
@@ -49,8 +40,6 @@ class ExternalProfileUpdated extends ListUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

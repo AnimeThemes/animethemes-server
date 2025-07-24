@@ -25,17 +25,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class GroupShowTest.
- */
 class GroupShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Group Show Endpoint shall return a Group Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -57,8 +52,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall return a Group Resource for soft deleted groups.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -82,8 +75,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -119,8 +110,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -154,8 +143,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -203,8 +190,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -243,8 +228,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -283,8 +266,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -323,8 +304,6 @@ class GroupShowTest extends TestCase
 
     /**
      * The Group Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

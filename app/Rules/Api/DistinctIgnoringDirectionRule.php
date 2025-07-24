@@ -9,18 +9,12 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-/**
- * Class DistinctIgnoringDirectionRule.
- */
 class DistinctIgnoringDirectionRule implements ValidationRule
 {
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

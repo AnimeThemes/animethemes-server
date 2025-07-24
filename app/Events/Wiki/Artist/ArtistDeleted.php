@@ -15,11 +15,6 @@ use App\Models\Wiki\Artist;
  */
 class ArtistDeleted extends WikiDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Artist  $artist
-     */
     public function __construct(Artist $artist)
     {
         parent::__construct($artist);
@@ -27,8 +22,6 @@ class ArtistDeleted extends WikiDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Artist
      */
     public function getModel(): Artist
     {
@@ -37,8 +30,6 @@ class ArtistDeleted extends WikiDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -47,8 +38,6 @@ class ArtistDeleted extends WikiDeletedEvent
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -57,8 +46,6 @@ class ArtistDeleted extends WikiDeletedEvent
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {

@@ -9,14 +9,8 @@ use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
 use App\Models\User\Notification;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class NotificationDataField.
- */
 class NotificationDataField extends JsonField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Notification::ATTRIBUTE_DATA, nullable: false);
@@ -24,8 +18,6 @@ class NotificationDataField extends JsonField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -34,8 +26,6 @@ class NotificationDataField extends JsonField
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

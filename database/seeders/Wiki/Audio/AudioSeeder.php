@@ -11,15 +11,10 @@ use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
-/**
- * Class AudioSeeder.
- */
 class AudioSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @throws Exception
      */

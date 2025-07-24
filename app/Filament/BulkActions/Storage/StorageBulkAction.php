@@ -9,17 +9,12 @@ use App\Filament\BulkActions\BaseBulkAction;
 use App\Models\BaseModel;
 use Illuminate\Support\Collection;
 
-/**
- * Class StorageBulkAction.
- */
 abstract class StorageBulkAction extends BaseBulkAction
 {
     /**
      * Get the underlying storage action.
      *
-     * @param  BaseModel  $model
      * @param  array<string, mixed>  $data
-     * @return BaseStorageAction
      */
     abstract protected function storageAction(BaseModel $model, array $data): BaseStorageAction;
 
@@ -28,7 +23,6 @@ abstract class StorageBulkAction extends BaseBulkAction
      *
      * @param  Collection<int, BaseModel>  $models
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(Collection $models, array $data): void
     {

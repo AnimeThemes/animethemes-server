@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Image;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Image;
 
-/**
- * Class ImageLinkField.
- */
 class ImageLinkField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Image::ATTRIBUTE_LINK, nullable: false);
@@ -22,8 +16,6 @@ class ImageLinkField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

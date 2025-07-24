@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Pivots\Wiki\ArtistImage;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistImageCollection.
- */
 class ArtistImageCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ArtistImageCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

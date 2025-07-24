@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 use App\GraphQL\Definition\Fields\BooleanField;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoSubbedField.
- */
 class VideoSubbedField extends BooleanField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_SUBBED, nullable: false);
@@ -22,8 +16,6 @@ class VideoSubbedField extends BooleanField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

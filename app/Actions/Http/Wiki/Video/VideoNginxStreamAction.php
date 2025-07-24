@@ -9,16 +9,8 @@ use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class VideoNginxStreamAction.
- */
 class VideoNginxStreamAction extends NginxStreamAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Video  $video
-     */
     public function __construct(Video $video)
     {
         parent::__construct($video);
@@ -26,8 +18,6 @@ class VideoNginxStreamAction extends NginxStreamAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {
@@ -36,8 +26,6 @@ class VideoNginxStreamAction extends NginxStreamAction
 
     /**
      * Get the location of the nginx internal redirect.
-     *
-     * @return string
      */
     protected function nginxRedirect(): string
     {

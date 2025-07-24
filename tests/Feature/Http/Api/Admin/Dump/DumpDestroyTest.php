@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class DumpDestroyTest.
- */
 class DumpDestroyTest extends TestCase
 {
     /**
      * The Dump Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class DumpDestroyTest extends TestCase
 
     /**
      * The Dump Destroy Endpoint shall forbid users without the delete dump permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class DumpDestroyTest extends TestCase
 
     /**
      * The Dump Destroy Endpoint shall delete the dump.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

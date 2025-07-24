@@ -8,22 +8,15 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Video;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class VideoChart.
- */
 class VideoChart extends BaseChartWidget
 {
     /**
      * Chart Id.
-     *
-     * @var string|null
      */
     protected static ?string $chartId = 'videoChart';
 
     /**
      * Get the displayed label of the widget.
-     *
-     * @return string
      */
     protected function getHeading(): string
     {

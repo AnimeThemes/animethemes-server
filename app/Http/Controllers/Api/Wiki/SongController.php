@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SongController.
- */
 class SongController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Song::class, 'song');
@@ -38,9 +32,7 @@ class SongController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return SongCollection
      */
     public function index(IndexRequest $request, IndexAction $action): SongCollection
     {
@@ -56,9 +48,7 @@ class SongController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Song>  $action
-     * @return SongResource
      */
     public function store(StoreRequest $request, StoreAction $action): SongResource
     {
@@ -70,10 +60,7 @@ class SongController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Song  $song
      * @param  ShowAction  $action
-     * @return SongResource
      */
     public function show(ShowRequest $request, Song $song, ShowAction $action): SongResource
     {
@@ -87,10 +74,7 @@ class SongController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Song  $song
      * @param  UpdateAction  $action
-     * @return SongResource
      */
     public function update(UpdateRequest $request, Song $song, UpdateAction $action): SongResource
     {
@@ -102,9 +86,7 @@ class SongController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Song  $song
      * @param  DestroyAction  $action
-     * @return SongResource
      */
     public function destroy(Song $song, DestroyAction $action): SongResource
     {
@@ -116,9 +98,7 @@ class SongController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Song  $song
      * @param  RestoreAction  $action
-     * @return SongResource
      */
     public function restore(Song $song, RestoreAction $action): SongResource
     {
@@ -130,9 +110,7 @@ class SongController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Song  $song
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Song $song, ForceDeleteAction $action): JsonResponse
     {

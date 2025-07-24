@@ -10,14 +10,8 @@ use GraphQL\Type\Definition\UnionType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class BaseUnion.
- */
 abstract class BaseUnion extends UnionType
 {
-    /**
-     * Initialize the union type with its name, description, and types.
-     */
     public function __construct()
     {
         parent::__construct([
@@ -29,8 +23,6 @@ abstract class BaseUnion extends UnionType
 
     /**
      * Mount the type definition string.
-     *
-     * @return string
      */
     public function toGraphQLString(): string
     {
@@ -44,8 +36,6 @@ abstract class BaseUnion extends UnionType
 
     /**
      * The name of the union type.
-     *
-     * @return string
      */
     public function name(): string
     {
@@ -55,8 +45,6 @@ abstract class BaseUnion extends UnionType
 
     /**
      * The description of the union type.
-     *
-     * @return string
      */
     public function description(): string
     {

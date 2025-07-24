@@ -13,16 +13,8 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-/**
- * Class FeaturedThemeEndAtField.
- */
 class FeaturedThemeEndAtField extends DateField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, FeaturedTheme::ATTRIBUTE_END_AT);
@@ -31,7 +23,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -52,7 +43,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array
@@ -73,9 +63,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
 
     /**
      * Get dependent start_at field.
-     *
-     * @param  Request  $request
-     * @return string|null
      */
     private function resolveStartAt(Request $request): ?string
     {

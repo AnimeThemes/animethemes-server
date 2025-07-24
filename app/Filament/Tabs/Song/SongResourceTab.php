@@ -10,22 +10,15 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class SongResourceTab.
- */
 abstract class SongResourceTab extends BaseTab
 {
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     abstract protected static function site(): ResourceSite;
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

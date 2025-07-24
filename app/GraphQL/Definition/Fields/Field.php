@@ -13,22 +13,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Stringable;
 
-/**
- * Class Field.
- */
 abstract class Field implements Stringable
 {
     use ResolvesArguments;
     use ResolvesAttributes;
     use ResolvesDirectives;
 
-    /**
-     * Create a new Field instance.
-     *
-     * @param  string  $column
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         protected string $column,
         protected ?string $name = null,
@@ -37,8 +27,6 @@ abstract class Field implements Stringable
 
     /**
      * Get the name of the field.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -47,8 +35,6 @@ abstract class Field implements Stringable
 
     /**
      * Get the column of the field.
-     *
-     * @return string
      */
     public function getColumn(): string
     {
@@ -57,8 +43,6 @@ abstract class Field implements Stringable
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -67,8 +51,6 @@ abstract class Field implements Stringable
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {
@@ -81,16 +63,11 @@ abstract class Field implements Stringable
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     abstract public function type(): Type;
 
     /**
      * Resolve the field.
-     *
-     * @param  mixed  $root
-     * @return mixed
      */
     public function resolve($root): mixed
     {
@@ -113,8 +90,6 @@ abstract class Field implements Stringable
 
     /**
      * Get the field as a string representation.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -140,8 +115,6 @@ abstract class Field implements Stringable
 
     /**
      * Determine if the field is different from the column.
-     *
-     * @return bool
      */
     public function shouldRename(): bool
     {

@@ -8,15 +8,10 @@ use App\Models\Admin\ActionLog;
 use Filament\Actions\RestoreAction as BaseRestoreAction;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class RestoreAction.
- */
 class RestoreAction extends BaseRestoreAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

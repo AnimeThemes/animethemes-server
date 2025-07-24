@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
-/**
- * Class AnimeThemeEntryNotesField.
- */
 class AnimeThemeEntryNotesField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_NOTES);
@@ -22,8 +16,6 @@ class AnimeThemeEntryNotesField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

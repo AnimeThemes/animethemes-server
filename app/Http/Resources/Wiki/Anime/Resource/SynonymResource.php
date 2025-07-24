@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class SynonymResource.
- */
 class SynonymResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class SynonymResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

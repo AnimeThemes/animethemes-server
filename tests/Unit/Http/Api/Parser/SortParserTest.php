@@ -15,17 +15,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class SortParserTest.
- */
 class SortParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Sort Parser shall return no criteria.
-     *
-     * @return void
      */
     public function testNoCriteriaByDefault(): void
     {
@@ -36,8 +31,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse Random Criteria.
-     *
-     * @return void
      */
     public function testParseRandomCriteria(): void
     {
@@ -52,8 +45,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse Relation Criteria.
-     *
-     * @return void
      */
     public function testParseRelationCriteria(): void
     {
@@ -68,8 +59,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse Field Criteria.
-     *
-     * @return void
      */
     public function testParseFieldCriteria(): void
     {
@@ -84,8 +73,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse the sort field.
-     *
-     * @return void
      */
     public function testParseCriteriaField(): void
     {
@@ -102,8 +89,6 @@ class SortParserTest extends TestCase
 
     /**
      * By default, the Sort Parser shall parse an ascending sort direction.
-     *
-     * @return void
      */
     public function testParseDefaultDirection(): void
     {
@@ -121,8 +106,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse a descending direction on fields that prepend a '-'.
-     *
-     * @return void
      */
     public function testParseDescendingDirection(): void
     {
@@ -142,8 +125,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse a global scope if scope is not provided.
-     *
-     * @return void
      */
     public function testParseGlobalScope(): void
     {
@@ -158,8 +139,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse a scope if provided.
-     *
-     * @return void
      */
     public function testParseTypeScope(): void
     {

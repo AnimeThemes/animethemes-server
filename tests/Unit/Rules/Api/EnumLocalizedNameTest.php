@@ -12,17 +12,12 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Unit\Enums\LocalizedEnum;
 
-/**
- * Class EnumLocalizedNameTest.
- */
 class EnumLocalizedNameTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Enum Description Rule shall return true if an enum description is provided.
-     *
-     * @return void
      */
     public function testPassesIfEnumDescription(): void
     {
@@ -40,8 +35,6 @@ class EnumLocalizedNameTest extends TestCase
 
     /**
      * The Enum Description Rule shall return false if an enum value is provided.
-     *
-     * @return void
      */
     public function testFailsIfEnumValue(): void
     {
@@ -59,8 +52,6 @@ class EnumLocalizedNameTest extends TestCase
 
     /**
      * The Enum Description Rule shall return false if an enum description is not provided.
-     *
-     * @return void
      */
     public function testFailsIfString(): void
     {

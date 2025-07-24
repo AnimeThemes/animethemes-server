@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementStoreTest.
- */
 class AnnouncementStoreTest extends TestCase
 {
     /**
      * The Announcement Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AnnouncementStoreTest extends TestCase
 
     /**
      * The Announcement Store Endpoint shall forbid users without the create announcement permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AnnouncementStoreTest extends TestCase
 
     /**
      * The Announcement Store Endpoint shall require the content field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -67,8 +58,6 @@ class AnnouncementStoreTest extends TestCase
 
     /**
      * The Announcement Store Endpoint shall create an announcement.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

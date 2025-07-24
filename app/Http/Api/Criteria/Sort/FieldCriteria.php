@@ -9,18 +9,8 @@ use App\Http\Api\Scope\Scope;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class FieldSort.
- */
 class FieldCriteria extends Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  Scope  $scope
-     * @param  string  $field
-     * @param  Direction  $direction
-     */
     public function __construct(Scope $scope, string $field, protected readonly Direction $direction)
     {
         parent::__construct($scope, $field);
@@ -28,8 +18,6 @@ class FieldCriteria extends Criteria
 
     /**
      * Get the sort direction.
-     *
-     * @return Direction
      */
     public function getDirection(): Direction
     {
@@ -40,7 +28,6 @@ class FieldCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Sort  $sort
      * @return Builder
      */
     public function sort(Builder $builder, Sort $sort): Builder

@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Auth\User;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
 use App\Models\Auth\User;
 
-/**
- * Class UserTwoFactorConfirmedAtField.
- */
 class UserTwoFactorConfirmedAtField extends DateTimeTzField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(User::ATTRIBUTE_TWO_FACTOR_CONFIRMED_AT, nullable: false);
@@ -22,8 +16,6 @@ class UserTwoFactorConfirmedAtField extends DateTimeTzField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

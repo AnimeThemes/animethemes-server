@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Types\Edges\Wiki;
 
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
+use App\GraphQL\Definition\Types\Wiki\StudioType;
 
-/**
- * Class StudioEdgeType.
- */
 class StudioEdgeType extends BaseEdgeType
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -24,10 +20,10 @@ class StudioEdgeType extends BaseEdgeType
     /**
      * Get the node type for the edge.
      *
-     * @return class-string<StudioEdgeType>
+     * @return class-string<StudioType>
      */
     public static function getNodeType(): string
     {
-        return StudioEdgeType::class;
+        return StudioType::class;
     }
 }

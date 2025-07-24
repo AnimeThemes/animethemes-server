@@ -12,15 +12,10 @@ use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SongResourceStoreTest.
- */
 class SongResourceStoreTest extends TestCase
 {
     /**
      * The Song Resource Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class SongResourceStoreTest extends TestCase
 
     /**
      * The Song Resource Store Endpoint shall forbid users without the create song & create resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class SongResourceStoreTest extends TestCase
 
     /**
      * The Song Resource Store Endpoint shall create an song resource.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

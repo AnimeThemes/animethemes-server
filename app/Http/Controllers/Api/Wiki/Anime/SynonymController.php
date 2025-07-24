@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class SynonymController.
- */
 class SynonymController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeSynonym::class, 'animesynonym');
@@ -38,9 +32,7 @@ class SynonymController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return SynonymCollection
      */
     public function index(IndexRequest $request, IndexAction $action): SynonymCollection
     {
@@ -56,9 +48,7 @@ class SynonymController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<AnimeSynonym>  $action
-     * @return SynonymResource
      */
     public function store(StoreRequest $request, StoreAction $action): SynonymResource
     {
@@ -70,10 +60,7 @@ class SynonymController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  AnimeSynonym  $animesynonym
      * @param  ShowAction  $action
-     * @return SynonymResource
      */
     public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): SynonymResource
     {
@@ -87,10 +74,7 @@ class SynonymController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  AnimeSynonym  $animesynonym
      * @param  UpdateAction  $action
-     * @return SynonymResource
      */
     public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): SynonymResource
     {
@@ -102,9 +86,7 @@ class SynonymController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  AnimeSynonym  $animesynonym
      * @param  DestroyAction  $action
-     * @return SynonymResource
      */
     public function destroy(AnimeSynonym $animesynonym, DestroyAction $action): SynonymResource
     {
@@ -116,9 +98,7 @@ class SynonymController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  AnimeSynonym  $animesynonym
      * @param  RestoreAction  $action
-     * @return SynonymResource
      */
     public function restore(AnimeSynonym $animesynonym, RestoreAction $action): SynonymResource
     {
@@ -130,9 +110,7 @@ class SynonymController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  AnimeSynonym  $animesynonym
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(AnimeSynonym $animesynonym, ForceDeleteAction $action): JsonResponse
     {

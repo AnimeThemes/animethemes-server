@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\FeatureBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeatureType;
 
-/**
- * Class FeaturesQuery.
- */
 #[UseBuilder(FeatureBuilder::class)]
 class FeaturesQuery extends EloquentQuery
 {
@@ -22,8 +19,6 @@ class FeaturesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -46,8 +41,6 @@ class FeaturesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return FeatureType
      */
     public function baseType(): FeatureType
     {

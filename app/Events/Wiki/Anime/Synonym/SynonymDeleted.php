@@ -22,16 +22,9 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 {
     /**
      * The anime that the synonym belongs to.
-     *
-     * @var Anime
      */
     protected Anime $anime;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeSynonym  $synonym
-     */
     public function __construct(AnimeSynonym $synonym)
     {
         parent::__construct($synonym);
@@ -40,8 +33,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return AnimeSynonym
      */
     public function getModel(): AnimeSynonym
     {
@@ -50,8 +41,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -60,8 +49,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -70,8 +57,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {
@@ -82,8 +67,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

@@ -12,17 +12,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class CriteriaTest.
- */
 class CriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Paging Criteria shall return the provided size.
-     *
-     * @return void
      */
     public function testDefaultSize(): void
     {
@@ -57,8 +52,6 @@ class CriteriaTest extends TestCase
 
     /**
      * If the size is greater than the default, the paging Criteria shall return the default.
-     *
-     * @return void
      */
     public function testUpperBoundSize(): void
     {
@@ -93,8 +86,6 @@ class CriteriaTest extends TestCase
 
     /**
      * If the size is lte to zero, the paging Criteria shall return the default size.
-     *
-     * @return void
      */
     public function testLowerBoundSize(): void
     {

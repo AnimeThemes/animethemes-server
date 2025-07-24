@@ -9,17 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
-/**
- * Class GraphQLPolicy.
- */
 class GraphQLPolicy
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
     {

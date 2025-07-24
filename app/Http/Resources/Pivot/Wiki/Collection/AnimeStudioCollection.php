@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeStudioCollection.
- */
 class AnimeStudioCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class AnimeStudioCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

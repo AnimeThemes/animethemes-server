@@ -20,17 +20,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class FilterParserTest.
- */
 class FilterParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Filter Parser shall parse Where Criteria.
-     *
-     * @return void
      */
     public function testWhereCriteria(): void
     {
@@ -49,8 +44,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall parse Where In Criteria.
-     *
-     * @return void
      */
     public function testWhereInCriteria(): void
     {
@@ -72,8 +65,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall not parse Has Criteria.
-     *
-     * @return void
      */
     public function testHasCriteria(): void
     {
@@ -95,8 +86,6 @@ class FilterParserTest extends TestCase
 
     /**
      * The Filter Parser shall not parse Trashed Criteria.
-     *
-     * @return void
      */
     public function testTrashedCriteria(): void
     {

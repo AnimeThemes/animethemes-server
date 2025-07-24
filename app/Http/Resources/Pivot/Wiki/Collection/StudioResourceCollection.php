@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\Request;
 
-/**
- * Class StudioResourceCollection.
- */
 class StudioResourceCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class StudioResourceCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

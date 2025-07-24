@@ -7,15 +7,10 @@ namespace App\Filament\Actions\Models\Wiki\Artist;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\AttachResourceAction;
 
-/**
- * Class AttachArtistResourceAction.
- */
 class AttachArtistResourceAction extends AttachResourceAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -24,8 +19,6 @@ class AttachArtistResourceAction extends AttachResourceAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

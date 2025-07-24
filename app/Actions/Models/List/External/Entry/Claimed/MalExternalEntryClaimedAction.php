@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 
-/**
- * Class MalExternalEntryClaimedAction.
- */
 class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 {
     /**
@@ -63,8 +60,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Get the username.
-     *
-     * @return string|null
      */
     public function getUsername(): ?string
     {
@@ -77,8 +72,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Get the id of the external user.
-     *
-     * @return int|null
      */
     public function getUserId(): ?int
     {
@@ -91,8 +84,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Make the request to the user endpoint of the external api.
-     *
-     * @return void
      *
      * @throws RequestException
      */
@@ -112,8 +103,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Make the request to the external api.
-     *
-     * @return void
      *
      * @throws RequestException
      */

@@ -12,16 +12,10 @@ use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
-/**
- * Class SongQuery.
- */
 class SongQuery extends ElasticQuery
 {
     /**
      * Build Elasticsearch query.
-     *
-     * @param  Criteria  $criteria
-     * @return SearchParametersBuilder
      */
     public function build(Criteria $criteria): SearchParametersBuilder
     {

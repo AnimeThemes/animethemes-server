@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class ScriptReconcileTest.
- */
 class ScriptReconcileTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Script Command shall output 'No Video Scripts created or deleted or updated'.
-     *
-     * @return void
      */
     public function testNoResults(): void
     {
@@ -42,8 +37,6 @@ class ScriptReconcileTest extends TestCase
 
     /**
      * If scripts are created, the Reconcile Script Command shall output '{Created Count} Video Scripts created, 0 Video Scripts deleted, 0 Video Scripts updated'.
-     *
-     * @return void
      */
     public function testCreated(): void
     {
@@ -64,8 +57,6 @@ class ScriptReconcileTest extends TestCase
 
     /**
      * If scripts are deleted, the Reconcile Script Command shall output '0 Video Scripts created, {Deleted Count} Video Scripts deleted, 0 Video Scripts updated'.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

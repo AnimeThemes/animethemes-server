@@ -17,15 +17,10 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\User\Resource\NotificationResource;
 
-/**
- * Class NotificationSchema.
- */
 class NotificationSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

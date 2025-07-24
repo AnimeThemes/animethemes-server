@@ -8,14 +8,8 @@ use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeMediaFormatField.
- */
 class AnimeMediaFormatField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
@@ -23,8 +17,6 @@ class AnimeMediaFormatField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

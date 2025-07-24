@@ -9,23 +9,15 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Filament\Tables\Table;
 
-/**
- * Class ImageStudioRelationManager.
- */
 class ImageStudioRelationManager extends ImageRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Studio::RELATION_IMAGES;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

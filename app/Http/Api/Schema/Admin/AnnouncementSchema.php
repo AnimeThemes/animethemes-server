@@ -14,15 +14,10 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 
-/**
- * Class AnnouncementSchema.
- */
 class AnnouncementSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

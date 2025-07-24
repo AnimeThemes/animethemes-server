@@ -14,11 +14,6 @@ use App\Models\Admin\Dump;
  */
 class DumpUpdated extends AdminUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Dump  $dump
-     */
     public function __construct(Dump $dump)
     {
         parent::__construct($dump);
@@ -27,8 +22,6 @@ class DumpUpdated extends AdminUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Dump
      */
     public function getModel(): Dump
     {
@@ -37,8 +30,6 @@ class DumpUpdated extends AdminUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

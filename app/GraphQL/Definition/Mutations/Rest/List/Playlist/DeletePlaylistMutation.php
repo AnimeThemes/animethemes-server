@@ -12,15 +12,9 @@ use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class DeletePlaylistMutation.
- */
 #[UseField(PlaylistController::class, 'destroy')]
 class DeletePlaylistMutation extends DeleteMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::class);
@@ -28,8 +22,6 @@ class DeletePlaylistMutation extends DeleteMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -38,8 +30,6 @@ class DeletePlaylistMutation extends DeleteMutation
 
     /**
      * The base return type of the query.
-     *
-     * @return PlaylistType
      */
     public function baseType(): PlaylistType
     {
@@ -48,8 +38,6 @@ class DeletePlaylistMutation extends DeleteMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

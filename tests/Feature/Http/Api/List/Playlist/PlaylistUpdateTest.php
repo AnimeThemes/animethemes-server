@@ -22,17 +22,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PlaylistUpdateTest.
- */
 class PlaylistUpdateTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Playlist Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -56,8 +51,6 @@ class PlaylistUpdateTest extends TestCase
 
     /**
      * The Playlist Update Endpoint shall forbid users without the update playlist permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -85,8 +78,6 @@ class PlaylistUpdateTest extends TestCase
 
     /**
      * The Playlist Update Endpoint shall forbid users from updating the playlist if they don't own it.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
@@ -117,8 +108,6 @@ class PlaylistUpdateTest extends TestCase
     /**
      * The Playlist Update Endpoint shall forbid users from updating playlists
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -150,8 +139,6 @@ class PlaylistUpdateTest extends TestCase
 
     /**
      * The Playlist Update Endpoint shall update a playlist.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {
@@ -184,8 +171,6 @@ class PlaylistUpdateTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to update playlists
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testUpdatePermittedForBypass(): void
     {
@@ -222,8 +207,6 @@ class PlaylistUpdateTest extends TestCase
 
     /**
      * The Playlist Update Endpoint shall update a playlist if the name is not flagged by OpenAI.
-     *
-     * @return void
      */
     public function testUpdatedIfNotFlaggedByOpenAi(): void
     {
@@ -266,8 +249,6 @@ class PlaylistUpdateTest extends TestCase
 
     /**
      * The Playlist Update Endpoint shall update a playlist if the moderation service returns some error.
-     *
-     * @return void
      */
     public function testUpdatedIfOpenAiFails(): void
     {
@@ -304,8 +285,6 @@ class PlaylistUpdateTest extends TestCase
 
     /**
      * The Playlist Update Endpoint shall prohibit users from updating playlists with names flagged by OpenAI.
-     *
-     * @return void
      */
     public function testValidationErrorWhenFlaggedByOpenAi(): void
     {

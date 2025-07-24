@@ -13,15 +13,10 @@ use Exception;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DiscordThreadAction.
- */
 class DiscordThreadAction extends BaseAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -30,8 +25,6 @@ class DiscordThreadAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -55,9 +48,6 @@ class DiscordThreadAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): Schema
     {

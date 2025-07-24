@@ -15,15 +15,10 @@ use App\GraphQL\Definition\Fields\Search\SearchSongsField;
 use App\GraphQL\Definition\Fields\Search\SearchStudiosField;
 use App\GraphQL\Definition\Fields\Search\SearchVideosField;
 
-/**
- * Class SearchType.
- */
 class SearchType extends BaseType implements HasFields
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

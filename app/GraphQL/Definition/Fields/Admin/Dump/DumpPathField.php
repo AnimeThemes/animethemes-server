@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Admin\Dump;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Admin\Dump;
 
-/**
- * Class DumpPathField.
- */
 class DumpPathField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Dump::ATTRIBUTE_PATH, nullable: false);
@@ -22,8 +16,6 @@ class DumpPathField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -32,8 +24,6 @@ class DumpPathField extends StringField
 
     /**
      * Determine if the field is nullable.
-     *
-     * @return bool
      */
     protected function nullable(): bool
     {

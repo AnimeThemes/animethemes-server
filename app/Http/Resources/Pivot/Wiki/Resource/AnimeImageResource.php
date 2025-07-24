@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\Wiki\AnimeImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class AnimeImageResource.
- */
 class AnimeImageResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class AnimeImageResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

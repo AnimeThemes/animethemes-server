@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\User\NotificationSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class NotificationResource.
- */
 class NotificationResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class NotificationResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

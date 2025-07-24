@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class SongResource.
- */
 class SongResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class SongResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

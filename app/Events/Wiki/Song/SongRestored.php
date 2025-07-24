@@ -19,11 +19,6 @@ use App\Models\Wiki\Video;
  */
 class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Song  $song
-     */
     public function __construct(Song $song)
     {
         parent::__construct($song);
@@ -31,8 +26,6 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Song
      */
     public function getModel(): Song
     {
@@ -41,8 +34,6 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -51,8 +42,6 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

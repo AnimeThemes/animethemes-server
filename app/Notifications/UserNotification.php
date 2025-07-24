@@ -10,21 +10,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Notifications\Notification;
 
-/**
- * Class UserNotification.
- */
 class UserNotification extends Notification implements Arrayable, ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @param  string  $title
-     * @param  string  $body
-     * @param  NotificationType  $type
-     * @param  string|null  $image
-     */
     public function __construct(
         public string $title,
         public string $body,
@@ -35,7 +24,6 @@ class UserNotification extends Notification implements Arrayable, ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
      * @return array
      *
      * @noinspection PhpUnusedParameterInspection

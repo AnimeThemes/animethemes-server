@@ -10,15 +10,10 @@ use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioStoreTest.
- */
 class StudioStoreTest extends TestCase
 {
     /**
      * The Studio Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class StudioStoreTest extends TestCase
 
     /**
      * The Studio Store Endpoint shall forbid users without the create studio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class StudioStoreTest extends TestCase
 
     /**
      * The Studio Store Endpoint shall require name & slug fields.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -68,8 +59,6 @@ class StudioStoreTest extends TestCase
 
     /**
      * The Studio Store Endpoint shall create a studio.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

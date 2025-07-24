@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class AudioCodecStreamTest.
- */
 class AudioCodecStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Codec Stream Rule shall fail if the audio connect is not opus.
-     *
-     * @return void
      */
     public function testFailsWhenCodecIsNotOpus(): void
     {
@@ -63,8 +58,6 @@ class AudioCodecStreamTest extends TestCase
 
     /**
      * The Audio Codec Stream Rule shall pass if the audio connect is opus.
-     *
-     * @return void
      */
     public function testPassesWhenCodecIsOpus(): void
     {

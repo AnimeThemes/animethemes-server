@@ -17,15 +17,10 @@ use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Pivots\Wiki\AnimeResource;
 
-/**
- * Class AnimeResourceSchema.
- */
 class AnimeResourceSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

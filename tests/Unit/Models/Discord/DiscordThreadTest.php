@@ -10,17 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class DiscordThreadTest.
- */
 class DiscordThreadTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Thread shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -33,8 +28,6 @@ class DiscordThreadTest extends TestCase
 
     /**
      * Thread shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -47,8 +40,6 @@ class DiscordThreadTest extends TestCase
 
     /**
      * Discord Thread shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {

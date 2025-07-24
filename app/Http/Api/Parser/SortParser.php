@@ -15,15 +15,10 @@ use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class SortParser.
- */
 class SortParser extends Parser
 {
     /**
      * The parameter to parse.
-     *
-     * @return string
      */
     public static function param(): string
     {
@@ -66,10 +61,6 @@ class SortParser extends Parser
 
     /**
      * Parse criteria instance from query string.
-     *
-     * @param  Scope  $scope
-     * @param  string  $sortValue
-     * @return Criteria
      */
     protected static function parseCriteria(Scope $scope, string $sortValue): Criteria
     {

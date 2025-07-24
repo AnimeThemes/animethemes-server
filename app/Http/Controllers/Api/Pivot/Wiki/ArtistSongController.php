@@ -22,14 +22,8 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ArtistSongController.
- */
 class ArtistSongController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Artist::class, 'artist', Song::class, 'song');
@@ -38,9 +32,7 @@ class ArtistSongController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ArtistSongCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistSongCollection
     {
@@ -54,11 +46,7 @@ class ArtistSongController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Artist  $artist
-     * @param  Song  $song
      * @param  StoreAction<ArtistSong>  $action
-     * @return ArtistSongResource
      */
     public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): ArtistSongResource
     {
@@ -78,11 +66,7 @@ class ArtistSongController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Artist  $artist
-     * @param  Song  $song
      * @param  ShowAction  $action
-     * @return ArtistSongResource
      */
     public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): ArtistSongResource
     {
@@ -101,11 +85,7 @@ class ArtistSongController extends PivotController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Artist  $artist
-     * @param  Song  $song
      * @param  UpdateAction  $action
-     * @return ArtistSongResource
      */
     public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): ArtistSongResource
     {
@@ -124,10 +104,7 @@ class ArtistSongController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Artist  $artist
-     * @param  Song  $song
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Artist $artist, Song $song, DestroyAction $action): JsonResponse
     {

@@ -8,18 +8,10 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\FieldCriteria as BaseCriteria;
 use App\Http\Api\Sort\Sort;
 
-/**
- * Class FieldCriteria.
- */
 class FieldCriteria extends Criteria
 {
     protected readonly Direction $direction;
 
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  BaseCriteria  $criteria
-     */
     public function __construct(BaseCriteria $criteria)
     {
         parent::__construct($criteria);
@@ -29,7 +21,6 @@ class FieldCriteria extends Criteria
     /**
      * Apply criteria to builder.
      *
-     * @param  Sort  $sort
      * @return array
      */
     public function sort(Sort $sort): array

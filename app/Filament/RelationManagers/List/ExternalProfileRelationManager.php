@@ -10,9 +10,6 @@ use App\Filament\Resources\List\ExternalProfile as ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Filament\Tables\Table;
 
-/**
- * Class ExternalProfileRelationManager.
- */
 abstract class ExternalProfileRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

@@ -31,15 +31,10 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
 
-/**
- * Class PlaylistSchema.
- */
 class PlaylistSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

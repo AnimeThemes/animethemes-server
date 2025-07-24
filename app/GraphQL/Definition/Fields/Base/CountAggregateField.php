@@ -10,20 +10,9 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class CountAggregateField.
- */
 #[UseField(CountAggregateResolver::class)]
 class CountAggregateField extends Field implements DisplayableField
 {
-    /**
-     * Create a new Field instance.
-     *
-     * @param  string  $aggregateRelation
-     * @param  string  $column
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         protected string $aggregateRelation,
         protected string $column,
@@ -49,8 +38,6 @@ class CountAggregateField extends Field implements DisplayableField
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -59,8 +46,6 @@ class CountAggregateField extends Field implements DisplayableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

@@ -17,15 +17,10 @@ use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\Pivots\Wiki\ArtistImage;
 
-/**
- * Class ArtistImageType.
- */
 class ArtistImageType extends PivotType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

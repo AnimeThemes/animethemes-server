@@ -16,15 +16,10 @@ use App\Models\Wiki\Audio as AudioModel;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class AudioTest.
- */
 class AudioTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -35,8 +30,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {
@@ -47,8 +40,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -72,8 +63,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -94,8 +83,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {
@@ -117,8 +104,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot edit a record.
-     *
-     * @return void
      */
     public function testUserCannotEditRecord(): void
     {
@@ -130,8 +115,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot delete a record.
-     *
-     * @return void
      */
     public function testUserCannotDeleteRecord(): void
     {
@@ -146,8 +129,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot restore a record.
-     *
-     * @return void
      */
     public function testUserCannotRestoreRecord(): void
     {
@@ -164,8 +145,6 @@ class AudioTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot force delete a record.
-     *
-     * @return void
      */
     public function testUserCannotForceDeleteRecord(): void
     {

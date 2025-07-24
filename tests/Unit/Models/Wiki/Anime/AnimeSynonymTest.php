@@ -11,17 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class SynonymTest.
- */
 class AnimeSynonymTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The type attribute of a synonym shall be cast to a AnimeSynonymType enum instance.
-     *
-     * @return void
      */
     public function testCastsTypeToEnum(): void
     {
@@ -36,8 +31,6 @@ class AnimeSynonymTest extends TestCase
 
     /**
      * Synonym shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -50,8 +43,6 @@ class AnimeSynonymTest extends TestCase
 
     /**
      * Synonym shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -64,8 +55,6 @@ class AnimeSynonymTest extends TestCase
 
     /**
      * Synonyms shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -78,8 +67,6 @@ class AnimeSynonymTest extends TestCase
 
     /**
      * Synonyms shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -92,8 +79,6 @@ class AnimeSynonymTest extends TestCase
 
     /**
      * Synonyms shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {

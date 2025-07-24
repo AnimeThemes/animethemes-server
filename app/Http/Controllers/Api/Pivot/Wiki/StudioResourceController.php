@@ -22,14 +22,8 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class StudioResourceController.
- */
 class StudioResourceController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Studio::class, 'studio', ExternalResource::class, 'resource');
@@ -38,9 +32,7 @@ class StudioResourceController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return StudioResourceCollection
      */
     public function index(IndexRequest $request, IndexAction $action): StudioResourceCollection
     {
@@ -54,11 +46,7 @@ class StudioResourceController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Studio  $studio
-     * @param  ExternalResource  $resource
      * @param  StoreAction<StudioResource>  $action
-     * @return StudioResourceResource
      */
     public function store(StoreRequest $request, Studio $studio, ExternalResource $resource, StoreAction $action): StudioResourceResource
     {
@@ -78,11 +66,7 @@ class StudioResourceController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Studio  $studio
-     * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return StudioResourceResource
      */
     public function show(ShowRequest $request, Studio $studio, ExternalResource $resource, ShowAction $action): StudioResourceResource
     {
@@ -101,11 +85,7 @@ class StudioResourceController extends PivotController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Studio  $studio
-     * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return StudioResourceResource
      */
     public function update(UpdateRequest $request, Studio $studio, ExternalResource $resource, UpdateAction $action): StudioResourceResource
     {
@@ -124,10 +104,7 @@ class StudioResourceController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Studio  $studio
-     * @param  ExternalResource  $resource
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Studio $studio, ExternalResource $resource, DestroyAction $action): JsonResponse
     {

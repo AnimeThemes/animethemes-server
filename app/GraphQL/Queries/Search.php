@@ -16,19 +16,13 @@ use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class Search.
- */
 class Search
 {
     /**
      * Return a value for the field.
      *
      * @param  null  $root  Always null, since this field has no parent.
-     * @param  array  $args  The field arguments passed by the client.
-     * @param  GraphQLContext  $context  Shared between all fields.
-     * @param  ResolveInfo  $resolveInfo  Metadata for advanced query resolution.
-     * @return mixed The result of resolving the field, matching what was promised in the schema.
+     * @param  array  $args  The field arguments passed by the client.  Shared between all fields.  Metadata for advanced query resolution. The result of resolving the field, matching what was promised in the schema.
      */
     public function __invoke(null $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

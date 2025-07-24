@@ -11,18 +11,10 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Sort\Sort;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class EnumField.
- */
 abstract class EnumField extends Field implements FilterableField, SortableField
 {
     /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $key
      * @param  class-string  $enumClass
-     * @param  string|null  $column
      */
     public function __construct(
         Schema $schema,
@@ -35,8 +27,6 @@ abstract class EnumField extends Field implements FilterableField, SortableField
 
     /**
      * Get the filter that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -45,8 +35,6 @@ abstract class EnumField extends Field implements FilterableField, SortableField
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {

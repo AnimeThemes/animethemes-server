@@ -10,15 +10,10 @@ use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BooleanField.
- */
 abstract class BooleanField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -27,8 +22,6 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

@@ -19,17 +19,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class TrackDestroyTest.
- */
 class TrackDestroyTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Track Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -48,8 +43,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall forbid users without the delete playlist track permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -72,8 +65,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall forbid users from deleting the track if they don't own the playlist.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
@@ -97,8 +88,6 @@ class TrackDestroyTest extends TestCase
     /**
      * The Track Destroy Endpoint shall forbid users from destroying playlists tracks
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -125,8 +114,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall scope bindings.
-     *
-     * @return void
      */
     public function testScoped(): void
     {
@@ -156,8 +143,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall delete the sole track.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {
@@ -191,8 +176,6 @@ class TrackDestroyTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to destroy playlist tracks
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testDestroyPermittedForBypass(): void
     {
@@ -224,8 +207,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall delete the first track.
-     *
-     * @return void
      */
     public function testDestroyFirst(): void
     {
@@ -259,8 +240,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall delete the last track.
-     *
-     * @return void
      */
     public function testDestroyLast(): void
     {
@@ -294,8 +273,6 @@ class TrackDestroyTest extends TestCase
 
     /**
      * The Track Destroy Endpoint shall delete the second track.
-     *
-     * @return void
      */
     public function testDestroySecond(): void
     {

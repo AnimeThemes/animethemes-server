@@ -11,32 +11,24 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class NodeField.
- */
 class NodeField extends Field implements DisplayableField
 {
     /**
-     * Create a new field instance.
-     *
-     * @param  class-string<EloquentType>  $type
+     * @param  class-string<EloquentType>  $nodeType
      */
     public function __construct(
-        protected string $type,
+        protected string $nodeType,
     ) {
         parent::__construct('node', nullable: false);
     }
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
-        $type = Str::of(class_basename($this->type))
+        $type = Str::of(class_basename($this->nodeType))
             ->remove('Type')
-            ->remove('Edge')
             ->__toString();
 
         // Necessary to prevent memory leak at compile time.
@@ -45,8 +37,6 @@ class NodeField extends Field implements DisplayableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

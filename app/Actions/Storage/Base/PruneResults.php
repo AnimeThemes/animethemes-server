@@ -11,23 +11,15 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class PruneResults.
- */
 readonly class PruneResults implements StorageResults
 {
     /**
-     * Create a new action result instance.
-     *
-     * @param  string  $fs
      * @param  array<string, bool>  $prunings
      */
     public function __construct(protected string $fs, protected array $prunings = []) {}
 
     /**
      * Write results to log.
-     *
-     * @return void
      */
     public function toLog(): void
     {
@@ -43,9 +35,6 @@ readonly class PruneResults implements StorageResults
 
     /**
      * Write results to console output.
-     *
-     * @param  Command  $command
-     * @return void
      */
     public function toConsole(Command $command): void
     {
@@ -61,8 +50,6 @@ readonly class PruneResults implements StorageResults
 
     /**
      * Transform to Action Result.
-     *
-     * @return ActionResult
      */
     public function toActionResult(): ActionResult
     {

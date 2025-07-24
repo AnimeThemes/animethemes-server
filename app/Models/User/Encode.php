@@ -53,7 +53,7 @@ class Encode extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => EncodeCreated::class,
@@ -85,8 +85,6 @@ class Encode extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -98,8 +96,6 @@ class Encode extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

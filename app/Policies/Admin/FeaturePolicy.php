@@ -11,17 +11,12 @@ use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class FeaturePolicy.
- */
 class FeaturePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  Feature  $feature
-     * @return bool
      */
     public function view(?User $user, Model $feature): bool
     {

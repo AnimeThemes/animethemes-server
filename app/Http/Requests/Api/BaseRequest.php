@@ -9,15 +9,10 @@ use App\Http\Api\Schema\Schema;
 use Illuminate\Foundation\Http\FormRequest;
 use RuntimeException;
 
-/**
- * Class BaseRequest.
- */
 abstract class BaseRequest extends FormRequest
 {
     /**
      * The underlying schema used to perform validation.
-     *
-     * @var Schema
      */
     protected Schema $schema;
 
@@ -30,8 +25,6 @@ abstract class BaseRequest extends FormRequest
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {
@@ -40,8 +33,6 @@ abstract class BaseRequest extends FormRequest
 
     /**
      * Prepare the data for validation.
-     *
-     * @return void
      */
     protected function prepareForValidation(): void
     {

@@ -8,9 +8,6 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Requests\Api\ShowRequest;
 
-/**
- * Class YearShowRequest.
- */
 class YearShowRequest extends ShowRequest
 {
     /**

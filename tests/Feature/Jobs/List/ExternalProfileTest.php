@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ExternalProfileTest.
- */
 class ExternalProfileTest extends TestCase
 {
     /**
      * When a profile is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testExternalProfileCreatedSendsDiscordNotification(): void
     {
@@ -38,8 +33,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * When a profile is deleted, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testExternalProfileDeletedSendsDiscordNotification(): void
     {
@@ -56,8 +49,6 @@ class ExternalProfileTest extends TestCase
 
     /**
      * When a profile is updated, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
      */
     public function testExternalProfileUpdatedSendsDiscordNotification(): void
     {

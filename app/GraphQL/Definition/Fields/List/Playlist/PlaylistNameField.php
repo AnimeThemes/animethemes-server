@@ -11,14 +11,8 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist;
 use App\Rules\ModerationRule;
 
-/**
- * Class PlaylistNameField.
- */
 class PlaylistNameField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::ATTRIBUTE_NAME, nullable: false);
@@ -26,8 +20,6 @@ class PlaylistNameField extends StringField implements CreatableField, RequiredO
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

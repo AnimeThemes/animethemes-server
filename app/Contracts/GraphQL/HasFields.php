@@ -6,9 +6,6 @@ namespace App\Contracts\GraphQL;
 
 use App\GraphQL\Definition\Fields\Field;
 
-/**
- * Interface HasFields.
- */
 interface HasFields
 {
     /**

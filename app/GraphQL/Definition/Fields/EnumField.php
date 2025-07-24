@@ -13,19 +13,8 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-/**
- * Class EnumField.
- */
 abstract class EnumField extends Field implements DisplayableField, FilterableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  string  $column
-     * @param  string  $enum
-     * @param  string|null  $name
-     * @param  bool  $nullable
-     */
     public function __construct(
         public string $column,
         public string $enum,
@@ -37,8 +26,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {
@@ -47,8 +34,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -69,9 +54,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
 
     /**
      * Resolve the field.
-     *
-     * @param  mixed  $root
-     * @return mixed
      */
     public function resolve(mixed $root): mixed
     {

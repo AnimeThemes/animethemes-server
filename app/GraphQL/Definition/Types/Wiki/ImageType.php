@@ -23,15 +23,10 @@ use App\GraphQL\Definition\Types\Edges\Wiki\StudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Image;
 
-/**
- * Class ImageType.
- */
 class ImageType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

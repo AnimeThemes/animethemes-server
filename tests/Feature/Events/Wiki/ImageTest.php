@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ImageTest.
- */
 class ImageTest extends TestCase
 {
     /**
      * When an Image is created, an ImageCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testImageCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class ImageTest extends TestCase
 
     /**
      * When an Image is deleted, an ImageDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testImageDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class ImageTest extends TestCase
 
     /**
      * When an Image is restored, an ImageRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testImageRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class ImageTest extends TestCase
      * When an Image is restored, an ImageUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testImageRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class ImageTest extends TestCase
 
     /**
      * When an Image is updated, an ImageUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testImageUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class ImageTest extends TestCase
 
     /**
      * The ImageUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testImageUpdatedEventEmbedFields(): void
     {

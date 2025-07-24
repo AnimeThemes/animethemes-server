@@ -30,9 +30,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
-/**
- * Class DiscordThread.
- */
 class DiscordThread extends BaseResource
 {
     /**
@@ -45,8 +42,6 @@ class DiscordThread extends BaseResource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
@@ -56,8 +51,6 @@ class DiscordThread extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -69,8 +62,6 @@ class DiscordThread extends BaseResource
     /**
      * The logical group associated with the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
@@ -80,8 +71,6 @@ class DiscordThread extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -93,8 +82,6 @@ class DiscordThread extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
@@ -104,8 +91,6 @@ class DiscordThread extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -127,9 +112,6 @@ class DiscordThread extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -159,9 +141,6 @@ class DiscordThread extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {
@@ -182,9 +161,6 @@ class DiscordThread extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -225,7 +201,7 @@ class DiscordThread extends BaseResource
     /**
      * Get the filters available for the resource.
      *
-     * @return array<int, \Filament\Tables\Filters\BaseFilter>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
     {

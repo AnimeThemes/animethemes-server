@@ -12,15 +12,10 @@ use App\Pivots\Wiki\ArtistResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistResourceStoreTest.
- */
 class ArtistResourceStoreTest extends TestCase
 {
     /**
      * The Artist Resource Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class ArtistResourceStoreTest extends TestCase
 
     /**
      * The Artist Resource Store Endpoint shall forbid users without the create artist & create resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class ArtistResourceStoreTest extends TestCase
 
     /**
      * The Artist Resource Store Endpoint shall create an artist resource.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

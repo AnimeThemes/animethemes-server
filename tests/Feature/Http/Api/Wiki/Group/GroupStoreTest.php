@@ -10,15 +10,10 @@ use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class GroupStoreTest.
- */
 class GroupStoreTest extends TestCase
 {
     /**
      * The Group Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class GroupStoreTest extends TestCase
 
     /**
      * The Group Store Endpoint shall forbid users without the create group permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class GroupStoreTest extends TestCase
 
     /**
      * The Group Store Endpoint shall create a group.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

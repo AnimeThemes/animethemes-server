@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Wiki\Anime\Theme;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
-/**
- * Class AnimeThemeEntriesQuery.
- */
 class AnimeThemeEntriesQuery extends EloquentQuery
 {
     public function __construct()
@@ -19,8 +16,6 @@ class AnimeThemeEntriesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -43,8 +38,6 @@ class AnimeThemeEntriesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return AnimeThemeEntryType
      */
     public function baseType(): AnimeThemeEntryType
     {

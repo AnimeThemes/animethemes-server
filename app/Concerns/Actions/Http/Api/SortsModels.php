@@ -10,19 +10,10 @@ use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class SortsModels.
- */
 trait SortsModels
 {
     /**
      * Apply sorts to the query builder.
-     *
-     * @param  Builder  $builder
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @param  Scope  $scope
-     * @return Builder
      */
     public function sort(Builder $builder, Query $query, Schema $schema, Scope $scope = new GlobalScope()): Builder
     {

@@ -91,8 +91,6 @@ class ReportStep extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -101,8 +99,6 @@ class ReportStep extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

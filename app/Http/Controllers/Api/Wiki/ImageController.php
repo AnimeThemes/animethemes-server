@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ImageController.
- */
 class ImageController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Image::class, 'image');
@@ -38,9 +32,7 @@ class ImageController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ImageCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ImageCollection
     {
@@ -54,9 +46,7 @@ class ImageController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreImageAction  $action
-     * @return ImageResource
      */
     public function store(StoreRequest $request, StoreImageAction $action): ImageResource
     {
@@ -68,10 +58,7 @@ class ImageController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Image  $image
      * @param  ShowAction  $action
-     * @return ImageResource
      */
     public function show(ShowRequest $request, Image $image, ShowAction $action): ImageResource
     {
@@ -85,10 +72,7 @@ class ImageController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Image  $image
      * @param  UpdateAction  $action
-     * @return ImageResource
      */
     public function update(UpdateRequest $request, Image $image, UpdateAction $action): ImageResource
     {
@@ -100,9 +84,7 @@ class ImageController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Image  $image
      * @param  DestroyAction  $action
-     * @return ImageResource
      */
     public function destroy(Image $image, DestroyAction $action): ImageResource
     {
@@ -114,9 +96,7 @@ class ImageController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Image  $image
      * @param  RestoreAction  $action
-     * @return ImageResource
      */
     public function restore(Image $image, RestoreAction $action): ImageResource
     {
@@ -128,9 +108,7 @@ class ImageController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Image  $image
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Image $image, ForceDeleteAction $action): JsonResponse
     {

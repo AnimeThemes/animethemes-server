@@ -21,8 +21,6 @@ use Illuminate\Support\Str;
 abstract class ReconcileResults extends ActionResult
 {
     /**
-     * Create a new results instance.
-     *
      * @param  Collection  $created
      * @param  Collection  $deleted
      * @param  Collection  $updated
@@ -67,8 +65,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Determines if any successful changes were made during reconciliation.
-     *
-     * @return bool
      */
     public function hasChanges(): bool
     {
@@ -77,8 +73,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Write reconcile results to log.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -94,9 +88,6 @@ abstract class ReconcileResults extends ActionResult
     /**
      * Write reconcile results to console output.
      *
-     * @param  Command  $command
-     * @return void
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toConsole(Command $command): void
@@ -110,8 +101,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Get the action result message.
-     *
-     * @return string|null
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -135,7 +124,6 @@ abstract class ReconcileResults extends ActionResult
      * Get the user-friendly label for the model class name.
      *
      * @param  int|array|Countable  $models
-     * @return string
      */
     protected function label(int|array|Countable $models = 1): string
     {

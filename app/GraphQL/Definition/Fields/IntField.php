@@ -13,15 +13,10 @@ use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\NotInFilterDirective;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class IntField.
- */
 abstract class IntField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -30,8 +25,6 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

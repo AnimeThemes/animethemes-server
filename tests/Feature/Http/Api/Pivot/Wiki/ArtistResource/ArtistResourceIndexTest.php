@@ -33,9 +33,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class ArtistResourceIndexTest.
- */
 class ArtistResourceIndexTest extends TestCase
 {
     use SortsModels;
@@ -43,8 +40,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * By default, the Artist Resource Index Endpoint shall return a collection of Artist Resource Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -73,8 +68,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -96,8 +89,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -138,8 +129,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -180,8 +169,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -224,8 +211,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -277,8 +262,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -330,8 +313,6 @@ class ArtistResourceIndexTest extends TestCase
 
     /**
      * The Artist Resource Index Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {

@@ -18,9 +18,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 
-/**
- * Class ImageSchema.
- */
 class ImageSchema extends EloquentSchema implements InteractsWithPivots
 {
     /**
@@ -37,8 +34,6 @@ class ImageSchema extends EloquentSchema implements InteractsWithPivots
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

@@ -7,9 +7,6 @@ namespace App\Filament\Resources\Auth\Role\Pages;
 use App\Filament\Resources\Auth\Role;
 use App\Filament\Resources\Base\BaseViewResource;
 
-/**
- * Class ViewRole.
- */
 class ViewRole extends BaseViewResource
 {
     protected static string $resource = Role::class;

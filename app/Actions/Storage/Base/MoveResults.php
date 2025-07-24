@@ -12,17 +12,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class MoveResults.
- */
 readonly class MoveResults implements StorageResults
 {
     /**
-     * Create a new action result instance.
-     *
-     * @param  BaseModel  $model
-     * @param  string  $from
-     * @param  string  $to
      * @param  array<string, bool>  $moves
      */
     public function __construct(
@@ -34,8 +26,6 @@ readonly class MoveResults implements StorageResults
 
     /**
      * Write results to log.
-     *
-     * @return void
      */
     public function toLog(): void
     {
@@ -51,9 +41,6 @@ readonly class MoveResults implements StorageResults
 
     /**
      * Write results to console output.
-     *
-     * @param  Command  $command
-     * @return void
      */
     public function toConsole(Command $command): void
     {
@@ -69,8 +56,6 @@ readonly class MoveResults implements StorageResults
 
     /**
      * Transform to Action Result.
-     *
-     * @return ActionResult
      */
     public function toActionResult(): ActionResult
     {

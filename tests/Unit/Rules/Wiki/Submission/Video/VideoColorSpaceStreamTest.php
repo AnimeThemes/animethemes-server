@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoColorSpaceStreamTest.
- */
 class VideoColorSpaceStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Video Color Space Stream Rule shall fail if the color space is not in the list of accepted values.
-     *
-     * @return void
      */
     public function testFailsWhenColorSpaceIsNotAccepted(): void
     {
@@ -68,8 +63,6 @@ class VideoColorSpaceStreamTest extends TestCase
 
     /**
      * The Video Color Space Stream Rule shall pass if the color space is in the list of accepted values.
-     *
-     * @return void
      */
     public function testPassesWhenColorSpaceIsAccepted(): void
     {

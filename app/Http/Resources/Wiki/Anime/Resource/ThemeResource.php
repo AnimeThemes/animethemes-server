@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ThemeResource.
- */
 class ThemeResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class ThemeResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

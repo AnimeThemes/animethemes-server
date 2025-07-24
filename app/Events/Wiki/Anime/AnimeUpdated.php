@@ -18,11 +18,6 @@ use App\Models\Wiki\Video;
  */
 class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Anime  $anime
-     */
     public function __construct(Anime $anime)
     {
         parent::__construct($anime);
@@ -31,8 +26,6 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Anime
      */
     public function getModel(): Anime
     {
@@ -41,8 +34,6 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -51,8 +42,6 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

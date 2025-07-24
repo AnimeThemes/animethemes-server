@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\Auth;
 
-/**
- * Enum Role.
- */
 enum Role: string
 {
     case ADMIN = 'Admin';
@@ -27,8 +24,6 @@ enum Role: string
 
     /**
      * Get the color for the role.
-     *
-     * @return string|null
      */
     public function color(): ?string
     {
@@ -46,8 +41,6 @@ enum Role: string
 
     /**
      * Get the priority value for the role.
-     *
-     * @return int|null
      */
     public function priority(): ?int
     {

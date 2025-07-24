@@ -15,15 +15,10 @@ use App\Features\AllowVideoStreams;
 use Illuminate\Database\Seeder;
 use Laravel\Pennant\Feature;
 
-/**
- * Class FeatureSeeder.
- */
 class FeatureSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {

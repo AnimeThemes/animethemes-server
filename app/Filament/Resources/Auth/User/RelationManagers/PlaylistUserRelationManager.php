@@ -9,23 +9,15 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Filament\Tables\Table;
 
-/**
- * Class PlaylistUserRelationManager.
- */
 class PlaylistUserRelationManager extends PlaylistRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = User::RELATION_PLAYLISTS;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

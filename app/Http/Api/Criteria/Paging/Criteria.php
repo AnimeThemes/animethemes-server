@@ -9,27 +9,17 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-/**
- * Class Criteria.
- */
 abstract class Criteria
 {
     final public const MAX_RESULTS = 100;
 
     final public const DEFAULT_SIZE = 15;
 
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  int  $resultSize
-     */
     public function __construct(protected readonly int $resultSize) {}
 
     /**
      * Get the validated result size.
      * Acceptable range is [1-30]. Default is 15.
-     *
-     * @return int
      */
     public function getResultSize(): int
     {
@@ -42,8 +32,6 @@ abstract class Criteria
 
     /**
      * Get the intended pagination strategy.
-     *
-     * @return PaginationStrategy
      */
     abstract public function getStrategy(): PaginationStrategy;
 

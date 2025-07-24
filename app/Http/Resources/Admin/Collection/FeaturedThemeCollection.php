@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\Request;
 
-/**
- * Class FeaturedThemeCollection.
- */
 class FeaturedThemeCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class FeaturedThemeCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

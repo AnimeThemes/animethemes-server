@@ -9,9 +9,6 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
 use App\Rules\Api\RandomSoleRule;
 
-/**
- * Trait ValidatesSorts.
- */
 trait ValidatesSorts
 {
     use ValidatesParameters;
@@ -19,7 +16,6 @@ trait ValidatesSorts
     /**
      * Get allowed sorts for schema.
      *
-     * @param  SchemaInterface  $schema
      * @return string[]
      */
     protected function formatAllowedSortValues(SchemaInterface $schema): array
@@ -38,8 +34,6 @@ trait ValidatesSorts
     /**
      * Restrict allowed sorts for schema.
      *
-     * @param  string  $param
-     * @param  SchemaInterface  $schema
      * @return array<string, array>
      */
     protected function restrictAllowedSortValues(string $param, SchemaInterface $schema): array

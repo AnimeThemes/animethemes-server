@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalResourceCollection.
- */
 class ExternalResourceCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ExternalResourceCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

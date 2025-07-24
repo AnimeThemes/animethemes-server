@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
-/**
- * Class VideoCollection.
- */
 class VideoCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class VideoCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

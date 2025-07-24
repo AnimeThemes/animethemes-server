@@ -12,15 +12,10 @@ use App\Pivots\Wiki\ArtistResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ArtistResourceUpdateTest.
- */
 class ArtistResourceUpdateTest extends TestCase
 {
     /**
      * The Artist Resource Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -38,8 +33,6 @@ class ArtistResourceUpdateTest extends TestCase
 
     /**
      * The Artist Resource Update Endpoint shall forbid users without the update artist & update resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -61,8 +54,6 @@ class ArtistResourceUpdateTest extends TestCase
 
     /**
      * The Artist Resource Update Endpoint shall update an artist resource.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

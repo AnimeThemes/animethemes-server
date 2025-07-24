@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ImageStoreTest.
- */
 class ImageStoreTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Image Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -40,8 +35,6 @@ class ImageStoreTest extends TestCase
 
     /**
      * The Image Store Endpoint shall forbid users without the create image permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -58,8 +51,6 @@ class ImageStoreTest extends TestCase
 
     /**
      * The Image Store Endpoint shall require the file field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -76,8 +67,6 @@ class ImageStoreTest extends TestCase
 
     /**
      * The Image Store Endpoint shall create an image.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

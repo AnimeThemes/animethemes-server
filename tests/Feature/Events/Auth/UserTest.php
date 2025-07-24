@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class UserTest.
- */
 class UserTest extends TestCase
 {
     /**
      * When a User is created, a UserCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testUserCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class UserTest extends TestCase
 
     /**
      * When a User is deleted, a UserDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testUserDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class UserTest extends TestCase
 
     /**
      * When a User is restored, a UserRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testUserRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class UserTest extends TestCase
      * When a User is restored, a UserUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testUserRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class UserTest extends TestCase
 
     /**
      * When a User is updated, a UserUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testUserUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class UserTest extends TestCase
 
     /**
      * The UserUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testUserUpdatedEventEmbedFields(): void
     {

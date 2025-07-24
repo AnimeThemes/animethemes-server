@@ -21,9 +21,6 @@ use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
-/**
- * Class AudioTest.
- */
 class AudioTest extends TestCase
 {
     use WithFaker;
@@ -31,8 +28,6 @@ class AudioTest extends TestCase
     /**
      * If audio streaming is disabled through the Allow Audio Streams feature,
      * the user shall receive a forbidden exception.
-     *
-     * @return void
      */
     public function testAudioStreamingNotAllowedForbidden(): void
     {
@@ -50,8 +45,6 @@ class AudioTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to stream audio
      * even if the Allow Audio Streams feature is disabled.
-     *
-     * @return void
      */
     public function testAudioStreamingPermittedForBypass(): void
     {
@@ -76,8 +69,6 @@ class AudioTest extends TestCase
 
     /**
      * If the audio is soft-deleted, the user shall receive a not found exception.
-     *
-     * @return void
      */
     public function testCannotStreamSoftDeletedAudio(): void
     {
@@ -94,8 +85,6 @@ class AudioTest extends TestCase
 
     /**
      * If view recording is disabled, the audio show route shall not record a view for the audio.
-     *
-     * @return void
      */
     public function testViewRecordingNotAllowed(): void
     {
@@ -113,8 +102,6 @@ class AudioTest extends TestCase
 
     /**
      * If view recording is enabled, the audio show route shall record a view for the audio.
-     *
-     * @return void
      */
     public function testViewRecordingIsAllowed(): void
     {
@@ -132,8 +119,6 @@ class AudioTest extends TestCase
 
     /**
      * If view recording is enabled, the audio show route shall record a view for the audio.
-     *
-     * @return void
      */
     public function testViewRecordingCooldown(): void
     {
@@ -153,8 +138,6 @@ class AudioTest extends TestCase
 
     /**
      * If the streaming method is set to an unexpected value, the user shall receive an error.
-     *
-     * @return void
      */
     public function testInvalidStreamingMethodError(): void
     {
@@ -172,8 +155,6 @@ class AudioTest extends TestCase
 
     /**
      * If the streaming method is set to 'response', the audio shall be streamed through a Symfony StreamedResponse.
-     *
-     * @return void
      */
     public function testStreamedThroughResponse(): void
     {
@@ -191,8 +172,6 @@ class AudioTest extends TestCase
 
     /**
      * If the streaming method is set to 'nginx', the audio shall be streamed through a nginx internal redirect.
-     *
-     * @return void
      */
     public function testStreamedThroughNginxRedirect(): void
     {

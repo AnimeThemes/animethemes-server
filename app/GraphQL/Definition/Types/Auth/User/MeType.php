@@ -27,15 +27,10 @@ use App\GraphQL\Definition\Types\User\NotificationType;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class MeType.
- */
 class MeType extends EloquentType implements HasDirectives, HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

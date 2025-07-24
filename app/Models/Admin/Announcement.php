@@ -60,7 +60,7 @@ class Announcement extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => AnnouncementCreated::class,
@@ -84,8 +84,6 @@ class Announcement extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -94,8 +92,6 @@ class Announcement extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -106,7 +102,6 @@ class Announcement extends BaseModel
      * Scope a query to only include public announcements.
      *
      * @param  Builder  $query
-     * @return void
      */
     #[Scope]
     public function public(Builder $query): void

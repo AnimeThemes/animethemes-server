@@ -7,15 +7,10 @@ namespace App\GraphQL\Definition\Directives\Filters;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 
-/**
- * Class InFilterDirective.
- */
 class InFilterDirective extends FilterDirective
 {
     /**
      * Create the argument for the directive.
-     *
-     * @return string
      */
     public function __toString(): string
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Http\Request;
 
-/**
- * Class SongResourceCollection.
- */
 class SongResourceCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class SongResourceCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

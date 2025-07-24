@@ -16,11 +16,6 @@ use App\Models\Wiki\Audio;
  */
 class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Audio  $audio
-     */
     public function __construct(Audio $audio)
     {
         parent::__construct($audio);
@@ -28,8 +23,6 @@ class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Audio
      */
     public function getModel(): Audio
     {
@@ -37,9 +30,7 @@ class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent
     }
 
     /**
-     * Remove the image from the bucket.
-     *
-     * @return void
+     * Remove the audio from the bucket.
      */
     public function removeFromStorage(): void
     {

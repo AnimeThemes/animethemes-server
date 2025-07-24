@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Video\Script as ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Filament\Tables\Table;
 
-/**
- * Class ScriptRelationManager.
- */
 abstract class ScriptRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class ScriptRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
@@ -39,8 +33,6 @@ abstract class ScriptRelationManager extends BaseRelationManager
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public function canCreate(): bool
     {

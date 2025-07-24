@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\Request;
 
-/**
- * Class SongCollection.
- */
 class SongCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class SongCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

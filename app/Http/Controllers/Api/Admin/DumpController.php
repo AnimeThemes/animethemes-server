@@ -20,14 +20,8 @@ use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class DumpController.
- */
 class DumpController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Dump::class, 'dump');
@@ -36,9 +30,7 @@ class DumpController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return DumpCollection
      */
     public function index(IndexRequest $request, IndexAction $action): DumpCollection
     {
@@ -53,9 +45,7 @@ class DumpController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Dump>  $action
-     * @return DumpResource
      */
     public function store(StoreRequest $request, StoreAction $action): DumpResource
     {
@@ -67,10 +57,7 @@ class DumpController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Dump  $dump
      * @param  ShowAction  $action
-     * @return DumpResource
      */
     public function show(ShowRequest $request, Dump $dump, ShowAction $action): DumpResource
     {
@@ -84,10 +71,7 @@ class DumpController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Dump  $dump
      * @param  UpdateAction  $action
-     * @return DumpResource
      */
     public function update(UpdateRequest $request, Dump $dump, UpdateAction $action): DumpResource
     {
@@ -99,9 +83,7 @@ class DumpController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Dump  $dump
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Dump $dump, DestroyAction $action): JsonResponse
     {

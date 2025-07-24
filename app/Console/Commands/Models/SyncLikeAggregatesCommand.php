@@ -9,29 +9,20 @@ use App\Console\Commands\BaseCommand;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
-/**
- * Class SyncLikeAggregatesCommand.
- */
 class SyncLikeAggregatesCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'like:sync-aggregates';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Synchronizes likes in the aggregates table';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -47,8 +38,6 @@ class SyncLikeAggregatesCommand extends BaseCommand
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     protected function validator(): Validator
     {

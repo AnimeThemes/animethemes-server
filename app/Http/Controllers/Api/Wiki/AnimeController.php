@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class AnimeController.
- */
 class AnimeController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Anime::class, 'anime');
@@ -38,9 +32,7 @@ class AnimeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return AnimeCollection
      */
     public function index(IndexRequest $request, IndexAction $action): AnimeCollection
     {
@@ -56,9 +48,7 @@ class AnimeController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Anime>  $action
-     * @return AnimeResource
      */
     public function store(StoreRequest $request, StoreAction $action): AnimeResource
     {
@@ -70,10 +60,7 @@ class AnimeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Anime  $anime
      * @param  ShowAction  $action
-     * @return AnimeResource
      */
     public function show(ShowRequest $request, Anime $anime, ShowAction $action): AnimeResource
     {
@@ -87,10 +74,7 @@ class AnimeController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Anime  $anime
      * @param  UpdateAction  $action
-     * @return AnimeResource
      */
     public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): AnimeResource
     {
@@ -102,9 +86,7 @@ class AnimeController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Anime  $anime
      * @param  DestroyAction  $action
-     * @return AnimeResource
      */
     public function destroy(Anime $anime, DestroyAction $action): AnimeResource
     {
@@ -116,9 +98,7 @@ class AnimeController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Anime  $anime
      * @param  RestoreAction  $action
-     * @return AnimeResource
      */
     public function restore(Anime $anime, RestoreAction $action): AnimeResource
     {
@@ -130,9 +110,7 @@ class AnimeController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Anime  $anime
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Anime $anime, ForceDeleteAction $action): JsonResponse
     {

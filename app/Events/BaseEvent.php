@@ -18,14 +18,10 @@ abstract class BaseEvent
 {
     /**
      * The user that fired this event.
-     *
-     * @var User|null
      */
     protected ?User $authenticatedUser;
 
     /**
-     * Create a new event instance.
-     *
      * @param  TModel&Nameable  $model
      */
     public function __construct(protected Model&Nameable $model)
@@ -42,8 +38,6 @@ abstract class BaseEvent
 
     /**
      * Get the user that fired this event.
-     *
-     * @return User|null
      */
     protected function getAuthenticatedUser(): ?User
     {
@@ -53,7 +47,7 @@ abstract class BaseEvent
     /**
      * Get the user info for the footer.
      *
-     * @return array<string, array<string, mixed>>
+     * @return array<string, array<string, string>>
      */
     protected function getUserFooter(): array
     {

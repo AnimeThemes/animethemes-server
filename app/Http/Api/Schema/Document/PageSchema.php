@@ -14,15 +14,10 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 
-/**
- * Class PageSchema.
- */
 class PageSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

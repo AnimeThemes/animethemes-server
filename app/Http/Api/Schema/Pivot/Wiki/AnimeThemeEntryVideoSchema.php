@@ -16,15 +16,10 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
-/**
- * Class AnimeThemeEntryVideoSchema.
- */
 class AnimeThemeEntryVideoSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

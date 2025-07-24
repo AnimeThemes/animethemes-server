@@ -13,29 +13,21 @@ use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Studio\StudioNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Studio\StudioSlugField;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\StudioQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class StudioSchema.
- */
 class StudioSchema extends Schema
 {
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
-    public function query(): ElasticQuery
+    public function query(): StudioQuery
     {
         return new StudioQuery();
     }
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

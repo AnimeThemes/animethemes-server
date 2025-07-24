@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteVideoAction extends DeleteAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Video  $video
-     */
     public function __construct(Video $video)
     {
         parent::__construct($video);
@@ -38,8 +33,6 @@ class DeleteVideoAction extends DeleteAction
 
     /**
      * Get the path to delete.
-     *
-     * @return string
      */
     protected function path(): string
     {

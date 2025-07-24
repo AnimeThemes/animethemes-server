@@ -9,17 +9,12 @@ use App\Http\Api\Filter\Filter;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class FilterTest.
- */
 class FilterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the filter column shall be derived from the filter key.
-     *
-     * @return void
      */
     public function testDefaultColumn(): void
     {
@@ -52,7 +47,6 @@ class FilterTest extends TestCase
              * By default, this is false as we assume an unrestricted amount of valid values.
              *
              * @param  array  $filterValues
-             * @return bool
              */
             public function isAllFilterValues(array $filterValues): bool
             {

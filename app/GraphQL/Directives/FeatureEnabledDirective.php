@@ -11,15 +11,10 @@ use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 
-/**
- * Class FeatureEnabledDirective.
- */
 class FeatureEnabledDirective extends BaseDirective implements FieldMiddleware
 {
     /**
      * Define the directive.
-     *
-     * @return string
      */
     public static function definition(): string
     {
@@ -30,9 +25,6 @@ class FeatureEnabledDirective extends BaseDirective implements FieldMiddleware
 
     /**
      * Wrap around the final field resolver.
-     *
-     * @param  FieldValue  $fieldValue
-     * @return void
      */
     public function handleField(FieldValue $fieldValue): void
     {

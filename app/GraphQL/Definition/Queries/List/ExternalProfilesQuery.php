@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 
-/**
- * Class ExternalProfilesQuery.
- */
 #[UseBuilder(ExternalProfileBuilder::class)]
 class ExternalProfilesQuery extends EloquentQuery
 {
@@ -23,8 +20,6 @@ class ExternalProfilesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -65,8 +60,6 @@ class ExternalProfilesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return ExternalProfileType
      */
     public function baseType(): ExternalProfileType
     {

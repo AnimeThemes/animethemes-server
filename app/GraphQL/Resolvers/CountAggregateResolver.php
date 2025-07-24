@@ -13,19 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Class CountAggregateResolver.
- */
 class CountAggregateResolver
 {
     /**
      * Resolve count field with aggregates.
      *
-     * @param  Model  $aggregatable
      * @param  array  $args
-     * @param  GraphQLContext  $context
-     * @param  ResolveInfo  $resolveInfo
-     * @return mixed
      */
     public function __invoke(Model $aggregatable, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

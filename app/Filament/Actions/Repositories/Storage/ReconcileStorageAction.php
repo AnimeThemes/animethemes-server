@@ -13,15 +13,10 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class ReconcileStorageAction.
- */
 abstract class ReconcileStorageAction extends ReconcileAction implements InteractsWithDisk
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -33,10 +28,7 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
     /**
      * Apply filters to repositories before reconciliation.
      *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
      * @param  array<string, mixed>  $data
-     * @return void
      */
     protected function handleFilters(
         RepositoryInterface $sourceRepository,
@@ -54,9 +46,6 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

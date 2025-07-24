@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 
-/**
- * Class ImageCollection.
- */
 class ImageCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ImageCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

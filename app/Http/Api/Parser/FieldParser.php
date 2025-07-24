@@ -8,15 +8,10 @@ use App\Http\Api\Criteria\Field\Criteria;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class FieldParser.
- */
 class FieldParser extends Parser
 {
     /**
      * The parameter to parse.
-     *
-     * @return string
      */
     public static function param(): string
     {
@@ -27,7 +22,6 @@ class FieldParser extends Parser
      * Parse sparse fieldsets from parameters.
      *
      * @param  array  $parameters
-     * @return Criteria[]
      */
     public static function parse(array $parameters): array
     {
@@ -49,10 +43,6 @@ class FieldParser extends Parser
 
     /**
      * Parse criteria instance from query string.
-     *
-     * @param  string  $type
-     * @param  string  $fieldList
-     * @return Criteria
      */
     protected static function parseCriteria(string $type, string $fieldList): Criteria
     {

@@ -9,15 +9,10 @@ use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class VideoScriptTab.
- */
 class VideoScriptTab extends BaseTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -26,8 +21,6 @@ class VideoScriptTab extends BaseTab
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

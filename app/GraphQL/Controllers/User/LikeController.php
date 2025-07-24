@@ -29,7 +29,6 @@ class LikeController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return Model
      *
      * @throws Exception
      */
@@ -60,7 +59,6 @@ class LikeController extends BaseController
      *
      * @param  null  $_
      * @param  array  $args
-     * @return Model
      *
      * @throws Exception
      */

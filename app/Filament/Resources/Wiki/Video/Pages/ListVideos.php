@@ -14,9 +14,6 @@ use App\Models\Wiki\Video as VideoModel;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListVideos.
- */
 class ListVideos extends BaseListResources
 {
     use HasTabs;

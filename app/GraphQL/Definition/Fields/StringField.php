@@ -11,15 +11,10 @@ use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\LikeFilterDirective;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class StringField.
- */
 abstract class StringField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -28,8 +23,6 @@ abstract class StringField extends Field implements DisplayableField, Filterable
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

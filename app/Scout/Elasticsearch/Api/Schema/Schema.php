@@ -19,15 +19,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-/**
- * Class Schema.
- */
 abstract class Schema implements SchemaInterface
 {
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
     abstract public function query(): ElasticQuery;
 
@@ -116,9 +111,6 @@ abstract class Schema implements SchemaInterface
     /**
      * Resolve the schema by path.
      *
-     * @param  string  $path
-     * @return Schema
-     *
      * @throws RuntimeException
      */
     protected function resolve(string $path): Schema
@@ -147,8 +139,6 @@ abstract class Schema implements SchemaInterface
 
     /**
      * Resolve the owner model of the schema.
-     *
-     * @return Model
      */
     public function model(): Model
     {

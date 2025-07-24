@@ -25,14 +25,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class PlaylistImageController.
- */
 class PlaylistImageController extends PivotController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Playlist::class, 'playlist', Image::class, 'image');
@@ -48,9 +42,7 @@ class PlaylistImageController extends PivotController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return PlaylistImageCollection
      */
     public function index(IndexRequest $request, IndexAction $action): PlaylistImageCollection
     {
@@ -69,11 +61,7 @@ class PlaylistImageController extends PivotController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
-     * @param  Playlist  $playlist
-     * @param  Image  $image
      * @param  StoreAction<PlaylistImage>  $action
-     * @return PlaylistImageResource
      */
     public function store(StoreRequest $request, Playlist $playlist, Image $image, StoreAction $action): PlaylistImageResource
     {
@@ -93,11 +81,7 @@ class PlaylistImageController extends PivotController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Playlist  $playlist
-     * @param  Image  $image
      * @param  ShowAction  $action
-     * @return PlaylistImageResource
      */
     public function show(ShowRequest $request, Playlist $playlist, Image $image, ShowAction $action): PlaylistImageResource
     {
@@ -116,10 +100,7 @@ class PlaylistImageController extends PivotController
     /**
      * Remove the specified resource.
      *
-     * @param  Playlist  $playlist
-     * @param  Image  $image
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(Playlist $playlist, Image $image, DestroyAction $action): JsonResponse
     {

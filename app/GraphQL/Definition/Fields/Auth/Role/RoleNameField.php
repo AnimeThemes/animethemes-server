@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Auth\Role;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Auth\Role;
 
-/**
- * Class RoleNameField.
- */
 class RoleNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Role::ATTRIBUTE_NAME, nullable: false);
@@ -22,8 +16,6 @@ class RoleNameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

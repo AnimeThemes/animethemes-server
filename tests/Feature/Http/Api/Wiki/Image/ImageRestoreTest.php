@@ -10,15 +10,10 @@ use App\Models\Wiki\Image;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ImageRestoreTest.
- */
 class ImageRestoreTest extends TestCase
 {
     /**
      * The Image Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class ImageRestoreTest extends TestCase
 
     /**
      * The Image Restore Endpoint shall forbid users without the restore image permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class ImageRestoreTest extends TestCase
 
     /**
      * The Image Restore Endpoint shall forbid users from restoring an image that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class ImageRestoreTest extends TestCase
 
     /**
      * The Image Restore Endpoint shall restore the image.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

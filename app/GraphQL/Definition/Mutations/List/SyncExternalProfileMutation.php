@@ -15,15 +15,9 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SyncExternalProfileMutation.
- */
 #[UseField(SyncExternalProfileController::class, 'store')]
 class SyncExternalProfileMutation extends BaseMutation
 {
-    /**
-     * Create a new mutation instance.
-     */
     public function __construct()
     {
         parent::__construct('syncExternalProfile');
@@ -31,8 +25,6 @@ class SyncExternalProfileMutation extends BaseMutation
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -92,8 +84,6 @@ class SyncExternalProfileMutation extends BaseMutation
 
     /**
      * The base return type of the mutation.
-     *
-     * @return Type
      */
     public function baseType(): Type
     {
@@ -102,8 +92,6 @@ class SyncExternalProfileMutation extends BaseMutation
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {

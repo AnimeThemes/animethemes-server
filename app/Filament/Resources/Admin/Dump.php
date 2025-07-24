@@ -21,9 +21,6 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Dump.
- */
 class Dump extends BaseResource
 {
     /**
@@ -36,8 +33,6 @@ class Dump extends BaseResource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
@@ -47,8 +42,6 @@ class Dump extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -60,8 +53,6 @@ class Dump extends BaseResource
     /**
      * The logical group associated with the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
@@ -72,8 +63,6 @@ class Dump extends BaseResource
     /**
      * The icon displayed to the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationIcon(): string
@@ -83,8 +72,6 @@ class Dump extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -93,8 +80,6 @@ class Dump extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -105,9 +90,6 @@ class Dump extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -126,9 +108,6 @@ class Dump extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {
@@ -147,9 +126,6 @@ class Dump extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

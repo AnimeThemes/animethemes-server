@@ -7,9 +7,6 @@ namespace App\Enums\Models\List;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum PlaylistVisibility.
- */
 enum PlaylistVisibility: int implements HasLabel
 {
     use LocalizesName;

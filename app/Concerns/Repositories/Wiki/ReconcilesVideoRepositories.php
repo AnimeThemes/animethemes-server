@@ -11,16 +11,12 @@ use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
 use Illuminate\Support\Facades\App;
 
-/**
- * Trait ReconcilesVideoRepositories.
- */
 trait ReconcilesVideoRepositories
 {
     /**
      * Get source repository for action.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
@@ -31,7 +27,6 @@ trait ReconcilesVideoRepositories
      * Get destination repository for action.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
@@ -40,8 +35,6 @@ trait ReconcilesVideoRepositories
 
     /**
      * Get the reconcile action.
-     *
-     * @return ReconcileRepositoriesAction
      */
     protected function reconcileAction(): ReconcileRepositoriesAction
     {

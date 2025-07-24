@@ -16,11 +16,6 @@ use App\Pivots\Wiki\ArtistImage;
  */
 class ArtistImageCreated extends PivotCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ArtistImage  $artistImage
-     */
     public function __construct(ArtistImage $artistImage)
     {
         parent::__construct($artistImage->artist, $artistImage->image);
@@ -28,8 +23,6 @@ class ArtistImageCreated extends PivotCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

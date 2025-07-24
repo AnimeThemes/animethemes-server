@@ -14,15 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeTest.
- */
 class FeaturedThemeTest extends TestCase
 {
     /**
      * Featured Themes shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -33,8 +28,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * Featured Themes shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -47,8 +40,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * Featured Themes shall cast the end_at attribute to datetime.
-     *
-     * @return void
      */
     public function testCastsEndAt(): void
     {
@@ -59,8 +50,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * Featured Themes shall cast the start_at attribute to datetime.
-     *
-     * @return void
      */
     public function testCastsStartAt(): void
     {
@@ -71,8 +60,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * Featured themes shall belong to a User.
-     *
-     * @return void
      */
     public function testUser(): void
     {
@@ -86,8 +73,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * Featured themes shall belong to a Video.
-     *
-     * @return void
      */
     public function testVideo(): void
     {
@@ -101,8 +86,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * Featured themes shall belong to an Entry.
-     *
-     * @return void
      */
     public function testEntry(): void
     {

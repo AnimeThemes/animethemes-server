@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ArtistResourceTest.
- */
 class ArtistResourceTest extends TestCase
 {
     /**
      * When an Artist is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistResourceCreatedSendsDiscordNotification(): void
     {
@@ -43,8 +38,6 @@ class ArtistResourceTest extends TestCase
 
     /**
      * When an Artist is detached from a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistResourceDeletedSendsDiscordNotification(): void
     {
@@ -64,8 +57,6 @@ class ArtistResourceTest extends TestCase
 
     /**
      * When an Artist Resource pivot is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistResourceUpdatedSendsDiscordNotification(): void
     {

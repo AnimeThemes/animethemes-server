@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class EntryCollection.
- */
 class EntryCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class EntryCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

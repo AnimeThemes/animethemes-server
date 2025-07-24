@@ -23,15 +23,10 @@ use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\List\Playlist\PlaylistTrack;
 
-/**
- * Class PlaylistTrackType.
- */
 class PlaylistTrackType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

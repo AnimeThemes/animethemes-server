@@ -8,9 +8,6 @@ use App\Concerns\Enums\CoercesInstances;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum VideoOverlap.
- */
 enum VideoOverlap: int implements HasLabel
 {
     use CoercesInstances;

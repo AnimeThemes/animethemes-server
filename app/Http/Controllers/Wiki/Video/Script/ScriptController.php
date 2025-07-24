@@ -9,9 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video\VideoScript;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * Class ScriptController.
- */
 class ScriptController extends Controller
 {
     /**

@@ -41,9 +41,6 @@ class PerformanceFactory extends Factory
 
     /**
      * Set the artist.
-     *
-     * @param  Artist|Membership  $artist
-     * @return static
      */
     public function artist(Artist|Membership $artist): static
     {

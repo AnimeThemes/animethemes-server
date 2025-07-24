@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
-/**
- * Class MalAnimeExternalApiAction.
- */
 class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStudios
 {
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     public function getSite(): ResourceSite
     {
@@ -33,7 +28,6 @@ class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStu
      * Set the response after the request.
      *
      * @param  BelongsToMany<ExternalResource, Anime>  $resources
-     * @return static
      */
     public function handle(BelongsToMany $resources): static
     {

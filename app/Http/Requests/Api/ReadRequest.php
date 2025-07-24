@@ -14,9 +14,6 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use Illuminate\Support\Arr;
 
-/**
- * Class ReadRequest.
- */
 abstract class ReadRequest extends BaseRequest
 {
     use ValidatesConditionally;

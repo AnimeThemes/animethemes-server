@@ -23,9 +23,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class BackfillAudioAction.
- */
 class BackfillAudioAction extends BaseAction implements ShouldQueue
 {
     use InteractsWithQueue;
@@ -33,8 +30,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -43,8 +38,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -62,9 +55,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     /**
      * Perform the action on the given models.
      *
-     * @param  Video  $video
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(Video $video, array $data): void
     {
@@ -92,9 +83,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

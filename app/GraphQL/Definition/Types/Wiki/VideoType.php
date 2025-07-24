@@ -36,15 +36,10 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoType.
- */
 class VideoType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

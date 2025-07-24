@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class ReconcileAudioRepositoriesTest.
- */
 class ReconcileAudioRepositoriesTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Audio Repository Action shall indicate no changes were made.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -51,8 +46,6 @@ class ReconcileAudioRepositoriesTest extends TestCase
 
     /**
      * If audios are created, the Reconcile Audio Repository Action shall return created audios.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -81,8 +74,6 @@ class ReconcileAudioRepositoriesTest extends TestCase
 
     /**
      * If audios are deleted, the Reconcile Audio Repository Action shall return deleted audios.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -115,8 +106,6 @@ class ReconcileAudioRepositoriesTest extends TestCase
 
     /**
      * If audios are updated, the Reconcile Audio Repository Action shall return updated audios.
-     *
-     * @return void
      *
      * @throws Exception
      */

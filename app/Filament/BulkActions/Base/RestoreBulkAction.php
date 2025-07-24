@@ -9,17 +9,12 @@ use Filament\Actions\RestoreBulkAction as BaseRestoreBulkAction;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class RestoreBulkAction.
- */
 class RestoreBulkAction extends BaseRestoreBulkAction
 {
     use HasActionLogs;
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

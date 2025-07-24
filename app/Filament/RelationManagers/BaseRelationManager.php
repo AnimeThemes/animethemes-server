@@ -21,9 +21,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
-/**
- * Class BaseRelationManager.
- */
 abstract class BaseRelationManager extends RelationManager
 {
     protected static bool $isLazy = false;
@@ -40,7 +37,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the pivot components of the relation.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getPivotComponents(): array
     {
@@ -50,7 +47,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the pivot columns of the relation.
      *
-     * @return array<int, Column>
+     * @return Column[]
      */
     public function getPivotColumns(): array
     {
@@ -59,9 +56,6 @@ abstract class BaseRelationManager extends RelationManager
 
     /**
      * The index page of the relation resource.
-     *
-     * @param  Table  $table
-     * @return Table
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -117,7 +111,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the filters available for the relation.
      *
-     * @return array<int, \Filament\Tables\Filters\BaseFilter>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -129,7 +123,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the actions available for the relation.
      *
-     * @return array<int, Action>
+     * @return Action[]
      */
     public static function getRecordActions(): array
     {
@@ -158,7 +152,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
-     * @return array<int, Action>
+     * @return Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -175,8 +169,6 @@ abstract class BaseRelationManager extends RelationManager
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public function canCreate(): bool
     {

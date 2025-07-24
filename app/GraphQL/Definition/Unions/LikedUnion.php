@@ -8,15 +8,10 @@ use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class LikedUnion.
- */
 class LikedUnion extends BaseUnion
 {
     /**
      * The name of the union type.
-     *
-     * @return string
      */
     public function name(): string
     {
@@ -25,8 +20,6 @@ class LikedUnion extends BaseUnion
 
     /**
      * The description of the union type.
-     *
-     * @return string
      */
     public function description(): string
     {

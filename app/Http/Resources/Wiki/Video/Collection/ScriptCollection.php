@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\Request;
 
-/**
- * Class ScriptCollection.
- */
 class ScriptCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ScriptCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -16,17 +16,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class SortParserTest.
- */
 class SortParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Sort Parser shall parse Relation Criteria.
-     *
-     * @return void
      */
     public function testRelationCriteria(): void
     {
@@ -39,8 +34,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall parse Field Criteria.
-     *
-     * @return void
      */
     public function testFieldCriteria(): void
     {
@@ -53,8 +46,6 @@ class SortParserTest extends TestCase
 
     /**
      * The Sort Parser shall not parse Random Criteria.
-     *
-     * @return void
      */
     public function testRandomCriteria(): void
     {

@@ -10,15 +10,10 @@ use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DeleteScriptAction.
- */
 class DeleteScriptAction extends DeleteAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -27,8 +22,6 @@ class DeleteScriptAction extends DeleteAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -44,7 +37,6 @@ class DeleteScriptAction extends DeleteAction
      *
      * @param  VideoScript  $script
      * @param  array<string, mixed>  $data
-     * @return DeleteScript
      */
     protected function storageAction(?Model $script, array $data): DeleteScript
     {

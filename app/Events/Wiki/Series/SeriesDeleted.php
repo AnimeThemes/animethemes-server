@@ -15,11 +15,6 @@ use App\Models\Wiki\Series;
  */
 class SeriesDeleted extends WikiDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Series  $series
-     */
     public function __construct(Series $series)
     {
         parent::__construct($series);
@@ -27,8 +22,6 @@ class SeriesDeleted extends WikiDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Series
      */
     public function getModel(): Series
     {
@@ -37,8 +30,6 @@ class SeriesDeleted extends WikiDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -47,8 +38,6 @@ class SeriesDeleted extends WikiDeletedEvent
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -57,8 +46,6 @@ class SeriesDeleted extends WikiDeletedEvent
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {

@@ -8,16 +8,10 @@ use App\Filament\Resources\Admin\Exception;
 use App\Filament\Widgets\BaseTableWidget;
 use Filament\Tables\Table;
 
-/**
- * Class ExceptionsTableWidget.
- */
 class ExceptionsTableWidget extends BaseTableWidget
 {
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

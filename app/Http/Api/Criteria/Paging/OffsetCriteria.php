@@ -13,9 +13,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
-/**
- * Class OffsetCriteria.
- */
 class OffsetCriteria extends Criteria
 {
     final public const SIZE_PARAM = 'size';
@@ -24,8 +21,6 @@ class OffsetCriteria extends Criteria
 
     /**
      * Get the intended pagination strategy.
-     *
-     * @return PaginationStrategy
      */
     public function getStrategy(): PaginationStrategy
     {

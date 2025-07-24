@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ArtistTest.
- */
 class ArtistTest extends TestCase
 {
     /**
      * When an Artist is created, an ArtistCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class ArtistTest extends TestCase
 
     /**
      * When an Artist is deleted, an ArtistDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class ArtistTest extends TestCase
 
     /**
      * When an Artist is restored, an ArtistRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class ArtistTest extends TestCase
      * When an Artist is restored, an ArtistUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testArtistRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class ArtistTest extends TestCase
 
     /**
      * When an Artist is updated, an ArtistUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testArtistUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class ArtistTest extends TestCase
 
     /**
      * The ArtistUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testArtistUpdatedEventEmbedFields(): void
     {

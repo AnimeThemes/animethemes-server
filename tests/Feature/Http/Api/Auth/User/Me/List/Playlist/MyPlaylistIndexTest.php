@@ -13,17 +13,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class MyPlaylistIndexTest.
- */
 class MyPlaylistIndexTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The My Playlist Index Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class MyPlaylistIndexTest extends TestCase
 
     /**
      * The My Playlist Index Endpoint shall forbid users without the view playlist permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -50,8 +43,6 @@ class MyPlaylistIndexTest extends TestCase
 
     /**
      * The My Playlist Index Endpoint shall return playlists owned by the user.
-     *
-     * @return void
      */
     public function testOnlySeesOwnedPlaylists(): void
     {

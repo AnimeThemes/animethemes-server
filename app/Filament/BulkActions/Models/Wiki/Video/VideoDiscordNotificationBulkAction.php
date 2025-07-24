@@ -15,15 +15,10 @@ use Filament\Support\Enums\Width;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class VideoDiscordNotificationBulkAction.
- */
 class VideoDiscordNotificationBulkAction extends BaseBulkAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -32,8 +27,6 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -52,7 +45,6 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
      *
      * @param  Collection<int, Video>  $videos
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(Collection $videos, array $data): void
     {
@@ -65,9 +57,6 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
 
     /**
      * Get the form for the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): ?Schema
     {

@@ -18,11 +18,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Performance  $performance
-     */
     public function __construct(Performance $performance)
     {
         parent::__construct($performance);
@@ -30,8 +25,6 @@ class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Performance
      */
     public function getModel(): Performance
     {
@@ -40,8 +33,6 @@ class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

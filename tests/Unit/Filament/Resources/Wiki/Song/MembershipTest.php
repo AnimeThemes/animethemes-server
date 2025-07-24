@@ -18,15 +18,10 @@ use App\Models\Wiki\Song\Membership as MembershipModel;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class MembershipTest.
- */
 class MembershipTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -37,8 +32,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {
@@ -49,8 +42,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -78,8 +69,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -103,8 +92,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountCreateAction(): void
     {
@@ -124,8 +111,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {
@@ -150,8 +135,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot create a record.
-     *
-     * @return void
      */
     public function testUserCannotCreateRecord(): void
     {
@@ -161,8 +144,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot edit a record.
-     *
-     * @return void
      */
     public function testUserCannotEditRecord(): void
     {
@@ -177,8 +158,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot delete a record.
-     *
-     * @return void
      */
     public function testUserCannotDeleteRecord(): void
     {
@@ -196,8 +175,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot restore a record.
-     *
-     * @return void
      */
     public function testUserCannotRestoreRecord(): void
     {
@@ -217,8 +194,6 @@ class MembershipTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot force delete a record.
-     *
-     * @return void
      */
     public function testUserCannotForceDeleteRecord(): void
     {

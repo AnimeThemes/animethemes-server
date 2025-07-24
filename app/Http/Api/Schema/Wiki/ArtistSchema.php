@@ -26,9 +26,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 
-/**
- * Class ArtistSchema.
- */
 class ArtistSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
@@ -48,8 +45,6 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

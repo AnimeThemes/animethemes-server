@@ -7,15 +7,10 @@ namespace App\Filament\Actions\Base;
 use App\Contracts\Models\SoftDeletable;
 use Filament\Actions\ForceDeleteAction as BaseForceDeleteAction;
 
-/**
- * Class ForceDeleteAction.
- */
 class ForceDeleteAction extends BaseForceDeleteAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Models\Wiki\Artist;
 use Filament\Tables\Table;
 
-/**
- * Class ArtistRelationManager.
- */
 abstract class ArtistRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class ArtistRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

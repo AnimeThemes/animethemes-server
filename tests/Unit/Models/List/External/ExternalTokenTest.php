@@ -11,15 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
-/**
- * Class ExternalTokenTest.
- */
 class ExternalTokenTest extends TestCase
 {
     /**
      * External Tokens shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -31,8 +26,6 @@ class ExternalTokenTest extends TestCase
 
     /**
      * External Tokens shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -45,8 +38,6 @@ class ExternalTokenTest extends TestCase
 
     /**
      * External Tokens shall belong to an External Profile.
-     *
-     * @return void
      */
     public function testProfile(): void
     {
@@ -60,8 +51,6 @@ class ExternalTokenTest extends TestCase
 
     /**
      * External Tokens shall belong to a User through an External Profile.
-     *
-     * @return void
      */
     public function testUser(): void
     {

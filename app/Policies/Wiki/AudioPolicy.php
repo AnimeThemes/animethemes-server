@@ -9,16 +9,10 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use App\Policies\BasePolicy;
 
-/**
- * Class AudioPolicy.
- */
 class AudioPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can add a video to the audio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function addVideo(User $user): bool
     {

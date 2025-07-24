@@ -12,9 +12,6 @@ use App\Models\Wiki\ExternalResource;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class ResourceRelationManager.
- */
 abstract class ResourceRelationManager extends BaseRelationManager
 {
     /**
@@ -26,9 +23,6 @@ abstract class ResourceRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
@@ -41,8 +35,6 @@ abstract class ResourceRelationManager extends BaseRelationManager
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public function canCreate(): bool
     {

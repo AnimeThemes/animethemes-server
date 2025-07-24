@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\Request;
 
-/**
- * Class ArtistCollection.
- */
 class ArtistCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ArtistCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

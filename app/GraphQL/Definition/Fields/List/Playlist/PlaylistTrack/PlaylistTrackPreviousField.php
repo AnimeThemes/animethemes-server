@@ -15,14 +15,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-/**
- * Class PlaylistTrackPreviousField.
- */
 class PlaylistTrackPreviousField extends Field implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::RELATION_PREVIOUS, nullable: true);
@@ -30,8 +24,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -40,8 +32,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

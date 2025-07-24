@@ -6,16 +6,10 @@ namespace App\Http\Api\Scope;
 
 use Illuminate\Support\Str;
 
-/**
- * Class ScopeParser.
- */
 class ScopeParser
 {
     /**
      * Parse scope instance from string.
-     *
-     * @param  string  $scope
-     * @return Scope
      */
     public static function parse(string $scope): Scope
     {

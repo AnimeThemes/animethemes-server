@@ -10,15 +10,10 @@ use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PageForceDeleteTest.
- */
 class PageForceDeleteTest extends TestCase
 {
     /**
      * The Page Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class PageForceDeleteTest extends TestCase
 
     /**
      * The Page Force Delete Endpoint shall forbid users without the force delete page permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class PageForceDeleteTest extends TestCase
 
     /**
      * The Page Force Delete Endpoint shall force delete the page.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

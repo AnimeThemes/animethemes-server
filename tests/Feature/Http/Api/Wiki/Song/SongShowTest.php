@@ -26,17 +26,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class SongShowTest.
- */
 class SongShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Song Show Endpoint shall return a Song Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -58,8 +53,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall return a Song Resource for soft deleted songs.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -83,8 +76,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -121,8 +112,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -156,8 +145,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall support constrained eager loading of themes by sequence.
-     *
-     * @return void
      */
     public function testThemesBySequence(): void
     {
@@ -205,8 +192,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall support constrained eager loading of themes by type.
-     *
-     * @return void
      */
     public function testThemesByType(): void
     {
@@ -245,8 +230,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -285,8 +268,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -325,8 +306,6 @@ class SongShowTest extends TestCase
 
     /**
      * The Song Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

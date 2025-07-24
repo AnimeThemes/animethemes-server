@@ -42,8 +42,6 @@ class DumpFactory extends Factory
 
     /**
      * Create an unsafe dump.
-     *
-     * @return static
      */
     public function unsafe(): static
     {

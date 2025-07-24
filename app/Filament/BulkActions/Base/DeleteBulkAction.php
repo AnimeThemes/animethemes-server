@@ -9,17 +9,12 @@ use Filament\Actions\DeleteBulkAction as BaseDeleteBulkAction;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DeleteBulkAction.
- */
 class DeleteBulkAction extends BaseDeleteBulkAction
 {
     use HasActionLogs;
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -12,16 +12,8 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/**
- * Class AnimeSlugField.
- */
 class AnimeSlugField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Anime::ATTRIBUTE_SLUG);
@@ -30,7 +22,6 @@ class AnimeSlugField extends StringField implements CreatableField, UpdatableFie
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -46,7 +37,6 @@ class AnimeSlugField extends StringField implements CreatableField, UpdatableFie
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

@@ -14,11 +14,6 @@ use App\Models\Admin\Feature;
  */
 class FeatureDeleted extends AdminDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Feature  $feature
-     */
     public function __construct(Feature $feature)
     {
         parent::__construct($feature);
@@ -26,8 +21,6 @@ class FeatureDeleted extends AdminDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Feature
      */
     public function getModel(): Feature
     {
@@ -36,8 +29,6 @@ class FeatureDeleted extends AdminDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -46,8 +37,6 @@ class FeatureDeleted extends AdminDeletedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {

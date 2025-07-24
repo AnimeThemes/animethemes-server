@@ -11,18 +11,10 @@ use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class AggregatesFields.
- */
 trait AggregatesFields
 {
     /**
      * Select aggregate fields for the query builder.
-     *
-     * @param  Builder  $builder
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return Builder
      */
     public function withAggregates(Builder $builder, Query $query, Schema $schema): Builder
     {
@@ -35,11 +27,6 @@ trait AggregatesFields
 
     /**
      * Load aggregate fields for the model.
-     *
-     * @param  Model  $model
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return Model
      */
     public function loadAggregates(Model $model, Query $query, Schema $schema): Model
     {

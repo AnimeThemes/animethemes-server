@@ -6,16 +6,10 @@ namespace App\Filament\Components\Infolist;
 
 use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
 
-/**
- * Class TextEntry.
- */
 class TextEntry extends ComponentsTextEntry
 {
     /**
      * Make the entry copyable.
-     *
-     * @param  bool  $condition
-     * @return static
      */
     public function copyableWithMessage(bool $condition = true): static
     {

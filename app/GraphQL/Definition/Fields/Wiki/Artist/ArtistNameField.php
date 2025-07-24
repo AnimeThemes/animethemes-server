@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Artist;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Artist;
 
-/**
- * Class ArtistNameField.
- */
 class ArtistNameField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Artist::ATTRIBUTE_NAME, nullable: false);
@@ -22,8 +16,6 @@ class ArtistNameField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

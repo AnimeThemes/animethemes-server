@@ -14,18 +14,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
-/**
- * Class UploadScriptAction.
- */
 class UploadScriptAction extends UploadAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  UploadedFile  $file
-     * @param  string  $path
-     * @param  Video|null  $video
-     */
     public function __construct(UploadedFile $file, string $path, protected ?Video $video = null)
     {
         parent::__construct($file, $path);
@@ -33,9 +23,6 @@ class UploadScriptAction extends UploadAction
 
     /**
      * Processes to be completed after handling action.
-     *
-     * @param  StorageResults  $storageResults
-     * @return VideoScript|null
      */
     public function then(StorageResults $storageResults): ?VideoScript
     {
@@ -48,8 +35,6 @@ class UploadScriptAction extends UploadAction
 
     /**
      * Get existing or create new script for file upload.
-     *
-     * @return VideoScript
      */
     protected function getOrCreateScript(): VideoScript
     {

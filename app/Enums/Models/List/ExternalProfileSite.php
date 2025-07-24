@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
-/**
- * Enum ExternalProfileSite.
- */
 enum ExternalProfileSite: int implements HasLabel
 {
     use LocalizesName;
@@ -24,8 +21,6 @@ enum ExternalProfileSite: int implements HasLabel
 
     /**
      * Get the ResourceSite by the ExternalProfileSite value.
-     *
-     * @return ResourceSite
      */
     public function getResourceSite(): ResourceSite
     {
@@ -38,8 +33,6 @@ enum ExternalProfileSite: int implements HasLabel
 
     /**
      * Get the link of the external site to authenticate the user.
-     *
-     * @return string|null
      */
     public function getAuthorizeUrl(): ?string
     {

@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Validator;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Class ModerationTest.
- */
 class ModerationTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Moderation Rule shall fail if the moderation service is unknown.
-     *
-     * @return void
      */
     public function testFailsIfUnknownModerationService(): void
     {
@@ -44,8 +39,6 @@ class ModerationTest extends TestCase
 
     /**
      * The Moderation Rule shall fail if the value is flagged by OpenAI.
-     *
-     * @return void
      */
     public function testFailsIfFlaggedByOpenAi(): void
     {
@@ -73,8 +66,6 @@ class ModerationTest extends TestCase
 
     /**
      * The Moderation Rule shall fail if the value is flagged by OpenAI.
-     *
-     * @return void
      */
     public function testPassesIfNotFlaggedByOpenAi(): void
     {
@@ -102,8 +93,6 @@ class ModerationTest extends TestCase
 
     /**
      * The Moderation Rule shall fail if OpenAI returns some error.
-     *
-     * @return void
      */
     public function testPassesIfOpenAiFails(): void
     {

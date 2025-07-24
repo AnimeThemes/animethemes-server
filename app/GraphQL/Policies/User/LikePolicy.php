@@ -9,18 +9,12 @@ use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\User\Like;
 
-/**
- * Class LikePolicy.
- */
 class LikePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  User  $user
      * @param  array  $injected
-     * @param  string|null  $keyName
-     * @return bool
      */
     public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
     {

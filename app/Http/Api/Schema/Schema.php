@@ -18,9 +18,6 @@ use App\Http\Api\Sort\RandomSort;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Support\Arr;
 
-/**
- * Class Schema.
- */
 abstract class Schema implements SchemaInterface
 {
     /**
@@ -67,9 +64,6 @@ abstract class Schema implements SchemaInterface
 
     /**
      * Get the schema of the relation by path.
-     *
-     * @param  string  $path
-     * @return Schema|null
      */
     public function relation(string $path): ?Schema
     {

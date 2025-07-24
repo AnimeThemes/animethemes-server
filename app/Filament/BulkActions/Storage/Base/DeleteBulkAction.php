@@ -8,15 +8,10 @@ use App\Actions\Storage\Base\DeleteAction as BaseDeleteAction;
 use App\Filament\BulkActions\Storage\StorageBulkAction;
 use App\Models\BaseModel;
 
-/**
- * Class DeleteBulkAction.
- */
 abstract class DeleteBulkAction extends StorageBulkAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -30,9 +25,7 @@ abstract class DeleteBulkAction extends StorageBulkAction
     /**
      * Get the underlying storage action.
      *
-     * @param  BaseModel  $model
      * @param  array<string, mixed>  $data
-     * @return BaseDeleteAction
      */
     abstract protected function storageAction(BaseModel $model, array $data): BaseDeleteAction;
 }

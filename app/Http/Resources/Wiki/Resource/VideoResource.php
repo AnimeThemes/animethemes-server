@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class VideoResource.
- */
 class VideoResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class VideoResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

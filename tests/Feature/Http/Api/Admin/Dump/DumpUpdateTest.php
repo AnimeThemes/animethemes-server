@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class DumpUpdateTest.
- */
 class DumpUpdateTest extends TestCase
 {
     /**
      * The Dump Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -33,8 +28,6 @@ class DumpUpdateTest extends TestCase
 
     /**
      * The Dump Update Endpoint shall forbid users without the update dump permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class DumpUpdateTest extends TestCase
 
     /**
      * The Dump Update Endpoint shall update a dump.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

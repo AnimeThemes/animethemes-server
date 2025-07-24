@@ -35,15 +35,10 @@ use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
-/**
- * Class PanelViewerRoleSeeder.
- */
 class PanelViewerRoleSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

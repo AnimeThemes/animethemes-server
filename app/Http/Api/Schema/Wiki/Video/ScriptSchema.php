@@ -16,15 +16,10 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ScriptSchema.
- */
 class ScriptSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {
@@ -63,10 +58,8 @@ class ScriptSchema extends EloquentSchema
 
     /**
      * Get the model of the schema.
-     *
-     * @return Model
      */
-    public function model(): Model
+    public function model(): VideoScript
     {
         return new VideoScript();
     }

@@ -19,21 +19,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * Class AggregateField.
- */
 abstract class AggregateField extends Field implements FilterableField, RenderableField, SortableField
 {
     use FiltersModels;
 
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $relation
-     * @param  AggregateFunction  $function
-     * @param  string  $aggregateColumn
-     */
     public function __construct(
         Schema $schema,
         protected readonly string $relation,
@@ -45,9 +34,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -58,9 +44,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -69,8 +52,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {
@@ -79,9 +60,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Determine if the aggregate value should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldAggregate(Query $query): bool
     {
@@ -114,10 +92,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Load the aggregate field value for the model.
-     *
-     * @param  Query  $query
-     * @param  Model  $model
-     * @return Model
      */
     public function load(Query $query, Model $model): Model
     {
@@ -138,7 +112,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
     /**
      * Eager load the aggregate value for the query builder.
      *
-     * @param  Query  $query
      * @param  Builder  $builder
      * @return Builder
      */
@@ -160,8 +133,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Format the aggregate value to its sub-select alias / model attribute.
-     *
-     * @return string
      */
     public function alias(): string
     {

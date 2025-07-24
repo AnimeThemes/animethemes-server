@@ -9,23 +9,15 @@ use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Filament\Tables\Table;
 
-/**
- * Class PermissionRoleRelationManager.
- */
 class PermissionRoleRelationManager extends PermissionRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Role::RELATION_PERMISSIONS;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

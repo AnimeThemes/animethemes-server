@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Constants\Config;
 
-/**
- * Class VideoConstants.
- */
 class VideoConstants
 {
     final public const DEFAULT_DISK_QUALIFIED = 'video.default_disk';

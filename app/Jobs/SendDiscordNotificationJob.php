@@ -17,9 +17,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
 
-/**
- * Class SendDiscordNotification.
- */
 class SendDiscordNotificationJob implements ShouldQueue
 {
     use Dispatchable;
@@ -27,18 +24,10 @@ class SendDiscordNotificationJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param  DiscordMessageEvent  $event
-     * @return void
-     */
     public function __construct(protected readonly DiscordMessageEvent $event) {}
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -60,8 +49,6 @@ class SendDiscordNotificationJob implements ShouldQueue
 
     /**
      * Determine the time at which the job should time out.
-     *
-     * @return DateTime
      */
     public function retryUntil(): DateTime
     {

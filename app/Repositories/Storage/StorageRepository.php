@@ -26,8 +26,6 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
 {
     /**
      * The base path of the filesystem to retrieve files from.
-     *
-     * @var string
      */
     protected string $location = '';
 
@@ -52,9 +50,6 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
 
     /**
      * Save model to the repository.
-     *
-     * @param  Model  $model
-     * @return bool
      */
     public function save(Model $model): bool
     {
@@ -64,9 +59,6 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
 
     /**
      * Delete model from the repository.
-     *
-     * @param  Model  $model
-     * @return bool
      */
     public function delete(Model $model): bool
     {
@@ -77,9 +69,7 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
     /**
      * Update model in the repository.
      *
-     * @param  Model  $model
      * @param  array  $attributes
-     * @return bool
      */
     public function update(Model $model, array $attributes): bool
     {
@@ -103,10 +93,6 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
 
     /**
      * Filter repository models.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return void
      */
     public function handleFilter(string $filter, mixed $value = null): void
     {

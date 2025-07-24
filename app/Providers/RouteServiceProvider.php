@@ -21,15 +21,10 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-/**
- * Class RouteServiceProvider.
- */
 class RouteServiceProvider extends ServiceProvider
 {
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

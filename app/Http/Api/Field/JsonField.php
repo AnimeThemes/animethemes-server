@@ -10,16 +10,10 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class JsonField.
- */
 abstract class JsonField extends Field implements RenderableField, SelectableField
 {
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -30,9 +24,6 @@ abstract class JsonField extends Field implements RenderableField, SelectableFie
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -41,10 +32,6 @@ abstract class JsonField extends Field implements RenderableField, SelectableFie
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

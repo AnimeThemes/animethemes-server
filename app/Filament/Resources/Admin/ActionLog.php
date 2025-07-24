@@ -31,9 +31,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * Class ActionLog.
- */
 class ActionLog extends BaseResource
 {
     /**
@@ -46,8 +43,6 @@ class ActionLog extends BaseResource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
@@ -57,8 +52,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -70,8 +63,6 @@ class ActionLog extends BaseResource
     /**
      * The logical group associated with the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
@@ -82,8 +73,6 @@ class ActionLog extends BaseResource
     /**
      * The icon displayed to the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationIcon(): string
@@ -93,8 +82,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -103,8 +90,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -131,9 +116,6 @@ class ActionLog extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -167,9 +149,6 @@ class ActionLog extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {
@@ -206,9 +185,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -320,8 +296,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public static function canCreate(): bool
     {
@@ -330,9 +304,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be edited.
-     *
-     * @param  Model  $record
-     * @return bool
      */
     public static function canEdit(Model $record): bool
     {
@@ -341,9 +312,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be deleted.
-     *
-     * @param  Model  $record
-     * @return bool
      */
     public static function canDelete(Model $record): bool
     {
@@ -352,9 +320,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine whether the related model can be force-deleted.
-     *
-     * @param  Model  $record
-     * @return bool
      */
     public static function canForceDelete(Model $record): bool
     {
@@ -363,8 +328,6 @@ class ActionLog extends BaseResource
 
     /**
      * Determine if the user can access the table.
-     *
-     * @return bool
      */
     public static function canAccess(): bool
     {

@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeTest.
- */
 class FeaturedThemeTest extends TestCase
 {
     /**
      * When a featured theme is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testFeaturedThemeCreatedSendsDiscordNotification(): void
     {
@@ -38,8 +33,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * When a featured theme is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testFeaturedThemeDeletedSendsDiscordNotification(): void
     {
@@ -56,8 +49,6 @@ class FeaturedThemeTest extends TestCase
 
     /**
      * When a featured theme is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testFeaturedThemeUpdatedSendsDiscordNotification(): void
     {

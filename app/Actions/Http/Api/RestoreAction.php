@@ -7,16 +7,10 @@ namespace App\Actions\Http\Api;
 use App\Contracts\Models\SoftDeletable;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class RestoreAction.
- */
 class RestoreAction
 {
     /**
      * Restore model.
-     *
-     * @param  Model&SoftDeletable  $model
-     * @return Model&SoftDeletable
      */
     public function restore(Model&SoftDeletable $model): Model&SoftDeletable
     {
@@ -27,9 +21,6 @@ class RestoreAction
 
     /**
      * Perform model cleanup for presentation.
-     *
-     * @param  Model&SoftDeletable  $model
-     * @return Model&SoftDeletable
      */
     public function cleanup(Model&SoftDeletable $model): Model&SoftDeletable
     {

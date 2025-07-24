@@ -15,11 +15,6 @@ use App\Models\Wiki\Song\Membership;
  */
 class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Membership  $membership
-     */
     public function __construct(Membership $membership)
     {
         parent::__construct($membership);
@@ -28,8 +23,6 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Membership
      */
     public function getModel(): Membership
     {
@@ -38,8 +31,6 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -48,8 +39,6 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

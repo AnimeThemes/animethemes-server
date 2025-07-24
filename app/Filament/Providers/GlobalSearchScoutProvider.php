@@ -14,16 +14,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Builder as ScoutBuilder;
 
-/**
- * Class GlobalSearchScoutProvider.
- */
 class GlobalSearchScoutProvider implements GlobalSearchProvider
 {
     /**
      * Get the results for the global search.
-     *
-     * @param  string  $query
-     * @return GlobalSearchResults|null
      */
     public function getResults(string $query): ?GlobalSearchResults
     {
@@ -72,9 +66,6 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
 
     /**
      * Prepare the search query for Elasticsearch.
-     *
-     * @param  string  $search
-     * @return string
      */
     public function escapeReservedChars(string $search): string
     {

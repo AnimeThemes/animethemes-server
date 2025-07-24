@@ -74,7 +74,7 @@ class FeaturedTheme extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => FeaturedThemeCreated::class,
@@ -111,8 +111,6 @@ class FeaturedTheme extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -124,8 +122,6 @@ class FeaturedTheme extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

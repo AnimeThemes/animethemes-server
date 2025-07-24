@@ -9,9 +9,6 @@ use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
 
-/**
- * Class PageCollection.
- */
 class PageCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class PageCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

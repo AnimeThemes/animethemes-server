@@ -21,16 +21,9 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
     /**
      * The anime that the theme belongs to.
-     *
-     * @var Anime
      */
     protected Anime $anime;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeTheme  $theme
-     */
     public function __construct(AnimeTheme $theme)
     {
         parent::__construct($theme);
@@ -39,8 +32,6 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return AnimeTheme
      */
     public function getModel(): AnimeTheme
     {
@@ -49,8 +40,6 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -59,8 +48,6 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 
     /**
      * Perform cascading restores.
-     *
-     * @return void
      */
     public function cascadeRestores(): void
     {

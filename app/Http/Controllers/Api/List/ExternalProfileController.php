@@ -27,14 +27,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class ExternalProfileController.
- */
 class ExternalProfileController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalProfile::class, 'externalprofile');
@@ -52,9 +46,7 @@ class ExternalProfileController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ExternalProfileCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection
     {
@@ -77,10 +69,7 @@ class ExternalProfileController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  ExternalProfile  $externalprofile
      * @param  ShowAction  $action
-     * @return ExternalProfileResource
      */
     public function show(ShowRequest $request, ExternalProfile $externalprofile, ShowAction $action): ExternalProfileResource
     {
@@ -94,9 +83,7 @@ class ExternalProfileController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<ExternalProfile>  $action
-     * @return ExternalProfileResource
      */
     public function store(StoreRequest $request, StoreAction $action): ExternalProfileResource
     {
@@ -113,10 +100,7 @@ class ExternalProfileController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  ExternalProfile  $externalprofile
      * @param  UpdateAction  $action
-     * @return ExternalProfileResource
      */
     public function update(UpdateRequest $request, ExternalProfile $externalprofile, UpdateAction $action): ExternalProfileResource
     {
@@ -128,9 +112,7 @@ class ExternalProfileController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ExternalProfile  $externalprofile
      * @param  DestroyAction  $action
-     * @return JsonResponse
      */
     public function destroy(ExternalProfile $externalprofile, DestroyAction $action): JsonResponse
     {

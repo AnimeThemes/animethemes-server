@@ -12,15 +12,10 @@ use App\Pivots\Wiki\AnimeImage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeImageDestroyTest.
- */
 class AnimeImageDestroyTest extends TestCase
 {
     /**
      * The Anime Image Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -36,8 +31,6 @@ class AnimeImageDestroyTest extends TestCase
 
     /**
      * The Anime Image Destroy Endpoint shall forbid users without the delete anime & delete image permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -57,8 +50,6 @@ class AnimeImageDestroyTest extends TestCase
 
     /**
      * The Anime Image Destroy Endpoint shall return an error if the anime image does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -81,8 +72,6 @@ class AnimeImageDestroyTest extends TestCase
 
     /**
      * The Anime Image Destroy Endpoint shall delete the anime image.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

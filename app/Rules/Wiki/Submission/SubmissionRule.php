@@ -11,23 +11,15 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 
-/**
- * Class SubmissionRule.
- */
 abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 {
     /**
      * The FFmpeg/FFprobe action to the uploaded file.
-     *
-     * @var UploadedFileAction
      */
     protected UploadedFileAction $uploadedFileAction;
 
     /**
      * Set the current validator.
-     *
-     * @param  Validator  $validator
-     * @return $this
      */
     public function setValidator(Validator $validator): self
     {

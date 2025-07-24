@@ -11,15 +11,10 @@ use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceUpdateTest.
- */
 class ExternalResourceUpdateTest extends TestCase
 {
     /**
      * The External Resource Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -37,8 +32,6 @@ class ExternalResourceUpdateTest extends TestCase
 
     /**
      * The External Resource Update Endpoint shall forbid users without the update external resource permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -60,8 +53,6 @@ class ExternalResourceUpdateTest extends TestCase
 
     /**
      * The External Resource Update Endpoint shall forbid users from updating a resource that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -87,8 +78,6 @@ class ExternalResourceUpdateTest extends TestCase
 
     /**
      * The External Resource Update Endpoint shall update a resource.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

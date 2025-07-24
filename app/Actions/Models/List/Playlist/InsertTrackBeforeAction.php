@@ -10,18 +10,10 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class InsertTrackBeforeAction.
- */
 class InsertTrackBeforeAction
 {
     /**
      * Insert track before next track.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @param  PlaylistTrack  $next
-     * @return void
      *
      * @throws Exception
      */

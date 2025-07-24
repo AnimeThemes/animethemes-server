@@ -8,23 +8,12 @@ use App\Contracts\Models\Streamable;
 use App\Contracts\Storage\InteractsWithDisk;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class StreamAction.
- */
 abstract class StreamAction implements InteractsWithDisk
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Streamable  $streamable
-     */
     public function __construct(protected readonly Streamable $streamable) {}
 
     /**
      * Stream the resource.
-     *
-     * @param  string  $disposition
-     * @return Response
      */
     abstract public function stream(string $disposition = 'inline'): Response;
 }

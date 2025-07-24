@@ -6,9 +6,6 @@ namespace App\Contracts\GraphQL\Fields;
 
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 
-/**
- * Interface FilterableField.
- */
 interface FilterableField
 {
     /**

@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Admin\DumpSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class DumpResource.
- */
 class DumpResource extends BaseResource
 {
     final public const ATTRIBUTE_LINK = 'link';
@@ -24,8 +21,6 @@ class DumpResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

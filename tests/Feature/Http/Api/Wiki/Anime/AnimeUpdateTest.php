@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeUpdateTest.
- */
 class AnimeUpdateTest extends TestCase
 {
     /**
      * The Anime Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -42,8 +37,6 @@ class AnimeUpdateTest extends TestCase
 
     /**
      * The Anime Update Endpoint shall forbid users without the update anime permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -68,8 +61,6 @@ class AnimeUpdateTest extends TestCase
 
     /**
      * The Anime Update Endpoint shall forbid users from updating an anime that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -94,8 +85,6 @@ class AnimeUpdateTest extends TestCase
 
     /**
      * The Anime Update Endpoint shall update an anime.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

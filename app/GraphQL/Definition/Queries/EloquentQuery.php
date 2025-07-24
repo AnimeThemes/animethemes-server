@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class EloquentQuery.
- */
 abstract class EloquentQuery extends BaseQuery
 {
     /**
@@ -67,8 +64,6 @@ abstract class EloquentQuery extends BaseQuery
 
     /**
      * Determine if the return model is trashable.
-     *
-     * @return bool
      */
     protected function isTrashable(): bool
     {

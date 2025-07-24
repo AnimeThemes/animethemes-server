@@ -18,17 +18,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class MoveAudioTest.
- */
 class MoveAudioTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Move Audio Action shall fail if there are no moves.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -48,8 +43,6 @@ class MoveAudioTest extends TestCase
 
     /**
      * The Move Audio Action shall pass if there are moves.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -79,8 +72,6 @@ class MoveAudioTest extends TestCase
 
     /**
      * The Move Audio Action shall move the file in the configured disks.
-     *
-     * @return void
      */
     public function testMovedInDisk(): void
     {
@@ -112,8 +103,6 @@ class MoveAudioTest extends TestCase
 
     /**
      * The Move Audio Action shall move the audio.
-     *
-     * @return void
      */
     public function testAudioUpdated(): void
     {

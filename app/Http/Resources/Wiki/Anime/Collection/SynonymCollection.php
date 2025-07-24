@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
 
-/**
- * Class SynonymCollection.
- */
 class SynonymCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class SynonymCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

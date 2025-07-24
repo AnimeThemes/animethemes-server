@@ -12,15 +12,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnnouncementTest.
- */
 class AnnouncementTest extends TestCase
 {
     /**
      * When an Announcement is created, an AnnouncementCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnnouncementCreatedEventDispatched(): void
     {
@@ -31,8 +26,6 @@ class AnnouncementTest extends TestCase
 
     /**
      * When an Announcement is deleted, an AnnouncementDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnnouncementDeletedEventDispatched(): void
     {
@@ -45,8 +38,6 @@ class AnnouncementTest extends TestCase
 
     /**
      * When an Announcement is updated, an AnnouncementUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnnouncementUpdatedEventDispatched(): void
     {
@@ -61,8 +52,6 @@ class AnnouncementTest extends TestCase
 
     /**
      * The AnnouncementUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testAnnouncementUpdatedEventEmbedFields(): void
     {

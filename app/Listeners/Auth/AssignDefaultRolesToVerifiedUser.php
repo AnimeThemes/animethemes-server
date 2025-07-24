@@ -8,16 +8,10 @@ use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Illuminate\Auth\Events\Verified;
 
-/**
- * Class AssignDefaultRolesToVerifiedUser.
- */
 class AssignDefaultRolesToVerifiedUser
 {
     /**
      * Handle the event.
-     *
-     * @param  Verified  $event
-     * @return void
      */
     public function handle(Verified $event): void
     {

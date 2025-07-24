@@ -11,15 +11,10 @@ use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class ExternalEntryTest.
- */
 class ExternalEntryTest extends TestCase
 {
     /**
      * The watch status attribute of an entry shall be cast to a ExternalEntryWatchStatus enum instance.
-     *
-     * @return void
      */
     public function testCastsWatchStatusToEnum(): void
     {
@@ -34,8 +29,6 @@ class ExternalEntryTest extends TestCase
 
     /**
      * The is favorite attribute of an entry shall be cast to a bool.
-     *
-     * @return void
      */
     public function testCastsIsFavoriteToBool(): void
     {
@@ -50,8 +43,6 @@ class ExternalEntryTest extends TestCase
 
     /**
      * External entries shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -64,8 +55,6 @@ class ExternalEntryTest extends TestCase
 
     /**
      * External entries shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -79,8 +68,6 @@ class ExternalEntryTest extends TestCase
 
     /**
      * External Entries shall belong to an External Profile.
-     *
-     * @return void
      */
     public function testProfile(): void
     {
@@ -94,8 +81,6 @@ class ExternalEntryTest extends TestCase
 
     /**
      * External Entries shall belong to an Anime.
-     *
-     * @return void
      */
     public function testAnime(): void
     {

@@ -20,16 +20,9 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
     /**
      * The anime that the theme belongs to.
-     *
-     * @var Anime
      */
     protected Anime $anime;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeTheme  $theme
-     */
     public function __construct(AnimeTheme $theme)
     {
         parent::__construct($theme);
@@ -39,8 +32,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return AnimeTheme
      */
     public function getModel(): AnimeTheme
     {
@@ -49,8 +40,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -59,8 +48,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {
@@ -74,8 +61,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Update the sequence attribute of the first theme when creating a new sequence theme.
-     *
-     * @return void
      */
     protected function updateFirstTheme(): void
     {

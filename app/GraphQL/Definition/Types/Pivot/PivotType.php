@@ -8,9 +8,6 @@ use App\GraphQL\Definition\Types\EloquentType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * Class PivotType.
- */
 abstract class PivotType extends EloquentType
 {
     /**

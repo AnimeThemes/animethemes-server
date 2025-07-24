@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class ReconcileVideoRepositoriesTest.
- */
 class ReconcileVideoRepositoriesTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Video Repository Action shall indicate no changes were made.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -51,8 +46,6 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
     /**
      * If videos are created, the Reconcile Video Repository Action shall return created videos.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -81,8 +74,6 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
     /**
      * If videos are deleted, the Reconcile Video Repository Action shall return deleted videos.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -115,8 +106,6 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
     /**
      * If videos are updated, the Reconcile Video Repository Action shall return updated videos.
-     *
-     * @return void
      *
      * @throws Exception
      */

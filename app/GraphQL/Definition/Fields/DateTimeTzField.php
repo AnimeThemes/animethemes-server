@@ -12,15 +12,10 @@ use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-/**
- * Class DateTimeTzField.
- */
 abstract class DateTimeTzField extends Field implements DisplayableField, FilterableField
 {
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -29,8 +24,6 @@ abstract class DateTimeTzField extends Field implements DisplayableField, Filter
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

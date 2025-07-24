@@ -13,16 +13,8 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ExternalProfileVisibilityField.
- */
 class ExternalProfileVisibilityField extends EnumField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::class);
@@ -31,7 +23,6 @@ class ExternalProfileVisibilityField extends EnumField implements CreatableField
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -46,7 +37,6 @@ class ExternalProfileVisibilityField extends EnumField implements CreatableField
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

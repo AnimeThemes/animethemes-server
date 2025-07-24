@@ -20,11 +20,6 @@ use App\Models\Wiki\Video;
  */
 class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Song  $song
-     */
     public function __construct(Song $song)
     {
         parent::__construct($song);
@@ -32,8 +27,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Song
      */
     public function getModel(): Song
     {
@@ -42,8 +35,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -52,8 +43,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -62,8 +51,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {
@@ -74,8 +61,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Song\Resource\MembershipResource;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Http\Request;
 
-/**
- * Class MembershipCollection.
- */
 class MembershipCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class MembershipCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

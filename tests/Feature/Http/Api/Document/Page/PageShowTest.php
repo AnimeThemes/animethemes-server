@@ -13,17 +13,12 @@ use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class PageShowTest.
- */
 class PageShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Page Show Endpoint shall return a Page Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -45,8 +40,6 @@ class PageShowTest extends TestCase
 
     /**
      * The Page Show Endpoint shall return a Page Resource for soft deleted images.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -70,8 +63,6 @@ class PageShowTest extends TestCase
 
     /**
      * The Page Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {

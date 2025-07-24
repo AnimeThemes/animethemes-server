@@ -16,16 +16,10 @@ use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
 use App\Policies\BasePolicy;
 
-/**
- * Class ImagePolicy.
- */
 class ImagePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can attach any artist to the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyArtist(User $user): bool
     {
@@ -34,11 +28,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an artist to the image.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @param  Artist  $artist
-     * @return bool
      */
     public function attachArtist(User $user, Image $image, Artist $artist): bool
     {
@@ -54,9 +43,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any artist from the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyArtist(User $user): bool
     {
@@ -65,9 +51,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any anime to the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyAnime(User $user): bool
     {
@@ -76,11 +59,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an anime to the image.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @param  Anime  $anime
-     * @return bool
      */
     public function attachAnime(User $user, Image $image, Anime $anime): bool
     {
@@ -96,9 +74,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any anime from the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyAnime(User $user): bool
     {
@@ -107,9 +82,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any studio to the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyStudio(User $user): bool
     {
@@ -118,11 +90,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a studio to the image.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @param  Studio  $studio
-     * @return bool
      */
     public function attachStudio(User $user, Image $image, Studio $studio): bool
     {
@@ -138,9 +105,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any studio from the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyStudio(User $user): bool
     {
@@ -149,9 +113,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any playlist to the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyPlaylist(User $user): bool
     {
@@ -160,9 +121,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a playlist to the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachPlaylist(User $user): bool
     {
@@ -171,9 +129,6 @@ class ImagePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any playlist from the image.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyPlaylist(User $user): bool
     {

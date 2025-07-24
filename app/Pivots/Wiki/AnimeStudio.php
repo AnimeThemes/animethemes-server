@@ -67,7 +67,7 @@ class AnimeStudio extends BasePivot
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => AnimeStudioCreated::class,

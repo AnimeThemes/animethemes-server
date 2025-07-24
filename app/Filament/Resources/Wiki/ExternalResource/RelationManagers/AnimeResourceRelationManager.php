@@ -14,22 +14,17 @@ use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 
-/**
- * Class AnimeResourceRelationManager.
- */
 class AnimeResourceRelationManager extends AnimeRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = ExternalResource::RELATION_ANIME;
 
     /**
      * Get the pivot components of the relation.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getPivotComponents(): array
     {
@@ -43,7 +38,7 @@ class AnimeResourceRelationManager extends AnimeRelationManager
     /**
      * Get the pivot columns of the relation.
      *
-     * @return array<int, Column>
+     * @return Column[]
      */
     public function getPivotColumns(): array
     {
@@ -55,9 +50,6 @@ class AnimeResourceRelationManager extends AnimeRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

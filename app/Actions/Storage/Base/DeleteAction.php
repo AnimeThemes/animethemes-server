@@ -19,16 +19,12 @@ use Illuminate\Support\Facades\Storage;
 abstract class DeleteAction implements InteractsWithDisks, StorageAction
 {
     /**
-     * Create a new action instance.
-     *
      * @param  TModel  $model
      */
     public function __construct(protected BaseModel $model) {}
 
     /**
      * Handle action.
-     *
-     * @return StorageResults
      */
     public function handle(): StorageResults
     {
@@ -49,7 +45,6 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
     /**
      * Processes to be completed after handling action.
      *
-     * @param  StorageResults  $storageResults
      * @return TModel
      */
     public function then(StorageResults $storageResults): BaseModel
@@ -61,8 +56,6 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
 
     /**
      * Get the path to delete.
-     *
-     * @return string
      */
     abstract protected function path(): string;
 }

@@ -10,15 +10,10 @@ use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeDestroyTest.
- */
 class FeaturedThemeDestroyTest extends TestCase
 {
     /**
      * The Featured Theme Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class FeaturedThemeDestroyTest extends TestCase
 
     /**
      * The Featured Theme Destroy Endpoint shall forbid users without the delete featured theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class FeaturedThemeDestroyTest extends TestCase
 
     /**
      * The FeaturedTheme Destroy Endpoint shall delete the featured theme.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

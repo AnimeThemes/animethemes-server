@@ -10,16 +10,8 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
-/**
- * Class VideoFilenameField.
- */
 class VideoFilenameField extends StringField implements CreatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Video::ATTRIBUTE_FILENAME);
@@ -28,7 +20,6 @@ class VideoFilenameField extends StringField implements CreatableField
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array

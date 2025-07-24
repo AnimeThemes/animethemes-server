@@ -16,11 +16,6 @@ use App\Pivots\Wiki\StudioResource;
  */
 class StudioResourceUpdated extends PivotUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  StudioResource  $studioResource
-     */
     public function __construct(StudioResource $studioResource)
     {
         parent::__construct($studioResource->studio, $studioResource->resource);
@@ -29,8 +24,6 @@ class StudioResourceUpdated extends PivotUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

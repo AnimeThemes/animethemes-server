@@ -7,9 +7,6 @@ namespace App\Enums\Actions\Models\Wiki\Video;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-/**
- * Enum ShouldSendNotification.
- */
 enum ShouldSendNotification: int implements HasLabel
 {
     use LocalizesName;
@@ -19,8 +16,6 @@ enum ShouldSendNotification: int implements HasLabel
 
     /**
      * Get the field key to use in the admin panel.
-     *
-     * @return string
      */
     public static function getFieldKey(): string
     {

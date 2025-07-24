@@ -16,14 +16,8 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class MyPlaylistController.
- */
 class MyPlaylistController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $this->middleware(Authenticate::using('sanctum'));
@@ -33,9 +27,7 @@ class MyPlaylistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return PlaylistCollection
      */
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
     {
@@ -54,11 +46,9 @@ class MyPlaylistController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): PlaylistSchema
     {
         return new PlaylistSchema();
     }

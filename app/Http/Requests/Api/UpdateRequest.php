@@ -8,9 +8,6 @@ use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
 use Illuminate\Support\Arr;
 
-/**
- * Class UpdateRequest.
- */
 class UpdateRequest extends WriteRequest
 {
     /**

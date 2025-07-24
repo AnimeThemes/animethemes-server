@@ -33,17 +33,12 @@ use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-/**
- * Class VideoTest.
- */
 class VideoTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The overlap attribute of a video shall be cast to a VideoOverlap enum instance.
-     *
-     * @return void
      */
     public function testCastsOverlapToEnum(): void
     {
@@ -56,8 +51,6 @@ class VideoTest extends TestCase
 
     /**
      * The source attribute of a video shall be cast to a VideoSource enum instance.
-     *
-     * @return void
      */
     public function testCastsSourceToEnum(): void
     {
@@ -70,8 +63,6 @@ class VideoTest extends TestCase
 
     /**
      * Video shall be a searchable resource.
-     *
-     * @return void
      */
     public function testSearchableAs(): void
     {
@@ -82,8 +73,6 @@ class VideoTest extends TestCase
 
     /**
      * Video shall be a searchable resource.
-     *
-     * @return void
      */
     public function testToSearchableArray(): void
     {
@@ -94,8 +83,6 @@ class VideoTest extends TestCase
 
     /**
      * Videos shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -106,8 +93,6 @@ class VideoTest extends TestCase
 
     /**
      * Videos shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -118,8 +103,6 @@ class VideoTest extends TestCase
 
     /**
      * Videos shall have a one-to-many polymorphic relationship to View.
-     *
-     * @return void
      */
     public function testViews(): void
     {
@@ -134,8 +117,6 @@ class VideoTest extends TestCase
 
     /**
      * Videos shall append a 'tags' attribute.
-     *
-     * @return void
      */
     public function testAppendsTags(): void
     {
@@ -146,8 +127,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall contain 'NC' if the NC attribute is true.
-     *
-     * @return void
      */
     public function testNcTag(): void
     {
@@ -160,8 +139,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall not contain 'NC' if the NC attribute is false.
-     *
-     * @return void
      */
     public function testNoNcTag(): void
     {
@@ -174,8 +151,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall contain 'DVD' if the source is DVD.
-     *
-     * @return void
      */
     public function testDvdTag(): void
     {
@@ -190,8 +165,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall contain 'BD' if the source is BD.
-     *
-     * @return void
      */
     public function testBdTag(): void
     {
@@ -206,8 +179,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall not contain the description of the source if not DVD or BD.
-     *
-     * @return void
      */
     public function testOtherSourceTag(): void
     {
@@ -228,8 +199,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall contain resolution.
-     *
-     * @return void
      */
     public function testResolutionTag(): void
     {
@@ -240,8 +209,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall exclude 720 resolution from tags.
-     *
-     * @return void
      */
     public function testNo720ResolutionTag(): void
     {
@@ -254,8 +221,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall contain 'Subbed' if the subbed attribute is true.
-     *
-     * @return void
      */
     public function testSubbedTag(): void
     {
@@ -269,8 +234,6 @@ class VideoTest extends TestCase
 
     /**
      * The Tags attribute shall contain 'Lyrics' if the lyrics attribute is true and subbed attribute is false.
-     *
-     * @return void
      */
     public function testLyricsTag(): void
     {
@@ -288,7 +251,6 @@ class VideoTest extends TestCase
      *
      * @param  array  $a
      * @param  array  $b
-     * @return void
      */
     #[DataProvider('priorityProvider')]
     public function testSourcePriority(array $a, array $b): void
@@ -302,8 +264,6 @@ class VideoTest extends TestCase
 
     /**
      * Videos shall have a many-to-many relationship with the type Entry.
-     *
-     * @return void
      */
     public function testEntries(): void
     {
@@ -321,8 +281,6 @@ class VideoTest extends TestCase
 
     /**
      * Video shall belong to an Audio.
-     *
-     * @return void
      */
     public function testAudio(): void
     {
@@ -336,8 +294,6 @@ class VideoTest extends TestCase
 
     /**
      * Video shall have a one-to-many relationship with the type PlaylistTrack, but only if the playlist is public.
-     *
-     * @return void
      */
     public function testTracksPublic(): void
     {
@@ -355,8 +311,6 @@ class VideoTest extends TestCase
 
     /**
      * Video shall have a one-to-many relationship with the type PlaylistTrack, but only if the playlist is public.
-     *
-     * @return void
      */
     public function testTracksNotPublic(): void
     {
@@ -374,8 +328,6 @@ class VideoTest extends TestCase
 
     /**
      * Video shall have a one-to-one relationship with the type Script.
-     *
-     * @return void
      */
     public function testScript(): void
     {
@@ -464,8 +416,6 @@ class VideoTest extends TestCase
 
     /**
      * The video shall not be deleted from storage when the Video is deleted.
-     *
-     * @return void
      */
     public function testVideoStorageDeletion(): void
     {
@@ -484,8 +434,6 @@ class VideoTest extends TestCase
 
     /**
      * The video shall be deleted from storage when the Video is force deleted.
-     *
-     * @return void
      */
     public function testVideoStorageForceDeletion(): void
     {

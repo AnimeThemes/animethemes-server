@@ -32,15 +32,10 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ReflectionClass;
 
-/**
- * Class GraphQLServiceProvider.
- */
 class GraphQLServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(TypeRegistry $typeRegistry): void
     {
@@ -56,8 +51,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Boot the model namespaces so schema can find them.
-     *
-     * @return void
      */
     protected function bootModels(): void
     {
@@ -90,8 +83,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Register the enums to use as type.
-     *
-     * @return void
      */
     protected function bootEnums(): void
     {
@@ -112,8 +103,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Register the types that were made programmatically.
-     *
-     * @return void
      */
     protected function bootTypes(): void
     {
@@ -155,8 +144,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Register the queries that were made programmatically.
-     *
-     * @return void
      */
     protected function bootQueries(): void
     {
@@ -205,8 +192,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Register the queries that were made programmatically.
-     *
-     * @return void
      */
     protected function bootMutations(): void
     {

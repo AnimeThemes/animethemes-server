@@ -16,16 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-/**
- * Class TrackPreviousHashidsField.
- */
 class TrackPreviousHashidsField extends Field implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, PlaylistTrack::RELATION_PREVIOUS);
@@ -34,7 +26,6 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -55,10 +46,6 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function shouldSelect(Query $query, Schema $schema): bool
@@ -70,7 +57,6 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

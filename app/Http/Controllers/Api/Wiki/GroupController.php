@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Group;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class GroupController.
- */
 class GroupController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Group::class, 'group');
@@ -38,9 +32,7 @@ class GroupController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return GroupCollection
      */
     public function index(IndexRequest $request, IndexAction $action): GroupCollection
     {
@@ -56,9 +48,7 @@ class GroupController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Group>  $action
-     * @return GroupResource
      */
     public function store(StoreRequest $request, StoreAction $action): GroupResource
     {
@@ -70,10 +60,7 @@ class GroupController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Group  $group
      * @param  ShowAction  $action
-     * @return GroupResource
      */
     public function show(ShowRequest $request, Group $group, ShowAction $action): GroupResource
     {
@@ -87,10 +74,7 @@ class GroupController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Group  $group
      * @param  UpdateAction  $action
-     * @return GroupResource
      */
     public function update(UpdateRequest $request, Group $group, UpdateAction $action): GroupResource
     {
@@ -102,9 +86,7 @@ class GroupController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Group  $group
      * @param  DestroyAction  $action
-     * @return GroupResource
      */
     public function destroy(Group $group, DestroyAction $action): GroupResource
     {
@@ -116,9 +98,7 @@ class GroupController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Group  $group
      * @param  RestoreAction  $action
-     * @return GroupResource
      */
     public function restore(Group $group, RestoreAction $action): GroupResource
     {
@@ -130,9 +110,7 @@ class GroupController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Group  $group
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Group $group, ForceDeleteAction $action): JsonResponse
     {

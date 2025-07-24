@@ -24,22 +24,13 @@ abstract class BaseExternalEntryClaimedAction
 
     /**
      * The id of the external user.
-     *
-     * @var int|null
      */
     protected ?int $userId = null;
 
-    /**
-     * Create a new action instance.
-     *
-     * @param  ExternalToken  $token
-     */
     public function __construct(protected ExternalToken $token) {}
 
     /**
      * Get the id of the external user.
-     *
-     * @return int|null
      */
     public function getUserId(): ?int
     {
@@ -48,8 +39,6 @@ abstract class BaseExternalEntryClaimedAction
 
     /**
      * Get the token to the request.
-     *
-     * @return string
      */
     protected function getToken(): string
     {
@@ -58,8 +47,6 @@ abstract class BaseExternalEntryClaimedAction
 
     /**
      * Get the username.
-     *
-     * @return string|null
      */
     abstract public function getUsername(): ?string;
 
@@ -72,8 +59,6 @@ abstract class BaseExternalEntryClaimedAction
 
     /**
      * Make the request to the external api.
-     *
-     * @return void
      *
      * @throws RequestException
      */

@@ -9,9 +9,6 @@ use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalProfileCollection.
- */
 class ExternalProfileCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ExternalProfileCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

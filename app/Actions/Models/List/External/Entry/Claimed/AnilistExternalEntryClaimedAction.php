@@ -13,9 +13,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class AnilistExternalEntryClaimedAction.
- */
 class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 {
     /**
@@ -52,8 +49,6 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Get the username.
-     *
-     * @return string|null
      */
     public function getUsername(): ?string
     {
@@ -66,8 +61,6 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Get the id of the external user.
-     *
-     * @return int|null
      */
     public function getUserId(): ?int
     {
@@ -86,8 +79,6 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 
     /**
      * Make the request to the external api.
-     *
-     * @return void
      *
      * @throws RequestException
      */

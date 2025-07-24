@@ -16,15 +16,10 @@ use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 
-/**
- * Class YearController.
- */
 class YearController extends Controller implements InteractsWithSchema
 {
     /**
      * Display a listing of unique years of anime.
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -38,10 +33,6 @@ class YearController extends Controller implements InteractsWithSchema
 
     /**
      * Display a listing of anime of year by season.
-     *
-     * @param  YearShowRequest  $request
-     * @param  string  $year
-     * @return JsonResponse
      */
     public function show(YearShowRequest $request, string $year): JsonResponse
     {
@@ -69,8 +60,6 @@ class YearController extends Controller implements InteractsWithSchema
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

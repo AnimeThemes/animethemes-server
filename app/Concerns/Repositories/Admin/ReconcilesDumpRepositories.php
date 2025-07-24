@@ -11,16 +11,12 @@ use App\Repositories\Eloquent\Admin\DumpRepository as DumpDestinationRepository;
 use App\Repositories\Storage\Admin\DumpRepository as DumpSourceRepository;
 use Illuminate\Support\Facades\App;
 
-/**
- * Trait ReconcilesDumpRepositories.
- */
 trait ReconcilesDumpRepositories
 {
     /**
      * Get source repository for action.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
@@ -31,7 +27,6 @@ trait ReconcilesDumpRepositories
      * Get destination repository for action.
      *
      * @param  array  $data
-     * @return RepositoryInterface|null
      */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
@@ -40,8 +35,6 @@ trait ReconcilesDumpRepositories
 
     /**
      * Get the reconcile action.
-     *
-     * @return ReconcileRepositoriesAction
      */
     protected function reconcileAction(): ReconcileRepositoriesAction
     {

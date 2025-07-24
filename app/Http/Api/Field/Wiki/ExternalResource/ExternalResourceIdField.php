@@ -11,16 +11,8 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalResourceIdField.
- */
 class ExternalResourceIdField extends IntField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ExternalResource::ATTRIBUTE_EXTERNAL_ID);
@@ -29,7 +21,6 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -45,7 +36,6 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

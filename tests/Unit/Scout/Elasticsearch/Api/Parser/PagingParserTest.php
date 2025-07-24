@@ -12,17 +12,12 @@ use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class PagingParserTest.
- */
 class PagingParserTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Paging Parser shall parse Limit Criteria.
-     *
-     * @return void
      */
     public function testLimitCriteria(): void
     {
@@ -33,8 +28,6 @@ class PagingParserTest extends TestCase
 
     /**
      * The Paging Parser shall parse Offset Criteria.
-     *
-     * @return void
      */
     public function testOffsetCriteria(): void
     {

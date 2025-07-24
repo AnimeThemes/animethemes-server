@@ -13,17 +13,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
-/**
- * Class PruneDumpAction.
- */
 class PruneDumpAction extends PruneAction
 {
     use ReconcilesDumpRepositories;
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {
@@ -32,10 +27,6 @@ class PruneDumpAction extends PruneAction
 
     /**
      * Determine whether the file should be pruned.
-     *
-     * @param  string  $path
-     * @param  Carbon  $lastModified
-     * @return bool
      */
     protected function shouldBePruned(string $path, Carbon $lastModified): bool
     {

@@ -26,9 +26,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 
-/**
- * Class AnimeSchema.
- */
 class AnimeSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
@@ -45,8 +42,6 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

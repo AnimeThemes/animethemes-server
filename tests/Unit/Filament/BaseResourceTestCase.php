@@ -8,15 +8,10 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Tests\TestCase;
 
-/**
- * Class BaseResourceTestCase.
- */
 abstract class BaseResourceTestCase extends TestCase
 {
     /**
      * Initial setup for the tests.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

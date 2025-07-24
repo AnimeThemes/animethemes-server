@@ -10,15 +10,10 @@ use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DeleteAudioAction.
- */
 class DeleteAudioAction extends DeleteAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -27,8 +22,6 @@ class DeleteAudioAction extends DeleteAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -44,7 +37,6 @@ class DeleteAudioAction extends DeleteAction
      *
      * @param  Audio  $audio
      * @param  array<string, mixed>  $data
-     * @return DeleteAudio
      */
     protected function storageAction(?Model $audio, array $data): DeleteAudio
     {

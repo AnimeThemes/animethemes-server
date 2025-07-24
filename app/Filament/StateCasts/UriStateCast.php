@@ -7,9 +7,6 @@ namespace App\Filament\StateCasts;
 use Filament\Schemas\Components\StateCasts\Contracts\StateCast;
 use Illuminate\Support\Uri;
 
-/**
- * Class UriStateCast.
- */
 class UriStateCast implements StateCast
 {
     public function __construct(
@@ -18,7 +15,6 @@ class UriStateCast implements StateCast
 
     /**
      * @param  string|null  $state
-     * @return Uri|null
      */
     public function get(mixed $state): ?Uri
     {
@@ -31,7 +27,6 @@ class UriStateCast implements StateCast
 
     /**
      * @param  Uri|null  $state
-     * @return string
      */
     public function set(mixed $state): ?string
     {

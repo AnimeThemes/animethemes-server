@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AnimeSeriesTest.
- */
 class AnimeSeriesTest extends TestCase
 {
     /**
      * When an Anime is attached to a Series or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeSeriesCreatedSendsDiscordNotification(): void
     {
@@ -41,8 +36,6 @@ class AnimeSeriesTest extends TestCase
 
     /**
      * When an Anime is detached from a Series or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeSeriesDeletedSendsDiscordNotification(): void
     {

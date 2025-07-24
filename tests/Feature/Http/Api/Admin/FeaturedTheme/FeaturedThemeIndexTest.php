@@ -37,9 +37,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeIndexTest.
- */
 class FeaturedThemeIndexTest extends TestCase
 {
     use SortsModels;
@@ -47,8 +44,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * By default, the Featured Theme Index Endpoint shall return a collection of Featured Theme Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -86,8 +81,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * The Featured Theme Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -104,8 +97,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * The Featured Theme Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -153,8 +144,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * The Featured Theme Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -188,8 +177,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * The Featured Theme Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -227,8 +214,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * The Featured Theme Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -270,8 +255,6 @@ class FeaturedThemeIndexTest extends TestCase
 
     /**
      * The Featured Theme Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

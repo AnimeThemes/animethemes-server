@@ -6,22 +6,12 @@ namespace App\Http\Api\Scope;
 
 use Illuminate\Support\Str;
 
-/**
- * CLass RelationScope.
- */
 class RelationScope extends Scope
 {
-    /**
-     * Create a new scope instance.
-     *
-     * @param  string  $relation
-     */
     public function __construct(protected readonly string $relation) {}
 
     /**
      * Get the relation of the scope.
-     *
-     * @return string
      */
     public function getRelation(): string
     {
@@ -30,8 +20,6 @@ class RelationScope extends Scope
 
     /**
      * Get the type of the relation.
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -40,9 +28,6 @@ class RelationScope extends Scope
 
     /**
      * Determine if the provided scope is within this scope.
-     *
-     * @param  Scope  $scope
-     * @return bool
      */
     public function isWithinScope(Scope $scope): bool
     {

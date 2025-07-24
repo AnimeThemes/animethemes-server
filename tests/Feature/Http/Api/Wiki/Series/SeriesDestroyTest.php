@@ -10,15 +10,10 @@ use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SeriesDestroyTest.
- */
 class SeriesDestroyTest extends TestCase
 {
     /**
      * The Series Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class SeriesDestroyTest extends TestCase
 
     /**
      * The Series Destroy Endpoint shall forbid users without the delete series permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class SeriesDestroyTest extends TestCase
 
     /**
      * The Series Destroy Endpoint shall forbid users from updating a series that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class SeriesDestroyTest extends TestCase
 
     /**
      * The Series Destroy Endpoint shall delete the series.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

@@ -25,17 +25,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class TrackStoreTest.
- */
 class TrackStoreTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Track Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -63,8 +58,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall forbid users without the create playlist track permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -96,8 +89,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall forbid users from creating a track if they don't own the playlist.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
@@ -132,8 +123,6 @@ class TrackStoreTest extends TestCase
     /**
      * The Track Store Endpoint shall forbid users from creating playlist tracks
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -167,8 +156,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall require the entry & video field.
-     *
-     * @return void
      */
     public function testRequiredFields(): void
     {
@@ -194,8 +181,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Playlist Track Store Endpoint shall require the entry and video to have an association.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoExists(): void
     {
@@ -234,8 +219,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall prohibit the next and previous fields from both being present.
-     *
-     * @return void
      */
     public function testProhibitsNextAndPrevious(): void
     {
@@ -297,8 +280,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall restrict the next track to a track within the playlist.
-     *
-     * @return void
      */
     public function testScopeNext(): void
     {
@@ -347,8 +328,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall restrict the next track to a track within the playlist.
-     *
-     * @return void
      */
     public function testScopePrevious(): void
     {
@@ -397,8 +376,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall create a playlist track.
-     *
-     * @return void
      */
     public function testCreate(): void
     {
@@ -440,8 +417,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall allow inserting after tracks including the last track.
-     *
-     * @return void
      */
     public function testCreateAfterLastTrack(): void
     {
@@ -496,8 +471,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall allow inserting after tracks including the first track.
-     *
-     * @return void
      */
     public function testCreateAfterFirstTrack(): void
     {
@@ -553,8 +526,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall allow inserting before tracks including the last track.
-     *
-     * @return void
      */
     public function testCreateBeforeLastTrack(): void
     {
@@ -610,8 +581,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall allow inserting before tracks including the first track.
-     *
-     * @return void
      */
     public function testCreateBeforeFirstTrack(): void
     {
@@ -665,8 +634,6 @@ class TrackStoreTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to create playlist tracks
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testCreatePermittedForBypass(): void
     {
@@ -705,8 +672,6 @@ class TrackStoreTest extends TestCase
 
     /**
      * The Track Store Endpoint shall forbid users from creating playlists that exceed the max track limit.
-     *
-     * @return void
      */
     public function testMaxTrackLimit(): void
     {
@@ -745,8 +710,6 @@ class TrackStoreTest extends TestCase
     /**
      * The Track Store Endpoint shall permit users with bypass feature flag permission
      * to create playlists that exceed the max track limit.
-     *
-     * @return void
      */
     public function testMaxTrackLimitPermittedForBypass(): void
     {

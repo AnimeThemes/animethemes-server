@@ -8,9 +8,6 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Requests\Api\IndexRequest;
 
-/**
- * Class ForwardBackwardIndexRequest.
- */
 class ForwardBackwardIndexRequest extends IndexRequest
 {
     /**

@@ -15,11 +15,6 @@ use App\Models\List\Playlist;
  */
 class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Playlist  $playlist
-     */
     public function __construct(Playlist $playlist)
     {
         parent::__construct($playlist);
@@ -27,8 +22,6 @@ class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Playlist
      */
     public function getModel(): Playlist
     {
@@ -37,8 +30,6 @@ class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -48,7 +39,7 @@ class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
     /**
      * Get the Hashids connection.
      *
-     * @return string|null
+     * @return string
      */
     public function getHashidsConnection(): ?string
     {

@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Pivot\Wiki\ArtistImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class ArtistImageResource.
- */
 class ArtistImageResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class ArtistImageResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

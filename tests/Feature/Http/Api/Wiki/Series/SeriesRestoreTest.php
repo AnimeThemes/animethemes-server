@@ -10,15 +10,10 @@ use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SeriesRestoreTest.
- */
 class SeriesRestoreTest extends TestCase
 {
     /**
      * The Series Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class SeriesRestoreTest extends TestCase
 
     /**
      * The Series Restore Endpoint shall forbid users without the restore series permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class SeriesRestoreTest extends TestCase
 
     /**
      * The Series Restore Endpoint shall forbid users from restoring a series that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class SeriesRestoreTest extends TestCase
 
     /**
      * The Series Restore Endpoint shall restore the series.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

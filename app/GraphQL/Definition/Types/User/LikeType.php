@@ -17,15 +17,10 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Unions\LikedUnion;
 use App\Models\User\Like;
 
-/**
- * Class LikeType.
- */
 class LikeType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

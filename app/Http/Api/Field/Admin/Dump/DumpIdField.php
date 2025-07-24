@@ -9,16 +9,8 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Admin\Dump;
 
-/**
- * Class DumpIdField.
- */
 class DumpIdField extends IdField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Dump::ATTRIBUTE_ID);
@@ -26,10 +18,6 @@ class DumpIdField extends IdField
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

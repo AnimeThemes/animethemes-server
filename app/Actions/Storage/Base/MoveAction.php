@@ -19,16 +19,12 @@ use Illuminate\Support\Facades\Storage;
 abstract class MoveAction implements InteractsWithDisks, StorageAction
 {
     /**
-     * Create a new action instance.
-     *
      * @param  TModel  $model
      */
     public function __construct(protected BaseModel $model, protected readonly string $to) {}
 
     /**
      * Handle action.
-     *
-     * @return StorageResults
      */
     public function handle(): StorageResults
     {
@@ -51,7 +47,6 @@ abstract class MoveAction implements InteractsWithDisks, StorageAction
     /**
      * Processes to be completed after handling action.
      *
-     * @param  StorageResults  $storageResults
      * @return TModel
      */
     public function then(StorageResults $storageResults): BaseModel
@@ -61,8 +56,6 @@ abstract class MoveAction implements InteractsWithDisks, StorageAction
 
     /**
      * Get the path to move from.
-     *
-     * @return string
      */
     abstract protected function from(): string;
 

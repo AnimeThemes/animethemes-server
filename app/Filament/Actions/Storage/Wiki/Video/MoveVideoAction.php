@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class MoveVideoAction.
- */
 class MoveVideoAction extends MoveAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -30,8 +25,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -47,7 +40,6 @@ class MoveVideoAction extends MoveAction
      *
      * @param  Video  $video
      * @param  array<string, mixed>  $data
-     * @return MoveVideo
      */
     protected function storageAction(?Model $video, array $data): MoveVideo
     {
@@ -59,8 +51,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {
@@ -69,8 +59,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * Resolve the default value for the path field.
-     *
-     * @return string|null
      */
     protected function defaultPath(): ?string
     {
@@ -83,8 +71,6 @@ class MoveVideoAction extends MoveAction
 
     /**
      * The file extension that the path must end with.
-     *
-     * @return string
      */
     protected function allowedFileExtension(): string
     {

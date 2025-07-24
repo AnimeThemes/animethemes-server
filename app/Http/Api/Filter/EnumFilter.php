@@ -7,16 +7,9 @@ namespace App\Http\Api\Filter;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Rules\Api\EnumLocalizedNameRule;
 
-/**
- * Class EnumFilter.
- */
 class EnumFilter extends Filter
 {
     /**
-     * Create a new filter instance.
-     *
-     * @param  string  $key
-     * @param  string|null  $column
      * @param  class-string  $enumClass
      */
     public function __construct(string $key, protected readonly string $enumClass, ?string $column = null)
@@ -58,7 +51,6 @@ class EnumFilter extends Filter
      * Determine if all enum options have been specified.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     public function isAllFilterValues(array $filterValues): bool
     {

@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry;
 use App\GraphQL\Definition\Fields\BooleanField;
 use App\Models\List\External\ExternalEntry;
 
-/**
- * Class ExternalEntryIsFavoriteField.
- */
 class ExternalEntryIsFavoriteField extends BooleanField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalEntry::ATTRIBUTE_IS_FAVORITE);
@@ -22,8 +16,6 @@ class ExternalEntryIsFavoriteField extends BooleanField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

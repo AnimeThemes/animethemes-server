@@ -17,15 +17,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class StudioResourceTest.
- */
 class StudioResourceTest extends TestCase
 {
     /**
      * When a Studio is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioResourceCreatedSendsDiscordNotification(): void
     {
@@ -43,8 +38,6 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio is detached from a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testStudioResourceDeletedSendsDiscordNotification(): void
     {
@@ -64,8 +57,6 @@ class StudioResourceTest extends TestCase
 
     /**
      * When a Studio Resource pivot is updated, a SendDiscordNotification job will be dispatched.
-     *
-     * @return void
      */
     public function testStudioResourceUpdatedSendsDiscordNotification(): void
     {

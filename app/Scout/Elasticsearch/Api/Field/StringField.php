@@ -11,19 +11,8 @@ use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\Sort\Sort;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class StringField.
- */
 abstract class StringField extends Field implements FilterableField, SortableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $key
-     * @param  string|null  $searchField
-     * @param  string|null  $sortField
-     */
     public function __construct(
         Schema $schema,
         string $key,
@@ -44,8 +33,6 @@ abstract class StringField extends Field implements FilterableField, SortableFie
 
     /**
      * Get the filter that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -54,8 +41,6 @@ abstract class StringField extends Field implements FilterableField, SortableFie
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {

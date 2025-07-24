@@ -13,15 +13,10 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Arr;
 
-/**
- * Class LoadMembersAction.
- */
 class LoadMembersAction extends Action
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -30,8 +25,6 @@ class LoadMembersAction extends Action
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

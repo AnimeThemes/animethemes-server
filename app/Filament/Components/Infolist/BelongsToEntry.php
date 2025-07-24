@@ -11,9 +11,6 @@ use Filament\Support\Enums\FontWeight;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
-/**
- * Class BelongsToEntry.
- */
 class BelongsToEntry extends TextEntry
 {
     protected BaseResource $resource;
@@ -22,10 +19,7 @@ class BelongsToEntry extends TextEntry
     /**
      * Rename the parameter to make it more readable.
      *
-     * @param  string|null  $relation
      * @param  class-string<BaseResource>|null  $resource
-     * @param  bool|null  $shouldUseModelName
-     * @return static
      */
     public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
@@ -47,8 +41,6 @@ class BelongsToEntry extends TextEntry
 
     /**
      * Configure the column.
-     *
-     * @return static
      */
     public function configure(): static
     {

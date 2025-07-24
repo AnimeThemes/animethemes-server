@@ -15,9 +15,6 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class AttachImageAction.
- */
 class AttachImageAction extends BaseAction
 {
     protected array $facets = [
@@ -27,8 +24,6 @@ class AttachImageAction extends BaseAction
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -37,8 +32,6 @@ class AttachImageAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -62,7 +55,6 @@ class AttachImageAction extends BaseAction
      * Perform the action on the table.
      *
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(array $data): void
     {
@@ -79,9 +71,6 @@ class AttachImageAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public function getSchema(Schema $schema): Schema
     {
@@ -106,7 +95,6 @@ class AttachImageAction extends BaseAction
      * Get the facets available for the action.
      *
      * @param  ImageFacet[]  $facets
-     * @return static
      */
     public function facets(array $facets): static
     {

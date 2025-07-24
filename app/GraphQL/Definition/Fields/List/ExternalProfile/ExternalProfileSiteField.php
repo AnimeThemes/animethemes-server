@@ -8,14 +8,8 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\Models\List\ExternalProfile;
 
-/**
- * Class ExternalProfileSiteField.
- */
 class ExternalProfileSiteField extends EnumField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalProfile::ATTRIBUTE_SITE, ExternalProfileSite::class, nullable: false);
@@ -23,8 +17,6 @@ class ExternalProfileSiteField extends EnumField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

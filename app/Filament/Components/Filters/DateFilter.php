@@ -13,9 +13,6 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class DateFilter.
- */
 class DateFilter extends Filter
 {
     protected string $fromLabel = 'From';
@@ -23,10 +20,6 @@ class DateFilter extends Filter
 
     /**
      * Get the label for the filters.
-     *
-     * @param  string  $fromLabel
-     * @param  string  $toLabel
-     * @return static
      */
     public function labels(string $fromLabel, string $toLabel): static
     {
@@ -39,7 +32,7 @@ class DateFilter extends Filter
     /**
      * Get the schema components for the filter.
      *
-     * @return array<int, Component>
+     * @return Component[]
      */
     public function getSchemaComponents(): array
     {

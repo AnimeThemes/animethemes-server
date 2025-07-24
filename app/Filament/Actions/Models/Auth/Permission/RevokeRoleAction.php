@@ -12,17 +12,12 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-/**
- * Class RevokeRoleAction.
- */
 class RevokeRoleAction extends BaseAction
 {
     final public const FIELD_ROLE = 'role';
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -31,8 +26,6 @@ class RevokeRoleAction extends BaseAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -46,9 +39,7 @@ class RevokeRoleAction extends BaseAction
     /**
      * Perform the action on the given models.
      *
-     * @param  Permission  $permission
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(Permission $permission, array $data): void
     {
@@ -59,9 +50,6 @@ class RevokeRoleAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

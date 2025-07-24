@@ -15,11 +15,6 @@ use App\Pivots\Wiki\ArtistMember;
  */
 class ArtistMemberUpdated extends PivotUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ArtistMember  $artistMember
-     */
     public function __construct(ArtistMember $artistMember)
     {
         parent::__construct($artistMember->artist, $artistMember->member);
@@ -28,8 +23,6 @@ class ArtistMemberUpdated extends PivotUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

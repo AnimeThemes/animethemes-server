@@ -10,22 +10,15 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ArtistImageTab.
- */
 abstract class ArtistImageTab extends BaseTab
 {
     /**
      * The image facet.
-     *
-     * @return ImageFacet
      */
     abstract protected static function facet(): ImageFacet;
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

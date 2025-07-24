@@ -18,16 +18,9 @@ class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
 {
     /**
      * The playlist the track belongs to.
-     *
-     * @var Playlist
      */
     protected Playlist $playlist;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  PlaylistTrack  $track
-     */
     public function __construct(PlaylistTrack $track)
     {
         parent::__construct($track);
@@ -36,8 +29,6 @@ class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -48,8 +39,6 @@ class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return PlaylistTrack
      */
     public function getModel(): PlaylistTrack
     {
@@ -58,8 +47,6 @@ class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -69,7 +56,7 @@ class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
     /**
      * Get the Hashids connection.
      *
-     * @return string|null
+     * @return string
      */
     public function getHashidsConnection(): ?string
     {

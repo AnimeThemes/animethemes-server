@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Group;
 use Illuminate\Http\Request;
 
-/**
- * Class GroupCollection.
- */
 class GroupCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class GroupCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

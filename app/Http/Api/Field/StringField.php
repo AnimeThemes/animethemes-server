@@ -15,15 +15,10 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class StringField.
- */
 abstract class StringField extends Field implements FilterableField, RenderableField, SelectableField, SortableField
 {
     /**
      * Get the filter that can be applied to the field.
-     *
-     * @return Filter
      */
     public function getFilter(): Filter
     {
@@ -32,9 +27,6 @@ abstract class StringField extends Field implements FilterableField, RenderableF
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -45,9 +37,6 @@ abstract class StringField extends Field implements FilterableField, RenderableF
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return mixed
      */
     public function render(Model $model): mixed
     {
@@ -56,10 +45,6 @@ abstract class StringField extends Field implements FilterableField, RenderableF
 
     /**
      * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Query  $query
-     * @param  Schema  $schema
-     * @return bool
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
@@ -70,8 +55,6 @@ abstract class StringField extends Field implements FilterableField, RenderableF
 
     /**
      * Get the sort that can be applied to the field.
-     *
-     * @return Sort
      */
     public function getSort(): Sort
     {

@@ -10,15 +10,10 @@ use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class ArtistResourceTest.
- */
 class ArtistResourceTest extends TestCase
 {
     /**
      * An ArtistResource shall belong to an Artist.
-     *
-     * @return void
      */
     public function testArtist(): void
     {
@@ -33,8 +28,6 @@ class ArtistResourceTest extends TestCase
 
     /**
      * An ArtistResource shall belong to an ExternalResource.
-     *
-     * @return void
      */
     public function testResource(): void
     {

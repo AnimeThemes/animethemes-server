@@ -10,14 +10,9 @@ use App\Http\Api\Include\AllowedInclude;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-/**
- * Class HasFilter.
- */
 class HasFilter extends Filter
 {
     /**
-     * Create a new filter instance.
-     *
      * @param  AllowedInclude[]  $allowedIncludePaths
      */
     public function __construct(protected readonly array $allowedIncludePaths)
@@ -54,7 +49,6 @@ class HasFilter extends Filter
      * By default, this is false as we assume an unrestricted amount of valid values.
      *
      * @param  array  $filterValues
-     * @return bool
      */
     public function isAllFilterValues(array $filterValues): bool
     {

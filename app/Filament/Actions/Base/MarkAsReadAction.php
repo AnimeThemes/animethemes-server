@@ -6,15 +6,10 @@ namespace App\Filament\Actions\Base;
 
 use Filament\Actions\Action;
 
-/**
- * Class MarkAsReadAction.
- */
 class MarkAsReadAction extends Action
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

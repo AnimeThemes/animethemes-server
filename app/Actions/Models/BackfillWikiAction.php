@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
 
-/**
- * Class BackfillWikiAction.
- */
 abstract class BackfillWikiAction
 {
     use CanCreateExternalResource;
@@ -31,32 +28,24 @@ abstract class BackfillWikiAction
     final public const IMAGES = 'images';
 
     /**
-     * Create a new action instance.
-     *
-     * @param  BaseModel  $model
      * @param  array  $toBackfill
      */
     public function __construct(protected BaseModel $model, protected array $toBackfill) {}
 
     /**
      * Handle the action.
-     *
-     * @return ActionResult
      */
     abstract public function handle(): ActionResult;
 
     /**
      * Get the external API actions available for the backfill action.
      *
-     * @return array<ExternalApiAction>
+     * @return ExternalApiAction[]
      */
     abstract protected function getExternalApiActions(): array;
 
     /**
      * Create the resources given the response.
-     *
-     * @param  ExternalApiAction  $api
-     * @return void
      */
     protected function forResources(ExternalApiAction $api): void
     {
@@ -83,9 +72,6 @@ abstract class BackfillWikiAction
 
     /**
      * Create the images given the response.
-     *
-     * @param  ExternalApiAction  $api
-     * @return void
      */
     protected function forImages(ExternalApiAction $api): void
     {
@@ -112,10 +98,6 @@ abstract class BackfillWikiAction
 
     /**
      * Remove element already backfilled.
-     *
-     * @param  mixed  $enum
-     * @param  string  $scope
-     * @return void
      */
     protected function backfilled(mixed $enum, string $scope): void
     {
@@ -135,8 +117,6 @@ abstract class BackfillWikiAction
 
     /**
      * Get the human-friendly label for the underlying model.
-     *
-     * @return string
      */
     protected function label(): string
     {

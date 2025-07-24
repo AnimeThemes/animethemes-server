@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class AudioBitrateRestrictionFormatTest.
- */
 class AudioBitrateRestrictionFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Audio Bitrate Restriction Format Rule shall fail if the audio bitrate is outside the accepted boundaries.
-     *
-     * @return void
      */
     public function testFailsWhenBitrateIsNotExpected(): void
     {
@@ -64,8 +59,6 @@ class AudioBitrateRestrictionFormatTest extends TestCase
 
     /**
      * The Audio Bitrate Restriction Format Rule shall fail if the audio bitrate is within the accepted boundaries.
-     *
-     * @return void
      */
     public function testPassesWhenBitrateIsExpected(): void
     {

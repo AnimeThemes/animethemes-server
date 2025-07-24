@@ -69,7 +69,7 @@ class Membership extends BaseModel implements SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => MembershipCreated::class,
@@ -95,8 +95,6 @@ class Membership extends BaseModel implements SoftDeletable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -105,8 +103,6 @@ class Membership extends BaseModel implements SoftDeletable
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {

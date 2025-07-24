@@ -12,15 +12,10 @@ use App\Pivots\Wiki\StudioResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioResourceUpdateTest.
- */
 class StudioResourceUpdateTest extends TestCase
 {
     /**
      * The Studio Resource Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -38,8 +33,6 @@ class StudioResourceUpdateTest extends TestCase
 
     /**
      * The Studio Resource Update Endpoint shall forbid users without the update studio & update resource permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -61,8 +54,6 @@ class StudioResourceUpdateTest extends TestCase
 
     /**
      * The Studio Resource Update Endpoint shall update a studio resource.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

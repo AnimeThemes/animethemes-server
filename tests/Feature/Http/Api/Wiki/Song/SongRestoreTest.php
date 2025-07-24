@@ -10,15 +10,10 @@ use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SongRestoreTest.
- */
 class SongRestoreTest extends TestCase
 {
     /**
      * The Song Restore Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class SongRestoreTest extends TestCase
 
     /**
      * The Song Restore Endpoint shall forbid users without the restore song permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class SongRestoreTest extends TestCase
 
     /**
      * The Song Restore Endpoint shall forbid users from restoring a song that isn't trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class SongRestoreTest extends TestCase
 
     /**
      * The Song Restore Endpoint shall restore the song.
-     *
-     * @return void
      */
     public function testRestored(): void
     {

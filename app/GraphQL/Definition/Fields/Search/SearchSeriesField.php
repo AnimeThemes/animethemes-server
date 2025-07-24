@@ -9,14 +9,8 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class SearchSeriesField.
- */
 class SearchSeriesField extends Field implements DisplayableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct('series', nullable: false);
@@ -24,8 +18,6 @@ class SearchSeriesField extends Field implements DisplayableField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -34,8 +26,6 @@ class SearchSeriesField extends Field implements DisplayableField
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {
@@ -44,8 +34,6 @@ class SearchSeriesField extends Field implements DisplayableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @return bool
      */
     public function canBeDisplayed(): bool
     {

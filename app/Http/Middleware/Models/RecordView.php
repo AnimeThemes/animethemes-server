@@ -13,9 +13,6 @@ use Laravel\Pennant\Feature;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class RecordView.
- */
 class RecordView
 {
     /**
@@ -28,10 +25,7 @@ class RecordView
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @param  string  $modelKey
-     * @return mixed
      */
     public function handle(Request $request, Closure $next, string $modelKey): mixed
     {
@@ -46,10 +40,6 @@ class RecordView
 
     /**
      * Handle tasks after the response has been sent to the browser.
-     *
-     * @param  Request  $request
-     * @param  Response  $response
-     * @return void
      */
     public function terminate(Request $request, Response $response): void
     {

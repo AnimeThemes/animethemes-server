@@ -16,18 +16,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class UpdateTrackAction.
- */
 class UpdateTrackAction
 {
     /**
      * Store playlist track.
      *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
      * @param  array  $parameters
-     * @return PlaylistTrack
      *
      * @throws Exception
      */

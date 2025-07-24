@@ -8,22 +8,15 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Artist;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class ArtistChart.
- */
 class ArtistChart extends BaseChartWidget
 {
     /**
      * Chart Id.
-     *
-     * @var string|null
      */
     protected static ?string $chartId = 'artistChart';
 
     /**
      * Get the displayed label of the widget.
-     *
-     * @return string
      */
     protected function getHeading(): string
     {

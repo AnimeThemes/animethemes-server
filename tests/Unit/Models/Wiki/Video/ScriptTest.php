@@ -16,17 +16,12 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class ScriptTest.
- */
 class ScriptTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Scripts shall be nameable.
-     *
-     * @return void
      */
     public function testNameable(): void
     {
@@ -37,8 +32,6 @@ class ScriptTest extends TestCase
 
     /**
      * Scripts shall have subtitle.
-     *
-     * @return void
      */
     public function testHasSubtitle(): void
     {
@@ -51,8 +44,6 @@ class ScriptTest extends TestCase
 
     /**
      * Scripts shall belong to a Video.
-     *
-     * @return void
      */
     public function testVideo(): void
     {
@@ -66,8 +57,6 @@ class ScriptTest extends TestCase
 
     /**
      * The script shall not be deleted from storage when the VideoScript is deleted.
-     *
-     * @return void
      */
     public function testScriptStorageDeletion(): void
     {
@@ -86,8 +75,6 @@ class ScriptTest extends TestCase
 
     /**
      * The script shall be deleted from storage when the VideoScript is force deleted.
-     *
-     * @return void
      */
     public function testScriptStorageForceDeletion(): void
     {

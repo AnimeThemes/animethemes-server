@@ -7,16 +7,12 @@ namespace App\Actions\Models\List\External\Token;
 use App\Models\List\External\ExternalToken;
 use Exception;
 
-/**
- * Class BaseExternalTokenAction.
- */
 abstract class BaseExternalTokenAction
 {
     /**
      * Use the authorization code to get the tokens and store them.
      *
      * @param  array  $parameters
-     * @return ExternalToken
      *
      * @throws Exception
      */

@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\Config;
  */
 class MoveScriptAction extends MoveAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  VideoScript  $script
-     * @param  string  $to
-     */
     public function __construct(VideoScript $script, string $to)
     {
         parent::__construct($script, $to);
@@ -40,8 +34,6 @@ class MoveScriptAction extends MoveAction
 
     /**
      * Get the path to move from.
-     *
-     * @return string
      */
     protected function from(): string
     {
@@ -52,8 +44,6 @@ class MoveScriptAction extends MoveAction
      * Update underlying model.
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
-     *
-     * @return VideoScript
      */
     protected function update(): VideoScript
     {

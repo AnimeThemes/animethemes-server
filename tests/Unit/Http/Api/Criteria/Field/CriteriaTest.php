@@ -9,17 +9,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-/**
- * Class CriteriaTest.
- */
 class CriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The field criteria shall return true if the field is allowed.
-     *
-     * @return void
      */
     public function testIsAllowedField(): void
     {
@@ -32,8 +27,6 @@ class CriteriaTest extends TestCase
 
     /**
      * The field criteria shall return false if the field is not allowed.
-     *
-     * @return void
      */
     public function testIsNotAllowed(): void
     {

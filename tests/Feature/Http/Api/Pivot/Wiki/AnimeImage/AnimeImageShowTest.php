@@ -23,17 +23,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class AnimeImageShowTest.
- */
 class AnimeImageShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Anime Image Show Endpoint shall return an error if the anime image does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -47,8 +42,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * By default, the Anime Image Show Endpoint shall return an Anime Image Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -75,8 +68,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -115,8 +106,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -155,8 +144,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {
@@ -196,8 +183,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -237,8 +222,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -278,8 +261,6 @@ class AnimeImageShowTest extends TestCase
 
     /**
      * The Anime Image Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

@@ -9,17 +9,12 @@ use Filament\Actions\DetachBulkAction as BaseDetachBulkAction;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class DetachBulkAction.
- */
 class DetachBulkAction extends BaseDetachBulkAction
 {
     use HasActionLogs;
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

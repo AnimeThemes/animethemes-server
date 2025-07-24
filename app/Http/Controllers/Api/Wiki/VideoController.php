@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class VideoController.
- */
 class VideoController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::class, 'video');
@@ -38,9 +32,7 @@ class VideoController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return VideoCollection
      */
     public function index(IndexRequest $request, IndexAction $action): VideoCollection
     {
@@ -56,9 +48,7 @@ class VideoController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<Video>  $action
-     * @return VideoResource
      */
     public function store(StoreRequest $request, StoreAction $action): VideoResource
     {
@@ -70,10 +60,7 @@ class VideoController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  Video  $video
      * @param  ShowAction  $action
-     * @return VideoResource
      */
     public function show(ShowRequest $request, Video $video, ShowAction $action): VideoResource
     {
@@ -87,10 +74,7 @@ class VideoController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  Video  $video
      * @param  UpdateAction  $action
-     * @return VideoResource
      */
     public function update(UpdateRequest $request, Video $video, UpdateAction $action): VideoResource
     {
@@ -102,9 +86,7 @@ class VideoController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  Video  $video
      * @param  DestroyAction  $action
-     * @return VideoResource
      */
     public function destroy(Video $video, DestroyAction $action): VideoResource
     {
@@ -116,9 +98,7 @@ class VideoController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  Video  $video
      * @param  RestoreAction  $action
-     * @return VideoResource
      */
     public function restore(Video $video, RestoreAction $action): VideoResource
     {
@@ -130,9 +110,7 @@ class VideoController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  Video  $video
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(Video $video, ForceDeleteAction $action): JsonResponse
     {

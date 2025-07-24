@@ -11,17 +11,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class DistinctIgnoringDirectionTest.
- */
 class DistinctIgnoringDirectionTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Distinct Ignoring Direction Rule shall return false if there exist duplicate sort keys.
-     *
-     * @return void
      */
     public function testFailsIfDuplicateSort(): void
     {
@@ -41,8 +36,6 @@ class DistinctIgnoringDirectionTest extends TestCase
 
     /**
      * The Distinct Ignoring Direction Rule shall return false if there exists duplicate sort keys of differing directions.
-     *
-     * @return void
      */
     public function testFailsIfDuplicateSortDifferentDirection(): void
     {
@@ -68,8 +61,6 @@ class DistinctIgnoringDirectionTest extends TestCase
 
     /**
      * The Distinct Ignoring Direction Rule shall return true if there exist no duplicate sort keys.
-     *
-     * @return void
      */
     public function testPassesIfNoDuplicates(): void
     {

@@ -6,15 +6,10 @@ namespace App\GraphQL\Definition\Directives\Filters;
 
 use Illuminate\Support\Str;
 
-/**
- * Class EqFilterDirective.
- */
 class EqFilterDirective extends FilterDirective
 {
     /**
      * Create the argument for the directive.
-     *
-     * @return string
      */
     public function __toString(): string
     {

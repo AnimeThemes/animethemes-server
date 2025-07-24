@@ -25,8 +25,6 @@ abstract class PivotDeletedEvent extends BasePivotEvent
 
     /**
      * Get Discord message payload.
-     *
-     * @return DiscordMessage
      */
     public function getDiscordMessage(): DiscordMessage
     {

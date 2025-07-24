@@ -14,11 +14,6 @@ use App\Models\List\ExternalProfile;
  */
 class ExternalProfileCreated extends ListCreatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ExternalProfile  $profile
-     */
     public function __construct(ExternalProfile $profile)
     {
         parent::__construct($profile);
@@ -26,8 +21,6 @@ class ExternalProfileCreated extends ListCreatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return ExternalProfile
      */
     public function getModel(): ExternalProfile
     {
@@ -36,8 +29,6 @@ class ExternalProfileCreated extends ListCreatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

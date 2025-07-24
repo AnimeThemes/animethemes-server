@@ -29,15 +29,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\File as FileRule;
 
-/**
- * Class UploadAudioAction.
- */
 class UploadAudioAction extends UploadAction
 {
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -46,8 +41,6 @@ class UploadAudioAction extends UploadAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -61,9 +54,7 @@ class UploadAudioAction extends UploadAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model|null  $record
      * @param  array<string, mixed>  $data
-     * @return UploadAudio
      */
     protected function storageAction(?Model $record, array $data): UploadAudio
     {
@@ -78,8 +69,6 @@ class UploadAudioAction extends UploadAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

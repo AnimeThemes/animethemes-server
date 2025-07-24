@@ -10,15 +10,10 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Actions\DeleteAction as BaseDeleteAction;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class DeleteAction.
- */
 class DeleteAction extends BaseDeleteAction
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

@@ -26,7 +26,6 @@ class StoreImageAction extends StoreAction
      *
      * @param  Builder<Image>  $builder
      * @param  array  $parameters
-     * @return Image
      */
     public function store(Builder $builder, array $parameters): Image
     {

@@ -18,15 +18,10 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Auth\Resource\RoleResource;
 use App\Models\Auth\Role;
 
-/**
- * Class RoleSchema.
- */
 class RoleSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

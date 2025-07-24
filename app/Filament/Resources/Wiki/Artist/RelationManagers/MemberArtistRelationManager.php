@@ -12,9 +12,6 @@ use App\Pivots\Wiki\ArtistMember;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 
-/**
- * Class MemberArtistRelationManager.
- */
 class MemberArtistRelationManager extends ArtistRelationManager
 {
     /**
@@ -42,7 +39,7 @@ class MemberArtistRelationManager extends ArtistRelationManager
     /**
      * Get the pivot columns of the relation.
      *
-     * @return array<int, Column>
+     * @return Column[]
      */
     public function getPivotColumns(): array
     {
@@ -60,16 +57,11 @@ class MemberArtistRelationManager extends ArtistRelationManager
 
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Artist::RELATION_MEMBERS;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

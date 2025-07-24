@@ -30,9 +30,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-/**
- * Class ArtistMemberIndexTest.
- */
 class ArtistMemberIndexTest extends TestCase
 {
     use SortsModels;
@@ -40,8 +37,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * By default, the Artist Member Index Endpoint shall return a collection of Artist Member Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -70,8 +65,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * The Artist Member Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -93,8 +86,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * The Artist Member Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -135,8 +126,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * The Artist Member Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -177,8 +166,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * The Artist Member Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -221,8 +208,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * The Artist Member Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -274,8 +259,6 @@ class ArtistMemberIndexTest extends TestCase
 
     /**
      * The Artist Member Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {

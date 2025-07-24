@@ -25,9 +25,6 @@ use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
-/**
- * Class VideoTest.
- */
 class VideoTest extends TestCase
 {
     use WithFaker;
@@ -35,8 +32,6 @@ class VideoTest extends TestCase
     /**
      * If video streaming is disabled through the Allow Video Streams feature,
      * the user shall receive a forbidden exception.
-     *
-     * @return void
      */
     public function testVideoStreamingNotAllowedForbidden(): void
     {
@@ -53,8 +48,6 @@ class VideoTest extends TestCase
 
     /**
      * If the video is soft-deleted, the user shall receive a not found exception.
-     *
-     * @return void
      */
     public function testCannotStreamSoftDeletedVideo(): void
     {
@@ -71,8 +64,6 @@ class VideoTest extends TestCase
 
     /**
      * If view recording is disabled, the video show route shall not record a view for the video.
-     *
-     * @return void
      */
     public function testViewRecordingNotAllowed(): void
     {
@@ -91,8 +82,6 @@ class VideoTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to stream video
      * even if the Allow Video Streams feature is disabled.
-     *
-     * @return void
      */
     public function testVideoStreamingPermittedForBypass(): void
     {
@@ -117,8 +106,6 @@ class VideoTest extends TestCase
 
     /**
      * If view recording is enabled, the video show route shall record a view for the video.
-     *
-     * @return void
      */
     public function testViewRecordingIsAllowed(): void
     {
@@ -136,8 +123,6 @@ class VideoTest extends TestCase
 
     /**
      * If view recording is enabled, the video show route shall record a view for the video.
-     *
-     * @return void
      */
     public function testViewRecordingCooldown(): void
     {
@@ -157,8 +142,6 @@ class VideoTest extends TestCase
 
     /**
      * If the streaming method is set to an unexpected value, the user shall receive an error.
-     *
-     * @return void
      */
     public function testInvalidStreamingMethodError(): void
     {
@@ -176,8 +159,6 @@ class VideoTest extends TestCase
 
     /**
      * If the streaming method is set to 'response', the video shall be streamed through a Symfony StreamedResponse.
-     *
-     * @return void
      */
     public function testStreamedThroughResponse(): void
     {
@@ -195,8 +176,6 @@ class VideoTest extends TestCase
 
     /**
      * If the streaming method is set to 'nginx', the video shall be streamed through a nginx internal redirect.
-     *
-     * @return void
      */
     public function testStreamedThroughNginxRedirect(): void
     {
@@ -214,8 +193,6 @@ class VideoTest extends TestCase
 
     /**
      * If the video rate limit is less than or equal to zero, videos shall not be throttled.
-     *
-     * @return void
      */
     public function testNotThrottled(): void
     {
@@ -235,8 +212,6 @@ class VideoTest extends TestCase
 
     /**
      * If the video rate limit is greater than or equal to zero, videos shall be throttled.
-     *
-     * @return void
      */
     public function testRateLimited(): void
     {
@@ -256,8 +231,6 @@ class VideoTest extends TestCase
 
     /**
      * If the video rate limit attempt is exceeded, a VideoThrottled event shall be dispatched.
-     *
-     * @return void
      */
     public function testThrottledEvent(): void
     {
@@ -282,8 +255,6 @@ class VideoTest extends TestCase
 
     /**
      * If the video rate limit attempt is exceeded, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testThrottledNotification(): void
     {

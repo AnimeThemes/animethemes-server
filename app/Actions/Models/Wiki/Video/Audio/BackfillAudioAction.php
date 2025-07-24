@@ -39,13 +39,6 @@ use Illuminate\Support\Str;
  */
 class BackfillAudioAction extends BackfillAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Video  $video
-     * @param  DeriveSourceVideo  $deriveSourceVideo
-     * @param  OverwriteAudio  $overwriteAudio
-     */
     public function __construct(
         Video $video,
         protected readonly DeriveSourceVideo $deriveSourceVideo = DeriveSourceVideo::YES,
@@ -57,8 +50,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Handle action.
-     *
-     * @return ActionResult
      *
      * @throws Exception
      */
@@ -103,8 +94,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Get the model the action is handling.
-     *
-     * @return Video
      */
     protected function getModel(): Video
     {
@@ -113,8 +102,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Get the relation to audio.
-     *
-     * @return BelongsTo
      */
     protected function relation(): BelongsTo
     {
@@ -123,8 +110,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Determine if the source video should be derived.
-     *
-     * @return bool
      */
     protected function deriveSourceVideo(): bool
     {
@@ -133,8 +118,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Determine if audio should be overwritten.
-     *
-     * @return bool
      */
     protected function overwriteAudio(): bool
     {
@@ -143,8 +126,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Determine if the new audio should replace a related one.
-     *
-     * @return bool
      */
     protected function replaceRelatedAudio(): bool
     {
@@ -153,8 +134,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Get or Create Audio.
-     *
-     * @return Audio|null
      *
      * @throws Exception
      */
@@ -213,9 +192,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Get the source video for the given video.
-     *
-     * @param  string  $operation
-     * @return Video|null
      */
     protected function getSourceVideo(string $operation = '>'): ?Video
     {
@@ -269,9 +245,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Extract audio stream from video and store in filesystem.
-     *
-     * @param  Video  $video
-     * @return Audio|null
      */
     protected function extractAudio(Video $video): ?Audio
     {
@@ -319,9 +292,6 @@ class BackfillAudioAction extends BackfillAction
 
     /**
      * Attach Audio to model.
-     *
-     * @param  Audio  $audio
-     * @return void
      */
     protected function attachAudio(Audio $audio): void
     {

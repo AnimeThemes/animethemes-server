@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class DumpReconcileTest.
- */
 class DumpReconcileTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Dump Command shall output 'No Dumps created or deleted or updated'.
-     *
-     * @return void
      */
     public function testNoResults(): void
     {
@@ -40,8 +35,6 @@ class DumpReconcileTest extends TestCase
 
     /**
      * If dumps are created, the Reconcile Dump Command shall output '{Created Count} Dumps created, 0 Dumps deleted, 0 Dumps updated'.
-     *
-     * @return void
      */
     public function testCreated(): void
     {
@@ -62,8 +55,6 @@ class DumpReconcileTest extends TestCase
 
     /**
      * If dumps are deleted, the Reconcile Dump Command shall output '0 Dumps created, {Deleted Count} Dumps deleted, 0 Dumps updated'.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

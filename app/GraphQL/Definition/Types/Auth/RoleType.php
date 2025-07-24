@@ -21,15 +21,10 @@ use App\GraphQL\Definition\Types\Edges\Auth\PermissionEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Role;
 
-/**
- * Class RoleType.
- */
 class RoleType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

@@ -16,17 +16,12 @@ use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Support\Facades\Date;
 
-/**
- * Class CurrentFeaturedThemeController.
- */
 class CurrentFeaturedThemeController extends Controller implements InteractsWithSchema
 {
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
      * @param  ShowAction  $action
-     * @return FeaturedThemeResource
      */
     public function show(ShowRequest $request, ShowAction $action): FeaturedThemeResource
     {
@@ -46,8 +41,6 @@ class CurrentFeaturedThemeController extends Controller implements InteractsWith
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

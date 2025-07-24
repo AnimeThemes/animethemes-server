@@ -16,15 +16,10 @@ use App\Models\Wiki\Video as VideoModel;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class VideoTest.
- */
 class VideoTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -35,8 +30,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * Get the edit page class of the resource.
-     *
-     * @return string
      */
     protected static function getEditPage(): string
     {
@@ -47,8 +40,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {
@@ -59,8 +50,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -84,8 +73,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -106,8 +93,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {
@@ -129,8 +114,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot edit a record.
-     *
-     * @return void
      */
     public function testUserCannotEditRecord(): void
     {
@@ -142,8 +125,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot delete a record.
-     *
-     * @return void
      */
     public function testUserCannotDeleteRecord(): void
     {
@@ -158,8 +139,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot restore a record.
-     *
-     * @return void
      */
     public function testUserCannotRestoreRecord(): void
     {
@@ -176,8 +155,6 @@ class VideoTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot force delete a record.
-     *
-     * @return void
      */
     public function testUserCannotForceDeleteRecord(): void
     {

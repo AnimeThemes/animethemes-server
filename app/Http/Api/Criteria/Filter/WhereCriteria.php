@@ -15,18 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class WhereCriteria.
- */
 class WhereCriteria extends Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  Predicate  $predicate
-     * @param  BinaryLogicalOperator  $operator
-     * @param  Scope  $scope
-     */
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
@@ -37,11 +27,6 @@ class WhereCriteria extends Criteria
 
     /**
      * Create a new criteria instance from query string.
-     *
-     * @param  Scope  $scope
-     * @param  string  $filterParam
-     * @param  mixed  $filterValues
-     * @return static
      */
     public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
@@ -84,9 +69,6 @@ class WhereCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Filter  $filter
-     * @param  Query  $query
-     * @param  Schema  $schema
      * @return Builder
      */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder

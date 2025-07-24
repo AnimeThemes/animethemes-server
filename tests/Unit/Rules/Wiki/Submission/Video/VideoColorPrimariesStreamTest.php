@@ -15,17 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoColorPrimariesStreamTest.
- */
 class VideoColorPrimariesStreamTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Video Color Primaries Stream Rule shall fail if the color primaries is not in the list of accepted values.
-     *
-     * @return void
      */
     public function testFailsWhenColorPrimariesIsNotAccepted(): void
     {
@@ -68,8 +63,6 @@ class VideoColorPrimariesStreamTest extends TestCase
 
     /**
      * The Video Color Primaries Stream Rule shall pass if the color primaries is in the list of accepted values.
-     *
-     * @return void
      */
     public function testPassesWhenColorPrimariesIsAccepted(): void
     {

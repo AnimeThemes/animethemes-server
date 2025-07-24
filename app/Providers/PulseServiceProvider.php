@@ -9,15 +9,10 @@ use App\Models\Auth\User;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Pulse\PulseServiceProvider as BasePulseServiceProvider;
 
-/**
- * Class PulseServiceProvider.
- */
 class PulseServiceProvider extends BasePulseServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {

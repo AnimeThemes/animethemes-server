@@ -9,17 +9,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class DelimitedTest.
- */
 class DelimitedTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Delimited Rule shall pass if all values pass the given rules.
-     *
-     * @return void
      */
     public function testPassesIfAllValuesPass(): void
     {
@@ -37,8 +32,6 @@ class DelimitedTest extends TestCase
 
     /**
      * The Delimited Rule shall fail if there exist duplicate values.
-     *
-     * @return void
      */
     public function testFailsForDuplicateValues(): void
     {
@@ -58,8 +51,6 @@ class DelimitedTest extends TestCase
 
     /**
      * The Delimited Rule shall fail if any value fails a rule.
-     *
-     * @return void
      */
     public function testFailsForInvalidValue(): void
     {
@@ -77,8 +68,6 @@ class DelimitedTest extends TestCase
 
     /**
      * The Delimited Rule shall validate empty values.
-     *
-     * @return void
      */
     public function testValidatesEmptyValues(): void
     {

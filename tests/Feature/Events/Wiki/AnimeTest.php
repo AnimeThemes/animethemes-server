@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class AnimeTest.
- */
 class AnimeTest extends TestCase
 {
     /**
      * When an Anime is created, an AnimeCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class AnimeTest extends TestCase
 
     /**
      * When an Anime is deleted, an AnimeDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class AnimeTest extends TestCase
 
     /**
      * When an Anime is restored, an AnimeRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class AnimeTest extends TestCase
      * When an Anime is restored, an AnimeUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testAnimeRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class AnimeTest extends TestCase
 
     /**
      * When an Anime is updated, an AnimeUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testAnimeUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class AnimeTest extends TestCase
 
     /**
      * The AnimeUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testAnimeUpdatedEventEmbedFields(): void
     {

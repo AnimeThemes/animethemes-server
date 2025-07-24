@@ -9,17 +9,12 @@ use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class TrashedCriteriaTest.
- */
 class TrashedCriteriaTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Trashed Criteria shall parse the field.
-     *
-     * @return void
      */
     public function testField(): void
     {

@@ -9,15 +9,9 @@ use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\ImplodeArrayResolver;
 use App\Models\Wiki\Video;
 
-/**
- * Class VideoTagsField.
- */
 #[UseField(ImplodeArrayResolver::class)]
 class VideoTagsField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(Video::ATTRIBUTE_TAGS);
@@ -25,8 +19,6 @@ class VideoTagsField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -35,9 +27,6 @@ class VideoTagsField extends StringField
 
     /**
      * Resolve the field.
-     *
-     * @param  mixed  $root
-     * @return mixed
      */
     public function resolve($root): mixed
     {

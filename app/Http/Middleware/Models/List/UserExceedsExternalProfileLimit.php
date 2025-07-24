@@ -11,17 +11,12 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class UserExceedsExternalProfileLimit.
- */
 class UserExceedsExternalProfileLimit
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
     {

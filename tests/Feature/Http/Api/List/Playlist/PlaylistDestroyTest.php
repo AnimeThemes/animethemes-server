@@ -16,17 +16,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class PlaylistDestroyTest.
- */
 class PlaylistDestroyTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Playlist Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -43,8 +38,6 @@ class PlaylistDestroyTest extends TestCase
 
     /**
      * The Playlist Destroy Endpoint shall forbid users without the delete playlist permission.
-     *
-     * @return void
      */
     public function testForbiddenIfMissingPermission(): void
     {
@@ -65,8 +58,6 @@ class PlaylistDestroyTest extends TestCase
 
     /**
      * The Playlist Destroy Endpoint shall forbid users from deleting the playlist if they don't own it.
-     *
-     * @return void
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
@@ -90,8 +81,6 @@ class PlaylistDestroyTest extends TestCase
     /**
      * The Playlist Destroy Endpoint shall forbid users from destroying playlists
      * if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
@@ -114,8 +103,6 @@ class PlaylistDestroyTest extends TestCase
 
     /**
      * The Playlist Destroy Endpoint shall delete the playlist.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {
@@ -140,8 +127,6 @@ class PlaylistDestroyTest extends TestCase
     /**
      * Users with the bypass feature flag permission shall be permitted to destroy playlists
      * even if the Allow Playlist Management feature is inactive.
-     *
-     * @return void
      */
     public function testDestroyPermittedForBypass(): void
     {

@@ -16,14 +16,8 @@ use App\Models\List\Playlist\ForwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class PlaylistForwardController.
- */
 class PlaylistForwardController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::class, 'track,playlist');
@@ -33,9 +27,7 @@ class PlaylistForwardController extends BaseController
      * Display a listing of the resource.
      *
      * @param  ForwardBackwardIndexRequest  $request
-     * @param  Playlist  $playlist
      * @param  IndexAction  $action
-     * @return TrackCollection
      */
     public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
@@ -55,11 +47,9 @@ class PlaylistForwardController extends BaseController
     /**
      * Get the underlying schema.
      *
-     * @return Schema
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function schema(): Schema
+    public function schema(): ForwardBackwardSchema
     {
         return new ForwardBackwardSchema();
     }

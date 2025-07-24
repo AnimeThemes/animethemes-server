@@ -13,17 +13,12 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class ReportAction.
- */
 class ReportAction
 {
     /**
      * Create a report with the given steps.
      *
      * @param  ReportStep|ReportStep[]  $steps
-     * @param  string|null  $notes
-     * @return Report
      */
     public static function makeReport(ReportStep|array $steps, ?string $notes = null): Report
     {
@@ -43,7 +38,6 @@ class ReportAction
      *
      * @param  class-string<Model>  $model
      * @param  array  $fields
-     * @return ReportStep
      */
     public static function makeForCreate(string $model, array $fields): ReportStep
     {
@@ -53,9 +47,7 @@ class ReportAction
     /**
      * Create a report step to edit a model.
      *
-     * @param  Model  $model
      * @param  array  $fields
-     * @return ReportStep
      */
     public static function makeForUpdate(Model $model, array $fields): ReportStep
     {
@@ -64,9 +56,6 @@ class ReportAction
 
     /**
      * Create a report step to delete a model.
-     *
-     * @param  Model  $model
-     * @return ReportStep
      */
     public static function makeForDelete(Model $model): ReportStep
     {
@@ -76,11 +65,8 @@ class ReportAction
     /**
      * Create a report step to attach a model to another in a many-to-many relationship.
      *
-     * @param  Model  $foreign
-     * @param  Model  $related
      * @param  class-string<Pivot>  $pivot
      * @param  array  $fields
-     * @return ReportStep
      */
     public static function makeForAttach(Model $foreign, Model $related, string $pivot, array $fields): ReportStep
     {
@@ -90,11 +76,7 @@ class ReportAction
     /**
      * Create a report step to detach a model from another in a many-to-many relationship.
      *
-     * @param  Model  $foreign
-     * @param  Model  $related
-     * @param  Pivot  $pivot
      * @param  array  $fields
-     * @return ReportStep
      */
     public static function makeForDetach(Model $foreign, Model $related, Pivot $pivot, array $fields): ReportStep
     {
@@ -104,12 +86,8 @@ class ReportAction
     /**
      * Create a report step for given action.
      *
-     * @param  ReportActionType  $action
      * @param  class-string<Model>|Model  $model
      * @param  array|null  $fields
-     * @param  Model|null  $related
-     * @param  Pivot|null  $pivot
-     * @return ReportStep
      */
     protected static function makeFor(ReportActionType $action, Model|string $model, ?array $fields = null, ?Model $related = null, Pivot|string|null $pivot = null): ReportStep
     {

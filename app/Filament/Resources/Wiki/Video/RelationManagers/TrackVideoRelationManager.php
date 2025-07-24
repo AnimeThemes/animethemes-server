@@ -9,23 +9,15 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Filament\Tables\Table;
 
-/**
- * Class TrackVideoRelationManager.
- */
 class TrackVideoRelationManager extends TrackRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
-     *
-     * @var string
      */
     protected static string $relationship = Video::RELATION_TRACKS;
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

@@ -17,14 +17,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class ExternalTokenAuthController.
- */
 class ExternalTokenAuthController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
@@ -39,7 +33,6 @@ class ExternalTokenAuthController extends Controller
     /**
      * This will redirect the user to the appropriate auth service.
      *
-     * @param  Request  $request
      * @return RedirectResponse|JsonResponse
      */
     public function index(Request $request): RedirectResponse|JsonResponse

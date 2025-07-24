@@ -10,9 +10,6 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Filament\Tables\Table;
 
-/**
- * Class EntryRelationManager.
- */
 abstract class EntryRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class EntryRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {

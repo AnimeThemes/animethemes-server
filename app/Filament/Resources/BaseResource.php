@@ -31,15 +31,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-/**
- * Class BaseResource.
- */
 abstract class BaseResource extends Resource
 {
     /**
      * Determine if the resource can globally search.
-     *
-     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -50,8 +45,6 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the route key for the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -66,8 +59,6 @@ abstract class BaseResource extends Resource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
@@ -77,9 +68,6 @@ abstract class BaseResource extends Resource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -102,7 +90,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @return array<int, \Filament\Tables\Filters\BaseFilter>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -155,7 +143,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the record actions exclusive to the resource.
      *
-     * @return array<int, Action>
+     * @return Action[]
      */
     public static function getRecordActions(): array
     {
@@ -226,8 +214,6 @@ abstract class BaseResource extends Resource
     /**
      * Get the generic slug (URI key) for the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getSlug(?Panel $panel = null): string
@@ -237,8 +223,6 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     abstract public static function getRecordSlug(): string;
 }

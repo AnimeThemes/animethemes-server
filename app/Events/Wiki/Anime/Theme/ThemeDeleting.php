@@ -17,11 +17,6 @@ use App\Models\Wiki\Video;
  */
 class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeTheme  $theme
-     */
     public function __construct(AnimeTheme $theme)
     {
         parent::__construct($theme);
@@ -29,8 +24,6 @@ class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return AnimeTheme
      */
     public function getModel(): AnimeTheme
     {
@@ -39,8 +32,6 @@ class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function cascadeDeletes(): void
     {

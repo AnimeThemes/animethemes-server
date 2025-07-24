@@ -10,16 +10,10 @@ use App\Models\Auth\User;
 use App\Policies\BasePolicy;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class UserPolicy.
- */
 class UserPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -28,10 +22,7 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  User|null  $user
-     * @param  User  $userModel
-     * @return bool
+     *Model.
      */
     public function view(?User $user, Model $userModel): bool
     {
@@ -40,8 +31,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any role to the user.
-     *
-     * @return bool
      */
     public function attachAnyRole(): bool
     {
@@ -50,8 +39,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a role to the user.
-     *
-     * @return bool
      */
     public function attachRole(): bool
     {
@@ -60,8 +47,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any role from the user.
-     *
-     * @return bool
      */
     public function detachAnyRole(): bool
     {
@@ -70,8 +55,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a role from the user.
-     *
-     * @return bool
      */
     public function detachRole(): bool
     {
@@ -80,8 +63,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any permission to the user.
-     *
-     * @return bool
      */
     public function attachAnyPermission(): bool
     {
@@ -90,8 +71,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a permission to the user.
-     *
-     * @return bool
      */
     public function attachPermission(): bool
     {
@@ -100,8 +79,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any permission from the user.
-     *
-     * @return bool
      */
     public function detachAnyPermission(): bool
     {
@@ -110,8 +87,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a permission from the user.
-     *
-     * @return bool
      */
     public function detachPermission(): bool
     {
@@ -120,9 +95,6 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can add a playlist to the user.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function addPlaylist(User $user): bool
     {

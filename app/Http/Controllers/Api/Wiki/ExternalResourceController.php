@@ -22,14 +22,8 @@ use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Class ExternalResourceController.
- */
 class ExternalResourceController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalResource::class, 'resource');
@@ -38,9 +32,7 @@ class ExternalResourceController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return ExternalResourceCollection
      */
     public function index(IndexRequest $request, IndexAction $action): ExternalResourceCollection
     {
@@ -54,9 +46,7 @@ class ExternalResourceController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  StoreRequest  $request
      * @param  StoreAction<ExternalResource>  $action
-     * @return ExternalResourceResource
      */
     public function store(StoreRequest $request, StoreAction $action): ExternalResourceResource
     {
@@ -68,10 +58,7 @@ class ExternalResourceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ShowRequest  $request
-     * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return ExternalResourceResource
      */
     public function show(ShowRequest $request, ExternalResource $resource, ShowAction $action): ExternalResourceResource
     {
@@ -85,10 +72,7 @@ class ExternalResourceController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  UpdateRequest  $request
-     * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return ExternalResourceResource
      */
     public function update(UpdateRequest $request, ExternalResource $resource, UpdateAction $action): ExternalResourceResource
     {
@@ -100,9 +84,7 @@ class ExternalResourceController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ExternalResource  $resource
      * @param  DestroyAction  $action
-     * @return ExternalResourceResource
      */
     public function destroy(ExternalResource $resource, DestroyAction $action): ExternalResourceResource
     {
@@ -114,9 +96,7 @@ class ExternalResourceController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  ExternalResource  $resource
      * @param  RestoreAction  $action
-     * @return ExternalResourceResource
      */
     public function restore(ExternalResource $resource, RestoreAction $action): ExternalResourceResource
     {
@@ -128,9 +108,7 @@ class ExternalResourceController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  ExternalResource  $resource
      * @param  ForceDeleteAction  $action
-     * @return JsonResponse
      */
     public function forceDelete(ExternalResource $resource, ForceDeleteAction $action): JsonResponse
     {

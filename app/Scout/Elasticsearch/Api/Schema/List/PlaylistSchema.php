@@ -17,29 +17,21 @@ use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistDescriptionField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistHashidsField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistNameField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistVisibilityField;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\List\PlaylistQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class PlaylistSchema.
- */
 class PlaylistSchema extends Schema
 {
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
-    public function query(): ElasticQuery
+    public function query(): PlaylistQuery
     {
         return new PlaylistQuery();
     }
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

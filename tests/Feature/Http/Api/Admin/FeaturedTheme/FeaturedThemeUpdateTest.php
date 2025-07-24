@@ -17,17 +17,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class FeaturedThemeUpdateTest.
- */
 class FeaturedThemeUpdateTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Featured Theme Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -42,8 +37,6 @@ class FeaturedThemeUpdateTest extends TestCase
 
     /**
      * The Featured Theme Update Endpoint shall forbid users without the update featured theme permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -62,8 +55,6 @@ class FeaturedThemeUpdateTest extends TestCase
 
     /**
      * The Featured Update Store Endpoint shall require the start_at field to be before the end_at field and vice versa.
-     *
-     * @return void
      */
     public function testStartAtBeforeEndDate(): void
     {
@@ -88,8 +79,6 @@ class FeaturedThemeUpdateTest extends TestCase
 
     /**
      * The Featured Theme Update Endpoint shall require the entry and video to have an association.
-     *
-     * @return void
      */
     public function testAnimeThemeEntryVideoExists(): void
     {
@@ -120,8 +109,6 @@ class FeaturedThemeUpdateTest extends TestCase
 
     /**
      * The Featured Theme Update Endpoint shall update a featured theme.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

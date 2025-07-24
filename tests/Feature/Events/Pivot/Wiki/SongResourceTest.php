@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class SongResourceTest.
- */
 class SongResourceTest extends TestCase
 {
     /**
      * When an Song is attached to a Resource or vice versa, an SongResourceCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongResourceCreatedEventDispatched(): void
     {
@@ -36,8 +31,6 @@ class SongResourceTest extends TestCase
 
     /**
      * When an Song is detached from a Resource or vice versa, an SongResourceDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongResourceDeletedEventDispatched(): void
     {
@@ -52,8 +45,6 @@ class SongResourceTest extends TestCase
 
     /**
      * When an Song Resource pivot is updated, an SongResourceUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongResourceUpdatedEventDispatched(): void
     {
@@ -78,8 +69,6 @@ class SongResourceTest extends TestCase
 
     /**
      * The SongResourceUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testSongResourceUpdatedEventEmbedFields(): void
     {

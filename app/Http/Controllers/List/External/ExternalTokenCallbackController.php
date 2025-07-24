@@ -17,14 +17,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class ExternalTokenCallbackController.
- */
 class ExternalTokenCallbackController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
@@ -39,7 +33,6 @@ class ExternalTokenCallbackController extends Controller
     /**
      * This is the redirect URL which is set in the external provider.
      *
-     * @param  Request  $request
      * @return RedirectResponse|JsonResponse
      */
     public function index(Request $request): RedirectResponse|JsonResponse

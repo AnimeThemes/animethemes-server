@@ -15,15 +15,10 @@ use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class ExternalEntryTest.
- */
 class ExternalEntryTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -34,8 +29,6 @@ class ExternalEntryTest extends BaseResourceTestCase
 
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -46,8 +39,6 @@ class ExternalEntryTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {
@@ -58,8 +49,6 @@ class ExternalEntryTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -86,8 +75,6 @@ class ExternalEntryTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -111,8 +98,6 @@ class ExternalEntryTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {

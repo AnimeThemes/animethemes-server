@@ -16,15 +16,10 @@ use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
-/**
- * Class SendDiscordNotificationTest.
- */
 class SendDiscordNotificationTest extends TestCase
 {
     /**
      * The Send Discord Notification Job shall send a DiscordNotification.
-     *
-     * @return void
      */
     public function testSendDiscordNotificationJobSendsNotification(): void
     {
@@ -47,8 +42,6 @@ class SendDiscordNotificationTest extends TestCase
 
             /**
              * Get Discord channel the message will be sent to.
-             *
-             * @return string
              */
             public function getDiscordChannel(): string
             {
@@ -57,8 +50,6 @@ class SendDiscordNotificationTest extends TestCase
 
             /**
              * Determine if the message should be sent.
-             *
-             * @return bool
              */
             public function shouldSendDiscordMessage(): bool
             {
@@ -78,8 +69,6 @@ class SendDiscordNotificationTest extends TestCase
 
     /**
      * The Send Discord Notification Job shall use the RateLimited middleware.
-     *
-     * @return void
      */
     public function testRateLimited(): void
     {
@@ -89,8 +78,6 @@ class SendDiscordNotificationTest extends TestCase
 
             /**
              * Get Discord message payload.
-             *
-             * @return DiscordMessage
              */
             public function getDiscordMessage(): DiscordMessage
             {
@@ -99,8 +86,6 @@ class SendDiscordNotificationTest extends TestCase
 
             /**
              * Get Discord channel the message will be sent to.
-             *
-             * @return string
              */
             public function getDiscordChannel(): string
             {
@@ -109,8 +94,6 @@ class SendDiscordNotificationTest extends TestCase
 
             /**
              * Determine if the message should be sent.
-             *
-             * @return bool
              */
             public function shouldSendDiscordMessage(): bool
             {

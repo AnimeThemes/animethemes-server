@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class SeriesTest.
- */
 class SeriesTest extends TestCase
 {
     /**
      * When a Series is created, a SeriesCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class SeriesTest extends TestCase
 
     /**
      * When a Series is deleted, a SeriesDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class SeriesTest extends TestCase
 
     /**
      * When a Series is restored, a SeriesRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class SeriesTest extends TestCase
      * When a Series is restored, a SeriesUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testSeriesRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class SeriesTest extends TestCase
 
     /**
      * When a Series is updated, a SeriesUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSeriesUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class SeriesTest extends TestCase
 
     /**
      * The SeriesUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testSeriesUpdatedEventEmbedFields(): void
     {

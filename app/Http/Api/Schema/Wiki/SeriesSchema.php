@@ -15,15 +15,10 @@ use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 
-/**
- * Class SeriesSchema.
- */
 class SeriesSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

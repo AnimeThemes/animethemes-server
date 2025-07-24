@@ -15,30 +15,22 @@ use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistInformationField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistSlugField;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\ArtistQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
-/**
- * Class ArtistSchema.
- */
 class ArtistSchema extends Schema
 {
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
-    public function query(): ElasticQuery
+    public function query(): ArtistQuery
     {
         return new ArtistQuery();
     }
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

@@ -17,15 +17,10 @@ use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\Pivots\Wiki\SongResource;
 
-/**
- * Class SongResourceType.
- */
 class SongResourceType extends PivotType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

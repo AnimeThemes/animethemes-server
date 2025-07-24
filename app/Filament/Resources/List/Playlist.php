@@ -31,9 +31,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Playlist.
- */
 class Playlist extends BaseResource
 {
     /**
@@ -46,8 +43,6 @@ class Playlist extends BaseResource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
@@ -57,8 +52,6 @@ class Playlist extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -70,8 +63,6 @@ class Playlist extends BaseResource
     /**
      * The logical group associated with the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
@@ -82,8 +73,6 @@ class Playlist extends BaseResource
     /**
      * The icon displayed to the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationIcon(): string
@@ -93,8 +82,6 @@ class Playlist extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -103,8 +90,6 @@ class Playlist extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -132,9 +117,6 @@ class Playlist extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -181,9 +163,6 @@ class Playlist extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {
@@ -224,9 +203,6 @@ class Playlist extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

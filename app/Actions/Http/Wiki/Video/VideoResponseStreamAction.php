@@ -9,16 +9,8 @@ use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class VideoResponseStreamAction.
- */
 class VideoResponseStreamAction extends ResponseStreamAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Video  $video
-     */
     public function __construct(Video $video)
     {
         parent::__construct($video);
@@ -26,8 +18,6 @@ class VideoResponseStreamAction extends ResponseStreamAction
 
     /**
      * The name of the disk.
-     *
-     * @return string
      */
     public function disk(): string
     {

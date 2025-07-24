@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class DeleteAudioTest.
- */
 class DeleteAudioTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Delete Audio Action shall fail if there are no deletions.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -47,8 +42,6 @@ class DeleteAudioTest extends TestCase
 
     /**
      * The Delete Audio Action shall pass if there are deletions.
-     *
-     * @return void
      */
     public function testPassed(): void
     {
@@ -75,8 +68,6 @@ class DeleteAudioTest extends TestCase
 
     /**
      * The Delete Audio Action shall delete the file from the configured disks.
-     *
-     * @return void
      */
     public function testDeletedFromDisk(): void
     {
@@ -101,8 +92,6 @@ class DeleteAudioTest extends TestCase
 
     /**
      * The Delete Audio Action shall delete the audio.
-     *
-     * @return void
      *
      * @throws Exception
      */

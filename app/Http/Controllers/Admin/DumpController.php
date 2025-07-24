@@ -9,14 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Dump;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * Class DumpController.
- */
 class DumpController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $this->authorizeResource(Dump::class, 'dump');
@@ -24,9 +18,6 @@ class DumpController extends Controller
 
     /**
      * Download dump.
-     *
-     * @param  Dump  $dump
-     * @return StreamedResponse
      */
     public function show(Dump $dump): StreamedResponse
     {

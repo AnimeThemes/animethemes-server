@@ -26,12 +26,6 @@ class BackfillSongAction extends BackfillAction
 {
     use CanCreateExternalResource;
 
-    /**
-     * Create a new action instance.
-     *
-     * @param  Song  $song
-     * @param  string  $lnkto
-     */
     public function __construct(
         Song $song,
         protected readonly string $lnkto,
@@ -41,8 +35,6 @@ class BackfillSongAction extends BackfillAction
 
     /**
      * Handle action.
-     *
-     * @return ActionResult
      *
      * @throws Exception
      */
@@ -85,9 +77,6 @@ class BackfillSongAction extends BackfillAction
 
     /**
      * Get the resource site according the external label.
-     *
-     * @param  string  $label
-     * @return ResourceSite|null
      */
     protected function getMappingFromExternalSite(string $label): ?ResourceSite
     {
@@ -102,8 +91,6 @@ class BackfillSongAction extends BackfillAction
 
     /**
      * Get the model the action is handling.
-     *
-     * @return Song
      */
     protected function getModel(): Song
     {

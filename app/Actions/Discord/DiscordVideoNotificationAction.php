@@ -9,9 +9,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-/**
- * Class DiscordVideoNotificationAction.
- */
 class DiscordVideoNotificationAction
 {
     /**
@@ -19,7 +16,6 @@ class DiscordVideoNotificationAction
      *
      * @param  Collection<int, Video>  $videos
      * @param  array<string, mixed>  $fields
-     * @return void
      */
     public function handle(Collection $videos, array $fields): void
     {

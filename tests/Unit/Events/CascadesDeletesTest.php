@@ -9,15 +9,10 @@ use App\Listeners\CascadesDeletes;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class CascadesDeletesTest.
- */
 class CascadesDeletesTest extends TestCase
 {
     /**
      * CascadesDeletes shall listen to CascadesDeletesEvent.
-     *
-     * @return void
      */
     public function testListening(): void
     {

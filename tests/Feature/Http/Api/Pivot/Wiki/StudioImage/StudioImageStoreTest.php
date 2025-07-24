@@ -12,15 +12,10 @@ use App\Pivots\Wiki\StudioImage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class StudioImageStoreTest.
- */
 class StudioImageStoreTest extends TestCase
 {
     /**
      * The Studio Image Store Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class StudioImageStoreTest extends TestCase
 
     /**
      * The Studio Image Store Endpoint shall forbid users without the create studio & create image permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -53,8 +46,6 @@ class StudioImageStoreTest extends TestCase
 
     /**
      * The Studio Image Store Endpoint shall create an studio image.
-     *
-     * @return void
      */
     public function testCreate(): void
     {

@@ -15,14 +15,8 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-/**
- * Class PlaylistTrackVideoIdField.
- */
 class PlaylistTrackVideoIdField extends Field implements CreatableField, RequiredOnCreation, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(PlaylistTrack::ATTRIBUTE_VIDEO, nullable: false);
@@ -30,8 +24,6 @@ class PlaylistTrackVideoIdField extends Field implements CreatableField, Require
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -40,8 +32,6 @@ class PlaylistTrackVideoIdField extends Field implements CreatableField, Require
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function type(): Type
     {

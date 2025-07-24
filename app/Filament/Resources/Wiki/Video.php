@@ -41,9 +41,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Video.
- */
 class Video extends BaseResource
 {
     /**
@@ -56,8 +53,6 @@ class Video extends BaseResource
     /**
      * Get the displayable singular label of the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
@@ -67,8 +62,6 @@ class Video extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -80,8 +73,6 @@ class Video extends BaseResource
     /**
      * The logical group associated with the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
@@ -92,8 +83,6 @@ class Video extends BaseResource
     /**
      * The icon displayed to the resource.
      *
-     * @return string
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationIcon(): string
@@ -103,8 +92,6 @@ class Video extends BaseResource
 
     /**
      * Get the slug (URI key) for the resource.
-     *
-     * @return string
      */
     public static function getRecordSlug(): string
     {
@@ -113,8 +100,6 @@ class Video extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -125,9 +110,6 @@ class Video extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -183,9 +165,6 @@ class Video extends BaseResource
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public static function table(Table $table): Table
     {
@@ -230,9 +209,6 @@ class Video extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -322,7 +298,7 @@ class Video extends BaseResource
     /**
      * Get the filters available for the resource.
      *
-     * @return array<int, \Filament\Tables\Filters\BaseFilter>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
     {
@@ -414,8 +390,6 @@ class Video extends BaseResource
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public static function canCreate(): bool
     {

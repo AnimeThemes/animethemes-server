@@ -12,16 +12,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SearchRequest;
 use App\Http\Resources\SearchResource;
 
-/**
- * Class SearchController.
- */
 class SearchController extends Controller implements InteractsWithSchema
 {
     /**
      * Search resource.
-     *
-     * @param  SearchRequest  $request
-     * @return SearchResource
      */
     public function show(SearchRequest $request): SearchResource
     {
@@ -32,8 +26,6 @@ class SearchController extends Controller implements InteractsWithSchema
 
     /**
      * Get the underlying schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {

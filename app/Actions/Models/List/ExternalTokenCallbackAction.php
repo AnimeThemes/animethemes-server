@@ -18,16 +18,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
-/**
- * Class ExternalTokenCallbackAction.
- */
 class ExternalTokenCallbackAction
 {
     /**
      * We should store the token and the profile.
      *
      * @param  array  $parameters
-     * @return ExternalProfile
      *
      * @throws Exception
      */
@@ -68,9 +64,6 @@ class ExternalTokenCallbackAction
 
     /**
      * Get the mapping for the token class.
-     *
-     * @param  ExternalProfileSite  $site
-     * @return BaseExternalTokenAction
      *
      * @throws RuntimeException
      */

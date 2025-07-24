@@ -11,18 +11,12 @@ use App\Models\Auth\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class DumpPolicy.
- */
 class DumpPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  array|null  $injected
-     * @param  string|null  $keyName
-     * @return bool
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {

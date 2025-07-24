@@ -14,15 +14,10 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Dump;
 
-/**
- * Class DumpType.
- */
 class DumpType extends EloquentType implements HasFields
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

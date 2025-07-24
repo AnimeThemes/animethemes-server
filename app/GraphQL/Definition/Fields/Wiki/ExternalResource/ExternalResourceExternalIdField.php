@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\ExternalResource;
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceExternalIdField.
- */
 class ExternalResourceExternalIdField extends IntField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(ExternalResource::ATTRIBUTE_EXTERNAL_ID);
@@ -22,8 +16,6 @@ class ExternalResourceExternalIdField extends IntField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

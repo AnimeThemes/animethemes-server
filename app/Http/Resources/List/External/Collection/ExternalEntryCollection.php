@@ -9,9 +9,6 @@ use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalEntryCollection.
- */
 class ExternalEntryCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class ExternalEntryCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

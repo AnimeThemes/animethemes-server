@@ -12,15 +12,10 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * Class MalStudioExternalApiAction.
- */
 class MalStudioExternalApiAction extends ExternalApiAction implements BackfillImages
 {
     /**
      * Get the site to backfill.
-     *
-     * @return ResourceSite
      */
     public function getSite(): ResourceSite
     {
@@ -31,7 +26,6 @@ class MalStudioExternalApiAction extends ExternalApiAction implements BackfillIm
      * Set the response after the request.
      *
      * @param  BelongsToMany<ExternalResource, Studio>  $resources
-     * @return static
      */
     public function handle(BelongsToMany $resources): static
     {

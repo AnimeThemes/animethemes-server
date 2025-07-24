@@ -10,17 +10,12 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-/**
- * Class LogRequest.
- */
 class LogRequest
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
     {

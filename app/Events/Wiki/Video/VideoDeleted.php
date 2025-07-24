@@ -15,11 +15,6 @@ use App\Models\Wiki\Video;
  */
 class VideoDeleted extends WikiDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Video  $video
-     */
     public function __construct(Video $video)
     {
         parent::__construct($video);
@@ -27,8 +22,6 @@ class VideoDeleted extends WikiDeletedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Video
      */
     public function getModel(): Video
     {
@@ -37,8 +30,6 @@ class VideoDeleted extends WikiDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -47,8 +38,6 @@ class VideoDeleted extends WikiDeletedEvent
 
     /**
      * Get the message for the filament notification.
-     *
-     * @return string
      */
     protected function getNotificationMessage(): string
     {
@@ -57,8 +46,6 @@ class VideoDeleted extends WikiDeletedEvent
 
     /**
      * Get the URL for the Filament notification.
-     *
-     * @return string
      */
     protected function getFilamentNotificationUrl(): string
     {

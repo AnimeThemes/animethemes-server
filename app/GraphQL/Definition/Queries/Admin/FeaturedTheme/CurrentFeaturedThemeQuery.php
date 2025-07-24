@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
-/**
- * Class CurrentFeaturedThemeQuery.
- */
 #[UseBuilder(FeaturedThemeBuilder::class, 'current')]
 class CurrentFeaturedThemeQuery extends BaseQuery
 {
@@ -22,8 +19,6 @@ class CurrentFeaturedThemeQuery extends BaseQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -56,8 +51,6 @@ class CurrentFeaturedThemeQuery extends BaseQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return FeaturedThemeType
      */
     public function baseType(): FeaturedThemeType
     {

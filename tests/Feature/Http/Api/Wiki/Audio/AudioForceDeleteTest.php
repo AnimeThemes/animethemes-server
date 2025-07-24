@@ -10,15 +10,10 @@ use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AudioForceDeleteTest.
- */
 class AudioForceDeleteTest extends TestCase
 {
     /**
      * The Audio Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class AudioForceDeleteTest extends TestCase
 
     /**
      * The Audio Force Delete Endpoint shall forbid users without the force delete audio permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class AudioForceDeleteTest extends TestCase
 
     /**
      * The Audio Force Delete Endpoint shall force delete the audio.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

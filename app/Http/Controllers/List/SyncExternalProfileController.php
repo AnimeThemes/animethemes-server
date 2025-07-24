@@ -13,14 +13,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * Class SyncExternalProfileController.
- */
 class SyncExternalProfileController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
     public function __construct()
     {
         $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
@@ -35,7 +29,6 @@ class SyncExternalProfileController extends Controller
     /**
      * Display the current progress status of the sync.
      *
-     * @param  ShowRequest  $request
      * @param  ExternalProfile  $externalprofile
      */
     public function show(ShowRequest $request, ExternalProfile $externalprofile)

@@ -11,16 +11,8 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 
-/**
- * Class PerformanceAsField.
- */
 class PerformanceAsField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Performance::ATTRIBUTE_AS);
@@ -29,7 +21,6 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -44,7 +35,6 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

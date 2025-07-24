@@ -14,15 +14,10 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class AnimeThemeEntryVideoDestroyTest.
- */
 class AnimeThemeEntryVideoDestroyTest extends TestCase
 {
     /**
      * The Anime Theme Entry Video Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -38,8 +33,6 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Destroy Endpoint shall forbid users without the delete anime theme entry & delete video permissions.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -59,8 +52,6 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Destroy Endpoint shall return an error if the anime theme entry video does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -86,8 +77,6 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
 
     /**
      * The Anime Theme Entry Video Destroy Endpoint shall delete the anime theme entry video.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

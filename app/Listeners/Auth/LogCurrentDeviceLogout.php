@@ -7,16 +7,10 @@ namespace App\Listeners\Auth;
 use Illuminate\Auth\Events\CurrentDeviceLogout;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class LogCurrentDeviceLogout.
- */
 class LogCurrentDeviceLogout
 {
     /**
      * Handle the event.
-     *
-     * @param  CurrentDeviceLogout  $event
-     * @return void
      */
     public function handle(CurrentDeviceLogout $event): void
     {

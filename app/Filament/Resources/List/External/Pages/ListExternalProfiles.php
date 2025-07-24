@@ -9,9 +9,6 @@ use App\Filament\Resources\List\ExternalProfile;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListExternalProfiles.
- */
 class ListExternalProfiles extends BaseListResources
 {
     protected static string $resource = ExternalProfile::class;

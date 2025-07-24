@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Throwable;
 
-/**
- * Trait HasActionLogs.
- */
 trait HasActionLogs
 {
     protected string $batchId = '';
@@ -23,8 +20,6 @@ trait HasActionLogs
 
     /**
      * Create a batch id for the action.
-     *
-     * @return string
      */
     public function createBatchId(): string
     {
@@ -35,11 +30,6 @@ trait HasActionLogs
 
     /**
      * Create an action log.
-     *
-     * @param  Action  $action
-     * @param  Model  $record
-     * @param  bool  $shouldCreateNewBatchId
-     * @return void
      */
     public function createActionLog(Action $action, Model $record, ?bool $shouldCreateNewBatchId = true): void
     {
@@ -60,10 +50,6 @@ trait HasActionLogs
 
     /**
      * Update the log for pivot actions.
-     *
-     * @param  Model  $relatedModel
-     * @param  Model  $pivot
-     * @return void
      */
     public function updateLog(Model $relatedModel, Model $pivot): void
     {
@@ -77,9 +63,6 @@ trait HasActionLogs
 
     /**
      * Mark the action as failed.
-     *
-     * @param  Throwable|string|null  $exception
-     * @return void
      */
     public function failedLog(Throwable|string|null $exception): void
     {
@@ -94,8 +77,6 @@ trait HasActionLogs
 
     /**
      * Mark the action as finished if not failed.
-     *
-     * @return void
      */
     public function finishedLog(): void
     {
@@ -113,8 +94,6 @@ trait HasActionLogs
 
     /**
      * Mark batch action as finished where not failed.
-     *
-     * @return void
      */
     public function batchFinishedLog(): void
     {
@@ -123,8 +102,6 @@ trait HasActionLogs
 
     /**
      * Check if the action is failed.
-     *
-     * @return bool
      */
     public function isFailedLog(): bool
     {

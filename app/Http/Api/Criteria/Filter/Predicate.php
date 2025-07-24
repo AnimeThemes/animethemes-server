@@ -6,18 +6,8 @@ namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 
-/**
- * Class Predicate.
- */
 readonly class Predicate
 {
-    /**
-     * Create a new predicate.
-     *
-     * @param  string  $column
-     * @param  ComparisonOperator|null  $operator
-     * @param  Expression  $expression
-     */
     public function __construct(
         protected string $column,
         protected ?ComparisonOperator $operator,
@@ -26,8 +16,6 @@ readonly class Predicate
 
     /**
      * Get the predicate column.
-     *
-     * @return string
      */
     public function getColumn(): string
     {
@@ -36,8 +24,6 @@ readonly class Predicate
 
     /**
      * Get the predicate operator.
-     *
-     * @return ComparisonOperator|null
      */
     public function getOperator(): ?ComparisonOperator
     {
@@ -46,8 +32,6 @@ readonly class Predicate
 
     /**
      * Get the predicate expression.
-     *
-     * @return Expression
      */
     public function getExpression(): Expression
     {

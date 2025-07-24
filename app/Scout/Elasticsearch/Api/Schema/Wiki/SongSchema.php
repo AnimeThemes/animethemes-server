@@ -11,30 +11,22 @@ use App\Models\Wiki\Song;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Song\SongTitleField;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\SongQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
-/**
- * Class SongSchema.
- */
 class SongSchema extends Schema
 {
     /**
      * The model this schema represents.
-     *
-     * @return ElasticQuery
      */
-    public function query(): ElasticQuery
+    public function query(): SongQuery
     {
         return new SongQuery();
     }
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

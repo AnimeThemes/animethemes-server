@@ -31,17 +31,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ThemeShowTest.
- */
 class ThemeShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * By default, the Theme Show Endpoint shall return a Theme Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -67,8 +62,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall return a Theme Resource for soft deleted themes.
-     *
-     * @return void
      */
     public function testSoftDelete(): void
     {
@@ -95,8 +88,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -140,8 +131,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -180,8 +169,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -220,8 +207,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -260,8 +245,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {
@@ -306,8 +289,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {
@@ -349,8 +330,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of entries by nsfw.
-     *
-     * @return void
      */
     public function testEntriesByNsfw(): void
     {
@@ -390,8 +369,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Anime Index Endpoint shall support constrained eager loading of entries by spoiler.
-     *
-     * @return void
      */
     public function testEntriesBySpoiler(): void
     {
@@ -431,8 +408,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Anime Index Endpoint shall support constrained eager loading of entries by version.
-     *
-     * @return void
      */
     public function testEntriesByVersion(): void
     {
@@ -480,8 +455,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by lyrics.
-     *
-     * @return void
      */
     public function testVideosByLyrics(): void
     {
@@ -525,8 +498,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by nc.
-     *
-     * @return void
      */
     public function testVideosByNc(): void
     {
@@ -570,8 +541,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by overlap.
-     *
-     * @return void
      */
     public function testVideosByOverlap(): void
     {
@@ -615,8 +584,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by resolution.
-     *
-     * @return void
      */
     public function testVideosByResolution(): void
     {
@@ -668,8 +635,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by source.
-     *
-     * @return void
      */
     public function testVideosBySource(): void
     {
@@ -713,8 +678,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by subbed.
-     *
-     * @return void
      */
     public function testVideosBySubbed(): void
     {
@@ -758,8 +721,6 @@ class ThemeShowTest extends TestCase
 
     /**
      * The Theme Show Endpoint shall support constrained eager loading of videos by uncen.
-     *
-     * @return void
      */
     public function testVideosByUncen(): void
     {

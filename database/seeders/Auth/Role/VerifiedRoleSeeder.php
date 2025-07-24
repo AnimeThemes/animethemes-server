@@ -13,15 +13,10 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\User\Like;
 
-/**
- * Class VerifiedRoleSeeder.
- */
 class VerifiedRoleSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

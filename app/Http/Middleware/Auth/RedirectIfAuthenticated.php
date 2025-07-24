@@ -12,18 +12,12 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class RedirectIfAuthenticated.
- */
 class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): Response  $next
-     * @param  string|null  ...$guards
-     * @return JsonResponse|Response|RedirectResponse
      */
     public function handle(Request $request, Closure $next, ?string ...$guards): JsonResponse|Response|RedirectResponse
     {

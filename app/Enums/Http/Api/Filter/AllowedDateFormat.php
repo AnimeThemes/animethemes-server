@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-/**
- * Enum AllowedDateFormat.
- */
 enum AllowedDateFormat: string
 {
     case YMDHISU = 'Y-m-d\TH:i:s.u';

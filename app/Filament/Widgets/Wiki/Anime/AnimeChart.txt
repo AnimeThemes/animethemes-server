@@ -8,22 +8,15 @@ use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Anime;
 use Flowframe\Trend\TrendValue;
 
-/**
- * Class AnimeChart.
- */
 class AnimeChart extends BaseChartWidget
 {
     /**
      * Chart Id.
-     *
-     * @var string|null
      */
     protected static ?string $chartId = 'animeChart';
 
     /**
      * Get the displayed label of the widget.
-     *
-     * @return string
      */
     protected function getHeading(): string
     {

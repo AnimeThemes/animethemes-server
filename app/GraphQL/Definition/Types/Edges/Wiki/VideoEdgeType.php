@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Types\Edges\Wiki;
 
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
+use App\GraphQL\Definition\Types\Wiki\VideoType;
 
-/**
- * Class VideoEdgeType.
- */
 class VideoEdgeType extends BaseEdgeType
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -24,10 +20,10 @@ class VideoEdgeType extends BaseEdgeType
     /**
      * Get the node type for the edge.
      *
-     * @return class-string<VideoEdgeType>
+     * @return class-string<VideoType>
      */
     public static function getNodeType(): string
     {
-        return VideoEdgeType::class;
+        return VideoType::class;
     }
 }

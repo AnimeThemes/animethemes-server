@@ -8,15 +8,10 @@ use App\Http\Api\Field\BooleanField;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Field\Field;
 
-/**
- * Class WriteRequest.
- */
 abstract class WriteRequest extends BaseRequest
 {
     /**
      * Prepare the data for validation.
-     *
-     * @return void
      */
     protected function prepareForValidation(): void
     {
@@ -45,9 +40,7 @@ abstract class WriteRequest extends BaseRequest
     /**
      * Convert enum description parameter value to enum value.
      *
-     * @param  string  $attribute
      * @param  class-string  $enumClass
-     * @return void
      */
     protected function convertEnumDescriptionToValue(string $attribute, string $enumClass): void
     {
@@ -64,9 +57,6 @@ abstract class WriteRequest extends BaseRequest
 
     /**
      * Convert enum parameter values.
-     *
-     * @param  string  $attribute
-     * @return void
      */
     protected function convertBoolean(string $attribute): void
     {

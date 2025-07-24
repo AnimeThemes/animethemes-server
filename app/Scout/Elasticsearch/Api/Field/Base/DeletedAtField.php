@@ -8,16 +8,8 @@ use App\Constants\ModelConstants;
 use App\Scout\Elasticsearch\Api\Field\DateField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class DeletedAtField.
- */
 class DeletedAtField extends DateField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ModelConstants::ATTRIBUTE_DELETED_AT);

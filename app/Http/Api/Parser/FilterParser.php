@@ -15,15 +15,10 @@ use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * Class FilterParser.
- */
 class FilterParser extends Parser
 {
     /**
      * The parameter to parse.
-     *
-     * @return string
      */
     public static function param(): string
     {
@@ -64,11 +59,6 @@ class FilterParser extends Parser
 
     /**
      * Parse criteria instance from query string.
-     *
-     * @param  Scope  $scope
-     * @param  string  $filterParam
-     * @param  mixed  $filterValues
-     * @return Criteria
      */
     protected static function parseCriteria(Scope $scope, string $filterParam, mixed $filterValues): Criteria
     {

@@ -35,9 +35,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class ScriptIndexTest.
- */
 class ScriptIndexTest extends TestCase
 {
     use SortsModels;
@@ -45,8 +42,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * By default, the Script Index Endpoint shall return a collection of Script Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -70,8 +65,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -90,8 +83,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -130,8 +121,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -167,8 +156,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Synonym Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -208,8 +195,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -251,8 +236,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -294,8 +277,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -330,8 +311,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -366,8 +345,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -402,8 +379,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -446,8 +421,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by lyrics.
-     *
-     * @return void
      */
     public function testVideosByLyrics(): void
     {
@@ -488,8 +461,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by nc.
-     *
-     * @return void
      */
     public function testVideosByNc(): void
     {
@@ -530,8 +501,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by overlap.
-     *
-     * @return void
      */
     public function testVideosByOverlap(): void
     {
@@ -572,8 +541,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by resolution.
-     *
-     * @return void
      */
     public function testVideosByResolution(): void
     {
@@ -619,8 +586,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by source.
-     *
-     * @return void
      */
     public function testVideosBySource(): void
     {
@@ -661,8 +626,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by subbed.
-     *
-     * @return void
      */
     public function testVideosBySubbed(): void
     {
@@ -703,8 +666,6 @@ class ScriptIndexTest extends TestCase
 
     /**
      * The Script Index Endpoint shall support constrained eager loading of videos by uncen.
-     *
-     * @return void
      */
     public function testVideosByUncen(): void
     {

@@ -6,14 +6,8 @@ namespace App\GraphQL\Definition\Fields\User\Notification\NotificationData;
 
 use App\GraphQL\Definition\Fields\StringField;
 
-/**
- * Class NotificationDataImageField.
- */
 class NotificationDataImageField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct('image');
@@ -21,8 +15,6 @@ class NotificationDataImageField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

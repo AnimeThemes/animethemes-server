@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class VideoBitrateRestrictionFormatTest.
- */
 class VideoBitrateRestrictionFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Video Bitrate Restriction Format Rule shall fail if the video bitrate is outside the accepted boundaries.
-     *
-     * @return void
      */
     public function testFailsWhenBitrateIsNotExpected(): void
     {
@@ -73,8 +68,6 @@ class VideoBitrateRestrictionFormatTest extends TestCase
 
     /**
      * The Video Bitrate Restriction Format Rule shall fail if the video bitrate is within the accepted boundaries.
-     *
-     * @return void
      */
     public function testPassesWhenBitrateIsExpected(): void
     {

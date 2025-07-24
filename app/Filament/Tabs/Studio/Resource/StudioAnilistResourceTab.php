@@ -7,15 +7,10 @@ namespace App\Filament\Tabs\Studio\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Studio\StudioResourceTab;
 
-/**
- * Class StudioAnilistResourceTab.
- */
 class StudioAnilistResourceTab extends StudioResourceTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -24,8 +19,6 @@ class StudioAnilistResourceTab extends StudioResourceTab
 
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     protected static function site(): ResourceSite
     {

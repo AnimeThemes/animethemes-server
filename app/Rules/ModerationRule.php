@@ -17,18 +17,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use RuntimeException;
 
-/**
- * Class ModerationRule.
- */
 class ModerationRule implements ValidationRule
 {
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      *
      * @throws RuntimeException
      */
@@ -44,10 +38,7 @@ class ModerationRule implements ValidationRule
     /**
      * Apply content filtering with OpenAI Moderation API.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
      * @param  Closure(string): PotentiallyTranslatedString  $fail
-     * @return void
      */
     private function validateForOpenAI(string $attribute, mixed $value, Closure $fail): void
     {

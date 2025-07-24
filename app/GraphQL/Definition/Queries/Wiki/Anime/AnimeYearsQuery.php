@@ -10,9 +10,6 @@ use App\GraphQL\Queries\AnimeYear;
 use App\Models\Wiki\Anime;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class AnimeYearsQuery.
- */
 #[UseField(AnimeYear::class, 'years')]
 class AnimeYearsQuery extends BaseQuery
 {
@@ -23,8 +20,6 @@ class AnimeYearsQuery extends BaseQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -61,8 +56,6 @@ class AnimeYearsQuery extends BaseQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return Type
      */
     public function baseType(): Type
     {

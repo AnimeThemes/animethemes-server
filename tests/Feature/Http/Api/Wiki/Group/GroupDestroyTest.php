@@ -10,15 +10,10 @@ use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class GroupDestroyTest.
- */
 class GroupDestroyTest extends TestCase
 {
     /**
      * The Group Destroy Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class GroupDestroyTest extends TestCase
 
     /**
      * The Group Destroy Endpoint shall forbid users without the delete group permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class GroupDestroyTest extends TestCase
 
     /**
      * The Group Destroy Endpoint shall forbid users from updating a group that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -67,8 +58,6 @@ class GroupDestroyTest extends TestCase
 
     /**
      * The Group Destroy Endpoint shall delete the group.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

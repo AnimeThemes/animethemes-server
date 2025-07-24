@@ -40,9 +40,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-/**
- * Class StudioIndexTest.
- */
 class StudioIndexTest extends TestCase
 {
     use SortsModels;
@@ -50,8 +47,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * By default, the Studio Index Endpoint shall return a collection of Studio Resources.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -73,8 +68,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall be paginated.
-     *
-     * @return void
      */
     public function testPaginated(): void
     {
@@ -91,8 +84,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -131,8 +122,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -166,8 +155,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support sorting resources.
-     *
-     * @return void
      */
     public function testSorts(): void
     {
@@ -205,8 +192,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support filtering by created_at.
-     *
-     * @return void
      */
     public function testCreatedAtFilter(): void
     {
@@ -248,8 +233,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support filtering by updated_at.
-     *
-     * @return void
      */
     public function testUpdatedAtFilter(): void
     {
@@ -291,8 +274,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithoutTrashedFilter(): void
     {
@@ -327,8 +308,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testWithTrashedFilter(): void
     {
@@ -363,8 +342,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support filtering by trashed.
-     *
-     * @return void
      */
     public function testOnlyTrashedFilter(): void
     {
@@ -399,8 +376,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support filtering by deleted_at.
-     *
-     * @return void
      */
     public function testDeletedAtFilter(): void
     {
@@ -443,8 +418,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support constrained eager loading of anime by media format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -485,8 +458,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -527,8 +498,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {
@@ -577,8 +546,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
      */
     public function testResourcesBySite(): void
     {
@@ -619,8 +586,6 @@ class StudioIndexTest extends TestCase
 
     /**
      * The Studio Index Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
      */
     public function testImagesByFacet(): void
     {

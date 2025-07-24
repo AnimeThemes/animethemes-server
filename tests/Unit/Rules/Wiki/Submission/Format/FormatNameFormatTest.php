@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class FormatNameFormatTest.
- */
 class FormatNameFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Format Name Format Rule shall fail if the format name is not expected.
-     *
-     * @return void
      */
     public function testFailsWhenFormatNameIsNotExpected(): void
     {
@@ -60,8 +55,6 @@ class FormatNameFormatTest extends TestCase
 
     /**
      * The Format Name Format Rule shall pass if the format name is expected.
-     *
-     * @return void
      */
     public function testPassesWhenFormatNameIsExpected(): void
     {

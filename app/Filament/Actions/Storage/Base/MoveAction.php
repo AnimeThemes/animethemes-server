@@ -14,15 +14,10 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Class MoveAction.
- */
 abstract class MoveAction extends StorageAction implements InteractsWithDisk
 {
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -33,9 +28,6 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -61,7 +53,6 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $record
      * @param  array<string, mixed>  $data
      * @return BaseMoveAction
      */
@@ -69,15 +60,11 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
 
     /**
      * Resolve the default value for the path field.
-     *
-     * @return string|null
      */
     abstract protected function defaultPath(): ?string;
 
     /**
      * The file extension that the path must end with.
-     *
-     * @return string
      */
     abstract protected function allowedFileExtension(): string;
 }

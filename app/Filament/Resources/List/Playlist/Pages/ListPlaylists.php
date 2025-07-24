@@ -9,9 +9,6 @@ use App\Filament\Resources\List\Playlist;
 use App\Models\List\Playlist as PlaylistModel;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListPlaylists.
- */
 class ListPlaylists extends BaseListResources
 {
     protected static string $resource = Playlist::class;

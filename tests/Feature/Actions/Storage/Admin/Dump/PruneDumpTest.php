@@ -17,17 +17,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * Class PruneDumpTest.
- */
 class PruneDumpTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Prune Dumps Action shall fail.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -48,8 +43,6 @@ class PruneDumpTest extends TestCase
 
     /**
      * The Prune Dumps Action shall prune dumps before the specified date by hours from the present time.
-     *
-     * @return void
      *
      * @throws Exception
      */

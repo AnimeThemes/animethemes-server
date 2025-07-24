@@ -7,15 +7,10 @@ namespace App\Filament\Tabs\Studio\Image;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\Studio\StudioImageTab;
 
-/**
- * Class StudioSmallCoverTab.
- */
 class StudioSmallCoverTab extends StudioImageTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -24,8 +19,6 @@ class StudioSmallCoverTab extends StudioImageTab
 
     /**
      * The image facet.
-     *
-     * @return ImageFacet
      */
     protected static function facet(): ImageFacet
     {

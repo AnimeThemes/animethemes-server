@@ -18,11 +18,6 @@ use App\Models\Wiki\Video;
  */
 class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Group  $group
-     */
     public function __construct(Group $group)
     {
         parent::__construct($group);
@@ -31,8 +26,6 @@ class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Group
      */
     public function getModel(): Group
     {
@@ -41,8 +34,6 @@ class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -51,8 +42,6 @@ class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

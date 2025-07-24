@@ -11,15 +11,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 
-/**
- * Class AuthServiceProvider.
- */
 class AuthServiceProvider extends ServiceProvider
 {
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
     public function boot(): void
     {

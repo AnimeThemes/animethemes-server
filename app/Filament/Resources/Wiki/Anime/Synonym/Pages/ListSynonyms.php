@@ -9,9 +9,6 @@ use App\Filament\Resources\Wiki\Anime\Synonym;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListSynonyms.
- */
 class ListSynonyms extends BaseListResources
 {
     protected static string $resource = Synonym::class;

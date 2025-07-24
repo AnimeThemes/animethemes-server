@@ -6,9 +6,6 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget;
 
-/**
- * Class BaseStatsWidget.
- */
 class BaseStatsWidget extends StatsOverviewWidget
 {
     protected static bool $isLazy = false;

@@ -21,16 +21,9 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
 {
     /**
      * The anime that the synonym belongs to.
-     *
-     * @var Anime
      */
     protected Anime $anime;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  AnimeSynonym  $synonym
-     */
     public function __construct(AnimeSynonym $synonym)
     {
         parent::__construct($synonym);
@@ -39,8 +32,6 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return AnimeSynonym
      */
     public function getModel(): AnimeSynonym
     {
@@ -49,8 +40,6 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -59,8 +48,6 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

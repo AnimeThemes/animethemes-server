@@ -6,23 +6,15 @@ namespace App\Http\Api\Criteria\Field;
 
 use Illuminate\Support\Collection;
 
-/**
- * Class Criteria.
- */
 readonly class Criteria
 {
     /**
-     * Create a new criteria instance.
-     *
-     * @param  string  $type
      * @param  Collection<int, string>  $fields
      */
     public function __construct(protected string $type, protected Collection $fields) {}
 
     /**
      * Get the type that this sparse fieldsets mapping belongs to.
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -41,9 +33,6 @@ readonly class Criteria
 
     /**
      * Is the field allowed?
-     *
-     * @param  string  $field
-     * @return bool
      */
     public function isAllowedField(string $field): bool
     {

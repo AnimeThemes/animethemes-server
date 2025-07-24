@@ -26,15 +26,10 @@ use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
 use App\Models\Wiki\Artist;
 
-/**
- * Class ArtistType.
- */
 class ArtistType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

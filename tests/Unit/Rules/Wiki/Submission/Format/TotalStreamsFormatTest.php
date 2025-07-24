@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class TotalStreamsFormatTest.
- */
 class TotalStreamsFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Total Streams Format Rule shall fail if the total stream count is not equal to the expected count.
-     *
-     * @return void
      */
     public function testFailsWhenCountIsNotExpected(): void
     {
@@ -62,8 +57,6 @@ class TotalStreamsFormatTest extends TestCase
 
     /**
      * The Total Streams Format Rule shall pass if the total stream count is equal to the expected count.
-     *
-     * @return void
      */
     public function testPassesWhenCountIsExpected(): void
     {

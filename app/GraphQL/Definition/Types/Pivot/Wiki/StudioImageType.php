@@ -16,15 +16,10 @@ use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\Pivots\Wiki\StudioImage;
 
-/**
- * Class StudioImageType.
- */
 class StudioImageType extends PivotType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

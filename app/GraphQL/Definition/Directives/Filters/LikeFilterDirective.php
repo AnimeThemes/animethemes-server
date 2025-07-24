@@ -7,15 +7,10 @@ namespace App\GraphQL\Definition\Directives\Filters;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Illuminate\Support\Str;
 
-/**
- * Class LikeFilterDirective.
- */
 class LikeFilterDirective extends FilterDirective
 {
     /**
      * Create the argument for the directive.
-     *
-     * @return string
      */
     public function __toString(): string
     {

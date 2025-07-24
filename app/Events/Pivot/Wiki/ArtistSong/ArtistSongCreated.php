@@ -17,11 +17,6 @@ use App\Pivots\Wiki\ArtistSong;
  */
 class ArtistSongCreated extends PivotCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  ArtistSong  $artistSong
-     */
     public function __construct(ArtistSong $artistSong)
     {
         parent::__construct($artistSong->artist, $artistSong->song);
@@ -29,8 +24,6 @@ class ArtistSongCreated extends PivotCreatedEvent implements UpdateRelatedIndice
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -42,8 +35,6 @@ class ArtistSongCreated extends PivotCreatedEvent implements UpdateRelatedIndice
 
     /**
      * Perform updates on related indices.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

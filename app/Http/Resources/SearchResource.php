@@ -27,9 +27,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 
-/**
- * Class SearchResource.
- */
 class SearchResource extends JsonResource
 {
     /**
@@ -39,12 +36,6 @@ class SearchResource extends JsonResource
      */
     public static $wrap = 'search';
 
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Query  $query
-     * @return void
-     */
     public function __construct(protected readonly Query $query)
     {
         parent::__construct(new MissingValue());
@@ -53,7 +44,6 @@ class SearchResource extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

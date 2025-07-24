@@ -7,15 +7,10 @@ namespace App\Filament\Tabs\Anime\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Anime\AnimeResourceTab;
 
-/**
- * Class AnimeAnidbResourceTab.
- */
 class AnimeAnidbResourceTab extends AnimeResourceTab
 {
     /**
      * Get the slug for the tab.
-     *
-     * @return string
      */
     public static function getSlug(): string
     {
@@ -24,8 +19,6 @@ class AnimeAnidbResourceTab extends AnimeResourceTab
 
     /**
      * The resource site.
-     *
-     * @return ResourceSite
      */
     protected static function site(): ResourceSite
     {

@@ -23,9 +23,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 
-/**
- * Class ExternalResourceSchema.
- */
 class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivots
 {
     /**
@@ -45,8 +42,6 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
 
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

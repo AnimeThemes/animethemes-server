@@ -19,9 +19,6 @@ use App\Models\Wiki\Studio as StudioModel;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListStudios.
- */
 class ListStudios extends BaseListResources
 {
     use HasTabs;

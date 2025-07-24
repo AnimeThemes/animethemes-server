@@ -18,8 +18,6 @@ class IsValidBooleanTest extends TestCase
 
     /**
      * The Is Valid Boolean Rule shall return true if a boolean is provided.
-     *
-     * @return void
      */
     public function testPassesIfBoolean(): void
     {
@@ -35,8 +33,6 @@ class IsValidBooleanTest extends TestCase
 
     /**
      * The Is Valid Boolean Rule shall return true if "true" or "false" is provided.
-     *
-     * @return void
      */
     public function testPassesIfBooleanString(): void
     {
@@ -54,8 +50,6 @@ class IsValidBooleanTest extends TestCase
 
     /**
      * The Is Valid Boolean Rule shall return true if 1 or 0 is provided.
-     *
-     * @return void
      */
     public function testPassesIfBooleanInteger(): void
     {
@@ -73,8 +67,6 @@ class IsValidBooleanTest extends TestCase
 
     /**
      * The Is Valid Boolean Rule shall return true if "on" or "off" is provided.
-     *
-     * @return void
      */
     public function testPassesIfBooleanCheckbox(): void
     {
@@ -92,8 +84,6 @@ class IsValidBooleanTest extends TestCase
 
     /**
      * The Is Valid Boolean Rule shall return false a string is provided.
-     *
-     * @return void
      */
     public function testFailsIfString(): void
     {
@@ -109,8 +99,6 @@ class IsValidBooleanTest extends TestCase
 
     /**
      * The Is Valid Boolean Rule shall return false a number is provided.
-     *
-     * @return void
      */
     public function testFailsIfNumber(): void
     {

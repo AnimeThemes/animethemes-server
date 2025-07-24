@@ -11,19 +11,12 @@ use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 
-/**
- * Class BaseQuery.
- */
 abstract class BaseQuery
 {
     use ResolvesArguments;
     use ResolvesAttributes;
     use ResolvesDirectives;
 
-    /**
-     * @param  bool  $nullable
-     * @param  bool  $isList
-     */
     public function __construct(
         protected string $name,
         protected bool $nullable = false,
@@ -33,8 +26,6 @@ abstract class BaseQuery
 
     /**
      * Mount the query and return its string representation.
-     *
-     * @return string
      */
     public function toGraphQLString(): string
     {
@@ -50,8 +41,6 @@ abstract class BaseQuery
 
     /**
      * The description of the query.
-     *
-     * @return string
      */
     abstract public function description(): string;
 
@@ -94,8 +83,6 @@ abstract class BaseQuery
 
     /**
      * The type returned by the field.
-     *
-     * @return Type
      */
     public function getType(): Type
     {
@@ -116,15 +103,11 @@ abstract class BaseQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return Type
      */
     abstract public function baseType(): Type;
 
     /**
      * Get the name of the query.
-     *
-     * @return string
      */
     public function getName(): string
     {

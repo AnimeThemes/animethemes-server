@@ -9,9 +9,6 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Auth\User;
 use Illuminate\Http\Request;
 
-/**
- * Class UserCollection.
- */
 class UserCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class UserCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

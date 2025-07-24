@@ -8,23 +8,12 @@ use App\Enums\Actions\ActionStatus;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class ActionResult.
- */
 class ActionResult
 {
-    /**
-     * Create a new action result instance.
-     *
-     * @param  ActionStatus  $status
-     * @param  string|null  $message
-     */
     public function __construct(protected readonly ActionStatus $status, protected readonly ?string $message = null) {}
 
     /**
      * Get the action result status.
-     *
-     * @return ActionStatus
      */
     public function getStatus(): ActionStatus
     {
@@ -33,8 +22,6 @@ class ActionResult
 
     /**
      * Get the action result message.
-     *
-     * @return string|null
      */
     public function getMessage(): ?string
     {
@@ -43,8 +30,6 @@ class ActionResult
 
     /**
      * Has the action failed?
-     *
-     * @return bool
      */
     public function hasFailed(): bool
     {
@@ -53,8 +38,6 @@ class ActionResult
 
     /**
      * Write results to log.
-     *
-     * @return void
      */
     public function toLog(): void
     {
@@ -65,9 +48,6 @@ class ActionResult
 
     /**
      * Write results to console output.
-     *
-     * @param  Command  $command
-     * @return void
      */
     public function toConsole(Command $command): void
     {

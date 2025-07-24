@@ -11,16 +11,8 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class AudioLinkField.
- */
 class AudioLinkField extends Field implements RenderableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Audio::ATTRIBUTE_LINK);
@@ -28,9 +20,6 @@ class AudioLinkField extends Field implements RenderableField
 
     /**
      * Determine if the field should be displayed to the user.
-     *
-     * @param  Query  $query
-     * @return bool
      */
     public function shouldRender(Query $query): bool
     {
@@ -41,9 +30,6 @@ class AudioLinkField extends Field implements RenderableField
 
     /**
      * Get the value to display to the user.
-     *
-     * @param  Model  $model
-     * @return string
      */
     public function render(Model $model): string
     {

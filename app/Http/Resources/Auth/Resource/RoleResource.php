@@ -8,9 +8,6 @@ use App\Http\Api\Schema\Auth\RoleSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 
-/**
- * Class RoleResource.
- */
 class RoleResource extends BaseResource
 {
     /**
@@ -22,8 +19,6 @@ class RoleResource extends BaseResource
 
     /**
      * Get the resource schema.
-     *
-     * @return Schema
      */
     protected function schema(): Schema
     {

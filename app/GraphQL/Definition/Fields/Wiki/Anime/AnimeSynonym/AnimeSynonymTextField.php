@@ -7,14 +7,8 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
-/**
- * Class AnimeSynonymTextField.
- */
 class AnimeSynonymTextField extends StringField
 {
-    /**
-     * Create a new field instance.
-     */
     public function __construct()
     {
         parent::__construct(AnimeSynonym::ATTRIBUTE_TEXT, nullable: false);
@@ -22,8 +16,6 @@ class AnimeSynonymTextField extends StringField
 
     /**
      * The description of the field.
-     *
-     * @return string
      */
     public function description(): string
     {

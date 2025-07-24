@@ -15,11 +15,6 @@ use App\Models\Wiki\Song\Membership;
  */
 class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Membership  $membership
-     */
     public function __construct(Membership $membership)
     {
         parent::__construct($membership);
@@ -27,8 +22,6 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Membership
      */
     public function getModel(): Membership
     {
@@ -37,8 +30,6 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Perform cascading deletes.
-     *
-     * @return void
      */
     public function updateRelatedIndices(): void
     {

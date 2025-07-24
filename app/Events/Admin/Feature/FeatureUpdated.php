@@ -14,11 +14,6 @@ use App\Models\Admin\Feature;
  */
 class FeatureUpdated extends AdminUpdatedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Feature  $feature
-     */
     public function __construct(Feature $feature)
     {
         parent::__construct($feature);
@@ -27,8 +22,6 @@ class FeatureUpdated extends AdminUpdatedEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Feature
      */
     public function getModel(): Feature
     {
@@ -37,8 +30,6 @@ class FeatureUpdated extends AdminUpdatedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {
@@ -47,8 +38,6 @@ class FeatureUpdated extends AdminUpdatedEvent
 
     /**
      * Determine if the message should be sent.
-     *
-     * @return bool
      */
     public function shouldSendDiscordMessage(): bool
     {

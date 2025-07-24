@@ -8,17 +8,12 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class MaxCount.
- */
 class MaxCount
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
     {

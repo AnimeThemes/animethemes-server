@@ -17,9 +17,6 @@ use Filament\Support\Enums\IconSize;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * Class EditAction.
- */
 class EditAction extends BaseEditAction
 {
     use HasActionLogs;
@@ -27,8 +24,6 @@ class EditAction extends BaseEditAction
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {

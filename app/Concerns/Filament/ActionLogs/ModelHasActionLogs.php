@@ -7,9 +7,6 @@ namespace App\Concerns\Filament\ActionLogs;
 use App\Models\Admin\ActionLog;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-/**
- * Trait ModelHasActionLogs.
- */
 trait ModelHasActionLogs
 {
     /**

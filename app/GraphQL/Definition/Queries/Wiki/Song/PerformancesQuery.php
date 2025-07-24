@@ -7,9 +7,6 @@ namespace App\GraphQL\Definition\Queries\Wiki\Song;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
 
-/**
- * Class PerformancesQuery.
- */
 class PerformancesQuery extends EloquentQuery
 {
     public function __construct()
@@ -19,8 +16,6 @@ class PerformancesQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -43,8 +38,6 @@ class PerformancesQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return PerformanceType
      */
     public function baseType(): PerformanceType
     {

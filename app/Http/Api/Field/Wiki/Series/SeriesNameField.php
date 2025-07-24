@@ -11,16 +11,8 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 
-/**
- * Class SeriesNameField.
- */
 class SeriesNameField extends StringField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, Series::ATTRIBUTE_NAME);
@@ -29,7 +21,6 @@ class SeriesNameField extends StringField implements CreatableField, UpdatableFi
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -44,7 +35,6 @@ class SeriesNameField extends StringField implements CreatableField, UpdatableFi
     /**
      * Set the update validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getUpdateRules(Request $request): array

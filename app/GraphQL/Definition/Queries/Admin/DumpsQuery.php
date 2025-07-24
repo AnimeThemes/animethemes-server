@@ -9,9 +9,6 @@ use App\GraphQL\Builders\Admin\DumpBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
 
-/**
- * Class DumpsQuery.
- */
 #[UseBuilder(DumpBuilder::class)]
 class DumpsQuery extends EloquentQuery
 {
@@ -22,8 +19,6 @@ class DumpsQuery extends EloquentQuery
 
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function description(): string
     {
@@ -46,8 +41,6 @@ class DumpsQuery extends EloquentQuery
 
     /**
      * The base return type of the query.
-     *
-     * @return DumpType
      */
     public function baseType(): DumpType
     {

@@ -15,19 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-/**
- * Class WhereInCriteria.
- */
 class WhereInCriteria extends Criteria
 {
-    /**
-     * Create a new criteria instance.
-     *
-     * @param  Predicate  $predicate
-     * @param  BinaryLogicalOperator  $operator
-     * @param  bool  $not
-     * @param  Scope  $scope
-     */
     final public function __construct(
         Predicate $predicate,
         BinaryLogicalOperator $operator,
@@ -39,8 +28,6 @@ class WhereInCriteria extends Criteria
 
     /**
      * Get not operator.
-     *
-     * @return bool
      */
     public function not(): bool
     {
@@ -49,11 +36,6 @@ class WhereInCriteria extends Criteria
 
     /**
      * Create a new criteria instance from query string.
-     *
-     * @param  Scope  $scope
-     * @param  string  $filterParam
-     * @param  mixed  $filterValues
-     * @return static
      */
     public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
@@ -97,9 +79,6 @@ class WhereInCriteria extends Criteria
      * Apply criteria to builder.
      *
      * @param  Builder  $builder
-     * @param  Filter  $filter
-     * @param  Query  $query
-     * @param  Schema  $schema
      * @return Builder
      */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder

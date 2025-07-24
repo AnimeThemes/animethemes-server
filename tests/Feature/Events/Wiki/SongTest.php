@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class SongTest.
- */
 class SongTest extends TestCase
 {
     /**
      * When a Song is created, a SongCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class SongTest extends TestCase
 
     /**
      * When a Song is deleted, a SongDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class SongTest extends TestCase
 
     /**
      * When a Song is restored, a SongRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class SongTest extends TestCase
      * When a Song is restored, a SongUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testSongRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class SongTest extends TestCase
 
     /**
      * When a Song is updated, a SongUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testSongUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class SongTest extends TestCase
 
     /**
      * The SongUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testSongUpdatedEventEmbedFields(): void
     {

@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
-/**
- * Class ExternalResourceTest.
- */
 class ExternalResourceTest extends TestCase
 {
     /**
      * When a resource is created, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testResourceCreatedSendsDiscordNotification(): void
     {
@@ -39,8 +34,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * When a resource is deleted, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testResourceDeletedSendsDiscordNotification(): void
     {
@@ -57,8 +50,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * When a resource is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testResourceRestoredSendsDiscordNotification(): void
     {
@@ -75,8 +66,6 @@ class ExternalResourceTest extends TestCase
 
     /**
      * When a resource is updated, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
      */
     public function testResourceUpdatedSendsDiscordNotification(): void
     {

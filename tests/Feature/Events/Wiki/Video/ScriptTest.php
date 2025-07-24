@@ -13,15 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ScriptTest.
- */
 class ScriptTest extends TestCase
 {
     /**
      * When a Script is created, a VideoScriptCreated event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoScriptCreatedEventDispatched(): void
     {
@@ -32,8 +27,6 @@ class ScriptTest extends TestCase
 
     /**
      * When a Script is deleted, a VideoScriptDeleted event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoScriptDeletedEventDispatched(): void
     {
@@ -46,8 +39,6 @@ class ScriptTest extends TestCase
 
     /**
      * When a Script is restored, a VideoScriptRestored event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoScriptRestoredEventDispatched(): void
     {
@@ -62,8 +53,6 @@ class ScriptTest extends TestCase
      * When a Script is restored, a VideoScriptUpdated event shall not be dispatched.
      * Note: This is a customization that overrides default framework behavior.
      * An updated event is fired on restore.
-     *
-     * @return void
      */
     public function testVideoScriptRestoresQuietly(): void
     {
@@ -76,8 +65,6 @@ class ScriptTest extends TestCase
 
     /**
      * When a Script is updated, a VideoScriptUpdated event shall be dispatched.
-     *
-     * @return void
      */
     public function testVideoScriptUpdatedEventDispatched(): void
     {
@@ -92,8 +79,6 @@ class ScriptTest extends TestCase
 
     /**
      * The VideoScriptUpdated event shall contain embed fields.
-     *
-     * @return void
      */
     public function testVideoScriptUpdatedEventEmbedFields(): void
     {

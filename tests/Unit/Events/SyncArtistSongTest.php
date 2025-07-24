@@ -9,15 +9,10 @@ use App\Listeners\SyncArtistSong;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class SyncArtistSongTest.
- */
 class SyncArtistSongTest extends TestCase
 {
     /**
      * SyncArtistSong shall listen to SyncArtistSongEvent.
-     *
-     * @return void
      */
     public function testListening(): void
     {

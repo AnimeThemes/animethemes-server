@@ -7,19 +7,8 @@ namespace App\Scout\Elasticsearch\Api\Field;
 use App\Contracts\Http\Api\Field\FieldInterface;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
-/**
- * Class Field.
- */
 abstract class Field implements FieldInterface
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     * @param  string  $key
-     * @param  string|null  $searchField
-     * @param  string|null  $sortField
-     */
     public function __construct(
         protected readonly Schema $schema,
         protected readonly string $key,
@@ -29,8 +18,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the schema.
-     *
-     * @return Schema
      */
     public function schema(): Schema
     {
@@ -39,8 +26,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the field key.
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -49,8 +34,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the search field.
-     *
-     * @return string|null
      */
     public function getSearchField(): ?string
     {
@@ -59,8 +42,6 @@ abstract class Field implements FieldInterface
 
     /**
      * Get the sort field.
-     *
-     * @return string|null
      */
     public function getSortField(): ?string
     {

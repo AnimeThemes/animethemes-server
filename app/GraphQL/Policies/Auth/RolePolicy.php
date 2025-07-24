@@ -9,17 +9,12 @@ use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 
-/**
- * Class RolePolicy.
- */
 class RolePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User|null  $user
      * @param  array|null  $injected
-     * @return bool
      */
     public function viewAny(?User $user, ?array $injected = null): bool
     {
@@ -29,10 +24,7 @@ class RolePolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  array|null  $injected
-     * @param  string|null  $keyName
-     * @return bool
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {

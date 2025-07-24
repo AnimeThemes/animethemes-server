@@ -8,16 +8,10 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Laravel\Pennant\Feature;
 
-/**
- * Class AllowScriptDownloading.
- */
 class AllowScriptDownloading
 {
     /**
      * Resolve feature for scope.
-     *
-     * @param  User|null  $user
-     * @return bool
      */
     public function resolve(?User $user): bool
     {

@@ -24,15 +24,10 @@ use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\GraphQL\Definition\Types\Wiki\ThemeGroupType;
 use App\Models\Wiki\Anime\AnimeTheme;
 
-/**
- * Class AnimeThemeType.
- */
 class AnimeThemeType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

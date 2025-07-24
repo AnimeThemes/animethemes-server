@@ -17,15 +17,10 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Pivots\Wiki\ArtistImage;
 
-/**
- * Class ArtistImageSchema.
- */
 class ArtistImageSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
-     *
-     * @return string
      */
     public function type(): string
     {

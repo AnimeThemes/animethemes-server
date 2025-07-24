@@ -10,15 +10,10 @@ use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SongForceDeleteTest.
- */
 class SongForceDeleteTest extends TestCase
 {
     /**
      * The Song Force Delete Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -31,8 +26,6 @@ class SongForceDeleteTest extends TestCase
 
     /**
      * The Song Force Delete Endpoint shall forbid users without the force delete song permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -49,8 +42,6 @@ class SongForceDeleteTest extends TestCase
 
     /**
      * The Song Force Delete Endpoint shall force delete the song.
-     *
-     * @return void
      */
     public function testDeleted(): void
     {

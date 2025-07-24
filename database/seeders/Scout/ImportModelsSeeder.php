@@ -14,19 +14,15 @@ use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class ImportModelsSeeder.
- */
 class ImportModelsSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -52,8 +48,7 @@ class ImportModelsSeeder extends Seeder
     /**
      * Call the scout import command for the given model.
      *
-     * @param  string  $modelClass
-     * @return void
+     * @param  class-string<Model>  $modelClass
      */
     private function scoutImport(string $modelClass): void
     {

@@ -24,9 +24,6 @@ use App\Models\Wiki\Anime as AnimeModel;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class ListAnimes.
- */
 class ListAnimes extends BaseListResources
 {
     use HasTabs;

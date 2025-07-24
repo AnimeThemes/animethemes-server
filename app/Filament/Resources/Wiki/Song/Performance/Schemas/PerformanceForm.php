@@ -20,9 +20,6 @@ use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
-/**
- * Class PerformanceForm.
- */
 class PerformanceForm
 {
     final public const REPEATER_PERFORMANCES = SongModel::RELATION_PERFORMANCES;
@@ -30,9 +27,6 @@ class PerformanceForm
 
     /**
      * Configure the form schema.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      */
     public static function configure(Schema $schema): Schema
     {
@@ -53,7 +47,7 @@ class PerformanceForm
     /**
      * Get the performance fields to create a performance.
      *
-     * @return array<int, \Filament\Schemas\Components\Component>
+     * @return \Filament\Schemas\Components\Component[]
      */
     public static function performancesFields(): array
     {

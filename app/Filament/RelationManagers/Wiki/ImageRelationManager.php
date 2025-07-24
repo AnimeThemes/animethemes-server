@@ -11,9 +11,6 @@ use App\Filament\Resources\Wiki\Image as ImageResource;
 use App\Models\Wiki\Image;
 use Filament\Tables\Table;
 
-/**
- * Class ImageRelationManager.
- */
 abstract class ImageRelationManager extends BaseRelationManager
 {
     /**
@@ -25,9 +22,6 @@ abstract class ImageRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
@@ -41,7 +35,7 @@ abstract class ImageRelationManager extends BaseRelationManager
     /**
      * Get the header actions available for the relation.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      */
     public static function getHeaderActions(): array
     {
@@ -54,8 +48,6 @@ abstract class ImageRelationManager extends BaseRelationManager
 
     /**
      * Determine whether the related model can be created.
-     *
-     * @return bool
      */
     public function canCreate(): bool
     {

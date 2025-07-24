@@ -14,15 +14,9 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class BackfillStudioAction.
- */
 class BackfillStudioAction extends BackfillWikiAction
 {
     /**
-     * Create a new action instance.
-     *
-     * @param  Studio  $studio
      * @param  array  $toBackfill
      */
     public function __construct(protected Studio $studio, protected array $toBackfill)
@@ -32,8 +26,6 @@ class BackfillStudioAction extends BackfillWikiAction
 
     /**
      * Handle the action.
-     *
-     * @return ActionResult
      */
     public function handle(): ActionResult
     {
@@ -71,7 +63,7 @@ class BackfillStudioAction extends BackfillWikiAction
     /**
      * Get the external API actions available for the backfill action.
      *
-     * @return array
+     * @return ExternalApiAction[]
      */
     protected function getExternalApiActions(): array
     {
@@ -82,8 +74,6 @@ class BackfillStudioAction extends BackfillWikiAction
 
     /**
      * Get the model for the action.
-     *
-     * @return Studio
      */
     protected function getModel(): Studio
     {

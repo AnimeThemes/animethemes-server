@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-/**
- * Class ExtraneousMetadataFormatTest.
- */
 class ExtraneousMetadataFormatTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Extraneous Metadata Format Rule shall fail if the file has extraneous metadata.
-     *
-     * @return void
      */
     public function testFailsWhenExtraneousMetadataIsPresent(): void
     {
@@ -64,8 +59,6 @@ class ExtraneousMetadataFormatTest extends TestCase
 
     /**
      * The Extraneous Metadata Format Rule shall pass if the file does not have extraneous metadata.
-     *
-     * @return void
      */
     public function testPassesNoExtraneousMetadata(): void
     {

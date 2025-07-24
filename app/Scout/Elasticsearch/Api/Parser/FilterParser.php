@@ -11,16 +11,10 @@ use App\Scout\Elasticsearch\Api\Criteria\Filter\Criteria;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereInCriteria;
 
-/**
- * Class FilterParser.
- */
 class FilterParser
 {
     /**
      * Parse Elasticsearch filter criteria from core filter criteria.
-     *
-     * @param  BaseCriteria  $criteria
-     * @return Criteria|null
      */
     public static function parse(BaseCriteria $criteria): ?Criteria
     {

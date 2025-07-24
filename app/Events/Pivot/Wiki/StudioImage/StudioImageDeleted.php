@@ -16,11 +16,6 @@ use App\Pivots\Wiki\StudioImage;
  */
 class StudioImageDeleted extends PivotDeletedEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  StudioImage  $studioImage
-     */
     public function __construct(StudioImage $studioImage)
     {
         parent::__construct($studioImage->studio, $studioImage->image);
@@ -28,8 +23,6 @@ class StudioImageDeleted extends PivotDeletedEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

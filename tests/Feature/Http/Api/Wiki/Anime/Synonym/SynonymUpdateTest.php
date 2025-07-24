@@ -11,15 +11,10 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-/**
- * Class SynonymUpdateTest.
- */
 class SynonymUpdateTest extends TestCase
 {
     /**
      * The Synonym Update Endpoint shall be protected by sanctum.
-     *
-     * @return void
      */
     public function testProtected(): void
     {
@@ -34,8 +29,6 @@ class SynonymUpdateTest extends TestCase
 
     /**
      * The Synonym Update Endpoint shall forbid users without the update anime synonym permission.
-     *
-     * @return void
      */
     public function testForbidden(): void
     {
@@ -54,8 +47,6 @@ class SynonymUpdateTest extends TestCase
 
     /**
      * The Synonym Update Endpoint shall forbid users from updating an anime synonym that is trashed.
-     *
-     * @return void
      */
     public function testTrashed(): void
     {
@@ -77,8 +68,6 @@ class SynonymUpdateTest extends TestCase
 
     /**
      * The Synonym Update Endpoint shall update a synonym.
-     *
-     * @return void
      */
     public function testUpdate(): void
     {

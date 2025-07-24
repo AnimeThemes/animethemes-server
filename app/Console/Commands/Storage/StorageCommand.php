@@ -9,15 +9,10 @@ use App\Contracts\Actions\Storage\StorageAction;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class StorageCommand.
- */
 abstract class StorageCommand extends BaseCommand
 {
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -48,15 +43,11 @@ abstract class StorageCommand extends BaseCommand
 
     /**
      * Get the underlying action.
-     *
-     * @return StorageAction
      */
     abstract protected function getAction(): StorageAction;
 
     /**
      * Get the validator for options.
-     *
-     * @return Validator
      */
     abstract protected function validator(): Validator;
 }

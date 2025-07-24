@@ -10,9 +10,6 @@ use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Permission;
 use Filament\Tables\Table;
 
-/**
- * Class PermissionRelationManager.
- */
 abstract class PermissionRelationManager extends BaseRelationManager
 {
     /**
@@ -24,9 +21,6 @@ abstract class PermissionRelationManager extends BaseRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @param  Table  $table
-     * @return Table
      */
     public function table(Table $table): Table
     {
@@ -40,7 +34,7 @@ abstract class PermissionRelationManager extends BaseRelationManager
     /**
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return \Filament\Actions\Action[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

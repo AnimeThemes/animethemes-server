@@ -22,17 +22,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
-/**
- * Class AnimeSeriesShowTest.
- */
 class AnimeSeriesShowTest extends TestCase
 {
     use WithFaker;
 
     /**
      * The Anime Series Show Endpoint shall return an error if the anime series does not exist.
-     *
-     * @return void
      */
     public function testNotFound(): void
     {
@@ -46,8 +41,6 @@ class AnimeSeriesShowTest extends TestCase
 
     /**
      * By default, the Anime Series Show Endpoint shall return an Anime Series Resource.
-     *
-     * @return void
      */
     public function testDefault(): void
     {
@@ -74,8 +67,6 @@ class AnimeSeriesShowTest extends TestCase
 
     /**
      * The Anime Series Show Endpoint shall allow inclusion of related resources.
-     *
-     * @return void
      */
     public function testAllowedIncludePaths(): void
     {
@@ -114,8 +105,6 @@ class AnimeSeriesShowTest extends TestCase
 
     /**
      * The Anime Series Show Endpoint shall implement sparse fieldsets.
-     *
-     * @return void
      */
     public function testSparseFieldsets(): void
     {
@@ -154,8 +143,6 @@ class AnimeSeriesShowTest extends TestCase
 
     /**
      * The Anime Series Show Endpoint shall support constrained eager loading of anime by media_format.
-     *
-     * @return void
      */
     public function testAnimeByMediaFormat(): void
     {
@@ -195,8 +182,6 @@ class AnimeSeriesShowTest extends TestCase
 
     /**
      * The Anime Series Show Endpoint shall support constrained eager loading of anime by season.
-     *
-     * @return void
      */
     public function testAnimeBySeason(): void
     {
@@ -236,8 +221,6 @@ class AnimeSeriesShowTest extends TestCase
 
     /**
      * The Anime Series Show Endpoint shall support constrained eager loading of anime by year.
-     *
-     * @return void
      */
     public function testAnimeByYear(): void
     {

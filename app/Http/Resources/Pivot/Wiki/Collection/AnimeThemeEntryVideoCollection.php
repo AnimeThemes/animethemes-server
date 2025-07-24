@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 
-/**
- * Class AnimeThemeEntryVideoCollection.
- */
 class AnimeThemeEntryVideoCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class AnimeThemeEntryVideoCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

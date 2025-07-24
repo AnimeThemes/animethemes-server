@@ -9,9 +9,6 @@ use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 
-/**
- * Class StudioCollection.
- */
 class StudioCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class StudioCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

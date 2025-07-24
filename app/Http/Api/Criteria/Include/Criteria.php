@@ -6,14 +6,9 @@ namespace App\Http\Api\Criteria\Include;
 
 use Illuminate\Support\Collection;
 
-/**
- * Class Criteria.
- */
 class Criteria
 {
     /**
-     * Create a new criteria instance.
-     *
      * @param  Collection<int, string>  $paths
      */
     public function __construct(protected readonly Collection $paths) {}

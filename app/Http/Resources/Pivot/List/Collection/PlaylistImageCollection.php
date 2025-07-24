@@ -9,9 +9,6 @@ use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Http\Request;
 
-/**
- * Class PlaylistImageCollection.
- */
 class PlaylistImageCollection extends BaseCollection
 {
     /**
@@ -24,7 +21,6 @@ class PlaylistImageCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

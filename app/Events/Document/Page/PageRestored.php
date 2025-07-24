@@ -14,11 +14,6 @@ use App\Models\Document\Page;
  */
 class PageRestored extends WikiRestoredEvent
 {
-    /**
-     * Create a new event instance.
-     *
-     * @param  Page  $page
-     */
     public function __construct(Page $page)
     {
         parent::__construct($page);
@@ -26,8 +21,6 @@ class PageRestored extends WikiRestoredEvent
 
     /**
      * Get the model that has fired this event.
-     *
-     * @return Page
      */
     public function getModel(): Page
     {
@@ -36,8 +29,6 @@ class PageRestored extends WikiRestoredEvent
 
     /**
      * Get the description for the Discord message payload.
-     *
-     * @return string
      */
     protected function getDiscordMessageDescription(): string
     {

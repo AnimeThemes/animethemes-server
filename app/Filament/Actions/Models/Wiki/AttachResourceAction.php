@@ -15,22 +15,17 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
-/**
- * Class AttachResourceAction.
- */
 abstract class AttachResourceAction extends BaseAction
 {
     /**
      * The sites available for the action.
      *
-     * @var array<int, ResourceSite>
+     * @var ResourceSite[]
      */
     protected array $sites = [];
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -45,10 +40,7 @@ abstract class AttachResourceAction extends BaseAction
     }
 
     /**
-     * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema|null
+     * Get the schema available on the action.|null.
      */
     public function getSchema(Schema $schema): ?Schema
     {
@@ -88,7 +80,6 @@ abstract class AttachResourceAction extends BaseAction
      * Get the sites available for the action.
      *
      * @param  ResourceSite[]  $sites
-     * @return static
      */
     public function sites($sites): static
     {

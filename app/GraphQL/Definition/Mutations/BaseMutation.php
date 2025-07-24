@@ -19,19 +19,12 @@ abstract class BaseMutation
     use ResolvesAttributes;
     use ResolvesDirectives;
 
-    /**
-     * Create a new mutation instance.
-     *
-     * @param  string  $name
-     */
     public function __construct(
         protected string $name,
     ) {}
 
     /**
      * Mount the mutation and return its string representation.
-     *
-     * @return string
      */
     public function toGraphQLString(): string
     {
@@ -76,22 +69,16 @@ abstract class BaseMutation
 
     /**
      * The type returned by the mutation.
-     *
-     * @return Type
      */
     abstract public function getType(): Type;
 
     /**
      * The base return type of the mutation.
-     *
-     * @return Type
      */
     abstract public function baseType(): Type;
 
     /**
      * The description of the mutation.
-     *
-     * @return string
      */
     abstract public function description(): string;
 }

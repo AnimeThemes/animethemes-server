@@ -16,17 +16,12 @@ use Illuminate\Support\Facades\App;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * Class ReconcileScriptRepositoriesTest.
- */
 class ReconcileScriptRepositoriesTest extends TestCase
 {
     use WithFaker;
 
     /**
      * If no changes are needed, the Reconcile Script Repository Action shall indicate no changes were made.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -50,8 +45,6 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
     /**
      * If video scripts are created, the Reconcile Script Repository Action shall return created video scripts.
-     *
-     * @return void
      *
      * @throws Exception
      */
@@ -80,8 +73,6 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
     /**
      * If video scripts are deleted, the Reconcile Script Repository Action shall return deleted video scripts.
-     *
-     * @return void
      *
      * @throws Exception
      */

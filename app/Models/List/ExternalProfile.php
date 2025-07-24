@@ -83,7 +83,7 @@ class ExternalProfile extends BaseModel
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var array
+     * @var class-string[]
      */
     protected $dispatchesEvents = [
         'created' => ExternalProfileCreated::class,
@@ -120,8 +120,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -130,8 +128,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Get subtitle.
-     *
-     * @return string
      */
     public function getSubtitle(): string
     {
@@ -162,8 +158,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Get the index name for the model when searching.
-     *
-     * @return string
      */
     public function searchableAs(): string
     {
@@ -172,8 +166,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Determine if the model should be searchable.
-     *
-     * @return bool
      */
     public function shouldBeSearchable(): bool
     {
@@ -182,8 +174,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Check if the profile was created through username case.
-     *
-     * @return bool
      */
     public function isClaimed(): bool
     {
@@ -192,8 +182,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Determine if the profile can be synced.
-     *
-     * @return bool
      */
     public function canBeSynced(): bool
     {
@@ -202,8 +190,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Dispatch the sync external profile job.
-     *
-     * @return void
      */
     public function startSyncJob(): void
     {
@@ -213,8 +199,6 @@ class ExternalProfile extends BaseModel
     /**
      * Get the client URL for the profile.
      * https://animethemes.moe/external/{mal|anilist}/{profile_name}.
-     *
-     * @return string
      */
     public function getClientUrl(): string
     {

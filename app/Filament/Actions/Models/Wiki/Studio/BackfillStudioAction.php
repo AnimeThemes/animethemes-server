@@ -23,9 +23,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Sleep;
 
-/**
- * Class BackfillStudioAction.
- */
 class BackfillStudioAction extends BaseAction implements ShouldQueue
 {
     use InteractsWithQueue;
@@ -37,8 +34,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
     /**
      * The default name of the action.
-     *
-     * @return string|null
      */
     public static function getDefaultName(): ?string
     {
@@ -47,8 +42,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
     /**
      * Initial setup for the action.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -64,9 +57,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     /**
      * Perform the action on the given models.
      *
-     * @param  Studio  $studio
      * @param  array<string, mixed>  $data
-     * @return void
      */
     public function handle(Studio $studio, array $data): void
     {
@@ -99,9 +90,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
     /**
      * Get the schema available on the action.
-     *
-     * @param  Schema  $schema
-     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

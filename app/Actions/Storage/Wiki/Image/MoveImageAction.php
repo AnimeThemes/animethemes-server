@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\Config;
  */
 class MoveImageAction extends MoveAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param  Image  $image
-     * @param  string  $to
-     */
     public function __construct(Image $image, string $to)
     {
         parent::__construct($image, $to);
@@ -40,8 +34,6 @@ class MoveImageAction extends MoveAction
 
     /**
      * Get the path to move from.
-     *
-     * @return string
      */
     protected function from(): string
     {
@@ -52,8 +44,6 @@ class MoveImageAction extends MoveAction
      * Update underlying model.
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
-     *
-     * @return Image
      */
     protected function update(): Image
     {

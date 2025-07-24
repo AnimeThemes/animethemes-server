@@ -17,15 +17,10 @@ use App\Models\Auth\User;
 use Livewire\Livewire;
 use Tests\Unit\Filament\BaseResourceTestCase;
 
-/**
- * Class FeaturedThemeTest.
- */
 class FeaturedThemeTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.
-     *
-     * @return string
      */
     protected static function getIndexPage(): string
     {
@@ -36,8 +31,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * Get the view page class of the resource.
-     *
-     * @return string
      */
     protected static function getViewPage(): string
     {
@@ -48,8 +41,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The index page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderIndexPage(): void
     {
@@ -73,8 +64,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The view page of the resource shall be rendered.
-     *
-     * @return void
      */
     public function testRenderViewPage(): void
     {
@@ -95,8 +84,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountCreateAction(): void
     {
@@ -116,8 +103,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The create action of the resource shall be mounted.
-     *
-     * @return void
      */
     public function testMountEditAction(): void
     {
@@ -139,8 +124,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot create a record.
-     *
-     * @return void
      */
     public function testUserCannotCreateRecord(): void
     {
@@ -150,8 +133,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot edit a record.
-     *
-     * @return void
      */
     public function testUserCannotEditRecord(): void
     {
@@ -163,8 +144,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot delete a record.
-     *
-     * @return void
      */
     public function testUserCannotDeleteRecord(): void
     {
@@ -179,8 +158,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot restore a record.
-     *
-     * @return void
      */
     public function testUserCannotRestoreRecord(): void
     {
@@ -197,8 +174,6 @@ class FeaturedThemeTest extends BaseResourceTestCase
 
     /**
      * The user with no permissions cannot force delete a record.
-     *
-     * @return void
      */
     public function testUserCannotForceDeleteRecord(): void
     {

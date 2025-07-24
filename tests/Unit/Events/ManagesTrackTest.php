@@ -9,15 +9,10 @@ use App\Listeners\ManagesTrack;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
-/**
- * Class ManagesTrackTest.
- */
 class ManagesTrackTest extends TestCase
 {
     /**
      * ManagesTrack shall listen to ManagesTrackEvent.
-     *
-     * @return void
      */
     public function testListening(): void
     {

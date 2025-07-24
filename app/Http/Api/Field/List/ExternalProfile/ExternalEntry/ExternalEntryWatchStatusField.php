@@ -13,16 +13,8 @@ use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-/**
- * Class ExternalEntryWatchStatusField.
- */
 class ExternalEntryWatchStatusField extends EnumField implements CreatableField, UpdatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ExternalEntry::ATTRIBUTE_WATCH_STATUS, ExternalEntryWatchStatus::class);
@@ -31,7 +23,6 @@ class ExternalEntryWatchStatusField extends EnumField implements CreatableField,
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array

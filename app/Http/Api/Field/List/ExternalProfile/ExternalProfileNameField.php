@@ -11,16 +11,8 @@ use App\Models\List\ExternalProfile;
 use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
-/**
- * Class ExternalProfileNameField.
- */
 class ExternalProfileNameField extends StringField implements CreatableField
 {
-    /**
-     * Create a new field instance.
-     *
-     * @param  Schema  $schema
-     */
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ExternalProfile::ATTRIBUTE_NAME);
@@ -29,7 +21,6 @@ class ExternalProfileNameField extends StringField implements CreatableField
     /**
      * Set the creation validation rules for the field.
      *
-     * @param  Request  $request
      * @return array
      */
     public function getCreationRules(Request $request): array

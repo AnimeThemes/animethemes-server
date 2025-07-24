@@ -10,15 +10,10 @@ use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
 
-/**
- * Class StudioResourceTest.
- */
 class StudioResourceTest extends TestCase
 {
     /**
      * A StudioResource shall belong to a Studio.
-     *
-     * @return void
      */
     public function testStudio(): void
     {
@@ -33,8 +28,6 @@ class StudioResourceTest extends TestCase
 
     /**
      * A StudioResource shall belong to an ExternalResource.
-     *
-     * @return void
      */
     public function testResource(): void
     {

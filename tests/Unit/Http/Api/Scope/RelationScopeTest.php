@@ -10,17 +10,12 @@ use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-/**
- * Class RelationScopeTest.
- */
 class RelationScopeTest extends TestCase
 {
     use WithFaker;
 
     /**
      * A global scope shall not be within the scope of a relation scope.
-     *
-     * @return void
      */
     public function testGlobalScopeIsNotWithinScope(): void
     {
@@ -33,8 +28,6 @@ class RelationScopeTest extends TestCase
 
     /**
      * A type scope shall not be within the scope of a relation scope.
-     *
-     * @return void
      */
     public function testTypeScopeIsNotWithinScope(): void
     {
@@ -47,8 +40,6 @@ class RelationScopeTest extends TestCase
 
     /**
      * A relation scope of an unequal value shall not be within the scope of a relation scope.
-     *
-     * @return void
      */
     public function testUnequalRelationIsNotWithinScope(): void
     {
@@ -61,8 +52,6 @@ class RelationScopeTest extends TestCase
 
     /**
      * A relation scope of an equal value shall be within the scope of a relation scope.
-     *
-     * @return void
      */
     public function testRelationIsWithinScope(): void
     {
