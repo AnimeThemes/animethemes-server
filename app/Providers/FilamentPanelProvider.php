@@ -7,7 +7,7 @@ namespace App\Providers;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Filament\Actions\ActionGroup;
-// use Awcodes\Recently\RecentlyPlugin;
+use Awcodes\Recently\RecentlyPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -105,7 +105,7 @@ class FilamentPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
                 // FilamentApexChartsPlugin::make(),
-                // RecentlyPlugin::make(),
+                RecentlyPlugin::make()->rounded(),
             ])
             ->middleware([
                 EncryptCookies::class,
