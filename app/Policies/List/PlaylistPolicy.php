@@ -15,16 +15,10 @@ use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class PlaylistPolicy.
- */
 class PlaylistPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -38,9 +32,7 @@ class PlaylistPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  Playlist  $playlist
-     * @return bool
      */
     public function view(?User $user, Model $playlist): bool
     {
@@ -58,9 +50,6 @@ class PlaylistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function create(User $user): bool
     {
@@ -74,9 +63,7 @@ class PlaylistPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  User  $user
      * @param  Playlist  $playlist
-     * @return bool
      */
     public function update(User $user, Model $playlist): bool
     {
@@ -90,9 +77,7 @@ class PlaylistPolicy extends BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  User  $user
      * @param  Playlist  $playlist
-     * @return bool
      */
     public function delete(User $user, Model $playlist): bool
     {
@@ -105,9 +90,6 @@ class PlaylistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can add a track to the playlist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function addPlaylistTrack(User $user): bool
     {
@@ -116,9 +98,6 @@ class PlaylistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any image to the playlist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyImage(User $user): bool
     {
@@ -127,11 +106,6 @@ class PlaylistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an image to the playlist.
-     *
-     * @param  User  $user
-     * @param  Playlist  $playlist
-     * @param  Image  $image
-     * @return bool
      */
     public function attachImage(User $user, Playlist $playlist, Image $image): bool
     {
@@ -151,9 +125,6 @@ class PlaylistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any image from the playlist.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyImage(User $user): bool
     {
@@ -162,10 +133,6 @@ class PlaylistPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach an image from the playlist.
-     *
-     * @param  User  $user
-     * @param  Playlist  $playlist
-     * @return bool
      */
     public function detachImage(User $user, Playlist $playlist): bool
     {

@@ -13,17 +13,12 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * Class DumpPolicy.
- */
 class DumpPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  Dump  $dump
-     * @return bool
      */
     public function view(?User $user, Model $dump): bool
     {

@@ -6,7 +6,4 @@ namespace App\Policies\Discord;
 
 use App\Policies\BasePolicy;
 
-/**
- * Class DiscordThreadPolicy.
- */
 class DiscordThreadPolicy extends BasePolicy {}

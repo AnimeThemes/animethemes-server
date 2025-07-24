@@ -6,7 +6,4 @@ namespace App\Policies\Document;
 
 use App\Policies\BasePolicy;
 
-/**
- * Class PagePolicy.
- */
 class PagePolicy extends BasePolicy {}

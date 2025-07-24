@@ -15,16 +15,10 @@ use App\Pivots\Wiki\StudioImage;
 use App\Pivots\Wiki\StudioResource;
 use App\Policies\BasePolicy;
 
-/**
- * Class StudioPolicy.
- */
 class StudioPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can attach any anime to the studio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyAnime(User $user): bool
     {
@@ -33,11 +27,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an anime to the studio.
-     *
-     * @param  User  $user
-     * @param  Studio  $studio
-     * @param  Anime  $anime
-     * @return bool
      */
     public function attachAnime(User $user, Studio $studio, Anime $anime): bool
     {
@@ -53,9 +42,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any anime from the studio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyAnime(User $user): bool
     {
@@ -64,9 +50,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any resource to the studio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyExternalResource(User $user): bool
     {
@@ -75,11 +58,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a resource to the studio.
-     *
-     * @param  User  $user
-     * @param  Studio  $studio
-     * @param  ExternalResource  $resource
-     * @return bool
      */
     public function attachExternalResource(User $user, Studio $studio, ExternalResource $resource): bool
     {
@@ -95,9 +73,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any resource from the studio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyExternalResource(User $user): bool
     {
@@ -106,9 +81,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any image to the studio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyImage(User $user): bool
     {
@@ -117,11 +89,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an image to the studio.
-     *
-     * @param  User  $user
-     * @param  Studio  $studio
-     * @param  Image  $image
-     * @return bool
      */
     public function attachImage(User $user, Studio $studio, Image $image): bool
     {
@@ -137,9 +104,6 @@ class StudioPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any image from the studio.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyImage(User $user): bool
     {

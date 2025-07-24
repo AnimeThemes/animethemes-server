@@ -11,16 +11,10 @@ use App\Models\Auth\User;
 use App\Policies\BasePolicy;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class PermissionPolicy.
- */
 class PermissionPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -30,9 +24,7 @@ class PermissionPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User|null  $user
      * @param  Permission  $permission
-     * @return bool
      */
     public function view(?User $user, Model $permission): bool
     {
@@ -42,9 +34,7 @@ class PermissionPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  User  $user
      * @param  Permission  $permission
-     * @return bool
      */
     public function update(User $user, Model $permission): bool
     {
@@ -54,9 +44,7 @@ class PermissionPolicy extends BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  User  $user
      * @param  Permission  $permission
-     * @return bool
      */
     public function delete(User $user, Model $permission): bool
     {
@@ -66,9 +54,7 @@ class PermissionPolicy extends BasePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  User  $user
      * @param  Permission  $permission
-     * @return bool
      */
     public function restore(User $user, Model $permission): bool
     {
@@ -77,8 +63,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any role to the permission.
-     *
-     * @return bool
      */
     public function attachAnyRole(): bool
     {
@@ -87,8 +71,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a role to the permission.
-     *
-     * @return bool
      */
     public function attachRole(): bool
     {
@@ -97,8 +79,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any role from the permission.
-     *
-     * @return bool
      */
     public function detachAnyRole(): bool
     {
@@ -107,8 +87,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a role from the permission.
-     *
-     * @return bool
      */
     public function detachRole(): bool
     {
@@ -117,8 +95,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any user to the permission.
-     *
-     * @return bool
      */
     public function attachAnyUser(): bool
     {
@@ -127,8 +103,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a user to the permission.
-     *
-     * @return bool
      */
     public function attachUser(): bool
     {
@@ -137,8 +111,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any user from the permission.
-     *
-     * @return bool
      */
     public function detachAnyUser(): bool
     {
@@ -147,8 +119,6 @@ class PermissionPolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach a user from the permission.
-     *
-     * @return bool
      */
     public function detachUser(): bool
     {

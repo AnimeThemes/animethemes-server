@@ -6,7 +6,6 @@ namespace App\Jobs\Middleware;
 
 use App\Concerns\DetectsRedis;
 use App\Enums\Models\List\ExternalProfileSite;
-use App\Jobs\List\SyncExternalProfileJob;
 use Illuminate\Contracts\Redis\LimiterTimeoutException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redis;

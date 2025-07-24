@@ -20,16 +20,10 @@ use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Policies\BasePolicy;
 
-/**
- * Class AnimePolicy.
- */
 class AnimePolicy extends BasePolicy
 {
     /**
      * Determine whether the user can associate any synonym to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function addAnyAnimeSynonym(User $user): bool
     {
@@ -38,9 +32,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can associate any theme to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function addAnyAnimeTheme(User $user): bool
     {
@@ -49,9 +40,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any series to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnySeries(User $user): bool
     {
@@ -60,11 +48,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a series to the anime.
-     *
-     * @param  User  $user
-     * @param  Anime  $anime
-     * @param  Series  $series
-     * @return bool
      */
     public function attachSeries(User $user, Anime $anime, Series $series): bool
     {
@@ -80,9 +63,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any series from the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnySeries(User $user): bool
     {
@@ -91,9 +71,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any resource to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyExternalResource(User $user): bool
     {
@@ -102,11 +79,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a resource to the anime.
-     *
-     * @param  User  $user
-     * @param  Anime  $anime
-     * @param  ExternalResource  $resource
-     * @return bool
      */
     public function attachExternalResource(User $user, Anime $anime, ExternalResource $resource): bool
     {
@@ -122,9 +94,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any resource from the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyExternalResource(User $user): bool
     {
@@ -133,9 +102,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any image to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyImage(User $user): bool
     {
@@ -144,11 +110,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach an image to the anime.
-     *
-     * @param  User  $user
-     * @param  Anime  $anime
-     * @param  Image  $image
-     * @return bool
      */
     public function attachImage(User $user, Anime $anime, Image $image): bool
     {
@@ -164,9 +125,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any image from the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyImage(User $user): bool
     {
@@ -175,9 +133,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach any studio to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function attachAnyStudio(User $user): bool
     {
@@ -186,11 +141,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can attach a studio to the anime.
-     *
-     * @param  User  $user
-     * @param  Anime  $anime
-     * @param  Studio  $studio
-     * @return bool
      */
     public function attachStudio(User $user, Anime $anime, Studio $studio): bool
     {
@@ -206,9 +156,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can detach any studio from the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function detachAnyStudio(User $user): bool
     {
@@ -217,9 +164,6 @@ class AnimePolicy extends BasePolicy
 
     /**
      * Determine whether the user can add an entry to the anime.
-     *
-     * @param  User  $user
-     * @return bool
      */
     public function addEntry(User $user): bool
     {

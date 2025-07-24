@@ -6,7 +6,4 @@ namespace App\Policies\Wiki\Anime;
 
 use App\Policies\BasePolicy;
 
-/**
- * Class AnimeSynonymPolicy.
- */
 class AnimeSynonymPolicy extends BasePolicy {}

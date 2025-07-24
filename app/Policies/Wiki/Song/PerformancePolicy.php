@@ -6,7 +6,4 @@ namespace App\Policies\Wiki\Song;
 
 use App\Policies\BasePolicy;
 
-/**
- * Class PerformancePolicy.
- */
 class PerformancePolicy extends BasePolicy {}

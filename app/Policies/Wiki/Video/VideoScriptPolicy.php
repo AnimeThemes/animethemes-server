@@ -6,7 +6,4 @@ namespace App\Policies\Wiki\Video;
 
 use App\Policies\BasePolicy;
 
-/**
- * Class VideoScriptPolicy.
- */
 class VideoScriptPolicy extends BasePolicy {}
