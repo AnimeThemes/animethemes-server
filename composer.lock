@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38a89d19ccc9bcca6c74b454c46677c4",
+    "content-hash": "d2ff3dbad4686d9bb28880a2bb0b733a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -71,6 +71,83 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.3.3"
             },
             "time": "2025-05-28T17:07:28+00:00"
+        },
+        {
+            "name": "awcodes/recently",
+            "version": "v2.0.0-beta.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awcodes/recently.git",
+                "reference": "7c86e6534a6fa4d8634ec929196c6229cdae730d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awcodes/recently/zipball/7c86e6534a6fa4d8634ec929196c6229cdae730d",
+                "reference": "7c86e6534a6fa4d8634ec929196c6229cdae730d",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.10",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^3.7",
+                "pestphp/pest-plugin-laravel": "^3.0",
+                "pestphp/pest-plugin-livewire": "^3.0",
+                "rector/rector": "^2.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Recently": "Awcodes\\Recently\\Facades\\Recently"
+                    },
+                    "providers": [
+                        "Awcodes\\Recently\\RecentlyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Awcodes\\Recently\\": "src/",
+                    "Awcodes\\Recently\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Weston",
+                    "email": "awcodes1@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily track and access recently viewed records in your filament panels.",
+            "homepage": "https://github.com/awcodes/recently",
+            "keywords": [
+                "awcodes",
+                "filament",
+                "laravel",
+                "plugin",
+                "recently"
+            ],
+            "support": {
+                "issues": "https://github.com/awcodes/recently/issues",
+                "source": "https://github.com/awcodes/recently"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/awcodes",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-06-20T19:07:32+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -14891,7 +14968,9 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": {},
+    "stability-flags": {
+        "awcodes/recently": 10
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
