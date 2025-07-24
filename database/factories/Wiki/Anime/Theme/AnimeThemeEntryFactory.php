@@ -44,8 +44,6 @@ class AnimeThemeEntryFactory extends Factory
 
     /**
      * Add anime and theme to the entry.
-     *
-     * @return static
      */
     public function forAnime(): static
     {

@@ -60,8 +60,6 @@ class AnimeFactory extends Factory
 
     /**
      * Define the model's default Eloquent API Resource state.
-     *
-     * @return static
      */
     public function jsonApiResource(): static
     {

@@ -49,9 +49,6 @@ class ExternalProfileFactory extends Factory
 
     /**
      * Define the model's entry listing.
-     *
-     * @param  int  $count
-     * @return static
      */
     public function entries(int $count): static
     {
@@ -75,8 +72,7 @@ class ExternalProfileFactory extends Factory
     /**
      * Define the model's entry listing.
      *
-     * @param  array  $animeIds
-     * @return static
+     * @param  int[]  $animeIds
      */
     public function entriesForIds(array $animeIds): static
     {

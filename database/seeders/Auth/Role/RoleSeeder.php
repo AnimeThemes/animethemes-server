@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
+use BackedEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -31,9 +32,7 @@ class RoleSeeder extends Seeder
     /**
      * Configure role with resource abilities.
      *
-     * @param  Role  $role
-     * @param  string  $resource
-     * @param  array  $abilities
+     * @param  array<int, CrudPermission|ExtendedCrudPermission>  $abilities
      */
     protected function configureResource(Role $role, string $resource, array $abilities): void
     {
