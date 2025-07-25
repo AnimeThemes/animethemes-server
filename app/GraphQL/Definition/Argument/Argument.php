@@ -36,6 +36,8 @@ class Argument implements Stringable
     }
 
     /**
+     * Set the directives of the argument.
+     *
      * @param  array<string, array>  $directives
      */
     public function directives(array $directives = []): static

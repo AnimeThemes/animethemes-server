@@ -44,7 +44,7 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
 
         foreach ($sortByColumns as $sortByColumn) {
             $column = Arr::pull($sortByColumn, 'column');
-            $direction = SortDirection::from(intval(Arr::pull($sortByColumn, 'direction')));
+            $direction = Arr::pull($sortByColumn, 'direction');
 
             $object = collect($sortableColumns)
                 ->first(fn (array $value) => $value['column'] === $column);
@@ -56,7 +56,7 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
             $sortType = SortType::from(Arr::get($object, 'sortType'));
 
             if ($sortType === SortType::ROOT) {
-                $builder->orderBy($column, $direction->name);
+                $builder->orderBy($column, $direction);
             }
 
             if ($sortType === SortType::AGGREGATE) {
@@ -67,11 +67,11 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
 
                 $builder->withAggregate([
                     "$relation as {$relation}_value" => function ($query) use ($direction) {
-                        $query->orderBy('value', $direction->name);
+                        $query->orderBy('value', $direction);
                     },
                 ], 'value');
 
-                $builder->orderBy("{$relation}_value", $direction->name);
+                $builder->orderBy("{$relation}_value", $direction);
             }
         }
 
