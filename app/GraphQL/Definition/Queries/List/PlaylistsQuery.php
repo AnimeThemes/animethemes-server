@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\List;
 
-use App\GraphQL\Attributes\UseBuilder;
+use App\GraphQL\Attributes\UseBuilderDirective;
 use App\GraphQL\Builders\List\PlaylistBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 
-#[UseBuilder(PlaylistBuilder::class)]
+#[UseBuilderDirective(PlaylistBuilder::class)]
 class PlaylistsQuery extends EloquentQuery
 {
     public function __construct()

@@ -145,12 +145,12 @@ class GraphQLServiceProvider extends ServiceProvider
 
         $dispatcher->listen(
             BuildSchemaString::class,
-            fn (): string => "
+            fn (): string => '
                 input OrderInput {
                     column: String!
                     direction: OrderDirection!
                 }
-            "
+            '
         );
     }
 

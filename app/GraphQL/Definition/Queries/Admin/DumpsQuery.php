@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin;
 
-use App\GraphQL\Attributes\UseBuilder;
+use App\GraphQL\Attributes\UseBuilderDirective;
 use App\GraphQL\Builders\Admin\DumpBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
 
-#[UseBuilder(DumpBuilder::class)]
+#[UseBuilderDirective(DumpBuilder::class)]
 class DumpsQuery extends EloquentQuery
 {
     public function __construct()

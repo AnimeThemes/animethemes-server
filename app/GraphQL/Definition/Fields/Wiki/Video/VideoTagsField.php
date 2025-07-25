@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\ImplodeArrayResolver;
 use App\Models\Wiki\Video;
 
-#[UseField(ImplodeArrayResolver::class)]
+#[UseFieldDirective(ImplodeArrayResolver::class)]
 class VideoTagsField extends StringField
 {
     public function __construct()

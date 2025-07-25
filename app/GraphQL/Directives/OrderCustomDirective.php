@@ -34,7 +34,7 @@ class OrderCustomDirective extends BaseDirective implements ArgBuilderDirective
     }
 
     /**
-     * @param  array<string, mixed>  $directionValue
+     * @param  array<string, mixed>  $orderByColumns
      *
      * @throws InvalidArgumentException
      */
@@ -68,7 +68,7 @@ class OrderCustomDirective extends BaseDirective implements ArgBuilderDirective
                 $builder->withAggregate([
                     "$relation as {$relation}_value" => function ($query) use ($direction) {
                         $query->orderBy('value', $direction->name);
-                    }
+                    },
                 ], 'value');
 
                 $builder->orderBy("{$relation}_value", $direction->name);

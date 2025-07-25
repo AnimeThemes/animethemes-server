@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
 
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Definition\Mutations\Rest\CreateMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\List\Playlist;
 
-#[UseField(PlaylistController::class, 'store')]
+#[UseFieldDirective(PlaylistController::class, 'store')]
 class CreatePlaylistMutation extends CreateMutation
 {
     public function __construct()

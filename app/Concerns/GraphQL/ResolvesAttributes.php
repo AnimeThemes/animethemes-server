@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Concerns\GraphQL;
 
-use App\GraphQL\Attributes\UseBuilder;
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseBuilderDirective;
+use App\GraphQL\Attributes\UseFieldDirective;
 use Illuminate\Support\Arr;
 use ReflectionClass;
 
@@ -21,7 +21,7 @@ trait ResolvesAttributes
         $attributes = [];
 
         while ($reflection) {
-            $attributes = array_merge($attributes, $reflection->getAttributes(UseBuilder::class));
+            $attributes = array_merge($attributes, $reflection->getAttributes(UseBuilderDirective::class));
             $reflection = $reflection->getParentClass();
         }
 
@@ -44,7 +44,7 @@ trait ResolvesAttributes
         $attributes = [];
 
         while ($reflection) {
-            $attributes = array_merge($attributes, $reflection->getAttributes(UseField::class));
+            $attributes = array_merge($attributes, $reflection->getAttributes(UseFieldDirective::class));
             $reflection = $reflection->getParentClass();
         }
 

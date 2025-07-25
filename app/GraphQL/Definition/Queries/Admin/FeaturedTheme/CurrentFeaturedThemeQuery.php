@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin\FeaturedTheme;
 
-use App\GraphQL\Attributes\UseBuilder;
+use App\GraphQL\Attributes\UseBuilderDirective;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
-#[UseBuilder(FeaturedThemeBuilder::class, 'current')]
+#[UseBuilderDirective(FeaturedThemeBuilder::class, 'current')]
 class CurrentFeaturedThemeQuery extends BaseQuery
 {
     public function __construct()

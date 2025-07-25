@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin;
 
-use App\GraphQL\Attributes\UseBuilder;
+use App\GraphQL\Attributes\UseBuilderDirective;
 use App\GraphQL\Builders\Admin\AnnouncementBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\AnnouncementType;
 
-#[UseBuilder(AnnouncementBuilder::class)]
+#[UseBuilderDirective(AnnouncementBuilder::class)]
 class AnnouncementsQuery extends EloquentQuery
 {
     public function __construct()

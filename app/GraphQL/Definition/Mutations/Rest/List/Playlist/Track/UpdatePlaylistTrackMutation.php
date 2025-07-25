@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist\Track;
 
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Mutations\Rest\UpdateMutation;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist\PlaylistTrack;
 
-#[UseField(PlaylistTrackController::class, 'update')]
+#[UseFieldDirective(PlaylistTrackController::class, 'update')]
 class UpdatePlaylistTrackMutation extends UpdateMutation
 {
     public function __construct()

@@ -6,7 +6,7 @@ namespace App\GraphQL\Definition\Mutations\List;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Features\AllowExternalProfileManagement;
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Controllers\List\SyncExternalProfileController;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
@@ -15,7 +15,7 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\Type;
 
-#[UseField(SyncExternalProfileController::class, 'store')]
+#[UseFieldDirective(SyncExternalProfileController::class, 'store')]
 class SyncExternalProfileMutation extends BaseMutation
 {
     public function __construct()
