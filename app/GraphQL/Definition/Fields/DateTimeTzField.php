@@ -6,15 +6,16 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\OrderableField;
-use App\Enums\GraphQL\OrderType;
+use App\Contracts\GraphQL\Fields\SortableField;
+use App\Enums\GraphQL\SortType;
+use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-abstract class DateTimeTzField extends Field implements DisplayableField, FilterableField, OrderableField
+abstract class DateTimeTzField extends Field implements DisplayableField, FilterableField, SortableField
 {
     /**
      * The type returned by the field.
@@ -40,16 +41,17 @@ abstract class DateTimeTzField extends Field implements DisplayableField, Filter
     public function filterDirectives(): array
     {
         return [
+            new EqFilterDirective($this, $this->type()),
             new LesserFilterDirective($this, $this->type()),
             new GreaterFilterDirective($this, $this->type()),
         ];
     }
 
     /**
-     * The order type of the field.
+     * The sort type of the field.
      */
-    public function orderType(): OrderType
+    public function sortType(): SortType
     {
-        return OrderType::ROOT;
+        return SortType::ROOT;
     }
 }

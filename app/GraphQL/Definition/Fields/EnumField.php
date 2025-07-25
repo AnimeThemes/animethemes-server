@@ -6,8 +6,9 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\OrderableField;
-use App\Enums\GraphQL\OrderType;
+use App\Contracts\GraphQL\Fields\SortableField;
+use App\Enums\GraphQL\SortType;
+use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\NotInFilterDirective;
@@ -15,7 +16,7 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-abstract class EnumField extends Field implements DisplayableField, FilterableField, OrderableField
+abstract class EnumField extends Field implements DisplayableField, FilterableField, SortableField
 {
     public function __construct(
         public string $column,
@@ -70,16 +71,17 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
     public function filterDirectives(): array
     {
         return [
+            new EqFilterDirective($this, $this->type()),
             new InFilterDirective($this, $this->type()),
             new NotInFilterDirective($this, $this->type()),
         ];
     }
 
     /**
-     * The order type of the field.
+     * The sort type of the field.
      */
-    public function orderType(): OrderType
+    public function sortType(): SortType
     {
-        return OrderType::ROOT;
+        return SortType::ROOT;
     }
 }

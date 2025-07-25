@@ -7,9 +7,9 @@ namespace App\Concerns\GraphQL;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\OrderableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
+use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
@@ -54,26 +54,26 @@ trait ResolvesArguments
     }
 
     /**
-     * Resolve the fields into arguments that are used for ordering.
+     * Resolve the fields into arguments that are used for sorting.
      *
      * @param  Field[]  $fields
      * @return string[]
      */
-    public function resolveOrderArguments(array $fields): array
+    public function resolveSortArguments(array $fields): array
     {
         $columns = collect($fields)
-            ->filter(fn (Field $field) => $field instanceof OrderableField)
-            ->map(fn (Field&OrderableField $field) => [
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (Field&SortableField $field) => [
                 'column' => $field->getColumn(),
-                'orderType' => $field->orderType()->value,
+                'sortType' => $field->sortType()->value,
                 'relation' => method_exists($field, 'relation') ? $field->{'relation'}() : null,
             ])
             ->toArray();
 
         return [
-            Str::of('order: [OrderInput!] ')
+            Str::of('sort: [SortInput!] ')
                 ->append($this->resolveDirectives([
-                    'orderCustom' => [
+                    'sortCustom' => [
                         'columns' => json_encode($columns),
                     ],
                 ]))

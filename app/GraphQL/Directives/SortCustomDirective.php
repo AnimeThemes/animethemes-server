@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Directives;
 
-use App\Enums\GraphQL\OrderDirection;
-use App\Enums\GraphQL\OrderType;
+use App\Enums\GraphQL\SortDirection;
+use App\Enums\GraphQL\SortType;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -15,7 +15,7 @@ use League\Csv\InvalidArgument;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Support\Contracts\ArgBuilderDirective;
 
-class OrderCustomDirective extends BaseDirective implements ArgBuilderDirective
+class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
 {
     public static function definition(): string
     {
@@ -23,46 +23,46 @@ class OrderCustomDirective extends BaseDirective implements ArgBuilderDirective
         """
         Sort a result by the given argument.
         """
-        directive @orderCustom(columns: [OrderByColumn!]) on ARGUMENT_DEFINITION
+        directive @sortCustom(columns: [SortByColumn!]) on ARGUMENT_DEFINITION
 
-        input OrderByColumn {
+        input SortByColumn {
             column: String!
-            orderType: Int! = 0
+            sortType: Int! = 0
             relation: String
         }
         GRAPHQL;
     }
 
     /**
-     * @param  array<string, mixed>  $orderByColumns
+     * @param  array<string, mixed>  $sortByColumns
      *
      * @throws InvalidArgumentException
      */
-    public function handleBuilder(QueryBuilder|EloquentBuilder|Relation $builder, $orderByColumns): QueryBuilder|EloquentBuilder|Relation
+    public function handleBuilder(QueryBuilder|EloquentBuilder|Relation $builder, $sortByColumns): QueryBuilder|EloquentBuilder|Relation
     {
-        $orderableColumns = json_decode($this->directiveArgValue('columns'), true);
+        $sortableColumns = json_decode($this->directiveArgValue('columns'), true);
 
-        foreach ($orderByColumns as $orderByColumn) {
-            $column = Arr::pull($orderByColumn, 'column');
-            $direction = OrderDirection::from(intval(Arr::pull($orderByColumn, 'direction')));
+        foreach ($sortByColumns as $sortByColumn) {
+            $column = Arr::pull($sortByColumn, 'column');
+            $direction = SortDirection::from(intval(Arr::pull($sortByColumn, 'direction')));
 
-            $object = collect($orderableColumns)
+            $object = collect($sortableColumns)
                 ->first(fn (array $value) => $value['column'] === $column);
 
             if ($object === null) {
                 throw new InvalidArgument("The column '{$column}' is not available for ordering.");
             }
 
-            $orderType = OrderType::from(Arr::get($object, 'orderType'));
+            $sortType = SortType::from(Arr::get($object, 'sortType'));
 
-            if ($orderType === OrderType::ROOT) {
+            if ($sortType === SortType::ROOT) {
                 $builder->orderBy($column, $direction->name);
             }
 
-            if ($orderType === OrderType::AGGREGATE) {
+            if ($sortType === SortType::AGGREGATE) {
                 $relation = Arr::get($object, 'relation');
                 if ($relation === null) {
-                    throw new InvalidArgumentException('The "relation" argument is required for the @orderCustom directive with aggregate order type.');
+                    throw new InvalidArgumentException("The 'relation' argument is required for the @{$this->name()} directive with aggregate sort type.");
                 }
 
                 $builder->withAggregate([
