@@ -35,7 +35,7 @@ trait ResolvesAttributes
     }
 
     /**
-     * Resolve the all directive as an attribute.
+     * Resolve the auth directive as an attribute.
      */
     protected function resolveAuthAttribute(): bool
     {
