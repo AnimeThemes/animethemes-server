@@ -14,6 +14,7 @@ use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 trait ResolvesArguments
 {
@@ -60,19 +61,24 @@ trait ResolvesArguments
      */
     public function resolveOrderArguments(array $fields): array
     {
-        return collect($fields)
+        $columns = collect($fields)
             ->filter(fn (Field $field) => $field instanceof OrderableField)
-            ->map(fn (Field&OrderableField $field) => sprintf(
-                '%s_order: OrderDirection %s',
-                $field->getName(),
-                $this->resolveDirectives([
-                    'orderCustom' => [
-                        'column' => $field->getColumn(),
-                    ],
-                ]),
-            ))
-            ->flatten()
+            ->map(fn (Field&OrderableField $field) => [
+                'column' => $field->getColumn(),
+                'orderType' => $field->orderType()->value,
+                'relation' => method_exists($field, 'relation') ? $field->{'relation'}() : null,
+            ])
             ->toArray();
+
+        return [
+            Str::of('order: [OrderInput!]! ')
+                ->append($this->resolveDirectives([
+                    'orderCustom' => [
+                        'columns' => json_encode($columns),
+                    ],
+                ]))
+                ->__toString(),
+        ];
     }
 
     /**
