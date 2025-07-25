@@ -75,6 +75,10 @@ abstract class BaseQuery
         $arguments = [];
         $baseType = $this->baseType();
 
+        if ($this->resolveSearchAttribute()) {
+            $arguments[] = 'search: String @search';
+        }
+
         if ($baseType instanceof BaseType && $baseType instanceof HasFields) {
             $arguments[] = $this->resolveFilterArguments($baseType->fields());
         }

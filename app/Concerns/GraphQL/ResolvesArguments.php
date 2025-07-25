@@ -71,7 +71,7 @@ trait ResolvesArguments
             ->toArray();
 
         return [
-            Str::of('order: [OrderInput!]! ')
+            Str::of('order: [OrderInput!] ')
                 ->append($this->resolveDirectives([
                     'orderCustom' => [
                         'columns' => json_encode($columns),
