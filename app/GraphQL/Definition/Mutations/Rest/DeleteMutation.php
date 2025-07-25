@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest;
 
-use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\HasFields;
-use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 abstract class DeleteMutation extends BaseMutation
 {
@@ -24,7 +24,7 @@ abstract class DeleteMutation extends BaseMutation
     /**
      * Get the arguments for the create mutation.
      *
-     * @return array<int, Field&UpdatableField>
+     * @return Argument[]
      */
     public function arguments(): array
     {
@@ -33,10 +33,10 @@ abstract class DeleteMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveBindArgument($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fields());
         }
 
-        return $arguments;
+        return Arr::flatten($arguments);
     }
 
     /**

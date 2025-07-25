@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Queries;
+namespace App\GraphQL\Resolvers;
 
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
@@ -10,12 +10,13 @@ use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class AnimeYear
+class AnimeYearResolver
 {
     /**
      * Return a value for the field.
      *
-     * @param  array  $args  The field arguments passed by the client.
+     * @param  null  $root  Always null, since this field has no parent.
+     * @param  array<string, mixed>  $args  The field arguments passed by the client.
      */
     public function years(null $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
@@ -28,7 +29,8 @@ class AnimeYear
     /**
      * Return a value for the field.
      *
-     * @param  array  $args  The field arguments passed by the client.
+     * @param  null  $root  Always null, since this field has no parent.
+     * @param  array<string, mixed>  $args  The field arguments passed by the client.
      */
     public function year(null $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

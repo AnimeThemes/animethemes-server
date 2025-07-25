@@ -19,8 +19,8 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EnumType;
 use App\GraphQL\Definition\Unions\BaseUnion;
-use App\GraphQL\Types\EnumType;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -123,7 +123,7 @@ class GraphQLServiceProvider extends ServiceProvider
                 $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
                 $fullClass = 'App\\'.$class;
 
-                if (! class_exists($fullClass)) {
+                if (! class_exists($fullClass) || $fullClass === EnumType::class) {
                     continue;
                 }
 

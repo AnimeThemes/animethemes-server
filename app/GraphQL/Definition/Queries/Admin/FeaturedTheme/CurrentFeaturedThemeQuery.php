@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Queries\Admin\FeaturedTheme;
 
 use App\GraphQL\Attributes\UseBuilderDirective;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
@@ -42,7 +43,7 @@ class CurrentFeaturedThemeQuery extends BaseQuery
     /**
      * The arguments of the type.
      *
-     * @return string[]
+     * @return Argument[]
      */
     public function arguments(): array
     {

@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Directives\Filters;
 
+use App\GraphQL\Definition\Argument\Argument;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Str;
 
 class InFilterDirective extends FilterDirective
 {
     /**
-     * Create the argument for the directive.
+     * The argument for the filter directive.
      */
-    public function __toString(): string
+    public function argument(): Argument
     {
-        return Str::of($this->field->getName().'_in')
-            ->append(': ')
-            ->append(Type::listOf($this->type)->__toString())
-            ->append(' ')
-            ->append($this->resolveDirectives([
+        return new Argument(
+            $this->field->getName().'_in',
+            Type::listOf($this->type),
+            false,
+            [
                 'in' => [
                     'key' => $this->field->getColumn(),
                 ],
-            ]))
-            ->__toString();
+            ],
+        );
     }
 }

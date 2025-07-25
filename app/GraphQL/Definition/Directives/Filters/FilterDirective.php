@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Directives\Filters;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;
 use GraphQL\Type\Definition\Type;
-use Stringable;
 
-abstract class FilterDirective implements Stringable
+abstract class FilterDirective
 {
     use ResolvesDirectives;
 
@@ -17,4 +17,9 @@ abstract class FilterDirective implements Stringable
         protected Field $field,
         protected Type $type,
     ) {}
+
+    /**
+     * The argument for the filter directive.
+     */
+    abstract public function argument(): Argument;
 }

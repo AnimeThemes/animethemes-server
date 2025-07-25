@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Directives\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use Illuminate\Support\Str;
+use App\GraphQL\Definition\Argument\Argument;
 
 class LesserFilterDirective extends FilterDirective
 {
     /**
-     * Create the argument for the directive.
+     * The argument for the filter directive.
      */
-    public function __toString(): string
+    public function argument(): Argument
     {
-        return Str::of($this->field->getName().'_lesser')
-            ->append(': ')
-            ->append($this->type->__toString())
-            ->append(' ')
-            ->append($this->resolveDirectives([
+        return new Argument(
+            $this->field->getName().'_lesser',
+            $this->type,
+            false,
+            [
                 'where' => [
                     'operator' => ComparisonOperator::LT->value,
                     'key' => $this->field->getColumn(),
                 ],
-            ]))
-            ->__toString();
+            ],
+        );
     }
 }

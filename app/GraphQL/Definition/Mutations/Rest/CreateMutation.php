@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Mutations\Rest;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\HasFields;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
@@ -26,7 +27,7 @@ abstract class CreateMutation extends BaseMutation
     /**
      * Get the arguments for the create mutation.
      *
-     * @return array<int, Field&CreatableField>
+     * @return Argument[]
      */
     public function arguments(): array
     {
@@ -37,11 +38,11 @@ abstract class CreateMutation extends BaseMutation
         if ($baseType instanceof HasFields) {
             $bindableFields = Arr::where($baseType->fields(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
             $notBindableFields = Arr::where($baseType->fields(), fn (Field $field) => ! $field instanceof BindableField);
-            $arguments[] = $this->resolveBindArgument($bindableFields);
+            $arguments[] = $this->resolveBindArguments($bindableFields);
             $arguments[] = $this->resolveCreateMutationArguments($notBindableFields);
         }
 
-        return $arguments;
+        return Arr::flatten($arguments);
     }
 
     /**

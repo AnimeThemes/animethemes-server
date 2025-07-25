@@ -11,10 +11,9 @@ use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 trait ResolvesArguments
 {
@@ -23,7 +22,7 @@ trait ResolvesArguments
     /**
      * Build the arguments array into string.
      *
-     * @param  array  $arguments
+     * @param  Argument[]  $arguments
      */
     public function buildArguments(array $arguments): string
     {
@@ -31,14 +30,19 @@ trait ResolvesArguments
             return '';
         }
 
-        return sprintf('(%s)', implode(', ', Arr::flatten($arguments)));
+        $arguments = collect($arguments)
+            ->flatten()
+            ->map(fn (Argument $argument) => $argument->__toString())
+            ->implode(', ');
+
+        return sprintf('(%s)', $arguments);
     }
 
     /**
      * Resolve the fields into arguments that are used for filtering.
      *
      * @param  Field[]  $fields
-     * @return string[]
+     * @return Argument[]
      */
     public function resolveFilterArguments(array $fields): array
     {
@@ -46,7 +50,7 @@ trait ResolvesArguments
             ->filter(fn (Field $field) => $field instanceof FilterableField)
             ->map(function (FilterableField $field) {
                 return collect($field->filterDirectives())
-                    ->map(fn (FilterDirective $directive) => $directive->__toString())
+                    ->map(fn (FilterDirective $directive) => $directive->argument())
                     ->toArray();
             })
             ->flatten()
@@ -57,7 +61,7 @@ trait ResolvesArguments
      * Resolve the fields into arguments that are used for sorting.
      *
      * @param  Field[]  $fields
-     * @return string[]
+     * @return Argument[]
      */
     public function resolveSortArguments(array $fields): array
     {
@@ -71,13 +75,16 @@ trait ResolvesArguments
             ->toArray();
 
         return [
-            Str::of('sort: [SortInput!] ')
-                ->append($this->resolveDirectives([
+            new Argument(
+                'sort',
+                '[SortInput!]',
+                false,
+                [
                     'sortCustom' => [
                         'columns' => json_encode($columns),
                     ],
-                ]))
-                ->__toString(),
+                ],
+            ),
         ];
     }
 
@@ -85,17 +92,16 @@ trait ResolvesArguments
      * Resolve the fields into arguments that are used for mutations of type create.
      *
      * @param  Field[]  $fields
-     * @return string[]
+     * @return Argument[]
      */
     public function resolveCreateMutationArguments(array $fields): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->map(fn (Field $field) => sprintf(
-                '%s: %s%s',
+            ->map(fn (Field $field) => new Argument(
                 $field->getColumn(),
-                $field->type()->__toString(),
-                $field instanceof RequiredOnCreation ? '!' : ''
+                $field->type(),
+                $field instanceof RequiredOnCreation,
             ))
             ->flatten()
             ->toArray();
@@ -105,43 +111,41 @@ trait ResolvesArguments
      * Resolve the fields into arguments that are used for mutations of type update.
      *
      * @param  Field[]  $fields
-     * @return string[]
+     * @return Argument[]
      */
     public function resolveUpdateMutationArguments(array $fields): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->map(fn (Field $field) => sprintf(
-                '%s: %s%s',
+            ->map(fn (Field $field) => new Argument(
                 $field->getColumn(),
-                $field->type()->__toString(),
-                $field instanceof RequiredOnUpdate ? '!' : ''
+                $field->type(),
+                $field instanceof RequiredOnUpdate,
             ))
             ->flatten()
             ->toArray();
     }
 
     /**
-     * Resolve the bind argument.
+     * Resolve the bind arguments.
      *
-     * @param  array<int, Field>  $fields
-     * @return string[]
+     * @param  Field[]  $fields
+     * @return Argument[]
      */
-    public function resolveBindArgument(array $fields, bool $shouldRequire = true): array
+    public function resolveBindArguments(array $fields, bool $shouldRequire = true): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(fn (Field&BindableField $field) => sprintf(
-                '%s: %s%s%s',
+            ->map(fn (Field&BindableField $field) => new Argument(
                 $field->getName(),
-                $field->type()->__toString(),
-                $shouldRequire ? '!' : '',
-                $this->resolveDirectives([
+                $field->type(),
+                $shouldRequire,
+                [
                     'bind' => [
                         'class' => $field->bindTo(),
                         'column' => $field->bindUsingColumn(),
                     ],
-                ])
+                ],
             ))
             ->toArray();
     }

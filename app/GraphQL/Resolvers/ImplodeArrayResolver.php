@@ -13,7 +13,7 @@ class ImplodeArrayResolver
     /**
      * Resolve the relation count field.
      *
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
     public function __invoke(Model $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
