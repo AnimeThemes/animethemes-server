@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries\List;
 
 use App\GraphQL\Attributes\UseBuilderDirective;
+use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Builders\List\PlaylistBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 
 #[UseBuilderDirective(PlaylistBuilder::class)]
+#[UseSearchDirective]
 class PlaylistsQuery extends EloquentQuery
 {
     public function __construct()
@@ -23,20 +25,6 @@ class PlaylistsQuery extends EloquentQuery
     public function description(): string
     {
         return 'Returns a listing of playlist resources given fields.';
-    }
-
-    /**
-     * The arguments of the type.
-     *
-     * @return string[]
-     */
-    public function arguments(): array
-    {
-        return [
-            'search: String @search',
-
-            ...parent::arguments(),
-        ];
     }
 
     /**

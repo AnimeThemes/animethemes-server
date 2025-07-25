@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki\Anime\Theme;
 
+use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
+#[UseSearchDirective]
 class AnimeThemeEntriesQuery extends EloquentQuery
 {
     public function __construct()

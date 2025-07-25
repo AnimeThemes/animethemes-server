@@ -6,6 +6,7 @@ namespace App\Concerns\GraphQL;
 
 use App\GraphQL\Attributes\UseBuilderDirective;
 use App\GraphQL\Attributes\UseFieldDirective;
+use App\GraphQL\Attributes\UseSearchDirective;
 use Illuminate\Support\Arr;
 use ReflectionClass;
 
@@ -55,5 +56,22 @@ trait ResolvesAttributes
         }
 
         return null;
+    }
+
+    /**
+     * Resolve the search directive as an attribute.
+     */
+    protected function resolveSearchAttribute(): bool
+    {
+        $reflection = new ReflectionClass($this);
+
+        $attributes = [];
+
+        while ($reflection) {
+            $attributes = array_merge($attributes, $reflection->getAttributes(UseSearchDirective::class));
+            $reflection = $reflection->getParentClass();
+        }
+
+        return filled($attributes);
     }
 }
