@@ -6,12 +6,12 @@ namespace App\GraphQL\Directives;
 
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\SortType;
+use App\Exceptions\GraphQL\ClientValidationException;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use League\Csv\InvalidArgument;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Support\Contracts\ArgBuilderDirective;
 
@@ -50,7 +50,7 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
                 ->first(fn (array $value) => $value['column'] === $column);
 
             if ($object === null) {
-                throw new InvalidArgument("The column '{$column}' is not available for ordering.");
+                throw new ClientValidationException("The column '{$column}' is not available for ordering.");
             }
 
             $sortType = SortType::from(Arr::get($object, 'sortType'));
