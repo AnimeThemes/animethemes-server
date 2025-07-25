@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
 
-use App\GraphQL\Attributes\UseFieldDirective;
+use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Definition\Mutations\Rest\DeleteMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;

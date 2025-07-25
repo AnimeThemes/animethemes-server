@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\GraphQL\Attributes\UseBuilderDirective;
+use App\GraphQL\Attributes\Resolvers\UseAllDirective;
+use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Builders\Wiki\FindAnimesByExternalSiteBuilder;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
@@ -14,6 +15,7 @@ use App\Models\Wiki\Anime;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
+#[UseAllDirective]
 #[UseBuilderDirective(FindAnimesByExternalSiteBuilder::class)]
 class FindAnimesByExternalSiteQuery extends BaseQuery
 {
@@ -23,7 +25,7 @@ class FindAnimesByExternalSiteQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('findAnimesByExternalSite', false, false, false);
+        parent::__construct('findAnimesByExternalSite', false, false);
     }
 
     /**
@@ -43,8 +45,6 @@ class FindAnimesByExternalSiteQuery extends BaseQuery
     {
         return [
             ...parent::directives(),
-
-            'all' => [],
 
             'canModel' => [
                 'ability' => 'viewAny',

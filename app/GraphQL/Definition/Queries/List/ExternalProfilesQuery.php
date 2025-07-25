@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\List;
 
-use App\GraphQL\Attributes\UseBuilderDirective;
+use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
+use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Builders\List\ExternalProfileBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
@@ -12,6 +13,7 @@ use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 
 #[UseBuilderDirective(ExternalProfileBuilder::class)]
+#[UsePaginateDirective]
 #[UseSearchDirective]
 class ExternalProfilesQuery extends EloquentQuery
 {

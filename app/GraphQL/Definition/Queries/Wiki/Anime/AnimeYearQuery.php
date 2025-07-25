@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
-use App\GraphQL\Attributes\UseFieldDirective;
+use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
@@ -17,7 +17,7 @@ class AnimeYearQuery extends BaseQuery
 {
     public function __construct()
     {
-        parent::__construct('animeyear', false, false, false);
+        parent::__construct('animeyear', false, false);
     }
 
     /**

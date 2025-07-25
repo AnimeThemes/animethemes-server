@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki\Video;
 
+use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 
+#[UsePaginateDirective]
 class VideoScriptsQuery extends EloquentQuery
 {
     public function __construct()

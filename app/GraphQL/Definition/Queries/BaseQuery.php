@@ -23,7 +23,6 @@ abstract class BaseQuery
         protected string $name,
         protected bool $nullable = false,
         protected bool $isList = true,
-        protected bool $paginated = true,
     ) {}
 
     /**
@@ -54,15 +53,20 @@ abstract class BaseQuery
     public function directives(): array
     {
         $builder = $this->resolveBuilderAttribute();
-
         $field = $this->resolveFieldAttribute();
 
         return [
+            ...($this->resolveAllAttribute() ? ['all' => []] : []),
+
+            ...($this->resolveAuthAttribute() ? ['auth' => []] : []),
+
             ...(is_string($builder) ? ['builder' => ['method' => $builder]] : []),
 
             ...(is_string($field) ? ['field' => ['resolver' => $field]] : []),
 
-            ...($this->paginated ? ['paginate' => []] : []),
+            ...($this->resolveFindAttribute() ? ['find' => []] : []),
+
+            ...($this->resolvePaginateAttribute() ? ['paginate' => []] : []),
         ];
     }
 
@@ -84,7 +88,7 @@ abstract class BaseQuery
             $arguments[] = $this->resolveFilterArguments($baseType->fields());
         }
 
-        if ($baseType instanceof BaseType && $baseType instanceof HasFields && $this->paginated) {
+        if ($baseType instanceof BaseType && $baseType instanceof HasFields && $this->resolvePaginateAttribute()) {
             $arguments[] = $this->resolveSortArguments($baseType->fields());
         }
 

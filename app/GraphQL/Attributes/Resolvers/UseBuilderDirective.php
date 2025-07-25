@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Attributes;
+namespace App\GraphQL\Attributes\Resolvers;
 
 use Attribute;
 
