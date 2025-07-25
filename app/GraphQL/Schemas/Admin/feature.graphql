@@ -1,7 +1,0 @@
-enum FeatureColumnsOrderable {
-    ID @enum(value: "feature_id")
-    NAME
-    VALUE
-    CREATED_AT
-    UPDATED_AT
-}

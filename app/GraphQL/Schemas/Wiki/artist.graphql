@@ -1,8 +1,0 @@
-enum ArtistColumnsOrderable {
-    ID @enum(value: "artist_id")
-    NAME
-    SLUG
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

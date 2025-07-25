@@ -1,8 +1,0 @@
-enum AnimeThemeColumnsOrderable {
-    ID @enum(value: "theme_id")
-    TYPE
-    SEQUENCE
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

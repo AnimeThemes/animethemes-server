@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Fields;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\OrderableField;
+use App\Enums\GraphQL\OrderType;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\LikeFilterDirective;
@@ -41,5 +42,13 @@ abstract class StringField extends Field implements DisplayableField, Filterable
             new EqFilterDirective($this, $this->type()),
             new LikeFilterDirective($this, $this->type()),
         ];
+    }
+
+    /**
+     * The order type of the field.
+     */
+    public function orderType(): OrderType
+    {
+        return OrderType::ROOT;
     }
 }

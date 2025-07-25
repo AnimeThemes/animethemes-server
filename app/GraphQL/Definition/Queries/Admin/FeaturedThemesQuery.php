@@ -26,20 +26,6 @@ class FeaturedThemesQuery extends EloquentQuery
     }
 
     /**
-     * The arguments of the type.
-     *
-     * @return string[]
-     */
-    public function arguments(): array
-    {
-        return [
-            ...parent::arguments(),
-
-            'orderBy: _ @orderBy(columnsEnum: "FeaturedThemeColumnsOrderable")',
-        ];
-    }
-
-    /**
      * The base return type of the query.
      */
     public function baseType(): FeaturedThemeType

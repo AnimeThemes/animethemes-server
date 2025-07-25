@@ -1,8 +1,0 @@
-enum DumpColumnsOrderable {
-    ID @enum(value: "dump_id")
-    PATH
-    LINK
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

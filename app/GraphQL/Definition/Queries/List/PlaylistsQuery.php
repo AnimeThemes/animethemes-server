@@ -36,13 +36,6 @@ class PlaylistsQuery extends EloquentQuery
             'search: String @search',
 
             ...parent::arguments(),
-
-            'orderBy: _ @orderBy(columnsEnum: "PlaylistColumnsOrderable",
-                relations: [
-                    {relation: "likeAggregate", columns: ["value"]},
-                    {relation: "viewAggregate", columns: ["value"]}
-                ]
-            )',
         ];
     }
 

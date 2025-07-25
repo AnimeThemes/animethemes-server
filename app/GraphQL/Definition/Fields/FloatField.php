@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Fields;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\OrderableField;
+use App\Enums\GraphQL\OrderType;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;
@@ -45,5 +46,13 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
             new LesserFilterDirective($this, $this->type()),
             new GreaterFilterDirective($this, $this->type()),
         ];
+    }
+
+    /**
+     * The order type of the field.
+     */
+    public function orderType(): OrderType
+    {
+        return OrderType::ROOT;
     }
 }

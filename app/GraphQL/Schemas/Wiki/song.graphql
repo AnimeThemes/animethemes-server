@@ -1,7 +1,0 @@
-enum SongColumnsOrderable {
-    ID @enum(value: "song_id")
-    TITLE
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

@@ -33,6 +33,7 @@ class ExistsField extends Field implements DisplayableField
             'with' => [
                 'relation' => $this->relation,
             ],
+            ...parent::directives(),
         ];
     }
 

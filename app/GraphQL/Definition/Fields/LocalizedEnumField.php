@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\Fields\OrderableField;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
-class LocalizedEnumField extends Field implements DisplayableField, OrderableField
+class LocalizedEnumField extends Field implements DisplayableField
 {
     public function __construct(
         protected EnumField $field,

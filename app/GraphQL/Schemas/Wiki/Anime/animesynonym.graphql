@@ -1,8 +1,0 @@
-enum AnimeSynonymColumnsOrderable {
-    ID @enum(value: "synonym_id")
-    NAME
-    TYPE
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

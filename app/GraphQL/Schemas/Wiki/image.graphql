@@ -1,8 +1,0 @@
-enum ImageColumnsOrderable {
-    ID @enum(value: "image_id")
-    FACET
-    PATH
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

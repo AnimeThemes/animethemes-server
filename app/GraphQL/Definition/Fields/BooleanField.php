@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Fields;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\OrderableField;
+use App\Enums\GraphQL\OrderType;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use GraphQL\Type\Definition\Type;
@@ -39,5 +40,13 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
         return [
             new EqFilterDirective($this, $this->type()),
         ];
+    }
+
+    /**
+     * The order type of the field.
+     */
+    public function orderType(): OrderType
+    {
+        return OrderType::ROOT;
     }
 }

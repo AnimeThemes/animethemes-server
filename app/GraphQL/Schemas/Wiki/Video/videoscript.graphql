@@ -1,8 +1,0 @@
-enum VideoScriptColumnsOrderable {
-    ID @enum(value: "script_id")
-    PATH
-    LINK
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

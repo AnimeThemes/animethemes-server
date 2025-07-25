@@ -1,7 +1,0 @@
-enum AnnouncementColumnsOrderable {
-    ID @enum(value: "announcement_id")
-    CONTENT
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}
