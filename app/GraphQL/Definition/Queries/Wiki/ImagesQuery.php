@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki;
 
+use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 
+#[UsePaginateDirective]
 class ImagesQuery extends EloquentQuery
 {
     public function __construct()

@@ -6,7 +6,7 @@ namespace App\GraphQL\Definition\Mutations\List;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Features\AllowExternalProfileManagement;
-use App\GraphQL\Attributes\UseFieldDirective;
+use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\SyncExternalProfileController;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;

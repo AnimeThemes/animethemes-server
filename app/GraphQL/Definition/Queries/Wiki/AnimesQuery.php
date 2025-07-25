@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki;
 
+use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 
+#[UsePaginateDirective]
 #[UseSearchDirective]
 class AnimesQuery extends EloquentQuery
 {

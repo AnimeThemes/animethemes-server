@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations\User;
 
 use App\Contracts\GraphQL\Fields\DeletableField;
-use App\GraphQL\Attributes\UseFieldDirective;
+use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;

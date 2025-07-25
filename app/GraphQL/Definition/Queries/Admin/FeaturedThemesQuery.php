@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin;
 
-use App\GraphQL\Attributes\UseBuilderDirective;
+use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
+use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
 #[UseBuilderDirective(FeaturedThemeBuilder::class)]
+#[UsePaginateDirective]
 class FeaturedThemesQuery extends EloquentQuery
 {
     public function __construct()
