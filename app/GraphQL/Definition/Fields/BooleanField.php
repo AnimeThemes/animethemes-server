@@ -6,11 +6,12 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\OrderableField;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use GraphQL\Type\Definition\Type;
 
-abstract class BooleanField extends Field implements DisplayableField, FilterableField
+abstract class BooleanField extends Field implements DisplayableField, FilterableField, OrderableField
 {
     /**
      * The type returned by the field.

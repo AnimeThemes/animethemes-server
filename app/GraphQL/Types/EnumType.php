@@ -51,7 +51,7 @@ class EnumType extends BaseEnumType
         }
 
         parent::__construct([
-            'name' => $name ?? $this->baseName($enumClass),
+            'name' => $name ?? class_basename($enumClass),
             'values' => $enumDefinitions,
             'description' => $description ?? $this->extractDescription($reflection),
             'astNode' => $astNode,
@@ -65,16 +65,6 @@ class EnumType extends BaseEnumType
     public function serialize($value): string
     {
         return $value;
-    }
-
-    /**
-     * @param  class-string  $class
-     */
-    protected function baseName(string $class): string
-    {
-        $parts = explode('\\', $class);
-
-        return end($parts);
     }
 
     /**

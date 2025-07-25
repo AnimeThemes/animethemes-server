@@ -16,6 +16,7 @@ class EqFilterDirective extends FilterDirective
         return Str::of($this->field->getName())
             ->append(': ')
             ->append($this->type->__toString())
+            ->append(' ')
             ->append($this->resolveDirectives([
                 'eq' => [
                     'key' => $this->field->getColumn(),

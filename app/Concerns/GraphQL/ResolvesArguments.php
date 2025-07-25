@@ -7,6 +7,7 @@ namespace App\Concerns\GraphQL;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\OrderableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
@@ -47,6 +48,29 @@ trait ResolvesArguments
                     ->map(fn (FilterDirective $directive) => $directive->__toString())
                     ->toArray();
             })
+            ->flatten()
+            ->toArray();
+    }
+
+    /**
+     * Resolve the fields into arguments that are used for ordering.
+     *
+     * @param  Field[]  $fields
+     * @return string[]
+     */
+    public function resolveOrderArguments(array $fields): array
+    {
+        return collect($fields)
+            ->filter(fn (Field $field) => $field instanceof OrderableField)
+            ->map(fn (Field&OrderableField $field) => sprintf(
+                '%s_order: OrderDirection %s',
+                $field->getName(),
+                $this->resolveDirectives([
+                    'orderCustom' => [
+                        'column' => $field->getColumn(),
+                    ],
+                ]),
+            ))
             ->flatten()
             ->toArray();
     }

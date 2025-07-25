@@ -17,6 +17,7 @@ class InFilterDirective extends FilterDirective
         return Str::of($this->field->getName().'_in')
             ->append(': ')
             ->append(Type::listOf($this->type)->__toString())
+            ->append(' ')
             ->append($this->resolveDirectives([
                 'in' => [
                     'key' => $this->field->getColumn(),

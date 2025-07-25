@@ -6,12 +6,13 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\OrderableField;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\LikeFilterDirective;
 use GraphQL\Type\Definition\Type;
 
-abstract class StringField extends Field implements DisplayableField, FilterableField
+abstract class StringField extends Field implements DisplayableField, FilterableField, OrderableField
 {
     /**
      * The type returned by the field.

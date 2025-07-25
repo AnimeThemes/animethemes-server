@@ -6,13 +6,14 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\OrderableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-abstract class DateTimeTzField extends Field implements DisplayableField, FilterableField
+abstract class DateTimeTzField extends Field implements DisplayableField, FilterableField, OrderableField
 {
     /**
      * The type returned by the field.

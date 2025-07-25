@@ -17,6 +17,7 @@ class LikeFilterDirective extends FilterDirective
         return Str::of($this->field->getName().'_like')
             ->append(': ')
             ->append($this->type->__toString())
+            ->append(' ')
             ->append($this->resolveDirectives([
                 'where' => [
                     'operator' => ComparisonOperator::LIKE->value,
