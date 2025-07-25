@@ -16,12 +16,13 @@ class Argument implements Stringable
     protected bool $required = false;
 
     /**
-     * @param  array<string, array>  $directives
+     * @var array<string, array>
      */
+    protected array $directives = [];
+
     public function __construct(
         public string $name,
         public Type|string $returnType,
-        public array $directives = [],
     ) {}
 
     /**
@@ -30,6 +31,16 @@ class Argument implements Stringable
     public function required(bool $condition = true): static
     {
         $this->required = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, array>  $directives
+     */
+    public function directives(array $directives = []): static
+    {
+        $this->directives = $directives;
 
         return $this;
     }

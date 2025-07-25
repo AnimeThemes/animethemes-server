@@ -75,15 +75,12 @@ trait ResolvesArguments
             ->toArray();
 
         return [
-            new Argument(
-                'sort',
-                '[SortInput!]',
-                [
+            new Argument('sort', '[SortInput!]')
+                ->directives([
                     'sortCustom' => [
                         'columns' => json_encode($columns),
                     ],
-                ],
-            ),
+                ]),
         ];
     }
 
@@ -140,17 +137,14 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
             ->map(fn (Field&BindableField $field) =>
-                new Argument(
-                    $field->getName(),
-                    $field->type(),
-                    [
+                new Argument($field->getName(), $field->type())
+                    ->required($shouldRequire)
+                    ->directives([
                         'bind' => [
                             'class' => $field->bindTo(),
                             'column' => $field->bindUsingColumn(),
                         ],
-                    ],
-                )
-                ->required($shouldRequire)
+                    ])
             )
             ->toArray();
     }

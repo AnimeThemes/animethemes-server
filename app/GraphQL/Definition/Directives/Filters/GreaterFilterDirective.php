@@ -14,15 +14,12 @@ class GreaterFilterDirective extends FilterDirective
      */
     public function argument(): Argument
     {
-        return new Argument(
-            $this->field->getName().'_greater',
-            $this->type,
-            [
+        return new Argument($this->field->getName().'_greater', $this->type)
+            ->directives([
                 'where' => [
                     'operator' => ComparisonOperator::GT->value,
                     'key' => $this->field->getColumn(),
                 ],
-            ],
-        );
+            ]);
     }
 }

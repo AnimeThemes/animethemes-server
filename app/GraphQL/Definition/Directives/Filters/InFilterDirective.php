@@ -14,14 +14,11 @@ class InFilterDirective extends FilterDirective
      */
     public function argument(): Argument
     {
-        return new Argument(
-            $this->field->getName().'_in',
-            Type::listOf($this->type),
-            [
+        return new Argument($this->field->getName().'_in', Type::listOf($this->type))
+            ->directives([
                 'in' => [
                     'key' => $this->field->getColumn(),
                 ],
-            ],
-        );
+            ]);
     }
 }
