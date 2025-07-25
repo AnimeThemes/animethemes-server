@@ -34,13 +34,19 @@ enum RelationType
                 ],
             ],
             RelationType::HAS_MANY => [
-                'hasMany' => $parameters,
+                'hasMany' => [
+                    'type' => 'PAGINATOR',
+                    ...$parameters,
+                ],
             ],
             RelationType::HAS_ONE => [
                 'hasOne' => $parameters,
             ],
             RelationType::MORPH_MANY => [
-                'morphMany' => $parameters,
+                'morphMany' => [
+                    'type' => 'PAGINATOR',
+                    ...$parameters,
+                ],
             ],
             RelationType::MORPH_TO => [
                 'morphTo' => $parameters,
