@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Mutations;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\GraphQL\Definition\Argument\Argument;
 use Exception;
 use GraphQL\Type\Definition\Type;
 
@@ -41,7 +42,7 @@ abstract class BaseMutation
     /**
      * The arguments of the mutation.
      *
-     * @return string[]
+     * @return Argument[]
      */
     abstract public function arguments(): array;
 

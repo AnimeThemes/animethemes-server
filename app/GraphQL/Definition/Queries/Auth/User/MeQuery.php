@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Auth\User;
 
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 
@@ -29,7 +30,7 @@ class MeQuery extends BaseQuery
     /**
      * The arguments of the type.
      *
-     * @return string[]
+     * @return Argument[]
      */
     public function arguments(): array
     {

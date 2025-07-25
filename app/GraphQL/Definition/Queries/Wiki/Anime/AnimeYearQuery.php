@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
 use App\GraphQL\Attributes\UseFieldDirective;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
-use App\GraphQL\Queries\AnimeYear;
+use App\GraphQL\Resolvers\AnimeYearResolver;
 use App\Models\Wiki\Anime;
+use GraphQL\Type\Definition\Type;
 
-#[UseFieldDirective(AnimeYear::class, 'year')]
+#[UseFieldDirective(AnimeYearResolver::class, 'year')]
 class AnimeYearQuery extends BaseQuery
 {
     public function __construct()
@@ -47,12 +49,12 @@ class AnimeYearQuery extends BaseQuery
     /**
      * The arguments of the type.
      *
-     * @return string[]
+     * @return Argument[]
      */
     public function arguments(): array
     {
         return [
-            'year: Int!',
+            new Argument('year', Type::int(), true),
         ];
     }
 

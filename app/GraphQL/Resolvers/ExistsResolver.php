@@ -14,7 +14,7 @@ class ExistsResolver
     /**
      * Resolve the relation exists field.
      *
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
     public function __invoke(Model $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

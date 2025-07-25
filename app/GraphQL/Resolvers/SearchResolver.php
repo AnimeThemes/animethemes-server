@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Queries;
+namespace App\GraphQL\Resolvers;
 
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
@@ -16,13 +16,13 @@ use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class Search
+class SearchResolver
 {
     /**
      * Return a value for the field.
      *
      * @param  null  $root  Always null, since this field has no parent.
-     * @param  array  $args  The field arguments passed by the client.  Shared between all fields.  Metadata for advanced query resolution. The result of resolving the field, matching what was promised in the schema.
+     * @param  array<string, mixed>  $args  The field arguments passed by the client.  Shared between all fields.  Metadata for advanced query resolution. The result of resolving the field, matching what was promised in the schema.
      */
     public function __invoke(null $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {

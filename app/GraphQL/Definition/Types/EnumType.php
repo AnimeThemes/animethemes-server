@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Types;
+namespace App\GraphQL\Definition\Types;
 
 use App\GraphQL\Attributes\Hidden;
 use Exception;

@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Mutations\User;
 use App\Contracts\GraphQL\Fields\DeletableField;
 use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Controllers\User\LikeController;
+use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\User\LikeType;
@@ -33,13 +34,13 @@ class UnlikeMutation extends BaseMutation
     /**
      * Get the arguments for the unlike mutation.
      *
-     * @return string[]
+     * @return Argument[]
      */
     public function arguments(): array
     {
         $type = new LikeType();
 
-        return $this->resolveBindArgument($type->fields(), false);
+        return $this->resolveBindArguments($type->fields(), false);
     }
 
     /**

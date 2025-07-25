@@ -5,7 +5,7 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 type Query {
     "Returns a listing of resources that match a given search term."
     search(search: String @search, perPage: Int, page: Int): Search!
-    @field(resolver: "App\\GraphQL\\Queries\\Search")
+    @field(resolver: "App\\GraphQL\\Resolvers\\SearchResolver")
 }
 
 input WhereHasConditions {

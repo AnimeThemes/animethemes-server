@@ -16,7 +16,7 @@ class PivotResolver
      * Resolve the pivot field.
      *
      * @param  array|Model  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
     public function __invoke(array|Model $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
