@@ -81,7 +81,7 @@ abstract class BaseQuery
         $baseType = $this->baseType();
 
         if ($this->resolveSearchAttribute()) {
-            $arguments[] = new Argument('search', Type::string(), false, ['search' => []]);
+            $arguments[] = new Argument('search', Type::string(), ['search' => []]);
         }
 
         if ($baseType instanceof BaseType && $baseType instanceof HasFields) {

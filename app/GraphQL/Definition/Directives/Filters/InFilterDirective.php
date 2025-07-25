@@ -17,7 +17,6 @@ class InFilterDirective extends FilterDirective
         return new Argument(
             $this->field->getName().'_in',
             Type::listOf($this->type),
-            false,
             [
                 'in' => [
                     'key' => $this->field->getColumn(),

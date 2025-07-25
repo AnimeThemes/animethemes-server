@@ -17,7 +17,6 @@ class LesserFilterDirective extends FilterDirective
         return new Argument(
             $this->field->getName().'_lesser',
             $this->type,
-            false,
             [
                 'where' => [
                     'operator' => ComparisonOperator::LT->value,

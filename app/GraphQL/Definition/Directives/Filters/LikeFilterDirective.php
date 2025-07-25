@@ -17,7 +17,6 @@ class LikeFilterDirective extends FilterDirective
         return new Argument(
             $this->field->getName().'_like',
             $this->type,
-            false,
             [
                 'where' => [
                     'operator' => ComparisonOperator::LIKE->value,

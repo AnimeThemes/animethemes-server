@@ -16,7 +16,6 @@ class EqFilterDirective extends FilterDirective
         return new Argument(
             $this->field->getName(),
             $this->type,
-            false,
             [
                 'eq' => [
                     'key' => $this->field->getColumn(),

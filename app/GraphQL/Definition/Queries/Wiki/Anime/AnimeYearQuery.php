@@ -54,7 +54,8 @@ class AnimeYearQuery extends BaseQuery
     public function arguments(): array
     {
         return [
-            new Argument('year', Type::int(), true),
+            new Argument('year', Type::int())
+                ->required(),
         ];
     }
 

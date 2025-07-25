@@ -17,7 +17,6 @@ class GreaterFilterDirective extends FilterDirective
         return new Argument(
             $this->field->getName().'_greater',
             $this->type,
-            false,
             [
                 'where' => [
                     'operator' => ComparisonOperator::GT->value,

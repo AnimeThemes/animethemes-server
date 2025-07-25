@@ -17,7 +17,6 @@ class NotInFilterDirective extends FilterDirective
         return new Argument(
             $this->field->getName().'_not_in',
             Type::listOf($this->type),
-            false,
             [
                 'notIn' => [
                     'key' => $this->field->getColumn(),
