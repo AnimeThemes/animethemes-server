@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\Base;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\Fields\OrderableField;
-use App\Enums\GraphQL\OrderType;
+use App\Contracts\GraphQL\Fields\SortableField;
+use App\Enums\GraphQL\SortType;
 use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
 
 #[UseFieldDirective(CountAggregateResolver::class)]
-class CountAggregateField extends Field implements DisplayableField, OrderableField
+class CountAggregateField extends Field implements DisplayableField, SortableField
 {
     public function __construct(
         public string $aggregateRelation,
@@ -56,15 +56,15 @@ class CountAggregateField extends Field implements DisplayableField, OrderableFi
     }
 
     /**
-     * The order type of the field.
+     * The sort type of the field.
      */
-    public function orderType(): OrderType
+    public function sortType(): SortType
     {
-        return OrderType::AGGREGATE;
+        return SortType::AGGREGATE;
     }
 
     /**
-     * The order type of the field.
+     * The sort type of the field.
      */
     public function relation(): ?string
     {

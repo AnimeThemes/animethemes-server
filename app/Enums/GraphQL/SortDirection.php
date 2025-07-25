@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums\GraphQL;
 
-enum OrderType: int
+enum SortDirection: int
 {
-    case ROOT = 0;
-    case AGGREGATE = 1;
+    case ASC = 0;
+    case DESC = 1;
 }

@@ -6,13 +6,13 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\OrderableField;
-use App\Enums\GraphQL\OrderType;
+use App\Contracts\GraphQL\Fields\SortableField;
+use App\Enums\GraphQL\SortType;
 use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use GraphQL\Type\Definition\Type;
 
-abstract class BooleanField extends Field implements DisplayableField, FilterableField, OrderableField
+abstract class BooleanField extends Field implements DisplayableField, FilterableField, SortableField
 {
     /**
      * The type returned by the field.
@@ -43,10 +43,10 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
     }
 
     /**
-     * The order type of the field.
+     * The sort type of the field.
      */
-    public function orderType(): OrderType
+    public function sortType(): SortType
     {
-        return OrderType::ROOT;
+        return SortType::ROOT;
     }
 }
