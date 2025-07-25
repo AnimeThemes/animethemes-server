@@ -35,9 +35,10 @@ class FeaturedThemeBuilder
      */
     public function current(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        return $builder->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
-            ->whereNotNull(FeaturedTheme::ATTRIBUTE_END_AT)
-            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now())
-            ->whereDate(FeaturedTheme::ATTRIBUTE_END_AT, ComparisonOperator::GT->value, Date::now());
+        return $builder
+            ->whereValueBetween(Date::now(), [
+                FeaturedTheme::ATTRIBUTE_START_AT,
+                FeaturedTheme::ATTRIBUTE_END_AT,
+            ]);
     }
 }

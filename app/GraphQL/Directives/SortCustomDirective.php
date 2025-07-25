@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Directives;
 
-use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -36,6 +35,7 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
     /**
      * @param  array<string, mixed>  $sortByColumns
      *
+     * @throws ClientValidationException
      * @throws InvalidArgumentException
      */
     public function handleBuilder(QueryBuilder|EloquentBuilder|Relation $builder, $sortByColumns): QueryBuilder|EloquentBuilder|Relation
