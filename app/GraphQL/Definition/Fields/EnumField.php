@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\OrderableField;
 use App\Enums\GraphQL\OrderType;
+use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\NotInFilterDirective;
@@ -70,6 +71,7 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
     public function filterDirectives(): array
     {
         return [
+            new EqFilterDirective($this, $this->type()),
             new InFilterDirective($this, $this->type()),
             new NotInFilterDirective($this, $this->type()),
         ];

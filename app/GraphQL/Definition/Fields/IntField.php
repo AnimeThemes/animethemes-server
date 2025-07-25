@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\OrderableField;
 use App\Enums\GraphQL\OrderType;
+use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;
@@ -41,6 +42,7 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
     public function filterDirectives(): array
     {
         return [
+            new EqFilterDirective($this, $this->type()),
             new InFilterDirective($this, $this->type()),
             new NotInFilterDirective($this, $this->type()),
             new LesserFilterDirective($this, $this->type()),
