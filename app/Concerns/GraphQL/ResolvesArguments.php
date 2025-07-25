@@ -7,12 +7,14 @@ namespace App\Concerns\GraphQL;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\OrderableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 trait ResolvesArguments
 {
@@ -49,6 +51,34 @@ trait ResolvesArguments
             })
             ->flatten()
             ->toArray();
+    }
+
+    /**
+     * Resolve the fields into arguments that are used for ordering.
+     *
+     * @param  Field[]  $fields
+     * @return string[]
+     */
+    public function resolveOrderArguments(array $fields): array
+    {
+        $columns = collect($fields)
+            ->filter(fn (Field $field) => $field instanceof OrderableField)
+            ->map(fn (Field&OrderableField $field) => [
+                'column' => $field->getColumn(),
+                'orderType' => $field->orderType()->value,
+                'relation' => method_exists($field, 'relation') ? $field->{'relation'}() : null,
+            ])
+            ->toArray();
+
+        return [
+            Str::of('order: [OrderInput!]! ')
+                ->append($this->resolveDirectives([
+                    'orderCustom' => [
+                        'columns' => json_encode($columns),
+                    ],
+                ]))
+                ->__toString(),
+        ];
     }
 
     /**

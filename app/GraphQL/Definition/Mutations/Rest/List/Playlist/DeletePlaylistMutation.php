@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
 
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Definition\Mutations\Rest\DeleteMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
@@ -12,7 +12,7 @@ use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
 
-#[UseField(PlaylistController::class, 'destroy')]
+#[UseFieldDirective(PlaylistController::class, 'destroy')]
 class DeletePlaylistMutation extends DeleteMutation
 {
     public function __construct()

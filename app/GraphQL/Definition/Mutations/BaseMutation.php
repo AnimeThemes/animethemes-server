@@ -57,7 +57,7 @@ abstract class BaseMutation
         $field = $this->resolveFieldAttribute();
 
         if ($field === null) {
-            throw new Exception("The mutation {$this->name} must implement an UseField attribute.");
+            throw new Exception("The mutation {$this->name} must implement an UseFieldDirective attribute.");
         }
 
         return [

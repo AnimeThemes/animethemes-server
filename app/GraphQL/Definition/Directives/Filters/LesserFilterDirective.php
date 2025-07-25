@@ -17,6 +17,7 @@ class LesserFilterDirective extends FilterDirective
         return Str::of($this->field->getName().'_lesser')
             ->append(': ')
             ->append($this->type->__toString())
+            ->append(' ')
             ->append($this->resolveDirectives([
                 'where' => [
                     'operator' => ComparisonOperator::LT->value,

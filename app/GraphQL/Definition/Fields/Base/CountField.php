@@ -30,6 +30,7 @@ class CountField extends Field implements DisplayableField
             'count' => [
                 'relation' => $this->relation,
             ],
+            ...parent::directives(),
         ];
     }
 

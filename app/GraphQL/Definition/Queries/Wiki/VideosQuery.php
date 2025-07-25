@@ -33,13 +33,6 @@ class VideosQuery extends EloquentQuery
             'search: String @search',
 
             ...parent::arguments(),
-
-            'orderBy: _ @orderBy(columnsEnum: "VideoColumnsOrderable",
-                relations: [
-                    {relation: "likeAggregate", columns: ["value"]},
-                    {relation: "viewAggregate", columns: ["value"]}
-                ]
-            )',
         ];
     }
 

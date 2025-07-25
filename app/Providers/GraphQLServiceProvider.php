@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\GraphQL\OrderDirection;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -87,6 +88,7 @@ class GraphQLServiceProvider extends ServiceProvider
     protected function bootEnums(): void
     {
         $typeRegistry = app(TypeRegistry::class);
+        $typeRegistry->register(new EnumType(OrderDirection::class));
         $typeRegistry->register(new EnumType(ExternalEntryWatchStatus::class));
         $typeRegistry->register(new EnumType(ExternalProfileSite::class));
         $typeRegistry->register(new EnumType(ExternalProfileVisibility::class));
@@ -140,6 +142,16 @@ class GraphQLServiceProvider extends ServiceProvider
                 );
             }
         }
+
+        $dispatcher->listen(
+            BuildSchemaString::class,
+            fn (): string => '
+                input OrderInput {
+                    column: String!
+                    direction: OrderDirection!
+                }
+            '
+        );
     }
 
     /**

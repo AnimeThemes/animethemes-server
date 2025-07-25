@@ -1,8 +1,0 @@
-enum PageColumnsOrderable {
-    ID @enum(value: "page_id")
-    NAME
-    SLUG
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

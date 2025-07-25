@@ -1,8 +1,0 @@
-enum PerformanceColumnsOrderable {
-    ID @enum(value: "performance_id")
-    ALIAS
-    AS
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

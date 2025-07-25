@@ -1,8 +1,0 @@
-enum StudioColumnsOrderable {
-    ID @enum(value: "studio_id")
-    NAME
-    SLUG
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

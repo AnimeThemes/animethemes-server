@@ -33,8 +33,6 @@ class SongsQuery extends EloquentQuery
             'search: String @search',
 
             ...parent::arguments(),
-
-            'orderBy: _ @orderBy(columnsEnum: "SongColumnsOrderable")',
         ];
     }
 

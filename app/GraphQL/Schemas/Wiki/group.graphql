@@ -1,8 +1,0 @@
-enum ThemeGroupColumnsOrderable {
-    ID @enum(value: "group_id")
-    NAME
-    SLUG
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

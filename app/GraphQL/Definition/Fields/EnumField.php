@@ -6,6 +6,8 @@ namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\OrderableField;
+use App\Enums\GraphQL\OrderType;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Directives\Filters\InFilterDirective;
 use App\GraphQL\Definition\Directives\Filters\NotInFilterDirective;
@@ -13,7 +15,7 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-abstract class EnumField extends Field implements DisplayableField, FilterableField
+abstract class EnumField extends Field implements DisplayableField, FilterableField, OrderableField
 {
     public function __construct(
         public string $column,
@@ -71,5 +73,13 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
             new InFilterDirective($this, $this->type()),
             new NotInFilterDirective($this, $this->type()),
         ];
+    }
+
+    /**
+     * The order type of the field.
+     */
+    public function orderType(): OrderType
+    {
+        return OrderType::ROOT;
     }
 }

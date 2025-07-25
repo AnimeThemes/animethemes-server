@@ -10,6 +10,7 @@ use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 
 abstract class BaseQuery
 {
@@ -78,7 +79,11 @@ abstract class BaseQuery
             $arguments[] = $this->resolveFilterArguments($baseType->fields());
         }
 
-        return $arguments;
+        if ($baseType instanceof BaseType && $baseType instanceof HasFields && $this->paginated) {
+            $arguments[] = $this->resolveOrderArguments($baseType->fields());
+        }
+
+        return Arr::flatten($arguments);
     }
 
     /**

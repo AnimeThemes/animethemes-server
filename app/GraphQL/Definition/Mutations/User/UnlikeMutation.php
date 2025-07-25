@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations\User;
 
 use App\Contracts\GraphQL\Fields\DeletableField;
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
@@ -14,7 +14,7 @@ use App\GraphQL\Definition\Unions\LikedUnion;
 use App\Models\User\Like;
 use GraphQL\Type\Definition\Type;
 
-#[UseField(LikeController::class, 'destroy')]
+#[UseFieldDirective(LikeController::class, 'destroy')]
 class UnlikeMutation extends BaseMutation
 {
     public function __construct()

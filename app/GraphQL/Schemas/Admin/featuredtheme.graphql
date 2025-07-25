@@ -1,8 +1,0 @@
-enum FeaturedThemeColumnsOrderable {
-    ID @enum(value: "featured_theme_id")
-    START_AT
-    END_AT
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

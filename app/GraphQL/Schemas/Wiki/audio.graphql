@@ -1,9 +1,0 @@
-enum AudioColumnsOrderable {
-    ID @enum(value: "audio_id")
-    FILENAME
-    BASENAME
-    SIZE
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Concerns\GraphQL;
 
-use App\GraphQL\Attributes\UseBuilder;
-use App\GraphQL\Attributes\UseField;
-use Exception;
+use App\GraphQL\Attributes\UseBuilderDirective;
+use App\GraphQL\Attributes\UseFieldDirective;
+use Illuminate\Support\Arr;
 use ReflectionClass;
 
 trait ResolvesAttributes
@@ -18,16 +18,17 @@ trait ResolvesAttributes
     {
         $reflection = new ReflectionClass($this);
 
-        $attributes = $reflection->getAttributes(UseBuilder::class);
+        $attributes = [];
 
-        if (count($attributes) === 1) {
-            $instance = $attributes[0]->newInstance();
-
-            return sprintf('%s@%s', $instance->builderClass, $instance->method);
+        while ($reflection) {
+            $attributes = array_merge($attributes, $reflection->getAttributes(UseBuilderDirective::class));
+            $reflection = $reflection->getParentClass();
         }
 
-        if (count($attributes) > 1) {
-            throw new Exception('Multiple builders disallowed.');
+        if (filled($attributes)) {
+            $instance = Arr::first($attributes)->newInstance();
+
+            return sprintf('%s@%s', $instance->builderClass, $instance->method);
         }
 
         return null;
@@ -40,16 +41,17 @@ trait ResolvesAttributes
     {
         $reflection = new ReflectionClass($this);
 
-        $attributes = $reflection->getAttributes(UseField::class);
+        $attributes = [];
 
-        if (count($attributes) === 1) {
-            $instance = $attributes[0]->newInstance();
-
-            return sprintf('%s@%s', $instance->fieldClass, $instance->method);
+        while ($reflection) {
+            $attributes = array_merge($attributes, $reflection->getAttributes(UseFieldDirective::class));
+            $reflection = $reflection->getParentClass();
         }
 
-        if (count($attributes) > 1) {
-            throw new Exception('Multiple fields disallowed.');
+        if (filled($attributes)) {
+            $instance = Arr::first($attributes)->newInstance();
+
+            return sprintf('%s@%s', $instance->fieldClass, $instance->method);
         }
 
         return null;

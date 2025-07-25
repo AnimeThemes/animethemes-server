@@ -1,13 +1,3 @@
-enum PlaylistColumnsOrderable {
-    ID @enum(value: "playlist_id")
-    NAME
-    DESCRIPTION
-    VISIBILITY
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}
-
 extend type Query {
     "Returns a playlist resource."
     playlist(

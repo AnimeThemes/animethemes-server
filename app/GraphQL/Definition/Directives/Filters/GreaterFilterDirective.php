@@ -17,6 +17,7 @@ class GreaterFilterDirective extends FilterDirective
         return Str::of($this->field->getName().'_greater')
             ->append(': ')
             ->append($this->type->__toString())
+            ->append(' ')
             ->append($this->resolveDirectives([
                 'where' => [
                     'operator' => ComparisonOperator::GT->value,

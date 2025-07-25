@@ -33,8 +33,6 @@ class StudiosQuery extends EloquentQuery
             'search: String @search',
 
             ...parent::arguments(),
-
-            'orderBy: _ @orderBy(columnsEnum: "StudioColumnsOrderable")',
         ];
     }
 

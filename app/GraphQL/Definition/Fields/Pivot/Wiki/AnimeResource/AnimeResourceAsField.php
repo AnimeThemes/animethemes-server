@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Pivot\Wiki\AnimeResource;
 
-use App\GraphQL\Attributes\UseField;
+use App\GraphQL\Attributes\UseFieldDirective;
 use App\GraphQL\Definition\Fields\StringField;
 use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\AnimeResource;
 
-#[UseField(PivotResolver::class)]
+#[UseFieldDirective(PivotResolver::class)]
 class AnimeResourceAsField extends StringField
 {
     public function __construct()

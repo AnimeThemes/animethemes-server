@@ -33,8 +33,6 @@ class AnimesQuery extends EloquentQuery
             'search: String @search',
 
             ...parent::arguments(),
-
-            'orderBy: _ @orderBy(columnsEnum: "AnimeColumnsOrderable")',
         ];
     }
 

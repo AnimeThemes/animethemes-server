@@ -1,10 +1,3 @@
-enum PlaylistTrackColumnsOrderable {
-    ID @enum(value: "track_id")
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}
-
 extend type Query {
     "Returns a playlist track resource."
     playlisttrack(
@@ -21,7 +14,6 @@ extend type Query {
         updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
         deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
         deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "PlaylistTrackColumnsOrderable")
     ): [PlaylistTrack!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\Playlist\\PlaylistTrackBuilder@index")

@@ -7,13 +7,13 @@ namespace App\GraphQL\Attributes;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class UseBuilder
+class UseFieldDirective
 {
     /**
-     * @param  class-string  $builderClass
+     * @param  class-string  $fieldClass
      */
     public function __construct(
-        public string $builderClass,
-        public string $method = 'index',
+        public string $fieldClass,
+        public string $method = '__invoke',
     ) {}
 }

@@ -1,9 +1,0 @@
-enum ExternalResourceColumnsOrderable {
-    ID @enum(value: "resource_id")
-    SITE
-    EXTERNAL_ID
-    LINK
-    CREATED_AT
-    UPDATED_AT
-    DELETED_AT
-}
