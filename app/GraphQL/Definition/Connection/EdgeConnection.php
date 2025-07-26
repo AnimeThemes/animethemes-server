@@ -6,14 +6,14 @@ namespace App\GraphQL\Definition\Connection;
 
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Resolvers\NodesResolver;
-use Nuwave\Lighthouse\Pagination\ConnectionField;
 use Illuminate\Support\Str;
+use Nuwave\Lighthouse\Pagination\ConnectionField;
 use Stringable;
 
 /**
  * Overlap the behavior edge connection to accept a custom 'nodes' field.
  */
-readonly final class EdgeConnection implements Stringable
+final readonly class EdgeConnection implements Stringable
 {
     public function __construct(
         protected BaseEdgeType $edgeType
