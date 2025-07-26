@@ -20,11 +20,17 @@ class SyncViewAggregatesAction
     {
         try {
             DB::statement('
-                INSERT INTO view_aggregates (viewable_id, viewable_type, value)
+                CREATE TEMPORARY TABLE tmp_view_aggregates AS
                 SELECT viewable_id, viewable_type, COUNT(*) as value
                 FROM views
                 GROUP BY viewable_type, viewable_id
-                ON DUPLICATE KEY UPDATE value = VALUES(value);
+            ');
+
+            DB::statement('
+                INSERT INTO view_aggregates (viewable_id, viewable_type, value)
+                SELECT viewable_id, viewable_type, value
+                FROM tmp_view_aggregates
+                ON DUPLICATE KEY UPDATE value = VALUES(value)
             ');
         } catch (Exception $e) {
             return new ActionResult(

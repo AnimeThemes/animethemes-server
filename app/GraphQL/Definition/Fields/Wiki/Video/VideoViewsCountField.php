@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
+use App\GraphQL\Attributes\Deprecated;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\Wiki\Video;
 
+#[Deprecated('We will no longer track views. Use likesCount instead.')]
 class VideoViewsCountField extends CountAggregateField
 {
     public function __construct()
