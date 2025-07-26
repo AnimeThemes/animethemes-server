@@ -21,7 +21,7 @@ class SyncExternalProfileMutation extends BaseMutation
 {
     public function __construct()
     {
-        parent::__construct('syncExternalProfile');
+        parent::__construct('SyncExternalProfile');
     }
 
     /**

@@ -17,8 +17,10 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\GraphQL\Definition\Connection\EdgeConnection;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\EnumType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -140,6 +142,10 @@ class GraphQLServiceProvider extends ServiceProvider
                     BuildSchemaString::class,
                     fn (): string => $class->toGraphQLString()
                 );
+
+                if ($class instanceof BaseEdgeType) {
+                    $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($class)->__toString());
+                }
             }
         }
 
