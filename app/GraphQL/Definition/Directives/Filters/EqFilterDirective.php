@@ -18,6 +18,6 @@ class EqFilterDirective extends FilterDirective
                 'eq' => [
                     'key' => $this->field->getColumn(),
                 ],
-            ],);
+            ], );
     }
 }

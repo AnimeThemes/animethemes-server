@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\Rest;
+namespace App\GraphQL\Definition\Mutations\Models;
 
-use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\Contracts\GraphQL\Fields\BindableField;
+use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;
@@ -13,14 +14,14 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
-abstract class UpdateMutation extends BaseMutation
+abstract class CreateMutation extends BaseMutation
 {
     /**
      * @param  class-string<Model>  $model
      */
     public function __construct(protected string $model)
     {
-        parent::__construct('update'.ucfirst(class_basename($model)));
+        parent::__construct('create'.ucfirst(class_basename($model)));
     }
 
     /**
@@ -35,8 +36,10 @@ abstract class UpdateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof HasFields) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
-            $arguments[] = $this->resolveUpdateMutationArguments($baseType->fields());
+            $bindableFields = Arr::where($baseType->fields(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
+            $notBindableFields = Arr::where($baseType->fields(), fn (Field $field) => ! $field instanceof BindableField);
+            $arguments[] = $this->resolveBindArguments($bindableFields);
+            $arguments[] = $this->resolveCreateMutationArguments($notBindableFields);
         }
 
         return Arr::flatten($arguments);
@@ -51,7 +54,7 @@ abstract class UpdateMutation extends BaseMutation
     {
         return [
             'canModel' => [
-                'ability' => 'update',
+                'ability' => 'create',
                 'injectArgs' => true,
                 'model' => $this->model,
             ],
@@ -72,8 +75,8 @@ abstract class UpdateMutation extends BaseMutation
 
         if ($baseType instanceof HasFields) {
             return collect($baseType->fields())
-                ->filter(fn (Field $field) => $field instanceof UpdatableField)
-                ->mapWithKeys(fn (Field&UpdatableField $field) => [$field->getColumn() => $field->getUpdateRules($args)])
+                ->filter(fn (Field $field) => $field instanceof CreatableField)
+                ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
                 ->toArray();
         }
 

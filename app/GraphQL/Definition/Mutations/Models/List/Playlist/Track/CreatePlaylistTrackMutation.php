@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist\Track;
+namespace App\GraphQL\Definition\Mutations\Models\List\Playlist\Track;
 
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
-use App\GraphQL\Definition\Mutations\Rest\CreateMutation;
+use App\GraphQL\Definition\Mutations\Models\CreateMutation;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist\PlaylistTrack;
 

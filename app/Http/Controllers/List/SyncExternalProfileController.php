@@ -50,7 +50,7 @@ class SyncExternalProfileController extends Controller
             ], 403);
         }
 
-        $externalProfile->startSyncJob();
+        $externalProfile->dispatchSyncJob();
 
         return new JsonResponse([
             'message' => 'Job dispatched.',

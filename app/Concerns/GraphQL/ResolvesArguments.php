@@ -94,12 +94,12 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->map(fn (Field $field) =>
-                new Argument(
+            ->map(
+                fn (Field $field) => new Argument(
                     $field->getColumn(),
                     $field->type()
                 )
-                ->required($field instanceof RequiredOnCreation)
+                    ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
             ->toArray();
@@ -115,12 +115,12 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->map(fn (Field $field) =>
-                new Argument(
+            ->map(
+                fn (Field $field) => new Argument(
                     $field->getColumn(),
                     $field->type()
                 )
-                ->required($field instanceof RequiredOnUpdate)
+                    ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()
             ->toArray();
@@ -136,8 +136,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(fn (Field&BindableField $field) =>
-                new Argument($field->getName(), $field->type())
+            ->map(
+                fn (Field&BindableField $field) => new Argument($field->getName(), $field->type())
                     ->required($shouldRequire)
                     ->directives([
                         'bind' => [

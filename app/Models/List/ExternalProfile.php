@@ -191,7 +191,7 @@ class ExternalProfile extends BaseModel
     /**
      * Dispatch the sync external profile job.
      */
-    public function startSyncJob(): void
+    public function dispatchSyncJob(): void
     {
         SyncExternalProfileJob::dispatch($this);
     }
