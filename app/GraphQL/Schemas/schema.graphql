@@ -14,7 +14,3 @@ input WhereHasConditions {
   AND: [WhereHasConditions!]
   OR: [WhereHasConditions!]
 }
-
-#import List/*.graphql
-#import List/External/*.graphql
-#import List/Playlist/*.graphql
