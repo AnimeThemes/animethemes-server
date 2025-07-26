@@ -16,10 +16,10 @@ class SyncExternalProfileController extends BaseController
     /**
      * Start a new sync job.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function store($_, array $args): JsonResponse
+    public function store($root, array $args): JsonResponse
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::pull($args, self::ROUTE_SLUG);

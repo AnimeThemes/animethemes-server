@@ -27,12 +27,12 @@ class LikeController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      *
      * @throws ClientValidationException
      */
-    public function store($_, array $args): Model
+    public function store($root, array $args): Model
     {
         $validated = $this->validated($args, LikeMutation::class);
 
@@ -57,12 +57,12 @@ class LikeController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      *
      * @throws ClientValidationException
      */
-    public function destroy($_, array $args): Model
+    public function destroy($root, array $args): Model
     {
         $validated = $this->validated($args, UnlikeMutation::class);
 

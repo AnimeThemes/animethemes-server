@@ -24,10 +24,10 @@ class PlaylistController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function store($_, array $args): Playlist
+    public function store($root, array $args): Playlist
     {
         $validated = $this->validated($args, CreatePlaylistMutation::class);
 
@@ -44,10 +44,10 @@ class PlaylistController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function update($_, array $args): Playlist
+    public function update($root, array $args): Playlist
     {
         /** @var Playlist $playlist */
         $playlist = Arr::pull($args, self::ROUTE_SLUG);
@@ -62,10 +62,10 @@ class PlaylistController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function destroy($_, array $args): JsonResponse
+    public function destroy($root, array $args): JsonResponse
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($args, self::ROUTE_SLUG);
