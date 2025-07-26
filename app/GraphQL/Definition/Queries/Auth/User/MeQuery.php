@@ -14,7 +14,7 @@ class MeQuery extends BaseQuery
 {
     public function __construct()
     {
-        parent::__construct('me', false, false);
+        parent::__construct('me', true, false);
     }
 
     /**
