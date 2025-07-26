@@ -10,6 +10,7 @@ use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 abstract class DeleteMutation extends BaseMutation
 {
@@ -18,7 +19,7 @@ abstract class DeleteMutation extends BaseMutation
      */
     public function __construct(protected string $model)
     {
-        parent::__construct('delete'.ucfirst(class_basename($model)));
+        parent::__construct('Delete'.Str::pascal(class_basename($model)));
     }
 
     /**

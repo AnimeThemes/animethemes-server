@@ -13,6 +13,7 @@ use App\GraphQL\Definition\Mutations\BaseMutation;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 abstract class CreateMutation extends BaseMutation
 {
@@ -21,7 +22,7 @@ abstract class CreateMutation extends BaseMutation
      */
     public function __construct(protected string $model)
     {
-        parent::__construct('create'.ucfirst(class_basename($model)));
+        parent::__construct('Create'.Str::pascal(class_basename($model)));
     }
 
     /**
