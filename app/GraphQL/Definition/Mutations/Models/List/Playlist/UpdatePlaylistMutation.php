@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
+namespace App\GraphQL\Definition\Mutations\Models\List\Playlist;
 
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\PlaylistController;
-use App\GraphQL\Definition\Mutations\Rest\CreateMutation;
+use App\GraphQL\Definition\Mutations\Models\UpdateMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\List\Playlist;
 
-#[UseFieldDirective(PlaylistController::class, 'store')]
-class CreatePlaylistMutation extends CreateMutation
+#[UseFieldDirective(PlaylistController::class, 'update')]
+class UpdatePlaylistMutation extends UpdateMutation
 {
     public function __construct()
     {
@@ -23,7 +23,7 @@ class CreatePlaylistMutation extends CreateMutation
      */
     public function description(): string
     {
-        return 'Create playlist';
+        return 'Update playlist';
     }
 
     /**

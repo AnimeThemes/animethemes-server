@@ -8,6 +8,7 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\RelationType;
+use App\GraphQL\Definition\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 use Stringable;
@@ -41,7 +42,7 @@ abstract class Relation implements Stringable
         );
 
         return Str::of($this->field ?? $this->relationName)
-            ->append($this->getArguments())
+            ->append($this->buildArguments($this->arguments()))
             ->append(': ')
             ->append($this->type()->__toString())
             ->append(' ')
@@ -51,8 +52,10 @@ abstract class Relation implements Stringable
 
     /**
      * Resolve the arguments of the sub-query.
+     *
+     * @return Argument[]
      */
-    protected function getArguments(): string
+    protected function arguments(): array
     {
         $arguments = [];
 
@@ -60,7 +63,7 @@ abstract class Relation implements Stringable
             $arguments[] = $this->resolveFilterArguments($this->type->fields());
         }
 
-        return $this->buildArguments($arguments);
+        return $arguments;
     }
 
     /**

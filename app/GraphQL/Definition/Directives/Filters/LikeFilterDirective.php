@@ -14,16 +14,12 @@ class LikeFilterDirective extends FilterDirective
      */
     public function argument(): Argument
     {
-        return new Argument(
-            $this->field->getName().'_like',
-            $this->type,
-            false,
-            [
+        return new Argument($this->field->getName().'_like', $this->type)
+            ->directives([
                 'where' => [
                     'operator' => ComparisonOperator::LIKE->value,
                     'key' => $this->field->getColumn(),
                 ],
-            ],
-        );
+            ]);
     }
 }

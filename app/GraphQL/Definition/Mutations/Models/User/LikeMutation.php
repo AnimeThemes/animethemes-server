@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\User;
+namespace App\GraphQL\Definition\Mutations\Models\User;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;

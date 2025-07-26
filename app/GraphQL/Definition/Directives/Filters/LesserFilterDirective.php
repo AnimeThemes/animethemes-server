@@ -14,16 +14,12 @@ class LesserFilterDirective extends FilterDirective
      */
     public function argument(): Argument
     {
-        return new Argument(
-            $this->field->getName().'_lesser',
-            $this->type,
-            false,
-            [
+        return new Argument($this->field->getName().'_lesser', $this->type)
+            ->directives([
                 'where' => [
                     'operator' => ComparisonOperator::LT->value,
                     'key' => $this->field->getColumn(),
                 ],
-            ],
-        );
+            ]);
     }
 }

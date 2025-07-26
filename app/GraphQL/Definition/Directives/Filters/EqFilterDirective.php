@@ -13,15 +13,11 @@ class EqFilterDirective extends FilterDirective
      */
     public function argument(): Argument
     {
-        return new Argument(
-            $this->field->getName(),
-            $this->type,
-            false,
-            [
+        return new Argument($this->field->getName(), $this->type)
+            ->directives([
                 'eq' => [
                     'key' => $this->field->getColumn(),
                 ],
-            ],
-        );
+            ], );
     }
 }

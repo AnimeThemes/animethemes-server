@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\User;
 
+use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Mutations\User\LikeMutation;
-use App\GraphQL\Definition\Mutations\User\UnlikeMutation;
+use App\GraphQL\Definition\Mutations\Models\User\LikeMutation;
+use App\GraphQL\Definition\Mutations\Models\User\UnlikeMutation;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\Wiki\Video;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
@@ -27,12 +27,12 @@ class LikeController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      *
-     * @throws Exception
+     * @throws ClientValidationException
      */
-    public function store($_, array $args): Model
+    public function store($root, array $args): Model
     {
         $validated = $this->validated($args, LikeMutation::class);
 
@@ -51,18 +51,18 @@ class LikeController extends BaseController
             return $video;
         }
 
-        throw new Exception('None models detected to like.');
+        throw new ClientValidationException('One resource is required to like.');
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      *
-     * @throws Exception
+     * @throws ClientValidationException
      */
-    public function destroy($_, array $args): Model
+    public function destroy($root, array $args): Model
     {
         $validated = $this->validated($args, UnlikeMutation::class);
 
@@ -81,6 +81,6 @@ class LikeController extends BaseController
             return $video;
         }
 
-        throw new Exception('None models detected to unlike.');
+        throw new ClientValidationException('One resource is required to unlike.');
     }
 }

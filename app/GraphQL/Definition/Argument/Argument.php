@@ -9,24 +9,48 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 use Stringable;
 
-readonly class Argument implements Stringable
+class Argument implements Stringable
 {
     use ResolvesDirectives;
 
+    protected bool $required = false;
+
     /**
-     * @param  array<string, array>  $directives
+     * @var array<string, array>
      */
+    protected array $directives = [];
+
     public function __construct(
         public string $name,
         public Type|string $returnType,
-        public bool $required,
-        public array $directives = [],
     ) {}
+
+    /**
+     * Mark the argument as required.
+     */
+    public function required(bool $condition = true): static
+    {
+        $this->required = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Set the directives of the argument.
+     *
+     * @param  array<string, array>  $directives
+     */
+    public function directives(array $directives = []): static
+    {
+        $this->directives = $directives;
+
+        return $this;
+    }
 
     /**
      * Get the resolved directives as a string.
      */
-    public function getResolvedDirectives(): string
+    protected function getResolvedDirectives(): string
     {
         return $this->resolveDirectives($this->directives);
     }

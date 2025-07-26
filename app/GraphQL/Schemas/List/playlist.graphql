@@ -1,7 +1,0 @@
-extend type Query {
-    "Returns a playlist resource."
-    playlist(
-        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-    ): Playlist @first
-    @canModel(ability: "view", injectArgs: true)
-}

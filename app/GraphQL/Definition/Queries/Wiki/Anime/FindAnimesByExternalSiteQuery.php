@@ -62,9 +62,12 @@ class FindAnimesByExternalSiteQuery extends BaseQuery
     public function arguments(): array
     {
         return [
-            new Argument(self::ATTRIBUTE_SITE, app(TypeRegistry::class)->get(class_basename(ResourceSite::class)), true),
-            new Argument(self::ATTRIBUTE_ID, Type::int(), false),
-            new Argument(self::ATTRIBUTE_LINK, Type::string(), false),
+            new Argument(self::ATTRIBUTE_SITE, app(TypeRegistry::class)->get(class_basename(ResourceSite::class)))
+                ->required(),
+
+            new Argument(self::ATTRIBUTE_ID, Type::int()),
+
+            new Argument(self::ATTRIBUTE_LINK, Type::string()),
         ];
     }
 

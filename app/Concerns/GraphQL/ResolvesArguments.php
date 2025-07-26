@@ -24,7 +24,7 @@ trait ResolvesArguments
      *
      * @param  Argument[]  $arguments
      */
-    public function buildArguments(array $arguments): string
+    protected function buildArguments(array $arguments): string
     {
         if (blank($arguments)) {
             return '';
@@ -44,7 +44,7 @@ trait ResolvesArguments
      * @param  Field[]  $fields
      * @return Argument[]
      */
-    public function resolveFilterArguments(array $fields): array
+    protected function resolveFilterArguments(array $fields): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof FilterableField)
@@ -63,7 +63,7 @@ trait ResolvesArguments
      * @param  Field[]  $fields
      * @return Argument[]
      */
-    public function resolveSortArguments(array $fields): array
+    protected function resolveSortArguments(array $fields): array
     {
         $columns = collect($fields)
             ->filter(fn (Field $field) => $field instanceof SortableField)
@@ -75,16 +75,12 @@ trait ResolvesArguments
             ->toArray();
 
         return [
-            new Argument(
-                'sort',
-                '[SortInput!]',
-                false,
-                [
+            new Argument('sort', '[SortInput!]')
+                ->directives([
                     'sortCustom' => [
                         'columns' => json_encode($columns),
                     ],
-                ],
-            ),
+                ]),
         ];
     }
 
@@ -94,15 +90,17 @@ trait ResolvesArguments
      * @param  Field[]  $fields
      * @return Argument[]
      */
-    public function resolveCreateMutationArguments(array $fields): array
+    protected function resolveCreateMutationArguments(array $fields): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->map(fn (Field $field) => new Argument(
-                $field->getColumn(),
-                $field->type(),
-                $field instanceof RequiredOnCreation,
-            ))
+            ->map(
+                fn (Field $field) => new Argument(
+                    $field->getColumn(),
+                    $field->type()
+                )
+                    ->required($field instanceof RequiredOnCreation)
+            )
             ->flatten()
             ->toArray();
     }
@@ -113,15 +111,17 @@ trait ResolvesArguments
      * @param  Field[]  $fields
      * @return Argument[]
      */
-    public function resolveUpdateMutationArguments(array $fields): array
+    protected function resolveUpdateMutationArguments(array $fields): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->map(fn (Field $field) => new Argument(
-                $field->getColumn(),
-                $field->type(),
-                $field instanceof RequiredOnUpdate,
-            ))
+            ->map(
+                fn (Field $field) => new Argument(
+                    $field->getColumn(),
+                    $field->type()
+                )
+                    ->required($field instanceof RequiredOnUpdate)
+            )
             ->flatten()
             ->toArray();
     }
@@ -132,21 +132,20 @@ trait ResolvesArguments
      * @param  Field[]  $fields
      * @return Argument[]
      */
-    public function resolveBindArguments(array $fields, bool $shouldRequire = true): array
+    protected function resolveBindArguments(array $fields, bool $shouldRequire = true): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(fn (Field&BindableField $field) => new Argument(
-                $field->getName(),
-                $field->type(),
-                $shouldRequire,
-                [
-                    'bind' => [
-                        'class' => $field->bindTo(),
-                        'column' => $field->bindUsingColumn(),
-                    ],
-                ],
-            ))
+            ->map(
+                fn (Field&BindableField $field) => new Argument($field->getName(), $field->type())
+                    ->required($shouldRequire)
+                    ->directives([
+                        'bind' => [
+                            'class' => $field->bindTo(),
+                            'column' => $field->bindUsingColumn(),
+                        ],
+                    ])
+            )
             ->toArray();
     }
 }

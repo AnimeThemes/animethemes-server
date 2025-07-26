@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Controllers\List;
 
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Mutations\Rest\List\Playlist\CreatePlaylistMutation;
-use App\GraphQL\Definition\Mutations\Rest\List\Playlist\UpdatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\CreatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
@@ -24,10 +24,10 @@ class PlaylistController extends BaseController
     /**
      * Store a newly created resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function store($_, array $args): Playlist
+    public function store($root, array $args): Playlist
     {
         $validated = $this->validated($args, CreatePlaylistMutation::class);
 
@@ -44,10 +44,10 @@ class PlaylistController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function update($_, array $args): Playlist
+    public function update($root, array $args): Playlist
     {
         /** @var Playlist $playlist */
         $playlist = Arr::pull($args, self::ROUTE_SLUG);
@@ -62,10 +62,10 @@ class PlaylistController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  null  $_
+     * @param  null  $root
      * @param  array  $args
      */
-    public function destroy($_, array $args): JsonResponse
+    public function destroy($root, array $args): JsonResponse
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($args, self::ROUTE_SLUG);

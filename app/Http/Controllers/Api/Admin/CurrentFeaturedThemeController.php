@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Actions\Http\Api\ShowAction;
 use App\Contracts\Http\Api\InteractsWithSchema;
-use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\FeaturedThemeSchema;
 use App\Http\Api\Schema\Schema;
@@ -28,10 +27,10 @@ class CurrentFeaturedThemeController extends Controller implements InteractsWith
         $query = new Query($request->validated());
 
         $featuredtheme = FeaturedTheme::query()
-            ->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
-            ->whereNotNull(FeaturedTheme::ATTRIBUTE_END_AT)
-            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now())
-            ->whereDate(FeaturedTheme::ATTRIBUTE_END_AT, ComparisonOperator::GT->value, Date::now())
+            ->whereValueBetween(Date::now(), [
+                FeaturedTheme::ATTRIBUTE_START_AT,
+                FeaturedTheme::ATTRIBUTE_END_AT,
+            ])
             ->firstOrFail();
 
         $show = $action->show($featuredtheme, $query, $request->schema());

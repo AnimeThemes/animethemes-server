@@ -11,6 +11,7 @@ use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class PlaylistPolicy extends BasePolicy
 {
@@ -23,6 +24,7 @@ class PlaylistPolicy extends BasePolicy
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, $keyName);
+        Log::info($injected);
 
         if ($user !== null) {
             return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)

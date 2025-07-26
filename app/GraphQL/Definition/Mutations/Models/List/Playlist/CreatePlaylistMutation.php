@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\Rest\List\Playlist;
+namespace App\GraphQL\Definition\Mutations\Models\List\Playlist;
 
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\PlaylistController;
-use App\GraphQL\Definition\Mutations\Rest\DeleteMutation;
+use App\GraphQL\Definition\Mutations\Models\CreateMutation;
 use App\GraphQL\Definition\Types\List\PlaylistType;
-use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist;
-use GraphQL\Type\Definition\Type;
 
-#[UseFieldDirective(PlaylistController::class, 'destroy')]
-class DeletePlaylistMutation extends DeleteMutation
+#[UseFieldDirective(PlaylistController::class, 'store')]
+class CreatePlaylistMutation extends CreateMutation
 {
     public function __construct()
     {
@@ -25,7 +23,7 @@ class DeletePlaylistMutation extends DeleteMutation
      */
     public function description(): string
     {
-        return 'Delete playlist';
+        return 'Create playlist';
     }
 
     /**
@@ -34,13 +32,5 @@ class DeletePlaylistMutation extends DeleteMutation
     public function baseType(): PlaylistType
     {
         return new PlaylistType();
-    }
-
-    /**
-     * The type returned by the field.
-     */
-    public function getType(): Type
-    {
-        return Type::nonNull(new MessageResponseType());
     }
 }

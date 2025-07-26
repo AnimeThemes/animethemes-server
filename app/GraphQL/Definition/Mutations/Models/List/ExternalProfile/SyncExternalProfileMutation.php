@@ -2,25 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Mutations\User;
+namespace App\GraphQL\Definition\Mutations\Models\List\ExternalProfile;
 
-use App\Contracts\GraphQL\Fields\DeletableField;
+use App\Contracts\GraphQL\Fields\BindableField;
+use App\Features\AllowExternalProfileManagement;
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
-use App\GraphQL\Controllers\User\LikeController;
+use App\GraphQL\Controllers\List\SyncExternalProfileController;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
-use App\GraphQL\Definition\Types\User\LikeType;
-use App\GraphQL\Definition\Unions\LikedUnion;
-use App\Models\User\Like;
+use App\GraphQL\Definition\Types\List\ExternalProfileType;
+use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\Type;
 
-#[UseFieldDirective(LikeController::class, 'destroy')]
-class UnlikeMutation extends BaseMutation
+#[UseFieldDirective(SyncExternalProfileController::class, 'store')]
+class SyncExternalProfileMutation extends BaseMutation
 {
     public function __construct()
     {
-        parent::__construct('unlike');
+        parent::__construct('syncExternalProfile');
     }
 
     /**
@@ -28,19 +29,19 @@ class UnlikeMutation extends BaseMutation
      */
     public function description(): string
     {
-        return 'Unlike a model';
+        return 'Sync an external profile';
     }
 
     /**
-     * Get the arguments for the unlike mutation.
+     * Get the arguments for the create mutation.
      *
      * @return Argument[]
      */
     public function arguments(): array
     {
-        $type = new LikeType();
+        $type = new ExternalProfileType();
 
-        return $this->resolveBindArguments($type->fields(), false);
+        return $this->resolveBindArguments($type->fields());
     }
 
     /**
@@ -51,10 +52,16 @@ class UnlikeMutation extends BaseMutation
     public function directives(): array
     {
         return [
+            'middleware' => [
+                'class' => EnabledOnlyOnLocalhost::class,
+            ],
+            'featureEnabled' => [
+                'class' => AllowExternalProfileManagement::class,
+            ],
             'canModel' => [
-                'ability' => 'delete',
+                'ability' => 'update',
                 'injectArgs' => true,
-                'model' => Like::class,
+                'model' => ExternalProfile::class,
             ],
             ...parent::directives(),
         ];
@@ -68,11 +75,11 @@ class UnlikeMutation extends BaseMutation
      */
     public function rules(array $args): array
     {
-        $type = new LikeType();
+        $type = new ExternalProfileType();
 
         return collect($type->fields())
-            ->filter(fn (Field $field) => $field instanceof DeletableField)
-            ->mapWithKeys(fn (Field&DeletableField $field) => [$field->getColumn() => $field->getDeleteRules($args)])
+            ->filter(fn (Field $field) => $field instanceof BindableField)
+            ->mapWithKeys(fn (Field&BindableField $field) => [$field->getColumn() => ['required']])
             ->toArray();
     }
 
@@ -81,7 +88,7 @@ class UnlikeMutation extends BaseMutation
      */
     public function baseType(): Type
     {
-        return new LikedUnion();
+        return Type::string();
     }
 
     /**

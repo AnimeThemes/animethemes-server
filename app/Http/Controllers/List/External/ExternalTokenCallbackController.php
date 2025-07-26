@@ -46,7 +46,7 @@ class ExternalTokenCallbackController extends Controller
 
         $profile = $action->store($validated);
 
-        $profile->startSyncJob();
+        $profile->dispatchSyncJob();
 
         return Redirect::to($profile->getClientUrl());
     }
