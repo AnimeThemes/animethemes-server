@@ -11,9 +11,12 @@ use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Types\BaseType;
+use Illuminate\Support\Str;
 
 trait ResolvesArguments
 {
@@ -60,22 +63,22 @@ trait ResolvesArguments
     /**
      * Resolve the fields into arguments that are used for sorting.
      *
-     * @param  Field[]  $fields
      * @return Argument[]
      */
-    protected function resolveSortArguments(array $fields): array
+    protected function resolveSortArguments(BaseType&HasFields $type): array
     {
-        $columns = collect($fields)
+        $columns = collect($type->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (Field&SortableField $field) => [
                 'column' => $field->getColumn(),
+                'value' => Str::of($field->getName())->snake()->upper()->__toString(),
                 'sortType' => $field->sortType()->value,
                 'relation' => method_exists($field, 'relation') ? $field->{'relation'}() : null,
             ])
             ->toArray();
 
         return [
-            new Argument('sort', '[SortInput!]')
+            new Argument('sort', "[{$type->getName()}SortableColumns!]")
                 ->directives([
                     'sortCustom' => [
                         'columns' => json_encode($columns),

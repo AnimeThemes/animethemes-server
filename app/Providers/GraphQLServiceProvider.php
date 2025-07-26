@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
@@ -19,6 +20,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\GraphQL\Definition\Connection\EdgeConnection;
 use App\GraphQL\Definition\Mutations\BaseMutation;
+use App\GraphQL\Definition\Sort\SortableColumns;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
 use App\GraphQL\Definition\Types\EnumType;
@@ -138,11 +140,17 @@ class GraphQLServiceProvider extends ServiceProvider
                 /** @var BaseType|BaseUnion $class */
                 $class = new $fullClass;
 
+                // Build SortableColumns enums.
+                if ($class instanceof BaseType && $class instanceof HasFields) {
+                    $dispatcher->listen(BuildSchemaString::class, fn () => new SortableColumns($class)->__toString());
+                }
+
                 $dispatcher->listen(
                     BuildSchemaString::class,
                     fn (): string => $class->toGraphQLString()
                 );
 
+                // Build edge connections for custom logic.
                 if ($class instanceof BaseEdgeType) {
                     $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($class)->__toString());
                 }

@@ -5,17 +5,22 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Relations;
 
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Argument\Argument;
+use App\GraphQL\Definition\Types\BaseType;
+use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Stringable;
 
 abstract class Relation implements Stringable
 {
     use ResolvesArguments;
+    use ResolvesAttributes;
     use ResolvesDirectives;
 
     /**
@@ -59,11 +64,17 @@ abstract class Relation implements Stringable
     {
         $arguments = [];
 
-        if ($this->type instanceof HasFields) {
-            $arguments[] = $this->resolveFilterArguments($this->type->fields());
+        $type = $this->type;
+
+        if ($type instanceof HasFields) {
+            $arguments[] = $this->resolveFilterArguments($type->fields());
         }
 
-        return $arguments;
+        if ($type instanceof BaseType && $type instanceof HasFields && $this->type() instanceof ListOfType) {
+            $arguments[] = $this->resolveSortArguments($type);
+        }
+
+        return Arr::flatten($arguments);
     }
 
     /**

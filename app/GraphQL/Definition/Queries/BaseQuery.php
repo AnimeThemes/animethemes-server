@@ -89,7 +89,7 @@ abstract class BaseQuery
         }
 
         if ($baseType instanceof BaseType && $baseType instanceof HasFields && $this->resolvePaginateAttribute()) {
-            $arguments[] = $this->resolveSortArguments($baseType->fields());
+            $arguments[] = $this->resolveSortArguments($baseType);
         }
 
         return Arr::flatten($arguments);
