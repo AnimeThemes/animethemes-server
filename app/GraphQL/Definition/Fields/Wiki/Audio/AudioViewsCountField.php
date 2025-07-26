@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Audio;
 
+use App\GraphQL\Attributes\Deprecated;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\Wiki\Audio;
 
+#[Deprecated('We will no longer track views.')]
 class AudioViewsCountField extends CountAggregateField
 {
     public function __construct()

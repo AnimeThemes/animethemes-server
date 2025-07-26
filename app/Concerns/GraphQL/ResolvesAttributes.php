@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\GraphQL;
 
+use App\GraphQL\Attributes\Deprecated;
 use App\GraphQL\Attributes\Resolvers\UseAllDirective;
 use App\GraphQL\Attributes\Resolvers\UseAuthDirective;
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
@@ -70,6 +71,24 @@ trait ResolvesAttributes
             $instance = Arr::first($attributes)->newInstance();
 
             return sprintf('%s@%s', $instance->builderClass, $instance->method);
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolve the deprecated directive as an attribute.
+     */
+    protected function resolveDeprecatedAttribute(): ?string
+    {
+        $reflection = new ReflectionClass($this);
+
+        $attributes = $reflection->getAttributes(Deprecated::class);
+
+        if (filled($attributes)) {
+            $instance = Arr::first($attributes)->newInstance();
+
+            return $instance->reason;
         }
 
         return null;

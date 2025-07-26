@@ -81,9 +81,12 @@ abstract class Field implements Stringable
      */
     public function directives(): array
     {
+        $deprecated = $this->resolveDeprecatedAttribute();
         $field = $this->resolveFieldAttribute();
 
         return [
+            ...(is_string($deprecated) ? ['deprecated' => ['reason' => $deprecated]] : []),
+
             ...(is_string($field) ? ['field' => ['resolver' => $field]] : []),
         ];
     }
