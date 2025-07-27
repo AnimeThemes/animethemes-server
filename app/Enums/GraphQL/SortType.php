@@ -6,6 +6,7 @@ namespace App\Enums\GraphQL;
 
 enum SortType: int
 {
-    case ROOT = 0;
-    case AGGREGATE = 1;
+    case NONE = 0;
+    case ROOT = 1;
+    case AGGREGATE = 2;
 }

@@ -6,12 +6,12 @@ namespace App\GraphQL\Definition\Sort;
 
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\HasFields;
-use App\Enums\GraphQL\SortDirection;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use Illuminate\Support\Str;
+use Stringable;
 
-class SortableColumns
+final readonly class SortableColumns implements Stringable
 {
     public function __construct(
         protected BaseType&HasFields $type,
@@ -55,23 +55,13 @@ class SortableColumns
     }
 
     /**
-     * Apply the reverse engine.
-     */
-    public static function resolveSortDirection(string $column): SortDirection
-    {
-        return Str::endsWith($column, '_DESC')
-            ? SortDirection::DESC
-            : SortDirection::ASC;
-    }
-
-    /**
      * Resolve the SortableColumns as a GraphQL string representation.
      */
     public function __toString(): string
     {
         $enumCases = $this->resolveEnumCases();
 
-        if (blank($enumCases)) {
+        if (blank($enumCases) || (method_exists($this->type, 'sortable') && !$this->type->{'sortable'}())) {
             return '';
         }
 

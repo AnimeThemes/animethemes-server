@@ -7,10 +7,10 @@ namespace App\GraphQL\Definition\Types\Auth\User;
 use App\Contracts\GraphQL\HasDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
-use App\GraphQL\Definition\Fields\Auth\User\UserEmailField;
-use App\GraphQL\Definition\Fields\Auth\User\UserEmailVerifiedAtField;
-use App\GraphQL\Definition\Fields\Auth\User\UserNameField;
-use App\GraphQL\Definition\Fields\Auth\User\UserTwoFactorConfirmedAtField;
+use App\GraphQL\Definition\Fields\Auth\User\Me\MeEmailField;
+use App\GraphQL\Definition\Fields\Auth\User\Me\MeEmailVerifiedAtField;
+use App\GraphQL\Definition\Fields\Auth\User\Me\MeNameField;
+use App\GraphQL\Definition\Fields\Auth\User\Me\MeTwoFactorConfirmedAtField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
@@ -61,10 +61,10 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
     {
         return [
             new IdField(User::ATTRIBUTE_ID),
-            new UserNameField(),
-            new UserEmailField(),
-            new UserEmailVerifiedAtField(),
-            new UserTwoFactorConfirmedAtField(),
+            new MeNameField(),
+            new MeEmailField(),
+            new MeEmailVerifiedAtField(),
+            new MeTwoFactorConfirmedAtField(),
             new CreatedAtField(),
             new UpdatedAtField(),
         ];
@@ -92,5 +92,13 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
     public function model(): string
     {
         return User::class;
+    }
+
+    /**
+     * Determine that this type does not have sortable fields.
+     */
+    public function sortable(): bool
+    {
+        return false;
     }
 }

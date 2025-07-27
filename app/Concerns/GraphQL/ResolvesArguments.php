@@ -16,6 +16,7 @@ use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Directives\SortCustomDirective;
 use Illuminate\Support\Str;
 
 trait ResolvesArguments
@@ -70,10 +71,10 @@ trait ResolvesArguments
         $columns = collect($type->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (Field&SortableField $field) => [
-                'column' => $field->getColumn(),
-                'value' => Str::of($field->getName())->snake()->upper()->__toString(),
-                'sortType' => $field->sortType()->value,
-                'relation' => method_exists($field, 'relation') ? $field->{'relation'}() : null,
+                SortCustomDirective::INPUT_COLUMN => $field->getColumn(),
+                SortCustomDirective::INPUT_VALUE => Str::of($field->getName())->snake()->upper()->__toString(),
+                SortCustomDirective::INPUT_SORT_TYPE => $field->sortType()->value,
+                SortCustomDirective::INPUT_RELATION => method_exists($field, 'relation') ? $field->{'relation'}() : null,
             ])
             ->toArray();
 
