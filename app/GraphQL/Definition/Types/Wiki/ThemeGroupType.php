@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki;
 
-use App\Contracts\GraphQL\HasDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
@@ -19,9 +18,8 @@ use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Group;
-use Illuminate\Database\Eloquent\Model;
 
-class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, HasRelations
+class ThemeGroupType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -40,20 +38,6 @@ class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, H
     {
         return [
             new HasManyRelation(new AnimeThemeType(), Group::RELATION_THEMES),
-        ];
-    }
-
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'model' => [
-                'class' => Group::class,
-            ],
         ];
     }
 
@@ -77,7 +61,7 @@ class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, H
     /**
      * Get the model string representation for the type.
      *
-     * @return class-string<Model>
+     * @return class-string<Group>
      */
     public function model(): string
     {

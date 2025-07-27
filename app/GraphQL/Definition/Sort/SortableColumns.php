@@ -9,13 +9,11 @@ use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\SortDirection;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
-use Illuminate\Support\Str;
+use Stringable;
 
-class SortableColumns
+final readonly class SortableColumns implements Stringable
 {
-    public function __construct(
-        protected BaseType&HasFields $type,
-    ) {}
+    public function __construct(protected BaseType&HasFields $type) {}
 
     /**
      * Resolve the enum cases.
@@ -24,44 +22,9 @@ class SortableColumns
     {
         return collect($this->type->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (Field $field) => [static::resolveForAsc($field), static::resolveForDesc($field)])
+            ->map(fn (Field $field) => [SortDirection::resolveForAsc($field), SortDirection::resolveForDesc($field)])
             ->flatten()
             ->implode(PHP_EOL);
-    }
-
-    /**
-     * Build the enum case for the asc direction.
-     * Template: {COLUMN}.
-     */
-    protected static function resolveForAsc(Field $field): string
-    {
-        return Str::of($field->getName())
-            ->snake()
-            ->upper()
-            ->__toString();
-    }
-
-    /**
-     * Build the enum case for the desc direction.
-     * Template: {COLUMN}_DESC.
-     */
-    protected static function resolveForDesc(Field $field): string
-    {
-        return Str::of($field->getName())
-            ->snake()
-            ->upper()
-            ->append('_DESC')
-            ->__toString();
-    }
-
-    /**
-     * Apply the reverse engine.
-     */
-    public static function resolveSortDirection(string $column): SortDirection
-    {
-        return Str::endsWith($column, '_DESC')
-            ? SortDirection::DESC
-            : SortDirection::ASC;
     }
 
     /**
@@ -71,7 +34,7 @@ class SortableColumns
     {
         $enumCases = $this->resolveEnumCases();
 
-        if (blank($enumCases)) {
+        if (blank($enumCases) || (method_exists($this->type, 'sortable') && ! $this->type->{'sortable'}())) {
             return '';
         }
 

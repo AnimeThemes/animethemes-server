@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Types;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\HasDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
@@ -75,10 +74,7 @@ abstract class BaseType extends ObjectType
 
         $fieldsString = implode(PHP_EOL, Arr::flatten($fields));
 
-        $directives = '';
-        if ($this instanceof HasDirectives) {
-            $directives = $this->resolveDirectives($this->directives());
-        }
+        $directives = $this->resolveDirectives($this->directives());
 
         return "
             \"\"\"{$this->description()}\"\"\"
@@ -102,4 +98,14 @@ abstract class BaseType extends ObjectType
      * The description of the type.
      */
     abstract public function getDescription(): string;
+
+    /**
+     * The directives of the type.
+     *
+     * @return array<string, array>
+     */
+    public function directives(): array
+    {
+        return [];
+    }
 }

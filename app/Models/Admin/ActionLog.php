@@ -418,9 +418,13 @@ class ActionLog extends Model implements Nameable
      */
     public function updateStatus(ActionLogStatus $status, Throwable|string|null $exception = null): void
     {
+        if ($exception instanceof Throwable) {
+            $exception = $exception->__toString();
+        }
+
         $this->update([
             ActionLog::ATTRIBUTE_STATUS => $status->value,
-            ActionLog::ATTRIBUTE_EXCEPTION => $exception->__toString(),
+            ActionLog::ATTRIBUTE_EXCEPTION => $exception,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
     }

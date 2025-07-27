@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Directives;
 
+use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
-use App\GraphQL\Definition\Sort\SortableColumns;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -18,6 +18,11 @@ use Nuwave\Lighthouse\Support\Contracts\ArgBuilderDirective;
 
 class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
 {
+    final public const INPUT_COLUMN = 'column';
+    final public const INPUT_VALUE = 'value';
+    final public const INPUT_SORT_TYPE = 'sortType';
+    final public const INPUT_RELATION = 'relation';
+
     public static function definition(): string
     {
         return /** @lang GraphQL */ <<<'GRAPHQL'
@@ -39,31 +44,31 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
     }
 
     /**
-     * @param  array<string, mixed>  $sortByColumns
+     * @param  array<string, mixed>  $enumCases
      *
      * @throws ClientValidationException
      * @throws InvalidArgumentException
      */
-    public function handleBuilder(QueryBuilder|EloquentBuilder|Relation $builder, $sortByColumns): QueryBuilder|EloquentBuilder|Relation
+    public function handleBuilder(QueryBuilder|EloquentBuilder|Relation $builder, $enumCases): QueryBuilder|EloquentBuilder|Relation
     {
         $sortableColumns = json_decode($this->directiveArgValue('columns'), true);
 
-        foreach ($sortByColumns as $column) {
-            $direction = SortableColumns::resolveSortDirection($column)->value;
+        foreach ($enumCases as $enumCase) {
+            $direction = SortDirection::resolveFromEnumCase($enumCase);
 
-            $sortByColumnValue = Str::remove('_DESC', $column);
+            $sortByColumnValue = Str::remove('_DESC', $enumCase);
 
-            $sortByColumnInput = Arr::first($sortableColumns, fn ($sortByColumn) => $sortByColumn['value'] === $sortByColumnValue);
+            $sortByColumnInput = Arr::first($sortableColumns, fn ($sortByColumn) => $sortByColumn[self::INPUT_VALUE] === $sortByColumnValue);
 
-            $column = Arr::get($sortByColumnInput, 'column');
-            $sortType = SortType::from(Arr::get($sortByColumnInput, 'sortType'));
+            $column = Arr::get($sortByColumnInput, self::INPUT_COLUMN);
+            $sortType = SortType::from(Arr::get($sortByColumnInput, self::INPUT_SORT_TYPE));
 
             if ($sortType === SortType::ROOT) {
                 $builder->orderBy($column, $direction);
             }
 
             if ($sortType === SortType::AGGREGATE) {
-                $relation = Arr::get($sortByColumnInput, 'relation');
+                $relation = Arr::get($sortByColumnInput, self::INPUT_RELATION);
                 if ($relation === null) {
                     throw new InvalidArgumentException("The 'relation' argument is required for the @{$this->name()} directive with aggregate sort type.");
                 }
