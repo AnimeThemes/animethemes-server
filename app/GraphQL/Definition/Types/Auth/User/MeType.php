@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth\User;
 
-use App\Contracts\GraphQL\HasDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Auth\User\Me\MeEmailField;
@@ -25,9 +24,8 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\User\NotificationType;
 use App\Models\Auth\User;
-use Illuminate\Database\Eloquent\Model;
 
-class MeType extends EloquentType implements HasDirectives, HasFields, HasRelations
+class MeType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -71,23 +69,9 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
     }
 
     /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'model' => [
-                'class' => $this->model(),
-            ],
-        ];
-    }
-
-    /**
      * Get the model string representation for the type.
      *
-     * @return class-string<Model>
+     * @return class-string<User>
      */
     public function model(): string
     {

@@ -18,8 +18,8 @@ enum SortDirection: string
     public static function resolveFromEnumCase(string $enumCase): string
     {
         return Str::endsWith($enumCase, '_DESC')
-            ? static::DESC->value
-            : static::ASC->value;
+            ? self::DESC->value
+            : self::ASC->value;
     }
 
     /**

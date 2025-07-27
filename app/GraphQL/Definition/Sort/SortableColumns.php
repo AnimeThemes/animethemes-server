@@ -34,7 +34,7 @@ final readonly class SortableColumns implements Stringable
     {
         $enumCases = $this->resolveEnumCases();
 
-        if (blank($enumCases) || (method_exists($this->type, 'sortable') && !$this->type->{'sortable'}())) {
+        if (blank($enumCases) || (method_exists($this->type, 'sortable') && ! $this->type->{'sortable'}())) {
             return '';
         }
 

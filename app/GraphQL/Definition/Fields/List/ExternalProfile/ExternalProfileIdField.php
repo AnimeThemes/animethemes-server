@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Fields\List\ExternalProfile;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\Models\List\ExternalProfile;
-use Illuminate\Database\Eloquent\Model;
 
 class ExternalProfileIdField extends IdField implements BindableField
 {
@@ -19,7 +18,7 @@ class ExternalProfileIdField extends IdField implements BindableField
     /**
      * Get the model that the field should bind to.
      *
-     * @return class-string<Model>
+     * @return class-string<ExternalProfile>
      */
     public function bindTo(): string
     {
