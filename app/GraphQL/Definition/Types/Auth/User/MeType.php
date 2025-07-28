@@ -14,15 +14,14 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\MorphManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\List\PlaylistEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\VideoEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\User\NotificationType;
+use App\GraphQL\Definition\Types\Wiki\VideoType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\MorphManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Auth\User;
 
 class MeType extends EloquentType implements HasFields, HasRelations
@@ -45,8 +44,8 @@ class MeType extends EloquentType implements HasFields, HasRelations
         return [
             new MorphManyRelation(new NotificationType(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
-            new BelongsToManyRelation(new PlaylistEdgeType(), 'likedplaylists'),
-            new BelongsToManyRelation(new VideoEdgeType(), 'likedvideos'),
+            new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
+            new BelongsToManyRelation($this, VideoType::class, 'likedvideos'),
         ];
     }
 
@@ -58,7 +57,7 @@ class MeType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(User::ATTRIBUTE_ID),
+            new IdField(User::ATTRIBUTE_ID, User::class),
             new MeNameField(),
             new MeEmailField(),
             new MeEmailVerifiedAtField(),

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations\Models;
 
 use App\Contracts\GraphQL\HasFields;
-use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Mutations\BaseMutation;
+use App\GraphQL\Support\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;

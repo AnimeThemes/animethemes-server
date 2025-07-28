@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Unions;
 
+use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
-use GraphQL\Type\Definition\Type;
 
 class PerformanceArtistUnion extends BaseUnion
 {
@@ -21,7 +21,7 @@ class PerformanceArtistUnion extends BaseUnion
     /**
      * The types that this union can resolve to.
      *
-     * @return Type[]
+     * @return BaseType[]
      */
     public function types(): array
     {

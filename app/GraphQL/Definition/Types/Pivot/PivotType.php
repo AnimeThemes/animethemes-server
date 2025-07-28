@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot;
 
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\EloquentType;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Str;
 
-abstract class PivotType extends EloquentType
+abstract class PivotType extends EloquentType implements HasFields
 {
     /**
      * Get the model string representation for the type.

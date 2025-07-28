@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot\Wiki;
 
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\StudioResource\StudioResourceAsField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Pivots\Wiki\StudioResource;
 
-class StudioResourceType extends PivotType implements HasFields, HasRelations
+class StudioResourceType extends PivotType implements HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -35,8 +35,10 @@ class StudioResourceType extends PivotType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new StudioType(), StudioResource::RELATION_STUDIO, nullable: false),
-            new BelongsToRelation(new ExternalResourceType(), StudioResource::RELATION_RESOURCE, nullable: false),
+            new BelongsToRelation(new StudioType(), StudioResource::RELATION_STUDIO)
+                ->notNullable(),
+            new BelongsToRelation(new ExternalResourceType(), StudioResource::RELATION_RESOURCE)
+                ->notNullable(),
         ];
     }
 

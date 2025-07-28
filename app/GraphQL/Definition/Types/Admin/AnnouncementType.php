@@ -31,7 +31,7 @@ class AnnouncementType extends EloquentType implements HasFields
     public function fields(): array
     {
         return [
-            new IdField(Announcement::ATTRIBUTE_ID),
+            new IdField(Announcement::ATTRIBUTE_ID, Announcement::class),
             new AnnouncementContentField(),
             new CreatedAtField(),
             new UpdatedAtField(),

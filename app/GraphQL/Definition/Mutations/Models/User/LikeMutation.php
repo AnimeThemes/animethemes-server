@@ -7,11 +7,11 @@ namespace App\GraphQL\Definition\Mutations\Models\User;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\User\LikeController;
-use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\User\LikeType;
 use App\GraphQL\Definition\Unions\LikedUnion;
+use App\GraphQL\Support\Argument;
 use App\Models\User\Like;
 use GraphQL\Type\Definition\Type;
 

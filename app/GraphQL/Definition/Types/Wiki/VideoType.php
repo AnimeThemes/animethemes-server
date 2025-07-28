@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -28,15 +29,16 @@ use App\GraphQL\Definition\Fields\Wiki\Video\VideoSubbedField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoTagsField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoUncenField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoViewsCountField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\HasOneRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\Anime\Theme\AnimeThemeEntryEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
+use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\HasOneRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Video;
 
-class VideoType extends EloquentType implements HasFields, HasRelations
+class VideoType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -54,7 +56,7 @@ class VideoType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeThemeEntryEdgeType(), Video::RELATION_ANIMETHEMEENTRIES),
+            new BelongsToManyRelation($this, AnimeThemeEntryType::class, Video::RELATION_ANIMETHEMEENTRIES, AnimeThemeEntryVideoType::class),
             new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
         ];
     }
@@ -67,7 +69,7 @@ class VideoType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Video::ATTRIBUTE_ID),
+            new IdField(Video::ATTRIBUTE_ID, Video::class),
             new VideoBasenameField(),
             new VideoFilenameField(),
             new VideoLyricsField(),

@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -15,15 +16,15 @@ use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImageFacetField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImagePathField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\AnimeEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\Image\ImageArtistEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\StudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeImageType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistImageType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\StudioImageType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Image;
 
-class ImageType extends EloquentType implements HasFields, HasRelations
+class ImageType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -41,9 +42,9 @@ class ImageType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeEdgeType(), Image::RELATION_ANIME),
-            new BelongsToManyRelation(new ImageArtistEdgeType(), Image::RELATION_ARTISTS),
-            new BelongsToManyRelation(new StudioEdgeType(), Image::RELATION_STUDIOS),
+            new BelongsToManyRelation($this, AnimeType::class, Image::RELATION_ANIME, AnimeImageType::class),
+            new BelongsToManyRelation($this, ArtistType::class, Image::RELATION_ARTISTS, ArtistImageType::class),
+            new BelongsToManyRelation($this, StudioType::class, Image::RELATION_STUDIOS, StudioImageType::class),
         ];
     }
 
@@ -55,7 +56,7 @@ class ImageType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Image::ATTRIBUTE_ID),
+            new IdField(Image::ATTRIBUTE_ID, Image::class),
             new ImageFacetField(),
             new LocalizedEnumField(new ImageFacetField()),
             new ImagePathField(),

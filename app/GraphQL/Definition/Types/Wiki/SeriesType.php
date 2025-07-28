@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -13,13 +14,13 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Series\SeriesNameField;
 use App\GraphQL\Definition\Fields\Wiki\Series\SeriesSlugField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\AnimeEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeSeriesType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Series;
 
-class SeriesType extends EloquentType implements HasFields, HasRelations
+class SeriesType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -37,7 +38,7 @@ class SeriesType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new AnimeEdgeType(), Series::RELATION_ANIME),
+            new BelongsToManyRelation($this, SeriesType::class, Series::RELATION_ANIME, AnimeSeriesType::class),
         ];
     }
 
@@ -49,7 +50,7 @@ class SeriesType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Series::ATTRIBUTE_ID),
+            new IdField(Series::ATTRIBUTE_ID, Series::class),
             new SeriesNameField(),
             new SeriesSlugField(),
             new CreatedAtField(),

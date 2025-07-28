@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Document\Page;
 
+use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\RequiredOnCreation;
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Document\Page;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 
-class PageSlugField extends StringField
+class PageSlugField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     public function __construct()
     {
@@ -20,5 +25,38 @@ class PageSlugField extends StringField
     public function description(): string
     {
         return 'The URL slug & route key of the resource';
+    }
+
+    /**
+     * Set the creation validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getCreationRules(array $args): array
+    {
+        return [
+            'required',
+            'max:192',
+            'regex:/^[\pL\pM\pN\/_-]+$/u',
+            Rule::unique(Page::class),
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        return [
+            'sometimes',
+            'required',
+            'max:192',
+            'regex:/^[\pL\pM\pN\/_-]+$/u',
+            Rule::unique(Page::class)->ignore(Arr::get($args, 'id')->getKey()),
+        ];
     }
 }

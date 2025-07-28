@@ -32,7 +32,7 @@ class FeatureType extends EloquentType implements HasFields
     public function fields(): array
     {
         return [
-            new IdField(Feature::ATTRIBUTE_ID),
+            new IdField(Feature::ATTRIBUTE_ID, Feature::class),
             new FeatureNameField(),
             new FeatureValueField(),
             new CreatedAtField(),

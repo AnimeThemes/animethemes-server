@@ -18,9 +18,9 @@ use App\GraphQL\Definition\Fields\Wiki\Audio\AudioMimetypeField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioPathField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioSizeField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioViewsCountField;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Audio;
 
 class AudioType extends EloquentType implements HasFields, HasRelations
@@ -53,7 +53,7 @@ class AudioType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Audio::ATTRIBUTE_ID),
+            new IdField(Audio::ATTRIBUTE_ID, Audio::class),
             new AudioBasenameField(),
             new AudioFilenameField(),
             new AudioMimetypeField(),

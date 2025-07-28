@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Unions;
 
 use App\GraphQL\Definition\Types\BaseType;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\UnionType;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 abstract class BaseUnion extends UnionType
@@ -29,18 +27,18 @@ abstract class BaseUnion extends UnionType
         return Str::of('union ')
             ->append($this->name())
             ->append(' = ')
-            ->append(implode(' | ', Arr::map($this->types(), fn (BaseType $type) => $type->name())))
+            ->append(collect($this->types())->map(fn (BaseType $type) => $type->name())->implode(' | '))
             ->newLine()
             ->__toString();
     }
 
     /**
      * The name of the union type.
+     * By default, it will be the class name.
      */
     public function name(): string
     {
-        return Str::of(class_basename($this))
-            ->__toString();
+        return class_basename($this);
     }
 
     /**
@@ -54,7 +52,7 @@ abstract class BaseUnion extends UnionType
     /**
      * The types that this union can resolve to.
      *
-     * @return Type[]
+     * @return BaseType[]
      */
     abstract public function types(): array;
 }

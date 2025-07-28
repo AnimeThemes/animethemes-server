@@ -15,10 +15,9 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Auth\PermissionEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Auth\Role;
 
 class RoleType extends EloquentType implements HasFields, HasRelations
@@ -39,7 +38,7 @@ class RoleType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new PermissionEdgeType(), Role::RELATION_PERMISSIONS),
+            new BelongsToManyRelation($this, PermissionType::class, Role::RELATION_PERMISSIONS),
         ];
     }
 
@@ -51,7 +50,7 @@ class RoleType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Role::ATTRIBUTE_ID),
+            new IdField(Role::ATTRIBUTE_ID, Role::class),
             new RoleNameField(),
             new RoleColorField(),
             new RoleDefaultField(),

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries\Auth\User;
 
 use App\GraphQL\Attributes\Resolvers\UseAuthDirective;
-use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
+use App\GraphQL\Support\Argument;
 
 #[UseAuthDirective]
 class MeQuery extends BaseQuery

@@ -9,10 +9,10 @@ use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\User\Notification\NotificationDataField;
 use App\GraphQL\Definition\Fields\User\Notification\NotificationReadAtField;
-use App\GraphQL\Definition\Relations\MorphToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Support\Relations\MorphToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\User\Notification;
 
 class NotificationType extends EloquentType implements HasFields, HasRelations
@@ -33,7 +33,8 @@ class NotificationType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new MorphToRelation(new UserType(), Notification::RELATION_NOTIFIABLE, 'user'),
+            new MorphToRelation(new UserType(), Notification::RELATION_NOTIFIABLE)
+                ->renameTo('user'),
         ];
     }
 

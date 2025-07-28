@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -18,19 +19,19 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSeasonField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSlugField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynopsisField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYearField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\Anime\AnimeResourceEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\ImageEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\SeriesEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\StudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeImageType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeResourceType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeSeriesType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeStudioType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime;
 
-class AnimeType extends EloquentType implements HasFields, HasRelations
+class AnimeType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -50,10 +51,10 @@ class AnimeType extends EloquentType implements HasFields, HasRelations
         return [
             new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
             new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
-            new BelongsToManyRelation(new ImageEdgeType(), Anime::RELATION_IMAGES),
-            new BelongsToManyRelation(new AnimeResourceEdgeType(), Anime::RELATION_RESOURCES),
-            new BelongsToManyRelation(new SeriesEdgeType(), Anime::RELATION_SERIES),
-            new BelongsToManyRelation(new StudioEdgeType(), Anime::RELATION_STUDIOS),
+            new BelongsToManyRelation($this, ImageType::class, Anime::RELATION_IMAGES, AnimeImageType::class),
+            new BelongsToManyRelation($this, ExternalResourceType::class, Anime::RELATION_RESOURCES, AnimeResourceType::class),
+            new BelongsToManyRelation($this, SeriesType::class, Anime::RELATION_SERIES, AnimeSeriesType::class),
+            new BelongsToManyRelation($this, StudioType::class, Anime::RELATION_STUDIOS, AnimeStudioType::class),
         ];
     }
 
@@ -65,7 +66,7 @@ class AnimeType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Anime::ATTRIBUTE_ID),
+            new IdField(Anime::ATTRIBUTE_ID, Anime::class),
             new AnimeNameField(),
             new AnimeMediaFormatField(),
             new LocalizedEnumField(new AnimeMediaFormatField()),

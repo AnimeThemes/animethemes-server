@@ -7,9 +7,9 @@ namespace App\GraphQL\Definition\Queries\Admin\FeaturedTheme;
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UseFindDirective;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
-use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
+use App\GraphQL\Support\Argument;
 
 #[UseBuilderDirective(FeaturedThemeBuilder::class, 'current')]
 #[UseFindDirective]

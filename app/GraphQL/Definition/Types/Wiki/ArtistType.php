@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -14,19 +15,18 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Artist\ArtistInformationField;
 use App\GraphQL\Definition\Fields\Wiki\Artist\ArtistNameField;
 use App\GraphQL\Definition\Fields\Wiki\Artist\ArtistSlugField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\MorphManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\Artist\ArtistImageEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\Artist\ArtistMemberEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\Artist\ArtistResourceEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistMemberType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistResourceType;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\MorphManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Artist;
 
-class ArtistType extends EloquentType implements HasFields, HasRelations
+class ArtistType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -44,10 +44,10 @@ class ArtistType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new ArtistMemberEdgeType(), Artist::RELATION_GROUPS),
-            new BelongsToManyRelation(new ArtistMemberEdgeType(), Artist::RELATION_MEMBERS),
-            new BelongsToManyRelation(new ArtistImageEdgeType(), Artist::RELATION_IMAGES),
-            new BelongsToManyRelation(new ArtistResourceEdgeType(), Artist::RELATION_RESOURCES),
+            new BelongsToManyRelation($this, ArtistType::class, Artist::RELATION_GROUPS, ArtistMemberType::class),
+            new BelongsToManyRelation($this, ArtistType::class, Artist::RELATION_MEMBERS, ArtistMemberType::class),
+            new BelongsToManyRelation($this, ImageType::class, Artist::RELATION_IMAGES, ArtistMemberType::class),
+            new BelongsToManyRelation($this, ExternalResourceType::class, Artist::RELATION_RESOURCES, ArtistResourceType::class),
             new HasManyRelation(new MembershipType(), Artist::RELATION_MEMBERSHIPS),
             new MorphManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),
         ];
@@ -61,7 +61,7 @@ class ArtistType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Artist::ATTRIBUTE_ID),
+            new IdField(Artist::ATTRIBUTE_ID, Artist::class),
             new ArtistNameField(),
             new ArtistSlugField(),
             new ArtistInformationField(),

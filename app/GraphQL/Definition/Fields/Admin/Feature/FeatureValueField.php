@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Admin\Feature;
 
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Admin\Feature;
 
-class FeatureValueField extends StringField
+class FeatureValueField extends StringField implements UpdatableField
 {
     public function __construct()
     {
@@ -20,5 +21,21 @@ class FeatureValueField extends StringField
     public function description(): string
     {
         return 'The value of the resource';
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        return [
+            'sometimes',
+            'required',
+            'string',
+            'max:192',
+        ];
     }
 }

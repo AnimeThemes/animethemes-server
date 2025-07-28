@@ -11,7 +11,7 @@ class PlaylistTracksExistsField extends ExistsField
 {
     public function __construct()
     {
-        parent::__construct(Playlist::RELATION_TRACKS, 'tracksExists');
+        parent::__construct(Playlist::RELATION_TRACKS);
     }
 
     /**

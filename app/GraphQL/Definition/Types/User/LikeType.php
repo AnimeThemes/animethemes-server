@@ -9,12 +9,12 @@ use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\User\Like\LikePlaylistField;
 use App\GraphQL\Definition\Fields\User\Like\LikeVideoField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\MorphToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Unions\LikedUnion;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\MorphToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\User\Like;
 
 class LikeType extends EloquentType implements HasFields, HasRelations
@@ -36,7 +36,8 @@ class LikeType extends EloquentType implements HasFields, HasRelations
     {
         return [
             new BelongsToRelation(new UserType(), Like::RELATION_USER),
-            new MorphToRelation(new LikedUnion(), Like::RELATION_LIKEABLE, 'liked'),
+            new MorphToRelation(new LikedUnion(), Like::RELATION_LIKEABLE)
+                ->renameTo('liked'),
         ];
     }
 

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Artist;
 
+use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Artist;
 
-class ArtistInformationField extends StringField
+class ArtistInformationField extends StringField implements CreatableField, UpdatableField
 {
     public function __construct()
     {
@@ -20,5 +22,35 @@ class ArtistInformationField extends StringField
     public function description(): string
     {
         return 'The brief information of the resource';
+    }
+
+    /**
+     * Set the creation validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getCreationRules(array $args): array
+    {
+        return [
+            'nullable',
+            'string',
+            'max:65535',
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        return [
+            'nullable',
+            'string',
+            'max:65535',
+        ];
     }
 }
