@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders\Wiki;
+namespace App\GraphQL\Controllers\Wiki\Anime;
 
 use App\Exceptions\GraphQL\ClientValidationException;
+use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Queries\Wiki\Anime\FindAnimesByExternalSiteQuery;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -13,16 +14,21 @@ use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class FindAnimesByExternalSiteBuilder
+/**
+ * @extends BaseController<Anime>
+ */
+class FindAnimesByExternalSiteController extends BaseController
 {
+    final public const ROUTE_SLUG = 'id';
+
     /**
-     * Apply the query builder to the index query.
+     * Apply the query builder to the show query.
      *
      * @param  Builder<Anime>  $builder
      * @param  array  $args
      * @return Builder<Anime>
      */
-    public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
         $site = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_SITE);
         $externalId = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_ID);

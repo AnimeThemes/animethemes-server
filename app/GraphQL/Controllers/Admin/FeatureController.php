@@ -2,16 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders\Admin;
+namespace App\GraphQL\Controllers\Admin;
 
 use App\Constants\FeatureConstants;
+use App\GraphQL\Controllers\BaseController;
 use App\Models\Admin\Feature;
 use Illuminate\Database\Eloquent\Builder;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class FeatureBuilder
+/**
+ * @extends BaseController<Feature>
+ */
+class FeatureController extends BaseController
 {
+    final public const ROUTE_SLUG = 'id';
+
     /**
      * Apply the query builder to the index query.
      *

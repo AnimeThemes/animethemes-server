@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\GraphQL\Attributes\Resolvers\UseAllDirective;
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Builders\Wiki\FindAnimesByExternalSiteBuilder;
+use App\GraphQL\Controllers\Wiki\Anime\FindAnimesByExternalSiteController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Support\Argument;
@@ -16,7 +16,7 @@ use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
 #[UseAllDirective]
-#[UseBuilderDirective(FindAnimesByExternalSiteBuilder::class)]
+#[UseBuilderDirective(FindAnimesByExternalSiteController::class, 'show')]
 class FindAnimesByExternalSiteQuery extends BaseQuery
 {
     final public const ATTRIBUTE_SITE = 'site';

@@ -6,11 +6,11 @@ namespace App\GraphQL\Definition\Queries\Admin;
 
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Builders\Admin\FeatureBuilder;
+use App\GraphQL\Controllers\Admin\FeatureController;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeatureType;
 
-#[UseBuilderDirective(FeatureBuilder::class)]
+#[UseBuilderDirective(FeatureController::class)]
 #[UsePaginateDirective]
 class FeaturesQuery extends EloquentQuery
 {
