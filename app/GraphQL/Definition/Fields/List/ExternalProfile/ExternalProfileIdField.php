@@ -12,7 +12,7 @@ class ExternalProfileIdField extends IdField implements BindableField
 {
     public function __construct()
     {
-        parent::__construct(ExternalProfile::ATTRIBUTE_ID);
+        parent::__construct(ExternalProfile::ATTRIBUTE_ID, ExternalProfile::class);
     }
 
     /**

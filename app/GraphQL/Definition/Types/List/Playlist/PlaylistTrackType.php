@@ -15,12 +15,12 @@ use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackNextF
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPreviousField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackVideoIdField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\Playlist\PlaylistTrack;
 
 class PlaylistTrackType extends EloquentType implements HasFields, HasRelations
@@ -41,9 +41,12 @@ class PlaylistTrackType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new PlaylistType(), PlaylistTrack::RELATION_PLAYLIST, nullable: false),
-            new BelongsToRelation(new AnimeThemeEntryType(), PlaylistTrack::RELATION_ENTRY, nullable: false),
-            new BelongsToRelation(new VideoType(), PlaylistTrack::RELATION_VIDEO, nullable: false),
+            new BelongsToRelation(new PlaylistType(), PlaylistTrack::RELATION_PLAYLIST)
+                ->notNullable(),
+            new BelongsToRelation(new AnimeThemeEntryType(), PlaylistTrack::RELATION_ENTRY)
+                ->notNullable(),
+            new BelongsToRelation(new VideoType(), PlaylistTrack::RELATION_VIDEO)
+                ->notNullable(),
             new BelongsToRelation(new PlaylistTrackType(), PlaylistTrack::RELATION_NEXT),
             new BelongsToRelation(new PlaylistTrackType(), PlaylistTrack::RELATION_PREVIOUS),
         ];

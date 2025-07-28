@@ -32,7 +32,7 @@ class DumpType extends EloquentType implements HasFields
     public function fields(): array
     {
         return [
-            new IdField(Dump::ATTRIBUTE_ID),
+            new IdField(Dump::ATTRIBUTE_ID, Dump::class),
             new DumpPathField(),
             new DumpLinkField(),
             new CreatedAtField(),

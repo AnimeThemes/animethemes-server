@@ -32,7 +32,7 @@ class PermissionType extends EloquentType implements HasFields
     public function fields(): array
     {
         return [
-            new IdField(Permission::ATTRIBUTE_ID),
+            new IdField(Permission::ATTRIBUTE_ID, Permission::class),
             new PermissionNameField(),
             new PermissionGuardNameField(),
             new CreatedAtField(),

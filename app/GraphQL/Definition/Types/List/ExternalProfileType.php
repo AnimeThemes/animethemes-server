@@ -14,12 +14,12 @@ use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileNameField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileSiteField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\External\ExternalEntryType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\ExternalProfile;
 
 class ExternalProfileType extends EloquentType implements HasFields, HasRelations

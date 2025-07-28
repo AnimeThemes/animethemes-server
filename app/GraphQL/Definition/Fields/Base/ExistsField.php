@@ -15,11 +15,10 @@ class ExistsField extends Field implements DisplayableField
 {
     public function __construct(
         protected string $relation,
-        protected string $column,
         protected ?string $name = null,
         protected bool $nullable = false,
     ) {
-        parent::__construct($column, $name, $nullable);
+        parent::__construct($relation.'Exists', $name, $nullable);
     }
 
     /**

@@ -12,11 +12,11 @@ use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\HasFields;
-use App\GraphQL\Definition\Argument\Argument;
-use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Directives\SortCustomDirective;
+use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Directives\Filters\FilterDirective;
 use Illuminate\Support\Str;
 
 trait ResolvesArguments
@@ -52,11 +52,11 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof FilterableField)
-            ->map(function (FilterableField $field) {
-                return collect($field->filterDirectives())
+            ->map(
+                fn (FilterableField $field) => collect($field->filterDirectives())
                     ->map(fn (FilterDirective $directive) => $directive->argument())
-                    ->toArray();
-            })
+                    ->toArray()
+            )
             ->flatten()
             ->toArray();
     }

@@ -14,11 +14,11 @@ use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEnt
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryScoreField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\External\ExternalEntry;
 
 class ExternalEntryType extends EloquentType implements HasFields, HasRelations
@@ -39,8 +39,10 @@ class ExternalEntryType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new ExternalProfileType(), ExternalEntry::RELATION_PROFILE, nullable: false),
-            new BelongsToRelation(new AnimeType(), ExternalEntry::RELATION_ANIME, nullable: false),
+            new BelongsToRelation(new ExternalProfileType(), ExternalEntry::RELATION_PROFILE)
+                ->notNullable(),
+            new BelongsToRelation(new AnimeType(), ExternalEntry::RELATION_ANIME)
+                ->notNullable(),
         ];
     }
 
@@ -52,7 +54,7 @@ class ExternalEntryType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(ExternalEntry::ATTRIBUTE_ID),
+            new IdField(ExternalEntry::ATTRIBUTE_ID, ExternalEntry::class),
             new ExternalEntryScoreField(),
             new ExternalEntryIsFavoriteField(),
             new ExternalEntryWatchStatusField(),

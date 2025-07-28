@@ -9,7 +9,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Support\Relations\Relation;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -21,25 +21,8 @@ abstract class BaseType extends ObjectType
 
     public function __construct()
     {
-        $fields = [];
-        if ($this instanceof HasFields) {
-            $fields[] = collect($this->fields())
-                ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
-                ->mapWithKeys(fn (Field $field) => [
-                    $field->getName() => [
-                        'description' => $field->description(),
-                        'type' => $field->getType(),
-                        'resolve' => fn ($root) => $field->resolve($root),
-                    ],
-                ])
-                ->toArray();
-        }
-
-        parent::__construct([
-            'name' => $this->getName(),
-            'description' => $this->getDescription(),
-            'fields' => Arr::flatten($fields),
-        ]);
+        // This is just a fake as we are defining the types through strings.
+        parent::__construct(['name' => $this->getName(), 'fields' => []]);
     }
 
     /**
@@ -53,14 +36,14 @@ abstract class BaseType extends ObjectType
         if ($this instanceof HasFields) {
             $fields[] = collect($this->fields())
                 ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
-                ->map(function (Field $field) {
-                    return Str::of('"')
+                ->map(
+                    fn (Field $field) => Str::of('"""')
                         ->append($field->description())
-                        ->append('"')
+                        ->append('"""')
                         ->newLine()
                         ->append($field->__toString())
-                        ->__toString();
-                })
+                        ->__toString()
+                )
                 ->toArray();
         }
 
@@ -72,20 +55,25 @@ abstract class BaseType extends ObjectType
             throw new RuntimeException("There are no fields for the type {$this->getName()}.");
         }
 
-        $fieldsString = implode(PHP_EOL, Arr::flatten($fields));
-
-        $directives = $this->resolveDirectives($this->directives());
-
-        return "
-            \"\"\"{$this->description()}\"\"\"
-            type {$this->getName()} {$directives}{
-                $fieldsString
-            }
-        ";
+        return Str::of('"""')
+            ->append($this->getDescription())
+            ->append('"""')
+            ->newLine()
+            ->append('type ')
+            ->append($this->getName())
+            ->append(' ')
+            ->append($this->resolveDirectives($this->directives()))
+            ->append(' {')
+            ->newLine()
+            ->append(implode(PHP_EOL, Arr::flatten($fields)))
+            ->newLine()
+            ->append('}')
+            ->__toString();
     }
 
     /**
      * The name displayed of type.
+     * By default, it will base on the class name without 'Type'.
      */
     public function getName(): string
     {

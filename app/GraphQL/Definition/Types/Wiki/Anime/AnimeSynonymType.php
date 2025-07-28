@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki\Anime;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -14,13 +15,13 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTextField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTypeField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
-class AnimeSynonymType extends EloquentType implements HasFields, HasRelations
+class AnimeSynonymType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -38,7 +39,8 @@ class AnimeSynonymType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new AnimeType(), AnimeSynonym::RELATION_ANIME, nullable: false),
+            new BelongsToRelation(new AnimeType(), AnimeSynonym::RELATION_ANIME)
+                ->notNullable(),
         ];
     }
 
@@ -50,7 +52,7 @@ class AnimeSynonymType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(AnimeSynonym::ATTRIBUTE_ID),
+            new IdField(AnimeSynonym::ATTRIBUTE_ID, AnimeSynonym::class),
             new AnimeSynonymTextField(),
             new AnimeSynonymTypeField(),
             new LocalizedEnumField(new AnimeSynonymTypeField()),

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\Auth\User\Me;
 
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
+use App\GraphQL\Support\Directives\Filters\FilterDirective;
 use App\Models\Auth\User;
 
 class MeEmailVerifiedAtField extends DateTimeTzField

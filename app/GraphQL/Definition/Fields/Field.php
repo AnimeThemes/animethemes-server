@@ -27,6 +27,7 @@ abstract class Field implements Stringable
 
     /**
      * Get the name of the field.
+     * By default, the name will be the column in camelCase.
      */
     public function getName(): string
     {

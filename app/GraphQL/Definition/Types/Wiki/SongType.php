@@ -6,22 +6,23 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Song\SongTitleField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\Song\SongResourceEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\SongResourceType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Song;
 
-class SongType extends EloquentType implements HasFields, HasRelations
+class SongType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -41,7 +42,7 @@ class SongType extends EloquentType implements HasFields, HasRelations
         return [
             new HasManyRelation(new AnimeThemeType(), Song::RELATION_ANIMETHEMES),
             new HasManyRelation(new PerformanceType(), Song::RELATION_PERFORMANCES),
-            new BelongsToManyRelation(new SongResourceEdgeType(), Song::RELATION_RESOURCES),
+            new BelongsToManyRelation($this, ExternalResourceType::class, Song::RELATION_RESOURCES, SongResourceType::class),
         ];
     }
 
@@ -53,7 +54,7 @@ class SongType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Song::ATTRIBUTE_ID),
+            new IdField(Song::ATTRIBUTE_ID, Song::class),
             new SongTitleField(),
             new CreatedAtField(),
             new UpdatedAtField(),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\GraphQL\Fields;
 
-use App\GraphQL\Definition\Argument\Argument;
+use App\GraphQL\Support\Argument;
 
 interface HasArgumentsField
 {

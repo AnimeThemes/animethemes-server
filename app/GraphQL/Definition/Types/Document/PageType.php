@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Types\Document;
 
 use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -16,7 +17,7 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Document\Page;
 
-class PageType extends EloquentType implements HasFields
+class PageType extends EloquentType implements HasFields, ReportableType
 {
     /**
      * The description of the type.
@@ -34,7 +35,7 @@ class PageType extends EloquentType implements HasFields
     public function fields(): array
     {
         return [
-            new IdField(Page::ATTRIBUTE_ID),
+            new IdField(Page::ATTRIBUTE_ID, Page::class),
             new PageNameField(),
             new PageSlugField(),
             new PageBodyField(),

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Pivot\Wiki\StudioResource;
 
+use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Pivots\Wiki\StudioResource;
 
-class StudioResourceAsField extends StringField
+class StudioResourceAsField extends StringField implements CreatableField, UpdatableField
 {
     public function __construct()
     {
@@ -20,5 +22,35 @@ class StudioResourceAsField extends StringField
     public function description(): string
     {
         return 'Used to distinguish resources that map to the same studio';
+    }
+
+    /**
+     * Set the creation validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getCreationRules(array $args): array
+    {
+        return [
+            'nullable',
+            'string',
+            'max:192',
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  array<string, mixed>  $args
+     * @return array
+     */
+    public function getUpdateRules(array $args): array
+    {
+        return [
+            'nullable',
+            'string',
+            'max:192',
+        ];
     }
 }

@@ -17,14 +17,15 @@ use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTracksCountField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTracksExistsField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistVisibilityField;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\HasManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
-use App\GraphQL\Definition\Types\Edges\Wiki\ImageEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
+use App\GraphQL\Definition\Types\Pivot\List\PlaylistImageType;
+use App\GraphQL\Definition\Types\Wiki\ImageType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\Playlist;
 
 class PlaylistType extends EloquentType implements HasFields, HasRelations
@@ -49,7 +50,7 @@ class PlaylistType extends EloquentType implements HasFields, HasRelations
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
             new BelongsToRelation(new UserType(), Playlist::RELATION_USER),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new BelongsToManyRelation(new ImageEdgeType(), Playlist::RELATION_IMAGES),
+            new BelongsToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, PlaylistImageType::class),
         ];
     }
 

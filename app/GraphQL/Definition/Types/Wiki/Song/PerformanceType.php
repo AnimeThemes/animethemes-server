@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki\Song;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -13,15 +14,15 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Song\Performance\PerformanceAliasField;
 use App\GraphQL\Definition\Fields\Wiki\Song\Performance\PerformanceAsField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\MorphToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\MorphToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Song\Performance;
 
-class PerformanceType extends EloquentType implements HasFields, HasRelations
+class PerformanceType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -52,7 +53,7 @@ class PerformanceType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Performance::ATTRIBUTE_ID),
+            new IdField(Performance::ATTRIBUTE_ID, Performance::class),
             new PerformanceAliasField(),
             new PerformanceAsField(),
             new CreatedAtField(),

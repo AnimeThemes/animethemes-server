@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Unions;
 
+use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
-use GraphQL\Type\Definition\Type;
 
 class LikedUnion extends BaseUnion
 {
@@ -29,7 +29,7 @@ class LikedUnion extends BaseUnion
     /**
      * The types that this union can resolve to.
      *
-     * @return Type[]
+     * @return BaseType[]
      */
     public function types(): array
     {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries;
 
 use App\Contracts\GraphQL\HasFields;
-use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Support\Argument;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;

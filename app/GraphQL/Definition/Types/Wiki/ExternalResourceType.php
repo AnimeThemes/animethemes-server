@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -15,16 +16,16 @@ use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceExternalIdField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceLinkField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceSiteField;
-use App\GraphQL\Definition\Relations\BelongsToManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceAnimeEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceArtistEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceSongEdgeType;
-use App\GraphQL\Definition\Types\Edges\Wiki\ExternalResource\ResourceStudioEdgeType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeResourceType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistResourceType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\SongResourceType;
+use App\GraphQL\Definition\Types\Pivot\Wiki\StudioResourceType;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\ExternalResource;
 
-class ExternalResourceType extends EloquentType implements HasFields, HasRelations
+class ExternalResourceType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -42,10 +43,10 @@ class ExternalResourceType extends EloquentType implements HasFields, HasRelatio
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation(new ResourceAnimeEdgeType(), ExternalResource::RELATION_ANIME),
-            new BelongsToManyRelation(new ResourceArtistEdgeType(), ExternalResource::RELATION_ARTISTS),
-            new BelongsToManyRelation(new ResourceSongEdgeType(), ExternalResource::RELATION_SONGS),
-            new BelongsToManyRelation(new ResourceStudioEdgeType(), ExternalResource::RELATION_STUDIOS),
+            new BelongsToManyRelation($this, AnimeType::class, ExternalResource::RELATION_ANIME, AnimeResourceType::class),
+            new BelongsToManyRelation($this, ArtistType::class, ExternalResource::RELATION_ARTISTS, ArtistResourceType::class),
+            new BelongsToManyRelation($this, SongType::class, ExternalResource::RELATION_SONGS, SongResourceType::class),
+            new BelongsToManyRelation($this, StudioType::class, ExternalResource::RELATION_STUDIOS, StudioResourceType::class),
         ];
     }
 
@@ -57,7 +58,7 @@ class ExternalResourceType extends EloquentType implements HasFields, HasRelatio
     public function fields(): array
     {
         return [
-            new IdField(ExternalResource::ATTRIBUTE_ID),
+            new IdField(ExternalResource::ATTRIBUTE_ID, ExternalResource::class),
             new ExternalResourceExternalIdField(),
             new ExternalResourceLinkField(),
             new ExternalResourceSiteField(),

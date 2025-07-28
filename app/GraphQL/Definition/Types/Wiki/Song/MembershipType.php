@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki\Song;
 
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -13,14 +14,14 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Song\Membership\MembershipAliasField;
 use App\GraphQL\Definition\Fields\Wiki\Song\Membership\MembershipAsField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\MorphManyRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\MorphManyRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Song\Membership;
 
-class MembershipType extends EloquentType implements HasFields, HasRelations
+class MembershipType extends EloquentType implements HasFields, HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -38,8 +39,11 @@ class MembershipType extends EloquentType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new ArtistType(), Membership::RELATION_ARTIST, 'group', nullable: false),
-            new BelongsToRelation(new ArtistType(), Membership::RELATION_MEMBER, nullable: false),
+            new BelongsToRelation(new ArtistType(), Membership::RELATION_ARTIST)
+                ->renameTo('group')
+                ->notNullable(),
+            new BelongsToRelation(new ArtistType(), Membership::RELATION_MEMBER)
+                ->notNullable(),
             new MorphManyRelation(new PerformanceType(), Membership::RELATION_PERFORMANCES),
         ];
     }
@@ -52,7 +56,7 @@ class MembershipType extends EloquentType implements HasFields, HasRelations
     public function fields(): array
     {
         return [
-            new IdField(Membership::ATTRIBUTE_ID),
+            new IdField(Membership::ATTRIBUTE_ID, Membership::class),
             new MembershipAliasField(),
             new MembershipAsField(),
             new CreatedAtField(),

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
@@ -18,13 +20,25 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\GraphQL\Definition\Connection\EdgeConnection;
+use App\GraphQL\Definition\Input\Base\CreateInput;
+use App\GraphQL\Definition\Input\Base\UpdateInput;
+use App\GraphQL\Definition\Input\Relations\CreateBelongsToInput;
+use App\GraphQL\Definition\Input\Relations\CreateBelongsToManyInput;
+use App\GraphQL\Definition\Input\Relations\CreateHasManyInput;
+use App\GraphQL\Definition\Input\Relations\UpdateBelongsToInput;
+use App\GraphQL\Definition\Input\Relations\UpdateBelongsToManyInput;
+use App\GraphQL\Definition\Input\Relations\UpdateHasManyInput;
 use App\GraphQL\Definition\Mutations\BaseMutation;
-use App\GraphQL\Definition\Sort\SortableColumns;
+use App\GraphQL\Definition\Mutations\Reports\BaseReportMutation;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Types\Edges\BaseEdgeType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\EnumType;
+use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Unions\BaseUnion;
+use App\GraphQL\Support\EdgeConnection;
+use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Support\SortableColumns;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -145,15 +159,40 @@ class GraphQLServiceProvider extends ServiceProvider
                     $dispatcher->listen(BuildSchemaString::class, fn () => new SortableColumns($class)->__toString());
                 }
 
-                $dispatcher->listen(
-                    BuildSchemaString::class,
-                    fn (): string => $class->toGraphQLString()
-                );
+                // Build the types.
+                $dispatcher->listen(BuildSchemaString::class, fn () => $class->toGraphQLString());
 
-                // Build edge connections for custom logic.
-                if ($class instanceof BaseEdgeType) {
-                    $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($class)->__toString());
+                // Build the edges.
+                if ($class instanceof HasRelations) {
+                    $edges = collect($class->relations())
+                        ->filter(fn (Relation $relation) => $relation instanceof BelongsToManyRelation)
+                        ->map(fn (BelongsToManyRelation $relation) => $relation->getEdgeType())
+                        ->toArray();
+
+                    foreach ($edges as $edge) {
+                        // Build edges.
+                        $dispatcher->listen(BuildSchemaString::class, fn () => $edge->__toString());
+                        // Build edge connections for custom logic.
+                        $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($edge)->__toString());
+                    }
                 }
+
+                // if ($class instanceof EloquentType && $class instanceof ReportableType) {
+                //     if ($class instanceof HasFields) {
+                //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateInput($class)->__toString());
+                //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateInput($class)->__toString());
+                //     }
+
+                //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToInput($class)->__toString());
+                //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateHasManyInput($class)->__toString());
+                //     $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToInput($class)->__toString());
+                //     $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateHasManyInput($class)->__toString());
+
+                //     if ($class instanceof PivotType) {
+                //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToManyInput($class)->__toString());
+                //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToManyInput($class)->__toString());
+                //     }
+                // }
             }
         }
 
@@ -249,6 +288,11 @@ class GraphQLServiceProvider extends ServiceProvider
 
                 /** @var BaseMutation $class */
                 $class = new $fullClass;
+
+                // Skip for now
+                if ($class instanceof BaseReportMutation) {
+                    continue;
+                }
 
                 $dispatcher->listen(
                     BuildSchemaString::class,

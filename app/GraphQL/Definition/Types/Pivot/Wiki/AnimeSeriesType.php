@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot\Wiki;
 
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Pivots\Wiki\AnimeSeries;
 
-class AnimeSeriesType extends PivotType implements HasFields, HasRelations
+class AnimeSeriesType extends PivotType implements HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -34,8 +34,10 @@ class AnimeSeriesType extends PivotType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new AnimeType(), AnimeSeries::RELATION_ANIME, nullable: false),
-            new BelongsToRelation(new SeriesType(), AnimeSeries::RELATION_SERIES, nullable: false),
+            new BelongsToRelation(new AnimeType(), AnimeSeries::RELATION_ANIME)
+                ->notNullable(),
+            new BelongsToRelation(new SeriesType(), AnimeSeries::RELATION_SERIES)
+                ->notNullable(),
         ];
     }
 

@@ -8,8 +8,8 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
-use App\GraphQL\Definition\Argument\Argument;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Support\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 

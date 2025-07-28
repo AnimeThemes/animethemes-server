@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot\Wiki;
 
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember\ArtistMemberAliasField;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember\ArtistMemberAsField;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember\ArtistMemberNotesField;
-use App\GraphQL\Definition\Relations\BelongsToRelation;
-use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
+use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\Relation;
 use App\Pivots\Wiki\ArtistMember;
 
-class ArtistMemberType extends PivotType implements HasFields, HasRelations
+class ArtistMemberType extends PivotType implements HasRelations, ReportableType
 {
     /**
      * The description of the type.
@@ -36,8 +36,10 @@ class ArtistMemberType extends PivotType implements HasFields, HasRelations
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new ArtistType(), ArtistMember::RELATION_ARTIST, nullable: false),
-            new BelongsToRelation(new ArtistType(), ArtistMember::RELATION_MEMBER, nullable: false),
+            new BelongsToRelation(new ArtistType(), ArtistMember::RELATION_ARTIST)
+                ->notNullable(),
+            new BelongsToRelation(new ArtistType(), ArtistMember::RELATION_MEMBER)
+                ->notNullable(),
         ];
     }
 

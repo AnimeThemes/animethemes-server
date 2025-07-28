@@ -7,10 +7,3 @@ type Query {
     search(search: String @search, perPage: Int, page: Int): Search!
     @field(resolver: "App\\GraphQL\\Resolvers\\SearchResolver")
 }
-
-input WhereHasConditions {
-  relation: String!
-  where: [WhereConditions!]
-  AND: [WhereHasConditions!]
-  OR: [WhereHasConditions!]
-}

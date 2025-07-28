@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\GraphQL;
 
-use App\GraphQL\Definition\Relations\Relation;
+use App\GraphQL\Support\Relations\Relation;
 
 interface HasRelations
 {
