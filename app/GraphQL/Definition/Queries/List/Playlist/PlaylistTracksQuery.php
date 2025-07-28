@@ -6,13 +6,13 @@ namespace App\GraphQL\Definition\Queries\List\Playlist;
 
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Builders\List\Playlist\PlaylistTrackBuilder;
+use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Support\Argument;
 
-#[UseBuilderDirective(PlaylistTrackBuilder::class)]
+#[UseBuilderDirective(PlaylistTrackController::class)]
 #[UsePaginateDirective]
 class PlaylistTracksQuery extends EloquentQuery
 {

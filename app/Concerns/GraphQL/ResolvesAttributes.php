@@ -70,7 +70,7 @@ trait ResolvesAttributes
         if (filled($attributes)) {
             $instance = Arr::first($attributes)->newInstance();
 
-            return sprintf('%s@%s', $instance->builderClass, $instance->method);
+            return sprintf('%s@%s', $instance->controllerClass, $instance->method);
         }
 
         return null;

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders\List\External;
+namespace App\GraphQL\Controllers\List\External;
 
+use App\GraphQL\Controllers\BaseController;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,8 +12,13 @@ use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class ExternalEntryBuilder
+/**
+ * @extends BaseController<ExternalEntry>
+ */
+class ExternalEntryController extends BaseController
 {
+    final public const ROUTE_SLUG = 'id';
+
     /**
      * Apply the query builder to the index query.
      *

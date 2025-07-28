@@ -6,11 +6,11 @@ namespace App\GraphQL\Definition\Queries\List\Playlist;
 
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UseFindDirective;
-use App\GraphQL\Builders\List\Playlist\PlaylistTrackBuilder;
+use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Queries\EloquentSingularQuery;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 
-#[UseBuilderDirective(PlaylistTrackBuilder::class, 'show')]
+#[UseBuilderDirective(PlaylistTrackController::class, 'show')]
 #[UseFindDirective]
 class PlaylistTrackQuery extends EloquentSingularQuery
 {

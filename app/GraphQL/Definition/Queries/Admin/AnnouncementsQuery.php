@@ -6,11 +6,11 @@ namespace App\GraphQL\Definition\Queries\Admin;
 
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Builders\Admin\AnnouncementBuilder;
+use App\GraphQL\Controllers\Admin\AnnouncementController;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\AnnouncementType;
 
-#[UseBuilderDirective(AnnouncementBuilder::class)]
+#[UseBuilderDirective(AnnouncementController::class)]
 #[UsePaginateDirective]
 class AnnouncementsQuery extends EloquentQuery
 {

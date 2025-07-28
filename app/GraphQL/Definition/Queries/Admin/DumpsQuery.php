@@ -6,11 +6,11 @@ namespace App\GraphQL\Definition\Queries\Admin;
 
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Builders\Admin\DumpBuilder;
+use App\GraphQL\Controllers\Admin\DumpController;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
 
-#[UseBuilderDirective(DumpBuilder::class)]
+#[UseBuilderDirective(DumpController::class)]
 #[UsePaginateDirective]
 class DumpsQuery extends EloquentQuery
 {

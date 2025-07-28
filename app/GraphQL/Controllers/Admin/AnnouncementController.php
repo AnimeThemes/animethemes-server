@@ -2,15 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders\Admin;
+namespace App\GraphQL\Controllers\Admin;
 
+use App\GraphQL\Controllers\BaseController;
 use App\Models\Admin\Announcement;
 use Illuminate\Database\Eloquent\Builder;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class AnnouncementBuilder
+/**
+ * @extends BaseController<Announcement>
+ */
+class AnnouncementController extends BaseController
 {
+    final public const ROUTE_SLUG = 'id';
+
     /**
      * Apply the query builder to the index query.
      *

@@ -7,11 +7,11 @@ namespace App\GraphQL\Definition\Queries\List;
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Attributes\UseSearchDirective;
-use App\GraphQL\Builders\List\PlaylistBuilder;
+use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 
-#[UseBuilderDirective(PlaylistBuilder::class)]
+#[UseBuilderDirective(PlaylistController::class)]
 #[UsePaginateDirective]
 #[UseSearchDirective]
 class PlaylistsQuery extends EloquentQuery

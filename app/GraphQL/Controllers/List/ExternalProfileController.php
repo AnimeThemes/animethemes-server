@@ -2,17 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders\List;
+namespace App\GraphQL\Controllers\List;
 
 use App\Enums\Models\List\ExternalProfileVisibility;
+use App\GraphQL\Controllers\BaseController;
 use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class ExternalProfileBuilder
+/**
+ * @extends BaseController<ExternalProfile>
+ */
+class ExternalProfileController extends BaseController
 {
+    final public const ROUTE_SLUG = 'id';
+
     /**
      * Apply the query builder to the index query.
      *

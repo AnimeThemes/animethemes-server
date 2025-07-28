@@ -6,11 +6,11 @@ namespace App\GraphQL\Definition\Queries\Admin;
 
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
+use App\GraphQL\Controllers\Admin\FeaturedThemeController;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 
-#[UseBuilderDirective(FeaturedThemeBuilder::class)]
+#[UseBuilderDirective(FeaturedThemeController::class)]
 #[UsePaginateDirective]
 class FeaturedThemesQuery extends EloquentQuery
 {
