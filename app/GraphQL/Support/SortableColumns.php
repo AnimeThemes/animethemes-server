@@ -13,6 +13,9 @@ use Stringable;
 
 final readonly class SortableColumns implements Stringable
 {
+    final public const RANDOM = 'RANDOM';
+    final public const SUFFIX = 'SortableColumns';
+
     public function __construct(protected BaseType&HasFields $type) {}
 
     /**
@@ -24,6 +27,7 @@ final readonly class SortableColumns implements Stringable
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (Field $field) => [SortDirection::resolveForAsc($field), SortDirection::resolveForDesc($field)])
             ->flatten()
+            ->push(self::RANDOM)
             ->implode(PHP_EOL);
     }
 
@@ -39,10 +43,11 @@ final readonly class SortableColumns implements Stringable
         }
 
         return sprintf(
-            'enum %sSortableColumns {
+            'enum %s%s {
                 %s
             }',
             $this->type->getName(),
+            self::SUFFIX,
             $enumCases,
         );
     }

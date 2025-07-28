@@ -7,6 +7,7 @@ namespace App\GraphQL\Directives;
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
+use App\GraphQL\Support\SortableColumns;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -29,36 +30,41 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
         """
         Sort a result by the given argument.
         """
-        directive @sortCustom(columns: [SortByColumn!]) on ARGUMENT_DEFINITION
+        directive @sortCustom(columns: [SortByColumnInput!]) on ARGUMENT_DEFINITION
 
         """
         This input is used to coordinate the code to get the client argument and matches with the column sortable.
         """
-        input SortByColumn {
-            column: String!
+        input SortByColumnInput {
+            column: String
             value: String!
-            sortType: Int! = 0
+            sortType: Int! = 1
             relation: String
         }
         GRAPHQL;
     }
 
     /**
-     * @param  array<string, mixed>  $enumCases
+     * @param  array<string, string>  $enumCases
      *
      * @throws ClientValidationException
      * @throws InvalidArgumentException
      */
     public function handleBuilder(QueryBuilder|EloquentBuilder|Relation $builder, $enumCases): QueryBuilder|EloquentBuilder|Relation
     {
-        $sortableColumns = json_decode($this->directiveArgValue('columns'), true);
+        $sortByColumnInputArray = json_decode($this->directiveArgValue('columns'), true);
 
         foreach ($enumCases as $enumCase) {
+            if ($enumCase === SortableColumns::RANDOM) {
+                $builder->inRandomOrder();
+                continue;
+            }
+
             $direction = SortDirection::resolveFromEnumCase($enumCase);
 
             $sortByColumnValue = Str::remove('_DESC', $enumCase);
 
-            $sortByColumnInput = Arr::first($sortableColumns, fn ($sortByColumn) => $sortByColumn[self::INPUT_VALUE] === $sortByColumnValue);
+            $sortByColumnInput = Arr::first($sortByColumnInputArray, fn ($sortByColumn) => $sortByColumn[self::INPUT_VALUE] === $sortByColumnValue);
 
             $column = Arr::get($sortByColumnInput, self::INPUT_COLUMN);
             $sortType = SortType::from(Arr::get($sortByColumnInput, self::INPUT_SORT_TYPE));

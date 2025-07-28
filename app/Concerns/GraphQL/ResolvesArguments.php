@@ -17,6 +17,7 @@ use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Directives\SortCustomDirective;
 use App\GraphQL\Support\Argument;
 use App\GraphQL\Support\Directives\Filters\FilterDirective;
+use App\GraphQL\Support\SortableColumns;
 use Illuminate\Support\Str;
 
 trait ResolvesArguments
@@ -76,10 +77,16 @@ trait ResolvesArguments
                 SortCustomDirective::INPUT_SORT_TYPE => $field->sortType()->value,
                 SortCustomDirective::INPUT_RELATION => method_exists($field, 'relation') ? $field->{'relation'}() : null,
             ])
+            // @phpstan-ignore-next-line
+            ->push([
+                SortCustomDirective::INPUT_VALUE => SortableColumns::RANDOM,
+            ])
             ->toArray();
 
+        $suffix = SortableColumns::SUFFIX;
+
         return [
-            new Argument('sort', "[{$type->getName()}SortableColumns!]")
+            new Argument('sort', "[{$type->getName()}{$suffix}!]")
                 ->directives([
                     'sortCustom' => [
                         'columns' => json_encode($columns),
