@@ -7,7 +7,7 @@ namespace App\GraphQL\Directives;
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
-use App\GraphQL\Support\SortableColumns;
+use App\GraphQL\Support\Sort\RandomSort;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -55,7 +55,7 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
         $sortByColumnInputArray = json_decode($this->directiveArgValue('columns'), true);
 
         foreach ($enumCases as $enumCase) {
-            if ($enumCase === SortableColumns::RANDOM) {
+            if ($enumCase === RandomSort::CASE) {
                 $builder->inRandomOrder();
                 continue;
             }

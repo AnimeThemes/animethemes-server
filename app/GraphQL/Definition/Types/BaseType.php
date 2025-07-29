@@ -6,12 +6,17 @@ namespace App\GraphQL\Definition\Types;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\Fields\DisplayableField;
+use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
+use App\Enums\GraphQL\SortDirection;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Support\Sort\RandomSort;
+use App\GraphQL\Support\Sort\Sort;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -86,6 +91,24 @@ abstract class BaseType extends ObjectType
      * The description of the type.
      */
     abstract public function getDescription(): string;
+
+    /**
+     * Get the sorts of the resource.
+     *
+     * @return Collection<int, Sort>
+     */
+    public function sorts(): Collection
+    {
+        if (! $this instanceof HasFields) {
+            return collect();
+        }
+
+        return collect($this->fields())
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (Field $field) => [new Sort($field->getName(), SortDirection::ASC), new Sort($field->getName(), SortDirection::DESC)])
+            ->flatten()
+            ->push(new RandomSort());
+    }
 
     /**
      * The directives of the type.

@@ -17,6 +17,7 @@ use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Directives\SortCustomDirective;
 use App\GraphQL\Support\Argument;
 use App\GraphQL\Support\Directives\Filters\FilterDirective;
+use App\GraphQL\Support\Sort\RandomSort;
 use App\GraphQL\Support\SortableColumns;
 use Illuminate\Support\Str;
 
@@ -53,8 +54,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof FilterableField)
-            ->map(
-                fn (FilterableField $field) => collect($field->filterDirectives())
+            ->map(fn (FilterableField $field) =>
+                collect($field->filterDirectives())
                     ->map(fn (FilterDirective $directive) => $directive->argument())
                     ->toArray()
             )
@@ -79,7 +80,7 @@ trait ResolvesArguments
             ])
             // @phpstan-ignore-next-line
             ->push([
-                SortCustomDirective::INPUT_VALUE => SortableColumns::RANDOM,
+                SortCustomDirective::INPUT_VALUE => RandomSort::CASE,
             ])
             ->toArray();
 
@@ -105,11 +106,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->map(
-                fn (Field $field) => new Argument(
-                    $field->getColumn(),
-                    $field->type()
-                )
+            ->map(fn (Field $field) =>
+                new Argument($field->getColumn(), $field->type())
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
@@ -126,11 +124,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->map(
-                fn (Field $field) => new Argument(
-                    $field->getColumn(),
-                    $field->type()
-                )
+            ->map(fn (Field $field) =>
+                new Argument($field->getColumn(), $field->type())
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()
@@ -147,8 +142,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(
-                fn (Field&BindableField $field) => new Argument($field->getName(), $field->type())
+            ->map(fn (Field&BindableField $field) =>
+                new Argument($field->getName(), $field->type())
                     ->required($shouldRequire)
                     ->directives([
                         'bind' => [
