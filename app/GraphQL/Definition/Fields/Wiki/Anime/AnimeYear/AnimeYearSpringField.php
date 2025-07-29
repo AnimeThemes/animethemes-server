@@ -29,7 +29,7 @@ class AnimeYearSpringField extends Field implements DisplayableField
      */
     public function type(): Type
     {
-        return Type::listOf(new AnimeType());
+        return Type::listOf(Type::nonNull(new AnimeType()));
     }
 
     /**

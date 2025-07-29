@@ -14,7 +14,7 @@ final readonly class NotInFilterDirective extends FilterDirective
      */
     public function argument(): Argument
     {
-        return new Argument($this->field->getName().'_not_in', Type::listOf($this->type))
+        return new Argument($this->field->getName().'_not_in', Type::listOf(Type::nonNull($this->type)))
             ->directives([
                 'notIn' => [
                     'key' => $this->field->getColumn(),

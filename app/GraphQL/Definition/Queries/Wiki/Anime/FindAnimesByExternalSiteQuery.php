@@ -76,6 +76,6 @@ class FindAnimesByExternalSiteQuery extends BaseQuery
      */
     public function baseType(): Type
     {
-        return Type::listof(new AnimeType());
+        return Type::listof(Type::nonNull(new AnimeType()));
     }
 }
