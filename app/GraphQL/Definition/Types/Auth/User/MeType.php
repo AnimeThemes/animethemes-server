@@ -22,7 +22,9 @@ use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
 use App\GraphQL\Support\Relations\MorphManyRelation;
 use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Support\Sort\Sort;
 use App\Models\Auth\User;
+use Illuminate\Support\Collection;
 
 class MeType extends EloquentType implements HasFields, HasRelations
 {
@@ -78,10 +80,12 @@ class MeType extends EloquentType implements HasFields, HasRelations
     }
 
     /**
-     * Determine that this type does not have sortable fields.
+     * Get the sorts of the resource.
+     *
+     * @return Collection<int, Sort>
      */
-    public function sortable(): bool
+    public function sorts(): Collection
     {
-        return false;
+        return new Collection();
     }
 }

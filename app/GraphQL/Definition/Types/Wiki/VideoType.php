@@ -34,6 +34,7 @@ use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
 use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\HasOneRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Video;
@@ -56,6 +57,7 @@ class VideoType extends EloquentType implements HasFields, HasRelations, Reporta
     public function relations(): array
     {
         return [
+            new BelongsToRelation(new AudioType(), Video::RELATION_AUDIO),
             new BelongsToManyRelation($this, AnimeThemeEntryType::class, Video::RELATION_ANIMETHEMEENTRIES, AnimeThemeEntryVideoType::class),
             new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
         ];

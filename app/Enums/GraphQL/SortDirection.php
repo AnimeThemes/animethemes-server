@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\GraphQL;
 
-use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Support\Str;
 
 enum SortDirection: string
@@ -26,9 +25,9 @@ enum SortDirection: string
      * Build the enum case for the asc direction.
      * Template: {COLUMN}.
      */
-    public static function resolveForAsc(Field $field): string
+    public static function resolveForAsc(string $name): string
     {
-        return Str::of($field->getName())
+        return Str::of($name)
             ->snake()
             ->upper()
             ->__toString();
@@ -38,9 +37,9 @@ enum SortDirection: string
      * Build the enum case for the desc direction.
      * Template: {COLUMN}_DESC.
      */
-    public static function resolveForDesc(Field $field): string
+    public static function resolveForDesc(string $name): string
     {
-        return Str::of($field->getName())
+        return Str::of($name)
             ->snake()
             ->upper()
             ->append('_DESC')
