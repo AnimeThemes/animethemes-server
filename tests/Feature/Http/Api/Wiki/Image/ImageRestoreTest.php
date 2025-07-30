@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Image;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ImageRestoreTest extends TestCase
-{
-    /**
-     * The Image Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $image = Image::factory()->trashed()->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.image.restore', ['image' => $image]));
+test('protected', function () {
+    $image = Image::factory()->trashed()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
-    /**
-     * The Image Restore Endpoint shall forbid users without the restore image permission.
-     */
-    public function testForbidden(): void
-    {
-        $image = Image::factory()->trashed()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $image = Image::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
-    /**
-     * The Image Restore Endpoint shall forbid users from restoring an image that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $image = Image::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Image::class))->createOne();
+test('trashed', function () {
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Image::class))->createOne();
 
-        $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
-    /**
-     * The Image Restore Endpoint shall restore the image.
-     */
-    public function testRestored(): void
-    {
-        $image = Image::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Image::class))->createOne();
+test('restored', function () {
+    $image = Image::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Image::class))->createOne();
 
-        $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($image);
-    }
-}
+    $response = patch(route('api.image.restore', ['image' => $image]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($image);
+});

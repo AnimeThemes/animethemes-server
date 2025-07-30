@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External;
-
 use App\Constants\Config\ExternalProfileConstants;
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
@@ -13,304 +11,254 @@ use App\Enums\Rules\ModerationService;
 use App\Features\AllowExternalProfileManagement;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalProfileStoreTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\post;
 
-    /**
-     * The External Profile Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $profile = ExternalProfile::factory()->makeOne();
+test('protected', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $response = $this->post(route('api.externalprofile.store', $profile->toArray()));
+    $profile = ExternalProfile::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.externalprofile.store', $profile->toArray()));
 
-    /**
-     * The External Profile Store Endpoint shall forbid users without the create profile permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
+    $response->assertUnauthorized();
+});
 
-        $profile = ExternalProfile::factory()->makeOne();
+test('forbidden if missing permission', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $user = User::factory()->createOne();
+    $profile = ExternalProfile::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.externalprofile.store', $profile->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.externalprofile.store', $profile->toArray()));
 
-    /**
-     * The External Profile Store Endpoint shall forbid users from creating profiles
-     * if the Allow ExternalProfile Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Feature::deactivate(AllowExternalProfileManagement::class);
+    $response->assertForbidden();
+});
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+test('forbidden if flag disabled', function () {
+    Feature::deactivate(AllowExternalProfileManagement::class);
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.externalprofile.store', $parameters));
 
-    /**
-     * The External Profile Store Endpoint shall require name & site fields.
-     */
-    public function testRequiredFields(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
+test('required fields', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
-        $response = $this->post(route('api.externalprofile.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            ExternalProfile::ATTRIBUTE_NAME,
-            ExternalProfile::ATTRIBUTE_SITE,
-        ]);
-    }
+    $response = post(route('api.externalprofile.store'));
 
-    /**
-     * The External Profile Store Endpoint shall create a profile.
-     */
-    public function testCreate(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
+    $response->assertJsonValidationErrors([
+        ExternalProfile::ATTRIBUTE_NAME,
+        ExternalProfile::ATTRIBUTE_SITE,
+    ]);
+});
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+test('create', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(ExternalProfile::class, 1);
-        static::assertDatabaseHas(ExternalProfile::class, [ExternalProfile::ATTRIBUTE_USER => $user->getKey()]);
-    }
+    $response = post(route('api.externalprofile.store', $parameters));
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to create profiles
-     * even if the Allow ExternalProfile Management feature is inactive.
-     */
-    public function testCreatePermittedForBypass(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class, $this->faker->boolean());
+    $response->assertCreated();
+    $this->assertDatabaseCount(ExternalProfile::class, 1);
+    $this->assertDatabaseHas(ExternalProfile::class, [ExternalProfile::ATTRIBUTE_USER => $user->getKey()]);
+});
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+test('create permitted for bypass', function () {
+    Feature::activate(AllowExternalProfileManagement::class, fake()->boolean());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(ExternalProfile::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(ExternalProfile::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-    }
+    $response = post(route('api.externalprofile.store', $parameters));
 
-    /**
-     * The External Profile Store Endpoint shall forbid users from creating profiles that exceed the user profile limit.
-     */
-    public function testMaxProfileLimit(): void
-    {
-        $profileLimit = $this->faker->randomDigitNotNull();
+    $response->assertCreated();
+});
 
-        Config::set(ExternalProfileConstants::MAX_PROFILES_QUALIFIED, $profileLimit);
-        Feature::activate(AllowExternalProfileManagement::class);
+test('max profile limit', function () {
+    $profileLimit = fake()->randomDigitNotNull();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    Config::set(ExternalProfileConstants::MAX_PROFILES_QUALIFIED, $profileLimit);
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $user = User::factory()
-            ->has(ExternalProfile::factory()->count($profileLimit))
-            ->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))
-            ->createOne();
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->has(ExternalProfile::factory()->count($profileLimit))
+        ->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))
+        ->createOne();
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.externalprofile.store', $parameters));
 
-    /**
-     * The External Profile Store Endpoint shall permit users with bypass feature flag permission
-     * to create profiles that exceed the user profile limit.
-     */
-    public function testMaxProfileLimitPermittedForBypass(): void
-    {
-        $profileLimit = $this->faker->randomDigitNotNull();
+    $response->assertForbidden();
+});
 
-        Config::set(ExternalProfileConstants::MAX_PROFILES_QUALIFIED, $profileLimit);
-        Feature::activate(AllowExternalProfileManagement::class);
+test('max profile limit permitted for bypass', function () {
+    $profileLimit = fake()->randomDigitNotNull();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    Config::set(ExternalProfileConstants::MAX_PROFILES_QUALIFIED, $profileLimit);
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $user = User::factory()
-            ->has(ExternalProfile::factory()->count($profileLimit))
-            ->withPermissions(
-                CrudPermission::CREATE->format(ExternalProfile::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->has(ExternalProfile::factory()->count($profileLimit))
+        ->withPermissions(
+            CrudPermission::CREATE->format(ExternalProfile::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-    }
+    $response = post(route('api.externalprofile.store', $parameters));
 
-    /**
-     * The ExternalProfile Store Endpoint shall create a profile if the name is not flagged by OpenAI.
-     */
-    public function testCreatedIfNotFlaggedByOpenAi(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+    $response->assertCreated();
+});
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => false,
-                    ],
+test('created if not flagged by open ai', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => false,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
-        $response->assertCreated();
-    }
+    $response->assertCreated();
+});
 
-    /**
-     * The External Profile Store Endpoint shall create a profile if the moderation service returns some error.
-     */
-    public function testCreatedIfOpenAiFails(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('created if open ai fails', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-        ]);
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+    ]);
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
-        $response->assertCreated();
-    }
+    $response->assertCreated();
+});
 
-    /**
-     * The External Profile Store Endpoint shall prohibit users from creating profiles with names flagged by OpenAI.
-     */
-    public function testValidationErrorWhenFlaggedByOpenAi(): void
-    {
-        Feature::activate(AllowExternalProfileManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('validation error when flagged by open ai', function () {
+    Feature::activate(AllowExternalProfileManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => true,
-                    ],
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => true,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
-        $response->assertJsonValidationErrors([
-            ExternalProfile::ATTRIBUTE_NAME,
-        ]);
-    }
-}
+    $response->assertJsonValidationErrors([
+        ExternalProfile::ATTRIBUTE_NAME,
+    ]);
+});

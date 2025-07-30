@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Dump;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class DumpDestroyTest extends TestCase
-{
-    /**
-     * The Dump Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $dump = Dump::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+test('protected', function () {
+    $dump = Dump::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.dump.destroy', ['dump' => $dump]));
 
-    /**
-     * The Dump Destroy Endpoint shall forbid users without the delete dump permission.
-     */
-    public function testForbidden(): void
-    {
-        $dump = Dump::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $dump = Dump::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.dump.destroy', ['dump' => $dump]));
 
-    /**
-     * The Dump Destroy Endpoint shall delete the dump.
-     */
-    public function testDeleted(): void
-    {
-        $dump = Dump::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Dump::class))->createOne();
+test('deleted', function () {
+    $dump = Dump::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Dump::class))->createOne();
 
-        $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($dump);
-    }
-}
+    $response = delete(route('api.dump.destroy', ['dump' => $dump]));
+
+    $response->assertOk();
+    $this->assertModelMissing($dump);
+});

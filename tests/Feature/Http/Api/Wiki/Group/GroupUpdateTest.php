@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Group;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class GroupUpdateTest extends TestCase
-{
-    /**
-     * The Group Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $group = Group::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Group::factory()->raw();
+test('protected', function () {
+    $group = Group::factory()->createOne();
 
-        $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    $parameters = Group::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Store Endpoint shall forbid users without the create group permission.
-     */
-    public function testForbidden(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Group::factory()->raw();
+test('forbidden', function () {
+    $group = Group::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Group::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Update Endpoint shall forbid users from updating a group that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $group = Group::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Group::factory()->raw();
+test('trashed', function () {
+    $group = Group::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Group::class))->createOne();
+    $parameters = Group::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Group::class))->createOne();
 
-        $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Update Endpoint shall update a group.
-     */
-    public function testUpdate(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Group::factory()->raw();
+test('update', function () {
+    $group = Group::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Group::class))->createOne();
+    $parameters = Group::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Group::class))->createOne();
 
-        $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
+
+    $response->assertOk();
+});

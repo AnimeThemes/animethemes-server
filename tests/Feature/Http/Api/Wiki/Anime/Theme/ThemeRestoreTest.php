@@ -2,84 +2,64 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ThemeRestoreTest extends TestCase
-{
-    /**
-     * The Theme Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+test('protected', function () {
+    $theme = AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
-    /**
-     * The Theme Restore Endpoint shall forbid users without the restore anime theme permission.
-     */
-    public function testForbidden(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $theme = AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
-    /**
-     * The Theme Restore Endpoint shall forbid users from restoring an anime theme that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
+test('trashed', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
-    /**
-     * The Theme Restore Endpoint shall restore the theme.
-     */
-    public function testRestored(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
+test('restored', function () {
+    $theme = AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($theme);
-    }
-}
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($theme);
+});

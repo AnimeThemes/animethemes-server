@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\Playlist\Track;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -13,303 +11,258 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class TrackDestroyTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\delete;
 
-    /**
-     * The Track Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('protected', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
-    /**
-     * The Track Destroy Endpoint shall forbid users without the delete playlist track permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertUnauthorized();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->createOne();
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
-    /**
-     * The Track Destroy Endpoint shall forbid users from deleting the track if they don't own the playlist.
-     */
-    public function testForbiddenIfNotOwnPlaylist(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('forbidden if not own playlist', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory()->for(User::factory()))
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory()->for(User::factory()))
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
-    /**
-     * The Track Destroy Endpoint shall forbid users from destroying playlists tracks
-     * if the Allow Playlist Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertForbidden();
+});
 
-        Feature::deactivate(AllowPlaylistManagement::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    Feature::deactivate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Destroy Endpoint shall scope bindings.
-     */
-    public function testScoped(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('scoped', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory()->for(User::factory()))
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->has(PlaylistTrack::factory()->count(fake()->randomDigitNotNull()), Playlist::RELATION_TRACKS)
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+        ]);
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory()->for(User::factory()))
+        ->createOne();
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Destroy Endpoint shall delete the sole track.
-     */
-    public function testDeleted(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertNotFound();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('deleted', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
-        $playlist->refresh();
+    $response->assertOk();
 
-        static::assertModelMissing($track);
-        static::assertTrue($playlist->first()->doesntExist());
-        static::assertTrue($playlist->last()->doesntExist());
-    }
+    $playlist->refresh();
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to destroy playlist tracks
-     * even if the Allow Playlist Management feature is inactive.
-     */
-    public function testDestroyPermittedForBypass(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $this->assertModelMissing($track);
+    $this->assertTrue($playlist->first()->doesntExist());
+    $this->assertTrue($playlist->last()->doesntExist());
+});
 
-        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
+test('destroy permitted for bypass', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(PlaylistTrack::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Destroy Endpoint shall delete the first track.
-     */
-    public function testDestroyFirst(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertOk();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('destroy first', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks($this->faker->numberBetween(3, 9))
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $first = $playlist->first;
-        $second = $first->next;
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks(fake()->numberBetween(3, 9))
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $first = $playlist->first;
+    $second = $first->next;
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $first]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $first]));
 
-        $playlist->refresh();
-        $second->refresh();
+    $response->assertOk();
 
-        static::assertModelMissing($first);
-        static::assertTrue($playlist->first()->is($second));
-        static::assertTrue($second->previous()->doesntExist());
-    }
+    $playlist->refresh();
+    $second->refresh();
 
-    /**
-     * The Track Destroy Endpoint shall delete the last track.
-     */
-    public function testDestroyLast(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $this->assertModelMissing($first);
+    $this->assertTrue($playlist->first()->is($second));
+    $this->assertTrue($second->previous()->doesntExist());
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('destroy last', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks($this->faker->numberBetween(3, 9))
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $last = $playlist->last;
-        $previous = $last->previous;
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks(fake()->numberBetween(3, 9))
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $last = $playlist->last;
+    $previous = $last->previous;
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $last]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $last]));
 
-        $playlist->refresh();
-        $previous->refresh();
+    $response->assertOk();
 
-        static::assertModelMissing($last);
-        static::assertTrue($playlist->last()->is($previous));
-        static::assertTrue($previous->next()->doesntExist());
-    }
+    $playlist->refresh();
+    $previous->refresh();
 
-    /**
-     * The Track Destroy Endpoint shall delete the second track.
-     */
-    public function testDestroySecond(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $this->assertModelMissing($last);
+    $this->assertTrue($playlist->last()->is($previous));
+    $this->assertTrue($previous->next()->doesntExist());
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('destroy second', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks(3)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
-        $first = $playlist->first;
-        $second = $first->next;
-        $third = $playlist->last;
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks(3)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $first = $playlist->first;
+    $second = $first->next;
+    $third = $playlist->last;
 
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $second]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $second]));
 
-        $playlist->refresh();
-        $first->refresh();
-        $third->refresh();
+    $response->assertOk();
 
-        static::assertModelMissing($second);
+    $playlist->refresh();
+    $first->refresh();
+    $third->refresh();
 
-        static::assertTrue($playlist->first()->is($first));
-        static::assertTrue($playlist->last()->is($third));
+    $this->assertModelMissing($second);
 
-        static::assertTrue($first->previous()->doesntExist());
-        static::assertTrue($first->next()->is($third));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($third));
 
-        static::assertTrue($third->previous()->is($first));
-        static::assertTrue($third->next()->doesntExist());
-    }
-}
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
+
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
+});

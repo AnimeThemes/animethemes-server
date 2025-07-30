@@ -2,96 +2,76 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeResourceDestroyTest extends TestCase
-{
-    /**
-     * The Anime Resource Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+test('protected', function () {
+    $animeResource = AnimeResource::factory()
+        ->for(Anime::factory())
+        ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
 
-    /**
-     * The Anime Resource Destroy Endpoint shall forbid users without the delete anime & delete resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $animeResource = AnimeResource::factory()
+        ->for(Anime::factory())
+        ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
 
-    /**
-     * The Anime Resource Destroy Endpoint shall return an error if the anime resource does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Anime::class),
-                CrudPermission::DELETE->format(ExternalResource::class)
-            )
-            ->createOne();
+test('not found', function () {
+    $anime = Anime::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Anime::class),
+            CrudPermission::DELETE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animeresource.destroy', ['anime' => $anime, 'resource' => $resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.animeresource.destroy', ['anime' => $anime, 'resource' => $resource]));
 
-    /**
-     * The Anime Resource Destroy Endpoint shall delete the anime resource.
-     */
-    public function testDeleted(): void
-    {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Anime::class),
-                CrudPermission::DELETE->format(ExternalResource::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $animeResource = AnimeResource::factory()
+        ->for(Anime::factory())
+        ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Anime::class),
+            CrudPermission::DELETE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($animeResource);
-    }
-}
+    $response = delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+
+    $response->assertOk();
+    $this->assertModelMissing($animeResource);
+});

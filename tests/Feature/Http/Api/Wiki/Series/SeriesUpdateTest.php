@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Series;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SeriesUpdateTest extends TestCase
-{
-    /**
-     * The Series Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $series = Series::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Series::factory()->raw();
+test('protected', function () {
+    $series = Series::factory()->createOne();
 
-        $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
+    $parameters = Series::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.series.update', ['series' => $series] + $parameters));
 
-    /**
-     * The Series Update Endpoint shall forbid users without the update series permission.
-     */
-    public function testForbidden(): void
-    {
-        $series = Series::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Series::factory()->raw();
+test('forbidden', function () {
+    $series = Series::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Series::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.series.update', ['series' => $series] + $parameters));
 
-    /**
-     * The Series Update Endpoint shall forbid users from updating a series that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $series = Series::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Series::factory()->raw();
+test('trashed', function () {
+    $series = Series::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Series::class))->createOne();
+    $parameters = Series::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Series::class))->createOne();
 
-        $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.series.update', ['series' => $series] + $parameters));
 
-    /**
-     * The Series Update Endpoint shall update a series.
-     */
-    public function testUpdate(): void
-    {
-        $series = Series::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Series::factory()->raw();
+test('update', function () {
+    $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Series::class))->createOne();
+    $parameters = Series::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Series::class))->createOne();
 
-        $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.series.update', ['series' => $series] + $parameters));
+
+    $response->assertOk();
+});

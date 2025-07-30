@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Audio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AudioUpdateTest extends TestCase
-{
-    /**
-     * The Audio Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $audio = Audio::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Audio::factory()->raw();
+test('protected', function () {
+    $audio = Audio::factory()->createOne();
 
-        $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    $parameters = Audio::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
-    /**
-     * The Audio Update Endpoint shall forbid users without the update audio permission.
-     */
-    public function testForbidden(): void
-    {
-        $audio = Audio::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Audio::factory()->raw();
+test('forbidden', function () {
+    $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Audio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
-    /**
-     * The Audio Update Endpoint shall forbid users from updating an audio that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $audio = Audio::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Audio::factory()->raw();
+test('trashed', function () {
+    $audio = Audio::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Audio::class))->createOne();
+    $parameters = Audio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Audio::class))->createOne();
 
-        $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
-    /**
-     * The Audio Update Endpoint shall update an audio.
-     */
-    public function testUpdate(): void
-    {
-        $audio = Audio::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Audio::factory()->raw();
+test('update', function () {
+    $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Audio::class))->createOne();
+    $parameters = Audio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Audio::class))->createOne();
 
-        $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
+
+    $response->assertOk();
+});

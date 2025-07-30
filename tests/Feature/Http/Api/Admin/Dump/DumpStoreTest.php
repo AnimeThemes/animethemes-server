@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Dump;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class DumpStoreTest extends TestCase
-{
-    /**
-     * The Dump Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $dump = Dump::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.dump.store', $dump->toArray()));
+test('protected', function () {
+    $dump = Dump::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.dump.store', $dump->toArray()));
 
-    /**
-     * The Dump Store Endpoint shall forbid users without the create dump permission.
-     */
-    public function testForbidden(): void
-    {
-        $dump = Dump::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $dump = Dump::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.dump.store', $dump->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.dump.store', $dump->toArray()));
 
-    /**
-     * The Dump Store Endpoint shall require the path field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
 
-        $response = $this->post(route('api.dump.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            Dump::ATTRIBUTE_PATH,
-        ]);
-    }
+    $response = post(route('api.dump.store'));
 
-    /**
-     * The Dump Store Endpoint shall create a dump.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Dump::factory()->raw();
+    $response->assertJsonValidationErrors([
+        Dump::ATTRIBUTE_PATH,
+    ]);
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
+test('create', function () {
+    $parameters = Dump::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
 
-        $response = $this->post(route('api.dump.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Dump::class, 1);
-    }
-}
+    $response = post(route('api.dump.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Dump::class, 1);
+});

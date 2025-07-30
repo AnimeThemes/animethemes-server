@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki\Video;
-
 use App\Events\Wiki\Video\Script\VideoScriptCreated;
 use App\Events\Wiki\Video\Script\VideoScriptDeleted;
 use App\Events\Wiki\Video\Script\VideoScriptRestored;
@@ -11,87 +9,57 @@ use App\Events\Wiki\Video\Script\VideoScriptUpdated;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class ScriptTest extends TestCase
-{
-    /**
-     * When a Script is created, a VideoScriptCreated event shall be dispatched.
-     */
-    public function testVideoScriptCreatedEventDispatched(): void
-    {
-        VideoScript::factory()->createOne();
+test('video script created event dispatched', function () {
+    VideoScript::factory()->createOne();
 
-        Event::assertDispatched(VideoScriptCreated::class);
-    }
+    Event::assertDispatched(VideoScriptCreated::class);
+});
 
-    /**
-     * When a Script is deleted, a VideoScriptDeleted event shall be dispatched.
-     */
-    public function testVideoScriptDeletedEventDispatched(): void
-    {
-        $script = VideoScript::factory()->createOne();
+test('video script deleted event dispatched', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $script->delete();
+    $script->delete();
 
-        Event::assertDispatched(VideoScriptDeleted::class);
-    }
+    Event::assertDispatched(VideoScriptDeleted::class);
+});
 
-    /**
-     * When a Script is restored, a VideoScriptRestored event shall be dispatched.
-     */
-    public function testVideoScriptRestoredEventDispatched(): void
-    {
-        $script = VideoScript::factory()->createOne();
+test('video script restored event dispatched', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $script->restore();
+    $script->restore();
 
-        Event::assertDispatched(VideoScriptRestored::class);
-    }
+    Event::assertDispatched(VideoScriptRestored::class);
+});
 
-    /**
-     * When a Script is restored, a VideoScriptUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testVideoScriptRestoresQuietly(): void
-    {
-        $script = VideoScript::factory()->createOne();
+test('video script restores quietly', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $script->restore();
+    $script->restore();
 
-        Event::assertNotDispatched(VideoScriptUpdated::class);
-    }
+    Event::assertNotDispatched(VideoScriptUpdated::class);
+});
 
-    /**
-     * When a Script is updated, a VideoScriptUpdated event shall be dispatched.
-     */
-    public function testVideoScriptUpdatedEventDispatched(): void
-    {
-        $script = VideoScript::factory()->createOne();
-        $changes = VideoScript::factory()->makeOne();
+test('video script updated event dispatched', function () {
+    $script = VideoScript::factory()->createOne();
+    $changes = VideoScript::factory()->makeOne();
 
-        $script->fill($changes->getAttributes());
-        $script->save();
+    $script->fill($changes->getAttributes());
+    $script->save();
 
-        Event::assertDispatched(VideoScriptUpdated::class);
-    }
+    Event::assertDispatched(VideoScriptUpdated::class);
+});
 
-    /**
-     * The VideoScriptUpdated event shall contain embed fields.
-     */
-    public function testVideoScriptUpdatedEventEmbedFields(): void
-    {
-        $script = VideoScript::factory()->createOne();
-        $changes = VideoScript::factory()->makeOne();
+test('video script updated event embed fields', function () {
+    $script = VideoScript::factory()->createOne();
+    $changes = VideoScript::factory()->makeOne();
 
-        $script->fill($changes->getAttributes());
-        $script->save();
+    $script->fill($changes->getAttributes());
+    $script->save();
 
-        Event::assertDispatched(VideoScriptUpdated::class, function (VideoScriptUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(VideoScriptUpdated::class, function (VideoScriptUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

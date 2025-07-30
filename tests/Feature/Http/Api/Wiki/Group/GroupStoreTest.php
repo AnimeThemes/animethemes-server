@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Group;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class GroupStoreTest extends TestCase
-{
-    /**
-     * The Group Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $group = Group::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.group.store', $group->toArray()));
+test('protected', function () {
+    $group = Group::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.group.store', $group->toArray()));
 
-    /**
-     * The Group Store Endpoint shall forbid users without the create group permission.
-     */
-    public function testForbidden(): void
-    {
-        $group = Group::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $group = Group::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.group.store', $group->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.group.store', $group->toArray()));
 
-    /**
-     * The Group Store Endpoint shall create a group.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Group::factory()->raw();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Group::class))->createOne();
+test('create', function () {
+    $parameters = Group::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Group::class))->createOne();
 
-        $response = $this->post(route('api.group.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Group::class, 1);
-    }
-}
+    $response = post(route('api.group.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Group::class, 1);
+});

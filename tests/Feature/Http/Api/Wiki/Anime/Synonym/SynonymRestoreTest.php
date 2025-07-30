@@ -2,84 +2,64 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SynonymRestoreTest extends TestCase
-{
-    /**
-     * The Synonym Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $synonym = AnimeSynonym::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+test('protected', function () {
+    $synonym = AnimeSynonym::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Restore Endpoint shall forbid users without the restore anime synonym permission.
-     */
-    public function testForbidden(): void
-    {
-        $synonym = AnimeSynonym::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $synonym = AnimeSynonym::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Restore Endpoint shall forbid users from restoring an anime synonym that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeSynonym::class))->createOne();
+test('trashed', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Restore Endpoint shall restore the synonym.
-     */
-    public function testRestored(): void
-    {
-        $synonym = AnimeSynonym::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeSynonym::class))->createOne();
+test('restored', function () {
+    $synonym = AnimeSynonym::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($synonym);
-    }
-}
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($synonym);
+});

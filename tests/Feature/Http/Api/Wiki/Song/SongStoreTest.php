@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Song;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongStoreTest extends TestCase
-{
-    /**
-     * The Song Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $song = Song::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.song.store', $song->toArray()));
+test('protected', function () {
+    $song = Song::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.song.store', $song->toArray()));
 
-    /**
-     * The Song Store Endpoint shall forbid users without the create song permission.
-     */
-    public function testForbidden(): void
-    {
-        $song = Song::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $song = Song::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.song.store', $song->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.song.store', $song->toArray()));
 
-    /**
-     * The Song Store Endpoint shall create a song.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Song::factory()->raw();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Song::class))->createOne();
+test('create', function () {
+    $parameters = Song::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Song::class))->createOne();
 
-        $response = $this->post(route('api.song.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Song::class, 1);
-    }
-}
+    $response = post(route('api.song.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Song::class, 1);
+});

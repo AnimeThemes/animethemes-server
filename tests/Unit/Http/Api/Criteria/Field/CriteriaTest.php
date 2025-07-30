@@ -2,38 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Criteria\Field;
-
 use App\Http\Api\Criteria\Field\Criteria;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-class CriteriaTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The field criteria shall return true if the field is allowed.
-     */
-    public function testIsAllowedField(): void
-    {
-        $fields = collect($this->faker->words($this->faker->randomDigitNotNull()));
+test('is allowed field', function () {
+    $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
-        $criteria = new Criteria($this->faker->word(), $fields);
+    $criteria = new Criteria(fake()->word(), $fields);
 
-        static::assertTrue($criteria->isAllowedField($fields->random()));
-    }
+    $this->assertTrue($criteria->isAllowedField($fields->random()));
+});
 
-    /**
-     * The field criteria shall return false if the field is not allowed.
-     */
-    public function testIsNotAllowed(): void
-    {
-        $fields = collect($this->faker->words($this->faker->randomDigitNotNull()));
+test('is not allowed', function () {
+    $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
-        $criteria = new Criteria($this->faker->word(), $fields);
+    $criteria = new Criteria(fake()->word(), $fields);
 
-        static::assertFalse($criteria->isAllowedField(Str::random()));
-    }
-}
+    $this->assertFalse($criteria->isAllowedField(Str::random()));
+});

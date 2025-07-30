@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Song;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongForceDeleteTest extends TestCase
-{
-    /**
-     * The Song Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $song = Song::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
+test('protected', function () {
+    $song = Song::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.song.forceDelete', ['song' => $song]));
 
-    /**
-     * The Song Force Delete Endpoint shall forbid users without the force delete song permission.
-     */
-    public function testForbidden(): void
-    {
-        $song = Song::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $song = Song::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.song.forceDelete', ['song' => $song]));
 
-    /**
-     * The Song Force Delete Endpoint shall force delete the song.
-     */
-    public function testDeleted(): void
-    {
-        $song = Song::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Song::class))->createOne();
+test('deleted', function () {
+    $song = Song::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Song::class))->createOne();
 
-        $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($song);
-    }
-}
+    $response = delete(route('api.song.forceDelete', ['song' => $song]));
+
+    $response->assertOk();
+    $this->assertModelMissing($song);
+});

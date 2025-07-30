@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Group;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class GroupRestoreTest extends TestCase
-{
-    /**
-     * The Group Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $group = Group::factory()->trashed()->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.group.restore', ['group' => $group]));
+test('protected', function () {
+    $group = Group::factory()->trashed()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
-    /**
-     * The Group Restore Endpoint shall forbid users without the restore group permission.
-     */
-    public function testForbidden(): void
-    {
-        $group = Group::factory()->trashed()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $group = Group::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
-    /**
-     * The Group Restore Endpoint shall forbid users from restoring a group that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Group::class))->createOne();
+test('trashed', function () {
+    $group = Group::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Group::class))->createOne();
 
-        $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
-    /**
-     * The Group Restore Endpoint shall restore the group.
-     */
-    public function testRestored(): void
-    {
-        $group = Group::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Group::class))->createOne();
+test('restored', function () {
+    $group = Group::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Group::class))->createOne();
 
-        $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($group);
-    }
-}
+    $response = patch(route('api.group.restore', ['group' => $group]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($group);
+});

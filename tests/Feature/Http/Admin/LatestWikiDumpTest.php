@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Admin;
-
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Constants\Config\DumpConstants;
@@ -11,8 +9,6 @@ use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
-use Exception;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -20,150 +16,124 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class LatestWikiDumpTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * If dump downloading is disabled through the Allow Dump Downloading feature,
-     * the user shall receive a forbidden exception.
-     *
-     * @throws Exception
-     */
-    public function testDumpDownloadingNotAllowedForbidden(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        Feature::deactivate(AllowDumpDownloading::class);
+test('dump downloading not allowed forbidden', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
+    Feature::deactivate(AllowDumpDownloading::class);
+
+    $action = new DumpWikiAction();
+
+    $action->handle();
+
+    $response = get(route('dump.latest.wiki.show'));
+
+    $response->assertForbidden();
+});
+
+test('video streaming permitted for bypass', function () {
+    Storage::fake('local');
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+
+    Feature::activate(AllowDumpDownloading::class, fake()->boolean());
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpDocumentAction();
+
+        $action->handle();
+    });
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
         $action = new DumpWikiAction();
 
         $action->handle();
+    });
 
-        $response = $this->get(route('dump.latest.wiki.show'));
+    $path = Str::of(DumpWikiAction::FILENAME_PREFIX)
+        ->append(fake()->word())
+        ->append('.sql')
+        ->__toString();
 
-        $response->assertForbidden();
-    }
+    $file = File::fake()->create($path);
+    $fsFile = $fs->putFileAs('', $file, $path);
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to download the latest wiki dump
-     * even if the Allow Dump Downloading feature is disabled.
-     */
-    public function testVideoStreamingPermittedForBypass(): void
-    {
-        Storage::fake('local');
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $dump = Dump::factory()->createOne([
+        Dump::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-        Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
+    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpDocumentAction();
+    Sanctum::actingAs($user);
 
-            $action->handle();
-        });
+    $response = get(route('dump.latest.wiki.show'));
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpWikiAction();
+    $response->assertDownload($dump->path);
+});
 
-            $action->handle();
-        });
+test('not found if no wiki dumps', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $path = Str::of(DumpWikiAction::FILENAME_PREFIX)
-            ->append($this->faker->word())
-            ->append('.sql')
-            ->__toString();
+    Feature::activate(AllowDumpDownloading::class);
 
-        $file = File::fake()->create($path);
-        $fsFile = $fs->putFileAs('', $file, $path);
+    $response = get(route('dump.latest.wiki.show'));
 
-        $dump = Dump::factory()->createOne([
-            Dump::ATTRIBUTE_PATH => $fsFile,
-        ]);
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+test('not found if document dumps exist', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Sanctum::actingAs($user);
+    Feature::activate(AllowDumpDownloading::class);
 
-        $response = $this->get(route('dump.latest.wiki.show'));
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpDocumentAction();
 
-        $response->assertDownload($dump->path);
-    }
+        $action->handle();
+    });
 
-    /**
-     * If no dumps exist, the user shall receive a not found error.
-     */
-    public function testNotFoundIfNoWikiDumps(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $response = get(route('dump.latest.wiki.show'));
 
-        Feature::activate(AllowDumpDownloading::class);
+    $response->assertNotFound();
+});
 
-        $response = $this->get(route('dump.latest.wiki.show'));
+test('latest wiki dump downloaded', function () {
+    Storage::fake('local');
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $response->assertNotFound();
-    }
+    Feature::activate(AllowDumpDownloading::class);
 
-    /**
-     * If no wiki dumps exist, the user shall receive a not found error.
-     */
-    public function testNotFoundIfDocumentDumpsExist(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpDocumentAction();
 
-        Feature::activate(AllowDumpDownloading::class);
+        $action->handle();
+    });
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpDocumentAction();
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpWikiAction();
 
-            $action->handle();
-        });
+        $action->handle();
+    });
 
-        $response = $this->get(route('dump.latest.wiki.show'));
+    $path = Str::of(DumpWikiAction::FILENAME_PREFIX)
+        ->append(fake()->word())
+        ->append('.sql')
+        ->__toString();
 
-        $response->assertNotFound();
-    }
+    $file = File::fake()->create($path);
+    $fsFile = $fs->putFileAs('', $file, $path);
 
-    /**
-     * If wiki dumps exist, the latest wiki dump is downloaded from storage through the response.
-     */
-    public function testLatestWikiDumpDownloaded(): void
-    {
-        Storage::fake('local');
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $dump = Dump::factory()->createOne([
+        Dump::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-        Feature::activate(AllowDumpDownloading::class);
+    $response = get(route('dump.latest.wiki.show'));
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpDocumentAction();
-
-            $action->handle();
-        });
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpWikiAction();
-
-            $action->handle();
-        });
-
-        $path = Str::of(DumpWikiAction::FILENAME_PREFIX)
-            ->append($this->faker->word())
-            ->append('.sql')
-            ->__toString();
-
-        $file = File::fake()->create($path);
-        $fsFile = $fs->putFileAs('', $file, $path);
-
-        $dump = Dump::factory()->createOne([
-            Dump::ATTRIBUTE_PATH => $fsFile,
-        ]);
-
-        $response = $this->get(route('dump.latest.wiki.show'));
-
-        $response->assertDownload($dump->path);
-    }
-}
+    $response->assertDownload($dump->path);
+});

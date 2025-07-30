@@ -2,83 +2,66 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Auth\User\Me\List\ExternalProfile;
-
 use App\Enums\Auth\CrudPermission;
 use App\Http\Api\Query\Query;
 use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class MyExternalProfileIndexTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The My External Profile Index Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $response = $this->get(route('api.me.externalprofile.index'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertUnauthorized();
-    }
+test('protected', function () {
+    $response = get(route('api.me.externalprofile.index'));
 
-    /**
-     * The My External Profile Index Endpoint shall forbid users without the view external profile permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        $user = User::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        Sanctum::actingAs($user);
+test('forbidden if missing permission', function () {
+    $user = User::factory()->createOne();
 
-        $response = $this->get(route('api.me.externalprofile.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = get(route('api.me.externalprofile.index'));
 
-    /**
-     * The My External Profile Index Endpoint shall return profiles owned by the user.
-     */
-    public function testOnlySeesOwnedProfiles(): void
-    {
-        ExternalProfile::factory()
-            ->for(User::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+    $response->assertForbidden();
+});
 
-        ExternalProfile::factory()
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+test('only sees owned profiles', function () {
+    ExternalProfile::factory()
+        ->for(User::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
+    ExternalProfile::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $profileCount = $this->faker->randomDigitNotNull();
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
 
-        $profiles = ExternalProfile::factory()
-            ->for($user)
-            ->count($profileCount)
-            ->create();
+    $profileCount = fake()->randomDigitNotNull();
 
-        Sanctum::actingAs($user);
+    $profiles = ExternalProfile::factory()
+        ->for($user)
+        ->count($profileCount)
+        ->create();
 
-        $response = $this->get(route('api.me.externalprofile.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonCount($profileCount, ExternalProfileCollection::$wrap);
+    $response = get(route('api.me.externalprofile.index'));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJsonCount($profileCount, ExternalProfileCollection::$wrap);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

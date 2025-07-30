@@ -2,66 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Api;
-
 use App\Rules\Api\EnumLocalizedNameRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 use Tests\Unit\Enums\LocalizedEnum;
 
-class EnumLocalizedNameTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Enum Description Rule shall return true if an enum description is provided.
-     */
-    public function testPassesIfEnumDescription(): void
-    {
-        $enum = Arr::random(LocalizedEnum::cases());
+test('passes if enum description', function () {
+    $enum = Arr::random(LocalizedEnum::cases());
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $enum->localize()],
-            [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
-        );
+    $validator = Validator::make(
+        [$attribute => $enum->localize()],
+        [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
+    );
 
-        static::assertTrue($validator->passes());
-    }
+    $this->assertTrue($validator->passes());
+});
 
-    /**
-     * The Enum Description Rule shall return false if an enum value is provided.
-     */
-    public function testFailsIfEnumValue(): void
-    {
-        $enum = Arr::random(LocalizedEnum::cases());
+test('fails if enum value', function () {
+    $enum = Arr::random(LocalizedEnum::cases());
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $enum->value],
-            [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
-        );
+    $validator = Validator::make(
+        [$attribute => $enum->value],
+        [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
+    );
 
-        static::assertFalse($validator->passes());
-    }
+    $this->assertFalse($validator->passes());
+});
 
-    /**
-     * The Enum Description Rule shall return false if an enum description is not provided.
-     */
-    public function testFailsIfString(): void
-    {
-        $attribute = $this->faker->word();
+test('fails if string', function () {
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => Str::random()],
-            [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
-        );
+    $validator = Validator::make(
+        [$attribute => Str::random()],
+        [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
+    );
 
-        static::assertFalse($validator->passes());
-    }
-}
+    $this->assertFalse($validator->passes());
+});

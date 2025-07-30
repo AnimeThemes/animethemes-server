@@ -2,77 +2,58 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Api;
-
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Sort\Sort;
 use App\Rules\Api\DistinctIgnoringDirectionRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
-use Tests\TestCase;
 
-class DistinctIgnoringDirectionTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Distinct Ignoring Direction Rule shall return false if there exist duplicate sort keys.
-     */
-    public function testFailsIfDuplicateSort(): void
-    {
-        $key = $this->faker->word();
+test('fails if duplicate sort', function () {
+    $key = fake()->word();
 
-        $sorts = collect()->pad($this->faker->numberBetween(2, 9), $key);
+    $sorts = collect()->pad(fake()->numberBetween(2, 9), $key);
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $sorts->join(',')],
-            [$attribute => new DistinctIgnoringDirectionRule()]
-        );
+    $validator = Validator::make(
+        [$attribute => $sorts->join(',')],
+        [$attribute => new DistinctIgnoringDirectionRule()]
+    );
 
-        static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
+});
+
+test('fails if duplicate sort different direction', function () {
+    $key = fake()->word();
+
+    $sort = new Sort($key);
+
+    $sorts = [];
+
+    foreach (Direction::cases() as $direction) {
+        $sorts[] = $sort->format($direction);
     }
 
-    /**
-     * The Distinct Ignoring Direction Rule shall return false if there exists duplicate sort keys of differing directions.
-     */
-    public function testFailsIfDuplicateSortDifferentDirection(): void
-    {
-        $key = $this->faker->word();
+    $attribute = fake()->word();
 
-        $sort = new Sort($key);
+    $validator = Validator::make(
+        [$attribute => implode(',', $sorts)],
+        [$attribute => new DistinctIgnoringDirectionRule()]
+    );
 
-        $sorts = [];
+    $this->assertFalse($validator->passes());
+});
 
-        foreach (Direction::cases() as $direction) {
-            $sorts[] = $sort->format($direction);
-        }
+test('passes if no duplicates', function () {
+    $sorts = collect(fake()->words(fake()->randomDigitNotNull()))->unique();
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => implode(',', $sorts)],
-            [$attribute => new DistinctIgnoringDirectionRule()]
-        );
+    $validator = Validator::make(
+        [$attribute => $sorts->join(',')],
+        [$attribute => new DistinctIgnoringDirectionRule()]
+    );
 
-        static::assertFalse($validator->passes());
-    }
-
-    /**
-     * The Distinct Ignoring Direction Rule shall return true if there exist no duplicate sort keys.
-     */
-    public function testPassesIfNoDuplicates(): void
-    {
-        $sorts = collect($this->faker->words($this->faker->randomDigitNotNull()))->unique();
-
-        $attribute = $this->faker->word();
-
-        $validator = Validator::make(
-            [$attribute => $sorts->join(',')],
-            [$attribute => new DistinctIgnoringDirectionRule()]
-        );
-
-        static::assertTrue($validator->passes());
-    }
-}
+    $this->assertTrue($validator->passes());
+});

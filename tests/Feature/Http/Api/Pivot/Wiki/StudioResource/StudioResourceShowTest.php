@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioResource;
-
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -17,165 +15,142 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class StudioResourceShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The Studio Resource Show Endpoint shall return an error if the studio resource does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.studioresource.show', ['studio' => $studio, 'resource' => $resource]));
+test('not found', function () {
+    $studio = Studio::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $response->assertNotFound();
-    }
+    $response = get(route('api.studioresource.show', ['studio' => $studio, 'resource' => $resource]));
 
-    /**
-     * By default, the Studio Resource Show Endpoint shall return a Studio Resource Resource.
-     */
-    public function testDefault(): void
-    {
-        $studioResource = StudioResource::factory()
-            ->for(Studio::factory())
-            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource]));
+test('default', function () {
+    $studioResource = StudioResource::factory()
+        ->for(Studio::factory())
+        ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $studioResource->unsetRelations();
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceResource($studioResource, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $studioResource->unsetRelations();
 
-    /**
-     * The Studio Resource Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new StudioResourceSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceResource($studioResource, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new StudioResourceSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $studioResource = StudioResource::factory()
-            ->for(Studio::factory())
-            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $studioResource = StudioResource::factory()
+        ->for(Studio::factory())
+        ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $studioResource->unsetRelations()->load($includedPaths->all());
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceResource($studioResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $studioResource->unsetRelations()->load($includedPaths->all());
 
-    /**
-     * The Studio Resource Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new StudioResourceSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceResource($studioResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new StudioResourceSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                StudioResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $studioResource = StudioResource::factory()
-            ->for(Studio::factory())
-            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-            ->createOne();
+    $parameters = [
+        FieldParser::param() => [
+            StudioResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $studioResource = StudioResource::factory()
+        ->for(Studio::factory())
+        ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $studioResource->unsetRelations();
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceResource($studioResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $studioResource->unsetRelations();
 
-    /**
-     * The Studio Resource Show Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceResource($studioResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => StudioResource::RELATION_RESOURCE,
-        ];
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
 
-        $studioResource = StudioResource::factory()
-            ->for(Studio::factory())
-            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => StudioResource::RELATION_RESOURCE,
+    ];
 
-        $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $studioResource = StudioResource::factory()
+        ->for(Studio::factory())
+        ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $studioResource->unsetRelations()->load([
-            StudioResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ]);
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceResource($studioResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $studioResource->unsetRelations()->load([
+        StudioResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ]);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceResource($studioResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

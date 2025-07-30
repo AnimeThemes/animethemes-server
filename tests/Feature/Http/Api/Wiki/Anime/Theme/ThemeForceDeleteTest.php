@@ -2,59 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ThemeForceDeleteTest extends TestCase
-{
-    /**
-     * The Theme Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
+test('protected', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
 
-    /**
-     * The Theme Force Delete Endpoint shall forbid users without the force delete anime theme permission.
-     */
-    public function testForbidden(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
 
-    /**
-     * The Theme Force Delete Endpoint shall force delete the theme.
-     */
-    public function testDeleted(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(AnimeTheme::class))->createOne();
+test('deleted', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($theme);
-    }
-}
+    $response = delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
+
+    $response->assertOk();
+    $this->assertModelMissing($theme);
+});

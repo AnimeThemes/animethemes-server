@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\List;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
@@ -13,124 +11,84 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class PlaylistTest extends BaseResourceTestCase
-{
-    /**
-     * Initial setup for the tests.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-        Filament::setServingStatus();
-    }
+/**
+ * Initial setup for the tests.
+ */
+beforeEach(function () {
+    Filament::setServingStatus();
+});
 
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = Playlist::getPages();
+test('render index page', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(PlaylistModel::class)
+        )
+        ->createOne();
 
-        return $pages['index']->getPage();
-    }
+    actingAs($user);
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = Playlist::getPages();
+    $records = PlaylistModel::factory()->count(10)->create();
 
-        return $pages['view']->getPage();
-    }
+    get(Playlist::getUrl('index'))
+        ->assertSuccessful();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(PlaylistModel::class)
-            )
-            ->createOne();
+    Livewire::test(getIndexPage(Playlist::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $this->actingAs($user);
+test('render view page', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(PlaylistModel::class)
+        )
+        ->createOne();
 
-        $records = PlaylistModel::factory()->count(10)->create();
+    actingAs($user);
 
-        $this->get(Playlist::getUrl('index'))
-            ->assertSuccessful();
+    $record = PlaylistModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    get(Playlist::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(PlaylistModel::class)
-            )
-            ->createOne();
+test('mount create action', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::CREATE->format(PlaylistModel::class)
+        )
+        ->createOne();
 
-        $this->actingAs($user);
+    actingAs($user);
 
-        $record = PlaylistModel::factory()->createOne();
+    Livewire::test(getIndexPage(Playlist::class))
+        ->mountAction(CreateAction::class)
+        ->assertActionMounted(CreateAction::class);
+});
 
-        $this->get(Playlist::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(PlaylistModel::class),
+        )
+        ->createOne();
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountCreateAction(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(PlaylistModel::class)
-            )
-            ->createOne();
+    actingAs($user);
 
-        $this->actingAs($user);
+    $record = PlaylistModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(CreateAction::class)
-            ->assertActionMounted(CreateAction::class);
-    }
-
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(PlaylistModel::class),
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $record = PlaylistModel::factory()->createOne();
-
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
-}
+    Livewire::test(getIndexPage(Playlist::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});

@@ -2,85 +2,65 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class EntryStoreTest extends TestCase
-{
-    /**
-     * The Entry Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.animethemeentry.store', $entry->toArray()));
+test('protected', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.animethemeentry.store', $entry->toArray()));
 
-    /**
-     * The Entry Store Endpoint shall forbid users without the create anime theme entry permission.
-     */
-    public function testForbidden(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.animethemeentry.store', $entry->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.animethemeentry.store', $entry->toArray()));
 
-    /**
-     * The Entry Store Endpoint shall require the theme_id field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeThemeEntry::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeThemeEntry::class))->createOne();
 
-        $response = $this->post(route('api.animethemeentry.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            AnimeThemeEntry::ATTRIBUTE_THEME,
-        ]);
-    }
+    $response = post(route('api.animethemeentry.store'));
 
-    /**
-     * The Entry Store Endpoint shall create an entry.
-     */
-    public function testCreate(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+    $response->assertJsonValidationErrors([
+        AnimeThemeEntry::ATTRIBUTE_THEME,
+    ]);
+});
 
-        $parameters = array_merge(
-            AnimeThemeEntry::factory()->raw(),
-            [AnimeThemeEntry::ATTRIBUTE_THEME => $theme->getKey()],
-        );
+test('create', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeThemeEntry::class))->createOne();
+    $parameters = array_merge(
+        AnimeThemeEntry::factory()->raw(),
+        [AnimeThemeEntry::ATTRIBUTE_THEME => $theme->getKey()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeThemeEntry::class))->createOne();
 
-        $response = $this->post(route('api.animethemeentry.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(AnimeThemeEntry::class, 1);
-    }
-}
+    $response = post(route('api.animethemeentry.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(AnimeThemeEntry::class, 1);
+});

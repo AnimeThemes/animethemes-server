@@ -2,68 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistMember;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistMemberStoreTest extends TestCase
-{
-    /**
-     * The Artist Member Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $member = Artist::factory()->createOne();
+use function Pest\Laravel\post;
 
-        $parameters = ArtistMember::factory()->raw();
+test('protected', function () {
+    $artist = Artist::factory()->createOne();
+    $member = Artist::factory()->createOne();
 
-        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
+    $parameters = ArtistMember::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
 
-    /**
-     * The Artist Member Store Endpoint shall forbid users without the create artist permission.
-     */
-    public function testForbidden(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $member = Artist::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = ArtistMember::factory()->raw();
+test('forbidden', function () {
+    $artist = Artist::factory()->createOne();
+    $member = Artist::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = ArtistMember::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
 
-    /**
-     * The Artist Member Store Endpoint shall create an artist member.
-     */
-    public function testCreate(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $member = Artist::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = ArtistMember::factory()->raw();
+test('create', function () {
+    $artist = Artist::factory()->createOne();
+    $member = Artist::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
+    $parameters = ArtistMember::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
 
-        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(ArtistMember::class, 1);
-    }
-}
+    $response = post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(ArtistMember::class, 1);
+});

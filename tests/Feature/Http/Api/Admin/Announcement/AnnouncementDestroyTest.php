@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Announcement;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnnouncementDestroyTest extends TestCase
-{
-    /**
-     * The Announcement Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+test('protected', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
-    /**
-     * The Announcement Destroy Endpoint shall forbid users without the delete announcement permission.
-     */
-    public function testForbidden(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
-    /**
-     * The Announcement Destroy Endpoint shall delete the announcement.
-     */
-    public function testDeleted(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Announcement::class))->createOne();
+test('deleted', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Announcement::class))->createOne();
 
-        $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($announcement);
-    }
-}
+    $response = delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+
+    $response->assertOk();
+    $this->assertModelMissing($announcement);
+});

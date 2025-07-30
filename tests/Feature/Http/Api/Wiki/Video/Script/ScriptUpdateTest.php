@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video\Script;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ScriptUpdateTest extends TestCase
-{
-    /**
-     * The Script Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $script = VideoScript::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = VideoScript::factory()->raw();
+test('protected', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $response = $this->put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
+    $parameters = VideoScript::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
 
-    /**
-     * The Script Update Endpoint shall forbid users without the update video script permission.
-     */
-    public function testForbidden(): void
-    {
-        $script = VideoScript::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = VideoScript::factory()->raw();
+test('forbidden', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = VideoScript::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
 
-    /**
-     * The Script Update Endpoint shall forbid users from updating a script that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $script = VideoScript::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = VideoScript::factory()->raw();
+test('trashed', function () {
+    $script = VideoScript::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(VideoScript::class))->createOne();
+    $parameters = VideoScript::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(VideoScript::class))->createOne();
 
-        $response = $this->put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
 
-    /**
-     * The Script Update Endpoint shall update a script.
-     */
-    public function testUpdate(): void
-    {
-        $script = VideoScript::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = VideoScript::factory()->raw();
+test('update', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(VideoScript::class))->createOne();
+    $parameters = VideoScript::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(VideoScript::class))->createOne();
 
-        $response = $this->put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
+
+    $response->assertOk();
+});

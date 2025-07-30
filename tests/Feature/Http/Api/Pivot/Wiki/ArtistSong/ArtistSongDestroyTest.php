@@ -2,96 +2,76 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistSong;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistSongDestroyTest extends TestCase
-{
-    /**
-     * The Artist Song Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+test('protected', function () {
+    $artistSong = ArtistSong::factory()
+        ->for(Artist::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
-    /**
-     * The Artist Song Destroy Endpoint shall forbid users without the delete artist & delete song permissions.
-     */
-    public function testForbidden(): void
-    {
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $artistSong = ArtistSong::factory()
+        ->for(Artist::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
-    /**
-     * The Artist Song Destroy Endpoint shall return an error if the artist song does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $song = Song::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Artist::class),
-                CrudPermission::DELETE->format(Song::class)
-            )
-            ->createOne();
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $song = Song::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Artist::class),
+            CrudPermission::DELETE->format(Song::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artist, 'song' => $song]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artist, 'song' => $song]));
 
-    /**
-     * The Artist Song Destroy Endpoint shall delete the artist song.
-     */
-    public function testDeleted(): void
-    {
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Artist::class),
-                CrudPermission::DELETE->format(Song::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $artistSong = ArtistSong::factory()
+        ->for(Artist::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Artist::class),
+            CrudPermission::DELETE->format(Song::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($artistSong);
-    }
-}
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+
+    $response->assertOk();
+    $this->assertModelMissing($artistSong);
+});

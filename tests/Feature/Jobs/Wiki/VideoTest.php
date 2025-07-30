@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Wiki\Video\VideoCreated;
 use App\Events\Wiki\Video\VideoDeleted;
@@ -14,72 +12,52 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class VideoTest extends TestCase
-{
-    /**
-     * When a video is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testVideoCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(VideoCreated::class);
+test('video created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(VideoCreated::class);
 
-        Video::factory()->createOne();
+    Video::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a video is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testVideoDeletedSendsDiscordNotification(): void
-    {
-        $video = Video::factory()->createOne();
+test('video deleted sends discord notification', function () {
+    $video = Video::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(VideoDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(VideoDeleted::class);
 
-        $video->delete();
+    $video->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a video is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testVideoRestoredSendsDiscordNotification(): void
-    {
-        $video = Video::factory()->createOne();
+test('video restored sends discord notification', function () {
+    $video = Video::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(VideoRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(VideoRestored::class);
 
-        $video->restore();
+    $video->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a video is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testVideoUpdatedSendsDiscordNotification(): void
-    {
-        $video = Video::factory()->createOne();
+test('video updated sends discord notification', function () {
+    $video = Video::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(VideoUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(VideoUpdated::class);
 
-        $changes = Video::factory()->makeOne();
+    $changes = Video::factory()->makeOne();
 
-        $video->fill($changes->getAttributes());
-        $video->save();
+    $video->fill($changes->getAttributes());
+    $video->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

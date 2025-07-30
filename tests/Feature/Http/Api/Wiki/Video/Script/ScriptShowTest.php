@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video\Script;
-
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Http\Api\Field\Field;
@@ -17,392 +15,345 @@ use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
-
-class ScriptShowTest extends TestCase
-{
-    use WithFaker;
-
-    /**
-     * By default, the Script Show Endpoint shall return a Script Resource.
-     */
-    public function testDefault(): void
-    {
-        $script = VideoScript::factory()->create();
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall return a Script Resource for soft deleted scripts.
-     */
-    public function testSoftDelete(): void
-    {
-        $script = VideoScript::factory()->trashed()->createOne();
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ScriptSchema();
-
-        $allowedIncludes = collect($schema->allowedIncludes());
-
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
-
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ScriptSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                ScriptResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        $script = VideoScript::factory()->create();
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by lyrics.
-     */
-    public function testVideosByLyrics(): void
-    {
-        $lyricsFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_LYRICS => $lyricsFilter,
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter) {
-                $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by nc.
-     */
-    public function testVideosByNc(): void
-    {
-        $ncFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_NC => $ncFilter,
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter) {
-                $query->where(Video::ATTRIBUTE_NC, $ncFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by overlap.
-     */
-    public function testVideosByOverlap(): void
-    {
-        $overlapFilter = Arr::random(VideoOverlap::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter) {
-                $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by resolution.
-     */
-    public function testVideosByResolution(): void
-    {
-        $resolutionFilter = $this->faker->randomNumber();
-        $excludedResolution = $resolutionFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(
-                Video::factory()->state([
-                    Video::ATTRIBUTE_RESOLUTION => $this->faker->boolean() ? $resolutionFilter : $excludedResolution,
-                ])
-            )
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter) {
-                $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by source.
-     */
-    public function testVideosBySource(): void
-    {
-        $sourceFilter = Arr::random(VideoSource::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter) {
-                $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by subbed.
-     */
-    public function testVideosBySubbed(): void
-    {
-        $subbedFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_SUBBED => $subbedFilter,
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter) {
-                $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Script Show Endpoint shall support constrained eager loading of videos by uncen.
-     */
-    public function testVideosByUncen(): void
-    {
-        $uncenFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_UNCEN => $uncenFilter,
-            ],
-            IncludeParser::param() => VideoScript::RELATION_VIDEO,
-        ];
-
-        $script = VideoScript::factory()
-            ->for(Video::factory())
-            ->create();
-
-        $script->unsetRelations()->load([
-            VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter) {
-                $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ScriptResource($script, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+
+use function Pest\Laravel\get;
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    $script = VideoScript::factory()->create();
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script]));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('soft delete', function () {
+    $script = VideoScript::factory()->trashed()->createOne();
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script]));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('allowed include paths', function () {
+    $schema = new ScriptSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->createOne();
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new ScriptSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            ScriptResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    $script = VideoScript::factory()->create();
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by lyrics', function () {
+    $lyricsFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_LYRICS => $lyricsFilter,
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter) {
+            $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by nc', function () {
+    $ncFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_NC => $ncFilter,
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter) {
+            $query->where(Video::ATTRIBUTE_NC, $ncFilter);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by overlap', function () {
+    $overlapFilter = Arr::random(VideoOverlap::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter) {
+            $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by resolution', function () {
+    $resolutionFilter = fake()->randomNumber();
+    $excludedResolution = $resolutionFilter + 1;
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(
+            Video::factory()->state([
+                Video::ATTRIBUTE_RESOLUTION => fake()->boolean() ? $resolutionFilter : $excludedResolution,
+            ])
+        )
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter) {
+            $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by source', function () {
+    $sourceFilter = Arr::random(VideoSource::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter) {
+            $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by subbed', function () {
+    $subbedFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_SUBBED => $subbedFilter,
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter) {
+            $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by uncen', function () {
+    $uncenFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_UNCEN => $uncenFilter,
+        ],
+        IncludeParser::param() => VideoScript::RELATION_VIDEO,
+    ];
+
+    $script = VideoScript::factory()
+        ->for(Video::factory())
+        ->create();
+
+    $script->unsetRelations()->load([
+        VideoScript::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter) {
+            $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
+        },
+    ]);
+
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ScriptResource($script, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

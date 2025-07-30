@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Wiki\Anime;
-
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -13,141 +11,97 @@ use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class AnimeThemeTest extends TestCase
-{
-    use WithFaker;
+uses(WithFaker::class);
 
-    /**
-     * The type attribute of a theme shall be cast to a ThemeType enum instance.
-     */
-    public function testCastsTypeToEnum(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('casts type to enum', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        $type = $theme->type;
+    $type = $theme->type;
 
-        static::assertInstanceOf(ThemeType::class, $type);
-    }
+    $this->assertInstanceOf(ThemeType::class, $type);
+});
 
-    /**
-     * Theme shall be a searchable resource.
-     */
-    public function testSearchableAs(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('searchable as', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertIsString($theme->searchableAs());
-    }
+    $this->assertIsString($theme->searchableAs());
+});
 
-    /**
-     * Theme shall be a searchable resource.
-     */
-    public function testToSearchableArray(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('to searchable array', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertIsArray($theme->toSearchableArray());
-    }
+    $this->assertIsArray($theme->toSearchableArray());
+});
 
-    /**
-     * Themes shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('nameable', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertIsString($theme->getName());
-    }
+    $this->assertIsString($theme->getName());
+});
 
-    /**
-     * Themes shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('has subtitle', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertIsString($theme->getSubtitle());
-    }
+    $this->assertIsString($theme->getSubtitle());
+});
 
-    /**
-     * Themes shall belong to an Anime.
-     */
-    public function testAnime(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('anime', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $theme->anime());
-        static::assertInstanceOf(Anime::class, $theme->anime()->first());
-    }
+    $this->assertInstanceOf(BelongsTo::class, $theme->anime());
+    $this->assertInstanceOf(Anime::class, $theme->anime()->first());
+});
 
-    /**
-     * Themes shall belong to a Group.
-     */
-    public function testGroup(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->for(Group::factory())
-            ->createOne();
+test('group', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->for(Group::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $theme->group());
-        static::assertInstanceOf(Group::class, $theme->group()->first());
-    }
+    $this->assertInstanceOf(BelongsTo::class, $theme->group());
+    $this->assertInstanceOf(Group::class, $theme->group()->first());
+});
 
-    /**
-     * Themes shall belong to a Song.
-     */
-    public function testSong(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->for(Song::factory())
-            ->createOne();
+test('song', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $theme->song());
-        static::assertInstanceOf(Song::class, $theme->song()->first());
-    }
+    $this->assertInstanceOf(BelongsTo::class, $theme->song());
+    $this->assertInstanceOf(Song::class, $theme->song()->first());
+});
 
-    /**
-     * Theme shall have a one-to-many relationship with the type Entry.
-     */
-    public function testEntries(): void
-    {
-        $entryCount = $this->faker->randomDigitNotNull();
+test('entries', function () {
+    $entryCount = fake()->randomDigitNotNull();
 
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(AnimeThemeEntry::factory()->count($entryCount))
-            ->createOne();
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(AnimeThemeEntry::factory()->count($entryCount))
+        ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $theme->animethemeentries());
-        static::assertEquals($entryCount, $theme->animethemeentries()->count());
-        static::assertInstanceOf(AnimeThemeEntry::class, $theme->animethemeentries()->first());
-    }
+    $this->assertInstanceOf(HasMany::class, $theme->animethemeentries());
+    $this->assertEquals($entryCount, $theme->animethemeentries()->count());
+    $this->assertInstanceOf(AnimeThemeEntry::class, $theme->animethemeentries()->first());
+});
 
-    /**
-     * Themes shall have a generated slug on creation.
-     */
-    public function testThemeCreatesSlug(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('theme creates slug', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertArrayHasKey('slug', $theme);
-    }
-}
+    $this->assertArrayHasKey('slug', $theme);
+});

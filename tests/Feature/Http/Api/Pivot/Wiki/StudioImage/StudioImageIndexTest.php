@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioImage;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\ImageFacet;
@@ -27,329 +24,295 @@ use App\Models\Wiki\Studio;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
 
-class StudioImageIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Studio Image Index Endpoint shall return a collection of Studio Image Resources.
-     */
-    public function testDefault(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioImage::factory()
+            ->for(Studio::factory())
+            ->for(Image::factory())
+            ->create();
+    });
+
+    $studioImages = StudioImage::all();
+
+    $response = get(route('api.studioimage.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('paginated', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioImage::factory()
+            ->for(Studio::factory())
+            ->for(Image::factory())
+            ->create();
+    });
+
+    $response = get(route('api.studioimage.index'));
+
+    $response->assertJsonStructure([
+        StudioImageCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new StudioImageSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioImage::factory()
+            ->for(Studio::factory())
+            ->for(Image::factory())
+            ->create();
+    });
+
+    $response = get(route('api.studioimage.index', $parameters));
+
+    $studioImages = StudioImage::with($includedPaths->all())->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new StudioImageSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            StudioImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioImage::factory()
+            ->for(Studio::factory())
+            ->for(Image::factory())
+            ->create();
+    });
+
+    $response = get(route('api.studioimage.index', $parameters));
+
+    $studioImages = StudioImage::all();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new StudioImageSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioImage::factory()
+            ->for(Studio::factory())
+            ->for(Image::factory())
+            ->create();
+    });
+
+    $response = get(route('api.studioimage.index', $parameters));
+
+    $studioImages = $this->sort(StudioImage::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioImage::factory()
                 ->for(Studio::factory())
                 ->for(Image::factory())
                 ->create();
         });
+    });
 
-        $studioImages = StudioImage::all();
-
-        $response = $this->get(route('api.studioimage.index'));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Image Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioImage::factory()
                 ->for(Studio::factory())
                 ->for(Image::factory())
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.studioimage.index'));
+    $studioImages = StudioImage::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJsonStructure([
-            StudioImageCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+    $response = get(route('api.studioimage.index', $parameters));
 
-    /**
-     * The Studio Image Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new StudioImageSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($updatedFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioImage::factory()
                 ->for(Studio::factory())
                 ->for(Image::factory())
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.studioimage.index', $parameters));
-
-        $studioImages = StudioImage::with($includedPaths->all())->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Image Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new StudioImageSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                StudioImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioImage::factory()
                 ->for(Studio::factory())
                 ->for(Image::factory())
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.studioimage.index', $parameters));
+    $studioImages = StudioImage::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $studioImages = StudioImage::all();
+    $response = get(route('api.studioimage.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Image Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new StudioImageSchema();
+test('images by facet', function () {
+    $facetFilter = Arr::random(ImageFacet::cases());
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => StudioImage::RELATION_IMAGE,
+    ];
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioImage::factory()
+            ->for(Studio::factory())
+            ->for(Image::factory())
+            ->create();
+    });
 
-        $query = new Query($parameters);
+    $response = get(route('api.studioimage.index', $parameters));
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioImage::factory()
-                ->for(Studio::factory())
-                ->for(Image::factory())
-                ->create();
-        });
+    $studioImages = StudioImage::with([
+        StudioImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ])
+        ->get();
 
-        $response = $this->get(route('api.studioimage.index', $parameters));
-
-        $studioImages = $this->sort(StudioImage::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Image Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($createdFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioImage::factory()
-                    ->for(Studio::factory())
-                    ->for(Image::factory())
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioImage::factory()
-                    ->for(Studio::factory())
-                    ->for(Image::factory())
-                    ->create();
-            });
-        });
-
-        $studioImages = StudioImage::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.studioimage.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Image Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioImage::factory()
-                    ->for(Studio::factory())
-                    ->for(Image::factory())
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioImage::factory()
-                    ->for(Studio::factory())
-                    ->for(Image::factory())
-                    ->create();
-            });
-        });
-
-        $studioImages = StudioImage::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.studioimage.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Image Index Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => StudioImage::RELATION_IMAGE,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioImage::factory()
-                ->for(Studio::factory())
-                ->for(Image::factory())
-                ->create();
-        });
-
-        $response = $this->get(route('api.studioimage.index', $parameters));
-
-        $studioImages = StudioImage::with([
-            StudioImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ])
-            ->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageCollection($studioImages, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageCollection($studioImages, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

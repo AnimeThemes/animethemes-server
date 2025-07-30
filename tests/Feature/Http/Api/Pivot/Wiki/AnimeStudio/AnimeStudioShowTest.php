@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeStudio;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Field\Field;
@@ -18,249 +16,218 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class AnimeStudioShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The Anime Studio Show Endpoint shall return an error if the anime studio does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $studio = Studio::factory()->createOne();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $anime, 'studio' => $studio]));
+test('not found', function () {
+    $anime = Anime::factory()->createOne();
+    $studio = Studio::factory()->createOne();
 
-        $response->assertNotFound();
-    }
+    $response = get(route('api.animestudio.show', ['anime' => $anime, 'studio' => $studio]));
 
-    /**
-     * By default, the Anime Studio Show Endpoint shall return an Anime Studio Resource.
-     */
-    public function testDefault(): void
-    {
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+test('default', function () {
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        $animeStudio->unsetRelations();
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeStudioResource($animeStudio, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $animeStudio->unsetRelations();
 
-    /**
-     * The Anime Studio Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new AnimeStudioSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeStudioResource($animeStudio, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new AnimeStudioSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        $animeStudio->unsetRelations()->load($includedPaths->all());
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeStudioResource($animeStudio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $animeStudio->unsetRelations()->load($includedPaths->all());
 
-    /**
-     * The Anime Studio Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new AnimeStudioSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeStudioResource($animeStudio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new AnimeStudioSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                AnimeStudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $parameters = [
+        FieldParser::param() => [
+            AnimeStudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        $animeStudio->unsetRelations();
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeStudioResource($animeStudio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $animeStudio->unsetRelations();
 
-    /**
-     * The Anime Studio Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeStudioResource($animeStudio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeStudio::RELATION_ANIME,
-        ];
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeStudio::RELATION_ANIME,
+    ];
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        $animeStudio->unsetRelations()->load([
-            AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeStudioResource($animeStudio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $animeStudio->unsetRelations()->load([
+        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-    /**
-     * The Anime Studio Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeStudioResource($animeStudio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeStudio::RELATION_ANIME,
-        ];
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeStudio::RELATION_ANIME,
+    ];
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        $animeStudio->unsetRelations()->load([
-            AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeStudioResource($animeStudio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $animeStudio->unsetRelations()->load([
+        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-    /**
-     * The Anime Studio Show Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeStudioResource($animeStudio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => AnimeStudio::RELATION_ANIME,
-        ];
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
 
-        $animeStudio = AnimeStudio::factory()
-            ->for(
-                Anime::factory()
-                    ->state([
-                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                    ])
-            )
-            ->for(Studio::factory())
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => AnimeStudio::RELATION_ANIME,
+    ];
 
-        $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $animeStudio = AnimeStudio::factory()
+        ->for(
+            Anime::factory()
+                ->state([
+                    Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
+                ])
+        )
+        ->for(Studio::factory())
+        ->createOne();
 
-        $animeStudio->unsetRelations()->load([
-            AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeStudioResource($animeStudio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $animeStudio->unsetRelations()->load([
+        AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeStudioResource($animeStudio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

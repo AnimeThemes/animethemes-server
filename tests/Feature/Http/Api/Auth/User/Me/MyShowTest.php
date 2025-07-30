@@ -2,49 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Auth\User\Me;
-
 use App\Http\Api\Query\Query;
 use App\Http\Resources\Auth\Resource\UserResource;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class MyShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The My Show Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $response = $this->get(route('api.me.show'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertUnauthorized();
-    }
+test('protected', function () {
+    $response = get(route('api.me.show'));
 
-    /**
-     * The My Show Endpoint shall return the resource of the current user.
-     */
-    public function testDefault(): void
-    {
-        $user = User::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        Sanctum::actingAs($user);
+test('default', function () {
+    $user = User::factory()->createOne();
 
-        $response = $this->get(route('api.me.show'));
+    Sanctum::actingAs($user);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new UserResource($user, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = get(route('api.me.show'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new UserResource($user, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

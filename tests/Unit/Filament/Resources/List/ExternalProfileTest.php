@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\List;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
@@ -13,124 +11,84 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class ExternalProfileTest extends BaseResourceTestCase
-{
-    /**
-     * Initial setup for the tests.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-        Filament::setServingStatus();
-    }
+/**
+ * Initial setup for the tests.
+ */
+beforeEach(function () {
+    Filament::setServingStatus();
+});
 
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = ExternalProfile::getPages();
+test('render view page', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(ExternalProfileModel::class)
+        )
+        ->createOne();
 
-        return $pages['index']->getPage();
-    }
+    actingAs($user);
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = ExternalProfile::getPages();
+    $record = ExternalProfileModel::factory()->createOne();
 
-        return $pages['view']->getPage();
-    }
+    get(ExternalProfile::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ExternalProfileModel::class)
-            )
-            ->createOne();
+test('render index page', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(ExternalProfileModel::class)
+        )
+        ->createOne();
 
-        $this->actingAs($user);
+    actingAs($user);
 
-        $record = ExternalProfileModel::factory()->createOne();
+    $records = ExternalProfileModel::factory()->count(10)->create();
 
-        $this->get(ExternalProfile::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+    get(ExternalProfile::getUrl('index'))
+        ->assertSuccessful();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ExternalProfileModel::class)
-            )
-            ->createOne();
+    Livewire::test(getIndexPage(ExternalProfile::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $this->actingAs($user);
+test('mount create action', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::CREATE->format(ExternalProfileModel::class)
+        )
+        ->createOne();
 
-        $records = ExternalProfileModel::factory()->count(10)->create();
+    actingAs($user);
 
-        $this->get(ExternalProfile::getUrl('index'))
-            ->assertSuccessful();
+    Livewire::test(getIndexPage(ExternalProfile::class))
+        ->mountAction(CreateAction::class)
+        ->assertActionMounted(CreateAction::class);
+});
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withAdmin()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(ExternalProfileModel::class),
+        )
+        ->createOne();
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountCreateAction(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(ExternalProfileModel::class)
-            )
-            ->createOne();
+    actingAs($user);
 
-        $this->actingAs($user);
+    $record = ExternalProfileModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(CreateAction::class)
-            ->assertActionMounted(CreateAction::class);
-    }
-
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(ExternalProfileModel::class),
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $record = ExternalProfileModel::factory()->createOne();
-
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
-}
+    Livewire::test(getIndexPage(ExternalProfile::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});

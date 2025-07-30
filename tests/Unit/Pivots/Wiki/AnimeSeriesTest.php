@@ -2,41 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Pivots\Wiki;
-
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Tests\TestCase;
 
-class AnimeSeriesTest extends TestCase
-{
-    /**
-     * An AnimeSeries shall belong to an Anime.
-     */
-    public function testAnime(): void
-    {
-        $animeSeries = AnimeSeries::factory()
-            ->for(Anime::factory())
-            ->for(Series::factory())
-            ->createOne();
+test('anime', function () {
+    $animeSeries = AnimeSeries::factory()
+        ->for(Anime::factory())
+        ->for(Series::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $animeSeries->anime());
-        static::assertInstanceOf(Anime::class, $animeSeries->anime()->first());
-    }
+    $this->assertInstanceOf(BelongsTo::class, $animeSeries->anime());
+    $this->assertInstanceOf(Anime::class, $animeSeries->anime()->first());
+});
 
-    /**
-     * An AnimeSeries shall belong to a Series.
-     */
-    public function testSeries(): void
-    {
-        $animeSeries = AnimeSeries::factory()
-            ->for(Anime::factory())
-            ->for(Series::factory())
-            ->createOne();
+test('series', function () {
+    $animeSeries = AnimeSeries::factory()
+        ->for(Anime::factory())
+        ->for(Series::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $animeSeries->series());
-        static::assertInstanceOf(Series::class, $animeSeries->series()->first());
-    }
-}
+    $this->assertInstanceOf(BelongsTo::class, $animeSeries->series());
+    $this->assertInstanceOf(Series::class, $animeSeries->series()->first());
+});

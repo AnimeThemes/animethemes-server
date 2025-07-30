@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Document\Page;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PageUpdateTest extends TestCase
-{
-    /**
-     * The Page Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $page = Page::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Page::factory()->raw();
+test('protected', function () {
+    $page = Page::factory()->createOne();
 
-        $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
+    $parameters = Page::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.page.update', ['page' => $page] + $parameters));
 
-    /**
-     * The Page Update Endpoint shall forbid users without the update page permission.
-     */
-    public function testForbidden(): void
-    {
-        $page = Page::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Page::factory()->raw();
+test('forbidden', function () {
+    $page = Page::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Page::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.page.update', ['page' => $page] + $parameters));
 
-    /**
-     * The Page Update Endpoint shall forbid users from updating a page that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $page = Page::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Page::factory()->raw();
+test('trashed', function () {
+    $page = Page::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Page::class))->createOne();
+    $parameters = Page::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Page::class))->createOne();
 
-        $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.page.update', ['page' => $page] + $parameters));
 
-    /**
-     * The Page Update Endpoint shall update an page.
-     */
-    public function testUpdate(): void
-    {
-        $page = Page::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Page::factory()->raw();
+test('update', function () {
+    $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Page::class))->createOne();
+    $parameters = Page::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Page::class))->createOne();
 
-        $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.page.update', ['page' => $page] + $parameters));
+
+    $response->assertOk();
+});

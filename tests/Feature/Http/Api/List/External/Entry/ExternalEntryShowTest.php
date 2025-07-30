@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External\Entry;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
@@ -18,248 +16,210 @@ use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalEntryShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        Event::fakeExcept(ExternalProfileCreated::class);
-    }
+/**
+ * Setup the test environment.
+ */
+beforeEach(function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
+});
 
-    /**
-     * The External Entry Show Endpoint shall forbid a private profile from being publicly viewed.
-     */
-    public function testPrivateExternalEntryCannotBePubliclyViewed(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+test('private external entry cannot be publicly viewed', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->createOne();
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Entry Show Endpoint shall forbid the user from viewing a private profile entry if not owned.
-     */
-    public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+test('private external entry cannot be publicly viewed if not owned', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Entry Show Endpoint shall allow a private profile entry to be viewed by the owner.
-     */
-    public function testPrivateExternalEntryCanBeViewedByOwner(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
+test('private external entry can be viewed by owner', function () {
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
-        $response->assertOk();
-    }
+    $response->assertOk();
+});
 
-    /**
-     * The External Entry Show Endpoint shall allow a public profile entry to be viewed.
-     */
-    public function testPublicExternalEntryCanBeViewed(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+test('public external entry can be viewed', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->createOne();
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
-        $response->assertOk();
-    }
+    $response->assertOk();
+});
 
-    /**
-     * The External Entry Show Endpoint shall scope bindings.
-     */
-    public function testScoped(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
+test('scoped', function () {
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->has(ExternalEntry::factory()->count($this->faker->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->has(ExternalEntry::factory()->count(fake()->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for(ExternalProfile::factory()->for(User::factory()))
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for(ExternalProfile::factory()->for(User::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * By default, the External Entry Show Endpoint shall return an External Entry Resource.
-     */
-    public function testDefault(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+test('default', function () {
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->createOne();
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
-        $entry->unsetRelations();
+    $entry->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryResource($entry, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryResource($entry, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The External Entry Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ExternalEntrySchema();
+test('allowed include paths', function () {
+    $schema = new ExternalEntrySchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->for(Anime::factory())
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->for(Anime::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
 
-        $entry->unsetRelations()->load($includedPaths->all());
+    $entry->unsetRelations()->load($includedPaths->all());
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The External Entry Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ExternalEntrySchema();
+test('sparse fieldsets', function () {
+    $schema = new ExternalEntrySchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                ExternalEntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            ExternalEntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $entry = ExternalEntry::factory()
-            ->for($profile)
-            ->createOne();
+    $entry = ExternalEntry::factory()
+        ->for($profile)
+        ->createOne();
 
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
 
-        $entry->unsetRelations();
+    $entry->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

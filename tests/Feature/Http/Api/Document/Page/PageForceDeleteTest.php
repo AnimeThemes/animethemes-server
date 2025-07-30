@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Document\Page;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PageForceDeleteTest extends TestCase
-{
-    /**
-     * The Page Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $page = Page::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.page.forceDelete', ['page' => $page]));
+test('protected', function () {
+    $page = Page::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.page.forceDelete', ['page' => $page]));
 
-    /**
-     * The Page Force Delete Endpoint shall forbid users without the force delete page permission.
-     */
-    public function testForbidden(): void
-    {
-        $page = Page::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $page = Page::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.page.forceDelete', ['page' => $page]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.page.forceDelete', ['page' => $page]));
 
-    /**
-     * The Page Force Delete Endpoint shall force delete the page.
-     */
-    public function testDeleted(): void
-    {
-        $page = Page::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Page::class))->createOne();
+test('deleted', function () {
+    $page = Page::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Page::class))->createOne();
 
-        $response = $this->delete(route('api.page.forceDelete', ['page' => $page]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($page);
-    }
-}
+    $response = delete(route('api.page.forceDelete', ['page' => $page]));
+
+    $response->assertOk();
+    $this->assertModelMissing($page);
+});

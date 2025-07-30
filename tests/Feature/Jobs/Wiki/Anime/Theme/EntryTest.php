@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Wiki\Anime\Theme;
-
 use App\Constants\FeatureConstants;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
@@ -16,84 +14,64 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class EntryTest extends TestCase
-{
-    /**
-     * When an entry is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testEntryCreatedSendsDiscordNotification(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('entry created sends discord notification', function () {
+    $theme = AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(EntryCreated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(EntryCreated::class);
 
-        AnimeThemeEntry::factory()->for($theme)->createOne();
+    AnimeThemeEntry::factory()->for($theme)->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an entry is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testEntryDeletedSendsDiscordNotification(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry deleted sends discord notification', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(EntryDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(EntryDeleted::class);
 
-        $entry->delete();
+    $entry->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an entry is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testEntryRestoredSendsDiscordNotification(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry restored sends discord notification', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(EntryRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(EntryRestored::class);
 
-        $entry->restore();
+    $entry->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an entry is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testEntryUpdatedSendsDiscordNotification(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry updated sends discord notification', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $changes = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->makeOne();
+    $changes = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->makeOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(EntryUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(EntryUpdated::class);
 
-        $entry->fill($changes->getAttributes());
-        $entry->save();
+    $entry->fill($changes->getAttributes());
+    $entry->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

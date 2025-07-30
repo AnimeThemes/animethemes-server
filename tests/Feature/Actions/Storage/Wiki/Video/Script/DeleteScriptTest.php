@@ -2,105 +2,79 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Storage\Wiki\Video\Script;
-
 use App\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video\VideoScript;
-use Exception;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
-class DeleteScriptTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Delete Script Action shall fail if there are no deletions.
-     */
-    public function testDefault(): void
-    {
-        Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
-        Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('default', function () {
+    Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
+    Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $script = VideoScript::factory()->createOne();
+    $script = VideoScript::factory()->createOne();
 
-        $action = new DeleteScriptAction($script);
+    $action = new DeleteScriptAction($script);
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
-    }
+    $this->assertTrue($result->hasFailed());
+});
 
-    /**
-     * The Delete Script Action shall pass if there are deletions.
-     */
-    public function testPassed(): void
-    {
-        Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('passed', function () {
+    Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $file->path(),
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $file->path(),
+    ]);
 
-        $action = new DeleteScriptAction($script);
+    $action = new DeleteScriptAction($script);
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    }
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+});
 
-    /**
-     * The Delete Script Action shall delete the file from the configured disks.
-     */
-    public function testDeletedFromDisk(): void
-    {
-        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('deleted from disk', function () {
+    $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $file->path(),
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $file->path(),
+    ]);
 
-        $action = new DeleteScriptAction($script);
+    $action = new DeleteScriptAction($script);
 
-        $action->handle();
+    $action->handle();
 
-        static::assertEmpty($fs->allFiles());
-    }
+    $this->assertEmpty($fs->allFiles());
+});
 
-    /**
-     * The Delete Video Action shall delete the script.
-     *
-     * @throws Exception
-     */
-    public function testVideoDeleted(): void
-    {
-        Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('video deleted', function () {
+    Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $file->path(),
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $file->path(),
+    ]);
 
-        $action = new DeleteScriptAction($script);
+    $action = new DeleteScriptAction($script);
 
-        $result = $action->handle();
+    $result = $action->handle();
 
-        $action->then($result);
+    $action->then($result);
 
-        static::assertSoftDeleted($script);
-    }
-}
+    $this->assertSoftDeleted($script);
+});

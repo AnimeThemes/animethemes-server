@@ -2,51 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Scope;
-
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\RelationScope;
 use App\Http\Api\Scope\TypeScope;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class GlobalScopeTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * A global scope shall be within the scope of a global scope.
-     */
-    public function testGlobalScopeIsWithinScope(): void
-    {
-        $scope = new GlobalScope();
+test('global scope is within scope', function () {
+    $scope = new GlobalScope();
 
-        $otherScope = new GlobalScope();
+    $otherScope = new GlobalScope();
 
-        static::assertTrue($scope->isWithinScope($otherScope));
-    }
+    $this->assertTrue($scope->isWithinScope($otherScope));
+});
 
-    /**
-     * A type scope shall be within the scope of a global scope.
-     */
-    public function testTypeScopeIsWithinScope(): void
-    {
-        $scope = new GlobalScope();
+test('type scope is within scope', function () {
+    $scope = new GlobalScope();
 
-        $otherScope = new TypeScope($this->faker->word());
+    $otherScope = new TypeScope(fake()->word());
 
-        static::assertTrue($scope->isWithinScope($otherScope));
-    }
+    $this->assertTrue($scope->isWithinScope($otherScope));
+});
 
-    /**
-     * A relation scope shall be within the scope of a global scope.
-     */
-    public function testRelationScopeIsWithinScope(): void
-    {
-        $scope = new GlobalScope();
+test('relation scope is within scope', function () {
+    $scope = new GlobalScope();
 
-        $otherScope = new RelationScope($this->faker->word());
+    $otherScope = new RelationScope(fake()->word());
 
-        static::assertTrue($scope->isWithinScope($otherScope));
-    }
-}
+    $this->assertTrue($scope->isWithinScope($otherScope));
+});

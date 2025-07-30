@@ -2,59 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SynonymForceDeleteTest extends TestCase
-{
-    /**
-     * The Synonym Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
+test('protected', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Force Delete Endpoint shall forbid users without the force delete anime synonym permission.
-     */
-    public function testForbidden(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Force Delete Endpoint shall force delete the synonym.
-     */
-    public function testDeleted(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(AnimeSynonym::class))->createOne();
+test('deleted', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($synonym);
-    }
-}
+    $response = delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
+
+    $response->assertOk();
+    $this->assertModelMissing($synonym);
+});

@@ -2,96 +2,76 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeStudio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeStudioDestroyTest extends TestCase
-{
-    /**
-     * The Anime Studio Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+test('protected', function () {
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
-    /**
-     * The Anime Studio Destroy Endpoint shall forbid users without the delete anime & delete studio permissions.
-     */
-    public function testForbidden(): void
-    {
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
-    /**
-     * The Anime Studio Destroy Endpoint shall return an error if the anime studio does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $studio = Studio::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Anime::class),
-                CrudPermission::DELETE->format(Studio::class)
-            )
-            ->createOne();
+test('not found', function () {
+    $anime = Anime::factory()->createOne();
+    $studio = Studio::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Anime::class),
+            CrudPermission::DELETE->format(Studio::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animestudio.destroy', ['anime' => $anime, 'studio' => $studio]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.animestudio.destroy', ['anime' => $anime, 'studio' => $studio]));
 
-    /**
-     * The Anime Studio Destroy Endpoint shall delete the anime studio.
-     */
-    public function testDeleted(): void
-    {
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Anime::class),
-                CrudPermission::DELETE->format(Studio::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $animeStudio = AnimeStudio::factory()
+        ->for(Anime::factory())
+        ->for(Studio::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Anime::class),
+            CrudPermission::DELETE->format(Studio::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($animeStudio);
-    }
-}
+    $response = delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+
+    $response->assertOk();
+    $this->assertModelMissing($animeStudio);
+});

@@ -2,90 +2,69 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Image;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ImageStoreTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\post;
 
-    /**
-     * The Image Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $image = Image::factory()->makeOne();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->post(route('api.image.store', $image->toArray()));
+test('protected', function () {
+    $image = Image::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.image.store', $image->toArray()));
 
-    /**
-     * The Image Store Endpoint shall forbid users without the create image permission.
-     */
-    public function testForbidden(): void
-    {
-        $image = Image::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $image = Image::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.image.store', $image->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.image.store', $image->toArray()));
 
-    /**
-     * The Image Store Endpoint shall require the file field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
 
-        $response = $this->post(route('api.image.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            ImageFileField::ATTRIBUTE_FILE,
-        ]);
-    }
+    $response = post(route('api.image.store'));
 
-    /**
-     * The Image Store Endpoint shall create an image.
-     */
-    public function testCreate(): void
-    {
-        $fs = Storage::fake(Config::get('image.disk'));
+    $response->assertJsonValidationErrors([
+        ImageFileField::ATTRIBUTE_FILE,
+    ]);
+});
 
-        $facet = Arr::random(ImageFacet::cases());
+test('create', function () {
+    $fs = Storage::fake(Config::get('image.disk'));
 
-        $parameters = [Image::ATTRIBUTE_FACET => $facet->localize()];
+    $facet = Arr::random(ImageFacet::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
+    $parameters = [Image::ATTRIBUTE_FACET => $facet->localize()];
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
 
-        $response = $this->post(route('api.image.store', $parameters), [
-            ImageFileField::ATTRIBUTE_FILE => UploadedFile::fake()->image($this->faker->word().'.jpg'),
-        ]);
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertCount(1, $fs->allFiles());
-        static::assertDatabaseCount(Image::class, 1);
-    }
-}
+    $response = post(route('api.image.store', $parameters), [
+        ImageFileField::ATTRIBUTE_FILE => UploadedFile::fake()->image(fake()->word().'.jpg'),
+    ]);
+
+    $response->assertCreated();
+    $this->assertCount(1, $fs->allFiles());
+    $this->assertDatabaseCount(Image::class, 1);
+});

@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Artist;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistRestoreTest extends TestCase
-{
-    /**
-     * The Artist Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artist = Artist::factory()->trashed()->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
+test('protected', function () {
+    $artist = Artist::factory()->trashed()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.artist.restore', ['artist' => $artist]));
 
-    /**
-     * The Artist Restore Endpoint shall forbid users without the restore artist permission.
-     */
-    public function testForbidden(): void
-    {
-        $artist = Artist::factory()->trashed()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $artist = Artist::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.artist.restore', ['artist' => $artist]));
 
-    /**
-     * The Artist Restore Endpoint shall forbid users from restoring an artist that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $artist = Artist::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Artist::class))->createOne();
+test('trashed', function () {
+    $artist = Artist::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Artist::class))->createOne();
 
-        $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.artist.restore', ['artist' => $artist]));
 
-    /**
-     * The Artist Restore Endpoint shall restore the artist.
-     */
-    public function testRestored(): void
-    {
-        $artist = Artist::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Artist::class))->createOne();
+test('restored', function () {
+    $artist = Artist::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Artist::class))->createOne();
 
-        $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($artist);
-    }
-}
+    $response = patch(route('api.artist.restore', ['artist' => $artist]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($artist);
+});

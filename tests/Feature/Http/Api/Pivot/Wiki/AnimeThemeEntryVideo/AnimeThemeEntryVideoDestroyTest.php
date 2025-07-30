@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeThemeEntryVideo;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -12,91 +10,73 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeThemeEntryVideoDestroyTest extends TestCase
-{
-    /**
-     * The Anime Theme Entry Video Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+test('protected', function () {
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
 
-    /**
-     * The Anime Theme Entry Video Destroy Endpoint shall forbid users without the delete anime theme entry & delete video permissions.
-     */
-    public function testForbidden(): void
-    {
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
 
-    /**
-     * The Anime Theme Entry Video Destroy Endpoint shall return an error if the anime theme entry video does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+    $response->assertForbidden();
+});
 
-        $video = Video::factory()->createOne();
+test('not found', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(AnimeThemeEntry::class),
-                CrudPermission::DELETE->format(Video::class)
-            )
-            ->createOne();
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(AnimeThemeEntry::class),
+            CrudPermission::DELETE->format(Video::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entry, 'video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entry, 'video' => $video]));
 
-    /**
-     * The Anime Theme Entry Video Destroy Endpoint shall delete the anime theme entry video.
-     */
-    public function testDeleted(): void
-    {
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(AnimeThemeEntry::class),
-                CrudPermission::DELETE->format(Video::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(AnimeThemeEntry::class),
+            CrudPermission::DELETE->format(Video::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($entryVideo);
-    }
-}
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+
+    $response->assertOk();
+    $this->assertModelMissing($entryVideo);
+});

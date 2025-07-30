@@ -2,79 +2,63 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeResourceUpdateTest extends TestCase
-{
-    /**
-     * The Anime Resource Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = AnimeResource::factory()->raw();
+test('protected', function () {
+    $animeResource = AnimeResource::factory()
+        ->for(Anime::factory())
+        ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $parameters = AnimeResource::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
-    /**
-     * The Anime Resource Update Endpoint shall forbid users without the update anime & update resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = AnimeResource::factory()->raw();
+test('forbidden', function () {
+    $animeResource = AnimeResource::factory()
+        ->for(Anime::factory())
+        ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = AnimeResource::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
-    /**
-     * The Anime Resource Update Endpoint shall update an anime resource.
-     */
-    public function testUpdate(): void
-    {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = AnimeResource::factory()->raw();
+test('update', function () {
+    $animeResource = AnimeResource::factory()
+        ->for(Anime::factory())
+        ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::UPDATE->format(Anime::class),
-                CrudPermission::UPDATE->format(ExternalResource::class)
-            )
-            ->createOne();
+    $parameters = AnimeResource::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::UPDATE->format(Anime::class),
+            CrudPermission::UPDATE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+
+    $response->assertOk();
+});

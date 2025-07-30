@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Artist;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistDestroyTest extends TestCase
-{
-    /**
-     * The Artist Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artist = Artist::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+test('protected', function () {
+    $artist = Artist::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
-    /**
-     * The Artist Destroy Endpoint shall forbid users without the delete artist permission.
-     */
-    public function testForbidden(): void
-    {
-        $artist = Artist::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $artist = Artist::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
-    /**
-     * The Artist Destroy Endpoint shall forbid users from updating an artist that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $artist = Artist::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Artist::class))->createOne();
+test('trashed', function () {
+    $artist = Artist::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Artist::class))->createOne();
 
-        $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
-    /**
-     * The Artist Destroy Endpoint shall delete the artist.
-     */
-    public function testDeleted(): void
-    {
-        $artist = Artist::factory()->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Artist::class))->createOne();
+test('deleted', function () {
+    $artist = Artist::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Artist::class))->createOne();
 
-        $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertSoftDeleted($artist);
-    }
-}
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
+
+    $response->assertOk();
+    $this->assertSoftDeleted($artist);
+});

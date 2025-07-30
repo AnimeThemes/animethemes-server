@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\FeaturedTheme;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class FeaturedThemeDestroyTest extends TestCase
-{
-    /**
-     * The Featured Theme Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+test('protected', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
 
-    /**
-     * The Featured Theme Destroy Endpoint shall forbid users without the delete featured theme permission.
-     */
-    public function testForbidden(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
 
-    /**
-     * The FeaturedTheme Destroy Endpoint shall delete the featured theme.
-     */
-    public function testDeleted(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(FeaturedTheme::class))->createOne();
+test('deleted', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(FeaturedTheme::class))->createOne();
 
-        $response = $this->delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($featuredTheme);
-    }
-}
+    $response = delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+
+    $response->assertOk();
+    $this->assertModelMissing($featuredTheme);
+});

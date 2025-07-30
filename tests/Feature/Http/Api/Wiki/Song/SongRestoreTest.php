@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Song;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongRestoreTest extends TestCase
-{
-    /**
-     * The Song Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $song = Song::factory()->trashed()->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.song.restore', ['song' => $song]));
+test('protected', function () {
+    $song = Song::factory()->trashed()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
-    /**
-     * The Song Restore Endpoint shall forbid users without the restore song permission.
-     */
-    public function testForbidden(): void
-    {
-        $song = Song::factory()->trashed()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $song = Song::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
-    /**
-     * The Song Restore Endpoint shall forbid users from restoring a song that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $song = Song::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Song::class))->createOne();
+test('trashed', function () {
+    $song = Song::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Song::class))->createOne();
 
-        $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
-    /**
-     * The Song Restore Endpoint shall restore the song.
-     */
-    public function testRestored(): void
-    {
-        $song = Song::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Song::class))->createOne();
+test('restored', function () {
+    $song = Song::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Song::class))->createOne();
 
-        $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($song);
-    }
-}
+    $response = patch(route('api.song.restore', ['song' => $song]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($song);
+});

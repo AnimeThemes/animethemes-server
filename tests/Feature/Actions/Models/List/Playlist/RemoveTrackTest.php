@@ -2,123 +2,91 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Models\List\Playlist;
-
 use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
-use Exception;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class RemoveTrackTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Remove Track Action shall remove the sole track.
-     *
-     * @throws Exception
-     */
-    public function testRemoveSole(): void
-    {
-        $playlist = Playlist::factory()
-            ->tracks(1)
-            ->createOne();
+test('remove sole', function () {
+    $playlist = Playlist::factory()
+        ->tracks(1)
+        ->createOne();
 
-        $first = $playlist->first;
+    $first = $playlist->first;
 
-        $action = new RemoveTrackAction();
+    $action = new RemoveTrackAction();
 
-        $action->remove($playlist, $first);
+    $action->remove($playlist, $first);
 
-        static::assertTrue($playlist->first()->doesntExist());
-        static::assertTrue($playlist->last()->doesntExist());
+    $this->assertTrue($playlist->first()->doesntExist());
+    $this->assertTrue($playlist->last()->doesntExist());
 
-        static::assertTrue($first->previous()->doesntExist());
-        static::assertTrue($first->next()->doesntExist());
-    }
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->doesntExist());
+});
 
-    /**
-     * The Remove Track Action shall remove the first track and set the second track as first.
-     *
-     * @throws Exception
-     */
-    public function testRemoveFirst(): void
-    {
-        $playlist = Playlist::factory()
-            ->tracks($this->faker->numberBetween(3, 9))
-            ->createOne();
+test('remove first', function () {
+    $playlist = Playlist::factory()
+        ->tracks(fake()->numberBetween(3, 9))
+        ->createOne();
 
-        $first = $playlist->first;
-        $second = $first->next;
+    $first = $playlist->first;
+    $second = $first->next;
 
-        $action = new RemoveTrackAction();
+    $action = new RemoveTrackAction();
 
-        $action->remove($playlist, $first);
+    $action->remove($playlist, $first);
 
-        static::assertTrue($playlist->first()->is($second));
+    $this->assertTrue($playlist->first()->is($second));
 
-        static::assertTrue($first->previous()->doesntExist());
-        static::assertTrue($first->next()->doesntExist());
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->doesntExist());
 
-        static::assertTrue($second->previous()->doesntExist());
-    }
+    $this->assertTrue($second->previous()->doesntExist());
+});
 
-    /**
-     * The Remove Track Action shall remove the last track and set the penultimate track as last.
-     *
-     * @throws Exception
-     */
-    public function testRemoveLast(): void
-    {
-        $playlist = Playlist::factory()
-            ->tracks($this->faker->numberBetween(3, 9))
-            ->createOne();
+test('remove last', function () {
+    $playlist = Playlist::factory()
+        ->tracks(fake()->numberBetween(3, 9))
+        ->createOne();
 
-        $last = $playlist->last;
-        $previous = $last->previous;
+    $last = $playlist->last;
+    $previous = $last->previous;
 
-        $action = new RemoveTrackAction();
+    $action = new RemoveTrackAction();
 
-        $action->remove($playlist, $last);
+    $action->remove($playlist, $last);
 
-        static::assertTrue($playlist->last()->is($previous));
+    $this->assertTrue($playlist->last()->is($previous));
 
-        static::assertTrue($last->previous()->doesntExist());
-        static::assertTrue($last->next()->doesntExist());
+    $this->assertTrue($last->previous()->doesntExist());
+    $this->assertTrue($last->next()->doesntExist());
 
-        static::assertTrue($previous->next()->doesntExist());
-    }
+    $this->assertTrue($previous->next()->doesntExist());
+});
 
-    /**
-     * The Remove Track Action shall remove the second track and fill next and previous relations.
-     *
-     * @throws Exception
-     */
-    public function testRemoveSecond(): void
-    {
-        $playlist = Playlist::factory()
-            ->tracks(3)
-            ->createOne();
+test('remove second', function () {
+    $playlist = Playlist::factory()
+        ->tracks(3)
+        ->createOne();
 
-        $first = $playlist->first;
-        $second = $first->next;
-        $third = $playlist->last;
+    $first = $playlist->first;
+    $second = $first->next;
+    $third = $playlist->last;
 
-        $action = new RemoveTrackAction();
+    $action = new RemoveTrackAction();
 
-        $action->remove($playlist, $second);
+    $action->remove($playlist, $second);
 
-        static::assertTrue($playlist->first()->is($first));
-        static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($third));
 
-        static::assertTrue($first->previous()->doesntExist());
-        static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
 
-        static::assertTrue($second->previous()->doesntExist());
-        static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->next()->doesntExist());
 
-        static::assertTrue($third->previous()->is($first));
-        static::assertTrue($third->next()->doesntExist());
-    }
-}
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
+});

@@ -2,63 +2,41 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\List\External;
-
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalToken;
 use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
-class ExternalTokenTest extends TestCase
-{
-    /**
-     * External Tokens shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $token = ExternalToken::factory()
-            ->createOne();
+test('nameable', function () {
+    $token = ExternalToken::factory()
+        ->createOne();
 
-        static::assertIsString($token->getName());
-    }
+    $this->assertIsString($token->getName());
+});
 
-    /**
-     * External Tokens shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $token = ExternalToken::factory()
-            ->for(ExternalProfile::factory())
-            ->createOne();
+test('has subtitle', function () {
+    $token = ExternalToken::factory()
+        ->for(ExternalProfile::factory())
+        ->createOne();
 
-        static::assertIsString($token->getSubtitle());
-    }
+    $this->assertIsString($token->getSubtitle());
+});
 
-    /**
-     * External Tokens shall belong to an External Profile.
-     */
-    public function testProfile(): void
-    {
-        $token = ExternalToken::factory()
-            ->for(ExternalProfile::factory())
-            ->createOne();
+test('profile', function () {
+    $token = ExternalToken::factory()
+        ->for(ExternalProfile::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $token->externalprofile());
-        static::assertInstanceOf(ExternalProfile::class, $token->externalprofile()->first());
-    }
+    $this->assertInstanceOf(BelongsTo::class, $token->externalprofile());
+    $this->assertInstanceOf(ExternalProfile::class, $token->externalprofile()->first());
+});
 
-    /**
-     * External Tokens shall belong to a User through an External Profile.
-     */
-    public function testUser(): void
-    {
-        $token = ExternalToken::factory()
-            ->for(ExternalProfile::factory()->for(User::factory()))
-            ->createOne();
+test('user', function () {
+    $token = ExternalToken::factory()
+        ->for(ExternalProfile::factory()->for(User::factory()))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToThrough::class, $token->user());
-        static::assertInstanceOf(User::class, $token->user()->first());
-    }
-}
+    $this->assertInstanceOf(BelongsToThrough::class, $token->user());
+    $this->assertInstanceOf(User::class, $token->user()->first());
+});

@@ -2,79 +2,59 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalResourceStoreTest extends TestCase
-{
-    /**
-     * The External Resource Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $resource = ExternalResource::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.resource.store', $resource->toArray()));
+test('protected', function () {
+    $resource = ExternalResource::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.resource.store', $resource->toArray()));
 
-    /**
-     * The External Resource Store Endpoint shall forbid users without the create external resource permission.
-     */
-    public function testForbidden(): void
-    {
-        $resource = ExternalResource::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $resource = ExternalResource::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.resource.store', $resource->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.resource.store', $resource->toArray()));
 
-    /**
-     * The External Resource Store Endpoint shall require link & site fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
 
-        $response = $this->post(route('api.resource.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            ExternalResource::ATTRIBUTE_LINK,
-            ExternalResource::ATTRIBUTE_SITE,
-        ]);
-    }
+    $response = post(route('api.resource.store'));
 
-    /**
-     * The External Resource Store Endpoint shall create an resource.
-     */
-    public function testCreate(): void
-    {
-        $parameters = array_merge(
-            ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()],
-        );
+    $response->assertJsonValidationErrors([
+        ExternalResource::ATTRIBUTE_LINK,
+        ExternalResource::ATTRIBUTE_SITE,
+    ]);
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
+test('create', function () {
+    $parameters = array_merge(
+        ExternalResource::factory()->raw(),
+        [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
 
-        $response = $this->post(route('api.resource.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(ExternalResource::class, 1);
-    }
-}
+    $response = post(route('api.resource.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(ExternalResource::class, 1);
+});

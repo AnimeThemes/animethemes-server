@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Studio;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -35,592 +32,526 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
-
-class StudioIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
-
-    /**
-     * By default, the Studio Index Endpoint shall return a collection of Studio Resources.
-     */
-    public function testDefault(): void
-    {
-        $studio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $response = $this->get(route('api.studio.index'));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $response = $this->get(route('api.studio.index'));
-
-        $response->assertJsonStructure([
-            StudioCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
-
-    /**
-     * The Studio Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new StudioSchema();
-
-        $allowedIncludes = collect($schema->allowedIncludes());
-
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
-
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        Studio::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $studio = Studio::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new StudioSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        $studio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new StudioSchema();
-
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
-
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
-
-        $query = new Query($parameters);
-
-        Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $studios = $this->sort(Studio::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studios, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($createdFilter, function () {
-            Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
-
-        $studio = Studio::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
-
-        $studio = Studio::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support filtering by trashed.
-     */
-    public function testWithoutTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-
-        $studio = Studio::withoutTrashed()->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support filtering by trashed.
-     */
-    public function testWithTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-
-        $studio = Studio::withTrashed()->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support filtering by trashed.
-     */
-    public function testOnlyTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-
-        $studio = Studio::onlyTrashed()->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support filtering by deleted_at.
-     */
-    public function testDeletedAtFilter(): void
-    {
-        $deletedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($deletedFilter, function () {
-            Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-        });
-
-        $studio = Studio::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_ANIME,
-        ];
-
-        Studio::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $studio = Studio::with([
-            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_ANIME,
-        ];
-
-        Studio::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $studio = Studio::with([
-            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = $this->faker->numberBetween(2000, 2002);
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => Studio::RELATION_ANIME,
-        ];
-
-        Studio::factory()
-            ->has(
-                Anime::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->state(new Sequence(
-                        [Anime::ATTRIBUTE_YEAR => 2000],
-                        [Anime::ATTRIBUTE_YEAR => 2001],
-                        [Anime::ATTRIBUTE_YEAR => 2002],
-                    ))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $studio = Studio::with([
-            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_RESOURCES,
-        ];
-
-        Studio::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Studio::RELATION_RESOURCES)
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $studios = Studio::with([
-            Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($studios, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Index Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_IMAGES,
-        ];
-
-        Studio::factory()
-            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $anime = Studio::with([
-            Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.studio.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioCollection($anime, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+
+use function Pest\Laravel\get;
+
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    $studio = Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    $response = get(route('api.studio.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('paginated', function () {
+    Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    $response = get(route('api.studio.index'));
+
+    $response->assertJsonStructure([
+        StudioCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new StudioSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    Studio::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $studio = Studio::with($includedPaths->all())->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new StudioSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    $studio = Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new StudioSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $studios = $this->sort(Studio::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studios, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
+        Studio::factory()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    Carbon::withTestNow($excludedDate, function () {
+        Studio::factory()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    $studio = Studio::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($updatedFilter, function () {
+        Studio::factory()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    Carbon::withTestNow($excludedDate, function () {
+        Studio::factory()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    $studio = Studio::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('without trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+
+    $studio = Studio::withoutTrashed()->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('with trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+
+    $studio = Studio::withTrashed()->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('only trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Studio::factory()->count(fake()->randomDigitNotNull())->create();
+
+    Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+
+    $studio = Studio::onlyTrashed()->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('deleted at filter', function () {
+    $deletedFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($deletedFilter, function () {
+        Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    Carbon::withTestNow($excludedDate, function () {
+        Studio::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    $studio = Studio::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_ANIME,
+    ];
+
+    Studio::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $studio = Studio::with([
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_ANIME,
+    ];
+
+    Studio::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $studio = Studio::with([
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by year', function () {
+    $yearFilter = fake()->numberBetween(2000, 2002);
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => Studio::RELATION_ANIME,
+    ];
+
+    Studio::factory()
+        ->has(
+            Anime::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->state(new Sequence(
+                    [Anime::ATTRIBUTE_YEAR => 2000],
+                    [Anime::ATTRIBUTE_YEAR => 2001],
+                    [Anime::ATTRIBUTE_YEAR => 2002],
+                ))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $studio = Studio::with([
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_RESOURCES,
+    ];
+
+    Studio::factory()
+        ->has(ExternalResource::factory()->count(fake()->randomDigitNotNull()), Studio::RELATION_RESOURCES)
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $studios = Studio::with([
+        Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($studios, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('images by facet', function () {
+    $facetFilter = Arr::random(ImageFacet::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_IMAGES,
+    ];
+
+    Studio::factory()
+        ->has(Image::factory()->count(fake()->randomDigitNotNull()))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $anime = Studio::with([
+        Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.studio.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioCollection($anime, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

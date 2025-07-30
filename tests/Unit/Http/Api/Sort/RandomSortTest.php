@@ -2,28 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Sort;
-
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Http\Api\Sort\RandomSort;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class RandomSortTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Random Sort shall be formatted as "{key}" for the any Direction.
-     */
-    public function testFormat(): void
-    {
-        $sort = new RandomSort();
+test('format', function () {
+    $sort = new RandomSort();
 
-        $direction = Arr::random(Direction::cases());
+    $direction = Arr::random(Direction::cases());
 
-        static::assertEquals(RandomCriteria::PARAM_VALUE, $sort->format($direction));
-    }
-}
+    $this->assertEquals(RandomCriteria::PARAM_VALUE, $sort->format($direction));
+});

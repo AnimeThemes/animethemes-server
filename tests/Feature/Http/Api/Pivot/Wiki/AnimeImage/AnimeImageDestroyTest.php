@@ -2,96 +2,76 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeImage;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeImageDestroyTest extends TestCase
-{
-    /**
-     * The Anime Image Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $animeImage = AnimeImage::factory()
-            ->for(Anime::factory())
-            ->for(Image::factory())
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animeimage.destroy', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
+test('protected', function () {
+    $animeImage = AnimeImage::factory()
+        ->for(Anime::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animeimage.destroy', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
 
-    /**
-     * The Anime Image Destroy Endpoint shall forbid users without the delete anime & delete image permissions.
-     */
-    public function testForbidden(): void
-    {
-        $animeImage = AnimeImage::factory()
-            ->for(Anime::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $animeImage = AnimeImage::factory()
+        ->for(Anime::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animeimage.destroy', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animeimage.destroy', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
 
-    /**
-     * The Anime Image Destroy Endpoint shall return an error if the anime image does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Anime::class),
-                CrudPermission::DELETE->format(Image::class)
-            )
-            ->createOne();
+test('not found', function () {
+    $anime = Anime::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Anime::class),
+            CrudPermission::DELETE->format(Image::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animeimage.destroy', ['anime' => $anime, 'image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.animeimage.destroy', ['anime' => $anime, 'image' => $image]));
 
-    /**
-     * The Anime Image Destroy Endpoint shall delete the anime image.
-     */
-    public function testDeleted(): void
-    {
-        $animeImage = AnimeImage::factory()
-            ->for(Anime::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Anime::class),
-                CrudPermission::DELETE->format(Image::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $animeImage = AnimeImage::factory()
+        ->for(Anime::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Anime::class),
+            CrudPermission::DELETE->format(Image::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.animeimage.destroy', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($animeImage);
-    }
-}
+    $response = delete(route('api.animeimage.destroy', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
+
+    $response->assertOk();
+    $this->assertModelMissing($animeImage);
+});

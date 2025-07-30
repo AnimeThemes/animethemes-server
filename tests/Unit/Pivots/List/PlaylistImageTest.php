@@ -2,41 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Pivots\List;
-
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Tests\TestCase;
 
-class PlaylistImageTest extends TestCase
-{
-    /**
-     * An PlaylistImage shall belong to a Playlist.
-     */
-    public function testPlaylist(): void
-    {
-        $playlistImage = PlaylistImage::factory()
-            ->for(Playlist::factory())
-            ->for(Image::factory())
-            ->createOne();
+test('playlist', function () {
+    $playlistImage = PlaylistImage::factory()
+        ->for(Playlist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $playlistImage->playlist());
-        static::assertInstanceOf(Playlist::class, $playlistImage->playlist()->first());
-    }
+    $this->assertInstanceOf(BelongsTo::class, $playlistImage->playlist());
+    $this->assertInstanceOf(Playlist::class, $playlistImage->playlist()->first());
+});
 
-    /**
-     * An PlaylistImage shall belong to an Image.
-     */
-    public function testImage(): void
-    {
-        $playlistImage = PlaylistImage::factory()
-            ->for(Playlist::factory())
-            ->for(Image::factory())
-            ->createOne();
+test('image', function () {
+    $playlistImage = PlaylistImage::factory()
+        ->for(Playlist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $playlistImage->image());
-        static::assertInstanceOf(Image::class, $playlistImage->image()->first());
-    }
-}
+    $this->assertInstanceOf(BelongsTo::class, $playlistImage->image());
+    $this->assertInstanceOf(Image::class, $playlistImage->image()->first());
+});

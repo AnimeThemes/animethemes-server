@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Series;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SeriesForceDeleteTest extends TestCase
-{
-    /**
-     * The Series Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $series = Series::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+test('protected', function () {
+    $series = Series::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.series.forceDelete', ['series' => $series]));
 
-    /**
-     * The Series Force Delete Endpoint shall forbid users without the force delete series permission.
-     */
-    public function testForbidden(): void
-    {
-        $series = Series::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $series = Series::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.series.forceDelete', ['series' => $series]));
 
-    /**
-     * The Series Force Delete Endpoint shall force delete the series.
-     */
-    public function testDeleted(): void
-    {
-        $series = Series::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Series::class))->createOne();
+test('deleted', function () {
+    $series = Series::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Series::class))->createOne();
 
-        $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($series);
-    }
-}
+    $response = delete(route('api.series.forceDelete', ['series' => $series]));
+
+    $response->assertOk();
+    $this->assertModelMissing($series);
+});

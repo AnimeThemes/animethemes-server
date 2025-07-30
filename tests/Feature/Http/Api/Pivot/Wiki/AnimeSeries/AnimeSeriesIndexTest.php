@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeSeries;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
@@ -28,419 +25,377 @@ use App\Models\Wiki\Series;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
 
-class AnimeSeriesIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Anime Series Index Endpoint shall return a collection of Anime Series Resources.
-     */
-    public function testDefault(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $animeSeries = AnimeSeries::all();
+
+    $response = get(route('api.animeseries.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('paginated', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $response = get(route('api.animeseries.index'));
+
+    $response->assertJsonStructure([
+        AnimeSeriesCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new AnimeSeriesSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $response = get(route('api.animeseries.index', $parameters));
+
+    $animeSeries = AnimeSeries::with($includedPaths->all())->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new AnimeSeriesSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            AnimeSeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $response = get(route('api.animeseries.index', $parameters));
+
+    $animeSeries = AnimeSeries::all();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new AnimeSeriesSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $response = get(route('api.animeseries.index', $parameters));
+
+    $animeSeries = $this->sort(AnimeSeries::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             AnimeSeries::factory()
                 ->for(Anime::factory())
                 ->for(Series::factory())
                 ->create();
         });
+    });
 
-        $animeSeries = AnimeSeries::all();
-
-        $response = $this->get(route('api.animeseries.index'));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             AnimeSeries::factory()
                 ->for(Anime::factory())
                 ->for(Series::factory())
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.animeseries.index'));
+    $animeSeries = AnimeSeries::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJsonStructure([
-            AnimeSeriesCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+    $response = get(route('api.animeseries.index', $parameters));
 
-    /**
-     * The Anime Series Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new AnimeSeriesSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($updatedFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             AnimeSeries::factory()
                 ->for(Anime::factory())
                 ->for(Series::factory())
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $animeSeries = AnimeSeries::with($includedPaths->all())->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new AnimeSeriesSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                AnimeSeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             AnimeSeries::factory()
                 ->for(Anime::factory())
                 ->for(Series::factory())
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.animeseries.index', $parameters));
+    $animeSeries = AnimeSeries::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $animeSeries = AnimeSeries::all();
+    $response = get(route('api.animeseries.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeSeries::RELATION_ANIME,
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $response = get(route('api.animeseries.index', $parameters));
+
+    $animeSeries = AnimeSeries::with([
+        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ])
+        ->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeSeries::RELATION_ANIME,
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        AnimeSeries::factory()
+            ->for(Anime::factory())
+            ->for(Series::factory())
+            ->create();
+    });
+
+    $response = get(route('api.animeseries.index', $parameters));
+
+    $animeSeries = AnimeSeries::with([
+        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ])
+        ->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => AnimeSeries::RELATION_ANIME,
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () use ($yearFilter, $excludedYear) {
+        AnimeSeries::factory()
+            ->for(
+                Anime::factory()
+                    ->state([
+                        Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
+                    ])
             )
-        );
-    }
+            ->for(Series::factory())
+            ->create();
+    });
 
-    /**
-     * The Anime Series Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new AnimeSeriesSchema();
+    $response = get(route('api.animeseries.index', $parameters));
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $animeSeries = AnimeSeries::with([
+        AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ])
+        ->get();
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
-
-        $query = new Query($parameters);
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            AnimeSeries::factory()
-                ->for(Anime::factory())
-                ->for(Series::factory())
-                ->create();
-        });
-
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $animeSeries = $this->sort(AnimeSeries::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($createdFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                AnimeSeries::factory()
-                    ->for(Anime::factory())
-                    ->for(Series::factory())
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                AnimeSeries::factory()
-                    ->for(Anime::factory())
-                    ->for(Series::factory())
-                    ->create();
-            });
-        });
-
-        $animeSeries = AnimeSeries::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                AnimeSeries::factory()
-                    ->for(Anime::factory())
-                    ->for(Series::factory())
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                AnimeSeries::factory()
-                    ->for(Anime::factory())
-                    ->for(Series::factory())
-                    ->create();
-            });
-        });
-
-        $animeSeries = AnimeSeries::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeSeries::RELATION_ANIME,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            AnimeSeries::factory()
-                ->for(Anime::factory())
-                ->for(Series::factory())
-                ->create();
-        });
-
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $animeSeries = AnimeSeries::with([
-            AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ])
-            ->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeSeries::RELATION_ANIME,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            AnimeSeries::factory()
-                ->for(Anime::factory())
-                ->for(Series::factory())
-                ->create();
-        });
-
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $animeSeries = AnimeSeries::with([
-            AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ])
-            ->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Series Show Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => AnimeSeries::RELATION_ANIME,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () use ($yearFilter, $excludedYear) {
-            AnimeSeries::factory()
-                ->for(
-                    Anime::factory()
-                        ->state([
-                            Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                        ])
-                )
-                ->for(Series::factory())
-                ->create();
-        });
-
-        $response = $this->get(route('api.animeseries.index', $parameters));
-
-        $animeSeries = AnimeSeries::with([
-            AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ])
-            ->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnimeSeriesCollection($animeSeries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnimeSeriesCollection($animeSeries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\Playlist\Track;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
@@ -19,278 +17,239 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class TrackShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The Track Show Endpoint shall forbid a private playlist from being publicly viewed.
-     */
-    public function testPrivatePlaylistTrackCannotBePubliclyViewed(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
-            ]);
+test('private playlist track cannot be publicly viewed', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response->assertForbidden();
-    }
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Show Endpoint shall forbid the user from viewing a private playlist track if not owned.
-     */
-    public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertForbidden();
+});
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
-            ]);
+test('private playlist track cannot be publicly viewed if not owned', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+        ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Show Endpoint shall allow a private playlist track to be viewed by the owner.
-     */
-    public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
+test('private playlist track can be viewed by owner', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
-            ]);
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+        ]);
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Show Endpoint shall allow an unlisted playlist track to be viewed.
-     */
-    public function testUnlistedPlaylistTrackCanBeViewed(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertOk();
+});
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
-            ]);
+test('unlisted playlist track can be viewed', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response->assertOk();
-    }
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Show Endpoint shall allow a public playlist track to be viewed.
-     */
-    public function testPublicPlaylistTrackCanBeViewed(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertOk();
+});
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
+test('public playlist track can be viewed', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $response->assertOk();
-    }
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * The Track Show Endpoint shall scope bindings.
-     */
-    public function testScoped(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertOk();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
+test('scoped', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory()->for(User::factory()))
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->has(PlaylistTrack::factory()->count(fake()->randomDigitNotNull()), Playlist::RELATION_TRACKS)
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory()->for(User::factory()))
+        ->createOne();
 
-        $response->assertNotFound();
-    }
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-    /**
-     * By default, the Track Show Endpoint shall return a Track Resource.
-     */
-    public function testDefault(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertNotFound();
+});
 
-        $playlist = Playlist::factory()
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
+test('default', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $track->unsetRelations();
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new TrackResource($track, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $track->unsetRelations();
 
-    /**
-     * The Track Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new TrackResource($track, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $schema = new TrackSchema();
+test('allowed include paths', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $schema = new TrackSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $playlist = Playlist::factory()
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for(Video::factory())
-            ->for(PlaylistTrack::factory()->for($playlist), PlaylistTrack::RELATION_PREVIOUS)
-            ->for(PlaylistTrack::factory()->for($playlist), PlaylistTrack::RELATION_NEXT)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for(Video::factory())
+        ->for(PlaylistTrack::factory()->for($playlist), PlaylistTrack::RELATION_PREVIOUS)
+        ->for(PlaylistTrack::factory()->for($playlist), PlaylistTrack::RELATION_NEXT)
+        ->createOne();
 
-        $track->unsetRelations()->load($includedPaths->all());
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new TrackResource($track, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $track->unsetRelations()->load($includedPaths->all());
 
-    /**
-     * The Track Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new TrackResource($track, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $schema = new TrackSchema();
+test('sparse fieldsets', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $fields = collect($schema->fields());
+    $schema = new TrackSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                TrackResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $playlist = Playlist::factory()
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
+    $parameters = [
+        FieldParser::param() => [
+            TrackResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        $track->unsetRelations();
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new TrackResource($track, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $track->unsetRelations();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new TrackResource($track, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

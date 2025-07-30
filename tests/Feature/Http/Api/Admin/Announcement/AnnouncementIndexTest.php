@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Announcement;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -21,230 +18,200 @@ use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 use App\Models\BaseModel;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class AnnouncementIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Announcement Index Endpoint shall return a collection of Announcement Resources.
-     */
-    public function testDefault(): void
-    {
-        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
-        $response = $this->get(route('api.announcement.index'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementCollection($announcements, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+test('default', function () {
+    $announcements = Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    /**
-     * The Announcement Index Endpoint shall return a collection of public Announcement Resources.
-     */
-    public function testPrivate(): void
-    {
-        Announcement::factory()
-            ->private()
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+    $response = get(route('api.announcement.index'));
 
-        $announcements = Announcement::factory()
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcements, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response = $this->get(route('api.announcement.index'));
+test('private', function () {
+    Announcement::factory()
+        ->private()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementCollection($announcements, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $announcements = Announcement::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-    /**
-     * The Announcement Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response = get(route('api.announcement.index'));
 
-        $response = $this->get(route('api.announcement.index'));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcements, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response->assertJsonStructure([
-            AnnouncementCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+test('paginated', function () {
+    Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    /**
-     * The Announcement Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new AnnouncementSchema();
+    $response = get(route('api.announcement.index'));
 
-        $fields = collect($schema->fields());
+    $response->assertJsonStructure([
+        AnnouncementCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+test('sparse fieldsets', function () {
+    $schema = new AnnouncementSchema();
 
-        $parameters = [
-            FieldParser::param() => [
-                AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $fields = collect($schema->fields());
 
-        $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $response = $this->get(route('api.announcement.index', $parameters));
+    $parameters = [
+        FieldParser::param() => [
+            AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementCollection($announcements, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $announcements = Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    /**
-     * The Announcement Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new AnnouncementSchema();
+    $response = get(route('api.announcement.index', $parameters));
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcements, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+test('sorts', function () {
+    $schema = new AnnouncementSchema();
 
-        $query = new Query($parameters);
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
 
-        Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
 
-        $response = $this->get(route('api.announcement.index', $parameters));
+    $query = new Query($parameters);
 
-        $announcements = $this->sort(Announcement::query(), $query, $schema)->get();
+    Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementCollection($announcements, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.announcement.index', $parameters));
 
-    /**
-     * The Announcement Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $announcements = $this->sort(Announcement::query(), $query, $schema)->get();
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcements, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Carbon::withTestNow($createdFilter, function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($excludedDate, function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+    Carbon::withTestNow($createdFilter, function () {
+        Announcement::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.announcement.index', $parameters));
+    Carbon::withTestNow($excludedDate, function () {
+        Announcement::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementCollection($announcement, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    /**
-     * The Announcement Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $response = get(route('api.announcement.index', $parameters));
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcement, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Carbon::withTestNow($updatedFilter, function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($excludedDate, function () {
-            Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+    Carbon::withTestNow($updatedFilter, function () {
+        Announcement::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.announcement.index', $parameters));
+    Carbon::withTestNow($excludedDate, function () {
+        Announcement::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementCollection($announcement, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+
+    $response = get(route('api.announcement.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcement, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

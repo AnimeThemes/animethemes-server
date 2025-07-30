@@ -2,100 +2,77 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Admin;
-
 use App\Constants\Config\DumpConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class DumpTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * If dump downloading is disabled through the Allow Dump Downloading feature,
-     * the user shall receive a forbidden exception.
-     */
-    public function testDumpDownloadingNotAllowedForbidden(): void
-    {
-        Feature::deactivate(AllowDumpDownloading::class);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $dump = Dump::factory()->createOne();
+test('dump downloading not allowed forbidden', function () {
+    Feature::deactivate(AllowDumpDownloading::class);
 
-        $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $dump = Dump::factory()->createOne();
 
-        $response->assertForbidden();
-    }
+    $response = get(route('dump.show', ['dump' => $dump]));
 
-    /**
-     * Unsafe dumps shall be forbidden.
-     */
-    public function testDumpDownloadingForbiddenForUnsafeDumps(): void
-    {
-        Feature::activate(AllowDumpDownloading::class);
+    $response->assertForbidden();
+});
 
-        $dump = Dump::factory()
-            ->unsafe()
-            ->createOne();
+test('dump downloading forbidden for unsafe dumps', function () {
+    Feature::activate(AllowDumpDownloading::class);
 
-        $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $dump = Dump::factory()
+        ->unsafe()
+        ->createOne();
 
-        $response->assertForbidden();
-    }
+    $response = get(route('dump.show', ['dump' => $dump]));
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to download dumps
-     * even if the Allow Dump Downloading feature is disabled.
-     */
-    public function testVideoStreamingPermittedForBypass(): void
-    {
-        Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
+    $response->assertForbidden();
+});
 
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
-        $filename = Dump::factory()->makeOne()->path.'.sql';
-        $file = File::fake()->create($filename);
-        $fsFile = $fs->putFileAs('', $file, $filename);
+test('video streaming permitted for bypass', function () {
+    Feature::activate(AllowDumpDownloading::class, fake()->boolean());
 
-        $dump = Dump::factory()->createOne([
-            Dump::ATTRIBUTE_PATH => $fsFile,
-        ]);
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $filename = Dump::factory()->makeOne()->path.'.sql';
+    $file = File::fake()->create($filename);
+    $fsFile = $fs->putFileAs('', $file, $filename);
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+    $dump = Dump::factory()->createOne([
+        Dump::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
-        $response = $this->get(route('dump.show', ['dump' => $dump]));
+    Sanctum::actingAs($user);
 
-        $response->assertDownload($dump->path);
-    }
+    $response = get(route('dump.show', ['dump' => $dump]));
 
-    /**
-     * If dump downloading is enabled, the dump is downloaded from storage through the response.
-     */
-    public function testDownloadedThroughResponse(): void
-    {
-        Feature::activate(AllowDumpDownloading::class);
+    $response->assertDownload($dump->path);
+});
 
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
-        $filename = Dump::factory()->makeOne()->path.'.sql';
-        $file = File::fake()->create($filename);
-        $fsFile = $fs->putFileAs('', $file, $filename);
+test('downloaded through response', function () {
+    Feature::activate(AllowDumpDownloading::class);
 
-        $dump = Dump::factory()->createOne([
-            Dump::ATTRIBUTE_PATH => $fsFile,
-        ]);
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $filename = Dump::factory()->makeOne()->path.'.sql';
+    $file = File::fake()->create($filename);
+    $fsFile = $fs->putFileAs('', $file, $filename);
 
-        $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $dump = Dump::factory()->createOne([
+        Dump::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-        $response->assertDownload($dump->path);
-    }
-}
+    $response = get(route('dump.show', ['dump' => $dump]));
+
+    $response->assertDownload($dump->path);
+});

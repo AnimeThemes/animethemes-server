@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeThemeEntryVideo;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -12,69 +10,55 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeThemeEntryVideoStoreTest extends TestCase
-{
-    /**
-     * The Anime Theme Entry Video Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+use function Pest\Laravel\post;
 
-        $video = Video::factory()->createOne();
+test('protected', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+    $video = Video::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
-    /**
-     * The Anime Theme Entry Video Store Endpoint shall forbid users without the create anime theme entry & create video permissions.
-     */
-    public function testForbidden(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+    $response->assertUnauthorized();
+});
 
-        $video = Video::factory()->createOne();
+test('forbidden', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $user = User::factory()->createOne();
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
-    /**
-     * The Anime Theme Entry Video Store Endpoint shall create an Anime Theme Entry Video.
-     */
-    public function testCreate(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+    $response->assertForbidden();
+});
 
-        $video = Video::factory()->createOne();
+test('create', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(AnimeThemeEntry::class),
-                CrudPermission::CREATE->format(Video::class)
-            )
-            ->createOne();
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(AnimeThemeEntry::class),
+            CrudPermission::CREATE->format(Video::class)
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
-    }
-}
+    $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
+});

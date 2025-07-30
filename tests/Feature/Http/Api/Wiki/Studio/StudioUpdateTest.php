@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Studio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class StudioUpdateTest extends TestCase
-{
-    /**
-     * The Studio Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $studio = Studio::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Studio::factory()->raw();
+test('protected', function () {
+    $studio = Studio::factory()->createOne();
 
-        $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
+    $parameters = Studio::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.studio.update', ['studio' => $studio] + $parameters));
 
-    /**
-     * The Studio Update Endpoint shall forbid users without the update studio permission.
-     */
-    public function testForbidden(): void
-    {
-        $studio = Studio::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Studio::factory()->raw();
+test('forbidden', function () {
+    $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Studio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.studio.update', ['studio' => $studio] + $parameters));
 
-    /**
-     * The Studio Update Endpoint shall forbid users from updating a studio that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $studio = Studio::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Studio::factory()->raw();
+test('trashed', function () {
+    $studio = Studio::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Studio::class))->createOne();
+    $parameters = Studio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Studio::class))->createOne();
 
-        $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.studio.update', ['studio' => $studio] + $parameters));
 
-    /**
-     * The Studio Update Endpoint shall update a studio.
-     */
-    public function testUpdate(): void
-    {
-        $studio = Studio::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Studio::factory()->raw();
+test('update', function () {
+    $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Studio::class))->createOne();
+    $parameters = Studio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Studio::class))->createOne();
 
-        $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.studio.update', ['studio' => $studio] + $parameters));
+
+    $response->assertOk();
+});

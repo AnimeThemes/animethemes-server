@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistResource;
-
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -17,165 +15,142 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class ArtistResourceShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The Artist Resource Show Endpoint shall return an error if the artist resource does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.artistresource.show', ['artist' => $artist, 'resource' => $resource]));
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $response->assertNotFound();
-    }
+    $response = get(route('api.artistresource.show', ['artist' => $artist, 'resource' => $resource]));
 
-    /**
-     * By default, the Artist Resource Show Endpoint shall return an Artist Resource Resource.
-     */
-    public function testDefault(): void
-    {
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+test('default', function () {
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $artistResource->unsetRelations();
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistResourceResource($artistResource, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $artistResource->unsetRelations();
 
-    /**
-     * The Artist Resource Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ArtistResourceSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistResourceResource($artistResource, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new ArtistResourceSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $artistResource->unsetRelations()->load($includedPaths->all());
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistResourceResource($artistResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $artistResource->unsetRelations()->load($includedPaths->all());
 
-    /**
-     * The Artist Resource Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ArtistResourceSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistResourceResource($artistResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new ArtistResourceSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                ArtistResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+    $parameters = [
+        FieldParser::param() => [
+            ArtistResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $artistResource->unsetRelations();
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistResourceResource($artistResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $artistResource->unsetRelations();
 
-    /**
-     * The Artist Resource Show Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistResourceResource($artistResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => ArtistResource::RELATION_RESOURCE,
-        ];
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
 
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => ArtistResource::RELATION_RESOURCE,
+    ];
 
-        $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $artistResource->unsetRelations()->load([
-            ArtistResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ]);
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistResourceResource($artistResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $artistResource->unsetRelations()->load([
+        ArtistResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ]);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistResourceResource($artistResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

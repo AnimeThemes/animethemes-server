@@ -2,63 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Announcement;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnnouncementUpdateTest extends TestCase
-{
-    /**
-     * The Announcement Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Announcement::factory()->raw();
+test('protected', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+    $parameters = Announcement::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 
-    /**
-     * The Announcement Update Endpoint shall forbid users without the update announcement permission.
-     */
-    public function testForbidden(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Announcement::factory()->raw();
+test('forbidden', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Announcement::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 
-    /**
-     * The Announcement Update Endpoint shall update an announcement.
-     */
-    public function testUpdate(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Announcement::factory()->raw();
+test('update', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Announcement::class))->createOne();
+    $parameters = Announcement::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Announcement::class))->createOne();
 
-        $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+
+    $response->assertOk();
+});

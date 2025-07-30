@@ -2,75 +2,55 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Studio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class StudioStoreTest extends TestCase
-{
-    /**
-     * The Studio Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $studio = Studio::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.studio.store', $studio->toArray()));
+test('protected', function () {
+    $studio = Studio::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.studio.store', $studio->toArray()));
 
-    /**
-     * The Studio Store Endpoint shall forbid users without the create studio permission.
-     */
-    public function testForbidden(): void
-    {
-        $studio = Studio::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $studio = Studio::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.studio.store', $studio->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.studio.store', $studio->toArray()));
 
-    /**
-     * The Studio Store Endpoint shall require name & slug fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Studio::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Studio::class))->createOne();
 
-        $response = $this->post(route('api.studio.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            Studio::ATTRIBUTE_NAME,
-            Studio::ATTRIBUTE_SLUG,
-        ]);
-    }
+    $response = post(route('api.studio.store'));
 
-    /**
-     * The Studio Store Endpoint shall create a studio.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Studio::factory()->raw();
+    $response->assertJsonValidationErrors([
+        Studio::ATTRIBUTE_NAME,
+        Studio::ATTRIBUTE_SLUG,
+    ]);
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Studio::class))->createOne();
+test('create', function () {
+    $parameters = Studio::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Studio::class))->createOne();
 
-        $response = $this->post(route('api.studio.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Studio::class, 1);
-    }
-}
+    $response = post(route('api.studio.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Studio::class, 1);
+});

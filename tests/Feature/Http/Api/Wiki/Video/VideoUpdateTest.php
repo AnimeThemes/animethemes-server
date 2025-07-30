@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -11,111 +9,93 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class VideoUpdateTest extends TestCase
-{
-    /**
-     * The Video Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $video = Video::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $overlap = Arr::random(VideoOverlap::cases());
-        $source = Arr::random(VideoSource::cases());
+test('protected', function () {
+    $video = Video::factory()->createOne();
 
-        $parameters = array_merge(
-            Video::factory()->raw(),
-            [
-                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
-                Video::ATTRIBUTE_SOURCE => $source->localize(),
-            ]
-        );
+    $overlap = Arr::random(VideoOverlap::cases());
+    $source = Arr::random(VideoSource::cases());
 
-        $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    $parameters = array_merge(
+        Video::factory()->raw(),
+        [
+            Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+            Video::ATTRIBUTE_SOURCE => $source->localize(),
+        ]
+    );
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
-    /**
-     * The Video Update Endpoint shall forbid users without the update video permission.
-     */
-    public function testForbidden(): void
-    {
-        $video = Video::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $overlap = Arr::random(VideoOverlap::cases());
-        $source = Arr::random(VideoSource::cases());
+test('forbidden', function () {
+    $video = Video::factory()->createOne();
 
-        $parameters = array_merge(
-            Video::factory()->raw(),
-            [
-                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
-                Video::ATTRIBUTE_SOURCE => $source->localize(),
-            ]
-        );
+    $overlap = Arr::random(VideoOverlap::cases());
+    $source = Arr::random(VideoSource::cases());
 
-        $user = User::factory()->createOne();
+    $parameters = array_merge(
+        Video::factory()->raw(),
+        [
+            Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+            Video::ATTRIBUTE_SOURCE => $source->localize(),
+        ]
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
-    /**
-     * The Video Update Endpoint shall forbid users from updating a video that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $video = Video::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $overlap = Arr::random(VideoOverlap::cases());
-        $source = Arr::random(VideoSource::cases());
+test('trashed', function () {
+    $video = Video::factory()->trashed()->createOne();
 
-        $parameters = array_merge(
-            Video::factory()->raw(),
-            [
-                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
-                Video::ATTRIBUTE_SOURCE => $source->localize(),
-            ]
-        );
+    $overlap = Arr::random(VideoOverlap::cases());
+    $source = Arr::random(VideoSource::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Video::class))->createOne();
+    $parameters = array_merge(
+        Video::factory()->raw(),
+        [
+            Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+            Video::ATTRIBUTE_SOURCE => $source->localize(),
+        ]
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Video::class))->createOne();
 
-        $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
-    /**
-     * The Video Update Endpoint shall update a video.
-     */
-    public function testUpdate(): void
-    {
-        $video = Video::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $overlap = Arr::random(VideoOverlap::cases());
-        $source = Arr::random(VideoSource::cases());
+test('update', function () {
+    $video = Video::factory()->createOne();
 
-        $parameters = array_merge(
-            Video::factory()->raw(),
-            [
-                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
-                Video::ATTRIBUTE_SOURCE => $source->localize(),
-            ]
-        );
+    $overlap = Arr::random(VideoOverlap::cases());
+    $source = Arr::random(VideoSource::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Video::class))->createOne();
+    $parameters = array_merge(
+        Video::factory()->raw(),
+        [
+            Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+            Video::ATTRIBUTE_SOURCE => $source->localize(),
+        ]
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Video::class))->createOne();
 
-        $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
+
+    $response->assertOk();
+});

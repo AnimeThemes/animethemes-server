@@ -2,68 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeImage;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeImageStoreTest extends TestCase
-{
-    /**
-     * The Anime Image Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $image = Image::factory()->createOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
+test('protected', function () {
+    $anime = Anime::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
 
-    /**
-     * The Anime Image Store Endpoint shall forbid users without the create anime & create image permissions.
-     */
-    public function testForbidden(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $anime = Anime::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
 
-    /**
-     * The Anime Image Store Endpoint shall create an anime image.
-     */
-    public function testCreate(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Anime::class),
-                CrudPermission::CREATE->format(Image::class)
-            )
-            ->createOne();
+test('create', function () {
+    $anime = Anime::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Anime::class),
+            CrudPermission::CREATE->format(Image::class)
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(AnimeImage::class, 1);
-    }
-}
+    $response = post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(AnimeImage::class, 1);
+});

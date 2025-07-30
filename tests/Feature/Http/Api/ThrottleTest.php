@@ -2,49 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api;
-
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ThrottleTest extends TestCase
-{
-    /**
-     * Client with forwarded ip shall be rate limited.
-     */
-    public function testForwardedIpRateLimited(): void
-    {
-        $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
+use function Pest\Laravel\get;
 
-        $response->assertHeader('X-RateLimit-Limit');
-        $response->assertHeader('X-RateLimit-Remaining');
-    }
+test('forwarded ip rate limited', function () {
+    $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
 
-    /**
-     * Client with no forwarded ip shall not be rate limited.
-     */
-    public function testClientNoForwardedIpNotRateLimited(): void
-    {
-        $response = $this->get(route('api.anime.index'));
+    $response->assertHeader('X-RateLimit-Limit');
+    $response->assertHeader('X-RateLimit-Remaining');
+});
 
-        $response->assertHeaderMissing('X-RateLimit-Limit');
-        $response->assertHeaderMissing('X-RateLimit-Remaining');
-    }
+test('client no forwarded ip not rate limited', function () {
+    $response = get(route('api.anime.index'));
 
-    /**
-     * Users with the 'bypass api rate limiter' permission  shall not be rate limited.
-     */
-    public function testUserNotRateLimited(): void
-    {
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
+    $response->assertHeaderMissing('X-RateLimit-Limit');
+    $response->assertHeaderMissing('X-RateLimit-Remaining');
+});
 
-        Sanctum::actingAs($user);
+test('user not rate limited', function () {
+    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
 
-        $response = $this->get(route('api.anime.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertHeaderMissing('X-RateLimit-Limit');
-        $response->assertHeaderMissing('X-RateLimit-Remaining');
-    }
-}
+    $response = get(route('api.anime.index'));
+
+    $response->assertHeaderMissing('X-RateLimit-Limit');
+    $response->assertHeaderMissing('X-RateLimit-Remaining');
+});

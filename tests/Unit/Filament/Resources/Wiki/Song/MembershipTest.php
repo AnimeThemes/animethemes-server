@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\Wiki\Song;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
@@ -16,196 +14,139 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership as MembershipModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class MembershipTest extends BaseResourceTestCase
-{
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = Membership::getPages();
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-        return $pages['index']->getPage();
-    }
+test('render index page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(MembershipModel::class)
+        )
+        ->createOne();
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = Membership::getPages();
+    actingAs($user);
 
-        return $pages['view']->getPage();
-    }
+    $records = MembershipModel::factory()
+        ->count(10)
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->create();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(MembershipModel::class)
-            )
-            ->createOne();
+    get(Membership::getUrl('index'))
+        ->assertSuccessful();
 
-        $this->actingAs($user);
+    Livewire::test(getIndexPage(Membership::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $records = MembershipModel::factory()
-            ->count(10)
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->create();
+test('render view page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(MembershipModel::class)
+        )
+        ->createOne();
 
-        $this->get(Membership::getUrl('index'))
-            ->assertSuccessful();
+    actingAs($user);
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    $record = MembershipModel::factory()
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->createOne();
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(MembershipModel::class)
-            )
-            ->createOne();
+    get(Membership::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-        $this->actingAs($user);
+test('mount create action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::CREATE->format(MembershipModel::class)
+        )
+        ->createOne();
 
-        $record = MembershipModel::factory()
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->createOne();
+    actingAs($user);
 
-        $this->get(Membership::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+    Livewire::test(getIndexPage(Membership::class))
+        ->mountAction(CreateAction::class)
+        ->assertActionMounted(CreateAction::class);
+});
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountCreateAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(MembershipModel::class)
-            )
-            ->createOne();
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(MembershipModel::class)
+        )
+        ->createOne();
 
-        $this->actingAs($user);
+    actingAs($user);
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(CreateAction::class)
-            ->assertActionMounted(CreateAction::class);
-    }
+    $record = MembershipModel::factory()
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->createOne();
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(MembershipModel::class)
-            )
-            ->createOne();
+    Livewire::test(getIndexPage(Membership::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});
 
-        $this->actingAs($user);
+test('user cannot create record', function () {
+    Livewire::test(getIndexPage(Membership::class))
+        ->assertActionHidden(CreateAction::class);
+});
 
-        $record = MembershipModel::factory()
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->createOne();
+test('user cannot edit record', function () {
+    $record = MembershipModel::factory()
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
+    Livewire::test(getIndexPage(Membership::class))
+        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot create a record.
-     */
-    public function testUserCannotCreateRecord(): void
-    {
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(CreateAction::class);
-    }
+test('user cannot delete record', function () {
+    $record = MembershipModel::factory()
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->createOne();
 
-    /**
-     * The user with no permissions cannot edit a record.
-     */
-    public function testUserCannotEditRecord(): void
-    {
-        $record = MembershipModel::factory()
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->createOne();
+    Livewire::test(getViewPage(Membership::class), ['record' => $record->getKey()])
+        ->assertActionHidden(DeleteAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getIndexPage(Membership::class))
+        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot delete a record.
-     */
-    public function testUserCannotDeleteRecord(): void
-    {
-        $record = MembershipModel::factory()
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->createOne();
+test('user cannot restore record', function () {
+    $record = MembershipModel::factory()
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->createOne();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteAction::class);
+    $record->delete();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getViewPage(Membership::class), ['record' => $record->getKey()])
+        ->assertActionHidden(RestoreAction::class);
 
-    /**
-     * The user with no permissions cannot restore a record.
-     */
-    public function testUserCannotRestoreRecord(): void
-    {
-        $record = MembershipModel::factory()
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->createOne();
+    Livewire::test(getIndexPage(Membership::class))
+        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+});
 
-        $record->delete();
+test('user cannot force delete record', function () {
+    $record = MembershipModel::factory()
+        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
+        ->createOne();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreAction::class);
+    Livewire::test(getViewPage(Membership::class), ['record' => $record->getKey()])
+        ->assertActionHidden(ForceDeleteAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-    }
-
-    /**
-     * The user with no permissions cannot force delete a record.
-     */
-    public function testUserCannotForceDeleteRecord(): void
-    {
-        $record = MembershipModel::factory()
-            ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
-            ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
-            ->createOne();
-
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
-    }
-}
+    Livewire::test(getIndexPage(Membership::class))
+        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+});

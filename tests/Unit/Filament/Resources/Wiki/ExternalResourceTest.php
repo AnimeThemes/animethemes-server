@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\Wiki;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\DeleteAction;
@@ -14,146 +12,97 @@ use App\Filament\Resources\Wiki\ExternalResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class ExternalResourceTest extends BaseResourceTestCase
-{
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = ExternalResource::getPages();
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-        return $pages['index']->getPage();
-    }
+test('render index page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(ExternalResourceModel::class)
+        )
+        ->createOne();
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = ExternalResource::getPages();
+    actingAs($user);
 
-        return $pages['view']->getPage();
-    }
+    $records = ExternalResourceModel::factory()->count(10)->create();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ExternalResourceModel::class)
-            )
-            ->createOne();
+    get(ExternalResource::getUrl('index'))
+        ->assertSuccessful();
 
-        $this->actingAs($user);
+    Livewire::test(getIndexPage(ExternalResource::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $records = ExternalResourceModel::factory()->count(10)->create();
+test('render view page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(ExternalResourceModel::class)
+        )
+        ->createOne();
 
-        $this->get(ExternalResource::getUrl('index'))
-            ->assertSuccessful();
+    actingAs($user);
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    $record = ExternalResourceModel::factory()->createOne();
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ExternalResourceModel::class)
-            )
-            ->createOne();
+    get(ExternalResource::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-        $this->actingAs($user);
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(ExternalResourceModel::class)
+        )
+        ->createOne();
 
-        $record = ExternalResourceModel::factory()->createOne();
+    actingAs($user);
 
-        $this->get(ExternalResource::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+    $record = ExternalResourceModel::factory()->createOne();
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(ExternalResourceModel::class)
-            )
-            ->createOne();
+    Livewire::test(getIndexPage(ExternalResource::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});
 
-        $this->actingAs($user);
+test('user cannot edit record', function () {
+    $record = ExternalResourceModel::factory()->createOne();
 
-        $record = ExternalResourceModel::factory()->createOne();
+    Livewire::test(getIndexPage(ExternalResource::class))
+        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+});
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
+test('user cannot delete record', function () {
+    $record = ExternalResourceModel::factory()->createOne();
 
-    /**
-     * The user with no permissions cannot edit a record.
-     */
-    public function testUserCannotEditRecord(): void
-    {
-        $record = ExternalResourceModel::factory()->createOne();
+    Livewire::test(getViewPage(ExternalResource::class), ['record' => $record->getKey()])
+        ->assertActionHidden(DeleteAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getIndexPage(ExternalResource::class))
+        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot delete a record.
-     */
-    public function testUserCannotDeleteRecord(): void
-    {
-        $record = ExternalResourceModel::factory()->createOne();
+test('user cannot restore record', function () {
+    $record = ExternalResourceModel::factory()->createOne();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteAction::class);
+    $record->delete();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getViewPage(ExternalResource::class), ['record' => $record->getKey()])
+        ->assertActionHidden(RestoreAction::class);
 
-    /**
-     * The user with no permissions cannot restore a record.
-     */
-    public function testUserCannotRestoreRecord(): void
-    {
-        $record = ExternalResourceModel::factory()->createOne();
+    Livewire::test(getIndexPage(ExternalResource::class))
+        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+});
 
-        $record->delete();
+test('user cannot force delete record', function () {
+    $record = ExternalResourceModel::factory()->createOne();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreAction::class);
+    Livewire::test(getViewPage(ExternalResource::class), ['record' => $record->getKey()])
+        ->assertActionHidden(ForceDeleteAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-    }
-
-    /**
-     * The user with no permissions cannot force delete a record.
-     */
-    public function testUserCannotForceDeleteRecord(): void
-    {
-        $record = ExternalResourceModel::factory()->createOne();
-
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
-    }
-}
+    Livewire::test(getIndexPage(ExternalResource::class))
+        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+});

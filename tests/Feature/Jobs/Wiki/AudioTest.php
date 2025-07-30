@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Wiki\Audio\AudioCreated;
 use App\Events\Wiki\Audio\AudioDeleted;
@@ -14,72 +12,52 @@ use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class AudioTest extends TestCase
-{
-    /**
-     * When an audio is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAudioCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AudioCreated::class);
+test('audio created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AudioCreated::class);
 
-        Audio::factory()->createOne();
+    Audio::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an audio is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAudioDeletedSendsDiscordNotification(): void
-    {
-        $audio = Audio::factory()->createOne();
+test('audio deleted sends discord notification', function () {
+    $audio = Audio::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AudioDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AudioDeleted::class);
 
-        $audio->delete();
+    $audio->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an audio is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAudioRestoredSendsDiscordNotification(): void
-    {
-        $audio = Audio::factory()->createOne();
+test('audio restored sends discord notification', function () {
+    $audio = Audio::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AudioRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AudioRestored::class);
 
-        $audio->restore();
+    $audio->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an audio is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAudioUpdatedSendsDiscordNotification(): void
-    {
-        $audio = Audio::factory()->createOne();
+test('audio updated sends discord notification', function () {
+    $audio = Audio::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AudioUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AudioUpdated::class);
 
-        $changes = Audio::factory()->makeOne();
+    $changes = Audio::factory()->makeOne();
 
-        $audio->fill($changes->getAttributes());
-        $audio->save();
+    $audio->fill($changes->getAttributes());
+    $audio->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

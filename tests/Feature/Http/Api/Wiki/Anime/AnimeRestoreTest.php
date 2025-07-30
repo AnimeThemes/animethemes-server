@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeRestoreTest extends TestCase
-{
-    /**
-     * The Anime Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $anime = Anime::factory()->trashed()->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+test('protected', function () {
+    $anime = Anime::factory()->trashed()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
-    /**
-     * The Anime Restore Endpoint shall forbid users without the restore anime permission.
-     */
-    public function testForbidden(): void
-    {
-        $anime = Anime::factory()->trashed()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $anime = Anime::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
-    /**
-     * The Anime Restore Endpoint shall forbid users from restoring an anime that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $anime = Anime::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Anime::class))->createOne();
+test('trashed', function () {
+    $anime = Anime::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Anime::class))->createOne();
 
-        $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
-    /**
-     * The Anime Restore Endpoint shall restore the anime.
-     */
-    public function testRestored(): void
-    {
-        $anime = Anime::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Anime::class))->createOne();
+test('restored', function () {
+    $anime = Anime::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Anime::class))->createOne();
 
-        $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($anime);
-    }
-}
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($anime);
+});

@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Audio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AudioDestroyTest extends TestCase
-{
-    /**
-     * The Audio Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $audio = Audio::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.audio.destroy', ['audio' => $audio]));
+test('protected', function () {
+    $audio = Audio::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.audio.destroy', ['audio' => $audio]));
 
-    /**
-     * The Audio Destroy Endpoint shall forbid users without the delete audio permission.
-     */
-    public function testForbidden(): void
-    {
-        $audio = Audio::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $audio = Audio::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.audio.destroy', ['audio' => $audio]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.audio.destroy', ['audio' => $audio]));
 
-    /**
-     * The Audio Destroy Endpoint shall forbid users from updating an audio that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $audio = Audio::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Audio::class))->createOne();
+test('trashed', function () {
+    $audio = Audio::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Audio::class))->createOne();
 
-        $response = $this->delete(route('api.audio.destroy', ['audio' => $audio]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.audio.destroy', ['audio' => $audio]));
 
-    /**
-     * The Audio Destroy Endpoint shall delete the audio.
-     */
-    public function testDeleted(): void
-    {
-        $audio = Audio::factory()->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Audio::class))->createOne();
+test('deleted', function () {
+    $audio = Audio::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Audio::class))->createOne();
 
-        $response = $this->delete(route('api.audio.destroy', ['audio' => $audio]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertSoftDeleted($audio);
-    }
-}
+    $response = delete(route('api.audio.destroy', ['audio' => $audio]));
+
+    $response->assertOk();
+    $this->assertSoftDeleted($audio);
+});

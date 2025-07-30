@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki;
-
 use App\Events\Wiki\Studio\StudioCreated;
 use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
@@ -11,87 +9,57 @@ use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\Wiki\Studio;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class StudioTest extends TestCase
-{
-    /**
-     * When a Studio is created, a StudioCreated event shall be dispatched.
-     */
-    public function testStudioCreatedEventDispatched(): void
-    {
-        Studio::factory()->createOne();
+test('studio created event dispatched', function () {
+    Studio::factory()->createOne();
 
-        Event::assertDispatched(StudioCreated::class);
-    }
+    Event::assertDispatched(StudioCreated::class);
+});
 
-    /**
-     * When a Studio is deleted, a StudioDeleted event shall be dispatched.
-     */
-    public function testStudioDeletedEventDispatched(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('studio deleted event dispatched', function () {
+    $studio = Studio::factory()->createOne();
 
-        $studio->delete();
+    $studio->delete();
 
-        Event::assertDispatched(StudioDeleted::class);
-    }
+    Event::assertDispatched(StudioDeleted::class);
+});
 
-    /**
-     * When a Studio is restored, a StudioRestored event shall be dispatched.
-     */
-    public function testStudioRestoredEventDispatched(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('studio restored event dispatched', function () {
+    $studio = Studio::factory()->createOne();
 
-        $studio->restore();
+    $studio->restore();
 
-        Event::assertDispatched(StudioRestored::class);
-    }
+    Event::assertDispatched(StudioRestored::class);
+});
 
-    /**
-     * When a Studio is restored, a StudioUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testStudioRestoresQuietly(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('studio restores quietly', function () {
+    $studio = Studio::factory()->createOne();
 
-        $studio->restore();
+    $studio->restore();
 
-        Event::assertNotDispatched(StudioUpdated::class);
-    }
+    Event::assertNotDispatched(StudioUpdated::class);
+});
 
-    /**
-     * When a Studio is updated, a StudioUpdated event shall be dispatched.
-     */
-    public function testStudioUpdatedEventDispatched(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $changes = Studio::factory()->makeOne();
+test('studio updated event dispatched', function () {
+    $studio = Studio::factory()->createOne();
+    $changes = Studio::factory()->makeOne();
 
-        $studio->fill($changes->getAttributes());
-        $studio->save();
+    $studio->fill($changes->getAttributes());
+    $studio->save();
 
-        Event::assertDispatched(StudioUpdated::class);
-    }
+    Event::assertDispatched(StudioUpdated::class);
+});
 
-    /**
-     * The StudioUpdated event shall contain embed fields.
-     */
-    public function testStudioUpdatedEventEmbedFields(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $changes = Studio::factory()->makeOne();
+test('studio updated event embed fields', function () {
+    $studio = Studio::factory()->createOne();
+    $changes = Studio::factory()->makeOne();
 
-        $studio->fill($changes->getAttributes());
-        $studio->save();
+    $studio->fill($changes->getAttributes());
+    $studio->save();
 
-        Event::assertDispatched(StudioUpdated::class, function (StudioUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(StudioUpdated::class, function (StudioUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

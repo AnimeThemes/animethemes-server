@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\Playlist\Track;
-
 use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
@@ -18,735 +16,661 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class TrackStoreTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\post;
 
-    /**
-     * The Track Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('protected', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
+    $playlist = Playlist::factory()->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-    /**
-     * The Track Store Endpoint shall forbid users without the create playlist track permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertUnauthorized();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
+    $playlist = Playlist::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-    /**
-     * The Track Store Endpoint shall forbid users from creating a track if they don't own the playlist.
-     */
-    public function testForbiddenIfNotOwnPlaylist(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('forbidden if not own playlist', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-    /**
-     * The Track Store Endpoint shall forbid users from creating playlist tracks
-     * if the Allow Playlist Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::deactivate(AllowPlaylistManagement::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    Feature::deactivate(AllowPlaylistManagement::class);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-    /**
-     * The Track Store Endpoint shall require the entry & video field.
-     */
-    public function testRequiredFields(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('required fields', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        Sanctum::actingAs($user);
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist]));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_ENTRY,
-            PlaylistTrack::ATTRIBUTE_VIDEO,
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist]));
+
+    $response->assertJsonValidationErrors([
+        PlaylistTrack::ATTRIBUTE_ENTRY,
+        PlaylistTrack::ATTRIBUTE_VIDEO,
+    ]);
+});
+
+test('anime theme entry video exists', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
+    Feature::activate(AllowPlaylistManagement::class);
+
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
+
+    $video = Video::factory()->create();
+
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
+
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->makeOne([
+            PlaylistTrack::ATTRIBUTE_ENTRY => $entry->getKey(),
+            PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
         ]);
-    }
 
-    /**
-     * The Playlist Track Store Endpoint shall require the entry and video to have an association.
-     */
-    public function testAnimeThemeEntryVideoExists(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    Sanctum::actingAs($user);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+    $response->assertJsonValidationErrors([
+        PlaylistTrack::ATTRIBUTE_ENTRY,
+        PlaylistTrack::ATTRIBUTE_VIDEO,
+    ]);
+});
 
-        $video = Video::factory()->create();
+test('prohibits next and previous', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->makeOne([
-                PlaylistTrack::ATTRIBUTE_ENTRY => $entry->getKey(),
-                PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
-            ]);
+    $entryVideoPrevious = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $entryVideoNext = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_ENTRY,
-            PlaylistTrack::ATTRIBUTE_VIDEO,
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
+
+    $previous = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideoPrevious->animethemeentry)
+        ->for($entryVideoPrevious->video)
+        ->createOne();
+
+    $next = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideoNext->animethemeentry)
+        ->for($entryVideoNext->video)
+        ->createOne();
+
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
+            PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
         ]);
-    }
 
-    /**
-     * The Track Store Endpoint shall prohibit the next and previous fields from both being present.
-     */
-    public function testProhibitsNextAndPrevious(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    Sanctum::actingAs($user);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $response->assertJsonValidationErrors([
+        PlaylistTrack::RELATION_NEXT,
+        PlaylistTrack::RELATION_PREVIOUS,
+    ]);
+});
 
-        $entryVideoPrevious = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+test('scope next', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $entryVideoNext = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $entryVideoNext = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $previous = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideoPrevious->animethemeentry)
-            ->for($entryVideoPrevious->video)
-            ->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $next = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideoNext->animethemeentry)
-            ->for($entryVideoNext->video)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
-                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
-            ]);
+    $next = PlaylistTrack::factory()
+        ->for(Playlist::factory())
+        ->for($entryVideoNext->animethemeentry)
+        ->for($entryVideoNext->video)
+        ->createOne();
 
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
-
-        $response->assertJsonValidationErrors([
-            PlaylistTrack::RELATION_NEXT,
-            PlaylistTrack::RELATION_PREVIOUS,
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
         ]);
-    }
 
-    /**
-     * The Track Store Endpoint shall restrict the next track to a track within the playlist.
-     */
-    public function testScopeNext(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    Sanctum::actingAs($user);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $response->assertJsonValidationErrors([
+        PlaylistTrack::RELATION_NEXT,
+    ]);
+});
 
-        $entryVideoNext = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+test('scope previous', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        $next = PlaylistTrack::factory()
-            ->for(Playlist::factory())
-            ->for($entryVideoNext->animethemeentry)
-            ->for($entryVideoNext->video)
-            ->createOne();
+    $entryVideoPrevious = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
-            ]);
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $previous = PlaylistTrack::factory()
+        ->for(Playlist::factory())
+        ->for($entryVideoPrevious->animethemeentry)
+        ->for($entryVideoPrevious->video)
+        ->createOne();
 
-        $response->assertJsonValidationErrors([
-            PlaylistTrack::RELATION_NEXT,
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
         ]);
-    }
 
-    /**
-     * The Track Store Endpoint shall restrict the next track to a track within the playlist.
-     */
-    public function testScopePrevious(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    Sanctum::actingAs($user);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $response->assertJsonValidationErrors([
+        PlaylistTrack::RELATION_PREVIOUS,
+    ]);
+});
 
-        $entryVideoPrevious = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+test('create', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        $previous = PlaylistTrack::factory()
-            ->for(Playlist::factory())
-            ->for($entryVideoPrevious->animethemeentry)
-            ->for($entryVideoPrevious->video)
-            ->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
-            ]);
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            PlaylistTrack::RELATION_PREVIOUS,
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+    $response->assertCreated();
+
+    $track = PlaylistTrack::query()->first();
+    $playlist->refresh();
+
+    $this->assertDatabaseCount(PlaylistTrack::class, 1);
+
+    $this->assertTrue($playlist->first()->is($track));
+    $this->assertTrue($playlist->last()->is($track));
+});
+
+test('create after last track', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
+    Feature::activate(AllowPlaylistManagement::class);
+
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
+
+    $trackCount = fake()->numberBetween(2, 9);
+
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks($trackCount)
+        ->createOne();
+
+    $last = $playlist->last;
+
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_PREVIOUS => $last->getRouteKey(),
         ]);
-    }
 
-    /**
-     * The Track Store Endpoint shall create a playlist track.
-     */
-    public function testCreate(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    Sanctum::actingAs($user);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $response->assertCreated();
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    /** @var PlaylistTrack $track */
+    $track = PlaylistTrack::query()->latest()->first();
+    $playlist->refresh();
+    $last->refresh();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
+    $this->assertTrue($playlist->last()->is($track));
 
-        Sanctum::actingAs($user);
+    $this->assertTrue($last->next()->is($track));
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $this->assertTrue($track->previous()->is($last));
+    $this->assertTrue($track->next()->doesntExist());
+});
 
-        $response->assertCreated();
+test('create after first track', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $track = PlaylistTrack::query()->first();
-        $playlist->refresh();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        static::assertDatabaseCount(PlaylistTrack::class, 1);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        static::assertTrue($playlist->first()->is($track));
-        static::assertTrue($playlist->last()->is($track));
-    }
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-    /**
-     * The Track Store Endpoint shall allow inserting after tracks including the last track.
-     */
-    public function testCreateAfterLastTrack(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $trackCount = fake()->numberBetween(2, 9);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks($trackCount)
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $first = $playlist->first;
+    $next = $first->next;
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_PREVIOUS => $first->getRouteKey(),
+        ]);
 
-        $trackCount = $this->faker->numberBetween(2, 9);
+    Sanctum::actingAs($user);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks($trackCount)
-            ->createOne();
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $last = $playlist->last;
+    $response->assertCreated();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_PREVIOUS => $last->getRouteKey(),
-            ]);
+    /** @var PlaylistTrack $track */
+    $track = PlaylistTrack::query()->latest()->first();
+    $playlist->refresh();
+    $first->refresh();
 
-        Sanctum::actingAs($user);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $this->assertTrue($playlist->first()->is($first));
 
-        $response->assertCreated();
+    $this->assertTrue($first->next()->is($track));
 
-        /** @var PlaylistTrack $track */
-        $track = PlaylistTrack::query()->latest()->first();
-        $playlist->refresh();
-        $last->refresh();
+    $this->assertTrue($track->previous()->is($first));
+    $this->assertTrue($track->next()->is($next));
+});
 
-        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+test('create before last track', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        static::assertTrue($playlist->last()->is($track));
+    Feature::activate(AllowPlaylistManagement::class);
 
-        static::assertTrue($last->next()->is($track));
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        static::assertTrue($track->previous()->is($last));
-        static::assertTrue($track->next()->doesntExist());
-    }
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-    /**
-     * The Track Store Endpoint shall allow inserting after tracks including the first track.
-     */
-    public function testCreateAfterFirstTrack(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $trackCount = fake()->numberBetween(2, 9);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks($trackCount)
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $last = $playlist->last;
+    $previous = $last->previous;
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_NEXT => $last->getRouteKey(),
+        ]);
 
-        $trackCount = $this->faker->numberBetween(2, 9);
+    Sanctum::actingAs($user);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks($trackCount)
-            ->createOne();
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $first = $playlist->first;
-        $next = $first->next;
+    $response->assertCreated();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_PREVIOUS => $first->getRouteKey(),
-            ]);
+    /** @var PlaylistTrack $track */
+    $track = PlaylistTrack::query()->latest()->first();
+    $playlist->refresh();
+    $last->refresh();
 
-        Sanctum::actingAs($user);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $this->assertTrue($playlist->last()->is($last));
 
-        $response->assertCreated();
+    $this->assertTrue($last->previous()->is($track));
 
-        /** @var PlaylistTrack $track */
-        $track = PlaylistTrack::query()->latest()->first();
-        $playlist->refresh();
-        $first->refresh();
+    $this->assertTrue($track->previous()->is($previous));
+    $this->assertTrue($track->next()->is($last));
+});
 
-        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+test('create before first track', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        static::assertTrue($playlist->first()->is($first));
+    Feature::activate(AllowPlaylistManagement::class);
 
-        static::assertTrue($first->next()->is($track));
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        static::assertTrue($track->previous()->is($first));
-        static::assertTrue($track->next()->is($next));
-    }
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-    /**
-     * The Track Store Endpoint shall allow inserting before tracks including the last track.
-     */
-    public function testCreateBeforeLastTrack(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $trackCount = fake()->numberBetween(2, 9);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->tracks($trackCount)
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $first = $playlist->first;
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne([
+            PlaylistTrack::RELATION_NEXT => $first->getRouteKey(),
+        ]);
 
-        $trackCount = $this->faker->numberBetween(2, 9);
+    Sanctum::actingAs($user);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks($trackCount)
-            ->createOne();
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $last = $playlist->last;
-        $previous = $last->previous;
+    $response->assertCreated();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_NEXT => $last->getRouteKey(),
-            ]);
+    /** @var PlaylistTrack $track */
+    $track = PlaylistTrack::query()->latest()->first();
+    $playlist->refresh();
+    $first->refresh();
 
-        Sanctum::actingAs($user);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $this->assertTrue($playlist->first()->is($track));
 
-        $response->assertCreated();
+    $this->assertTrue($track->previous()->doesntExist());
+    $this->assertTrue($track->next()->is($first));
+});
 
-        /** @var PlaylistTrack $track */
-        $track = PlaylistTrack::query()->latest()->first();
-        $playlist->refresh();
-        $last->refresh();
+test('create permitted for bypass', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+    Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
 
-        static::assertTrue($playlist->last()->is($last));
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(PlaylistTrack::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        static::assertTrue($last->previous()->is($track));
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        static::assertTrue($track->previous()->is($previous));
-        static::assertTrue($track->next()->is($last));
-    }
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-    /**
-     * The Track Store Endpoint shall allow inserting before tracks including the first track.
-     */
-    public function testCreateBeforeFirstTrack(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Sanctum::actingAs($user);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $response->assertCreated();
+});
 
-        $trackCount = $this->faker->numberBetween(2, 9);
+test('max track limit', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->tracks($trackCount)
-            ->createOne();
+    $trackLimit = fake()->randomDigitNotNull();
 
-        $first = $playlist->first;
+    Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne([
-                PlaylistTrack::RELATION_NEXT => $first->getRouteKey(),
-            ]);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
-        Sanctum::actingAs($user);
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $playlist = Playlist::factory()
+        ->tracks($trackLimit)
+        ->for($user)
+        ->createOne();
 
-        $response->assertCreated();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        /** @var PlaylistTrack $track */
-        $track = PlaylistTrack::query()->latest()->first();
-        $playlist->refresh();
-        $first->refresh();
+    Sanctum::actingAs($user);
 
-        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        static::assertTrue($playlist->first()->is($track));
+    $response->assertForbidden();
+});
 
-        static::assertTrue($track->previous()->doesntExist());
-        static::assertTrue($track->next()->is($first));
-    }
+test('max track limit permitted for bypass', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to create playlist tracks
-     * even if the Allow Playlist Management feature is inactive.
-     */
-    public function testCreatePermittedForBypass(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+    $trackLimit = fake()->randomDigitNotNull();
 
-        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
+    Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(PlaylistTrack::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->tracks($trackLimit)
+        ->for($user)
+        ->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->for($entryVideo->animethemeentry)
+        ->for($entryVideo->video)
+        ->makeOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        $response->assertCreated();
-    }
-
-    /**
-     * The Track Store Endpoint shall forbid users from creating playlists that exceed the max track limit.
-     */
-    public function testMaxTrackLimit(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
-
-        $trackLimit = $this->faker->randomDigitNotNull();
-
-        Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
-        Feature::activate(AllowPlaylistManagement::class);
-
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
-
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
-
-        $playlist = Playlist::factory()
-            ->tracks($trackLimit)
-            ->for($user)
-            ->createOne();
-
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
-
-        $response->assertForbidden();
-    }
-
-    /**
-     * The Track Store Endpoint shall permit users with bypass feature flag permission
-     * to create playlists that exceed the max track limit.
-     */
-    public function testMaxTrackLimitPermittedForBypass(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
-
-        $trackLimit = $this->faker->randomDigitNotNull();
-
-        Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
-        Feature::activate(AllowPlaylistManagement::class);
-
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
-
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
-
-        $playlist = Playlist::factory()
-            ->tracks($trackLimit)
-            ->for($user)
-            ->createOne();
-
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for($entryVideo->animethemeentry)
-            ->for($entryVideo->video)
-            ->makeOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
-
-        $response->assertCreated();
-    }
-}
+    $response->assertCreated();
+});

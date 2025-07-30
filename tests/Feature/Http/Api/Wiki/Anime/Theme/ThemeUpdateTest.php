@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Auth\User;
@@ -11,98 +9,80 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ThemeUpdateTest extends TestCase
-{
-    /**
-     * The Theme Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+use function Pest\Laravel\put;
 
-        $type = Arr::random(ThemeType::cases());
+test('protected', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $parameters = array_merge(
-            AnimeTheme::factory()->raw(),
-            [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
-        );
+    $type = Arr::random(ThemeType::cases());
 
-        $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    $parameters = array_merge(
+        AnimeTheme::factory()->raw(),
+        [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
+    );
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
-    /**
-     * The Theme Update Endpoint shall forbid users without the update anime theme permission.
-     */
-    public function testForbidden(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+    $response->assertUnauthorized();
+});
 
-        $type = Arr::random(ThemeType::cases());
+test('forbidden', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $parameters = array_merge(
-            AnimeTheme::factory()->raw(),
-            [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
-        );
+    $type = Arr::random(ThemeType::cases());
 
-        $user = User::factory()->createOne();
+    $parameters = array_merge(
+        AnimeTheme::factory()->raw(),
+        [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
-    /**
-     * The Theme Update Endpoint shall forbid users from updating an anime theme that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $theme = AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $type = Arr::random(ThemeType::cases());
+test('trashed', function () {
+    $theme = AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        $parameters = array_merge(
-            AnimeTheme::factory()->raw(),
-            [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
-        );
+    $type = Arr::random(ThemeType::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeTheme::class))->createOne();
+    $parameters = array_merge(
+        AnimeTheme::factory()->raw(),
+        [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
-    /**
-     * The Theme Update Endpoint shall update a theme.
-     */
-    public function testUpdate(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+    $response->assertForbidden();
+});
 
-        $type = Arr::random(ThemeType::cases());
+test('update', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $parameters = array_merge(
-            AnimeTheme::factory()->raw(),
-            [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
-        );
+    $type = Arr::random(ThemeType::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeTheme::class))->createOne();
+    $parameters = array_merge(
+        AnimeTheme::factory()->raw(),
+        [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+
+    $response->assertOk();
+});

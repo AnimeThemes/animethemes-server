@@ -2,83 +2,66 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Auth\User\Me\List\Playlist;
-
 use App\Enums\Auth\CrudPermission;
 use App\Http\Api\Query\Query;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class MyPlaylistIndexTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The My Playlist Index Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $response = $this->get(route('api.me.playlist.index'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertUnauthorized();
-    }
+test('protected', function () {
+    $response = get(route('api.me.playlist.index'));
 
-    /**
-     * The My Playlist Index Endpoint shall forbid users without the view playlist permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        $user = User::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        Sanctum::actingAs($user);
+test('forbidden if missing permission', function () {
+    $user = User::factory()->createOne();
 
-        $response = $this->get(route('api.me.playlist.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = get(route('api.me.playlist.index'));
 
-    /**
-     * The My Playlist Index Endpoint shall return playlists owned by the user.
-     */
-    public function testOnlySeesOwnedPlaylists(): void
-    {
-        Playlist::factory()
-            ->for(User::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+    $response->assertForbidden();
+});
 
-        Playlist::factory()
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+test('only sees owned playlists', function () {
+    Playlist::factory()
+        ->for(User::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
+    Playlist::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $playlistCount = $this->faker->randomDigitNotNull();
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
 
-        $playlists = Playlist::factory()
-            ->for($user)
-            ->count($playlistCount)
-            ->create();
+    $playlistCount = fake()->randomDigitNotNull();
 
-        Sanctum::actingAs($user);
+    $playlists = Playlist::factory()
+        ->for($user)
+        ->count($playlistCount)
+        ->create();
 
-        $response = $this->get(route('api.me.playlist.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonCount($playlistCount, PlaylistCollection::$wrap);
+    $response = get(route('api.me.playlist.index'));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PlaylistCollection($playlists, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJsonCount($playlistCount, PlaylistCollection::$wrap);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PlaylistCollection($playlists, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

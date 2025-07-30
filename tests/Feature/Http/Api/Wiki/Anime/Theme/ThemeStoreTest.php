@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Auth\User;
@@ -11,78 +9,60 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ThemeStoreTest extends TestCase
-{
-    /**
-     * The Theme Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.animetheme.store', $theme->toArray()));
+test('protected', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.animetheme.store', $theme->toArray()));
 
-    /**
-     * The Theme Store Endpoint shall forbid users without the store anime theme permission.
-     */
-    public function testForbidden(): void
-    {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.animetheme.store', $theme->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.animetheme.store', $theme->toArray()));
 
-    /**
-     * The Theme Store Endpoint shall require the anime_id & type field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->post(route('api.animetheme.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            AnimeTheme::ATTRIBUTE_ANIME,
-            AnimeTheme::ATTRIBUTE_SLUG,
-            AnimeTheme::ATTRIBUTE_TYPE,
-        ]);
-    }
+    $response = post(route('api.animetheme.store'));
 
-    /**
-     * The Theme Store Endpoint shall create a theme.
-     */
-    public function testCreate(): void
-    {
-        $anime = Anime::factory()->createOne();
+    $response->assertJsonValidationErrors([
+        AnimeTheme::ATTRIBUTE_ANIME,
+        AnimeTheme::ATTRIBUTE_SLUG,
+        AnimeTheme::ATTRIBUTE_TYPE,
+    ]);
+});
 
-        $type = Arr::random(ThemeType::cases());
+test('create', function () {
+    $anime = Anime::factory()->createOne();
 
-        $parameters = array_merge(
-            AnimeTheme::factory()->raw(),
-            [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
-            [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
-        );
+    $type = Arr::random(ThemeType::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
+    $parameters = array_merge(
+        AnimeTheme::factory()->raw(),
+        [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
+        [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
 
-        $response = $this->post(route('api.animetheme.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(AnimeTheme::class, 1);
-    }
-}
+    $response = post(route('api.animetheme.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(AnimeTheme::class, 1);
+});

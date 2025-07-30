@@ -2,54 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Parser;
-
 use App\Http\Api\Criteria\Search\Criteria;
 use App\Http\Api\Parser\SearchParser;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class SearchParserTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * By default, the Search Parser shall return no criteria.
-     */
-    public function testNoCriteriaByDefault(): void
-    {
-        $parameters = [];
+test('no criteria by default', function () {
+    $parameters = [];
 
-        static::assertEmpty(SearchParser::parse($parameters));
-    }
+    $this->assertEmpty(SearchParser::parse($parameters));
+});
 
-    /**
-     * The Search parser shall parse the search query.
-     */
-    public function testParseSearchCriteria(): void
-    {
-        $parameters = [
-            SearchParser::param() => $this->faker->word(),
-        ];
+test('parse search criteria', function () {
+    $parameters = [
+        SearchParser::param() => fake()->word(),
+    ];
 
-        $criteria = SearchParser::parse($parameters)[0];
+    $criteria = SearchParser::parse($parameters)[0];
 
-        static::assertInstanceOf(Criteria::class, $criteria);
-    }
+    $this->assertInstanceOf(Criteria::class, $criteria);
+});
 
-    /**
-     * The Search parser shall parse the search term.
-     */
-    public function testParseSearchCriteriaTerm(): void
-    {
-        $term = $this->faker->word();
+test('parse search criteria term', function () {
+    $term = fake()->word();
 
-        $parameters = [
-            SearchParser::param() => $term,
-        ];
+    $parameters = [
+        SearchParser::param() => $term,
+    ];
 
-        $criteria = SearchParser::parse($parameters)[0];
+    $criteria = SearchParser::parse($parameters)[0];
 
-        static::assertEquals($term, $criteria->getTerm());
-    }
-}
+    $this->assertEquals($term, $criteria->getTerm());
+});

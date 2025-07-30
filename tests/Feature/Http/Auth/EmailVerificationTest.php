@@ -2,62 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Auth;
-
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+
+use function Pest\Laravel\actingAs;
+
 use Spatie\Permission\PermissionRegistrar;
-use Tests\TestCase;
 
-class EmailVerificationTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Email Verification route shall assign default roles.
-     */
-    public function testAssignsDefaultRoles(): void
-    {
-        Event::fakeExcept(Verified::class);
+test('assigns default roles', function () {
+    Event::fakeExcept(Verified::class);
 
-        Collection::times($this->faker->randomDigitNotNull, function () {
-            Role::findOrCreate(Str::random());
-        });
+    Collection::times(fake()->randomDigitNotNull, function () {
+        Role::findOrCreate(Str::random());
+    });
 
-        $defaultRoleCount = $this->faker->randomDigitNotNull();
+    $defaultRoleCount = fake()->randomDigitNotNull();
 
-        Collection::times($defaultRoleCount, function () {
-            /** @var Role $role */
-            $role = Role::findOrCreate(Str::random());
+    Collection::times($defaultRoleCount, function () {
+        /** @var Role $role */
+        $role = Role::findOrCreate(Str::random());
 
-            $role->default = true;
-            $role->save();
-        });
+        $role->default = true;
+        $role->save();
+    });
 
-        App::make(PermissionRegistrar::class)->forgetCachedPermissions();
+    App::make(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $user = User::factory()->createOne([
-            User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
-        ]);
+    $user = User::factory()->createOne([
+        User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
+    ]);
 
-        $url = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            [
-                'id' => $user->getKey(),
-                'hash' => sha1($user->email),
-            ]
-        );
+    $url = URL::temporarySignedRoute(
+        'verification.verify',
+        now()->addMinutes(60),
+        [
+            'id' => $user->getKey(),
+            'hash' => sha1($user->email),
+        ]
+    );
 
-        $this->actingAs($user)->get($url);
+    actingAs($user)->get($url);
 
-        static::assertCount($defaultRoleCount, $user->roles()->get());
-    }
-}
+    $this->assertCount($defaultRoleCount, $user->roles()->get());
+});

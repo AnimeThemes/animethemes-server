@@ -2,284 +2,217 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Fortify;
-
 use App\Actions\Fortify\CreateNewUser;
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Mockery\MockInterface;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
-use Tests\TestCase;
 
-class CreateNewUserTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Create New User Action shall require the name, email, password & terms fields.
-     *
-     * @throws ValidationException
-     */
-    public function testRequired(): void
-    {
-        static::expectException(ValidationException::class);
+test('required', function () {
+    $this->expectException(ValidationException::class);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $action->create([]);
-    }
+    $action->create([]);
+});
 
-    /**
-     * The Create New User Action shall require usernames to be restricted to alphanumeric characters and dashes.
-     *
-     * @throws ValidationException
-     */
-    public function testUsernameAlphaDash(): void
-    {
-        static::expectException(ValidationException::class);
+test('username alpha dash', function () {
+    $this->expectException(ValidationException::class);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker->password(20),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
-    }
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->password(20),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
+});
 
-    /**
-     * The Create New User Action shall require usernames to be unique.
-     *
-     * @throws ValidationException
-     */
-    public function testUsernameUnique(): void
-    {
-        static::expectException(ValidationException::class);
+test('username unique', function () {
+    $this->expectException(ValidationException::class);
 
-        $name = $this->faker()->word();
+    $name = fake()->word();
 
-        User::factory()->createOne([
-            User::ATTRIBUTE_NAME => $name,
-        ]);
+    User::factory()->createOne([
+        User::ATTRIBUTE_NAME => $name,
+    ]);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $name,
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
-    }
+    $action->create([
+        User::ATTRIBUTE_NAME => $name,
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
+});
 
-    /**
-     * The Create New User Action shall create a new user.
-     *
-     * @throws ValidationException
-     */
-    public function testCreated(): void
-    {
-        $action = new CreateNewUser();
+test('created', function () {
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker()->word(),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
 
-        static::assertDatabaseCount(User::class, 1);
-    }
+    $this->assertDatabaseCount(User::class, 1);
+});
 
-    /**
-     * The Create New User Action shall create a new user if the name is not flagged by OpenAI.
-     *
-     * @throws ValidationException
-     */
-    public function testCreatedIfNotFlaggedByOpenAi(): void
-    {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('created if not flagged by open ai', function () {
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => false,
-                    ],
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => false,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker()->word(),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
 
-        static::assertDatabaseCount(User::class, 1);
-    }
+    $this->assertDatabaseCount(User::class, 1);
+});
 
-    /**
-     * The Create New User Action shall create a new user if the moderation service returns some error.
-     *
-     * @throws ValidationException
-     */
-    public function testCreatedIfOpenAiFails(): void
-    {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('created if open ai fails', function () {
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-        ]);
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+    ]);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker()->word(),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
 
-        static::assertDatabaseCount(User::class, 1);
-    }
+    $this->assertDatabaseCount(User::class, 1);
+});
 
-    /**
-     * The Create New User Action shall prohibit users from creating usernames flagged by OpenAI.
-     *
-     * @throws ValidationException
-     */
-    public function testValidationErrorWhenFlaggedByOpenAi(): void
-    {
-        static::expectException(ValidationException::class);
+test('validation error when flagged by open ai', function () {
+    $this->expectException(ValidationException::class);
 
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => true,
-                    ],
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => true,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker()->word(),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
-    }
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
+});
 
-    /**
-     * The Create New User Action shall prohibit registrations using disposable email services.
-     *
-     * @throws ValidationException
-     */
-    public function testDisposableEmail(): void
-    {
-        static::expectException(ValidationException::class);
+test('disposable email', function () {
+    $this->expectException(ValidationException::class);
 
-        $this->mock(Indisposable::class, function (MockInterface $mock) {
-            $mock->shouldReceive('validate')->once()->andReturn(false);
-        });
+    $this->mock(Indisposable::class, function (MockInterface $mock) {
+        $mock->shouldReceive('validate')->once()->andReturn(false);
+    });
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker()->word(),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
-    }
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
+});
 
-    /**
-     * The Create New User Action shall permit registrations using indisposable email services.
-     *
-     * @throws ValidationException
-     */
-    public function testIndisposableEmail(): void
-    {
-        $this->mock(Indisposable::class, function (MockInterface $mock) {
-            $mock->shouldReceive('validate')->once()->andReturn(true);
-        });
+test('indisposable email', function () {
+    $this->mock(Indisposable::class, function (MockInterface $mock) {
+        $mock->shouldReceive('validate')->once()->andReturn(true);
+    });
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker()->word(),
-            User::ATTRIBUTE_EMAIL => $this->faker->companyEmail(),
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => fake()->companyEmail(),
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
 
-        static::assertDatabaseCount(User::class, 1);
-    }
+    $this->assertDatabaseCount(User::class, 1);
+});
 
-    /**
-     * The Create New User Action shall require emails to be unique.
-     *
-     * @throws ValidationException
-     */
-    public function testEmailUnique(): void
-    {
-        static::expectException(ValidationException::class);
+test('email unique', function () {
+    $this->expectException(ValidationException::class);
 
-        $email = $this->faker()->companyEmail();
+    $email = fake()->companyEmail();
 
-        User::factory()->createOne([
-            User::ATTRIBUTE_EMAIL => $email,
-        ]);
+    User::factory()->createOne([
+        User::ATTRIBUTE_EMAIL => $email,
+    ]);
 
-        $action = new CreateNewUser();
+    $action = new CreateNewUser();
 
-        $password = Str::password(20);
+    $password = Str::password(20);
 
-        $action->create([
-            User::ATTRIBUTE_NAME => $this->faker->word(),
-            User::ATTRIBUTE_EMAIL => $email,
-            User::ATTRIBUTE_PASSWORD => $password,
-            'password_confirmation' => $password,
-            'terms' => 'terms',
-        ]);
-    }
-}
+    $action->create([
+        User::ATTRIBUTE_NAME => fake()->word(),
+        User::ATTRIBUTE_EMAIL => $email,
+        User::ATTRIBUTE_PASSWORD => $password,
+        'password_confirmation' => $password,
+        'terms' => 'terms',
+    ]);
+});

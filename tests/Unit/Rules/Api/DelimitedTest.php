@@ -2,84 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Api;
-
 use App\Rules\Api\DelimitedRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
-use Tests\TestCase;
 
-class DelimitedTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Delimited Rule shall pass if all values pass the given rules.
-     */
-    public function testPassesIfAllValuesPass(): void
-    {
-        $attribute = $this->faker->word();
+test('passes if all values pass', function () {
+    $attribute = fake()->word();
 
-        $values = collect($this->faker->words());
+    $values = collect(fake()->words());
 
-        $validator = Validator::make(
-            [$attribute => $values->implode(',')],
-            [$attribute => new DelimitedRule(['required', 'string'])]
-        );
+    $validator = Validator::make(
+        [$attribute => $values->implode(',')],
+        [$attribute => new DelimitedRule(['required', 'string'])]
+    );
 
-        static::assertTrue($validator->passes());
-    }
+    $this->assertTrue($validator->passes());
+});
 
-    /**
-     * The Delimited Rule shall fail if there exist duplicate values.
-     */
-    public function testFailsForDuplicateValues(): void
-    {
-        $attribute = $this->faker->word();
+test('fails for duplicate values', function () {
+    $attribute = fake()->word();
 
-        $duplicate = $this->faker->word();
+    $duplicate = fake()->word();
 
-        $values = collect([$duplicate, $this->faker->word(), $duplicate]);
+    $values = collect([$duplicate, fake()->word(), $duplicate]);
 
-        $validator = Validator::make(
-            [$attribute => $values->implode(',')],
-            [$attribute => new DelimitedRule(['required', 'string'])]
-        );
+    $validator = Validator::make(
+        [$attribute => $values->implode(',')],
+        [$attribute => new DelimitedRule(['required', 'string'])]
+    );
 
-        static::assertFalse($validator->passes());
-    }
+    $this->assertFalse($validator->passes());
+});
 
-    /**
-     * The Delimited Rule shall fail if any value fails a rule.
-     */
-    public function testFailsForInvalidValue(): void
-    {
-        $attribute = $this->faker->word();
+test('fails for invalid value', function () {
+    $attribute = fake()->word();
 
-        $values = collect([$this->faker->randomDigitNotNull(), $this->faker->word(), $this->faker->randomDigitNotNull()]);
+    $values = collect([fake()->randomDigitNotNull(), fake()->word(), fake()->randomDigitNotNull()]);
 
-        $validator = Validator::make(
-            [$attribute => $values->implode(',')],
-            [$attribute => new DelimitedRule(['required', 'integer'])]
-        );
+    $validator = Validator::make(
+        [$attribute => $values->implode(',')],
+        [$attribute => new DelimitedRule(['required', 'integer'])]
+    );
 
-        static::assertFalse($validator->passes());
-    }
+    $this->assertFalse($validator->passes());
+});
 
-    /**
-     * The Delimited Rule shall validate empty values.
-     */
-    public function testValidatesEmptyValues(): void
-    {
-        $attribute = $this->faker->word();
+test('validates empty values', function () {
+    $attribute = fake()->word();
 
-        $values = collect(array_merge($this->faker->words(), ['']));
+    $values = collect(array_merge(fake()->words(), ['']));
 
-        $validator = Validator::make(
-            [$attribute => $values->implode(',')],
-            [$attribute => new DelimitedRule(['required', 'string'])]
-        );
+    $validator = Validator::make(
+        [$attribute => $values->implode(',')],
+        [$attribute => new DelimitedRule(['required', 'string'])]
+    );
 
-        static::assertFalse($validator->passes());
-    }
-}
+    $this->assertFalse($validator->passes());
+});

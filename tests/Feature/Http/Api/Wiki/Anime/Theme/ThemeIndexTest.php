@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -42,1144 +39,1034 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class ThemeIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Theme Index Endpoint shall return a collection of Theme Resources.
-     */
-    public function testDefault(): void
-    {
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->for(Group::factory())
+        ->for(Song::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::all();
+
+    $response = get(route('api.animetheme.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('paginated', function () {
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $response = get(route('api.animetheme.index'));
+
+    $response->assertJsonStructure([
+        ThemeCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new ThemeSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->for(Group::factory())
+        ->for(Song::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with($includedPaths->all())->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new ThemeSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            ThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::all();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new ThemeSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $themes = $this->sort(AnimeTheme::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
         AnimeTheme::factory()
             ->for(Anime::factory())
-            ->for(Group::factory())
-            ->for(Song::factory())
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create();
+    });
 
-        $themes = AnimeTheme::all();
-
-        $response = $this->get(route('api.animetheme.index'));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
+    Carbon::withTestNow($excludedDate, function () {
         AnimeTheme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create();
+    });
 
-        $response = $this->get(route('api.animetheme.index'));
+    $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJsonStructure([
-            ThemeCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+    $response = get(route('api.animetheme.index', $parameters));
 
-    /**
-     * The Theme Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ThemeSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($theme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
+    Carbon::withTestNow($updatedFilter, function () {
         AnimeTheme::factory()
             ->for(Anime::factory())
-            ->for(Group::factory())
-            ->for(Song::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create();
+    });
 
-        $themes = AnimeTheme::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ThemeSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                ThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
+    Carbon::withTestNow($excludedDate, function () {
         AnimeTheme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create();
+    });
 
-        $themes = AnimeTheme::all();
+    $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($theme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Theme Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new ThemeSchema();
+test('without trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+    AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $query = new Query($parameters);
+    $theme = AnimeTheme::withoutTrashed()->get();
 
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($theme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('with trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $theme = AnimeTheme::withTrashed()->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($theme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('only trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    AnimeTheme::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $theme = AnimeTheme::onlyTrashed()->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($theme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('deleted at filter', function () {
+    $deletedFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($deletedFilter, function () {
         AnimeTheme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create();
+    });
 
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $themes = $this->sort(AnimeTheme::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($createdFilter, function () {
-            AnimeTheme::factory()
-                ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull())
-                ->create();
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            AnimeTheme::factory()
-                ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull())
-                ->create();
-        });
-
-        $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($theme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            AnimeTheme::factory()
-                ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull())
-                ->create();
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            AnimeTheme::factory()
-                ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull())
-                ->create();
-        });
-
-        $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($theme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by trashed.
-     */
-    public function testWithoutTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
+    Carbon::withTestNow($excludedDate, function () {
         AnimeTheme::factory()
             ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create();
-
-        AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $theme = AnimeTheme::withoutTrashed()->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($theme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by trashed.
-     */
-    public function testWithTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $theme = AnimeTheme::withTrashed()->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($theme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by trashed.
-     */
-    public function testOnlyTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        AnimeTheme::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $theme = AnimeTheme::onlyTrashed()->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($theme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by deleted_at.
-     */
-    public function testDeletedAtFilter(): void
-    {
-        $deletedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($deletedFilter, function () {
-            AnimeTheme::factory()
-                ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull())
-                ->create();
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            AnimeTheme::factory()
-                ->for(Anime::factory())
-                ->count($this->faker->randomDigitNotNull())
-                ->create();
-        });
-
-        $theme = AnimeTheme::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($theme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by sequence.
-     */
-    public function testSequenceFilter(): void
-    {
-        $sequenceFilter = $this->faker->randomDigitNotNull();
-        $excludedSequence = $sequenceFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
-            ],
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->state(new Sequence(
-                [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
-                [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
-            ))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter)->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by type.
-     */
-    public function testTypeFilter(): void
-    {
-        $typeFilter = Arr::random(ThemeType::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value)->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
-        ];
-
-        AnimeTheme::factory()
-            ->for(
-                Anime::factory()
-                    ->state([
-                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                    ])
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_IMAGES,
-        ];
-
-        AnimeTheme::factory()
-            ->for(
-                Anime::factory()
-                    ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of entries by nsfw.
-     */
-    public function testEntriesByNsfw(): void
-    {
-        $nsfwFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(AnimeThemeEntry::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
-                $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Index Endpoint shall support constrained eager loading of entries by spoiler.
-     */
-    public function testEntriesBySpoiler(): void
-    {
-        $spoilerFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(AnimeThemeEntry::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
-                $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Anime Index Endpoint shall support constrained eager loading of entries by version.
-     */
-    public function testEntriesByVersion(): void
-    {
-        $versionFilter = $this->faker->randomDigitNotNull();
-        $excludedVersion = $versionFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->state(new Sequence(
-                        [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
-                        [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
-                    ))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
-                $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by lyrics.
-     */
-    public function testVideosByLyrics(): void
-    {
-        $lyricsFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_LYRICS => $lyricsFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
-                $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by nc.
-     */
-    public function testVideosByNc(): void
-    {
-        $ncFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_NC => $ncFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
-                $query->where(Video::ATTRIBUTE_NC, $ncFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by overlap.
-     */
-    public function testVideosByOverlap(): void
-    {
-        $overlapFilter = Arr::random(VideoOverlap::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
-                $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by resolution.
-     */
-    public function testVideosByResolution(): void
-    {
-        $resolutionFilter = $this->faker->randomNumber();
-        $excludedResolution = $resolutionFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        Video::factory()
-                            ->count($this->faker->randomDigitNotNull())
-                            ->state(new Sequence(
-                                [Video::ATTRIBUTE_RESOLUTION => $resolutionFilter],
-                                [Video::ATTRIBUTE_RESOLUTION => $excludedResolution],
-                            ))
-                    )
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
-                $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by source.
-     */
-    public function testVideosBySource(): void
-    {
-        $sourceFilter = Arr::random(VideoSource::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
-                $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by subbed.
-     */
-    public function testVideosBySubbed(): void
-    {
-        $subbedFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_SUBBED => $subbedFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
-                $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support constrained eager loading of videos by uncen.
-     */
-    public function testVideosByUncen(): void
-    {
-        $uncenFilter = $this->faker->boolean();
-
-        $parameters = [
-            FilterParser::param() => [
-                Video::ATTRIBUTE_UNCEN => $uncenFilter,
-            ],
-            IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->has(
-                AnimeThemeEntry::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::with([
-            AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
-                $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
-            },
-        ])
-            ->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ThemeCollection($themes, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    });
+
+    $theme = AnimeTheme::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($theme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sequence filter', function () {
+    $sequenceFilter = fake()->randomDigitNotNull();
+    $excludedSequence = $sequenceFilter + 1;
+
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+        ],
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->state(new Sequence(
+            [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+            [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
+        ))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter)->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('type filter', function () {
+    $typeFilter = Arr::random(ThemeType::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+        ],
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value)->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_ANIME,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_ANIME,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
+
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_ANIME,
+    ];
+
+    AnimeTheme::factory()
+        ->for(
+            Anime::factory()
+                ->state([
+                    Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
+                ])
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('images by facet', function () {
+    $facetFilter = Arr::random(ImageFacet::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_IMAGES,
+    ];
+
+    AnimeTheme::factory()
+        ->for(
+            Anime::factory()
+                ->has(Image::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('entries by nsfw', function () {
+    $nsfwFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            AnimeThemeEntry::ATTRIBUTE_NSFW => $nsfwFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(AnimeThemeEntry::factory()->count(fake()->randomDigitNotNull()))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($nsfwFilter) {
+            $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('entries by spoiler', function () {
+    $spoilerFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            AnimeThemeEntry::ATTRIBUTE_SPOILER => $spoilerFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(AnimeThemeEntry::factory()->count(fake()->randomDigitNotNull()))
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($spoilerFilter) {
+            $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('entries by version', function () {
+    $versionFilter = fake()->randomDigitNotNull();
+    $excludedVersion = $versionFilter + 1;
+
+    $parameters = [
+        FilterParser::param() => [
+            AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_ENTRIES,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->state(new Sequence(
+                    [AnimeThemeEntry::ATTRIBUTE_VERSION => $versionFilter],
+                    [AnimeThemeEntry::ATTRIBUTE_VERSION => $excludedVersion],
+                ))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_ENTRIES => function (HasMany $query) use ($versionFilter) {
+            $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by lyrics', function () {
+    $lyricsFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_LYRICS => $lyricsFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($lyricsFilter) {
+            $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by nc', function () {
+    $ncFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_NC => $ncFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($ncFilter) {
+            $query->where(Video::ATTRIBUTE_NC, $ncFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by overlap', function () {
+    $overlapFilter = Arr::random(VideoOverlap::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($overlapFilter) {
+            $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by resolution', function () {
+    $resolutionFilter = fake()->randomNumber();
+    $excludedResolution = $resolutionFilter + 1;
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_RESOLUTION => $resolutionFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(
+                    Video::factory()
+                        ->count(fake()->randomDigitNotNull())
+                        ->state(new Sequence(
+                            [Video::ATTRIBUTE_RESOLUTION => $resolutionFilter],
+                            [Video::ATTRIBUTE_RESOLUTION => $excludedResolution],
+                        ))
+                )
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($resolutionFilter) {
+            $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by source', function () {
+    $sourceFilter = Arr::random(VideoSource::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($sourceFilter) {
+            $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by subbed', function () {
+    $subbedFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_SUBBED => $subbedFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($subbedFilter) {
+            $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('videos by uncen', function () {
+    $uncenFilter = fake()->boolean();
+
+    $parameters = [
+        FilterParser::param() => [
+            Video::ATTRIBUTE_UNCEN => $uncenFilter,
+        ],
+        IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
+    ];
+
+    AnimeTheme::factory()
+        ->for(Anime::factory())
+        ->has(
+            AnimeThemeEntry::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        )
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $themes = AnimeTheme::with([
+        AnimeTheme::RELATION_VIDEOS => function (BelongsToMany $query) use ($uncenFilter) {
+            $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
+        },
+    ])
+        ->get();
+
+    $response = get(route('api.animetheme.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ThemeCollection($themes, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

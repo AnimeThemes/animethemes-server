@@ -2,113 +2,89 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules;
-
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use App\Rules\ModerationRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use RuntimeException;
-use Tests\TestCase;
 
-class ModerationTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Moderation Rule shall fail if the moderation service is unknown.
-     */
-    public function testFailsIfUnknownModerationService(): void
-    {
-        static::expectException(RuntimeException::class);
+test('fails if unknown moderation service', function () {
+    $this->expectException(RuntimeException::class);
 
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, $this->faker->word());
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word());
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $this->faker->word()],
-            [$attribute => new ModerationRule()],
-        );
+    $validator = Validator::make(
+        [$attribute => fake()->word()],
+        [$attribute => new ModerationRule()],
+    );
 
-        $validator->passes();
-    }
+    $validator->passes();
+});
 
-    /**
-     * The Moderation Rule shall fail if the value is flagged by OpenAI.
-     */
-    public function testFailsIfFlaggedByOpenAi(): void
-    {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('fails if flagged by open ai', function () {
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => true,
-                    ],
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => true,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $this->faker->word()],
-            [$attribute => new ModerationRule()],
-        );
+    $validator = Validator::make(
+        [$attribute => fake()->word()],
+        [$attribute => new ModerationRule()],
+    );
 
-        static::assertFalse($validator->passes());
-    }
+    $this->assertFalse($validator->passes());
+});
 
-    /**
-     * The Moderation Rule shall fail if the value is flagged by OpenAI.
-     */
-    public function testPassesIfNotFlaggedByOpenAi(): void
-    {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('passes if not flagged by open ai', function () {
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => false,
-                    ],
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => false,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $this->faker->word()],
-            [$attribute => new ModerationRule()],
-        );
+    $validator = Validator::make(
+        [$attribute => fake()->word()],
+        [$attribute => new ModerationRule()],
+    );
 
-        static::assertTrue($validator->passes());
-    }
+    $this->assertTrue($validator->passes());
+});
 
-    /**
-     * The Moderation Rule shall fail if OpenAI returns some error.
-     */
-    public function testPassesIfOpenAiFails(): void
-    {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('passes if open ai fails', function () {
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-        ]);
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+    ]);
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $this->faker->word()],
-            [$attribute => new ModerationRule()],
-        );
+    $validator = Validator::make(
+        [$attribute => fake()->word()],
+        [$attribute => new ModerationRule()],
+    );
 
-        static::assertTrue($validator->passes());
-    }
-}
+    $this->assertTrue($validator->passes());
+});

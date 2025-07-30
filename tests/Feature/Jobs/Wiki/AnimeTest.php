@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Wiki\Anime\AnimeCreated;
 use App\Events\Wiki\Anime\AnimeDeleted;
@@ -14,72 +12,52 @@ use App\Models\Wiki\Anime;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class AnimeTest extends TestCase
-{
-    /**
-     * When an anime is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeCreated::class);
+test('anime created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeCreated::class);
 
-        Anime::factory()->createOne();
+    Anime::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an anime is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeDeletedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('anime deleted sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeDeleted::class);
 
-        $anime->delete();
+    $anime->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an anime is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeRestoredSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('anime restored sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeRestored::class);
 
-        $anime->restore();
+    $anime->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an anime is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeUpdatedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('anime updated sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeUpdated::class);
 
-        $changes = Anime::factory()->makeOne();
+    $changes = Anime::factory()->makeOne();
 
-        $anime->fill($changes->getAttributes());
-        $anime->save();
+    $anime->fill($changes->getAttributes());
+    $anime->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

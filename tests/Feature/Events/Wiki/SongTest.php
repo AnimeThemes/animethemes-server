@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki;
-
 use App\Events\Wiki\Song\SongCreated;
 use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongRestored;
@@ -11,87 +9,57 @@ use App\Events\Wiki\Song\SongUpdated;
 use App\Models\Wiki\Song;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class SongTest extends TestCase
-{
-    /**
-     * When a Song is created, a SongCreated event shall be dispatched.
-     */
-    public function testSongCreatedEventDispatched(): void
-    {
-        Song::factory()->createOne();
+test('song created event dispatched', function () {
+    Song::factory()->createOne();
 
-        Event::assertDispatched(SongCreated::class);
-    }
+    Event::assertDispatched(SongCreated::class);
+});
 
-    /**
-     * When a Song is deleted, a SongDeleted event shall be dispatched.
-     */
-    public function testSongDeletedEventDispatched(): void
-    {
-        $song = Song::factory()->createOne();
+test('song deleted event dispatched', function () {
+    $song = Song::factory()->createOne();
 
-        $song->delete();
+    $song->delete();
 
-        Event::assertDispatched(SongDeleted::class);
-    }
+    Event::assertDispatched(SongDeleted::class);
+});
 
-    /**
-     * When a Song is restored, a SongRestored event shall be dispatched.
-     */
-    public function testSongRestoredEventDispatched(): void
-    {
-        $song = Song::factory()->createOne();
+test('song restored event dispatched', function () {
+    $song = Song::factory()->createOne();
 
-        $song->restore();
+    $song->restore();
 
-        Event::assertDispatched(SongRestored::class);
-    }
+    Event::assertDispatched(SongRestored::class);
+});
 
-    /**
-     * When a Song is restored, a SongUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testSongRestoresQuietly(): void
-    {
-        $song = Song::factory()->createOne();
+test('song restores quietly', function () {
+    $song = Song::factory()->createOne();
 
-        $song->restore();
+    $song->restore();
 
-        Event::assertNotDispatched(SongUpdated::class);
-    }
+    Event::assertNotDispatched(SongUpdated::class);
+});
 
-    /**
-     * When a Song is updated, a SongUpdated event shall be dispatched.
-     */
-    public function testSongUpdatedEventDispatched(): void
-    {
-        $song = Song::factory()->createOne();
-        $changes = Song::factory()->makeOne();
+test('song updated event dispatched', function () {
+    $song = Song::factory()->createOne();
+    $changes = Song::factory()->makeOne();
 
-        $song->fill($changes->getAttributes());
-        $song->save();
+    $song->fill($changes->getAttributes());
+    $song->save();
 
-        Event::assertDispatched(SongUpdated::class);
-    }
+    Event::assertDispatched(SongUpdated::class);
+});
 
-    /**
-     * The SongUpdated event shall contain embed fields.
-     */
-    public function testSongUpdatedEventEmbedFields(): void
-    {
-        $song = Song::factory()->createOne();
-        $changes = Song::factory()->makeOne();
+test('song updated event embed fields', function () {
+    $song = Song::factory()->createOne();
+    $changes = Song::factory()->makeOne();
 
-        $song->fill($changes->getAttributes());
-        $song->save();
+    $song->fill($changes->getAttributes());
+    $song->save();
 
-        Event::assertDispatched(SongUpdated::class, function (SongUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(SongUpdated::class, function (SongUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

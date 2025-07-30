@@ -2,75 +2,55 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Artist;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistStoreTest extends TestCase
-{
-    /**
-     * The Artist Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artist = Artist::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.artist.store', $artist->toArray()));
+test('protected', function () {
+    $artist = Artist::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.artist.store', $artist->toArray()));
 
-    /**
-     * The Artist Store Endpoint shall forbid users without the create artist permission.
-     */
-    public function testForbidden(): void
-    {
-        $artist = Artist::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $artist = Artist::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.artist.store', $artist->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.artist.store', $artist->toArray()));
 
-    /**
-     * The Artist Store Endpoint shall require name & slug fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
 
-        $response = $this->post(route('api.artist.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            Artist::ATTRIBUTE_NAME,
-            Artist::ATTRIBUTE_SLUG,
-        ]);
-    }
+    $response = post(route('api.artist.store'));
 
-    /**
-     * The Artist Store Endpoint shall create an artist.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Artist::factory()->raw();
+    $response->assertJsonValidationErrors([
+        Artist::ATTRIBUTE_NAME,
+        Artist::ATTRIBUTE_SLUG,
+    ]);
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
+test('create', function () {
+    $parameters = Artist::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
 
-        $response = $this->post(route('api.artist.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Artist::class, 1);
-    }
-}
+    $response = post(route('api.artist.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Artist::class, 1);
+});

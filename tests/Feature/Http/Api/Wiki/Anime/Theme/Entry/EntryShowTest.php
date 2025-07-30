@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
@@ -20,336 +18,297 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class EntryShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Entry Show Endpoint shall return an Entry Resource.
-     */
-    public function testDefault(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
+test('default', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
 
-    /**
-     * The Entry Show Endpoint shall return an Entry Resource for soft deleted images.
-     */
-    public function testSoftDelete(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->trashed()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $entry->unsetRelations();
+test('soft delete', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->trashed()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
+    $entry->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
 
-    /**
-     * The Entry Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new EntrySchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new EntrySchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
-    /**
-     * The Entry Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new EntrySchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new EntrySchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+    $parameters = [
+        FieldParser::param() => [
+            EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
-    /**
-     * The Entry Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
-        ];
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
+    ];
 
-        $entry->unsetRelations()->load([
-            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $entry->unsetRelations()->load([
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
-    /**
-     * The Entry Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
-        ];
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
+    ];
 
-        $entry->unsetRelations()->load([
-            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $entry->unsetRelations()->load([
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
-    /**
-     * The Entry Show Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
-        ];
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(
-                AnimeTheme::factory()->for(
-                    Anime::factory()
-                        ->state([
-                            Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                        ])
-                )
-            )
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => AnimeThemeEntry::RELATION_ANIME,
+    ];
 
-        $entry->unsetRelations()->load([
-            AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Entry Show Endpoint shall support constrained eager loading of themes by sequence.
-     */
-    public function testThemesBySequence(): void
-    {
-        $sequenceFilter = $this->faker->randomDigitNotNull();
-        $excludedSequence = $sequenceFilter + 1;
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
-        ];
-
-        $entry = AnimeThemeEntry::factory()
-            ->for(
-                AnimeTheme::factory()
-                    ->for(Anime::factory())
+    $entry = AnimeThemeEntry::factory()
+        ->for(
+            AnimeTheme::factory()->for(
+                Anime::factory()
                     ->state([
-                        AnimeTheme::ATTRIBUTE_SEQUENCE => $this->faker->boolean() ? $sequenceFilter : $excludedSequence,
+                        Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
                     ])
             )
-            ->createOne();
+        )
+        ->createOne();
 
-        $entry->unsetRelations()->load([
-            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
-            },
-        ]);
+    $entry->unsetRelations()->load([
+        AnimeThemeEntry::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Entry Show Endpoint shall support constrained eager loading of themes by type.
-     */
-    public function testThemesByType(): void
-    {
-        $typeFilter = Arr::random(ThemeType::cases());
+test('themes by sequence', function () {
+    $sequenceFilter = fake()->randomDigitNotNull();
+    $excludedSequence = $sequenceFilter + 1;
 
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+        ],
+        IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
+    ];
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+    $entry = AnimeThemeEntry::factory()
+        ->for(
+            AnimeTheme::factory()
+                ->for(Anime::factory())
+                ->state([
+                    AnimeTheme::ATTRIBUTE_SEQUENCE => fake()->boolean() ? $sequenceFilter : $excludedSequence,
+                ])
+        )
+        ->createOne();
 
-        $entry->unsetRelations()->load([
-            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
-            },
-        ]);
+    $entry->unsetRelations()->load([
+        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($sequenceFilter) {
+            $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
+        },
+    ]);
 
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new EntryResource($entry, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('themes by type', function () {
+    $typeFilter = Arr::random(ThemeType::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+        ],
+        IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
+    ];
+
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
+
+    $entry->unsetRelations()->load([
+        AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($typeFilter) {
+            $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+        },
+    ]);
+
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new EntryResource($entry, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

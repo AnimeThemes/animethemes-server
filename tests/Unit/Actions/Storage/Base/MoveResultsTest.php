@@ -2,73 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Actions\Storage\Base;
-
 use App\Actions\Storage\Base\MoveResults;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class MoveResultsTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Action result has failed if there are no moves.
-     */
-    public function testDefault(): void
-    {
-        $video = Video::factory()->createOne();
+test('default', function () {
+    $video = Video::factory()->createOne();
 
-        $moveResults = new MoveResults($video, $this->faker->word(), $this->faker->word());
+    $moveResults = new MoveResults($video, fake()->word(), fake()->word());
 
-        $result = $moveResults->toActionResult();
+    $result = $moveResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
+});
+
+test('failed', function () {
+    $video = Video::factory()->createOne();
+
+    $moves = [];
+
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $moves[fake()->word()] = true;
     }
 
-    /**
-     * The Action result has failed if any moves have returned false.
-     */
-    public function testFailed(): void
-    {
-        $video = Video::factory()->createOne();
-
-        $moves = [];
-
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $moves[$this->faker->word()] = true;
-        }
-
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $moves[$this->faker->word()] = false;
-        }
-
-        $moveResults = new MoveResults($video, $this->faker->word(), $this->faker->word(), $moves);
-
-        $result = $moveResults->toActionResult();
-
-        static::assertTrue($result->hasFailed());
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $moves[fake()->word()] = false;
     }
 
-    /**
-     * The Action result has passed if all moves have returned true.
-     */
-    public function testPassed(): void
-    {
-        $video = Video::factory()->createOne();
+    $moveResults = new MoveResults($video, fake()->word(), fake()->word(), $moves);
 
-        $moves = [];
+    $result = $moveResults->toActionResult();
 
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $moves[$this->faker->word()] = true;
-        }
+    $this->assertTrue($result->hasFailed());
+});
 
-        $moveResults = new MoveResults($video, $this->faker->word(), $this->faker->word(), $moves);
+test('passed', function () {
+    $video = Video::factory()->createOne();
 
-        $result = $moveResults->toActionResult();
+    $moves = [];
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $moves[fake()->word()] = true;
     }
-}
+
+    $moveResults = new MoveResults($video, fake()->word(), fake()->word(), $moves);
+
+    $result = $moveResults->toActionResult();
+
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+});

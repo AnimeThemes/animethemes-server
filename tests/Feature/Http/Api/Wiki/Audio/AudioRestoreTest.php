@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Audio;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AudioRestoreTest extends TestCase
-{
-    /**
-     * The Audio Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $audio = Audio::factory()->trashed()->createOne();
+use function Pest\Laravel\patch;
 
-        $response = $this->patch(route('api.audio.restore', ['audio' => $audio]));
+test('protected', function () {
+    $audio = Audio::factory()->trashed()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = patch(route('api.audio.restore', ['audio' => $audio]));
 
-    /**
-     * The Audio Restore Endpoint shall forbid users without the restore audio permission.
-     */
-    public function testForbidden(): void
-    {
-        $audio = Audio::factory()->trashed()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $audio = Audio::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->patch(route('api.audio.restore', ['audio' => $audio]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.audio.restore', ['audio' => $audio]));
 
-    /**
-     * The Audio Restore Endpoint shall forbid users from restoring an audio that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $audio = Audio::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Audio::class))->createOne();
+test('trashed', function () {
+    $audio = Audio::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Audio::class))->createOne();
 
-        $response = $this->patch(route('api.audio.restore', ['audio' => $audio]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = patch(route('api.audio.restore', ['audio' => $audio]));
 
-    /**
-     * The Audio Restore Endpoint shall restore the audio.
-     */
-    public function testRestored(): void
-    {
-        $audio = Audio::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Audio::class))->createOne();
+test('restored', function () {
+    $audio = Audio::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Audio::class))->createOne();
 
-        $response = $this->patch(route('api.audio.restore', ['audio' => $audio]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($audio);
-    }
-}
+    $response = patch(route('api.audio.restore', ['audio' => $audio]));
+
+    $response->assertOk();
+    $this->assertNotSoftDeleted($audio);
+});

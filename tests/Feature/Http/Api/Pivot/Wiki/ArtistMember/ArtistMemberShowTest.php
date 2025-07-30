@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistMember;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -13,125 +11,106 @@ use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class ArtistMemberShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The Artist Member Show Endpoint shall return an error if the artist member does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $member = Artist::factory()->createOne();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.artistmember.show', ['artist' => $artist, 'member' => $member]));
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $member = Artist::factory()->createOne();
 
-        $response->assertNotFound();
-    }
+    $response = get(route('api.artistmember.show', ['artist' => $artist, 'member' => $member]));
 
-    /**
-     * By default, the Artist Member Show Endpoint shall return an Artist Member Resource.
-     */
-    public function testDefault(): void
-    {
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $response = $this->get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member]));
+test('default', function () {
+    $artistMember = ArtistMember::factory()
+        ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+        ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
+        ->createOne();
 
-        $artistMember->unsetRelations();
+    $response = get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistMemberResource($artistMember, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $artistMember->unsetRelations();
 
-    /**
-     * The Artist Member Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ArtistMemberSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistMemberResource($artistMember, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new ArtistMemberSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $artistMember = ArtistMember::factory()
+        ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+        ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
+        ->createOne();
 
-        $artistMember->unsetRelations()->load($includedPaths->all());
+    $response = get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistMemberResource($artistMember, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $artistMember->unsetRelations()->load($includedPaths->all());
 
-    /**
-     * The Artist Member Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ArtistMemberSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistMemberResource($artistMember, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new ArtistMemberSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                ArtistMemberResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->createOne();
+    $parameters = [
+        FieldParser::param() => [
+            ArtistMemberResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $artistMember = ArtistMember::factory()
+        ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+        ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
+        ->createOne();
 
-        $artistMember->unsetRelations();
+    $response = get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistMemberResource($artistMember, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $artistMember->unsetRelations();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistMemberResource($artistMember, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

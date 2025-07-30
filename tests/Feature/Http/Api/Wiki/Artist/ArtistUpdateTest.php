@@ -2,81 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Artist;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistUpdateTest extends TestCase
-{
-    /**
-     * The Artist Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artist = Artist::factory()->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = Artist::factory()->raw();
+test('protected', function () {
+    $artist = Artist::factory()->createOne();
 
-        $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    $parameters = Artist::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
-    /**
-     * The Artist Update Endpoint shall forbid users without the update artist permission.
-     */
-    public function testForbidden(): void
-    {
-        $artist = Artist::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = Artist::factory()->raw();
+test('forbidden', function () {
+    $artist = Artist::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = Artist::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
-    /**
-     * The Artist Update Endpoint shall forbid users from updating an artist that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $artist = Artist::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Artist::factory()->raw();
+test('trashed', function () {
+    $artist = Artist::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Artist::class))->createOne();
+    $parameters = Artist::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Artist::class))->createOne();
 
-        $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
-    /**
-     * The Artist Update Endpoint shall update an artist.
-     */
-    public function testUpdate(): void
-    {
-        $artist = Artist::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = Artist::factory()->raw();
+test('update', function () {
+    $artist = Artist::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Artist::class))->createOne();
+    $parameters = Artist::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Artist::class))->createOne();
 
-        $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
+
+    $response->assertOk();
+});

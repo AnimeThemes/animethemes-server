@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\Wiki\Video;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\DeleteAction;
@@ -14,146 +12,97 @@ use App\Filament\Resources\Wiki\Video\Script;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript as VideoScriptModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class ScriptTest extends BaseResourceTestCase
-{
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = Script::getPages();
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
-        return $pages['index']->getPage();
-    }
+test('render index page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(VideoScriptModel::class)
+        )
+        ->createOne();
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = Script::getPages();
+    actingAs($user);
 
-        return $pages['view']->getPage();
-    }
+    $records = VideoScriptModel::factory()->count(10)->create();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(VideoScriptModel::class)
-            )
-            ->createOne();
+    get(Script::getUrl('index'))
+        ->assertSuccessful();
 
-        $this->actingAs($user);
+    Livewire::test(getIndexPage(Script::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $records = VideoScriptModel::factory()->count(10)->create();
+test('render view page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(VideoScriptModel::class)
+        )
+        ->createOne();
 
-        $this->get(Script::getUrl('index'))
-            ->assertSuccessful();
+    actingAs($user);
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    $record = VideoScriptModel::factory()->createOne();
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(VideoScriptModel::class)
-            )
-            ->createOne();
+    get(Script::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-        $this->actingAs($user);
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(VideoScriptModel::class)
+        )
+        ->createOne();
 
-        $record = VideoScriptModel::factory()->createOne();
+    actingAs($user);
 
-        $this->get(Script::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+    $record = VideoScriptModel::factory()->createOne();
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(VideoScriptModel::class)
-            )
-            ->createOne();
+    Livewire::test(getIndexPage(Script::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});
 
-        $this->actingAs($user);
+test('user cannot edit record', function () {
+    $record = VideoScriptModel::factory()->createOne();
 
-        $record = VideoScriptModel::factory()->createOne();
+    Livewire::test(getIndexPage(Script::class))
+        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+});
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
+test('user cannot delete record', function () {
+    $record = VideoScriptModel::factory()->createOne();
 
-    /**
-     * The user with no permissions cannot edit a record.
-     */
-    public function testUserCannotEditRecord(): void
-    {
-        $record = VideoScriptModel::factory()->createOne();
+    Livewire::test(getViewPage(Script::class), ['record' => $record->getKey()])
+        ->assertActionHidden(DeleteAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getIndexPage(Script::class))
+        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot delete a record.
-     */
-    public function testUserCannotDeleteRecord(): void
-    {
-        $record = VideoScriptModel::factory()->createOne();
+test('user cannot restore record', function () {
+    $record = VideoScriptModel::factory()->createOne();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteAction::class);
+    $record->delete();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getViewPage(Script::class), ['record' => $record->getKey()])
+        ->assertActionHidden(RestoreAction::class);
 
-    /**
-     * The user with no permissions cannot restore a record.
-     */
-    public function testUserCannotRestoreRecord(): void
-    {
-        $record = VideoScriptModel::factory()->createOne();
+    Livewire::test(getIndexPage(Script::class))
+        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+});
 
-        $record->delete();
+test('user cannot force delete record', function () {
+    $record = VideoScriptModel::factory()->createOne();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreAction::class);
+    Livewire::test(getViewPage(Script::class), ['record' => $record->getKey()])
+        ->assertActionHidden(ForceDeleteAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-    }
-
-    /**
-     * The user with no permissions cannot force delete a record.
-     */
-    public function testUserCannotForceDeleteRecord(): void
-    {
-        $record = VideoScriptModel::factory()->createOne();
-
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
-    }
-}
+    Livewire::test(getIndexPage(Script::class))
+        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+});

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\Playlist;
-
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
@@ -13,317 +11,276 @@ use App\Events\List\Playlist\PlaylistCreated;
 use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PlaylistUpdateTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\put;
 
-    /**
-     * The Playlist Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('protected', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $playlist = Playlist::factory()->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $playlist = Playlist::factory()->createOne();
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-    /**
-     * The Playlist Update Endpoint shall forbid users without the update playlist permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertUnauthorized();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $playlist = Playlist::factory()->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $playlist = Playlist::factory()->createOne();
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-    /**
-     * The Playlist Update Endpoint shall forbid users from updating the playlist if they don't own it.
-     */
-    public function testForbiddenIfNotOwnPlaylist(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('forbidden if not own playlist', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-    /**
-     * The Playlist Update Endpoint shall forbid users from updating playlists
-     * if the Allow Playlist Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::deactivate(AllowPlaylistManagement::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
+    Feature::deactivate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [
-                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        Sanctum::actingAs($user);
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-    /**
-     * The Playlist Update Endpoint shall update a playlist.
-     */
-    public function testUpdate(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
+test('update', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [
-                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        Sanctum::actingAs($user);
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to update playlists
-     * even if the Allow Playlist Management feature is inactive.
-     */
-    public function testUpdatePermittedForBypass(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertOk();
+});
 
-        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
+test('update permitted for bypass', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::UPDATE->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::UPDATE->format(Playlist::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [
-                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        Sanctum::actingAs($user);
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-    /**
-     * The Playlist Update Endpoint shall update a playlist if the name is not flagged by OpenAI.
-     */
-    public function testUpdatedIfNotFlaggedByOpenAi(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $response->assertOk();
+});
 
-        Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('updated if not flagged by open ai', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => false,
-                    ],
+    Feature::activate(AllowPlaylistManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => false,
                 ],
-            ]),
-        ]);
-
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
-
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
-
-        $visibility = Arr::random(PlaylistVisibility::cases());
-
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [
-                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
-        );
+        ]),
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $response->assertOk();
-    }
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-    /**
-     * The Playlist Update Endpoint shall update a playlist if the moderation service returns some error.
-     */
-    public function testUpdatedIfOpenAiFails(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+    Sanctum::actingAs($user);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-        ]);
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
+    $response->assertOk();
+});
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+test('updated if open ai fails', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    Feature::activate(AllowPlaylistManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [
-                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $response->assertOk();
-    }
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-    /**
-     * The Playlist Update Endpoint shall prohibit users from updating playlists with names flagged by OpenAI.
-     */
-    public function testValidationErrorWhenFlaggedByOpenAi(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+    Sanctum::actingAs($user);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => true,
-                    ],
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+    $response->assertOk();
+});
+
+test('validation error when flagged by open ai', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    Feature::activate(AllowPlaylistManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => true,
                 ],
-            ]),
-        ]);
-
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
-
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
-
-        $visibility = Arr::random(PlaylistVisibility::cases());
-
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [
-                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
-        );
+        ]),
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
-        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        $response->assertJsonValidationErrors([
-            Playlist::ATTRIBUTE_NAME,
-        ]);
-    }
-}
+    $visibility = Arr::random(PlaylistVisibility::cases());
+
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
+
+    Sanctum::actingAs($user);
+
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+    $response->assertJsonValidationErrors([
+        Playlist::ATTRIBUTE_NAME,
+    ]);
+});

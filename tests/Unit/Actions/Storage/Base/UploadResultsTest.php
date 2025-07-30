@@ -2,66 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Actions\Storage\Base;
-
 use App\Actions\Storage\Base\UploadResults;
 use App\Enums\Actions\ActionStatus;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class UploadResultsTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Action result has failed if there are no uploads.
-     */
-    public function testDefault(): void
-    {
-        $uploadResults = new UploadResults();
+test('default', function () {
+    $uploadResults = new UploadResults();
 
-        $result = $uploadResults->toActionResult();
+    $result = $uploadResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
+});
+
+test('failed', function () {
+    $uploads = [];
+
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $uploads[fake()->word()] = fake()->filePath();
     }
 
-    /**
-     * The Action result has failed if any uploads have returned false.
-     */
-    public function testFailed(): void
-    {
-        $uploads = [];
-
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $uploads[$this->faker->word()] = $this->faker->filePath();
-        }
-
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $uploads[$this->faker->word()] = false;
-        }
-
-        $uploadResults = new UploadResults($uploads);
-
-        $result = $uploadResults->toActionResult();
-
-        static::assertTrue($result->hasFailed());
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $uploads[fake()->word()] = false;
     }
 
-    /**
-     * The Action result has passed if all uploads have returned the file path.
-     */
-    public function testPassed(): void
-    {
-        $uploads = [];
+    $uploadResults = new UploadResults($uploads);
 
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $uploads[$this->faker->word()] = $this->faker->filePath();
-        }
+    $result = $uploadResults->toActionResult();
 
-        $uploadResults = new UploadResults($uploads);
+    $this->assertTrue($result->hasFailed());
+});
 
-        $result = $uploadResults->toActionResult();
+test('passed', function () {
+    $uploads = [];
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $uploads[fake()->word()] = fake()->filePath();
     }
-}
+
+    $uploadResults = new UploadResults($uploads);
+
+    $result = $uploadResults->toActionResult();
+
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+});

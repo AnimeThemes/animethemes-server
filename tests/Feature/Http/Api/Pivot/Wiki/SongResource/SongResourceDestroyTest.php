@@ -2,96 +2,76 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongResourceDestroyTest extends TestCase
-{
-    /**
-     * The Song Resource Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+test('protected', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
-    /**
-     * The Song Resource Destroy Endpoint shall forbid users without the delete song & delete resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
-    /**
-     * The Song Resource Destroy Endpoint shall return an error if the song resource does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Song::class),
-                CrudPermission::DELETE->format(ExternalResource::class)
-            )
-            ->createOne();
+test('not found', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Song::class),
+            CrudPermission::DELETE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.songresource.destroy', ['song' => $song, 'resource' => $resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.songresource.destroy', ['song' => $song, 'resource' => $resource]));
 
-    /**
-     * The Song Resource Destroy Endpoint shall delete the song resource.
-     */
-    public function testDeleted(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Song::class),
-                CrudPermission::DELETE->format(ExternalResource::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Song::class),
+            CrudPermission::DELETE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($songResource);
-    }
-}
+    $response = delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+
+    $response->assertOk();
+    $this->assertModelMissing($songResource);
+});

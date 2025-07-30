@@ -2,80 +2,60 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SynonymStoreTest extends TestCase
-{
-    /**
-     * The Synonym Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.animesynonym.store', $synonym->toArray()));
+test('protected', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.animesynonym.store', $synonym->toArray()));
 
-    /**
-     * The Synonym Store Endpoint shall forbid users without the create anime synonym permission.
-     */
-    public function testForbidden(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.animesynonym.store', $synonym->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.animesynonym.store', $synonym->toArray()));
 
-    /**
-     * The Synonym Store Endpoint shall require the text field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->post(route('api.animesynonym.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            AnimeSynonym::ATTRIBUTE_TEXT,
-        ]);
-    }
+    $response = post(route('api.animesynonym.store'));
 
-    /**
-     * The Synonym Store Endpoint shall create a synonym.
-     */
-    public function testCreate(): void
-    {
-        $anime = Anime::factory()->createOne();
+    $response->assertJsonValidationErrors([
+        AnimeSynonym::ATTRIBUTE_TEXT,
+    ]);
+});
 
-        $parameters = array_merge(
-            AnimeSynonym::factory()->raw(),
-            [AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey()],
-        );
+test('create', function () {
+    $anime = Anime::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
+    $parameters = array_merge(
+        AnimeSynonym::factory()->raw(),
+        [AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->post(route('api.animesynonym.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(AnimeSynonym::class, 1);
-    }
-}
+    $response = post(route('api.animesynonym.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(AnimeSynonym::class, 1);
+});

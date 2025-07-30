@@ -2,42 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Scope;
-
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\RelationScope;
 use App\Http\Api\Scope\ScopeParser;
 use App\Http\Api\Scope\TypeScope;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class ScopeParserTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Scope Parser shall parse global scopes.
-     */
-    public function testParseGlobalScope(): void
-    {
-        static::assertInstanceOf(GlobalScope::class, ScopeParser::parse(''));
-    }
+test('parse global scope', function () {
+    $this->assertInstanceOf(GlobalScope::class, ScopeParser::parse(''));
+});
 
-    /**
-     * The Scope Parser shall parse type scopes.
-     */
-    public function testParseTypeScope(): void
-    {
-        static::assertInstanceOf(TypeScope::class, ScopeParser::parse($this->faker->word()));
-    }
+test('parse type scope', function () {
+    $this->assertInstanceOf(TypeScope::class, ScopeParser::parse(fake()->word()));
+});
 
-    /**
-     * The Scope Parser shall parse relation scopes.
-     */
-    public function testParseRelationScope(): void
-    {
-        $relation = collect($this->faker->words())->join('.');
+test('parse relation scope', function () {
+    $relation = collect(fake()->words())->join('.');
 
-        static::assertInstanceOf(RelationScope::class, ScopeParser::parse($relation));
-    }
-}
+    $this->assertInstanceOf(RelationScope::class, ScopeParser::parse($relation));
+});

@@ -58,12 +58,11 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16.0",
-        "brianium/paratest": "^7.8.4",
         "laravel/pint": "^1.24.0",
         "laravel/sail": "^1.44.0",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^8.8.2",
-        "phpunit/phpunit": "^11.5.27",
+        "pestphp/pest": "3.8.2",
+        "pestphp/pest-plugin-laravel": "^3.2",
         "predis/predis": "^2.4.0",
         "spatie/laravel-ignition": "^2.9.1"
     },
@@ -76,6 +75,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
+            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },

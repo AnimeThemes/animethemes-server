@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class VideoDestroyTest extends TestCase
-{
-    /**
-     * The Video Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $video = Video::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.video.destroy', ['video' => $video]));
+test('protected', function () {
+    $video = Video::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.video.destroy', ['video' => $video]));
 
-    /**
-     * The Video Destroy Endpoint shall forbid users without the delete video permission.
-     */
-    public function testForbidden(): void
-    {
-        $video = Video::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.video.destroy', ['video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.video.destroy', ['video' => $video]));
 
-    /**
-     * The Video Destroy Endpoint shall forbid users from updating a video that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $video = Video::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Video::class))->createOne();
+test('trashed', function () {
+    $video = Video::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Video::class))->createOne();
 
-        $response = $this->delete(route('api.video.destroy', ['video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.video.destroy', ['video' => $video]));
 
-    /**
-     * The Video Destroy Endpoint shall delete the video.
-     */
-    public function testDeleted(): void
-    {
-        $video = Video::factory()->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Video::class))->createOne();
+test('deleted', function () {
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Video::class))->createOne();
 
-        $response = $this->delete(route('api.video.destroy', ['video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertSoftDeleted($video);
-    }
-}
+    $response = delete(route('api.video.destroy', ['video' => $video]));
+
+    $response->assertOk();
+    $this->assertSoftDeleted($video);
+});

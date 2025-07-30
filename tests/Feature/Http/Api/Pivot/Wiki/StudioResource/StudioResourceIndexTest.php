@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioResource;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -27,329 +24,295 @@ use App\Models\Wiki\Studio;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
 
-class StudioResourceIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Studio Resource Index Endpoint shall return a collection of Studio Resource Resources.
-     */
-    public function testDefault(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioResource::factory()
+            ->for(Studio::factory())
+            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $studioResources = StudioResource::all();
+
+    $response = get(route('api.studioresource.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('paginated', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioResource::factory()
+            ->for(Studio::factory())
+            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = get(route('api.studioresource.index'));
+
+    $response->assertJsonStructure([
+        StudioResourceCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new StudioResourceSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioResource::factory()
+            ->for(Studio::factory())
+            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = get(route('api.studioresource.index', $parameters));
+
+    $studioResources = StudioResource::with($includedPaths->all())->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new StudioResourceSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            StudioResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioResource::factory()
+            ->for(Studio::factory())
+            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = get(route('api.studioresource.index', $parameters));
+
+    $studioResources = StudioResource::all();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new StudioResourceSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioResource::factory()
+            ->for(Studio::factory())
+            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = get(route('api.studioresource.index', $parameters));
+
+    $studioResources = $this->sort(StudioResource::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioResource::factory()
                 ->for(Studio::factory())
                 ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $studioResources = StudioResource::all();
-
-        $response = $this->get(route('api.studioresource.index'));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Resource Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioResource::factory()
                 ->for(Studio::factory())
                 ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.studioresource.index'));
+    $studioResources = StudioResource::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJsonStructure([
-            StudioResourceCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+    $response = get(route('api.studioresource.index', $parameters));
 
-    /**
-     * The Studio Resource Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new StudioResourceSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($updatedFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioResource::factory()
                 ->for(Studio::factory())
                 ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $studioResources = StudioResource::with($includedPaths->all())->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Resource Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new StudioResourceSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                StudioResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             StudioResource::factory()
                 ->for(Studio::factory())
                 ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
+    $studioResources = StudioResource::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $studioResources = StudioResource::all();
+    $response = get(route('api.studioresource.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Resource Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new StudioResourceSchema();
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => StudioResource::RELATION_RESOURCE,
+    ];
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        StudioResource::factory()
+            ->for(Studio::factory())
+            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ->create();
+    });
 
-        $query = new Query($parameters);
+    $response = get(route('api.studioresource.index', $parameters));
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                ->create();
-        });
+    $studioResources = StudioResource::with([
+        StudioResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ])
+        ->get();
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $studioResources = $this->sort(StudioResource::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Resource Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($createdFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        $studioResources = StudioResource::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Resource Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        $studioResources = StudioResource::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Resource Index Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => StudioResource::RELATION_RESOURCE,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                ->create();
-        });
-
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $studioResources = StudioResource::with([
-            StudioResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ])
-            ->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResourceCollection($studioResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResourceCollection($studioResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

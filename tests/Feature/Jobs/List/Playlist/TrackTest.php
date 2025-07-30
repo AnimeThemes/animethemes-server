@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\List\Playlist;
-
 use App\Constants\FeatureConstants;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
@@ -15,71 +13,55 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class TrackTest extends TestCase
-{
-    /**
-     * When a track is created, a SendDiscordNotification job shall not be dispatched.
-     */
-    public function testPlaylistCreatedSendsDiscordNotification(): void
-    {
-        $playlist = Playlist::factory()->createOne();
+test('playlist created sends discord notification', function () {
+    $playlist = Playlist::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(TrackCreated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(TrackCreated::class);
 
-        PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertNotDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a track is deleted, a SendDiscordNotification job shall not be dispatched.
-     */
-    public function testPlaylistDeletedSendsDiscordNotification(): void
-    {
-        $playlist = Playlist::factory()->createOne();
+test('playlist deleted sends discord notification', function () {
+    $playlist = Playlist::factory()->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(TrackDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(TrackDeleted::class);
 
-        $track->delete();
+    $track->delete();
 
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertNotDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a track is updated, a SendDiscordNotification job shall not be dispatched.
-     */
-    public function testPlaylistUpdatedSendsDiscordNotification(): void
-    {
-        $playlist = Playlist::factory()->createOne();
+test('playlist updated sends discord notification', function () {
+    $playlist = Playlist::factory()->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
+    $track = PlaylistTrack::factory()
+        ->for($playlist)
+        ->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(TrackUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(TrackUpdated::class);
 
-        $changes = array_merge(
-            PlaylistTrack::factory()->raw(),
-            [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
-        );
+    $changes = array_merge(
+        PlaylistTrack::factory()->raw(),
+        [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
+    );
 
-        $track->fill($changes);
-        $track->save();
+    $track->fill($changes);
+    $track->save();
 
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertNotDispatched(SendDiscordNotificationJob::class);
+});

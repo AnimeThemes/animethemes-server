@@ -2,68 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeStudio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeStudioStoreTest extends TestCase
-{
-    /**
-     * The Anime Studio Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $studio = Studio::factory()->createOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+test('protected', function () {
+    $anime = Anime::factory()->createOne();
+    $studio = Studio::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
-    /**
-     * The Anime Studio Store Endpoint shall forbid users without the create anime & create studio permissions.
-     */
-    public function testForbidden(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $studio = Studio::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $anime = Anime::factory()->createOne();
+    $studio = Studio::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
-    /**
-     * The Anime Studio Store Endpoint shall create an anime studio.
-     */
-    public function testCreate(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $studio = Studio::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Anime::class),
-                CrudPermission::CREATE->format(Studio::class)
-            )
-            ->createOne();
+test('create', function () {
+    $anime = Anime::factory()->createOne();
+    $studio = Studio::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Anime::class),
+            CrudPermission::CREATE->format(Studio::class)
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(AnimeStudio::class, 1);
-    }
-}
+    $response = post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(AnimeStudio::class, 1);
+});

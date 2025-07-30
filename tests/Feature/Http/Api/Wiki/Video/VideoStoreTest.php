@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -11,81 +9,63 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class VideoStoreTest extends TestCase
-{
-    /**
-     * The Video Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $video = Video::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.video.store', $video->toArray()));
+test('protected', function () {
+    $video = Video::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.video.store', $video->toArray()));
 
-    /**
-     * The Video Store Endpoint shall forbid users without the create video permission.
-     */
-    public function testForbidden(): void
-    {
-        $video = Video::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $video = Video::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.video.store', $video->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.video.store', $video->toArray()));
 
-    /**
-     * The Video Store Endpoint shall require basename, filename, mimetype, path & size fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
 
-        $response = $this->post(route('api.video.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            Video::ATTRIBUTE_BASENAME,
-            Video::ATTRIBUTE_FILENAME,
-            Video::ATTRIBUTE_MIMETYPE,
-            Video::ATTRIBUTE_PATH,
-            Video::ATTRIBUTE_SIZE,
-        ]);
-    }
+    $response = post(route('api.video.store'));
 
-    /**
-     * The Video Store Endpoint shall create a video.
-     */
-    public function testCreate(): void
-    {
-        $overlap = Arr::random(VideoOverlap::cases());
-        $source = Arr::random(VideoSource::cases());
+    $response->assertJsonValidationErrors([
+        Video::ATTRIBUTE_BASENAME,
+        Video::ATTRIBUTE_FILENAME,
+        Video::ATTRIBUTE_MIMETYPE,
+        Video::ATTRIBUTE_PATH,
+        Video::ATTRIBUTE_SIZE,
+    ]);
+});
 
-        $parameters = array_merge(
-            Video::factory()->raw(),
-            [
-                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
-                Video::ATTRIBUTE_SOURCE => $source->localize(),
-            ]
-        );
+test('create', function () {
+    $overlap = Arr::random(VideoOverlap::cases());
+    $source = Arr::random(VideoSource::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
+    $parameters = array_merge(
+        Video::factory()->raw(),
+        [
+            Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+            Video::ATTRIBUTE_SOURCE => $source->localize(),
+        ]
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
 
-        $response = $this->post(route('api.video.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Video::class, 1);
-    }
-}
+    $response = post(route('api.video.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Video::class, 1);
+});

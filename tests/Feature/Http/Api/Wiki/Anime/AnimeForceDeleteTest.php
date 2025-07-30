@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeForceDeleteTest extends TestCase
-{
-    /**
-     * The Anime Force Delete Endpoint shall require authorization.
-     */
-    public function testAuthorized(): void
-    {
-        $anime = Anime::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.anime.forceDelete', ['anime' => $anime]));
+test('authorized', function () {
+    $anime = Anime::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.anime.forceDelete', ['anime' => $anime]));
 
-    /**
-     * The Anime Force Delete Endpoint shall forbid users without the force delete anime permission.
-     */
-    public function testForbidden(): void
-    {
-        $anime = Anime::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $anime = Anime::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.anime.forceDelete', ['anime' => $anime]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.anime.forceDelete', ['anime' => $anime]));
 
-    /**
-     * The Anime Force Delete Endpoint shall force delete the anime.
-     */
-    public function testDeleted(): void
-    {
-        $anime = Anime::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Anime::class))->createOne();
+test('deleted', function () {
+    $anime = Anime::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Anime::class))->createOne();
 
-        $response = $this->delete(route('api.anime.forceDelete', ['anime' => $anime]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($anime);
-    }
-}
+    $response = delete(route('api.anime.forceDelete', ['anime' => $anime]));
+
+    $response->assertOk();
+    $this->assertModelMissing($anime);
+});

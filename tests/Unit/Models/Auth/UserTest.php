@@ -2,81 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Auth;
-
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\PersonalAccessToken;
-use Tests\TestCase;
 
-class UserTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * Users shall have a one-to-many polymorphic relationship to PersonalAccessToken.
-     */
-    public function testTokens(): void
-    {
-        $user = User::factory()->createOne();
+test('tokens', function () {
+    $user = User::factory()->createOne();
 
-        $user->createToken($this->faker->word());
+    $user->createToken(fake()->word());
 
-        static::assertInstanceOf(MorphMany::class, $user->tokens());
-        static::assertEquals(1, $user->tokens()->count());
-        static::assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
-    }
+    $this->assertInstanceOf(MorphMany::class, $user->tokens());
+    $this->assertEquals(1, $user->tokens()->count());
+    $this->assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
+});
 
-    /**
-     * Users shall verify email.
-     */
-    public function testVerificationEmailNotification(): void
-    {
-        $user = User::factory()->createOne();
+test('verification email notification', function () {
+    $user = User::factory()->createOne();
 
-        $user->sendEmailVerificationNotification();
+    $user->sendEmailVerificationNotification();
 
-        Notification::assertSentTo($user, VerifyEmail::class);
-    }
+    Notification::assertSentTo($user, VerifyEmail::class);
+});
 
-    /**
-     * Users shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $user = User::factory()->createOne();
+test('nameable', function () {
+    $user = User::factory()->createOne();
 
-        static::assertIsString($user->getName());
-    }
+    $this->assertIsString($user->getName());
+});
 
-    /**
-     * Users shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $user = User::factory()->createOne();
+test('has subtitle', function () {
+    $user = User::factory()->createOne();
 
-        static::assertIsString($user->getSubtitle());
-    }
+    $this->assertIsString($user->getSubtitle());
+});
 
-    /**
-     * User shall have a one-to-many relationship with the type Playlist.
-     */
-    public function testPlaylists(): void
-    {
-        $playlistCount = $this->faker->randomDigitNotNull();
+test('playlists', function () {
+    $playlistCount = fake()->randomDigitNotNull();
 
-        $user = User::factory()
-            ->has(Playlist::factory()->count($playlistCount))
-            ->createOne();
+    $user = User::factory()
+        ->has(Playlist::factory()->count($playlistCount))
+        ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $user->playlists());
-        static::assertEquals($playlistCount, $user->playlists()->count());
-        static::assertInstanceOf(Playlist::class, $user->playlists()->first());
-    }
-}
+    $this->assertInstanceOf(HasMany::class, $user->playlists());
+    $this->assertEquals($playlistCount, $user->playlists()->count());
+    $this->assertInstanceOf(Playlist::class, $user->playlists()->first());
+});

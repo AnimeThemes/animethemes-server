@@ -2,106 +2,71 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\User\Report;
-
 use App\Enums\Models\User\ApprovableStatus;
 use App\Enums\Models\User\ReportActionType;
 use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class ReportStepTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * Steps shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne();
+test('nameable', function () {
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne();
 
-        static::assertIsString($step->getName());
-    }
+    $this->assertIsString($step->getName());
+});
 
-    /**
-     * Steps shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne();
+test('has subtitle', function () {
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne();
 
-        static::assertIsString($step->getSubtitle());
-    }
+    $this->assertIsString($step->getSubtitle());
+});
 
-    /**
-     * The action attribute of a step shall be cast to an ReportActionType enum instance.
-     */
-    public function testCastsActionToEnum(): void
-    {
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne();
+test('casts action to enum', function () {
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne();
 
-        static::assertInstanceOf(ReportActionType::class, $step->action);
-    }
+    $this->assertInstanceOf(ReportActionType::class, $step->action);
+});
 
-    /**
-     * The action attribute of a step shall be cast to an array.
-     */
-    public function testCastsFieldsToArray(): void
-    {
-        $anime = Anime::factory()->makeOne();
+test('casts fields to array', function () {
+    $anime = Anime::factory()->makeOne();
 
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne([ReportStep::ATTRIBUTE_FIELDS => $anime->attributesToArray()]);
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne([ReportStep::ATTRIBUTE_FIELDS => $anime->attributesToArray()]);
 
-        static::assertIsArray($step->fields);
-    }
+    $this->assertIsArray($step->fields);
+});
 
-    /**
-     * Steps shall cast the finished_at attribute to datetime.
-     */
-    public function testCastsFinishedAt(): void
-    {
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne([ReportStep::ATTRIBUTE_FINISHED_AT => now()]);
+test('casts finished at', function () {
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne([ReportStep::ATTRIBUTE_FINISHED_AT => now()]);
 
-        static::assertInstanceOf(Carbon::class, $step->finished_at);
-    }
+    $this->assertInstanceOf(Carbon::class, $step->finished_at);
+});
 
-    /**
-     * The status attribute of a step shall be cast to an ApprovableStatus enum instance.
-     */
-    public function testCastsStatusToEnum(): void
-    {
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne();
+test('casts status to enum', function () {
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne();
 
-        static::assertInstanceOf(ApprovableStatus::class, $step->status);
-    }
+    $this->assertInstanceOf(ApprovableStatus::class, $step->status);
+});
 
-    /**
-     * A step shall have a report attached.
-     */
-    public function testReport(): void
-    {
-        $step = ReportStep::factory()
-            ->for(Report::factory())
-            ->createOne();
+test('report', function () {
+    $step = ReportStep::factory()
+        ->for(Report::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $step->report());
-        static::assertInstanceOf(Report::class, $step->report()->first());
-    }
-}
+    $this->assertInstanceOf(BelongsTo::class, $step->report());
+    $this->assertInstanceOf(Report::class, $step->report()->first());
+});

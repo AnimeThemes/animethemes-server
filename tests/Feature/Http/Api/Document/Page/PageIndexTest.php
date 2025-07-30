@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Document\Page;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -24,346 +21,304 @@ use App\Http\Resources\Document\Collection\PageCollection;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\BaseModel;
 use App\Models\Document\Page;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class PageIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Page Index Endpoint shall return a collection of Page Resources.
-     */
-    public function testDefault(): void
-    {
-        $pages = Page::factory()->count($this->faker->randomDigitNotNull())->create();
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
-        $response = $this->get(route('api.page.index'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($pages, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+test('default', function () {
+    $pages = Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-    /**
-     * The Page Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Page::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response = get(route('api.page.index'));
 
-        $response = $this->get(route('api.page.index'));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($pages, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response->assertJsonStructure([
-            PageCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+test('paginated', function () {
+    Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-    /**
-     * The Page Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new PageSchema();
+    $response = get(route('api.page.index'));
 
-        $fields = collect($schema->fields());
+    $response->assertJsonStructure([
+        PageCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+test('sparse fieldsets', function () {
+    $schema = new PageSchema();
 
-        $parameters = [
-            FieldParser::param() => [
-                PageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $fields = collect($schema->fields());
 
-        $pages = Page::factory()->count($this->faker->randomDigitNotNull())->create();
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $response = $this->get(route('api.page.index', $parameters));
+    $parameters = [
+        FieldParser::param() => [
+            PageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($pages, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $pages = Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-    /**
-     * The Page Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new PageSchema();
+    $response = get(route('api.page.index', $parameters));
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($pages, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+test('sorts', function () {
+    $schema = new PageSchema();
 
-        $query = new Query($parameters);
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
 
-        Page::factory()->count($this->faker->randomDigitNotNull())->create();
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
 
-        $response = $this->get(route('api.page.index', $parameters));
+    $query = new Query($parameters);
 
-        $pages = $this->sort(Page::query(), $query, $schema)->get();
+    Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($pages, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.page.index', $parameters));
 
-    /**
-     * The Page Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $pages = $this->sort(Page::query(), $query, $schema)->get();
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($pages, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Carbon::withTestNow($createdFilter, function () {
-            Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($excludedDate, function () {
-            Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $page = Page::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+    Carbon::withTestNow($createdFilter, function () {
+        Page::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.page.index', $parameters));
+    Carbon::withTestNow($excludedDate, function () {
+        Page::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $page = Page::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    /**
-     * The Page Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $response = get(route('api.page.index', $parameters));
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Carbon::withTestNow($updatedFilter, function () {
-            Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($excludedDate, function () {
-            Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $page = Page::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+    Carbon::withTestNow($updatedFilter, function () {
+        Page::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.page.index', $parameters));
+    Carbon::withTestNow($excludedDate, function () {
+        Page::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $page = Page::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    /**
-     * The Page Index Endpoint shall support filtering by trashed.
-     */
-    public function testWithoutTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response = get(route('api.page.index', $parameters));
 
-        Page::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+test('without trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $page = Page::withoutTrashed()->get();
+    Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.page.index', $parameters));
+    Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $page = Page::withoutTrashed()->get();
 
-    /**
-     * The Page Index Endpoint shall support filtering by trashed.
-     */
-    public function testWithTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response = get(route('api.page.index', $parameters));
 
-        Page::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+test('with trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $page = Page::withTrashed()->get();
+    Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.page.index', $parameters));
+    Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $page = Page::withTrashed()->get();
 
-    /**
-     * The Page Index Endpoint shall support filtering by trashed.
-     */
-    public function testOnlyTrashedFilter(): void
-    {
-        $parameters = [
-            FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response = get(route('api.page.index', $parameters));
 
-        Page::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+test('only trashed filter', function () {
+    $parameters = [
+        FilterParser::param() => [
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $page = Page::onlyTrashed()->get();
+    Page::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.page.index', $parameters));
+    Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $page = Page::onlyTrashed()->get();
 
-    /**
-     * The Page Index Endpoint shall support filtering by deleted_at.
-     */
-    public function testDeletedAtFilter(): void
-    {
-        $deletedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $response = get(route('api.page.index', $parameters));
 
-        $parameters = [
-            FilterParser::param() => [
-                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Carbon::withTestNow($deletedFilter, function () {
-            Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-        });
+test('deleted at filter', function () {
+    $deletedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($excludedDate, function () {
-            Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
+            TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $page = Page::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+    Carbon::withTestNow($deletedFilter, function () {
+        Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.page.index', $parameters));
+    Carbon::withTestNow($excludedDate, function () {
+        Page::factory()->trashed()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageCollection($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $page = Page::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+
+    $response = get(route('api.page.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageCollection($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

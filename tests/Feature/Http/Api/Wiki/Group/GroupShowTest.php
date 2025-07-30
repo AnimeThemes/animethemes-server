@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Group;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
@@ -21,332 +19,293 @@ use App\Models\Wiki\Group;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class GroupShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Group Show Endpoint shall return a Group Resource.
-     */
-    public function testDefault(): void
-    {
-        $group = Group::factory()->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.group.show', ['group' => $group]));
+test('default', function () {
+    $group = Group::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group]));
 
-    /**
-     * The Group Show Endpoint shall return a Group Resource for soft deleted groups.
-     */
-    public function testSoftDelete(): void
-    {
-        $group = Group::factory()->trashed()->createOne();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $group->unsetRelations();
+test('soft delete', function () {
+    $group = Group::factory()->trashed()->createOne();
 
-        $response = $this->get(route('api.group.show', ['group' => $group]));
+    $group->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group]));
 
-    /**
-     * The Group Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new GroupSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new GroupSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $group = Group::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group = Group::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new GroupSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new GroupSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                GroupResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $group = Group::factory()->create();
+    $parameters = [
+        FieldParser::param() => [
+            GroupResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group = Group::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Show Endpoint shall support constrained eager loading of themes by sequence.
-     */
-    public function testThemesBySequence(): void
-    {
-        $sequenceFilter = $this->faker->randomDigitNotNull();
-        $excludedSequence = $sequenceFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
-            ],
-            IncludeParser::param() => Group::RELATION_THEMES,
-        ];
+test('themes by sequence', function () {
+    $sequenceFilter = fake()->randomDigitNotNull();
+    $excludedSequence = $sequenceFilter + 1;
 
-        $group = Group::factory()
-            ->has(
-                AnimeTheme::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->for(Anime::factory())
-                    ->state(new Sequence(
-                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
-                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
-                    ))
-            )
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+        ],
+        IncludeParser::param() => Group::RELATION_THEMES,
+    ];
 
-        $group->unsetRelations()->load([
-            Group::RELATION_THEMES => function (HasMany $query) use ($sequenceFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
-            },
-        ]);
+    $group = Group::factory()
+        ->has(
+            AnimeTheme::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->for(Anime::factory())
+                ->state(new Sequence(
+                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
+                ))
+        )
+        ->createOne();
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group->unsetRelations()->load([
+        Group::RELATION_THEMES => function (HasMany $query) use ($sequenceFilter) {
+            $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Show Endpoint shall support constrained eager loading of themes by type.
-     */
-    public function testThemesByType(): void
-    {
-        $typeFilter = Arr::random(ThemeType::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-            IncludeParser::param() => Group::RELATION_THEMES,
-        ];
+test('themes by type', function () {
+    $typeFilter = Arr::random(ThemeType::cases());
 
-        $group = Group::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+        ],
+        IncludeParser::param() => Group::RELATION_THEMES,
+    ];
 
-        $group->unsetRelations()->load([
-            Group::RELATION_THEMES => function (HasMany $query) use ($typeFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
-            },
-        ]);
+    $group = Group::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group->unsetRelations()->load([
+        Group::RELATION_THEMES => function (HasMany $query) use ($typeFilter) {
+            $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => Group::RELATION_ANIME,
-        ];
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $group = Group::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => Group::RELATION_ANIME,
+    ];
 
-        $group->unsetRelations()->load([
-            Group::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $group = Group::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group->unsetRelations()->load([
+        Group::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => Group::RELATION_ANIME,
-        ];
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $group = Group::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => Group::RELATION_ANIME,
+    ];
 
-        $group->unsetRelations()->load([
-            Group::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $group = Group::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group->unsetRelations()->load([
+        Group::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
-    /**
-     * The Group Show Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => Group::RELATION_ANIME,
-        ];
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
 
-        $group = Group::factory()
-            ->has(
-                AnimeTheme::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->for(
-                        Anime::factory()
-                            ->state([
-                                Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                            ])
-                    )
-            )
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => Group::RELATION_ANIME,
+    ];
 
-        $group->unsetRelations()->load([
-            Group::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
+    $group = Group::factory()
+        ->has(
+            AnimeTheme::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->for(
+                    Anime::factory()
+                        ->state([
+                            Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
+                        ])
+                )
+        )
+        ->createOne();
 
-        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $group->unsetRelations()->load([
+        Group::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new GroupResource($group, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new GroupResource($group, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

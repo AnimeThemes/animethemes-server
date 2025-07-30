@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Admin;
-
 use App\Constants\FeatureConstants;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
@@ -13,56 +11,40 @@ use App\Models\Admin\Dump;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class DumpTest extends TestCase
-{
-    /**
-     * When a dump is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testDumpCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(DumpCreated::class);
+test('dump created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(DumpCreated::class);
 
-        Dump::factory()->createOne();
+    Dump::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a dump is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testDumpDeletedSendsDiscordNotification(): void
-    {
-        $dump = Dump::factory()->createOne();
+test('dump deleted sends discord notification', function () {
+    $dump = Dump::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(DumpDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(DumpDeleted::class);
 
-        $dump->delete();
+    $dump->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a dump is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testDumpUpdatedSendsDiscordNotification(): void
-    {
-        $dump = Dump::factory()->createOne();
+test('dump updated sends discord notification', function () {
+    $dump = Dump::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(DumpUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(DumpUpdated::class);
 
-        $changes = Dump::factory()->makeOne();
+    $changes = Dump::factory()->makeOne();
 
-        $dump->fill($changes->getAttributes());
-        $dump->save();
+    $dump->fill($changes->getAttributes());
+    $dump->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

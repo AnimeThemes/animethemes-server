@@ -2,59 +2,40 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Filter;
-
 use App\Http\Api\Filter\BooleanFilter;
 use App\Http\Api\Scope\GlobalScope;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
-class BooleanFilterTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If values that are not mappable to booleans are specified for the key, don't apply the filter.
-     */
-    public function testShouldNotApplyIfNoBooleans(): void
-    {
-        $filterField = $this->faker->word();
+test('should not apply if no booleans', function () {
+    $filterField = fake()->word();
 
-        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Str::random());
+    $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Str::random());
 
-        $filter = new BooleanFilter($filterField);
+    $filter = new BooleanFilter($filterField);
 
-        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
-    }
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+});
 
-    /**
-     * If both boolean values are specified for the key, don't apply the filter.
-     */
-    public function testShouldNotApplyIfAllBooleans(): void
-    {
-        $filterField = $this->faker->word();
+test('should not apply if all booleans', function () {
+    $filterField = fake()->word();
 
-        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, 'true,false');
+    $criteria = FakeCriteria::make(new GlobalScope(), $filterField, 'true,false');
 
-        $filter = new BooleanFilter($filterField);
+    $filter = new BooleanFilter($filterField);
 
-        static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
-    }
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+});
 
-    /**
-     * The boolean filter shall convert validated boolean options to boolean values.
-     */
-    public function testConvertsValidatedBoolean(): void
-    {
-        $booleanValue = $this->faker->boolean();
+test('converts validated boolean', function () {
+    $booleanValue = fake()->boolean();
 
-        $filter = new BooleanFilter($this->faker->word());
+    $filter = new BooleanFilter(fake()->word());
 
-        $filterValues = $filter->getFilterValues(Arr::wrap($booleanValue ? 'true' : 'false'));
+    $filterValues = $filter->getFilterValues(Arr::wrap($booleanValue ? 'true' : 'false'));
 
-        static::assertEquals($booleanValue, $filterValues[0]);
-    }
-}
+    $this->assertEquals($booleanValue, $filterValues[0]);
+});

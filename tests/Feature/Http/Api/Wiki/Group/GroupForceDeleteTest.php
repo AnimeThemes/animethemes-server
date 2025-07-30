@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Group;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class GroupForceDeleteTest extends TestCase
-{
-    /**
-     * The Group Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $group = Group::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.group.forceDelete', ['group' => $group]));
+test('protected', function () {
+    $group = Group::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.group.forceDelete', ['group' => $group]));
 
-    /**
-     * The Group Force Delete Endpoint shall forbid users without the force delete group permission.
-     */
-    public function testForbidden(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $group = Group::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.group.forceDelete', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.group.forceDelete', ['group' => $group]));
 
-    /**
-     * The Group Force Delete Endpoint shall force delete the group.
-     */
-    public function testDeleted(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Group::class))->createOne();
+test('deleted', function () {
+    $group = Group::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Group::class))->createOne();
 
-        $response = $this->delete(route('api.group.forceDelete', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($group);
-    }
-}
+    $response = delete(route('api.group.forceDelete', ['group' => $group]));
+
+    $response->assertOk();
+    $this->assertModelMissing($group);
+});

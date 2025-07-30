@@ -2,96 +2,76 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistImage;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\ArtistImage;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistImageDestroyTest extends TestCase
-{
-    /**
-     * The Artist Image Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.artistimage.destroy', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
+test('protected', function () {
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.artistimage.destroy', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
 
-    /**
-     * The Artist Image Destroy Endpoint shall forbid users without the delete artist & delete image permissions.
-     */
-    public function testForbidden(): void
-    {
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.artistimage.destroy', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.artistimage.destroy', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
 
-    /**
-     * The Artist Image Destroy Endpoint shall return an error if the artist image does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Artist::class),
-                CrudPermission::DELETE->format(Image::class)
-            )
-            ->createOne();
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Artist::class),
+            CrudPermission::DELETE->format(Image::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.artistimage.destroy', ['artist' => $artist, 'image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.artistimage.destroy', ['artist' => $artist, 'image' => $image]));
 
-    /**
-     * The Artist Image Destroy Endpoint shall delete the artist image.
-     */
-    public function testDeleted(): void
-    {
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Artist::class),
-                CrudPermission::DELETE->format(Image::class)
-            )
-            ->createOne();
+test('deleted', function () {
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Artist::class),
+            CrudPermission::DELETE->format(Image::class)
+        )
+        ->createOne();
 
-        $response = $this->delete(route('api.artistimage.destroy', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($artistImage);
-    }
-}
+    $response = delete(route('api.artistimage.destroy', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
+
+    $response->assertOk();
+    $this->assertModelMissing($artistImage);
+});

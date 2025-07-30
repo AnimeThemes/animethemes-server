@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Audio;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -13,120 +11,101 @@ use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class AudioShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Audio Show Endpoint shall return an Audio Resource.
-     */
-    public function testDefault(): void
-    {
-        $audio = Audio::factory()->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.audio.show', ['audio' => $audio]));
+test('default', function () {
+    $audio = Audio::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AudioResource($audio, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.audio.show', ['audio' => $audio]));
 
-    /**
-     * The Audio Show Endpoint shall return an Audio Resource for soft deleted audios.
-     */
-    public function testSoftDelete(): void
-    {
-        $audio = Audio::factory()->trashed()->createOne();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AudioResource($audio, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response = $this->get(route('api.audio.show', ['audio' => $audio]));
+test('soft delete', function () {
+    $audio = Audio::factory()->trashed()->createOne();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AudioResource($audio, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.audio.show', ['audio' => $audio]));
 
-    /**
-     * The Audio Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new AudioSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AudioResource($audio, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new AudioSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $audio = Audio::factory()
-            ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.audio.show', ['audio' => $audio] + $parameters));
+    $audio = Audio::factory()
+        ->has(Video::factory()->count(fake()->randomDigitNotNull()))
+        ->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AudioResource($audio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.audio.show', ['audio' => $audio] + $parameters));
 
-    /**
-     * The Audio Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new AudioSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AudioResource($audio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new AudioSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                AudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $audio = Audio::factory()->create();
+    $parameters = [
+        FieldParser::param() => [
+            AudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.audio.show', ['audio' => $audio] + $parameters));
+    $audio = Audio::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AudioResource($audio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = get(route('api.audio.show', ['audio' => $audio] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AudioResource($audio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

@@ -2,79 +2,63 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongResourceUpdateTest extends TestCase
-{
-    /**
-     * The Song Resource Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = SongResource::factory()->raw();
+test('protected', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $parameters = SongResource::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
-    /**
-     * The Song Resource Update Endpoint shall forbid users without the update song & update resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = SongResource::factory()->raw();
+test('forbidden', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = SongResource::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
-    /**
-     * The Song Resource Update Endpoint shall update an song resource.
-     */
-    public function testUpdate(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = SongResource::factory()->raw();
+test('update', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::UPDATE->format(Song::class),
-                CrudPermission::UPDATE->format(ExternalResource::class)
-            )
-            ->createOne();
+    $parameters = SongResource::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::UPDATE->format(Song::class),
+            CrudPermission::UPDATE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+
+    $response->assertOk();
+});

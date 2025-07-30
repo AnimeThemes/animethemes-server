@@ -2,85 +2,65 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SynonymUpdateTest extends TestCase
-{
-    /**
-     * The Synonym Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+use function Pest\Laravel\put;
 
-        $parameters = AnimeSynonym::factory()->raw();
+test('protected', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    $parameters = AnimeSynonym::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
-    /**
-     * The Synonym Update Endpoint shall forbid users without the update anime synonym permission.
-     */
-    public function testForbidden(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = AnimeSynonym::factory()->raw();
+test('forbidden', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = AnimeSynonym::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
-    /**
-     * The Synonym Update Endpoint shall forbid users from updating an anime synonym that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $synonym = AnimeSynonym::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = AnimeSynonym::factory()->raw();
+test('trashed', function () {
+    $synonym = AnimeSynonym::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(AnimeSynonym::class))->createOne();
+    $parameters = AnimeSynonym::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
-    /**
-     * The Synonym Update Endpoint shall update a synonym.
-     */
-    public function testUpdate(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = AnimeSynonym::factory()->raw();
+test('update', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeSynonym::class))->createOne();
+    $parameters = AnimeSynonym::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+
+    $response->assertOk();
+});

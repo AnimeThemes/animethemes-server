@@ -2,66 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Actions\Storage\Base;
-
 use App\Actions\Storage\Base\PruneResults;
 use App\Enums\Actions\ActionStatus;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class PruneResultsTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Action result has failed if there are no prunings.
-     */
-    public function testDefault(): void
-    {
-        $pruneResults = new PruneResults($this->faker->word());
+test('default', function () {
+    $pruneResults = new PruneResults(fake()->word());
 
-        $result = $pruneResults->toActionResult();
+    $result = $pruneResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
+});
+
+test('failed', function () {
+    $prunings = [];
+
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $prunings[fake()->word()] = true;
     }
 
-    /**
-     * The Action result has failed if any prunings have returned false.
-     */
-    public function testFailed(): void
-    {
-        $prunings = [];
-
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $prunings[$this->faker->word()] = true;
-        }
-
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $prunings[$this->faker->word()] = false;
-        }
-
-        $pruneResults = new PruneResults($this->faker->word(), $prunings);
-
-        $result = $pruneResults->toActionResult();
-
-        static::assertTrue($result->hasFailed());
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $prunings[fake()->word()] = false;
     }
 
-    /**
-     * The Action result has passed if all prunings have returned true.
-     */
-    public function testPassed(): void
-    {
-        $prunings = [];
+    $pruneResults = new PruneResults(fake()->word(), $prunings);
 
-        foreach (range(0, $this->faker->randomDigitNotNull()) as $ignored) {
-            $prunings[$this->faker->word()] = true;
-        }
+    $result = $pruneResults->toActionResult();
 
-        $pruneResults = new PruneResults($this->faker->word(), $prunings);
+    $this->assertTrue($result->hasFailed());
+});
 
-        $result = $pruneResults->toActionResult();
+test('passed', function () {
+    $prunings = [];
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    foreach (range(0, fake()->randomDigitNotNull()) as $ignored) {
+        $prunings[fake()->word()] = true;
     }
-}
+
+    $pruneResults = new PruneResults(fake()->word(), $prunings);
+
+    $result = $pruneResults->toActionResult();
+
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+});

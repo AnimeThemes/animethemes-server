@@ -2,95 +2,78 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Document\Page;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class PageShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Page Show Endpoint shall return a Page Resource.
-     */
-    public function testDefault(): void
-    {
-        $page = Page::factory()->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.page.show', ['page' => $page]));
+test('default', function () {
+    $page = Page::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageResource($page, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.page.show', ['page' => $page]));
 
-    /**
-     * The Page Show Endpoint shall return a Page Resource for soft deleted images.
-     */
-    public function testSoftDelete(): void
-    {
-        $page = Page::factory()->trashed()->createOne();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageResource($page, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $page->unsetRelations();
+test('soft delete', function () {
+    $page = Page::factory()->trashed()->createOne();
 
-        $response = $this->get(route('api.page.show', ['page' => $page]));
+    $page->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageResource($page, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.page.show', ['page' => $page]));
 
-    /**
-     * The Page Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new PageSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageResource($page, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new PageSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                PageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $page = Page::factory()->create();
+    $parameters = [
+        FieldParser::param() => [
+            PageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.page.show', ['page' => $page] + $parameters));
+    $page = Page::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PageResource($page, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = get(route('api.page.show', ['page' => $page] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PageResource($page, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

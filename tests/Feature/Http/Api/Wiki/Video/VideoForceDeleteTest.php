@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class VideoForceDeleteTest extends TestCase
-{
-    /**
-     * The Video Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $video = Video::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+test('protected', function () {
+    $video = Video::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.video.forceDelete', ['video' => $video]));
 
-    /**
-     * The Video Force Delete Endpoint shall forbid users without the force delete video permission.
-     */
-    public function testForbidden(): void
-    {
-        $video = Video::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.video.forceDelete', ['video' => $video]));
 
-    /**
-     * The Video Force Delete Endpoint shall force delete the video.
-     */
-    public function testDeleted(): void
-    {
-        $video = Video::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Video::class))->createOne();
+test('deleted', function () {
+    $video = Video::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Video::class))->createOne();
 
-        $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($video);
-    }
-}
+    $response = delete(route('api.video.forceDelete', ['video' => $video]));
+
+    $response->assertOk();
+    $this->assertModelMissing($video);
+});

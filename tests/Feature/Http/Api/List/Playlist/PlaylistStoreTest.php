@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\Playlist;
-
 use App\Constants\Config\PlaylistConstants;
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
@@ -13,304 +11,254 @@ use App\Enums\Rules\ModerationService;
 use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PlaylistStoreTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\post;
 
-    /**
-     * The Playlist Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $playlist = Playlist::factory()->makeOne();
+test('protected', function () {
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $response = $this->post(route('api.playlist.store', $playlist->toArray()));
+    $playlist = Playlist::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.playlist.store', $playlist->toArray()));
 
-    /**
-     * The Playlist Store Endpoint shall forbid users without the create playlist permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
+    $response->assertUnauthorized();
+});
 
-        $playlist = Playlist::factory()->makeOne();
+test('forbidden if missing permission', function () {
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->createOne();
+    $playlist = Playlist::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.playlist.store', $playlist->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.playlist.store', $playlist->toArray()));
 
-    /**
-     * The Playlist Store Endpoint shall forbid users from creating playlists
-     * if the Allow Playlist Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Feature::deactivate(AllowPlaylistManagement::class);
+    $response->assertForbidden();
+});
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+test('forbidden if flag disabled', function () {
+    Feature::deactivate(AllowPlaylistManagement::class);
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.playlist.store', $parameters));
 
-    /**
-     * The Playlist Store Endpoint shall require name & visibility fields.
-     */
-    public function testRequiredFields(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
+test('required fields', function () {
+    Feature::activate(AllowPlaylistManagement::class);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
-        $response = $this->post(route('api.playlist.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            Playlist::ATTRIBUTE_NAME,
-            Playlist::ATTRIBUTE_VISIBILITY,
-        ]);
-    }
+    $response = post(route('api.playlist.store'));
 
-    /**
-     * The Playlist Store Endpoint shall create a playlist.
-     */
-    public function testCreate(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
+    $response->assertJsonValidationErrors([
+        Playlist::ATTRIBUTE_NAME,
+        Playlist::ATTRIBUTE_VISIBILITY,
+    ]);
+});
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+test('create', function () {
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Playlist::class, 1);
-        static::assertDatabaseHas(Playlist::class, [Playlist::ATTRIBUTE_USER => $user->getKey()]);
-    }
+    $response = post(route('api.playlist.store', $parameters));
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to create playlists
-     * even if the Allow Playlist Management feature is inactive.
-     */
-    public function testCreatePermittedForBypass(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
+    $response->assertCreated();
+    $this->assertDatabaseCount(Playlist::class, 1);
+    $this->assertDatabaseHas(Playlist::class, [Playlist::ATTRIBUTE_USER => $user->getKey()]);
+});
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+test('create permitted for bypass', function () {
+    Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Playlist::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-    }
+    $response = post(route('api.playlist.store', $parameters));
 
-    /**
-     * The Playlist Store Endpoint shall forbid users from creating playlists that exceed the user playlist limit.
-     */
-    public function testMaxTrackLimit(): void
-    {
-        $playlistLimit = $this->faker->randomDigitNotNull();
+    $response->assertCreated();
+});
 
-        Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
-        Feature::activate(AllowPlaylistManagement::class);
+test('max track limit', function () {
+    $playlistLimit = fake()->randomDigitNotNull();
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()
-            ->has(Playlist::factory()->count($playlistLimit))
-            ->withPermissions(CrudPermission::CREATE->format(Playlist::class))
-            ->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->has(Playlist::factory()->count($playlistLimit))
+        ->withPermissions(CrudPermission::CREATE->format(Playlist::class))
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.playlist.store', $parameters));
 
-    /**
-     * The Playlist Store Endpoint shall permit users with bypass feature flag permission
-     * to create playlists that exceed the user playlist limit.
-     */
-    public function testMaxTrackLimitPermittedForBypass(): void
-    {
-        $playlistLimit = $this->faker->randomDigitNotNull();
+    $response->assertForbidden();
+});
 
-        Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
-        Feature::activate(AllowPlaylistManagement::class);
+test('max track limit permitted for bypass', function () {
+    $playlistLimit = fake()->randomDigitNotNull();
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $user = User::factory()
-            ->has(Playlist::factory()->count($playlistLimit))
-            ->withPermissions(
-                CrudPermission::CREATE->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->has(Playlist::factory()->count($playlistLimit))
+        ->withPermissions(
+            CrudPermission::CREATE->format(Playlist::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-    }
+    $response = post(route('api.playlist.store', $parameters));
 
-    /**
-     * The Playlist Store Endpoint shall create a playlist if the name is not flagged by OpenAI.
-     */
-    public function testCreatedIfNotFlaggedByOpenAi(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+    $response->assertCreated();
+});
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => false,
-                    ],
+test('created if not flagged by open ai', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => false,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    $response = post(route('api.playlist.store', $parameters));
 
-        $response->assertCreated();
-    }
+    $response->assertCreated();
+});
 
-    /**
-     * The Playlist Store Endpoint shall create a playlist if the moderation service returns some error.
-     */
-    public function testCreatedIfOpenAiFails(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('created if open ai fails', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
-        ]);
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+    ]);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    $response = post(route('api.playlist.store', $parameters));
 
-        $response->assertCreated();
-    }
+    $response->assertCreated();
+});
 
-    /**
-     * The Playlist Store Endpoint shall prohibit users from creating playlists with names flagged by OpenAI.
-     */
-    public function testValidationErrorWhenFlaggedByOpenAi(): void
-    {
-        Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
+test('validation error when flagged by open ai', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
-        Http::fake([
-            'https://api.openai.com/v1/moderations' => Http::response([
-                'results' => [
-                    0 => [
-                        'flagged' => true,
-                    ],
+    Http::fake([
+        'https://api.openai.com/v1/moderations' => Http::response([
+            'results' => [
+                0 => [
+                    'flagged' => true,
                 ],
-            ]),
-        ]);
+            ],
+        ]),
+    ]);
 
-        $visibility = Arr::random(PlaylistVisibility::cases());
+    $visibility = Arr::random(PlaylistVisibility::cases());
 
-        $parameters = array_merge(
-            Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        Playlist::factory()->raw(),
+        [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.store', $parameters));
+    $response = post(route('api.playlist.store', $parameters));
 
-        $response->assertJsonValidationErrors([
-            Playlist::ATTRIBUTE_NAME,
-        ]);
-    }
-}
+    $response->assertJsonValidationErrors([
+        Playlist::ATTRIBUTE_NAME,
+    ]);
+});

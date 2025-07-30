@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Group;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class GroupDestroyTest extends TestCase
-{
-    /**
-     * The Group Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $group = Group::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.group.destroy', ['group' => $group]));
+test('protected', function () {
+    $group = Group::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.group.destroy', ['group' => $group]));
 
-    /**
-     * The Group Destroy Endpoint shall forbid users without the delete group permission.
-     */
-    public function testForbidden(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $group = Group::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.group.destroy', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.group.destroy', ['group' => $group]));
 
-    /**
-     * The Group Destroy Endpoint shall forbid users from updating a group that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $group = Group::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Group::class))->createOne();
+test('trashed', function () {
+    $group = Group::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Group::class))->createOne();
 
-        $response = $this->delete(route('api.group.destroy', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.group.destroy', ['group' => $group]));
 
-    /**
-     * The Group Destroy Endpoint shall delete the group.
-     */
-    public function testDeleted(): void
-    {
-        $group = Group::factory()->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Group::class))->createOne();
+test('deleted', function () {
+    $group = Group::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Group::class))->createOne();
 
-        $response = $this->delete(route('api.group.destroy', ['group' => $group]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertSoftDeleted($group);
-    }
-}
+    $response = delete(route('api.group.destroy', ['group' => $group]));
+
+    $response->assertOk();
+    $this->assertSoftDeleted($group);
+});

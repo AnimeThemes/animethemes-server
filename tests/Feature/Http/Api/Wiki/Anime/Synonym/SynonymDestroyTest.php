@@ -2,78 +2,58 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SynonymDestroyTest extends TestCase
-{
-    /**
-     * The Synonym Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+test('protected', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Destroy Endpoint shall forbid users without the delete anime synonym permission.
-     */
-    public function testForbidden(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Destroy Endpoint shall forbid users from updating an anime synonym that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $synonym = AnimeSynonym::factory()
-            ->trashed()
-            ->for(Anime::factory())
-            ->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(AnimeSynonym::class))->createOne();
+test('trashed', function () {
+    $synonym = AnimeSynonym::factory()
+        ->trashed()
+        ->for(Anime::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
 
-    /**
-     * The Synonym Destroy Endpoint shall delete the synonym.
-     */
-    public function testDeleted(): void
-    {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(AnimeSynonym::class))->createOne();
+test('deleted', function () {
+    $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(AnimeSynonym::class))->createOne();
 
-        $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertSoftDeleted($synonym);
-    }
-}
+    $response = delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+
+    $response->assertOk();
+    $this->assertSoftDeleted($synonym);
+});

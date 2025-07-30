@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Image;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Field\Field;
@@ -18,245 +16,214 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class ImageShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Image Show Endpoint shall return an Image Resource.
-     */
-    public function testDefault(): void
-    {
-        $image = Image::factory()->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.image.show', ['image' => $image]));
+test('default', function () {
+    $image = Image::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.image.show', ['image' => $image]));
 
-    /**
-     * The Image Show Endpoint shall return an Image Resource for soft deleted images.
-     */
-    public function testSoftDelete(): void
-    {
-        $image = Image::factory()->trashed()->createOne();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $image->unsetRelations();
+test('soft delete', function () {
+    $image = Image::factory()->trashed()->createOne();
 
-        $response = $this->get(route('api.image.show', ['image' => $image]));
+    $image->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.image.show', ['image' => $image]));
 
-    /**
-     * The Image Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ImageSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new ImageSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $image = Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $image = Image::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->has(Artist::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
-    /**
-     * The Image Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ImageSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new ImageSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                ImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $image = Image::factory()->create();
+    $parameters = [
+        FieldParser::param() => [
+            ImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $image = Image::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
-    /**
-     * The Image Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => Image::RELATION_ANIME,
-        ];
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $image = Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => Image::RELATION_ANIME,
+    ];
 
-        $image->unsetRelations()->load([
-            Image::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $image = Image::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $image->unsetRelations()->load([
+        Image::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
-    /**
-     * The Image Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => Image::RELATION_ANIME,
-        ];
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $image = Image::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => Image::RELATION_ANIME,
+    ];
 
-        $image->unsetRelations()->load([
-            Image::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $image = Image::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $image->unsetRelations()->load([
+        Image::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
-    /**
-     * The Image Show Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => Image::RELATION_ANIME,
-        ];
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
 
-        $image = Image::factory()
-            ->has(
-                Anime::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->state([
-                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                    ])
-            )
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => Image::RELATION_ANIME,
+    ];
 
-        $image->unsetRelations()->load([
-            Image::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
+    $image = Image::factory()
+        ->has(
+            Anime::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->state([
+                    Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
+                ])
+        )
+        ->createOne();
 
-        $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $image->unsetRelations()->load([
+        Image::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ImageResource($image, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ImageResource($image, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

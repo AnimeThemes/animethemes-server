@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Song;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
@@ -22,333 +20,294 @@ use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class SongShowTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * By default, the Song Show Endpoint shall return a Song Resource.
-     */
-    public function testDefault(): void
-    {
-        $song = Song::factory()->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.song.show', ['song' => $song]));
+test('default', function () {
+    $song = Song::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song]));
 
-    /**
-     * The Song Show Endpoint shall return a Song Resource for soft deleted songs.
-     */
-    public function testSoftDelete(): void
-    {
-        $song = Song::factory()->trashed()->createOne();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $song->unsetRelations();
+test('soft delete', function () {
+    $song = Song::factory()->trashed()->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song]));
+    $song->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song]));
 
-    /**
-     * The Song Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new SongSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('allowed include paths', function () {
+    $schema = new SongSchema();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $song = Song::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song = Song::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->has(Artist::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
 
-    /**
-     * The Song Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new SongSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new SongSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $song = Song::factory()->create();
+    $parameters = [
+        FieldParser::param() => [
+            SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song = Song::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
 
-    /**
-     * The Song Show Endpoint shall support constrained eager loading of themes by sequence.
-     */
-    public function testThemesBySequence(): void
-    {
-        $sequenceFilter = $this->faker->randomDigitNotNull();
-        $excludedSequence = $sequenceFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
-            ],
-            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
-        ];
+test('themes by sequence', function () {
+    $sequenceFilter = fake()->randomDigitNotNull();
+    $excludedSequence = $sequenceFilter + 1;
 
-        $song = Song::factory()
-            ->has(
-                AnimeTheme::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->for(Anime::factory())
-                    ->state(new Sequence(
-                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
-                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
-                    ))
-            )
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
+        ],
+        IncludeParser::param() => Song::RELATION_ANIMETHEMES,
+    ];
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
-            },
-        ]);
+    $song = Song::factory()
+        ->has(
+            AnimeTheme::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->for(Anime::factory())
+                ->state(new Sequence(
+                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                    [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
+                ))
+        )
+        ->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song->unsetRelations()->load([
+        Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
+            $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
 
-    /**
-     * The Song Show Endpoint shall support constrained eager loading of themes by type.
-     */
-    public function testThemesByType(): void
-    {
-        $typeFilter = Arr::random(ThemeType::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
-            ],
-            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
-        ];
+test('themes by type', function () {
+    $typeFilter = Arr::random(ThemeType::cases());
 
-        $song = Song::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+        ],
+        IncludeParser::param() => Song::RELATION_ANIMETHEMES,
+    ];
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
-            },
-        ]);
+    $song = Song::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song->unsetRelations()->load([
+        Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
+            $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
 
-    /**
-     * The Song Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => Song::RELATION_ANIME,
-        ];
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $song = Song::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => Song::RELATION_ANIME,
+    ];
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $song = Song::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song->unsetRelations()->load([
+        Song::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
 
-    /**
-     * The Song Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => Song::RELATION_ANIME,
-        ];
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $song = Song::factory()
-            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => Song::RELATION_ANIME,
+    ];
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $song = Song::factory()
+        ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
+        ->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song->unsetRelations()->load([
+        Song::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
 
-    /**
-     * The Song Show Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = intval($this->faker->year());
-        $excludedYear = $yearFilter + 1;
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => Song::RELATION_ANIME,
-        ];
+test('anime by year', function () {
+    $yearFilter = intval(fake()->year());
+    $excludedYear = $yearFilter + 1;
 
-        $song = Song::factory()
-            ->has(
-                AnimeTheme::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->for(
-                        Anime::factory()
-                            ->state([
-                                Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                            ])
-                    )
-            )
-            ->createOne();
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => Song::RELATION_ANIME,
+    ];
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
+    $song = Song::factory()
+        ->has(
+            AnimeTheme::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->for(
+                    Anime::factory()
+                        ->state([
+                            Anime::ATTRIBUTE_YEAR => fake()->boolean() ? $yearFilter : $excludedYear,
+                        ])
+                )
+        )
+        ->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+    $song->unsetRelations()->load([
+        Song::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResource($song, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = get(route('api.song.show', ['song' => $song] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResource($song, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

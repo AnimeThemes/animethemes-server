@@ -2,153 +2,122 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Features\AllowExternalProfileManagement;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalProfileDestroyTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\delete;
 
-    /**
-     * The External Profile Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        Feature::activate(AllowExternalProfileManagement::class);
+test('protected', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()->createOne();
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $profile = ExternalProfile::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
-    /**
-     * The External Profile Destroy Endpoint shall forbid users without the delete profile permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+    $response->assertUnauthorized();
+});
 
-        Feature::activate(AllowExternalProfileManagement::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()->createOne();
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $user = User::factory()->createOne();
+    $profile = ExternalProfile::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
-    /**
-     * The External Profile Destroy Endpoint shall forbid users from deleting the profile if they don't own it.
-     */
-    public function testForbiddenIfNotOwnExternalProfile(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowExternalProfileManagement::class);
+test('forbidden if not own external profile', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne();
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
 
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
-    /**
-     * The External Profile Destroy Endpoint shall forbid users from destroying profiles
-     * if the Allow ExternalProfile Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::deactivate(AllowExternalProfileManagement::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
+    Feature::deactivate(AllowExternalProfileManagement::class);
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne();
 
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
-    /**
-     * The External Profile Destroy Endpoint shall delete the profile.
-     */
-    public function testDeleted(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+    $response->assertForbidden();
+});
 
-        Feature::activate(AllowExternalProfileManagement::class);
+test('deleted', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne();
 
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($profile);
-    }
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to destroy profiles
-     * even if the Allow ExternalProfile Management feature is inactive.
-     */
-    public function testDestroyPermittedForBypass(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+    $response->assertOk();
+    $this->assertModelMissing($profile);
+});
 
-        Feature::activate(AllowExternalProfileManagement::class, $this->faker->boolean());
+test('destroy permitted for bypass', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(ExternalProfile::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    Feature::activate(AllowExternalProfileManagement::class, fake()->boolean());
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(ExternalProfile::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne();
 
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+
+    $response->assertOk();
+});

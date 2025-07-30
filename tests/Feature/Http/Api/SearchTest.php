@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api;
-
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Resources\List\Collection\PlaylistCollection;
@@ -15,93 +13,78 @@ use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Tests\TestCase;
 
-class SearchTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The Search Endpoint shall require a search term.
-     */
-    public function testNoSearchTerm(): void
-    {
-        $response = $this->get(route('api.search.show'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertJsonValidationErrors(SearchParser::param());
+test('no search term', function () {
+    $response = get(route('api.search.show'));
+
+    $response->assertJsonValidationErrors(SearchParser::param());
+});
+
+test('search attributes', function () {
+    $driver = Config::get('scout.driver');
+    if (empty($driver)) {
+        $this->markTestSkipped('A driver must be configured for this test');
     }
 
-    /**
-     * The Search Endpoint shall display the Search attributes.
-     */
-    public function testSearchAttributes(): void
-    {
-        $driver = Config::get('scout.driver');
-        if (empty($driver)) {
-            static::markTestSkipped('A driver must be configured for this test');
-        }
+    $q = fake()->word();
 
-        $q = $this->faker->word();
+    $parameters = [
+        SearchParser::param() => $q,
+    ];
 
-        $parameters = [
-            SearchParser::param() => $q,
-        ];
+    $response = get(route('api.search.show', $parameters));
 
-        $response = $this->get(route('api.search.show', $parameters));
+    $response->assertJson([
+        SearchResource::$wrap => [
+            AnimeCollection::$wrap => [],
+            ThemeCollection::$wrap => [],
+            ArtistCollection::$wrap => [],
+            PlaylistCollection::$wrap => [],
+            SeriesCollection::$wrap => [],
+            SongCollection::$wrap => [],
+            StudioCollection::$wrap => [],
+            VideoCollection::$wrap => [],
+        ],
+    ]);
+});
 
-        $response->assertJson([
-            SearchResource::$wrap => [
-                AnimeCollection::$wrap => [],
-                ThemeCollection::$wrap => [],
-                ArtistCollection::$wrap => [],
-                PlaylistCollection::$wrap => [],
-                SeriesCollection::$wrap => [],
-                SongCollection::$wrap => [],
-                StudioCollection::$wrap => [],
-                VideoCollection::$wrap => [],
-            ],
-        ]);
+test('search sparse fieldsets', function () {
+    $driver = Config::get('scout.driver');
+    if (empty($driver)) {
+        $this->markTestSkipped('A driver must be configured for this test');
     }
 
-    /**
-     * The Search Endpoint shall allow each resource to be included/excluded in a sparse fieldset.
-     */
-    public function testSearchSparseFieldsets(): void
-    {
-        $driver = Config::get('scout.driver');
-        if (empty($driver)) {
-            static::markTestSkipped('A driver must be configured for this test');
-        }
+    $fields = [
+        AnimeCollection::$wrap,
+        ThemeCollection::$wrap,
+        ArtistCollection::$wrap,
+        PlaylistCollection::$wrap,
+        SeriesCollection::$wrap,
+        SongCollection::$wrap,
+        StudioCollection::$wrap,
+        VideoCollection::$wrap,
+    ];
 
-        $fields = [
-            AnimeCollection::$wrap,
-            ThemeCollection::$wrap,
-            ArtistCollection::$wrap,
-            PlaylistCollection::$wrap,
-            SeriesCollection::$wrap,
-            SongCollection::$wrap,
-            StudioCollection::$wrap,
-            VideoCollection::$wrap,
-        ];
+    $includedFields = Arr::random($fields, fake()->numberBetween(1, count($fields)));
 
-        $includedFields = Arr::random($fields, $this->faker->numberBetween(1, count($fields)));
+    $q = fake()->word();
 
-        $q = $this->faker->word();
+    $parameters = [
+        SearchParser::param() => $q,
+        FieldParser::param() => [
+            SearchResource::$wrap => implode(',', $includedFields),
+        ],
+    ];
 
-        $parameters = [
-            SearchParser::param() => $q,
-            FieldParser::param() => [
-                SearchResource::$wrap => implode(',', $includedFields),
-            ],
-        ];
+    $response = get(route('api.search.show', $parameters));
 
-        $response = $this->get(route('api.search.show', $parameters));
-
-        $response->assertJsonStructure([
-            SearchResource::$wrap => $includedFields,
-        ]);
-    }
-}
+    $response->assertJsonStructure([
+        SearchResource::$wrap => $includedFields,
+    ]);
+});

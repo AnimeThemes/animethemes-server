@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\FeaturedTheme;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Admin\FeaturedTheme;
@@ -13,123 +11,100 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class FeaturedThemeUpdateTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\put;
 
-    /**
-     * The Featured Theme Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $parameters = FeaturedTheme::factory()->raw();
+test('protected', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    $parameters = FeaturedTheme::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
-    /**
-     * The Featured Theme Update Endpoint shall forbid users without the update featured theme permission.
-     */
-    public function testForbidden(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = FeaturedTheme::factory()->raw();
+test('forbidden', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = FeaturedTheme::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
-    /**
-     * The Featured Update Store Endpoint shall require the start_at field to be before the end_at field and vice versa.
-     */
-    public function testStartAtBeforeEndDate(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = FeaturedTheme::factory()->raw([
-            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
-            FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-1 year', '-1 day')->format(AllowedDateFormat::YMDHISU->value),
-        ]);
+test('start at before end date', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
+    $parameters = FeaturedTheme::factory()->raw([
+        FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
+        FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-1 year', '-1 day')->format(AllowedDateFormat::YMDHISU->value),
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
 
-        $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            FeaturedTheme::ATTRIBUTE_START_AT,
-            FeaturedTheme::ATTRIBUTE_END_AT,
-        ]);
-    }
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
-    /**
-     * The Featured Theme Update Endpoint shall require the entry and video to have an association.
-     */
-    public function testAnimeThemeEntryVideoExists(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+    $response->assertJsonValidationErrors([
+        FeaturedTheme::ATTRIBUTE_START_AT,
+        FeaturedTheme::ATTRIBUTE_END_AT,
+    ]);
+});
 
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->create();
+test('anime theme entry video exists', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $video = Video::factory()->create();
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->create();
 
-        $parameters = FeaturedTheme::factory()->raw([
-            FeaturedTheme::ATTRIBUTE_ENTRY => $entry->getKey(),
-            FeaturedTheme::ATTRIBUTE_VIDEO => $video->getKey(),
-        ]);
+    $video = Video::factory()->create();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
+    $parameters = FeaturedTheme::factory()->raw([
+        FeaturedTheme::ATTRIBUTE_ENTRY => $entry->getKey(),
+        FeaturedTheme::ATTRIBUTE_VIDEO => $video->getKey(),
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
 
-        $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            FeaturedTheme::ATTRIBUTE_ENTRY,
-            FeaturedTheme::ATTRIBUTE_VIDEO,
-        ]);
-    }
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
-    /**
-     * The Featured Theme Update Endpoint shall update a featured theme.
-     */
-    public function testUpdate(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+    $response->assertJsonValidationErrors([
+        FeaturedTheme::ATTRIBUTE_ENTRY,
+        FeaturedTheme::ATTRIBUTE_VIDEO,
+    ]);
+});
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
-            ->for(Video::factory())
-            ->createOne();
+test('update', function () {
+    $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $parameters = FeaturedTheme::factory()->raw([
-            FeaturedTheme::ATTRIBUTE_ENTRY => $entryVideo->entry_id,
-            FeaturedTheme::ATTRIBUTE_VIDEO => $entryVideo->video_id,
-        ]);
+    $entryVideo = AnimeThemeEntryVideo::factory()
+        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+        ->for(Video::factory())
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
+    $parameters = FeaturedTheme::factory()->raw([
+        FeaturedTheme::ATTRIBUTE_ENTRY => $entryVideo->entry_id,
+        FeaturedTheme::ATTRIBUTE_VIDEO => $entryVideo->video_id,
+    ]);
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
 
-        $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-    }
-}
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+
+    $response->assertOk();
+});

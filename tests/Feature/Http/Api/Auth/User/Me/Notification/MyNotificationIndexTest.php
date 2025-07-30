@@ -2,81 +2,64 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Auth\User\Me\Notification;
-
 use App\Enums\Auth\CrudPermission;
 use App\Http\Api\Query\Query;
 use App\Http\Resources\User\Collection\NotificationCollection;
 use App\Models\Auth\User;
 use App\Models\User\Notification;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class MyNotificationIndexTest extends TestCase
-{
-    use WithFaker;
+use function Pest\Laravel\get;
 
-    /**
-     * The My Notification Index Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $response = $this->get(route('api.me.notification.index'));
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response->assertUnauthorized();
-    }
+test('protected', function () {
+    $response = get(route('api.me.notification.index'));
 
-    /**
-     * The My Notification Index Endpoint shall forbid users without the view notification permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        $user = User::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        Sanctum::actingAs($user);
+test('forbidden if missing permission', function () {
+    $user = User::factory()->createOne();
 
-        $response = $this->get(route('api.me.notification.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = get(route('api.me.notification.index'));
 
-    /**
-     * The My Notification Index Endpoint shall return notifications owned by the user.
-     */
-    public function testOnlySeesOwnedNotifications(): void
-    {
-        Notification::factory()
-            ->for(User::factory(), Notification::RELATION_NOTIFIABLE)
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Notification::class))->createOne();
+test('only sees owned notifications', function () {
+    Notification::factory()
+        ->for(User::factory(), Notification::RELATION_NOTIFIABLE)
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $notificationCount = $this->faker->randomDigitNotNull();
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Notification::class))->createOne();
 
-        $notifications = Notification::factory()
-            ->for($user, Notification::RELATION_NOTIFIABLE)
-            ->count($notificationCount)
-            ->create()
-            ->sortBy(Model::CREATED_AT);
+    $notificationCount = fake()->randomDigitNotNull();
 
-        Sanctum::actingAs($user);
+    $notifications = Notification::factory()
+        ->for($user, Notification::RELATION_NOTIFIABLE)
+        ->count($notificationCount)
+        ->create()
+        ->sortBy(Model::CREATED_AT);
 
-        $response = $this->get(route('api.me.notification.index'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonCount($notificationCount, NotificationCollection::$wrap);
+    $response = get(route('api.me.notification.index'));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new NotificationCollection($notifications, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJsonCount($notificationCount, NotificationCollection::$wrap);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new NotificationCollection($notifications, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

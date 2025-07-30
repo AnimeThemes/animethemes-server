@@ -2,57 +2,41 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Image;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ImageForceDeleteTest extends TestCase
-{
-    /**
-     * The Image Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $image = Image::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.image.forceDelete', ['image' => $image]));
+test('protected', function () {
+    $image = Image::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.image.forceDelete', ['image' => $image]));
 
-    /**
-     * The Image Force Delete Endpoint shall forbid users without the force delete image permission.
-     */
-    public function testForbidden(): void
-    {
-        $image = Image::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.image.forceDelete', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.image.forceDelete', ['image' => $image]));
 
-    /**
-     * The Image Force Delete Endpoint shall force delete the image.
-     */
-    public function testDeleted(): void
-    {
-        $image = Image::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Image::class))->createOne();
+test('deleted', function () {
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
-        $response = $this->delete(route('api.image.forceDelete', ['image' => $image]));
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Image::class))->createOne();
 
-        $response->assertOk();
-        static::assertModelMissing($image);
-    }
-}
+    Sanctum::actingAs($user);
+    $response = delete(route('api.image.forceDelete', ['image' => $image]));
+
+    $response->assertOk();
+    $this->assertModelMissing($image);
+});

@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalResourceForceDeleteTest extends TestCase
-{
-    /**
-     * The External Resource Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.resource.forceDelete', ['resource' => $resource]));
+test('protected', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.resource.forceDelete', ['resource' => $resource]));
 
-    /**
-     * The External Resource Force Delete Endpoint shall forbid users without the force delete external resource permission.
-     */
-    public function testForbidden(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.resource.forceDelete', ['resource' => $resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.resource.forceDelete', ['resource' => $resource]));
 
-    /**
-     * The External Resource Force Delete Endpoint shall force delete the resource.
-     */
-    public function testDeleted(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(ExternalResource::class))->createOne();
+test('deleted', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(ExternalResource::class))->createOne();
 
-        $response = $this->delete(route('api.resource.forceDelete', ['resource' => $resource]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($resource);
-    }
-}
+    $response = delete(route('api.resource.forceDelete', ['resource' => $resource]));
+
+    $response->assertOk();
+    $this->assertModelMissing($resource);
+});

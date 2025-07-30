@@ -2,58 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video\Script;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ScriptForceDeleteTest extends TestCase
-{
-    /**
-     * The Script Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $script = VideoScript::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+test('protected', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
 
-    /**
-     * The Script Force Delete Endpoint shall forbid users without the force delete video script permission.
-     */
-    public function testForbidden(): void
-    {
-        $script = VideoScript::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $script = VideoScript::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
 
-    /**
-     * The Script Force Delete Endpoint shall force delete the script.
-     */
-    public function testDeleted(): void
-    {
-        $script = VideoScript::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(VideoScript::class))->createOne();
+test('deleted', function () {
+    $script = VideoScript::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(VideoScript::class))->createOne();
 
-        $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertModelMissing($script);
-    }
-}
+    $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+
+    $response->assertOk();
+    $this->assertModelMissing($script);
+});

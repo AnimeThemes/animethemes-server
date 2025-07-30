@@ -2,74 +2,58 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongResourceStoreTest extends TestCase
-{
-    /**
-     * The Song Resource Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+use function Pest\Laravel\post;
 
-        $parameters = SongResource::factory()->raw();
+test('protected', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $response = $this->post(route('api.songresource.store', ['song' => $song, 'resource' => $resource] + $parameters));
+    $parameters = SongResource::factory()->raw();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.songresource.store', ['song' => $song, 'resource' => $resource] + $parameters));
 
-    /**
-     * The Song Resource Store Endpoint shall forbid users without the create song & create resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $parameters = SongResource::factory()->raw();
+test('forbidden', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $parameters = SongResource::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.songresource.store', ['song' => $song, 'resource' => $resource] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.songresource.store', ['song' => $song, 'resource' => $resource] + $parameters));
 
-    /**
-     * The Song Resource Store Endpoint shall create an song resource.
-     */
-    public function testCreate(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $parameters = SongResource::factory()->raw();
+test('create', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Song::class),
-                CrudPermission::CREATE->format(ExternalResource::class)
-            )
-            ->createOne();
+    $parameters = SongResource::factory()->raw();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Song::class),
+            CrudPermission::CREATE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.songresource.store', ['song' => $song, 'resource' => $resource] + $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(SongResource::class, 1);
-    }
-}
+    $response = post(route('api.songresource.store', ['song' => $song, 'resource' => $resource] + $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(SongResource::class, 1);
+});

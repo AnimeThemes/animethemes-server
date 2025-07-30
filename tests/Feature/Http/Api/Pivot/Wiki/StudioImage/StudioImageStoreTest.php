@@ -2,68 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioImage;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class StudioImageStoreTest extends TestCase
-{
-    /**
-     * The Studio Image Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $image = Image::factory()->createOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+test('protected', function () {
+    $studio = Studio::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
-    /**
-     * The Studio Image Store Endpoint shall forbid users without the create studio & create image permissions.
-     */
-    public function testForbidden(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $studio = Studio::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
-    /**
-     * The Studio Image Store Endpoint shall create an studio image.
-     */
-    public function testCreate(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Studio::class),
-                CrudPermission::CREATE->format(Image::class)
-            )
-            ->createOne();
+test('create', function () {
+    $studio = Studio::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Studio::class),
+            CrudPermission::CREATE->format(Image::class)
+        )
+        ->createOne();
 
-        $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(StudioImage::class, 1);
-    }
-}
+    $response = post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(StudioImage::class, 1);
+});

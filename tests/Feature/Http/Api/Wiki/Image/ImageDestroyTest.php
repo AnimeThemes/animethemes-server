@@ -2,74 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Image;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ImageDestroyTest extends TestCase
-{
-    /**
-     * The Image Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $image = Image::factory()->createOne();
+use function Pest\Laravel\delete;
 
-        $response = $this->delete(route('api.image.destroy', ['image' => $image]));
+test('protected', function () {
+    $image = Image::factory()->createOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = delete(route('api.image.destroy', ['image' => $image]));
 
-    /**
-     * The Image Destroy Endpoint shall forbid users without the delete image permission.
-     */
-    public function testForbidden(): void
-    {
-        $image = Image::factory()->createOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->delete(route('api.image.destroy', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = delete(route('api.image.destroy', ['image' => $image]));
 
-    /**
-     * The Image Destroy Endpoint shall forbid users from deleting an image that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $image = Image::factory()->trashed()->createOne();
+    $response->assertForbidden();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Image::class))->createOne();
+test('trashed', function () {
+    $image = Image::factory()->trashed()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Image::class))->createOne();
 
-        $response = $this->delete(route('api.image.destroy', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertNotFound();
-    }
+    $response = delete(route('api.image.destroy', ['image' => $image]));
 
-    /**
-     * The Image Destroy Endpoint shall delete the image.
-     */
-    public function testDeleted(): void
-    {
-        $image = Image::factory()->createOne();
+    $response->assertNotFound();
+});
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Image::class))->createOne();
+test('deleted', function () {
+    $image = Image::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Image::class))->createOne();
 
-        $response = $this->delete(route('api.image.destroy', ['image' => $image]));
+    Sanctum::actingAs($user);
 
-        $response->assertOk();
-        static::assertSoftDeleted($image);
-    }
-}
+    $response = delete(route('api.image.destroy', ['image' => $image]));
+
+    $response->assertOk();
+    $this->assertSoftDeleted($image);
+});

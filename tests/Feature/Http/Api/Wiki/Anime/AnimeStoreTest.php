@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -11,78 +9,60 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeStoreTest extends TestCase
-{
-    /**
-     * The Anime Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $anime = Anime::factory()->makeOne();
+use function Pest\Laravel\post;
 
-        $response = $this->post(route('api.anime.store', $anime->toArray()));
+test('protected', function () {
+    $anime = Anime::factory()->makeOne();
 
-        $response->assertUnauthorized();
-    }
+    $response = post(route('api.anime.store', $anime->toArray()));
 
-    /**
-     * The Anime Store Endpoint shall forbid users without the create anime permission.
-     */
-    public function testForbidden(): void
-    {
-        $anime = Anime::factory()->makeOne();
+    $response->assertUnauthorized();
+});
 
-        $user = User::factory()->createOne();
+test('forbidden', function () {
+    $anime = Anime::factory()->makeOne();
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->createOne();
 
-        $response = $this->post(route('api.anime.store', $anime->toArray()));
+    Sanctum::actingAs($user);
 
-        $response->assertForbidden();
-    }
+    $response = post(route('api.anime.store', $anime->toArray()));
 
-    /**
-     * The Anime Store Endpoint shall require name, season, media_format, slug & year fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
+    $response->assertForbidden();
+});
 
-        Sanctum::actingAs($user);
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
 
-        $response = $this->post(route('api.anime.store'));
+    Sanctum::actingAs($user);
 
-        $response->assertJsonValidationErrors([
-            Anime::ATTRIBUTE_NAME,
-            Anime::ATTRIBUTE_SEASON,
-            Anime::ATTRIBUTE_MEDIA_FORMAT,
-            Anime::ATTRIBUTE_SLUG,
-            Anime::ATTRIBUTE_YEAR,
-        ]);
-    }
+    $response = post(route('api.anime.store'));
 
-    /**
-     * The Anime Store Endpoint shall create an anime.
-     */
-    public function testCreate(): void
-    {
-        $season = Arr::random(AnimeSeason::cases());
-        $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $response->assertJsonValidationErrors([
+        Anime::ATTRIBUTE_NAME,
+        Anime::ATTRIBUTE_SEASON,
+        Anime::ATTRIBUTE_MEDIA_FORMAT,
+        Anime::ATTRIBUTE_SLUG,
+        Anime::ATTRIBUTE_YEAR,
+    ]);
+});
 
-        $parameters = array_merge(
-            Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
-        );
+test('create', function () {
+    $season = Arr::random(AnimeSeason::cases());
+    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
+    $parameters = array_merge(
+        Anime::factory()->raw(),
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+    );
 
-        Sanctum::actingAs($user);
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
 
-        $response = $this->post(route('api.anime.store', $parameters));
+    Sanctum::actingAs($user);
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Anime::class, 1);
-    }
-}
+    $response = post(route('api.anime.store', $parameters));
+
+    $response->assertCreated();
+    $this->assertDatabaseCount(Anime::class, 1);
+});
