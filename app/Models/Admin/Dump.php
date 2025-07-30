@@ -81,7 +81,7 @@ class Dump extends BaseModel
     ];
 
     /**
-     * The link of the video.
+     * The link of the dump.
      */
     public function getLinkAttribute(): ?string
     {
