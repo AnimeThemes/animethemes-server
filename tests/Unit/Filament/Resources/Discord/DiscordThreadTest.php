@@ -11,6 +11,7 @@ use App\Filament\Resources\Discord\DiscordThread;
 use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
+use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -86,8 +87,9 @@ test('mount edit action', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(DiscordThread::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
@@ -101,7 +103,7 @@ test('user cannot edit record', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(DiscordThread::class))
-        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
@@ -109,9 +111,6 @@ test('user cannot delete record', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getViewPage(DiscordThread::class), ['record' => $record->getKey()])
-        ->assertActionHidden(DeleteAction::class);
-
     Livewire::test(getIndexPage(DiscordThread::class))
-        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
