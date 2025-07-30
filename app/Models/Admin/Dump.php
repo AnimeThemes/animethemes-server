@@ -33,6 +33,7 @@ class Dump extends BaseModel
 
     final public const ATTRIBUTE_ID = 'dump_id';
     final public const ATTRIBUTE_PATH = 'path';
+    final public const ATTRIBUTE_LINK = 'link';
 
     /**
      * The attributes that are mass assignable.
@@ -69,6 +70,27 @@ class Dump extends BaseModel
      * @var string
      */
     protected $primaryKey = Dump::ATTRIBUTE_ID;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        Dump::ATTRIBUTE_LINK,
+    ];
+
+    /**
+     * The link of the dump.
+     */
+    public function getLinkAttribute(): ?string
+    {
+        if ($this->hasAttribute(Dump::ATTRIBUTE_PATH)) {
+            return route('dump.show', $this);
+        }
+
+        return null;
+    }
 
     /**
      * Get name.
