@@ -62,7 +62,6 @@
         "laravel/sail": "^1.44.0",
         "mockery/mockery": "^1.6.12",
         "pestphp/pest": "3.8.2",
-        "pestphp/pest-plugin-drift": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.2",
         "predis/predis": "^2.4.0",
         "spatie/laravel-ignition": "^2.9.1"
