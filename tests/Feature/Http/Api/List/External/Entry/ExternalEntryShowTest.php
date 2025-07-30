@@ -19,6 +19,8 @@ use App\Models\Wiki\Anime;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 /**
@@ -39,7 +41,7 @@ test('private external entry cannot be publicly viewed', function () {
         ->for($profile)
         ->createOne();
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
     $response->assertForbidden();
 });
@@ -59,7 +61,7 @@ test('private external entry cannot be publicly viewed if not owned', function (
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
     $response->assertForbidden();
 });
@@ -79,7 +81,7 @@ test('private external entry can be viewed by owner', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
     $response->assertOk();
 });
@@ -95,7 +97,7 @@ test('public external entry can be viewed', function () {
         ->for($profile)
         ->createOne();
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
     $response->assertOk();
 });
@@ -114,7 +116,7 @@ test('scoped', function () {
         ->for(ExternalProfile::factory()->for(User::factory()))
         ->createOne();
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
     $response->assertNotFound();
 });
@@ -129,7 +131,7 @@ test('default', function () {
         ->for($profile)
         ->createOne();
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
 
     $entry->unsetRelations();
 
@@ -168,7 +170,7 @@ test('allowed include paths', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
 
     $entry->unsetRelations()->load($includedPaths->all());
 
@@ -206,7 +208,7 @@ test('sparse fieldsets', function () {
         ->for($profile)
         ->createOne();
 
-    $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry] + $parameters));
 
     $entry->unsetRelations();
 

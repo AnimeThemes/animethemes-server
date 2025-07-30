@@ -21,7 +21,7 @@ test('casts type to enum', function () {
 
     $type = $theme->type;
 
-    static::assertInstanceOf(ThemeType::class, $type);
+    $this->assertInstanceOf(ThemeType::class, $type);
 });
 
 test('searchable as', function () {
@@ -29,7 +29,7 @@ test('searchable as', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($theme->searchableAs());
+    $this->assertIsString($theme->searchableAs());
 });
 
 test('to searchable array', function () {
@@ -37,7 +37,7 @@ test('to searchable array', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsArray($theme->toSearchableArray());
+    $this->assertIsArray($theme->toSearchableArray());
 });
 
 test('nameable', function () {
@@ -45,7 +45,7 @@ test('nameable', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($theme->getName());
+    $this->assertIsString($theme->getName());
 });
 
 test('has subtitle', function () {
@@ -53,7 +53,7 @@ test('has subtitle', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($theme->getSubtitle());
+    $this->assertIsString($theme->getSubtitle());
 });
 
 test('anime', function () {
@@ -61,8 +61,8 @@ test('anime', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $theme->anime());
-    static::assertInstanceOf(Anime::class, $theme->anime()->first());
+    $this->assertInstanceOf(BelongsTo::class, $theme->anime());
+    $this->assertInstanceOf(Anime::class, $theme->anime()->first());
 });
 
 test('group', function () {
@@ -71,8 +71,8 @@ test('group', function () {
         ->for(Group::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $theme->group());
-    static::assertInstanceOf(Group::class, $theme->group()->first());
+    $this->assertInstanceOf(BelongsTo::class, $theme->group());
+    $this->assertInstanceOf(Group::class, $theme->group()->first());
 });
 
 test('song', function () {
@@ -81,8 +81,8 @@ test('song', function () {
         ->for(Song::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $theme->song());
-    static::assertInstanceOf(Song::class, $theme->song()->first());
+    $this->assertInstanceOf(BelongsTo::class, $theme->song());
+    $this->assertInstanceOf(Song::class, $theme->song()->first());
 });
 
 test('entries', function () {
@@ -93,9 +93,9 @@ test('entries', function () {
         ->has(AnimeThemeEntry::factory()->count($entryCount))
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $theme->animethemeentries());
-    static::assertEquals($entryCount, $theme->animethemeentries()->count());
-    static::assertInstanceOf(AnimeThemeEntry::class, $theme->animethemeentries()->first());
+    $this->assertInstanceOf(HasMany::class, $theme->animethemeentries());
+    $this->assertEquals($entryCount, $theme->animethemeentries()->count());
+    $this->assertInstanceOf(AnimeThemeEntry::class, $theme->animethemeentries()->first());
 });
 
 test('theme creates slug', function () {
@@ -103,5 +103,5 @@ test('theme creates slug', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertArrayHasKey('slug', $theme);
+    $this->assertArrayHasKey('slug', $theme);
 });

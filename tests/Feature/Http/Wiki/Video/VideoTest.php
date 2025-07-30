@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
+
+use function Pest\Laravel\get;
+
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -30,7 +33,7 @@ test('video streaming not allowed forbidden', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertForbidden();
 });
@@ -42,7 +45,7 @@ test('cannot stream soft deleted video', function () {
 
     $video = Video::factory()->trashed()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertNotFound();
 });
@@ -55,9 +58,9 @@ test('view recording not allowed', function () {
 
     $video = Video::factory()->createOne();
 
-    $this->get(route('video.show', ['video' => $video]));
+    get(route('video.show', ['video' => $video]));
 
-    static::assertEquals(0, $video->views()->count());
+    $this->assertEquals(0, $video->views()->count());
 });
 
 test('video streaming permitted for bypass', function () {
@@ -75,7 +78,7 @@ test('video streaming permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertSuccessful();
 });
@@ -88,9 +91,9 @@ test('view recording is allowed', function () {
 
     $video = Video::factory()->createOne();
 
-    $this->get(route('video.show', ['video' => $video]));
+    get(route('video.show', ['video' => $video]));
 
-    static::assertEquals(1, $video->views()->count());
+    $this->assertEquals(1, $video->views()->count());
 });
 
 test('view recording cooldown', function () {
@@ -102,10 +105,10 @@ test('view recording cooldown', function () {
     $video = Video::factory()->createOne();
 
     Collection::times(fake()->randomDigitNotNull(), function () use ($video) {
-        $this->get(route('video.show', ['video' => $video]));
+        get(route('video.show', ['video' => $video]));
     });
 
-    static::assertEquals(1, $video->views()->count());
+    $this->assertEquals(1, $video->views()->count());
 });
 
 test('invalid streaming method error', function () {
@@ -116,7 +119,7 @@ test('invalid streaming method error', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertServerError();
 });
@@ -129,9 +132,9 @@ test('streamed through response', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
-    static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
 });
 
 test('streamed through nginx redirect', function () {
@@ -142,7 +145,7 @@ test('streamed through nginx redirect', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertHeader('X-Accel-Redirect');
 });
@@ -156,7 +159,7 @@ test('not throttled', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertHeaderMissing('X-RateLimit-Limit');
     $response->assertHeaderMissing('X-RateLimit-Remaining');
@@ -171,7 +174,7 @@ test('rate limited', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('video.show', ['video' => $video]));
+    $response = get(route('video.show', ['video' => $video]));
 
     $response->assertHeader('X-RateLimit-Limit');
     $response->assertHeader('X-RateLimit-Remaining');
@@ -191,7 +194,7 @@ test('throttled event', function () {
     $video = Video::factory()->createOne();
 
     Collection::times($limit + 1, function () use ($video) {
-        $this->get(route('video.show', ['video' => $video]));
+        get(route('video.show', ['video' => $video]));
     });
 
     Event::assertDispatched(VideoThrottled::class);
@@ -213,7 +216,7 @@ test('throttled notification', function () {
     $video = Video::factory()->createOne();
 
     Collection::times($limit + 1, function () use ($video) {
-        $this->get(route('video.show', ['video' => $video]));
+        get(route('video.show', ['video' => $video]));
     });
 
     Bus::assertDispatched(SendDiscordNotificationJob::class);

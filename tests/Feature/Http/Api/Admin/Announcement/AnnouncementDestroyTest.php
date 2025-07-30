@@ -7,10 +7,12 @@ use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $announcement = Announcement::factory()->createOne();
 
-    $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+    $response = delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+    $response = delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+    $response = delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
     $response->assertOk();
-    static::assertModelMissing($announcement);
+    $this->assertModelMissing($announcement);
 });

@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $resource = ExternalResource::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
+    $response = patch(route('api.resource.restore', ['resource' => $resource]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
+    $response = patch(route('api.resource.restore', ['resource' => $resource]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
+    $response = patch(route('api.resource.restore', ['resource' => $resource]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
+    $response = patch(route('api.resource.restore', ['resource' => $resource]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($resource);
+    $this->assertNotSoftDeleted($resource);
 });

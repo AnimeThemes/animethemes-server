@@ -9,12 +9,14 @@ use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $page = Page::factory()->create();
 
-    $response = $this->get(route('api.page.show', ['page' => $page]));
+    $response = get(route('api.page.show', ['page' => $page]));
 
     $response->assertJson(
         json_decode(
@@ -33,7 +35,7 @@ test('soft delete', function () {
 
     $page->unsetRelations();
 
-    $response = $this->get(route('api.page.show', ['page' => $page]));
+    $response = get(route('api.page.show', ['page' => $page]));
 
     $response->assertJson(
         json_decode(
@@ -62,7 +64,7 @@ test('sparse fieldsets', function () {
 
     $page = Page::factory()->create();
 
-    $response = $this->get(route('api.page.show', ['page' => $page] + $parameters));
+    $response = get(route('api.page.show', ['page' => $page] + $parameters));
 
     $response->assertJson(
         json_decode(

@@ -13,6 +13,9 @@ use App\Models\Admin\Feature as FeatureModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -21,11 +24,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = FeatureModel::factory()->count(10)->create();
 
-    $this->get(Feature::getUrl('index'))
+    get(Feature::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Feature::class))

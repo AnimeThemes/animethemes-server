@@ -19,7 +19,7 @@ test('fails for no pattern', function () {
         [$attribute => new StudioResourceLinkFormatRule(ResourceSite::SPOTIFY)],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('passes for pattern', function () {
@@ -35,7 +35,7 @@ test('passes for pattern', function () {
         [$attribute => new StudioResourceLinkFormatRule($site)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('fails for trailing slash', function () {
@@ -55,7 +55,7 @@ test('fails for trailing slash', function () {
         [$attribute => new StudioResourceLinkFormatRule($site)],
     );
 
-    static::assertFalse($site->getPattern(Studio::class) && $validator->passes());
+    $this->assertFalse($site->getPattern(Studio::class) && $validator->passes());
 });
 
 test('fails for trailing slug', function () {
@@ -76,7 +76,7 @@ test('fails for trailing slug', function () {
         [$attribute => new StudioResourceLinkFormatRule($site)],
     );
 
-    static::assertFalse($site->getPattern(Studio::class) && $validator->passes());
+    $this->assertFalse($site->getPattern(Studio::class) && $validator->passes());
 });
 
 test('fails for other resources', function () {
@@ -97,5 +97,5 @@ test('fails for other resources', function () {
         [$attribute => new StudioResourceLinkFormatRule($site)],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

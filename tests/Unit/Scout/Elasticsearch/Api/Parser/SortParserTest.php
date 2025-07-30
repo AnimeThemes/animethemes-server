@@ -19,7 +19,7 @@ test('relation criteria', function () {
 
     $criteria = new BaseRelationCriteria(new GlobalScope(), fake()->word(), $direction);
 
-    static::assertInstanceOf(RelationCriteria::class, SortParser::parse($criteria));
+    $this->assertInstanceOf(RelationCriteria::class, SortParser::parse($criteria));
 });
 
 test('field criteria', function () {
@@ -27,11 +27,11 @@ test('field criteria', function () {
 
     $criteria = new BaseFieldCriteria(new GlobalScope(), fake()->word(), $direction);
 
-    static::assertInstanceOf(FieldCriteria::class, SortParser::parse($criteria));
+    $this->assertInstanceOf(FieldCriteria::class, SortParser::parse($criteria));
 });
 
 test('random criteria', function () {
     $criteria = new RandomCriteria(new GlobalScope());
 
-    static::assertNull(SortParser::parse($criteria));
+    $this->assertNull(SortParser::parse($criteria));
 });

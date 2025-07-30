@@ -9,11 +9,13 @@ use App\Models\Wiki\Image;
 use App\Pivots\Wiki\ArtistImage;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $artist = Artist::factory()->createOne();
     $image = Image::factory()->createOne();
 
-    $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
+    $response = post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
+    $response = post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
     $response->assertForbidden();
 });
@@ -44,8 +46,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
+    $response = post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
     $response->assertCreated();
-    static::assertDatabaseCount(ArtistImage::class, 1);
+    $this->assertDatabaseCount(ArtistImage::class, 1);
 });

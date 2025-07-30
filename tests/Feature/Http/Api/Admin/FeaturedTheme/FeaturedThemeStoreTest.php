@@ -13,12 +13,14 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
     $featuredTheme = FeaturedTheme::factory()->makeOne();
 
-    $response = $this->post(route('api.featuredtheme.store', $featuredTheme->toArray()));
+    $response = post(route('api.featuredtheme.store', $featuredTheme->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.featuredtheme.store', $featuredTheme->toArray()));
+    $response = post(route('api.featuredtheme.store', $featuredTheme->toArray()));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.featuredtheme.store'));
+    $response = post(route('api.featuredtheme.store'));
 
     $response->assertJsonValidationErrors([
         FeaturedTheme::ATTRIBUTE_END_AT,
@@ -58,7 +60,7 @@ test('start at before end date', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.featuredtheme.store', $parameters));
+    $response = post(route('api.featuredtheme.store', $parameters));
 
     $response->assertJsonValidationErrors([
         FeaturedTheme::ATTRIBUTE_START_AT,
@@ -82,7 +84,7 @@ test('anime theme entry video exists', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.featuredtheme.store', $parameters));
+    $response = post(route('api.featuredtheme.store', $parameters));
 
     $response->assertJsonValidationErrors([
         FeaturedTheme::ATTRIBUTE_ENTRY,
@@ -105,8 +107,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.featuredtheme.store', $parameters));
+    $response = post(route('api.featuredtheme.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(FeaturedTheme::class, 1);
+    $this->assertDatabaseCount(FeaturedTheme::class, 1);
 });

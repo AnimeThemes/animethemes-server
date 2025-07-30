@@ -15,7 +15,7 @@ test('passes if boolean', function () {
         [$attribute => new IsValidBoolean()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes if boolean string', function () {
@@ -28,7 +28,7 @@ test('passes if boolean string', function () {
         [$attribute => new IsValidBoolean()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes if boolean integer', function () {
@@ -41,7 +41,7 @@ test('passes if boolean integer', function () {
         [$attribute => new IsValidBoolean()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes if boolean checkbox', function () {
@@ -54,7 +54,7 @@ test('passes if boolean checkbox', function () {
         [$attribute => new IsValidBoolean()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('fails if string', function () {
@@ -65,7 +65,7 @@ test('fails if string', function () {
         [$attribute => new IsValidBoolean()]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('fails if number', function () {
@@ -76,5 +76,5 @@ test('fails if number', function () {
         [$attribute => new IsValidBoolean()]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

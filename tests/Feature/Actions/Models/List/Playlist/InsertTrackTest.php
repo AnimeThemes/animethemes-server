@@ -19,8 +19,8 @@ test('first track', function () {
 
     $action->insert($playlist, $track);
 
-    static::assertTrue($playlist->first()->is($track));
-    static::assertTrue($playlist->last()->is($track));
+    $this->assertTrue($playlist->first()->is($track));
+    $this->assertTrue($playlist->last()->is($track));
 });
 
 test('second track', function () {
@@ -41,14 +41,14 @@ test('second track', function () {
     $action->insert($playlist, $first);
     $action->insert($playlist, $second);
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($second));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($second));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($second));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($second));
 
-    static::assertTrue($second->previous()->is($first));
-    static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->is($first));
+    $this->assertTrue($second->next()->doesntExist());
 });
 
 test('third track', function () {
@@ -75,15 +75,15 @@ test('third track', function () {
     $action->insert($playlist, $second);
     $action->insert($playlist, $third);
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($third));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($second));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($second));
 
-    static::assertTrue($second->previous()->is($first));
-    static::assertTrue($second->next()->is($third));
+    $this->assertTrue($second->previous()->is($first));
+    $this->assertTrue($second->next()->is($third));
 
-    static::assertTrue($third->previous()->is($second));
-    static::assertTrue($third->next()->doesntExist());
+    $this->assertTrue($third->previous()->is($second));
+    $this->assertTrue($third->next()->doesntExist());
 });

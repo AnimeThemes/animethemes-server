@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $series = Series::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = patch(route('api.series.restore', ['series' => $series]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = patch(route('api.series.restore', ['series' => $series]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = patch(route('api.series.restore', ['series' => $series]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = patch(route('api.series.restore', ['series' => $series]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($series);
+    $this->assertNotSoftDeleted($series);
 });

@@ -28,6 +28,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -42,7 +44,7 @@ test('default', function () {
 
     $artistImages = ArtistImage::all();
 
-    $response = $this->get(route('api.artistimage.index'));
+    $response = get(route('api.artistimage.index'));
 
     $response->assertJson(
         json_decode(
@@ -64,7 +66,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistimage.index'));
+    $response = get(route('api.artistimage.index'));
 
     $response->assertJsonStructure([
         ArtistImageCollection::$wrap,
@@ -93,7 +95,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistimage.index', $parameters));
+    $response = get(route('api.artistimage.index', $parameters));
 
     $artistImages = ArtistImage::with($includedPaths->all())->get();
 
@@ -129,7 +131,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistimage.index', $parameters));
+    $response = get(route('api.artistimage.index', $parameters));
 
     $artistImages = ArtistImage::all();
 
@@ -167,7 +169,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistimage.index', $parameters));
+    $response = get(route('api.artistimage.index', $parameters));
 
     $artistImages = $this->sort(ArtistImage::query(), $query, $schema)->get();
 
@@ -216,7 +218,7 @@ test('created at filter', function () {
 
     $artistImages = ArtistImage::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.artistimage.index', $parameters));
+    $response = get(route('api.artistimage.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -263,7 +265,7 @@ test('updated at filter', function () {
 
     $artistImages = ArtistImage::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.artistimage.index', $parameters));
+    $response = get(route('api.artistimage.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -294,7 +296,7 @@ test('images by facet', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistimage.index', $parameters));
+    $response = get(route('api.artistimage.index', $parameters));
 
     $artistImages = ArtistImage::with([
         ArtistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {

@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $script = VideoScript::factory()->createOne();
 
-    $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+    $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+    $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+    $response = delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
 
     $response->assertOk();
-    static::assertModelMissing($script);
+    $this->assertModelMissing($script);
 });

@@ -7,12 +7,14 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $group = Group::factory()->createOne();
 
     $parameters = Group::factory()->raw();
 
-    $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
     $response->assertForbidden();
 });
@@ -54,7 +56,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.group.update', ['group' => $group] + $parameters));
+    $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
     $response->assertOk();
 });

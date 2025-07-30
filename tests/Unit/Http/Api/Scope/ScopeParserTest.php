@@ -10,15 +10,15 @@ use App\Http\Api\Scope\TypeScope;
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('parse global scope', function () {
-    static::assertInstanceOf(GlobalScope::class, ScopeParser::parse(''));
+    $this->assertInstanceOf(GlobalScope::class, ScopeParser::parse(''));
 });
 
 test('parse type scope', function () {
-    static::assertInstanceOf(TypeScope::class, ScopeParser::parse(fake()->word()));
+    $this->assertInstanceOf(TypeScope::class, ScopeParser::parse(fake()->word()));
 });
 
 test('parse relation scope', function () {
     $relation = collect(fake()->words())->join('.');
 
-    static::assertInstanceOf(RelationScope::class, ScopeParser::parse($relation));
+    $this->assertInstanceOf(RelationScope::class, ScopeParser::parse($relation));
 });

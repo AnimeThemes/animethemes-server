@@ -20,6 +20,8 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('private playlist track cannot be publicly viewed', function () {
@@ -35,7 +37,7 @@ test('private playlist track cannot be publicly viewed', function () {
         ->for($playlist)
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -57,7 +59,7 @@ test('private playlist track cannot be publicly viewed if not owned', function (
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -79,7 +81,7 @@ test('private playlist track can be viewed by owner', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -97,7 +99,7 @@ test('unlisted playlist track can be viewed', function () {
         ->for($playlist)
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -115,7 +117,7 @@ test('public playlist track can be viewed', function () {
         ->for($playlist)
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -136,7 +138,7 @@ test('scoped', function () {
         ->for(Playlist::factory()->for(User::factory()))
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertNotFound();
 });
@@ -153,7 +155,7 @@ test('default', function () {
         ->for($playlist)
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
     $track->unsetRelations();
 
@@ -196,7 +198,7 @@ test('allowed include paths', function () {
         ->for(PlaylistTrack::factory()->for($playlist), PlaylistTrack::RELATION_NEXT)
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $track->unsetRelations()->load($includedPaths->all());
 
@@ -236,7 +238,7 @@ test('sparse fieldsets', function () {
         ->for($playlist)
         ->createOne();
 
-    $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $track->unsetRelations();
 

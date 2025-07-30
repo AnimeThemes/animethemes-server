@@ -16,10 +16,12 @@ use App\Http\Resources\Wiki\Collection\VideoCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('no search term', function () {
-    $response = $this->get(route('api.search.show'));
+    $response = get(route('api.search.show'));
 
     $response->assertJsonValidationErrors(SearchParser::param());
 });
@@ -27,7 +29,7 @@ test('no search term', function () {
 test('search attributes', function () {
     $driver = Config::get('scout.driver');
     if (empty($driver)) {
-        static::markTestSkipped('A driver must be configured for this test');
+        $this->markTestSkipped('A driver must be configured for this test');
     }
 
     $q = fake()->word();
@@ -36,7 +38,7 @@ test('search attributes', function () {
         SearchParser::param() => $q,
     ];
 
-    $response = $this->get(route('api.search.show', $parameters));
+    $response = get(route('api.search.show', $parameters));
 
     $response->assertJson([
         SearchResource::$wrap => [
@@ -55,7 +57,7 @@ test('search attributes', function () {
 test('search sparse fieldsets', function () {
     $driver = Config::get('scout.driver');
     if (empty($driver)) {
-        static::markTestSkipped('A driver must be configured for this test');
+        $this->markTestSkipped('A driver must be configured for this test');
     }
 
     $fields = [
@@ -80,7 +82,7 @@ test('search sparse fieldsets', function () {
         ],
     ];
 
-    $response = $this->get(route('api.search.show', $parameters));
+    $response = get(route('api.search.show', $parameters));
 
     $response->assertJsonStructure([
         SearchResource::$wrap => $includedFields,

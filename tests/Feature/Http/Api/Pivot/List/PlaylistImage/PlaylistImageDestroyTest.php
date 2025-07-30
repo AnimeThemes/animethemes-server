@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -26,7 +28,7 @@ test('protected', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertUnauthorized();
 });
@@ -45,7 +47,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertForbidden();
 });
@@ -69,7 +71,7 @@ test('forbidden if not own playlist', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertForbidden();
 });
@@ -93,7 +95,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertForbidden();
 });
@@ -117,7 +119,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlist, 'image' => $image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertNotFound();
 });
@@ -141,10 +143,10 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertOk();
-    static::assertModelMissing($playlistImage);
+    $this->assertModelMissing($playlistImage);
 });
 
 test('destroy permitted for bypass', function () {
@@ -167,7 +169,7 @@ test('destroy permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertOk();
 });

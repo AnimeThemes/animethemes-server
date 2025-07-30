@@ -10,10 +10,12 @@ use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $anime = Anime::factory()->makeOne();
 
-    $response = $this->post(route('api.anime.store', $anime->toArray()));
+    $response = post(route('api.anime.store', $anime->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -25,7 +27,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.anime.store', $anime->toArray()));
+    $response = post(route('api.anime.store', $anime->toArray()));
 
     $response->assertForbidden();
 });
@@ -35,7 +37,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.anime.store'));
+    $response = post(route('api.anime.store'));
 
     $response->assertJsonValidationErrors([
         Anime::ATTRIBUTE_NAME,
@@ -59,8 +61,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.anime.store', $parameters));
+    $response = post(route('api.anime.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Anime::class, 1);
+    $this->assertDatabaseCount(Anime::class, 1);
 });

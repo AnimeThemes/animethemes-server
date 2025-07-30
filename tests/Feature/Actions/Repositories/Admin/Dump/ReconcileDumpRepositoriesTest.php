@@ -30,9 +30,9 @@ test('no results', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertFalse($result->hasChanges());
-    static::assertDatabaseCount(Dump::class, 0);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertFalse($result->hasChanges());
+    $this->assertDatabaseCount(Dump::class, 0);
 });
 
 test('created', function () {
@@ -53,10 +53,10 @@ test('created', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($createdDumpCount, $result->getCreated());
-    static::assertDatabaseCount(Dump::class, $createdDumpCount);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($createdDumpCount, $result->getCreated());
+    $this->assertDatabaseCount(Dump::class, $createdDumpCount);
 });
 
 test('deleted', function () {
@@ -77,8 +77,8 @@ test('deleted', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($deletedDumpCount, $result->getDeleted());
-    static::assertEmpty(Dump::all());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($deletedDumpCount, $result->getDeleted());
+    $this->assertEmpty(Dump::all());
 });

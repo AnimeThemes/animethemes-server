@@ -12,12 +12,14 @@ use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $audio = Audio::factory()->create();
 
-    $response = $this->get(route('api.audio.show', ['audio' => $audio]));
+    $response = get(route('api.audio.show', ['audio' => $audio]));
 
     $response->assertJson(
         json_decode(
@@ -34,7 +36,7 @@ test('default', function () {
 test('soft delete', function () {
     $audio = Audio::factory()->trashed()->createOne();
 
-    $response = $this->get(route('api.audio.show', ['audio' => $audio]));
+    $response = get(route('api.audio.show', ['audio' => $audio]));
 
     $response->assertJson(
         json_decode(
@@ -65,7 +67,7 @@ test('allowed include paths', function () {
         ->has(Video::factory()->count(fake()->randomDigitNotNull()))
         ->create();
 
-    $response = $this->get(route('api.audio.show', ['audio' => $audio] + $parameters));
+    $response = get(route('api.audio.show', ['audio' => $audio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -94,7 +96,7 @@ test('sparse fieldsets', function () {
 
     $audio = Audio::factory()->create();
 
-    $response = $this->get(route('api.audio.show', ['audio' => $audio] + $parameters));
+    $response = get(route('api.audio.show', ['audio' => $audio] + $parameters));
 
     $response->assertJson(
         json_decode(

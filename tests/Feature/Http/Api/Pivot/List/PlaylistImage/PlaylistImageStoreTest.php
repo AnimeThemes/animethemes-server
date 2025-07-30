@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -24,7 +26,7 @@ test('protected', function () {
     $playlist = Playlist::factory()->createOne();
     $image = Image::factory()->createOne();
 
-    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertUnauthorized();
 });
@@ -41,7 +43,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertForbidden();
 });
@@ -63,7 +65,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertForbidden();
 });
@@ -88,10 +90,10 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertCreated();
-    static::assertDatabaseCount(PlaylistImage::class, 1);
+    $this->assertDatabaseCount(PlaylistImage::class, 1);
 });
 
 test('create permitted for bypass', function () {
@@ -115,7 +117,7 @@ test('create permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertCreated();
 });

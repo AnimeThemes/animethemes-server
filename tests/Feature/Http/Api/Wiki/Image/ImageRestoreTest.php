@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $image = Image::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.image.restore', ['image' => $image]));
+    $response = patch(route('api.image.restore', ['image' => $image]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($image);
+    $this->assertNotSoftDeleted($image);
 });

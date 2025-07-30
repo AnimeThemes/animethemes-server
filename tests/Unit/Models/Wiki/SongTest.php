@@ -18,19 +18,19 @@ uses(WithFaker::class);
 test('searchable as', function () {
     $song = Song::factory()->createOne();
 
-    static::assertIsString($song->searchableAs());
+    $this->assertIsString($song->searchableAs());
 });
 
 test('to searchable array', function () {
     $song = Song::factory()->createOne();
 
-    static::assertIsArray($song->toSearchableArray());
+    $this->assertIsArray($song->toSearchableArray());
 });
 
 test('nameable', function () {
     $song = Song::factory()->createOne();
 
-    static::assertIsString($song->getName());
+    $this->assertIsString($song->getName());
 });
 
 test('has subtitle', function () {
@@ -38,7 +38,7 @@ test('has subtitle', function () {
         ->has(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertIsString($song->getSubtitle());
+    $this->assertIsString($song->getSubtitle());
 });
 
 test('themes', function () {
@@ -48,9 +48,9 @@ test('themes', function () {
         ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $song->animethemes());
-    static::assertEquals($themeCount, $song->animethemes()->count());
-    static::assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
+    $this->assertInstanceOf(HasMany::class, $song->animethemes());
+    $this->assertEquals($themeCount, $song->animethemes()->count());
+    $this->assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
 });
 
 test('artists', function () {
@@ -60,10 +60,10 @@ test('artists', function () {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $song->artists());
-    static::assertEquals($artistCount, $song->artists()->count());
-    static::assertInstanceOf(Artist::class, $song->artists()->first());
-    static::assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $song->artists());
+    $this->assertEquals($artistCount, $song->artists()->count());
+    $this->assertInstanceOf(Artist::class, $song->artists()->first());
+    $this->assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
 });
 
 test('external resources', function () {
@@ -73,8 +73,8 @@ test('external resources', function () {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $song->resources());
-    static::assertEquals($resourceCount, $song->resources()->count());
-    static::assertInstanceOf(ExternalResource::class, $song->resources()->first());
-    static::assertEquals(SongResource::class, $song->resources()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $song->resources());
+    $this->assertEquals($resourceCount, $song->resources()->count());
+    $this->assertInstanceOf(ExternalResource::class, $song->resources()->first());
+    $this->assertEquals(SongResource::class, $song->resources()->getPivotClass());
 });

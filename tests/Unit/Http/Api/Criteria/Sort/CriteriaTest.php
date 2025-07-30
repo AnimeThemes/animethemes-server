@@ -28,7 +28,7 @@ test('should not sort if key mismatch', function () {
 
     $sort = new Sort(fake()->word());
 
-    static::assertFalse($criteria->shouldSort($sort, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldSort($sort, $criteria->getScope()));
 });
 
 test('should sort if key match', function () {
@@ -50,7 +50,7 @@ test('should sort if key match', function () {
 
     $sort = new Sort($key);
 
-    static::assertTrue($criteria->shouldSort($sort, $criteria->getScope()));
+    $this->assertTrue($criteria->shouldSort($sort, $criteria->getScope()));
 });
 
 test('should not sort if not within scope', function () {
@@ -74,7 +74,7 @@ test('should not sort if not within scope', function () {
 
     $sort = new Sort($key);
 
-    static::assertFalse($criteria->shouldSort($sort, new GlobalScope()));
+    $this->assertFalse($criteria->shouldSort($sort, new GlobalScope()));
 });
 
 test('should sort if within scope', function () {
@@ -98,5 +98,5 @@ test('should sort if within scope', function () {
 
     $sort = new Sort($key);
 
-    static::assertTrue($criteria->shouldSort($sort, $scope));
+    $this->assertTrue($criteria->shouldSort($sort, $scope));
 });

@@ -9,13 +9,15 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $artist = Artist::factory()->createOne();
     $song = Song::factory()->createOne();
 
     $parameters = ArtistSong::factory()->raw();
 
-    $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
+    $response = post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
+    $response = post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
     $response->assertForbidden();
 });
@@ -50,8 +52,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
+    $response = post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(ArtistSong::class, 1);
+    $this->assertDatabaseCount(ArtistSong::class, 1);
 });

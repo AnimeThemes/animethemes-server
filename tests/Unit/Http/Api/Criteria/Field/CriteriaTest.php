@@ -12,7 +12,7 @@ test('is allowed field', function () {
 
     $criteria = new Criteria(fake()->word(), $fields);
 
-    static::assertTrue($criteria->isAllowedField($fields->random()));
+    $this->assertTrue($criteria->isAllowedField($fields->random()));
 });
 
 test('is not allowed', function () {
@@ -20,5 +20,5 @@ test('is not allowed', function () {
 
     $criteria = new Criteria(fake()->word(), $fields);
 
-    static::assertFalse($criteria->isAllowedField(Str::random()));
+    $this->assertFalse($criteria->isAllowedField(Str::random()));
 });

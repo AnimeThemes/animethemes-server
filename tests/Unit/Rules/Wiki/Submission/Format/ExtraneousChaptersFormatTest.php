@@ -38,7 +38,7 @@ test('fails when chapter data is not empty', function () {
         ['file' => new ExtraneousChaptersFormatRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -69,7 +69,7 @@ test('passes when chapter data is empty', function () {
         ['file' => new ExtraneousChaptersFormatRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

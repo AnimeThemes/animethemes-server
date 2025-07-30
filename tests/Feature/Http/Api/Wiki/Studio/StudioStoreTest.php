@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $studio = Studio::factory()->makeOne();
 
-    $response = $this->post(route('api.studio.store', $studio->toArray()));
+    $response = post(route('api.studio.store', $studio->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studio.store', $studio->toArray()));
+    $response = post(route('api.studio.store', $studio->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studio.store'));
+    $response = post(route('api.studio.store'));
 
     $response->assertJsonValidationErrors([
         Studio::ATTRIBUTE_NAME,
@@ -47,8 +49,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studio.store', $parameters));
+    $response = post(route('api.studio.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Studio::class, 1);
+    $this->assertDatabaseCount(Studio::class, 1);
 });

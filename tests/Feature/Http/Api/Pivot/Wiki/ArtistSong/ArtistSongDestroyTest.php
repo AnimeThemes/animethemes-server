@@ -9,13 +9,15 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $artistSong = ArtistSong::factory()
         ->for(Artist::factory())
         ->for(Song::factory())
         ->createOne();
 
-    $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artist, 'song' => $song]));
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artist, 'song' => $song]));
 
     $response->assertNotFound();
 });
@@ -68,8 +70,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    $response = delete(route('api.artistsong.destroy', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
     $response->assertOk();
-    static::assertModelMissing($artistSong);
+    $this->assertModelMissing($artistSong);
 });

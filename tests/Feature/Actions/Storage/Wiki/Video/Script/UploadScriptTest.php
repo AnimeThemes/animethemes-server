@@ -25,7 +25,7 @@ test('default', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -39,7 +39,7 @@ test('passed', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
 test('uploaded to disk', function () {
@@ -51,7 +51,7 @@ test('uploaded to disk', function () {
 
     $action->handle();
 
-    static::assertCount(1, $fs->allFiles());
+    $this->assertCount(1, $fs->allFiles());
 });
 
 test('created video', function () {
@@ -65,7 +65,7 @@ test('created video', function () {
 
     $action->then($result);
 
-    static::assertDatabaseCount(VideoScript::class, 1);
+    $this->assertDatabaseCount(VideoScript::class, 1);
 });
 
 test('attaches video', function () {
@@ -81,5 +81,5 @@ test('attaches video', function () {
 
     $action->then($result);
 
-    static::assertTrue($video->videoscript()->exists());
+    $this->assertTrue($video->videoscript()->exists());
 });

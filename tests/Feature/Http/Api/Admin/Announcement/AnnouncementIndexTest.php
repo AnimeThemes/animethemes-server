@@ -21,6 +21,8 @@ use App\Models\BaseModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -28,7 +30,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default', function () {
     $announcements = Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.announcement.index'));
+    $response = get(route('api.announcement.index'));
 
     $response->assertJson(
         json_decode(
@@ -52,7 +54,7 @@ test('private', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.announcement.index'));
+    $response = get(route('api.announcement.index'));
 
     $response->assertJson(
         json_decode(
@@ -69,7 +71,7 @@ test('private', function () {
 test('paginated', function () {
     Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.announcement.index'));
+    $response = get(route('api.announcement.index'));
 
     $response->assertJsonStructure([
         AnnouncementCollection::$wrap,
@@ -93,7 +95,7 @@ test('sparse fieldsets', function () {
 
     $announcements = Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.announcement.index', $parameters));
+    $response = get(route('api.announcement.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -124,7 +126,7 @@ test('sorts', function () {
 
     Announcement::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.announcement.index', $parameters));
+    $response = get(route('api.announcement.index', $parameters));
 
     $announcements = $this->sort(Announcement::query(), $query, $schema)->get();
 
@@ -163,7 +165,7 @@ test('created at filter', function () {
 
     $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.announcement.index', $parameters));
+    $response = get(route('api.announcement.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -200,7 +202,7 @@ test('updated at filter', function () {
 
     $announcement = Announcement::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.announcement.index', $parameters));
+    $response = get(route('api.announcement.index', $parameters));
 
     $response->assertJson(
         json_decode(

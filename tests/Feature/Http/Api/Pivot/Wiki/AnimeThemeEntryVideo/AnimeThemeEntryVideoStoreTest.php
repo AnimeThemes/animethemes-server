@@ -11,6 +11,8 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -18,7 +20,7 @@ test('protected', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+    $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+    $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
     $response->assertForbidden();
 });
@@ -55,8 +57,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
+    $response = post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
     $response->assertCreated();
-    static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
+    $this->assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
 });

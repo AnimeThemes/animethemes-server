@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $page = Page::factory()->createOne();
 
-    $response = $this->delete(route('api.page.destroy', ['page' => $page]));
+    $response = delete(route('api.page.destroy', ['page' => $page]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.page.destroy', ['page' => $page]));
+    $response = delete(route('api.page.destroy', ['page' => $page]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.page.destroy', ['page' => $page]));
+    $response = delete(route('api.page.destroy', ['page' => $page]));
 
     $response->assertNotFound();
 });
@@ -46,8 +48,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.page.destroy', ['page' => $page]));
+    $response = delete(route('api.page.destroy', ['page' => $page]));
 
     $response->assertOk();
-    static::assertSoftDeleted($page);
+    $this->assertSoftDeleted($page);
 });

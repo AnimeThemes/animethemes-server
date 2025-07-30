@@ -10,6 +10,8 @@ use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $anime = Anime::factory()->createOne();
 
@@ -21,7 +23,7 @@ test('protected', function () {
         [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
     );
 
-    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -41,7 +43,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
     $response->assertForbidden();
 });
@@ -61,7 +63,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
     $response->assertForbidden();
 });
@@ -81,7 +83,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
     $response->assertOk();
 });

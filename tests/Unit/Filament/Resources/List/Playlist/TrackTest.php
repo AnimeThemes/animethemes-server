@@ -13,6 +13,9 @@ use App\Models\List\Playlist\PlaylistTrack as PlaylistTrackModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 /**
  * Initial setup for the tests.
  */
@@ -29,13 +32,13 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $playlist = Playlist::factory()->tracks(3)->create();
 
     $records = $playlist->tracks;
 
-    $this->get(Track::getUrl('index'))
+    get(Track::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Track::class))
@@ -51,13 +54,13 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $playlist = Playlist::factory()->tracks(3)->create();
 
     $record = $playlist->tracks->first();
 
-    $this->get(Track::getUrl('view', ['record' => $record]))
+    get(Track::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -70,7 +73,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(Track::class))
         ->mountAction(CreateAction::class)
@@ -86,7 +89,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $playlist = Playlist::factory()->tracks(3)->create();
 

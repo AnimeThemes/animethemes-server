@@ -12,7 +12,7 @@ test('default', function () {
 
     $result = $uploadResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('failed', function () {
@@ -30,7 +30,7 @@ test('failed', function () {
 
     $result = $uploadResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -44,5 +44,5 @@ test('passed', function () {
 
     $result = $uploadResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });

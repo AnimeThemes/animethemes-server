@@ -9,11 +9,13 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $studio = Studio::factory()->createOne();
     $image = Image::factory()->createOne();
 
-    $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+    $response = post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+    $response = post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
     $response->assertForbidden();
 });
@@ -44,8 +46,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
+    $response = post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
     $response->assertCreated();
-    static::assertDatabaseCount(StudioImage::class, 1);
+    $this->assertDatabaseCount(StudioImage::class, 1);
 });

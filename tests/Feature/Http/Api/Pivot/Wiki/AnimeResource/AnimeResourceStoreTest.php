@@ -9,13 +9,15 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $anime = Anime::factory()->createOne();
     $resource = ExternalResource::factory()->createOne();
 
     $parameters = AnimeResource::factory()->raw();
 
-    $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
+    $response = post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
+    $response = post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
     $response->assertForbidden();
 });
@@ -50,8 +52,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
+    $response = post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(AnimeResource::class, 1);
+    $this->assertDatabaseCount(AnimeResource::class, 1);
 });

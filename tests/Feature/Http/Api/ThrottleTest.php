@@ -6,6 +6,8 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 test('forwarded ip rate limited', function () {
     $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
 
@@ -14,7 +16,7 @@ test('forwarded ip rate limited', function () {
 });
 
 test('client no forwarded ip not rate limited', function () {
-    $response = $this->get(route('api.anime.index'));
+    $response = get(route('api.anime.index'));
 
     $response->assertHeaderMissing('X-RateLimit-Limit');
     $response->assertHeaderMissing('X-RateLimit-Remaining');
@@ -25,7 +27,7 @@ test('user not rate limited', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.anime.index'));
+    $response = get(route('api.anime.index'));
 
     $response->assertHeaderMissing('X-RateLimit-Limit');
     $response->assertHeaderMissing('X-RateLimit-Remaining');

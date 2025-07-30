@@ -41,7 +41,7 @@ test('fails when codec is not opus', function () {
         ['file' => new AudioCodecStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -77,7 +77,7 @@ test('passes when codec is opus', function () {
         ['file' => new AudioCodecStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

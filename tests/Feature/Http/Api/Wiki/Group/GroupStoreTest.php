@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $group = Group::factory()->makeOne();
 
-    $response = $this->post(route('api.group.store', $group->toArray()));
+    $response = post(route('api.group.store', $group->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.group.store', $group->toArray()));
+    $response = post(route('api.group.store', $group->toArray()));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.group.store', $parameters));
+    $response = post(route('api.group.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Group::class, 1);
+    $this->assertDatabaseCount(Group::class, 1);
 });

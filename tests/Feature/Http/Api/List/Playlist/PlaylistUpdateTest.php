@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -34,7 +36,7 @@ test('protected', function () {
         [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
     );
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -57,7 +59,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertForbidden();
 });
@@ -82,7 +84,7 @@ test('forbidden if not own playlist', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertForbidden();
 });
@@ -109,7 +111,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertForbidden();
 });
@@ -136,7 +138,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertOk();
 });
@@ -168,7 +170,7 @@ test('update permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertOk();
 });
@@ -206,7 +208,7 @@ test('updated if not flagged by open ai', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertOk();
 });
@@ -238,7 +240,7 @@ test('updated if open ai fails', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertOk();
 });
@@ -276,7 +278,7 @@ test('validation error when flagged by open ai', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+    $response = put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
     $response->assertJsonValidationErrors([
         Playlist::ATTRIBUTE_NAME,

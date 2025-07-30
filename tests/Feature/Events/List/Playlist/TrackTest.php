@@ -70,5 +70,5 @@ test('playlist created assigns hashids', function () {
         ->for(Playlist::factory())
         ->createOne();
 
-    static::assertDatabaseMissing(PlaylistTrack::class, [HasHashids::ATTRIBUTE_HASHID => null]);
+    $this->assertDatabaseMissing(PlaylistTrack::class, [HasHashids::ATTRIBUTE_HASHID => null]);
 });

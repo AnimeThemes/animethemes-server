@@ -7,11 +7,11 @@ use App\Models\Admin\Announcement;
 test('nameable', function () {
     $announcement = Announcement::factory()->createOne();
 
-    static::assertIsString($announcement->getName());
+    $this->assertIsString($announcement->getName());
 });
 
 test('has subtitle', function () {
     $announcement = Announcement::factory()->createOne();
 
-    static::assertIsString($announcement->getSubtitle());
+    $this->assertIsString($announcement->getSubtitle());
 });

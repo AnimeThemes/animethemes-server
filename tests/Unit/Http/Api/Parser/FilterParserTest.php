@@ -16,7 +16,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('no criteria by default', function () {
     $parameters = [];
 
-    static::assertEmpty(FilterParser::parse($parameters));
+    $this->assertEmpty(FilterParser::parse($parameters));
 });
 
 test('parse trashed criteria', function () {
@@ -28,7 +28,7 @@ test('parse trashed criteria', function () {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    static::assertInstanceOf(TrashedCriteria::class, $criteria);
+    $this->assertInstanceOf(TrashedCriteria::class, $criteria);
 });
 
 test('parse where in criteria', function () {
@@ -42,7 +42,7 @@ test('parse where in criteria', function () {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    static::assertInstanceOf(WhereInCriteria::class, $criteria);
+    $this->assertInstanceOf(WhereInCriteria::class, $criteria);
 });
 
 test('parse has criteria', function () {
@@ -54,7 +54,7 @@ test('parse has criteria', function () {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    static::assertInstanceOf(HasCriteria::class, $criteria);
+    $this->assertInstanceOf(HasCriteria::class, $criteria);
 });
 
 test('parse where criteria', function () {
@@ -66,7 +66,7 @@ test('parse where criteria', function () {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    static::assertInstanceOf(WhereCriteria::class, $criteria);
+    $this->assertInstanceOf(WhereCriteria::class, $criteria);
 });
 
 test('parse global scope', function () {
@@ -78,7 +78,7 @@ test('parse global scope', function () {
 
     $criteria = FilterParser::parse($parameters)[0];
 
-    static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
+    $this->assertInstanceOf(GlobalScope::class, $criteria->getScope());
 });
 
 test('parse type scope', function () {
@@ -96,5 +96,5 @@ test('parse type scope', function () {
 
     $scope = $criteria->getScope();
 
-    static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
+    $this->assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
 });

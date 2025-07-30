@@ -13,6 +13,9 @@ use App\Models\Admin\Dump as DumpModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -21,11 +24,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = DumpModel::factory()->count(10)->create();
 
-    $this->get(Dump::getUrl('index'))
+    get(Dump::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Dump::class))

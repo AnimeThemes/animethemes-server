@@ -7,12 +7,14 @@ use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $dump = Dump::factory()->createOne();
 
     $parameters = Dump::factory()->raw();
 
-    $response = $this->put(route('api.dump.update', ['dump' => $dump] + $parameters));
+    $response = put(route('api.dump.update', ['dump' => $dump] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.dump.update', ['dump' => $dump] + $parameters));
+    $response = put(route('api.dump.update', ['dump' => $dump] + $parameters));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.dump.update', ['dump' => $dump] + $parameters));
+    $response = put(route('api.dump.update', ['dump' => $dump] + $parameters));
 
     $response->assertOk();
 });

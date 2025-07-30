@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\AggregatesFields::class);
 
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
@@ -54,7 +56,7 @@ test('default', function () {
         ->count($privateCount)
         ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value]);
 
-    $response = $this->get(route('api.playlist.index'));
+    $response = get(route('api.playlist.index'));
 
     $response->assertJsonCount($publicCount, PlaylistCollection::$wrap);
 
@@ -75,7 +77,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
-    $response = $this->get(route('api.playlist.index'));
+    $response = get(route('api.playlist.index'));
 
     $response->assertJsonStructure([
         PlaylistCollection::$wrap,
@@ -110,7 +112,7 @@ test('allowed include paths', function () {
 
     $playlists = Playlist::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.playlist.index', $parameters));
+    $response = get(route('api.playlist.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -141,7 +143,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
-    $response = $this->get(route('api.playlist.index', $parameters));
+    $response = get(route('api.playlist.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -174,7 +176,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
-    $response = $this->get(route('api.playlist.index', $parameters));
+    $response = get(route('api.playlist.index', $parameters));
 
     $builder = Playlist::query();
     $this->withAggregates($builder, $query, $schema);
@@ -219,7 +221,7 @@ test('created at filter', function () {
 
     $playlists = Playlist::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.playlist.index', $parameters));
+    $response = get(route('api.playlist.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -260,7 +262,7 @@ test('updated at filter', function () {
 
     $playlists = Playlist::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.playlist.index', $parameters));
+    $response = get(route('api.playlist.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -298,7 +300,7 @@ test('images by facet', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.playlist.index', $parameters));
+    $response = get(route('api.playlist.index', $parameters));
 
     $response->assertJson(
         json_decode(

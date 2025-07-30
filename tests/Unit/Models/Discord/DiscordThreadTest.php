@@ -13,7 +13,7 @@ test('nameable', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($thread->getName());
+    $this->assertIsString($thread->getName());
 });
 
 test('has subtitle', function () {
@@ -21,7 +21,7 @@ test('has subtitle', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($thread->getSubtitle());
+    $this->assertIsString($thread->getSubtitle());
 });
 
 test('anime', function () {
@@ -29,6 +29,6 @@ test('anime', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $thread->anime());
-    static::assertInstanceOf(Anime::class, $thread->anime()->first());
+    $this->assertInstanceOf(BelongsTo::class, $thread->anime());
+    $this->assertInstanceOf(Anime::class, $thread->anime()->first());
 });

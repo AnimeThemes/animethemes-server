@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $page = Page::factory()->makeOne();
 
-    $response = $this->post(route('api.page.store', $page->toArray()));
+    $response = post(route('api.page.store', $page->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.page.store', $page->toArray()));
+    $response = post(route('api.page.store', $page->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.page.store'));
+    $response = post(route('api.page.store'));
 
     $response->assertJsonValidationErrors([
         Page::ATTRIBUTE_BODY,
@@ -48,8 +50,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.page.store', $parameters));
+    $response = post(route('api.page.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Page::class, 1);
+    $this->assertDatabaseCount(Page::class, 1);
 });

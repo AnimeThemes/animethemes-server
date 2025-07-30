@@ -17,6 +17,8 @@ use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('dump downloading not allowed forbidden', function () {
@@ -29,7 +31,7 @@ test('dump downloading not allowed forbidden', function () {
 
     $action->handle();
 
-    $response = $this->get(route('dump.latest.document.show'));
+    $response = get(route('dump.latest.document.show'));
 
     $response->assertForbidden();
 });
@@ -68,7 +70,7 @@ test('video streaming permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('dump.latest.document.show'));
+    $response = get(route('dump.latest.document.show'));
 
     $response->assertDownload($dump->path);
 });
@@ -79,7 +81,7 @@ test('not found if no document dumps', function () {
 
     Feature::activate(AllowDumpDownloading::class);
 
-    $response = $this->get(route('dump.latest.document.show'));
+    $response = get(route('dump.latest.document.show'));
 
     $response->assertNotFound();
 });
@@ -96,7 +98,7 @@ test('not found if wiki dumps exist', function () {
         $action->handle();
     });
 
-    $response = $this->get(route('dump.latest.document.show'));
+    $response = get(route('dump.latest.document.show'));
 
     $response->assertNotFound();
 });
@@ -131,7 +133,7 @@ test('latest document dump downloaded', function () {
         Dump::ATTRIBUTE_PATH => $fsFile,
     ]);
 
-    $response = $this->get(route('dump.latest.document.show'));
+    $response = get(route('dump.latest.document.show'));
 
     $response->assertDownload($dump->path);
 });

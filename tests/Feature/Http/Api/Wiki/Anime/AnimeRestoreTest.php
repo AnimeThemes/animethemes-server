@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $anime = Anime::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+    $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($anime);
+    $this->assertNotSoftDeleted($anime);
 });

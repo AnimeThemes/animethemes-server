@@ -121,7 +121,7 @@ test('runs processes once', function () {
         ],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRanTimes(UploadedFileAction::formatFfprobeCommand($file));
     Process::assertRanTimes(UploadedFileAction::formatLoudnessCommand($file));

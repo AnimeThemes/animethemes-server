@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -26,7 +28,7 @@ test('protected', function () {
         ->for(Playlist::factory())
         ->createOne();
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
     $response->assertUnauthorized();
 });
@@ -44,7 +46,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -62,7 +64,7 @@ test('forbidden if not own playlist', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -84,7 +86,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -109,7 +111,7 @@ test('scoped', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertNotFound();
 });
@@ -131,15 +133,15 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 
     $playlist->refresh();
 
-    static::assertModelMissing($track);
-    static::assertTrue($playlist->first()->doesntExist());
-    static::assertTrue($playlist->last()->doesntExist());
+    $this->assertModelMissing($track);
+    $this->assertTrue($playlist->first()->doesntExist());
+    $this->assertTrue($playlist->last()->doesntExist());
 });
 
 test('destroy permitted for bypass', function () {
@@ -164,7 +166,7 @@ test('destroy permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -186,16 +188,16 @@ test('destroy first', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $first]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $first]));
 
     $response->assertOk();
 
     $playlist->refresh();
     $second->refresh();
 
-    static::assertModelMissing($first);
-    static::assertTrue($playlist->first()->is($second));
-    static::assertTrue($second->previous()->doesntExist());
+    $this->assertModelMissing($first);
+    $this->assertTrue($playlist->first()->is($second));
+    $this->assertTrue($second->previous()->doesntExist());
 });
 
 test('destroy last', function () {
@@ -215,16 +217,16 @@ test('destroy last', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $last]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $last]));
 
     $response->assertOk();
 
     $playlist->refresh();
     $previous->refresh();
 
-    static::assertModelMissing($last);
-    static::assertTrue($playlist->last()->is($previous));
-    static::assertTrue($previous->next()->doesntExist());
+    $this->assertModelMissing($last);
+    $this->assertTrue($playlist->last()->is($previous));
+    $this->assertTrue($previous->next()->doesntExist());
 });
 
 test('destroy second', function () {
@@ -245,7 +247,7 @@ test('destroy second', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $second]));
+    $response = delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $second]));
 
     $response->assertOk();
 
@@ -253,14 +255,14 @@ test('destroy second', function () {
     $first->refresh();
     $third->refresh();
 
-    static::assertModelMissing($second);
+    $this->assertModelMissing($second);
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($third));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->doesntExist());
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
 });

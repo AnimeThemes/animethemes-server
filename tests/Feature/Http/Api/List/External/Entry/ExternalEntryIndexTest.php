@@ -32,6 +32,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -51,7 +53,7 @@ test('private external entry cannot be publicly viewed', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
         ]);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
     $response->assertForbidden();
 });
@@ -68,7 +70,7 @@ test('private external entry cannot be publicly viewed if not owned', function (
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
     $response->assertForbidden();
 });
@@ -85,7 +87,7 @@ test('private external entry can be viewed by owner', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
     $response->assertOk();
 });
@@ -98,7 +100,7 @@ test('public external entry can be viewed', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
     $response->assertOk();
 });
@@ -121,7 +123,7 @@ test('default', function () {
             ])
     );
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
     $response->assertJsonCount($entryCount, ExternalEntryCollection::$wrap);
 
@@ -144,7 +146,7 @@ test('paginated', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
     $response->assertJsonStructure([
         ExternalEntryCollection::$wrap,
@@ -180,7 +182,7 @@ test('allowed include paths', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
     $entries = ExternalEntry::with($includedPaths->all())->get();
 
@@ -215,7 +217,7 @@ test('sparse fieldsets', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -250,7 +252,7 @@ test('sorts', function () {
 
     $query = new Query($parameters);
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
     $entries = $this->sort(ExternalEntry::query(), $query, $schema)->get();
 
@@ -302,7 +304,7 @@ test('created at filter', function () {
 
     $entries = ExternalEntry::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -352,7 +354,7 @@ test('updated at filter', function () {
 
     $entries = ExternalEntry::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    $response = get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
     $response->assertJson(
         json_decode(

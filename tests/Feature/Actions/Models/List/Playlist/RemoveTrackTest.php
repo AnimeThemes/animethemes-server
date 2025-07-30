@@ -18,11 +18,11 @@ test('remove sole', function () {
 
     $action->remove($playlist, $first);
 
-    static::assertTrue($playlist->first()->doesntExist());
-    static::assertTrue($playlist->last()->doesntExist());
+    $this->assertTrue($playlist->first()->doesntExist());
+    $this->assertTrue($playlist->last()->doesntExist());
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->doesntExist());
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->doesntExist());
 });
 
 test('remove first', function () {
@@ -37,12 +37,12 @@ test('remove first', function () {
 
     $action->remove($playlist, $first);
 
-    static::assertTrue($playlist->first()->is($second));
+    $this->assertTrue($playlist->first()->is($second));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->doesntExist());
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->doesntExist());
 
-    static::assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->previous()->doesntExist());
 });
 
 test('remove last', function () {
@@ -57,12 +57,12 @@ test('remove last', function () {
 
     $action->remove($playlist, $last);
 
-    static::assertTrue($playlist->last()->is($previous));
+    $this->assertTrue($playlist->last()->is($previous));
 
-    static::assertTrue($last->previous()->doesntExist());
-    static::assertTrue($last->next()->doesntExist());
+    $this->assertTrue($last->previous()->doesntExist());
+    $this->assertTrue($last->next()->doesntExist());
 
-    static::assertTrue($previous->next()->doesntExist());
+    $this->assertTrue($previous->next()->doesntExist());
 });
 
 test('remove second', function () {
@@ -78,15 +78,15 @@ test('remove second', function () {
 
     $action->remove($playlist, $second);
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($third));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->doesntExist());
-    static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->next()->doesntExist());
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->doesntExist());
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
 });

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('fails if unknown moderation service', function () {
-    static::expectException(RuntimeException::class);
+    $this->expectException(RuntimeException::class);
 
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, fake()->word());
 
@@ -46,7 +46,7 @@ test('fails if flagged by open ai', function () {
         [$attribute => new ModerationRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('passes if not flagged by open ai', function () {
@@ -69,7 +69,7 @@ test('passes if not flagged by open ai', function () {
         [$attribute => new ModerationRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes if open ai fails', function () {
@@ -86,5 +86,5 @@ test('passes if open ai fails', function () {
         [$attribute => new ModerationRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });

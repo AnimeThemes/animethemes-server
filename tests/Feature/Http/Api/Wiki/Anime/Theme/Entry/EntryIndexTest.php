@@ -34,6 +34,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -44,7 +46,7 @@ test('default', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animethemeentry.index'));
+    $response = get(route('api.animethemeentry.index'));
 
     $response->assertJson(
         json_decode(
@@ -64,7 +66,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animethemeentry.index'));
+    $response = get(route('api.animethemeentry.index'));
 
     $response->assertJsonStructure([
         EntryCollection::$wrap,
@@ -94,7 +96,7 @@ test('allowed include paths', function () {
 
     $entries = AnimeThemeEntry::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -126,7 +128,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -160,7 +162,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $entries = $this->sort(AnimeThemeEntry::query(), $query, $schema)->get();
 
@@ -205,7 +207,7 @@ test('created at filter', function () {
 
     $entry = AnimeThemeEntry::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -248,7 +250,7 @@ test('updated at filter', function () {
 
     $entry = AnimeThemeEntry::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -285,7 +287,7 @@ test('without trashed filter', function () {
 
     $entry = AnimeThemeEntry::withoutTrashed()->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -322,7 +324,7 @@ test('with trashed filter', function () {
 
     $entry = AnimeThemeEntry::withTrashed()->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -359,7 +361,7 @@ test('only trashed filter', function () {
 
     $entry = AnimeThemeEntry::onlyTrashed()->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -405,7 +407,7 @@ test('deleted at filter', function () {
 
     $entry = AnimeThemeEntry::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -435,7 +437,7 @@ test('entries by nsfw', function () {
 
     $entries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter)->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -465,7 +467,7 @@ test('entries by spoiler', function () {
 
     $entries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter)->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -500,7 +502,7 @@ test('entries by version', function () {
 
     $entries = AnimeThemeEntry::query()->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter)->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -536,7 +538,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -572,7 +574,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -616,7 +618,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -659,7 +661,7 @@ test('themes by sequence', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -695,7 +697,7 @@ test('themes by type', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animethemeentry.index', $parameters));
+    $response = get(route('api.animethemeentry.index', $parameters));
 
     $response->assertJson(
         json_decode(

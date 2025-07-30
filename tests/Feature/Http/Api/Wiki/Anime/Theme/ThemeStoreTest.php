@@ -10,10 +10,12 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
-    $response = $this->post(route('api.animetheme.store', $theme->toArray()));
+    $response = post(route('api.animetheme.store', $theme->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -25,7 +27,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animetheme.store', $theme->toArray()));
+    $response = post(route('api.animetheme.store', $theme->toArray()));
 
     $response->assertForbidden();
 });
@@ -35,7 +37,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animetheme.store'));
+    $response = post(route('api.animetheme.store'));
 
     $response->assertJsonValidationErrors([
         AnimeTheme::ATTRIBUTE_ANIME,
@@ -59,8 +61,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animetheme.store', $parameters));
+    $response = post(route('api.animetheme.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(AnimeTheme::class, 1);
+    $this->assertDatabaseCount(AnimeTheme::class, 1);
 });

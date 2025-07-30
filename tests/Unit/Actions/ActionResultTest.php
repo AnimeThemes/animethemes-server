@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 test('has failed', function () {
     $result = new ActionResult(ActionStatus::FAILED);
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('has not failed', function () {
@@ -24,5 +24,5 @@ test('has not failed', function () {
 
     $result = new ActionResult($status);
 
-    static::assertFalse($result->hasFailed());
+    $this->assertFalse($result->hasFailed());
 });

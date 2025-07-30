@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -34,7 +36,7 @@ test('protected', function () {
         [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
     );
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -59,7 +61,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertForbidden();
 });
@@ -86,7 +88,7 @@ test('forbidden if not own playlist', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertForbidden();
 });
@@ -116,7 +118,7 @@ test('scoped', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertNotFound();
 });
@@ -150,7 +152,7 @@ test('scope previous', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_PREVIOUS,
@@ -182,7 +184,7 @@ test('previous is not self', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_PREVIOUS,
@@ -218,7 +220,7 @@ test('scope next', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_NEXT,
@@ -250,7 +252,7 @@ test('next is not self', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_NEXT,
@@ -291,7 +293,7 @@ test('prohibits next and previous', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_NEXT,
@@ -323,7 +325,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertForbidden();
 });
@@ -352,7 +354,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertOk();
 });
@@ -379,7 +381,7 @@ test('insert first after second', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
 
     $response->assertOk();
 
@@ -388,17 +390,17 @@ test('insert first after second', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($second));
-    static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($second));
+    $this->assertTrue($playlist->last()->is($third));
 
-    static::assertTrue($first->previous()->is($second));
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->is($second));
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->doesntExist());
-    static::assertTrue($second->next()->is($first));
+    $this->assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->next()->is($first));
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->doesntExist());
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
 });
 
 test('insert first after third', function () {
@@ -423,7 +425,7 @@ test('insert first after third', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
 
     $response->assertOk();
 
@@ -432,17 +434,17 @@ test('insert first after third', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($second));
-    static::assertTrue($playlist->last()->is($first));
+    $this->assertTrue($playlist->first()->is($second));
+    $this->assertTrue($playlist->last()->is($first));
 
-    static::assertTrue($first->previous()->is($third));
-    static::assertTrue($first->next()->doesntExist());
+    $this->assertTrue($first->previous()->is($third));
+    $this->assertTrue($first->next()->doesntExist());
 
-    static::assertTrue($second->previous()->doesntExist());
-    static::assertTrue($second->next()->is($third));
+    $this->assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->next()->is($third));
 
-    static::assertTrue($third->previous()->is($second));
-    static::assertTrue($third->next()->is($first));
+    $this->assertTrue($third->previous()->is($second));
+    $this->assertTrue($third->next()->is($first));
 });
 
 test('insert first before third', function () {
@@ -467,7 +469,7 @@ test('insert first before third', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
 
     $response->assertOk();
 
@@ -476,17 +478,17 @@ test('insert first before third', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($second));
-    static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($second));
+    $this->assertTrue($playlist->last()->is($third));
 
-    static::assertTrue($first->previous()->is($second));
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->is($second));
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->doesntExist());
-    static::assertTrue($second->next()->is($first));
+    $this->assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->next()->is($first));
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->doesntExist());
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
 });
 
 test('insert second after third', function () {
@@ -511,7 +513,7 @@ test('insert second after third', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $second] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $second] + $parameters));
 
     $response->assertOk();
 
@@ -520,17 +522,17 @@ test('insert second after third', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($second));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($second));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->is($third));
-    static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->is($third));
+    $this->assertTrue($second->next()->doesntExist());
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->is($second));
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->is($second));
 });
 
 test('insert second before first', function () {
@@ -555,7 +557,7 @@ test('insert second before first', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $second] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $second] + $parameters));
 
     $response->assertOk();
 
@@ -564,17 +566,17 @@ test('insert second before first', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($second));
-    static::assertTrue($playlist->last()->is($third));
+    $this->assertTrue($playlist->first()->is($second));
+    $this->assertTrue($playlist->last()->is($third));
 
-    static::assertTrue($first->previous()->is($second));
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->is($second));
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->doesntExist());
-    static::assertTrue($second->next()->is($first));
+    $this->assertTrue($second->previous()->doesntExist());
+    $this->assertTrue($second->next()->is($first));
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->doesntExist());
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->doesntExist());
 });
 
 test('insert third after first', function () {
@@ -599,7 +601,7 @@ test('insert third after first', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
 
     $response->assertOk();
 
@@ -608,17 +610,17 @@ test('insert third after first', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($second));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($second));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->is($third));
-    static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->is($third));
+    $this->assertTrue($second->next()->doesntExist());
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->is($second));
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->is($second));
 });
 
 test('insert third before second', function () {
@@ -643,7 +645,7 @@ test('insert third before second', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
 
     $response->assertOk();
 
@@ -652,17 +654,17 @@ test('insert third before second', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($first));
-    static::assertTrue($playlist->last()->is($second));
+    $this->assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->last()->is($second));
 
-    static::assertTrue($first->previous()->doesntExist());
-    static::assertTrue($first->next()->is($third));
+    $this->assertTrue($first->previous()->doesntExist());
+    $this->assertTrue($first->next()->is($third));
 
-    static::assertTrue($second->previous()->is($third));
-    static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->is($third));
+    $this->assertTrue($second->next()->doesntExist());
 
-    static::assertTrue($third->previous()->is($first));
-    static::assertTrue($third->next()->is($second));
+    $this->assertTrue($third->previous()->is($first));
+    $this->assertTrue($third->next()->is($second));
 });
 
 test('insert third before first', function () {
@@ -687,7 +689,7 @@ test('insert third before first', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
 
     $response->assertOk();
 
@@ -696,17 +698,17 @@ test('insert third before first', function () {
     $second->refresh();
     $third->refresh();
 
-    static::assertTrue($playlist->first()->is($third));
-    static::assertTrue($playlist->last()->is($second));
+    $this->assertTrue($playlist->first()->is($third));
+    $this->assertTrue($playlist->last()->is($second));
 
-    static::assertTrue($first->previous()->is($third));
-    static::assertTrue($first->next()->is($second));
+    $this->assertTrue($first->previous()->is($third));
+    $this->assertTrue($first->next()->is($second));
 
-    static::assertTrue($second->previous()->is($first));
-    static::assertTrue($second->next()->doesntExist());
+    $this->assertTrue($second->previous()->is($first));
+    $this->assertTrue($second->next()->doesntExist());
 
-    static::assertTrue($third->previous()->doesntExist());
-    static::assertTrue($third->next()->is($first));
+    $this->assertTrue($third->previous()->doesntExist());
+    $this->assertTrue($third->next()->is($first));
 });
 
 test('update permitted for bypass', function () {
@@ -738,7 +740,7 @@ test('update permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertOk();
 });

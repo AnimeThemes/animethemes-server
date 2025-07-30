@@ -9,12 +9,14 @@ use App\Http\Api\Schema\Admin\FeatureSchema;
 use App\Http\Resources\Admin\Resource\FeatureResource;
 use App\Models\Admin\Feature;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $feature = Feature::factory()->create();
 
-    $response = $this->get(route('api.feature.show', ['feature' => $feature]));
+    $response = get(route('api.feature.show', ['feature' => $feature]));
 
     $response->assertJson(
         json_decode(
@@ -33,7 +35,7 @@ test('non null forbidden', function () {
         Feature::ATTRIBUTE_SCOPE => fake()->word(),
     ]);
 
-    $response = $this->get(route('api.feature.show', ['feature' => $feature]));
+    $response = get(route('api.feature.show', ['feature' => $feature]));
 
     $response->assertForbidden();
 });
@@ -53,7 +55,7 @@ test('sparse fieldsets', function () {
 
     $feature = Feature::factory()->create();
 
-    $response = $this->get(route('api.feature.show', ['feature' => $feature] + $parameters));
+    $response = get(route('api.feature.show', ['feature' => $feature] + $parameters));
 
     $response->assertJson(
         json_decode(

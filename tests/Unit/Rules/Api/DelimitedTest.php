@@ -17,7 +17,7 @@ test('passes if all values pass', function () {
         [$attribute => new DelimitedRule(['required', 'string'])]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('fails for duplicate values', function () {
@@ -32,7 +32,7 @@ test('fails for duplicate values', function () {
         [$attribute => new DelimitedRule(['required', 'string'])]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('fails for invalid value', function () {
@@ -45,7 +45,7 @@ test('fails for invalid value', function () {
         [$attribute => new DelimitedRule(['required', 'integer'])]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('validates empty values', function () {
@@ -58,5 +58,5 @@ test('validates empty values', function () {
         [$attribute => new DelimitedRule(['required', 'string'])]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

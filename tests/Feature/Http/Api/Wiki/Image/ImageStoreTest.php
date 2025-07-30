@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
     $image = Image::factory()->makeOne();
 
-    $response = $this->post(route('api.image.store', $image->toArray()));
+    $response = post(route('api.image.store', $image->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.image.store', $image->toArray()));
+    $response = post(route('api.image.store', $image->toArray()));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.image.store'));
+    $response = post(route('api.image.store'));
 
     $response->assertJsonValidationErrors([
         ImageFileField::ATTRIBUTE_FILE,
@@ -58,11 +60,11 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.image.store', $parameters), [
+    $response = post(route('api.image.store', $parameters), [
         ImageFileField::ATTRIBUTE_FILE => UploadedFile::fake()->image(fake()->word().'.jpg'),
     ]);
 
     $response->assertCreated();
-    static::assertCount(1, $fs->allFiles());
-    static::assertDatabaseCount(Image::class, 1);
+    $this->assertCount(1, $fs->allFiles());
+    $this->assertDatabaseCount(Image::class, 1);
 });

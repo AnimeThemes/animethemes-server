@@ -10,10 +10,12 @@ use App\Models\User\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
-    $response = $this->get(route('api.me.notification.index'));
+    $response = get(route('api.me.notification.index'));
 
     $response->assertUnauthorized();
 });
@@ -23,7 +25,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.notification.index'));
+    $response = get(route('api.me.notification.index'));
 
     $response->assertForbidden();
 });
@@ -46,7 +48,7 @@ test('only sees owned notifications', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.notification.index'));
+    $response = get(route('api.me.notification.index'));
 
     $response->assertJsonCount($notificationCount, NotificationCollection::$wrap);
 

@@ -14,6 +14,8 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Str;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
@@ -55,7 +57,7 @@ test('default', function () {
 
     $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query());
 
-    $response = $this->get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year]));
+    $response = get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year]));
 
     $response->assertJson([
         Str::lower(AnimeSeason::WINTER->localize()) => json_decode(json_encode($winterResources->response()->getData()->anime), true),
@@ -120,7 +122,7 @@ test('allowed include paths', function () {
 
     $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
 
-    $response = $this->get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
+    $response = get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
 
     $response->assertJson([
         Str::lower(AnimeSeason::WINTER->localize()) => json_decode(json_encode($winterResources->response()->getData()->anime), true),
@@ -181,7 +183,7 @@ test('sparse fieldsets', function () {
 
     $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new Query($parameters));
 
-    $response = $this->get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
+    $response = get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
 
     $response->assertJson([
         Str::lower(AnimeSeason::WINTER->localize()) => json_decode(json_encode($winterResources->response()->getData()->anime), true),

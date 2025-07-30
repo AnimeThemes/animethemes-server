@@ -15,25 +15,25 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('nameable', function () {
     $report = Report::factory()->createOne();
 
-    static::assertIsString($report->getName());
+    $this->assertIsString($report->getName());
 });
 
 test('has subtitle', function () {
     $report = Report::factory()->createOne();
 
-    static::assertIsString($report->getSubtitle());
+    $this->assertIsString($report->getSubtitle());
 });
 
 test('casts finished at', function () {
     $report = Report::factory()->createOne([Report::ATTRIBUTE_FINISHED_AT => now()]);
 
-    static::assertInstanceOf(Carbon::class, $report->finished_at);
+    $this->assertInstanceOf(Carbon::class, $report->finished_at);
 });
 
 test('casts status to enum', function () {
     $report = Report::factory()->createOne();
 
-    static::assertInstanceOf(ApprovableStatus::class, $report->status);
+    $this->assertInstanceOf(ApprovableStatus::class, $report->status);
 });
 
 test('steps', function () {
@@ -46,9 +46,9 @@ test('steps', function () {
         ->count($stepsCount)
         ->create();
 
-    static::assertInstanceOf(HasMany::class, $report->steps());
-    static::assertEquals($stepsCount, $report->steps()->count());
-    static::assertInstanceOf(ReportStep::class, $report->steps()->first());
+    $this->assertInstanceOf(HasMany::class, $report->steps());
+    $this->assertEquals($stepsCount, $report->steps()->count());
+    $this->assertInstanceOf(ReportStep::class, $report->steps()->first());
 });
 
 test('user', function () {
@@ -56,8 +56,8 @@ test('user', function () {
         ->for(User::factory(), Report::RELATION_USER)
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $report->user());
-    static::assertInstanceOf(User::class, $report->user()->first());
+    $this->assertInstanceOf(BelongsTo::class, $report->user());
+    $this->assertInstanceOf(User::class, $report->user()->first());
 });
 
 test('moderator', function () {
@@ -65,6 +65,6 @@ test('moderator', function () {
         ->for(User::factory(), Report::RELATION_MODERATOR)
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $report->moderator());
-    static::assertInstanceOf(User::class, $report->moderator()->first());
+    $this->assertInstanceOf(BelongsTo::class, $report->moderator());
+    $this->assertInstanceOf(User::class, $report->moderator()->first());
 });

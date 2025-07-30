@@ -29,7 +29,7 @@ test('fails when extraneous metadata is present', function () {
         UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
             'format' => [
                 'tags' => [
-                    'ENCODER' => "Lavf{fake()->numberBetween()}",
+                    'ENCODER' => 'Lavf{fake()->numberBetween()}',
                     'DURATION' => '00:01:30.098000000',
                     fake()->word() => fake()->word(),
                 ],
@@ -42,7 +42,7 @@ test('fails when extraneous metadata is present', function () {
         ['file' => new ExtraneousMetadataFormatRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -66,7 +66,7 @@ test('passes no extraneous metadata', function () {
         UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
             'format' => [
                 'tags' => [
-                    'ENCODER' => "Lavf{fake()->numberBetween()}",
+                    'ENCODER' => 'Lavf{fake()->numberBetween()}',
                     'DURATION' => '00:01:30.098000000',
                 ],
             ],
@@ -78,7 +78,7 @@ test('passes no extraneous metadata', function () {
         ['file' => new ExtraneousMetadataFormatRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

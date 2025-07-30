@@ -20,7 +20,7 @@ test('passes if enum description', function () {
         [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('fails if enum value', function () {
@@ -33,7 +33,7 @@ test('fails if enum value', function () {
         [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('fails if string', function () {
@@ -44,5 +44,5 @@ test('fails if string', function () {
         [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

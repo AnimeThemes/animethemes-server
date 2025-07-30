@@ -32,7 +32,7 @@ test('passes if site matches link', function () {
         [$attribute => new ResourceSiteMatchesLinkRule($url)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('resource site domain rule official passes', function () {
@@ -43,7 +43,7 @@ test('resource site domain rule official passes', function () {
         [$attribute => new ResourceSiteMatchesLinkRule(fake()->url())],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('resource site domain rule fails', function () {
@@ -63,5 +63,5 @@ test('resource site domain rule fails', function () {
         [$attribute => new ResourceSiteMatchesLinkRule(fake()->url())],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

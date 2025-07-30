@@ -10,6 +10,8 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $video = Video::factory()->createOne();
 
@@ -24,7 +26,7 @@ test('protected', function () {
         ]
     );
 
-    $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -47,7 +49,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
     $response->assertForbidden();
 });
@@ -70,7 +72,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
     $response->assertForbidden();
 });
@@ -93,7 +95,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+    $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
     $response->assertOk();
 });

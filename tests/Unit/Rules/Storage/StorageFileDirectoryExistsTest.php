@@ -25,7 +25,7 @@ test('passes if directory exists', function () {
         [$attribute => new StorageFileDirectoryExistsRule($fs)]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('fails if directory does not exist', function () {
@@ -38,5 +38,5 @@ test('fails if directory does not exist', function () {
         [$attribute => new StorageFileDirectoryExistsRule($fs)]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

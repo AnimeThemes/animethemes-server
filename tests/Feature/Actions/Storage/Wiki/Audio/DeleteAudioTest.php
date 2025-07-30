@@ -26,7 +26,7 @@ test('default', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -48,7 +48,7 @@ test('passed', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
 test('deleted from disk', function () {
@@ -68,7 +68,7 @@ test('deleted from disk', function () {
 
     $action->handle();
 
-    static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('audio deleted', function () {
@@ -90,5 +90,5 @@ test('audio deleted', function () {
 
     $action->then($result);
 
-    static::assertSoftDeleted($audio);
+    $this->assertSoftDeleted($audio);
 });

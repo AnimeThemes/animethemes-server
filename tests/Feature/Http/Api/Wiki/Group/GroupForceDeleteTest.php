@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $group = Group::factory()->createOne();
 
-    $response = $this->delete(route('api.group.forceDelete', ['group' => $group]));
+    $response = delete(route('api.group.forceDelete', ['group' => $group]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.group.forceDelete', ['group' => $group]));
+    $response = delete(route('api.group.forceDelete', ['group' => $group]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.group.forceDelete', ['group' => $group]));
+    $response = delete(route('api.group.forceDelete', ['group' => $group]));
 
     $response->assertOk();
-    static::assertModelMissing($group);
+    $this->assertModelMissing($group);
 });

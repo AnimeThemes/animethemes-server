@@ -7,10 +7,12 @@ use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $dump = Dump::factory()->makeOne();
 
-    $response = $this->post(route('api.dump.store', $dump->toArray()));
+    $response = post(route('api.dump.store', $dump->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.dump.store', $dump->toArray()));
+    $response = post(route('api.dump.store', $dump->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.dump.store'));
+    $response = post(route('api.dump.store'));
 
     $response->assertJsonValidationErrors([
         Dump::ATTRIBUTE_PATH,
@@ -46,8 +48,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.dump.store', $parameters));
+    $response = post(route('api.dump.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Dump::class, 1);
+    $this->assertDatabaseCount(Dump::class, 1);
 });

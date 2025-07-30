@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -41,7 +43,7 @@ test('default', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.resource.index'));
+    $response = get(route('api.resource.index'));
 
     $response->assertJson(
         json_decode(
@@ -58,7 +60,7 @@ test('default', function () {
 test('paginated', function () {
     ExternalResource::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.resource.index'));
+    $response = get(route('api.resource.index'));
 
     $response->assertJsonStructure([
         ExternalResourceCollection::$wrap,
@@ -88,7 +90,7 @@ test('allowed include paths', function () {
 
     $resources = ExternalResource::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -119,7 +121,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -150,7 +152,7 @@ test('sorts', function () {
 
     ExternalResource::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $resources = $this->sort(ExternalResource::query(), $query, $schema)->get();
 
@@ -189,7 +191,7 @@ test('created at filter', function () {
 
     $resource = ExternalResource::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -226,7 +228,7 @@ test('updated at filter', function () {
 
     $resource = ExternalResource::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -256,7 +258,7 @@ test('without trashed filter', function () {
 
     $resource = ExternalResource::withoutTrashed()->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -286,7 +288,7 @@ test('with trashed filter', function () {
 
     $resource = ExternalResource::withTrashed()->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -316,7 +318,7 @@ test('only trashed filter', function () {
 
     $resource = ExternalResource::onlyTrashed()->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -354,7 +356,7 @@ test('deleted at filter', function () {
 
     $resource = ExternalResource::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -383,7 +385,7 @@ test('site filter', function () {
 
     $resources = ExternalResource::query()->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value)->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -419,7 +421,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -455,7 +457,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -498,7 +500,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.resource.index', $parameters));
+    $response = get(route('api.resource.index', $parameters));
 
     $response->assertJson(
         json_decode(

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 
+use function Pest\Laravel\get;
+
 test('send discord notification job sends notification', function () {
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Notification::fake();
@@ -90,5 +92,5 @@ test('rate limited', function () {
 
     $middleware = collect($job->middleware())->first();
 
-    static::assertInstanceOf(RateLimited::class, $middleware);
+    $this->assertInstanceOf(RateLimited::class, $middleware);
 });

@@ -9,6 +9,8 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $artistSong = ArtistSong::factory()
         ->for(Artist::factory())
@@ -17,7 +19,7 @@ test('protected', function () {
 
     $parameters = ArtistSong::factory()->raw();
 
-    $response = $this->put(route('api.artistsong.update', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = put(route('api.artistsong.update', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artistsong.update', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = put(route('api.artistsong.update', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
     $response->assertForbidden();
 });
@@ -56,7 +58,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artistsong.update', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = put(route('api.artistsong.update', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
     $response->assertOk();
 });

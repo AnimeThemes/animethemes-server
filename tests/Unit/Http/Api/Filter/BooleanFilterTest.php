@@ -17,7 +17,7 @@ test('should not apply if no booleans', function () {
 
     $filter = new BooleanFilter($filterField);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should not apply if all booleans', function () {
@@ -27,7 +27,7 @@ test('should not apply if all booleans', function () {
 
     $filter = new BooleanFilter($filterField);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('converts validated boolean', function () {
@@ -37,5 +37,5 @@ test('converts validated boolean', function () {
 
     $filterValues = $filter->getFilterValues(Arr::wrap($booleanValue ? 'true' : 'false'));
 
-    static::assertEquals($booleanValue, $filterValues[0]);
+    $this->assertEquals($booleanValue, $filterValues[0]);
 });

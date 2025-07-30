@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $artist = Artist::factory()->makeOne();
 
-    $response = $this->post(route('api.artist.store', $artist->toArray()));
+    $response = post(route('api.artist.store', $artist->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artist.store', $artist->toArray()));
+    $response = post(route('api.artist.store', $artist->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artist.store'));
+    $response = post(route('api.artist.store'));
 
     $response->assertJsonValidationErrors([
         Artist::ATTRIBUTE_NAME,
@@ -47,8 +49,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.artist.store', $parameters));
+    $response = post(route('api.artist.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Artist::class, 1);
+    $this->assertDatabaseCount(Artist::class, 1);
 });

@@ -31,6 +31,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('private playlist cannot be publicly viewed', function () {
@@ -45,7 +47,7 @@ test('private playlist cannot be publicly viewed', function () {
 
     $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -66,7 +68,7 @@ test('private playlist track cannot be publicly viewed if not owned', function (
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertForbidden();
 });
@@ -87,7 +89,7 @@ test('private playlist track can be viewed by owner', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -104,7 +106,7 @@ test('unlisted playlist track can be viewed', function () {
 
     $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -121,7 +123,7 @@ test('public playlist track can be viewed', function () {
 
     $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertOk();
 });
@@ -140,7 +142,7 @@ test('default', function () {
     /** @var BackwardPlaylistTrack $track */
     $track = BackwardPlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $tracks = $track->descendants()->get();
 
@@ -169,7 +171,7 @@ test('paginated', function () {
 
     $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
 
     $response->assertJsonStructure([
         TrackCollection::$wrap,
@@ -205,7 +207,7 @@ test('allowed include paths', function () {
     /** @var BackwardPlaylistTrack $track */
     $track = BackwardPlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $tracks = $track->descendants()
         ->get()
@@ -247,7 +249,7 @@ test('sparse fieldsets', function () {
     /** @var BackwardPlaylistTrack $track */
     $track = BackwardPlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -284,7 +286,7 @@ test('sorts', function () {
 
     $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         SortParser::param(),
@@ -311,7 +313,7 @@ test('filters', function () {
 
     $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-    $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+    $response = get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
     $response->assertJsonValidationErrors([
         FilterParser::param(),

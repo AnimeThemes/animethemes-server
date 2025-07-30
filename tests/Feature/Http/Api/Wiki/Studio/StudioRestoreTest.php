@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $studio = Studio::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
+    $response = patch(route('api.studio.restore', ['studio' => $studio]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
+    $response = patch(route('api.studio.restore', ['studio' => $studio]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
+    $response = patch(route('api.studio.restore', ['studio' => $studio]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
+    $response = patch(route('api.studio.restore', ['studio' => $studio]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($studio);
+    $this->assertNotSoftDeleted($studio);
 });

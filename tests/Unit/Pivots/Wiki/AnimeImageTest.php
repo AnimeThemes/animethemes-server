@@ -13,8 +13,8 @@ test('anime', function () {
         ->for(Image::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $animeImage->anime());
-    static::assertInstanceOf(Anime::class, $animeImage->anime()->first());
+    $this->assertInstanceOf(BelongsTo::class, $animeImage->anime());
+    $this->assertInstanceOf(Anime::class, $animeImage->anime()->first());
 });
 
 test('image', function () {
@@ -23,6 +23,6 @@ test('image', function () {
         ->for(Image::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $animeImage->image());
-    static::assertInstanceOf(Image::class, $animeImage->image()->first());
+    $this->assertInstanceOf(BelongsTo::class, $animeImage->image());
+    $this->assertInstanceOf(Image::class, $animeImage->image()->first());
 });

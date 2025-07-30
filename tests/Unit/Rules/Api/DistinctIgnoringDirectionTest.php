@@ -21,7 +21,7 @@ test('fails if duplicate sort', function () {
         [$attribute => new DistinctIgnoringDirectionRule()]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('fails if duplicate sort different direction', function () {
@@ -42,7 +42,7 @@ test('fails if duplicate sort different direction', function () {
         [$attribute => new DistinctIgnoringDirectionRule()]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('passes if no duplicates', function () {
@@ -55,5 +55,5 @@ test('passes if no duplicates', function () {
         [$attribute => new DistinctIgnoringDirectionRule()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });

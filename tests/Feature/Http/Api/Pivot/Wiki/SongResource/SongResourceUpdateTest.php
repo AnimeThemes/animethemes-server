@@ -9,6 +9,8 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $songResource = SongResource::factory()
         ->for(Song::factory())
@@ -17,7 +19,7 @@ test('protected', function () {
 
     $parameters = SongResource::factory()->raw();
 
-    $response = $this->put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
     $response->assertForbidden();
 });
@@ -56,7 +58,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = put(route('api.songresource.update', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
     $response->assertOk();
 });

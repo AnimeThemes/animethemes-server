@@ -24,12 +24,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $video = Video::factory()->create();
 
-    $response = $this->get(route('api.video.show', ['video' => $video]));
+    $response = get(route('api.video.show', ['video' => $video]));
 
     $response->assertJson(
         json_decode(
@@ -46,7 +48,7 @@ test('default', function () {
 test('soft delete', function () {
     $video = Video::factory()->trashed()->createOne();
 
-    $response = $this->get(route('api.video.show', ['video' => $video]));
+    $response = get(route('api.video.show', ['video' => $video]));
 
     $response->assertJson(
         json_decode(
@@ -83,7 +85,7 @@ test('allowed include paths', function () {
         )
         ->createOne();
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -112,7 +114,7 @@ test('sparse fieldsets', function () {
 
     $video = Video::factory()->create();
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -150,7 +152,7 @@ test('entries by nsfw', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -188,7 +190,7 @@ test('entries by spoiler', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -231,7 +233,7 @@ test('entries by version', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -276,7 +278,7 @@ test('themes by sequence', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -314,7 +316,7 @@ test('themes by type', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -352,7 +354,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -390,7 +392,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -437,7 +439,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+    $response = get(route('api.video.show', ['video' => $video] + $parameters));
 
     $response->assertJson(
         json_decode(

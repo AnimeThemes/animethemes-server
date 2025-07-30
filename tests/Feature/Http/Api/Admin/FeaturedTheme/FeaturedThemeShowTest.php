@@ -19,6 +19,8 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('forbidden if future start date', function () {
@@ -26,7 +28,7 @@ test('forbidden if future start date', function () {
         FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
     ]);
 
-    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
+    $response = get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('forbidden if future start date', function () {
 test('default', function () {
     $featuredTheme = FeaturedTheme::factory()->create();
 
-    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
+    $response = get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
 
     $response->assertJson(
         json_decode(
@@ -74,7 +76,7 @@ test('allowed include paths', function () {
         ->for(User::factory())
         ->createOne();
 
-    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -103,7 +105,7 @@ test('sparse fieldsets', function () {
 
     $featuredTheme = FeaturedTheme::factory()->create();
 
-    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertJson(
         json_decode(

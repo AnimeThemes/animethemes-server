@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -21,7 +23,7 @@ test('protected', function () {
 
     $profile = ExternalProfile::factory()->createOne();
 
-    $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertUnauthorized();
 });
@@ -37,7 +39,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertForbidden();
 });
@@ -55,7 +57,7 @@ test('forbidden if not own external profile', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertForbidden();
 });
@@ -73,7 +75,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertForbidden();
 });
@@ -91,10 +93,10 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertOk();
-    static::assertModelMissing($profile);
+    $this->assertModelMissing($profile);
 });
 
 test('destroy permitted for bypass', function () {
@@ -115,7 +117,7 @@ test('destroy permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
+    $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertOk();
 });

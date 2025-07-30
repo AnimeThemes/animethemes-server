@@ -14,5 +14,5 @@ test('format', function () {
 
     $direction = Arr::random(Direction::cases());
 
-    static::assertEquals(RandomCriteria::PARAM_VALUE, $sort->format($direction));
+    $this->assertEquals(RandomCriteria::PARAM_VALUE, $sort->format($direction));
 });

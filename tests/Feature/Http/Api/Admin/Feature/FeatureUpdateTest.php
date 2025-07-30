@@ -7,6 +7,8 @@ use App\Models\Admin\Feature;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $feature = Feature::factory()->createOne();
 
@@ -14,7 +16,7 @@ test('protected', function () {
         Feature::ATTRIBUTE_VALUE => ! $feature->value,
     ];
 
-    $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
+    $response = put(route('api.feature.update', ['feature' => $feature] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
+    $response = put(route('api.feature.update', ['feature' => $feature] + $parameters));
 
     $response->assertForbidden();
 });
@@ -46,7 +48,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
+    $response = put(route('api.feature.update', ['feature' => $feature] + $parameters));
 
     $response->assertOk();
 });

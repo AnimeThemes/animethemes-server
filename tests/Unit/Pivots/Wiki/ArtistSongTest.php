@@ -13,8 +13,8 @@ test('artist', function () {
         ->for(Song::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $artistSong->artist());
-    static::assertInstanceOf(Artist::class, $artistSong->artist()->first());
+    $this->assertInstanceOf(BelongsTo::class, $artistSong->artist());
+    $this->assertInstanceOf(Artist::class, $artistSong->artist()->first());
 });
 
 test('song', function () {
@@ -23,6 +23,6 @@ test('song', function () {
         ->for(Song::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $artistSong->song());
-    static::assertInstanceOf(Song::class, $artistSong->song()->first());
+    $this->assertInstanceOf(BelongsTo::class, $artistSong->song());
+    $this->assertInstanceOf(Song::class, $artistSong->song()->first());
 });

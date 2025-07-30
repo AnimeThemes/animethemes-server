@@ -12,13 +12,15 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $artist = Artist::factory()->createOne();
     $member = Artist::factory()->createOne();
 
-    $response = $this->get(route('api.artistmember.show', ['artist' => $artist, 'member' => $member]));
+    $response = get(route('api.artistmember.show', ['artist' => $artist, 'member' => $member]));
 
     $response->assertNotFound();
 });
@@ -29,7 +31,7 @@ test('default', function () {
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
         ->createOne();
 
-    $response = $this->get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member]));
+    $response = get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member]));
 
     $artistMember->unsetRelations();
 
@@ -63,7 +65,7 @@ test('allowed include paths', function () {
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
         ->createOne();
 
-    $response = $this->get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $response = get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
     $artistMember->unsetRelations()->load($includedPaths->all());
 
@@ -97,7 +99,7 @@ test('sparse fieldsets', function () {
         ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
         ->createOne();
 
-    $response = $this->get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $response = get(route('api.artistmember.show', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
     $artistMember->unsetRelations();
 

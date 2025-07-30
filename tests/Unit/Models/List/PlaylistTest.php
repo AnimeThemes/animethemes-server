@@ -20,13 +20,13 @@ test('casts season to enum', function () {
 
     $visibility = $playlist->visibility;
 
-    static::assertInstanceOf(PlaylistVisibility::class, $visibility);
+    $this->assertInstanceOf(PlaylistVisibility::class, $visibility);
 });
 
 test('nameable', function () {
     $playlist = Playlist::factory()->createOne();
 
-    static::assertIsString($playlist->getName());
+    $this->assertIsString($playlist->getName());
 });
 
 test('has subtitle', function () {
@@ -34,7 +34,7 @@ test('has subtitle', function () {
         ->for(User::factory())
         ->createOne();
 
-    static::assertIsString($playlist->getSubtitle());
+    $this->assertIsString($playlist->getSubtitle());
 });
 
 test('searchable if public', function () {
@@ -43,7 +43,7 @@ test('searchable if public', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    static::assertTrue($playlist->shouldBeSearchable());
+    $this->assertTrue($playlist->shouldBeSearchable());
 });
 
 test('not searchable if not public', function () {
@@ -61,14 +61,14 @@ test('not searchable if not public', function () {
             Playlist::ATTRIBUTE_VISIBILITY => $visibility->value,
         ]);
 
-    static::assertFalse($playlist->shouldBeSearchable());
+    $this->assertFalse($playlist->shouldBeSearchable());
 });
 
 test('hashids nullable user', function () {
     $playlist = Playlist::factory()->createOne();
 
-    static::assertEmpty(array_diff([$playlist->playlist_id], $playlist->hashids()));
-    static::assertEmpty(array_diff($playlist->hashids(), [$playlist->playlist_id]));
+    $this->assertEmpty(array_diff([$playlist->playlist_id], $playlist->hashids()));
+    $this->assertEmpty(array_diff($playlist->hashids(), [$playlist->playlist_id]));
 });
 
 test('hashids non null user', function () {
@@ -78,8 +78,8 @@ test('hashids non null user', function () {
         ->for($user)
         ->createOne();
 
-    static::assertEmpty(array_diff([$user->id, $playlist->playlist_id], $playlist->hashids()));
-    static::assertEmpty(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]));
+    $this->assertEmpty(array_diff([$user->id, $playlist->playlist_id], $playlist->hashids()));
+    $this->assertEmpty(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]));
 });
 
 test('user', function () {
@@ -87,8 +87,8 @@ test('user', function () {
         ->for(User::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $playlist->user());
-    static::assertInstanceOf(User::class, $playlist->user()->first());
+    $this->assertInstanceOf(BelongsTo::class, $playlist->user());
+    $this->assertInstanceOf(User::class, $playlist->user()->first());
 });
 
 test('first', function () {
@@ -101,8 +101,8 @@ test('first', function () {
 
     $playlist->first()->associate($first)->save();
 
-    static::assertInstanceOf(BelongsTo::class, $playlist->first());
-    static::assertInstanceOf(PlaylistTrack::class, $playlist->first()->first());
+    $this->assertInstanceOf(BelongsTo::class, $playlist->first());
+    $this->assertInstanceOf(PlaylistTrack::class, $playlist->first()->first());
 });
 
 test('last', function () {
@@ -114,8 +114,8 @@ test('last', function () {
 
     $playlist->last()->associate($last)->save();
 
-    static::assertInstanceOf(BelongsTo::class, $playlist->last());
-    static::assertInstanceOf(PlaylistTrack::class, $playlist->last()->first());
+    $this->assertInstanceOf(BelongsTo::class, $playlist->last());
+    $this->assertInstanceOf(PlaylistTrack::class, $playlist->last()->first());
 });
 
 test('images', function () {
@@ -125,10 +125,10 @@ test('images', function () {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $playlist->images());
-    static::assertEquals($imageCount, $playlist->images()->count());
-    static::assertInstanceOf(Image::class, $playlist->images()->first());
-    static::assertEquals(PlaylistImage::class, $playlist->images()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $playlist->images());
+    $this->assertEquals($imageCount, $playlist->images()->count());
+    $this->assertInstanceOf(Image::class, $playlist->images()->first());
+    $this->assertEquals(PlaylistImage::class, $playlist->images()->getPivotClass());
 });
 
 test('tracks', function () {
@@ -141,7 +141,7 @@ test('tracks', function () {
         ->count($trackCount)
         ->create();
 
-    static::assertInstanceOf(HasMany::class, $playlist->tracks());
-    static::assertEquals($trackCount, $playlist->tracks()->count());
-    static::assertInstanceOf(PlaylistTrack::class, $playlist->tracks()->first());
+    $this->assertInstanceOf(HasMany::class, $playlist->tracks());
+    $this->assertEquals($trackCount, $playlist->tracks()->count());
+    $this->assertInstanceOf(PlaylistTrack::class, $playlist->tracks()->first());
 });

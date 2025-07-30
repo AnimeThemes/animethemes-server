@@ -7,12 +7,14 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $audio = Audio::factory()->createOne();
 
     $parameters = Audio::factory()->raw();
 
-    $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
     $response->assertForbidden();
 });
@@ -54,7 +56,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+    $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
     $response->assertOk();
 });

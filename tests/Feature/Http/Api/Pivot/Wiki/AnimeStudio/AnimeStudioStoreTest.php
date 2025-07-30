@@ -9,11 +9,13 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $anime = Anime::factory()->createOne();
     $studio = Studio::factory()->createOne();
 
-    $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+    $response = post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+    $response = post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
     $response->assertForbidden();
 });
@@ -44,8 +46,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
+    $response = post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
     $response->assertCreated();
-    static::assertDatabaseCount(AnimeStudio::class, 1);
+    $this->assertDatabaseCount(AnimeStudio::class, 1);
 });

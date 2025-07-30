@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $song = Song::factory()->createOne();
 
-    $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
+    $response = delete(route('api.song.forceDelete', ['song' => $song]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
+    $response = delete(route('api.song.forceDelete', ['song' => $song]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.song.forceDelete', ['song' => $song]));
+    $response = delete(route('api.song.forceDelete', ['song' => $song]));
 
     $response->assertOk();
-    static::assertModelMissing($song);
+    $this->assertModelMissing($song);
 });

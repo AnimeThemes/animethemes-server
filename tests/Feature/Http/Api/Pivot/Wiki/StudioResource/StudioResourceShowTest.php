@@ -17,13 +17,15 @@ use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $studio = Studio::factory()->createOne();
     $resource = ExternalResource::factory()->createOne();
 
-    $response = $this->get(route('api.studioresource.show', ['studio' => $studio, 'resource' => $resource]));
+    $response = get(route('api.studioresource.show', ['studio' => $studio, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -34,7 +36,7 @@ test('default', function () {
         ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource]));
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource]));
 
     $studioResource->unsetRelations();
 
@@ -68,7 +70,7 @@ test('allowed include paths', function () {
         ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
     $studioResource->unsetRelations()->load($includedPaths->all());
 
@@ -102,7 +104,7 @@ test('sparse fieldsets', function () {
         ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
     $studioResource->unsetRelations();
 
@@ -133,7 +135,7 @@ test('resources by site', function () {
         ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $response = get(route('api.studioresource.show', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
     $studioResource->unsetRelations()->load([
         StudioResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {

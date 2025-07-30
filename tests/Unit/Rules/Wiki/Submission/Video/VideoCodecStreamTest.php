@@ -45,7 +45,7 @@ test('fails when codec is not vp9', function () {
         ['file' => new VideoCodecStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -83,7 +83,7 @@ test('passes when codec is vp9', function () {
         ['file' => new VideoCodecStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

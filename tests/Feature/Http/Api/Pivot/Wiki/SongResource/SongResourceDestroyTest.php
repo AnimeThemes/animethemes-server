@@ -9,13 +9,15 @@ use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $songResource = SongResource::factory()
         ->for(Song::factory())
         ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    $response = delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    $response = delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.songresource.destroy', ['song' => $song, 'resource' => $resource]));
+    $response = delete(route('api.songresource.destroy', ['song' => $song, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -68,8 +70,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    $response = delete(route('api.songresource.destroy', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
     $response->assertOk();
-    static::assertModelMissing($songResource);
+    $this->assertModelMissing($songResource);
 });

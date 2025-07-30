@@ -41,7 +41,7 @@ test('fails when sample rate is not expected', function () {
         ['file' => new AudioSampleRateStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -77,7 +77,7 @@ test('passes when sample rate is expected', function () {
         ['file' => new AudioSampleRateStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

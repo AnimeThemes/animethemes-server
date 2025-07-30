@@ -15,7 +15,7 @@ test('should not apply if no integers', function () {
 
     $filter = new IntFilter($filterField);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('converts validated integers', function () {
@@ -29,5 +29,5 @@ test('converts validated integers', function () {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    static::assertEquals(intval($intValue), $filterValues[0]);
+    $this->assertEquals(intval($intValue), $filterValues[0]);
 });

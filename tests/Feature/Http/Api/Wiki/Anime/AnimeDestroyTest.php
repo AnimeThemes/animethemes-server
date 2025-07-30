@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $anime = Anime::factory()->createOne();
 
-    $response = $this->delete(route('api.anime.destroy', ['anime' => $anime]));
+    $response = delete(route('api.anime.destroy', ['anime' => $anime]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.anime.destroy', ['anime' => $anime]));
+    $response = delete(route('api.anime.destroy', ['anime' => $anime]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.anime.destroy', ['anime' => $anime]));
+    $response = delete(route('api.anime.destroy', ['anime' => $anime]));
 
     $response->assertNotFound();
 });
@@ -46,8 +48,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.anime.destroy', ['anime' => $anime]));
+    $response = delete(route('api.anime.destroy', ['anime' => $anime]));
 
     $response->assertOk();
-    static::assertSoftDeleted($anime);
+    $this->assertSoftDeleted($anime);
 });

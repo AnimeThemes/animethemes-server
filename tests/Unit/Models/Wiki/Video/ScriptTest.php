@@ -18,7 +18,7 @@ uses(WithFaker::class);
 test('nameable', function () {
     $script = VideoScript::factory()->createOne();
 
-    static::assertIsString($script->getName());
+    $this->assertIsString($script->getName());
 });
 
 test('has subtitle', function () {
@@ -26,7 +26,7 @@ test('has subtitle', function () {
         ->for(Video::factory())
         ->createOne();
 
-    static::assertIsString($script->getSubtitle());
+    $this->assertIsString($script->getSubtitle());
 });
 
 test('video', function () {
@@ -34,8 +34,8 @@ test('video', function () {
         ->for(Video::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $script->video());
-    static::assertInstanceOf(Video::class, $script->video()->first());
+    $this->assertInstanceOf(BelongsTo::class, $script->video());
+    $this->assertInstanceOf(Video::class, $script->video()->first());
 });
 
 test('script storage deletion', function () {
@@ -49,7 +49,7 @@ test('script storage deletion', function () {
 
     $script->delete();
 
-    static::assertTrue($fs->exists($script->path));
+    $this->assertTrue($fs->exists($script->path));
 });
 
 test('script storage force deletion', function () {
@@ -65,5 +65,5 @@ test('script storage force deletion', function () {
 
     $script->forceDelete();
 
-    static::assertFalse($fs->exists($script->path));
+    $this->assertFalse($fs->exists($script->path));
 });

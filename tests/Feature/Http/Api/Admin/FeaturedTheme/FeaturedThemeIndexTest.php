@@ -32,6 +32,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -53,7 +55,7 @@ test('default', function () {
         ]);
     });
 
-    $response = $this->get(route('api.featuredtheme.index'));
+    $response = get(route('api.featuredtheme.index'));
 
     $response->assertJsonCount($publicCount, FeaturedThemeCollection::$wrap);
 
@@ -72,7 +74,7 @@ test('default', function () {
 test('paginated', function () {
     FeaturedTheme::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.featuredtheme.index'));
+    $response = get(route('api.featuredtheme.index'));
 
     $response->assertJsonStructure([
         FeaturedThemeCollection::$wrap,
@@ -110,7 +112,7 @@ test('allowed include paths', function () {
 
     $featuredThemes = FeaturedTheme::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.featuredtheme.index', $parameters));
+    $response = get(route('api.featuredtheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -139,7 +141,7 @@ test('sparse fieldsets', function () {
 
     $featuredThemes = FeaturedTheme::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.featuredtheme.index', $parameters));
+    $response = get(route('api.featuredtheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -170,7 +172,7 @@ test('sorts', function () {
 
     FeaturedTheme::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.featuredtheme.index', $parameters));
+    $response = get(route('api.featuredtheme.index', $parameters));
 
     $featuredThemes = $this->sort(FeaturedTheme::query(), $query, $schema)->get();
 
@@ -209,7 +211,7 @@ test('created at filter', function () {
 
     $featuredTheme = FeaturedTheme::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.featuredtheme.index', $parameters));
+    $response = get(route('api.featuredtheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -246,7 +248,7 @@ test('updated at filter', function () {
 
     $featuredTheme = FeaturedTheme::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.featuredtheme.index', $parameters));
+    $response = get(route('api.featuredtheme.index', $parameters));
 
     $response->assertJson(
         json_decode(

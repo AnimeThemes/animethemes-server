@@ -9,6 +9,8 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $animeResource = AnimeResource::factory()
         ->for(Anime::factory())
@@ -17,7 +19,7 @@ test('protected', function () {
 
     $parameters = AnimeResource::factory()->raw();
 
-    $response = $this->put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $response->assertForbidden();
 });
@@ -56,7 +58,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = put(route('api.animeresource.update', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $response->assertOk();
 });

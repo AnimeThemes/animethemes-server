@@ -7,7 +7,7 @@ use App\Models\Wiki\Anime;
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('anime years query', function () {
-    static::markTestSkipped('TODO');
+    $this->markTestSkipped('TODO');
 
     /** @phpstan-ignore-next-line */
     $years = Anime::factory()

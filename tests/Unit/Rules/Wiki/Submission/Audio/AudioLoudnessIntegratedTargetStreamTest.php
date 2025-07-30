@@ -40,7 +40,7 @@ test('fails when integrated target is not expected', function () {
         ['file' => new AudioLoudnessIntegratedTargetStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatLoudnessCommand($file));
 });
@@ -75,7 +75,7 @@ test('passes when integrated target is not expected', function () {
         ['file' => new AudioLoudnessIntegratedTargetStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatLoudnessCommand($file));
 });

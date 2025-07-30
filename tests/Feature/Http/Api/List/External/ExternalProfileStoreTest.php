@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -24,7 +26,7 @@ test('protected', function () {
 
     $profile = ExternalProfile::factory()->makeOne();
 
-    $response = $this->post(route('api.externalprofile.store', $profile->toArray()));
+    $response = post(route('api.externalprofile.store', $profile->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -38,7 +40,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $profile->toArray()));
+    $response = post(route('api.externalprofile.store', $profile->toArray()));
 
     $response->assertForbidden();
 });
@@ -57,7 +59,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertForbidden();
 });
@@ -69,7 +71,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store'));
+    $response = post(route('api.externalprofile.store'));
 
     $response->assertJsonValidationErrors([
         ExternalProfile::ATTRIBUTE_NAME,
@@ -91,11 +93,11 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(ExternalProfile::class, 1);
-    static::assertDatabaseHas(ExternalProfile::class, [ExternalProfile::ATTRIBUTE_USER => $user->getKey()]);
+    $this->assertDatabaseCount(ExternalProfile::class, 1);
+    $this->assertDatabaseHas(ExternalProfile::class, [ExternalProfile::ATTRIBUTE_USER => $user->getKey()]);
 });
 
 test('create permitted for bypass', function () {
@@ -117,7 +119,7 @@ test('create permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertCreated();
 });
@@ -142,7 +144,7 @@ test('max profile limit', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertForbidden();
 });
@@ -170,7 +172,7 @@ test('max profile limit permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertCreated();
 });
@@ -200,7 +202,7 @@ test('created if not flagged by open ai', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertCreated();
 });
@@ -224,7 +226,7 @@ test('created if open ai fails', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertCreated();
 });
@@ -254,7 +256,7 @@ test('validation error when flagged by open ai', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.externalprofile.store', $parameters));
+    $response = post(route('api.externalprofile.store', $parameters));
 
     $response->assertJsonValidationErrors([
         ExternalProfile::ATTRIBUTE_NAME,

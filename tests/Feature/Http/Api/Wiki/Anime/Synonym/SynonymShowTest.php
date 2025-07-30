@@ -17,6 +17,8 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
@@ -24,7 +26,7 @@ test('default', function () {
 
     $synonym->unsetRelations();
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym]));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym]));
 
     $response->assertJson(
         json_decode(
@@ -46,7 +48,7 @@ test('soft delete', function () {
 
     $synonym->unsetRelations();
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym]));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym]));
 
     $response->assertJson(
         json_decode(
@@ -75,7 +77,7 @@ test('allowed include paths', function () {
 
     $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -106,7 +108,7 @@ test('sparse fieldsets', function () {
 
     $synonym->unsetRelations();
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -138,7 +140,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -170,7 +172,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -210,7 +212,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
+    $response = get(route('api.animesynonym.show', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertJson(
         json_decode(

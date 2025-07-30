@@ -11,6 +11,9 @@ use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\TypeScope;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+
+use function Pest\Laravel\get;
+
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -80,7 +83,7 @@ test('should not filter if key mismatch', function () {
         }
     };
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should filter if key match', function () {
@@ -150,7 +153,7 @@ test('should filter if key match', function () {
         }
     };
 
-    static::assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should not filter if not within scope', function () {
@@ -220,7 +223,7 @@ test('should not filter if not within scope', function () {
         }
     };
 
-    static::assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, new GlobalScope()));
 });
 
 test('should filter if within scope', function () {
@@ -290,5 +293,5 @@ test('should filter if within scope', function () {
         }
     };
 
-    static::assertTrue($criteria->shouldFilter($filter, $scope));
+    $this->assertTrue($criteria->shouldFilter($filter, $scope));
 });

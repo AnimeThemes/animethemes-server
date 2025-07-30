@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -38,7 +40,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default', function () {
     $series = Series::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.series.index'));
+    $response = get(route('api.series.index'));
 
     $response->assertJson(
         json_decode(
@@ -55,7 +57,7 @@ test('default', function () {
 test('paginated', function () {
     Series::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.series.index'));
+    $response = get(route('api.series.index'));
 
     $response->assertJsonStructure([
         SeriesCollection::$wrap,
@@ -84,7 +86,7 @@ test('allowed include paths', function () {
 
     $series = Series::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -113,7 +115,7 @@ test('sparse fieldsets', function () {
 
     $series = Series::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -144,7 +146,7 @@ test('sorts', function () {
 
     Series::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $series = $this->sort(Series::query(), $query, $schema)->get();
 
@@ -183,7 +185,7 @@ test('created at filter', function () {
 
     $series = Series::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -220,7 +222,7 @@ test('updated at filter', function () {
 
     $series = Series::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -250,7 +252,7 @@ test('without trashed filter', function () {
 
     $series = Series::withoutTrashed()->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -280,7 +282,7 @@ test('with trashed filter', function () {
 
     $series = Series::withTrashed()->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -310,7 +312,7 @@ test('only trashed filter', function () {
 
     $series = Series::onlyTrashed()->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -348,7 +350,7 @@ test('deleted at filter', function () {
 
     $series = Series::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -384,7 +386,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -420,7 +422,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -464,7 +466,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.series.index', $parameters));
+    $response = get(route('api.series.index', $parameters));
 
     $response->assertJson(
         json_decode(

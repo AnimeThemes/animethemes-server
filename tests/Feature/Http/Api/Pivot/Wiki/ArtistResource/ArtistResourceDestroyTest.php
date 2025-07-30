@@ -9,13 +9,15 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $artistResource = ArtistResource::factory()
         ->for(Artist::factory())
         ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artist, 'resource' => $resource]));
+    $response = delete(route('api.artistresource.destroy', ['artist' => $artist, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -68,8 +70,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
     $response->assertOk();
-    static::assertModelMissing($artistResource);
+    $this->assertModelMissing($artistResource);
 });

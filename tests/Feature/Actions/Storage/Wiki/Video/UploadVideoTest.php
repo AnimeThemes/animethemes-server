@@ -34,7 +34,7 @@ test('default', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -49,7 +49,7 @@ test('passed', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
 test('uploaded to disk', function () {
@@ -62,7 +62,7 @@ test('uploaded to disk', function () {
 
     $action->handle();
 
-    static::assertCount(1, Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertCount(1, Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('created video', function () {
@@ -87,7 +87,7 @@ test('created video', function () {
 
     $action->then($result);
 
-    static::assertDatabaseCount(Video::class, 1);
+    $this->assertDatabaseCount(Video::class, 1);
 });
 
 test('sets attributes', function () {
@@ -124,7 +124,7 @@ test('sets attributes', function () {
 
     $action->then($result);
 
-    static::assertDatabaseHas(Video::class, $attributes);
+    $this->assertDatabaseHas(Video::class, $attributes);
 });
 
 test('attaches entry', function () {
@@ -153,7 +153,7 @@ test('attaches entry', function () {
 
     $action->then($result);
 
-    static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
+    $this->assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
 });
 
 test('associates script', function () {
@@ -183,7 +183,7 @@ test('associates script', function () {
     /** @var Video $video */
     $video = Video::query()->first();
 
-    static::assertNotNull($video);
+    $this->assertNotNull($video);
 
-    static::assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_VIDEO => $video->video_id]);
+    $this->assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_VIDEO => $video->video_id]);
 });

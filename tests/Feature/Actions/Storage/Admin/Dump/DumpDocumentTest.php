@@ -22,8 +22,8 @@ test('database dump output', function () {
 
     $result = $action->handle();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertEmpty($local->allFiles());
-    static::assertCount(1, $fs->allFiles());
-    static::assertDatabaseCount(Dump::class, 1);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertEmpty($local->allFiles());
+    $this->assertCount(1, $fs->allFiles());
+    $this->assertDatabaseCount(Dump::class, 1);
 });

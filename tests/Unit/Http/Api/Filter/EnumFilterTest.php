@@ -17,7 +17,7 @@ test('should not apply if no enums', function () {
 
     $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should not apply if all enums', function () {
@@ -31,7 +31,7 @@ test('should not apply if all enums', function () {
 
     $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('enum key converted to value', function () {
@@ -45,5 +45,5 @@ test('enum key converted to value', function () {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    static::assertEquals($enum->value, $filterValues[0]);
+    $this->assertEquals($enum->value, $filterValues[0]);
 });

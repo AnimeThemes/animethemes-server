@@ -10,7 +10,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default column', function () {
     $sort = new Sort(fake()->word());
 
-    static::assertEquals($sort->getKey(), $sort->getColumn());
+    $this->assertEquals($sort->getKey(), $sort->getColumn());
 });
 
 test('format asc', function () {
@@ -18,7 +18,7 @@ test('format asc', function () {
 
     $sort = new Sort($sortField);
 
-    static::assertEquals($sortField, $sort->format(Direction::ASCENDING));
+    $this->assertEquals($sortField, $sort->format(Direction::ASCENDING));
 });
 
 test('format desc', function () {
@@ -26,5 +26,5 @@ test('format desc', function () {
 
     $sort = new Sort($sortField);
 
-    static::assertEquals("-$sortField", $sort->format(Direction::DESCENDING));
+    $this->assertEquals("-$sortField", $sort->format(Direction::DESCENDING));
 });

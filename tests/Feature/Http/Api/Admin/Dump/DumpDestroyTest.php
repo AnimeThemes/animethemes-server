@@ -7,10 +7,12 @@ use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $dump = Dump::factory()->createOne();
 
-    $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+    $response = delete(route('api.dump.destroy', ['dump' => $dump]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+    $response = delete(route('api.dump.destroy', ['dump' => $dump]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+    $response = delete(route('api.dump.destroy', ['dump' => $dump]));
 
     $response->assertOk();
-    static::assertModelMissing($dump);
+    $this->assertModelMissing($dump);
 });

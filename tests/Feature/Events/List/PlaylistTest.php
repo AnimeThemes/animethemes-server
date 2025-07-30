@@ -54,7 +54,7 @@ test('playlist created assigns nullable user hashids', function () {
 
     Playlist::factory()->createOne();
 
-    static::assertDatabaseMissing(Playlist::class, [HasHashids::ATTRIBUTE_HASHID => null]);
+    $this->assertDatabaseMissing(Playlist::class, [HasHashids::ATTRIBUTE_HASHID => null]);
 });
 
 test('playlist created assigns non null user hashids', function () {
@@ -64,5 +64,5 @@ test('playlist created assigns non null user hashids', function () {
         ->for(User::factory())
         ->createOne();
 
-    static::assertDatabaseMissing(Playlist::class, [HasHashids::ATTRIBUTE_HASHID => null]);
+    $this->assertDatabaseMissing(Playlist::class, [HasHashids::ATTRIBUTE_HASHID => null]);
 });

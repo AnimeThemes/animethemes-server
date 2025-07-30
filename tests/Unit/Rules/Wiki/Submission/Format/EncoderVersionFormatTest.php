@@ -44,7 +44,7 @@ test('fails when encoder version is older than required', function () {
         ['file' => new EncoderVersionFormatRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -81,7 +81,7 @@ test('fails when encoder version is up to date', function () {
         ['file' => new EncoderVersionFormatRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

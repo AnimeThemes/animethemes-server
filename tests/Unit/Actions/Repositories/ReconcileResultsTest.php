@@ -6,6 +6,8 @@ use App\Actions\Repositories\ReconcileResults;
 use App\Enums\Actions\ActionStatus;
 use Illuminate\Database\Eloquent\Model;
 
+use function Pest\Laravel\get;
+
 test('default', function () {
     $reconcileResults = new class extends ReconcileResults
     {
@@ -20,5 +22,5 @@ test('default', function () {
         }
     };
 
-    static::assertTrue($reconcileResults->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($reconcileResults->getStatus() === ActionStatus::PASSED);
 });

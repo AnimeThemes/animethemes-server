@@ -13,8 +13,8 @@ test('anime', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $animeStudio->anime());
-    static::assertInstanceOf(Anime::class, $animeStudio->anime()->first());
+    $this->assertInstanceOf(BelongsTo::class, $animeStudio->anime());
+    $this->assertInstanceOf(Anime::class, $animeStudio->anime()->first());
 });
 
 test('studio', function () {
@@ -23,6 +23,6 @@ test('studio', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $animeStudio->studio());
-    static::assertInstanceOf(Studio::class, $animeStudio->studio()->first());
+    $this->assertInstanceOf(BelongsTo::class, $animeStudio->studio());
+    $this->assertInstanceOf(Studio::class, $animeStudio->studio()->first());
 });

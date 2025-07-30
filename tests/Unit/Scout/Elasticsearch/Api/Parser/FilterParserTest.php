@@ -29,7 +29,7 @@ test('where criteria', function () {
 
     $criteria = new BaseWhereCriteria($predicate, $logicalOperator, new GlobalScope());
 
-    static::assertInstanceOf(WhereCriteria::class, FilterParser::parse($criteria));
+    $this->assertInstanceOf(WhereCriteria::class, FilterParser::parse($criteria));
 });
 
 test('where in criteria', function () {
@@ -46,7 +46,7 @@ test('where in criteria', function () {
         new GlobalScope()
     );
 
-    static::assertInstanceOf(WhereInCriteria::class, FilterParser::parse($criteria));
+    $this->assertInstanceOf(WhereInCriteria::class, FilterParser::parse($criteria));
 });
 
 test('has criteria', function () {
@@ -63,7 +63,7 @@ test('has criteria', function () {
         fake()->randomDigitNotNull()
     );
 
-    static::assertNull(FilterParser::parse($criteria));
+    $this->assertNull(FilterParser::parse($criteria));
 });
 
 test('trashed criteria', function () {
@@ -79,5 +79,5 @@ test('trashed criteria', function () {
         new GlobalScope()
     );
 
-    static::assertNull(FilterParser::parse($criteria));
+    $this->assertNull(FilterParser::parse($criteria));
 });

@@ -23,9 +23,9 @@ test('no results', function () {
 
     $result = $pruneResults->toActionResult();
 
-    static::assertEmpty($fs->allFiles());
-    static::assertTrue($result->hasFailed());
-    static::assertDatabaseCount(Dump::class, 0);
+    $this->assertEmpty($fs->allFiles());
+    $this->assertTrue($result->hasFailed());
+    $this->assertDatabaseCount(Dump::class, 0);
 });
 
 test('pruned', function () {
@@ -51,7 +51,7 @@ test('pruned', function () {
 
     $result = $pruneResults->toActionResult();
 
-    static::assertEmpty($fs->allFiles());
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertEmpty(Dump::all());
+    $this->assertEmpty($fs->allFiles());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertEmpty(Dump::all());
 });

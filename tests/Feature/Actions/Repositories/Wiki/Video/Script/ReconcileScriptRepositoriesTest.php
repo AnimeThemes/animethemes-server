@@ -25,9 +25,9 @@ test('no results', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertFalse($result->hasChanges());
-    static::assertDatabaseCount(VideoScript::class, 0);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertFalse($result->hasChanges());
+    $this->assertDatabaseCount(VideoScript::class, 0);
 });
 
 test('created', function () {
@@ -46,10 +46,10 @@ test('created', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($createdScriptCount, $result->getCreated());
-    static::assertDatabaseCount(VideoScript::class, $createdScriptCount);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($createdScriptCount, $result->getCreated());
+    $this->assertDatabaseCount(VideoScript::class, $createdScriptCount);
 });
 
 test('deleted', function () {
@@ -68,12 +68,12 @@ test('deleted', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($deletedScriptCount, $result->getDeleted());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($deletedScriptCount, $result->getDeleted());
 
-    static::assertDatabaseCount(VideoScript::class, $deletedScriptCount);
+    $this->assertDatabaseCount(VideoScript::class, $deletedScriptCount);
     foreach ($scripts as $script) {
-        static::assertSoftDeleted($script);
+        $this->assertSoftDeleted($script);
     }
 });

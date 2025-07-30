@@ -40,7 +40,7 @@ test('fails when count is not expected', function () {
         ['file' => new TotalStreamsFormatRule(2)],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -78,7 +78,7 @@ test('passes when count is expected', function () {
         ['file' => new TotalStreamsFormatRule(2)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

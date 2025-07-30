@@ -10,5 +10,5 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('field', function () {
     $criteria = TrashedCriteria::make(new GlobalScope(), TrashedCriteria::PARAM_VALUE, fake()->word());
 
-    static::assertEquals(TrashedCriteria::PARAM_VALUE, $criteria->getField());
+    $this->assertEquals(TrashedCriteria::PARAM_VALUE, $criteria->getField());
 });

@@ -20,7 +20,7 @@ test('fails if random is not sole sort', function () {
         [$attribute => new RandomSoleRule()]
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });
 
 test('passes if random is not included', function () {
@@ -33,7 +33,7 @@ test('passes if random is not included', function () {
         [$attribute => new RandomSoleRule()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes if random is sole sort', function () {
@@ -44,5 +44,5 @@ test('passes if random is sole sort', function () {
         [$attribute => new RandomSoleRule()]
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });

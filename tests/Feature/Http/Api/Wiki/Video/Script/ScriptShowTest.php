@@ -17,12 +17,14 @@ use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $script = VideoScript::factory()->create();
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script]));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script]));
 
     $response->assertJson(
         json_decode(
@@ -39,7 +41,7 @@ test('default', function () {
 test('soft delete', function () {
     $script = VideoScript::factory()->trashed()->createOne();
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script]));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script]));
 
     $response->assertJson(
         json_decode(
@@ -70,7 +72,7 @@ test('allowed include paths', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -99,7 +101,7 @@ test('sparse fieldsets', function () {
 
     $script = VideoScript::factory()->create();
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -133,7 +135,7 @@ test('videos by lyrics', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -167,7 +169,7 @@ test('videos by nc', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -201,7 +203,7 @@ test('videos by overlap', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -240,7 +242,7 @@ test('videos by resolution', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -274,7 +276,7 @@ test('videos by source', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -308,7 +310,7 @@ test('videos by subbed', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -342,7 +344,7 @@ test('videos by uncen', function () {
         },
     ]);
 
-    $response = $this->get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
+    $response = get(route('api.videoscript.show', ['videoscript' => $script] + $parameters));
 
     $response->assertJson(
         json_decode(

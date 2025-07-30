@@ -8,10 +8,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $resource = ExternalResource::factory()->makeOne();
 
-    $response = $this->post(route('api.resource.store', $resource->toArray()));
+    $response = post(route('api.resource.store', $resource->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -23,7 +25,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.resource.store', $resource->toArray()));
+    $response = post(route('api.resource.store', $resource->toArray()));
 
     $response->assertForbidden();
 });
@@ -33,7 +35,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.resource.store'));
+    $response = post(route('api.resource.store'));
 
     $response->assertJsonValidationErrors([
         ExternalResource::ATTRIBUTE_LINK,
@@ -51,8 +53,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.resource.store', $parameters));
+    $response = post(route('api.resource.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(ExternalResource::class, 1);
+    $this->assertDatabaseCount(ExternalResource::class, 1);
 });

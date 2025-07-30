@@ -45,6 +45,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -52,7 +54,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default', function () {
     $anime = Anime::factory()->count(fake()->numberBetween(1, 3))->create();
 
-    $response = $this->get(route('api.anime.index'));
+    $response = get(route('api.anime.index'));
 
     $response->assertJson(
         json_decode(
@@ -69,7 +71,7 @@ test('default', function () {
 test('paginated', function () {
     Anime::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.anime.index'));
+    $response = get(route('api.anime.index'));
 
     $response->assertJsonStructure([
         AnimeCollection::$wrap,
@@ -94,7 +96,7 @@ test('allowed include paths', function () {
     Anime::factory()->jsonApiResource()->count(fake()->numberBetween(1, 3))->create();
     $anime = Anime::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -123,7 +125,7 @@ test('sparse fieldsets', function () {
 
     $anime = Anime::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -154,7 +156,7 @@ test('sorts', function () {
 
     Anime::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $anime = $this->sort(Anime::query(), $query, $schema)->get();
 
@@ -182,7 +184,7 @@ test('season filter', function () {
     Anime::factory()->count(fake()->randomDigitNotNull())->create();
     $anime = Anime::query()->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value)->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -208,7 +210,7 @@ test('media format filter', function () {
     Anime::factory()->count(fake()->randomDigitNotNull())->create();
     $anime = Anime::query()->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value)->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -242,7 +244,7 @@ test('year filter', function () {
 
     $anime = Anime::query()->where(Anime::ATTRIBUTE_YEAR, $yearFilter)->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -279,7 +281,7 @@ test('created at filter', function () {
 
     $anime = Anime::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -316,7 +318,7 @@ test('updated at filter', function () {
 
     $anime = Anime::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -346,7 +348,7 @@ test('without trashed filter', function () {
 
     $anime = Anime::withoutTrashed()->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -376,7 +378,7 @@ test('with trashed filter', function () {
 
     $anime = Anime::withTrashed()->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -406,7 +408,7 @@ test('only trashed filter', function () {
 
     $anime = Anime::onlyTrashed()->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -444,7 +446,7 @@ test('deleted at filter', function () {
 
     $anime = Anime::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -482,7 +484,7 @@ test('synonyms by type', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -526,7 +528,7 @@ test('themes by sequence', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -564,7 +566,7 @@ test('themes by type', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -604,7 +606,7 @@ test('entries by nsfw', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -644,7 +646,7 @@ test('entries by spoiler', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -692,7 +694,7 @@ test('entries by version', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -728,7 +730,7 @@ test('resources by site', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -764,7 +766,7 @@ test('images by facet', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -797,7 +799,7 @@ test('videos by lyrics', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -830,7 +832,7 @@ test('videos by nc', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -863,7 +865,7 @@ test('videos by overlap', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -915,7 +917,7 @@ test('videos by resolution', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -948,7 +950,7 @@ test('videos by source', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -981,7 +983,7 @@ test('videos by subbed', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -1014,7 +1016,7 @@ test('videos by uncen', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.anime.index', $parameters));
+    $response = get(route('api.anime.index', $parameters));
 
     $response->assertJson(
         json_decode(

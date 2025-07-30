@@ -25,6 +25,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -39,7 +41,7 @@ test('default', function () {
 
     $artistMembers = ArtistMember::all();
 
-    $response = $this->get(route('api.artistmember.index'));
+    $response = get(route('api.artistmember.index'));
 
     $response->assertJson(
         json_decode(
@@ -61,7 +63,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistmember.index'));
+    $response = get(route('api.artistmember.index'));
 
     $response->assertJsonStructure([
         ArtistMemberCollection::$wrap,
@@ -90,7 +92,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistmember.index', $parameters));
+    $response = get(route('api.artistmember.index', $parameters));
 
     $artistMembers = ArtistMember::with($includedPaths->all())->get();
 
@@ -126,7 +128,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistmember.index', $parameters));
+    $response = get(route('api.artistmember.index', $parameters));
 
     $artistMembers = ArtistMember::all();
 
@@ -164,7 +166,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.artistmember.index', $parameters));
+    $response = get(route('api.artistmember.index', $parameters));
 
     $artistMembers = $this->sort(ArtistMember::query(), $query, $schema)->get();
 
@@ -213,7 +215,7 @@ test('created at filter', function () {
 
     $artistMembers = ArtistMember::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.artistmember.index', $parameters));
+    $response = get(route('api.artistmember.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -260,7 +262,7 @@ test('updated at filter', function () {
 
     $artistMembers = ArtistMember::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.artistmember.index', $parameters));
+    $response = get(route('api.artistmember.index', $parameters));
 
     $response->assertJson(
         json_decode(

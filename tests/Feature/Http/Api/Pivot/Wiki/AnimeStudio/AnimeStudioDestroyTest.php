@@ -9,13 +9,15 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $animeStudio = AnimeStudio::factory()
         ->for(Anime::factory())
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+    $response = delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+    $response = delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animestudio.destroy', ['anime' => $anime, 'studio' => $studio]));
+    $response = delete(route('api.animestudio.destroy', ['anime' => $anime, 'studio' => $studio]));
 
     $response->assertNotFound();
 });
@@ -68,8 +70,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+    $response = delete(route('api.animestudio.destroy', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
     $response->assertOk();
-    static::assertModelMissing($animeStudio);
+    $this->assertModelMissing($animeStudio);
 });

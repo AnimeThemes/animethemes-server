@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Group;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $group = Group::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.group.restore', ['group' => $group]));
+    $response = patch(route('api.group.restore', ['group' => $group]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($group);
+    $this->assertNotSoftDeleted($group);
 });

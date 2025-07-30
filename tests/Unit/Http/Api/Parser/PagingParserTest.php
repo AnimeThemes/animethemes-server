@@ -17,7 +17,7 @@ test('parse limit criteria by default', function () {
         return $criteria->getStrategy() === PaginationStrategy::LIMIT;
     });
 
-    static::assertInstanceOf(LimitCriteria::class, $criteria);
+    $this->assertInstanceOf(LimitCriteria::class, $criteria);
 });
 
 test('parse invalid limit criteria', function () {
@@ -33,7 +33,7 @@ test('parse invalid limit criteria', function () {
         return $criteria->getStrategy() === PaginationStrategy::LIMIT;
     });
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof LimitCriteria
         && $criteria->getResultSize() === Criteria::DEFAULT_SIZE
     );
@@ -52,7 +52,7 @@ test('parse valid limit criteria', function () {
         return $criteria->getStrategy() === PaginationStrategy::LIMIT;
     });
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof LimitCriteria
         && $criteria->getResultSize() === $limit
     );
@@ -65,7 +65,7 @@ test('parse offset criteria by default', function () {
         return $criteria->getStrategy() === PaginationStrategy::OFFSET;
     });
 
-    static::assertInstanceOf(OffsetCriteria::class, $criteria);
+    $this->assertInstanceOf(OffsetCriteria::class, $criteria);
 });
 
 test('parse invalid offset criteria', function () {
@@ -81,7 +81,7 @@ test('parse invalid offset criteria', function () {
         return $criteria->getStrategy() === PaginationStrategy::OFFSET;
     });
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof OffsetCriteria
         && $criteria->getResultSize() === Criteria::DEFAULT_SIZE
     );
@@ -100,7 +100,7 @@ test('parse valid offset criteria', function () {
         return $criteria->getStrategy() === PaginationStrategy::OFFSET;
     });
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof OffsetCriteria
         && $criteria->getResultSize() === $size
     );

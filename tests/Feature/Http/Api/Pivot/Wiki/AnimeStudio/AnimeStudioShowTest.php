@@ -18,13 +18,15 @@ use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $anime = Anime::factory()->createOne();
     $studio = Studio::factory()->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $anime, 'studio' => $studio]));
+    $response = get(route('api.animestudio.show', ['anime' => $anime, 'studio' => $studio]));
 
     $response->assertNotFound();
 });
@@ -35,7 +37,7 @@ test('default', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio]));
 
     $animeStudio->unsetRelations();
 
@@ -69,7 +71,7 @@ test('allowed include paths', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
     $animeStudio->unsetRelations()->load($includedPaths->all());
 
@@ -103,7 +105,7 @@ test('sparse fieldsets', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
     $animeStudio->unsetRelations();
 
@@ -134,7 +136,7 @@ test('anime by media format', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
     $animeStudio->unsetRelations()->load([
         AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -169,7 +171,7 @@ test('anime by season', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
     $animeStudio->unsetRelations()->load([
         AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -210,7 +212,7 @@ test('anime by year', function () {
         ->for(Studio::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
+    $response = get(route('api.animestudio.show', ['anime' => $animeStudio->anime, 'studio' => $animeStudio->studio] + $parameters));
 
     $animeStudio->unsetRelations()->load([
         AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

@@ -17,7 +17,7 @@ test('nameable', function () {
         ->for(Report::factory())
         ->createOne();
 
-    static::assertIsString($step->getName());
+    $this->assertIsString($step->getName());
 });
 
 test('has subtitle', function () {
@@ -25,7 +25,7 @@ test('has subtitle', function () {
         ->for(Report::factory())
         ->createOne();
 
-    static::assertIsString($step->getSubtitle());
+    $this->assertIsString($step->getSubtitle());
 });
 
 test('casts action to enum', function () {
@@ -33,7 +33,7 @@ test('casts action to enum', function () {
         ->for(Report::factory())
         ->createOne();
 
-    static::assertInstanceOf(ReportActionType::class, $step->action);
+    $this->assertInstanceOf(ReportActionType::class, $step->action);
 });
 
 test('casts fields to array', function () {
@@ -43,7 +43,7 @@ test('casts fields to array', function () {
         ->for(Report::factory())
         ->createOne([ReportStep::ATTRIBUTE_FIELDS => $anime->attributesToArray()]);
 
-    static::assertIsArray($step->fields);
+    $this->assertIsArray($step->fields);
 });
 
 test('casts finished at', function () {
@@ -51,7 +51,7 @@ test('casts finished at', function () {
         ->for(Report::factory())
         ->createOne([ReportStep::ATTRIBUTE_FINISHED_AT => now()]);
 
-    static::assertInstanceOf(Carbon::class, $step->finished_at);
+    $this->assertInstanceOf(Carbon::class, $step->finished_at);
 });
 
 test('casts status to enum', function () {
@@ -59,7 +59,7 @@ test('casts status to enum', function () {
         ->for(Report::factory())
         ->createOne();
 
-    static::assertInstanceOf(ApprovableStatus::class, $step->status);
+    $this->assertInstanceOf(ApprovableStatus::class, $step->status);
 });
 
 test('report', function () {
@@ -67,6 +67,6 @@ test('report', function () {
         ->for(Report::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $step->report());
-    static::assertInstanceOf(Report::class, $step->report()->first());
+    $this->assertInstanceOf(BelongsTo::class, $step->report());
+    $this->assertInstanceOf(Report::class, $step->report()->first());
 });

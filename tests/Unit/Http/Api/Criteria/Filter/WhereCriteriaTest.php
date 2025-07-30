@@ -17,13 +17,13 @@ test('field', function () {
 
     $criteria = WhereCriteria::make(new GlobalScope(), $field, fake()->word());
 
-    static::assertEquals($field, $criteria->getField());
+    $this->assertEquals($field, $criteria->getField());
 });
 
 test('default comparison operator', function () {
     $criteria = WhereCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    static::assertEquals(ComparisonOperator::EQ, $criteria->getComparisonOperator());
+    $this->assertEquals(ComparisonOperator::EQ, $criteria->getComparisonOperator());
 });
 
 test('comparison operator', function () {
@@ -33,13 +33,13 @@ test('comparison operator', function () {
 
     $criteria = WhereCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertEquals($operator, $criteria->getComparisonOperator());
+    $this->assertEquals($operator, $criteria->getComparisonOperator());
 });
 
 test('default logical operator', function () {
     $criteria = WhereCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    static::assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+    $this->assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
 });
 
 test('logical operator', function () {
@@ -49,5 +49,5 @@ test('logical operator', function () {
 
     $criteria = WhereCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertEquals($operator, $criteria->getLogicalOperator());
+    $this->assertEquals($operator, $criteria->getLogicalOperator());
 });

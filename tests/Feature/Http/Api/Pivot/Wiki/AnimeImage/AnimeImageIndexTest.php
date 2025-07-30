@@ -30,6 +30,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -44,7 +46,7 @@ test('default', function () {
 
     $animeImages = AnimeImage::all();
 
-    $response = $this->get(route('api.animeimage.index'));
+    $response = get(route('api.animeimage.index'));
 
     $response->assertJson(
         json_decode(
@@ -66,7 +68,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index'));
+    $response = get(route('api.animeimage.index'));
 
     $response->assertJsonStructure([
         AnimeImageCollection::$wrap,
@@ -95,7 +97,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = AnimeImage::with($includedPaths->all())->get();
 
@@ -131,7 +133,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = AnimeImage::all();
 
@@ -169,7 +171,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = $this->sort(AnimeImage::query(), $query, $schema)->get();
 
@@ -218,7 +220,7 @@ test('created at filter', function () {
 
     $animeImages = AnimeImage::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -265,7 +267,7 @@ test('updated at filter', function () {
 
     $animeImages = AnimeImage::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -296,7 +298,7 @@ test('images by facet', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = AnimeImage::with([
         AnimeImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
@@ -334,7 +336,7 @@ test('anime by media format', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = AnimeImage::with([
         AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -372,7 +374,7 @@ test('anime by season', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = AnimeImage::with([
         AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -416,7 +418,7 @@ test('anime by year', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeimage.index', $parameters));
+    $response = get(route('api.animeimage.index', $parameters));
 
     $animeImages = AnimeImage::with([
         AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

@@ -15,8 +15,8 @@ test('video', function () {
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->video());
-    static::assertInstanceOf(Video::class, $animeThemeEntryVideo->video()->first());
+    $this->assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->video());
+    $this->assertInstanceOf(Video::class, $animeThemeEntryVideo->video()->first());
 });
 
 test('entry', function () {
@@ -25,6 +25,6 @@ test('entry', function () {
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->animethemeentry());
-    static::assertInstanceOf(AnimeThemeEntry::class, $animeThemeEntryVideo->animethemeentry()->first());
+    $this->assertInstanceOf(BelongsTo::class, $animeThemeEntryVideo->animethemeentry());
+    $this->assertInstanceOf(AnimeThemeEntry::class, $animeThemeEntryVideo->animethemeentry()->first());
 });

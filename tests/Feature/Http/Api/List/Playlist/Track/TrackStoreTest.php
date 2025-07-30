@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -41,7 +43,7 @@ test('protected', function () {
         ->for($entryVideo->video)
         ->makeOne();
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -68,7 +70,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertForbidden();
 });
@@ -97,7 +99,7 @@ test('forbidden if not own playlist', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertForbidden();
 });
@@ -126,7 +128,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertForbidden();
 });
@@ -144,7 +146,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist]));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist]));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::ATTRIBUTE_ENTRY,
@@ -178,7 +180,7 @@ test('anime theme entry video exists', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::ATTRIBUTE_ENTRY,
@@ -235,7 +237,7 @@ test('prohibits next and previous', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_NEXT,
@@ -280,7 +282,7 @@ test('scope next', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_NEXT,
@@ -324,7 +326,7 @@ test('scope previous', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertJsonValidationErrors([
         PlaylistTrack::RELATION_PREVIOUS,
@@ -355,17 +357,17 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 
     $track = PlaylistTrack::query()->first();
     $playlist->refresh();
 
-    static::assertDatabaseCount(PlaylistTrack::class, 1);
+    $this->assertDatabaseCount(PlaylistTrack::class, 1);
 
-    static::assertTrue($playlist->first()->is($track));
-    static::assertTrue($playlist->last()->is($track));
+    $this->assertTrue($playlist->first()->is($track));
+    $this->assertTrue($playlist->last()->is($track));
 });
 
 test('create after last track', function () {
@@ -399,7 +401,7 @@ test('create after last track', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 
@@ -408,14 +410,14 @@ test('create after last track', function () {
     $playlist->refresh();
     $last->refresh();
 
-    static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    static::assertTrue($playlist->last()->is($track));
+    $this->assertTrue($playlist->last()->is($track));
 
-    static::assertTrue($last->next()->is($track));
+    $this->assertTrue($last->next()->is($track));
 
-    static::assertTrue($track->previous()->is($last));
-    static::assertTrue($track->next()->doesntExist());
+    $this->assertTrue($track->previous()->is($last));
+    $this->assertTrue($track->next()->doesntExist());
 });
 
 test('create after first track', function () {
@@ -450,7 +452,7 @@ test('create after first track', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 
@@ -459,14 +461,14 @@ test('create after first track', function () {
     $playlist->refresh();
     $first->refresh();
 
-    static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    static::assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->first()->is($first));
 
-    static::assertTrue($first->next()->is($track));
+    $this->assertTrue($first->next()->is($track));
 
-    static::assertTrue($track->previous()->is($first));
-    static::assertTrue($track->next()->is($next));
+    $this->assertTrue($track->previous()->is($first));
+    $this->assertTrue($track->next()->is($next));
 });
 
 test('create before last track', function () {
@@ -501,7 +503,7 @@ test('create before last track', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 
@@ -510,14 +512,14 @@ test('create before last track', function () {
     $playlist->refresh();
     $last->refresh();
 
-    static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    static::assertTrue($playlist->last()->is($last));
+    $this->assertTrue($playlist->last()->is($last));
 
-    static::assertTrue($last->previous()->is($track));
+    $this->assertTrue($last->previous()->is($track));
 
-    static::assertTrue($track->previous()->is($previous));
-    static::assertTrue($track->next()->is($last));
+    $this->assertTrue($track->previous()->is($previous));
+    $this->assertTrue($track->next()->is($last));
 });
 
 test('create before first track', function () {
@@ -551,7 +553,7 @@ test('create before first track', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 
@@ -560,12 +562,12 @@ test('create before first track', function () {
     $playlist->refresh();
     $first->refresh();
 
-    static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
+    $this->assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
-    static::assertTrue($playlist->first()->is($track));
+    $this->assertTrue($playlist->first()->is($track));
 
-    static::assertTrue($track->previous()->doesntExist());
-    static::assertTrue($track->next()->is($first));
+    $this->assertTrue($track->previous()->doesntExist());
+    $this->assertTrue($track->next()->is($first));
 });
 
 test('create permitted for bypass', function () {
@@ -597,7 +599,7 @@ test('create permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 });
@@ -630,7 +632,7 @@ test('max track limit', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertForbidden();
 });
@@ -668,7 +670,7 @@ test('max track limit permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+    $response = post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
     $response->assertCreated();
 });

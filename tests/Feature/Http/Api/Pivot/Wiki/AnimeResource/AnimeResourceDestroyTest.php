@@ -9,13 +9,15 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $animeResource = AnimeResource::factory()
         ->for(Anime::factory())
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+    $response = delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+    $response = delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animeresource.destroy', ['anime' => $anime, 'resource' => $resource]));
+    $response = delete(route('api.animeresource.destroy', ['anime' => $anime, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -68,8 +70,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+    $response = delete(route('api.animeresource.destroy', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
 
     $response->assertOk();
-    static::assertModelMissing($animeResource);
+    $this->assertModelMissing($animeResource);
 });

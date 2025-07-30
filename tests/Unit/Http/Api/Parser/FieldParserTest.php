@@ -10,7 +10,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('no criteria by default', function () {
     $parameters = [];
 
-    static::assertEmpty(FieldParser::parse($parameters));
+    $this->assertEmpty(FieldParser::parse($parameters));
 });
 
 test('parse criteria', function () {
@@ -24,7 +24,7 @@ test('parse criteria', function () {
 
     $criteria = FieldParser::parse($parameters)[0];
 
-    static::assertInstanceOf(Criteria::class, $criteria);
+    $this->assertInstanceOf(Criteria::class, $criteria);
 });
 
 test('parse type', function () {
@@ -40,7 +40,7 @@ test('parse type', function () {
 
     $criteria = FieldParser::parse($parameters)[0];
 
-    static::assertEquals($type, $criteria->getType());
+    $this->assertEquals($type, $criteria->getType());
 });
 
 test('parse fields', function () {
@@ -54,5 +54,5 @@ test('parse fields', function () {
 
     $criteria = FieldParser::parse($parameters)[0];
 
-    static::assertEquals($fields, $criteria->getFields()->all());
+    $this->assertEquals($fields, $criteria->getFields()->all());
 });

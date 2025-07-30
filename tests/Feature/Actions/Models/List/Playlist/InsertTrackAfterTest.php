@@ -25,12 +25,12 @@ test('last track', function () {
 
     $action->insertAfter($playlist, $track, $last);
 
-    static::assertTrue($playlist->last()->is($track));
+    $this->assertTrue($playlist->last()->is($track));
 
-    static::assertTrue($last->next()->is($track));
+    $this->assertTrue($last->next()->is($track));
 
-    static::assertTrue($track->previous()->is($last));
-    static::assertTrue($track->next()->doesntExist());
+    $this->assertTrue($track->previous()->is($last));
+    $this->assertTrue($track->next()->doesntExist());
 });
 
 test('first track', function () {
@@ -51,10 +51,10 @@ test('first track', function () {
 
     $action->insertAfter($playlist, $track, $first);
 
-    static::assertTrue($playlist->first()->is($first));
+    $this->assertTrue($playlist->first()->is($first));
 
-    static::assertTrue($first->next()->is($track));
+    $this->assertTrue($first->next()->is($track));
 
-    static::assertTrue($track->previous()->is($first));
-    static::assertTrue($track->next()->is($next));
+    $this->assertTrue($track->previous()->is($first));
+    $this->assertTrue($track->next()->is($next));
 });

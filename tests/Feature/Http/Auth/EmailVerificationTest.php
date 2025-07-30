@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+
+use function Pest\Laravel\actingAs;
+
 use Spatie\Permission\PermissionRegistrar;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -46,7 +49,7 @@ test('assigns default roles', function () {
         ]
     );
 
-    $this->actingAs($user)->get($url);
+    actingAs($user)->get($url);
 
-    static::assertCount($defaultRoleCount, $user->roles()->get());
+    $this->assertCount($defaultRoleCount, $user->roles()->get());
 });

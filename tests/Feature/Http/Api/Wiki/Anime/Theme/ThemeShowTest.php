@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
@@ -36,7 +38,7 @@ test('default', function () {
 
     $theme->unsetRelations();
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme]));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme]));
 
     $response->assertJson(
         json_decode(
@@ -58,7 +60,7 @@ test('soft delete', function () {
 
     $theme->unsetRelations();
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme]));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme]));
 
     $response->assertJson(
         json_decode(
@@ -97,7 +99,7 @@ test('allowed include paths', function () {
 
     $theme->unsetRelations()->load($includedPaths->all());
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -131,7 +133,7 @@ test('sparse fieldsets', function () {
 
     $theme->unsetRelations();
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -165,7 +167,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -199,7 +201,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -239,7 +241,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -276,7 +278,7 @@ test('images by facet', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -311,7 +313,7 @@ test('entries by nsfw', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -346,7 +348,7 @@ test('entries by spoiler', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -389,7 +391,7 @@ test('entries by version', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -428,7 +430,7 @@ test('videos by lyrics', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -467,7 +469,7 @@ test('videos by nc', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -506,7 +508,7 @@ test('videos by overlap', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -553,7 +555,7 @@ test('videos by resolution', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -592,7 +594,7 @@ test('videos by source', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -631,7 +633,7 @@ test('videos by subbed', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -670,7 +672,7 @@ test('videos by uncen', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
+    $response = get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
     $response->assertJson(
         json_decode(

@@ -13,7 +13,7 @@ test('global scope is within scope', function () {
 
     $otherScope = new GlobalScope();
 
-    static::assertTrue($scope->isWithinScope($otherScope));
+    $this->assertTrue($scope->isWithinScope($otherScope));
 });
 
 test('type scope is within scope', function () {
@@ -21,7 +21,7 @@ test('type scope is within scope', function () {
 
     $otherScope = new TypeScope(fake()->word());
 
-    static::assertTrue($scope->isWithinScope($otherScope));
+    $this->assertTrue($scope->isWithinScope($otherScope));
 });
 
 test('relation scope is within scope', function () {
@@ -29,5 +29,5 @@ test('relation scope is within scope', function () {
 
     $otherScope = new RelationScope(fake()->word());
 
-    static::assertTrue($scope->isWithinScope($otherScope));
+    $this->assertTrue($scope->isWithinScope($otherScope));
 });

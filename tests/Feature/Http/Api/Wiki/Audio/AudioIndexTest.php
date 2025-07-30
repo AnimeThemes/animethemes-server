@@ -27,6 +27,8 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -36,7 +38,7 @@ test('default', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.audio.index'));
+    $response = get(route('api.audio.index'));
 
     $response->assertJson(
         json_decode(
@@ -55,7 +57,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.audio.index'));
+    $response = get(route('api.audio.index'));
 
     $response->assertJsonStructure([
         AudioCollection::$wrap,
@@ -84,7 +86,7 @@ test('allowed include paths', function () {
 
     $audios = Audio::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -115,7 +117,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -148,7 +150,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $audios = $this->sort(Audio::query(), $query, $schema)->get();
 
@@ -187,7 +189,7 @@ test('created at filter', function () {
 
     $audio = Audio::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -224,7 +226,7 @@ test('updated at filter', function () {
 
     $audio = Audio::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -254,7 +256,7 @@ test('without trashed filter', function () {
 
     $audio = Audio::withoutTrashed()->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -284,7 +286,7 @@ test('with trashed filter', function () {
 
     $audio = Audio::withTrashed()->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -314,7 +316,7 @@ test('only trashed filter', function () {
 
     $audio = Audio::onlyTrashed()->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -352,7 +354,7 @@ test('deleted at filter', function () {
 
     $audio = Audio::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.audio.index', $parameters));
+    $response = get(route('api.audio.index', $parameters));
 
     $response->assertJson(
         json_decode(

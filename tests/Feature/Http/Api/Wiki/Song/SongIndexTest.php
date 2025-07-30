@@ -35,6 +35,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -42,7 +44,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default', function () {
     $songs = Song::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.song.index'));
+    $response = get(route('api.song.index'));
 
     $response->assertJson(
         json_decode(
@@ -59,7 +61,7 @@ test('default', function () {
 test('paginated', function () {
     Song::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.song.index'));
+    $response = get(route('api.song.index'));
 
     $response->assertJsonStructure([
         SongCollection::$wrap,
@@ -89,7 +91,7 @@ test('allowed include paths', function () {
 
     $songs = Song::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -118,7 +120,7 @@ test('sparse fieldsets', function () {
 
     $songs = Song::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -149,7 +151,7 @@ test('sorts', function () {
 
     Song::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $songs = $this->sort(Song::query(), $query, $schema)->get();
 
@@ -188,7 +190,7 @@ test('created at filter', function () {
 
     $song = Song::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -225,7 +227,7 @@ test('updated at filter', function () {
 
     $song = Song::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -255,7 +257,7 @@ test('without trashed filter', function () {
 
     $song = Song::withoutTrashed()->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -285,7 +287,7 @@ test('with trashed filter', function () {
 
     $song = Song::withTrashed()->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -315,7 +317,7 @@ test('only trashed filter', function () {
 
     $song = Song::onlyTrashed()->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -353,7 +355,7 @@ test('deleted at filter', function () {
 
     $songs = Song::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -398,7 +400,7 @@ test('themes by sequence', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -434,7 +436,7 @@ test('themes by type', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -470,7 +472,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -506,7 +508,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -552,7 +554,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.song.index', $parameters));
+    $response = get(route('api.song.index', $parameters));
 
     $response->assertJson(
         json_decode(

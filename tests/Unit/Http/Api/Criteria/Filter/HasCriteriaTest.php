@@ -15,13 +15,13 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('field', function () {
     $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-    static::assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
+    $this->assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
 });
 
 test('default comparison operator', function () {
     $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-    static::assertEquals(ComparisonOperator::GTE, $criteria->getComparisonOperator());
+    $this->assertEquals(ComparisonOperator::GTE, $criteria->getComparisonOperator());
 });
 
 test('comparison operator', function () {
@@ -31,13 +31,13 @@ test('comparison operator', function () {
 
     $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertEquals($operator, $criteria->getComparisonOperator());
+    $this->assertEquals($operator, $criteria->getComparisonOperator());
 });
 
 test('default count', function () {
     $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-    static::assertEquals(1, $criteria->getCount());
+    $this->assertEquals(1, $criteria->getCount());
 });
 
 test('count', function () {
@@ -47,13 +47,13 @@ test('count', function () {
 
     $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertEquals($count, $criteria->getCount());
+    $this->assertEquals($count, $criteria->getCount());
 });
 
 test('default logical operator', function () {
     $criteria = HasCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    static::assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+    $this->assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
 });
 
 test('logical operator', function () {
@@ -63,5 +63,5 @@ test('logical operator', function () {
 
     $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertEquals($operator, $criteria->getLogicalOperator());
+    $this->assertEquals($operator, $criteria->getLogicalOperator());
 });

@@ -41,7 +41,7 @@ test('fails when index is not expected', function () {
         ['file' => new VideoIndexStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -77,7 +77,7 @@ test('passes when index is expected', function () {
         ['file' => new VideoIndexStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

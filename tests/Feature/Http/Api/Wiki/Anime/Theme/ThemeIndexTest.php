@@ -42,6 +42,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -56,7 +58,7 @@ test('default', function () {
 
     $themes = AnimeTheme::all();
 
-    $response = $this->get(route('api.animetheme.index'));
+    $response = get(route('api.animetheme.index'));
 
     $response->assertJson(
         json_decode(
@@ -76,7 +78,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animetheme.index'));
+    $response = get(route('api.animetheme.index'));
 
     $response->assertJsonStructure([
         ThemeCollection::$wrap,
@@ -112,7 +114,7 @@ test('allowed include paths', function () {
 
     $themes = AnimeTheme::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -146,7 +148,7 @@ test('sparse fieldsets', function () {
 
     $themes = AnimeTheme::all();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -180,7 +182,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $themes = $this->sort(AnimeTheme::query(), $query, $schema)->get();
 
@@ -225,7 +227,7 @@ test('created at filter', function () {
 
     $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -268,7 +270,7 @@ test('updated at filter', function () {
 
     $theme = AnimeTheme::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -305,7 +307,7 @@ test('without trashed filter', function () {
 
     $theme = AnimeTheme::withoutTrashed()->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -342,7 +344,7 @@ test('with trashed filter', function () {
 
     $theme = AnimeTheme::withTrashed()->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -379,7 +381,7 @@ test('only trashed filter', function () {
 
     $theme = AnimeTheme::onlyTrashed()->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -423,7 +425,7 @@ test('deleted at filter', function () {
 
     $theme = AnimeTheme::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -458,7 +460,7 @@ test('sequence filter', function () {
 
     $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter)->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -488,7 +490,7 @@ test('type filter', function () {
 
     $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value)->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -524,7 +526,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -560,7 +562,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -602,7 +604,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -641,7 +643,7 @@ test('images by facet', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -678,7 +680,7 @@ test('entries by nsfw', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -715,7 +717,7 @@ test('entries by spoiler', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -760,7 +762,7 @@ test('entries by version', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -801,7 +803,7 @@ test('videos by lyrics', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -842,7 +844,7 @@ test('videos by nc', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -883,7 +885,7 @@ test('videos by overlap', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -932,7 +934,7 @@ test('videos by resolution', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -973,7 +975,7 @@ test('videos by source', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -1014,7 +1016,7 @@ test('videos by subbed', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -1055,7 +1057,7 @@ test('videos by uncen', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animetheme.index', $parameters));
+    $response = get(route('api.animetheme.index', $parameters));
 
     $response->assertJson(
         json_decode(

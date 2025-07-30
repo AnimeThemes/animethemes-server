@@ -18,7 +18,7 @@ test('field', function () {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $field, fake()->word());
 
-    static::assertEquals($field, $criteria->getField());
+    $this->assertEquals($field, $criteria->getField());
 });
 
 test('comparison operator', function () {
@@ -33,13 +33,13 @@ test('comparison operator', function () {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertNull($criteria->getComparisonOperator());
+    $this->assertNull($criteria->getComparisonOperator());
 });
 
 test('default logical operator', function () {
     $criteria = WhereInCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    static::assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+    $this->assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
 });
 
 test('logical operator', function () {
@@ -49,13 +49,13 @@ test('logical operator', function () {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertEquals($operator, $criteria->getLogicalOperator());
+    $this->assertEquals($operator, $criteria->getLogicalOperator());
 });
 
 test('default unary operator', function () {
     $criteria = WhereInCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-    static::assertFalse($criteria->not());
+    $this->assertFalse($criteria->not());
 });
 
 test('unary operator', function () {
@@ -68,5 +68,5 @@ test('unary operator', function () {
 
     $criteria = WhereInCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-    static::assertTrue($criteria->not());
+    $this->assertTrue($criteria->not());
 });

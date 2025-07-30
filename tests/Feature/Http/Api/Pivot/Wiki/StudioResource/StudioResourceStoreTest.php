@@ -9,13 +9,15 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $studio = Studio::factory()->createOne();
     $resource = ExternalResource::factory()->createOne();
 
     $parameters = StudioResource::factory()->raw();
 
-    $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
+    $response = post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
+    $response = post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
     $response->assertForbidden();
 });
@@ -50,8 +52,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
+    $response = post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(StudioResource::class, 1);
+    $this->assertDatabaseCount(StudioResource::class, 1);
 });

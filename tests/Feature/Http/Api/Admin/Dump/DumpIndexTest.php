@@ -21,6 +21,8 @@ use App\Models\BaseModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -28,7 +30,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default', function () {
     $dumps = Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.dump.index'));
+    $response = get(route('api.dump.index'));
 
     $response->assertJson(
         json_decode(
@@ -52,7 +54,7 @@ test('unsafe', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.dump.index'));
+    $response = get(route('api.dump.index'));
 
     $response->assertJson(
         json_decode(
@@ -69,7 +71,7 @@ test('unsafe', function () {
 test('paginated', function () {
     Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.dump.index'));
+    $response = get(route('api.dump.index'));
 
     $response->assertJsonStructure([
         DumpCollection::$wrap,
@@ -93,7 +95,7 @@ test('sparse fieldsets', function () {
 
     $dumps = Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.dump.index', $parameters));
+    $response = get(route('api.dump.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -124,7 +126,7 @@ test('sorts', function () {
 
     Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.dump.index', $parameters));
+    $response = get(route('api.dump.index', $parameters));
 
     $dumps = $this->sort(Dump::query(), $query, $schema)->get();
 
@@ -163,7 +165,7 @@ test('created at filter', function () {
 
     $dump = Dump::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.dump.index', $parameters));
+    $response = get(route('api.dump.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -200,7 +202,7 @@ test('updated at filter', function () {
 
     $dump = Dump::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.dump.index', $parameters));
+    $response = get(route('api.dump.index', $parameters));
 
     $response->assertJson(
         json_decode(

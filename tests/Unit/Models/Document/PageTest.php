@@ -7,11 +7,11 @@ use App\Models\Document\Page;
 test('nameable', function () {
     $page = Page::factory()->createOne();
 
-    static::assertIsString($page->getName());
+    $this->assertIsString($page->getName());
 });
 
 test('has subtitle', function () {
     $page = Page::factory()->createOne();
 
-    static::assertIsString($page->getSubtitle());
+    $this->assertIsString($page->getSubtitle());
 });

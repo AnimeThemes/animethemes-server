@@ -14,6 +14,9 @@ use App\Models\Auth\User;
 use App\Models\Document\Page as PageModel;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -22,11 +25,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = PageModel::factory()->count(10)->create();
 
-    $this->get(Page::getUrl('index'))
+    get(Page::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Page::class))
@@ -41,11 +44,11 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = PageModel::factory()->createOne();
 
-    $this->get(Page::getUrl('view', ['record' => $record]))
+    get(Page::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -57,7 +60,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(Page::class))
         ->mountAction(CreateAction::class)
@@ -72,7 +75,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = PageModel::factory()->createOne();
 

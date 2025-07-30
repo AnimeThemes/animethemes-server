@@ -14,6 +14,9 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as AnimeThemeEntryModel;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -22,13 +25,13 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = AnimeThemeEntryModel::factory()
         ->forAnime()
         ->count(10)->create();
 
-    $this->get(Entry::getUrl('index'))
+    get(Entry::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Entry::class))
@@ -43,13 +46,13 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = AnimeThemeEntryModel::factory()
         ->forAnime()
         ->createOne();
 
-    $this->get(Entry::getUrl('view', ['record' => $record]))
+    get(Entry::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -61,7 +64,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(Entry::class))
         ->mountAction(CreateAction::class)
@@ -76,7 +79,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = AnimeThemeEntryModel::factory()
         ->forAnime()

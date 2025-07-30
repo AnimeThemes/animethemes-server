@@ -11,7 +11,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('no criteria by default', function () {
     $parameters = [];
 
-    static::assertEmpty(IncludeParser::parse($parameters));
+    $this->assertEmpty(IncludeParser::parse($parameters));
 });
 
 test('parse criteria', function () {
@@ -23,7 +23,7 @@ test('parse criteria', function () {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    static::assertInstanceOf(Criteria::class, $criteria);
+    $this->assertInstanceOf(Criteria::class, $criteria);
 });
 
 test('parse criteria paths', function () {
@@ -35,7 +35,7 @@ test('parse criteria paths', function () {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    static::assertEquals($fields, $criteria->getPaths()->all());
+    $this->assertEquals($fields, $criteria->getPaths()->all());
 });
 
 test('parse resource criteria', function () {
@@ -49,7 +49,7 @@ test('parse resource criteria', function () {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    static::assertInstanceOf(ResourceCriteria::class, $criteria);
+    $this->assertInstanceOf(ResourceCriteria::class, $criteria);
 });
 
 test('parse resource criteria type', function () {
@@ -65,7 +65,7 @@ test('parse resource criteria type', function () {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof ResourceCriteria
         && $criteria->getType() === $type
     );
@@ -82,5 +82,5 @@ test('parse resource criteria paths', function () {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    static::assertEquals($fields, $criteria->getPaths()->all());
+    $this->assertEquals($fields, $criteria->getPaths()->all());
 });

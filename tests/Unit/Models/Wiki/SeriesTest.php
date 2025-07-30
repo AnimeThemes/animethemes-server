@@ -13,25 +13,25 @@ uses(WithFaker::class);
 test('searchable as', function () {
     $series = Series::factory()->createOne();
 
-    static::assertIsString($series->searchableAs());
+    $this->assertIsString($series->searchableAs());
 });
 
 test('to searchable array', function () {
     $series = Series::factory()->createOne();
 
-    static::assertIsArray($series->toSearchableArray());
+    $this->assertIsArray($series->toSearchableArray());
 });
 
 test('nameable', function () {
     $series = Series::factory()->createOne();
 
-    static::assertIsString($series->getName());
+    $this->assertIsString($series->getName());
 });
 
 test('has subtitle', function () {
     $series = Series::factory()->createOne();
 
-    static::assertIsString($series->getSubtitle());
+    $this->assertIsString($series->getSubtitle());
 });
 
 test('anime', function () {
@@ -41,8 +41,8 @@ test('anime', function () {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $series->anime());
-    static::assertEquals($animeCount, $series->anime()->count());
-    static::assertInstanceOf(Anime::class, $series->anime()->first());
-    static::assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $series->anime());
+    $this->assertEquals($animeCount, $series->anime()->count());
+    $this->assertInstanceOf(Anime::class, $series->anime()->first());
+    $this->assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
 });

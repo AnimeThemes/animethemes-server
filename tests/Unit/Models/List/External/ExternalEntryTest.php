@@ -15,7 +15,7 @@ test('casts watch status to enum', function () {
 
     $status = $entry->watch_status;
 
-    static::assertInstanceOf(ExternalEntryWatchStatus::class, $status);
+    $this->assertInstanceOf(ExternalEntryWatchStatus::class, $status);
 });
 
 test('casts is favorite to bool', function () {
@@ -25,7 +25,7 @@ test('casts is favorite to bool', function () {
 
     $is_favorite = $entry->is_favorite;
 
-    static::assertIsBool($is_favorite);
+    $this->assertIsBool($is_favorite);
 });
 
 test('nameable', function () {
@@ -33,7 +33,7 @@ test('nameable', function () {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    static::assertIsString($entry->getName());
+    $this->assertIsString($entry->getName());
 });
 
 test('has subtitle', function () {
@@ -42,7 +42,7 @@ test('has subtitle', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($entry->getSubtitle());
+    $this->assertIsString($entry->getSubtitle());
 });
 
 test('profile', function () {
@@ -50,8 +50,8 @@ test('profile', function () {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $entry->externalprofile());
-    static::assertInstanceOf(ExternalProfile::class, $entry->externalprofile()->first());
+    $this->assertInstanceOf(BelongsTo::class, $entry->externalprofile());
+    $this->assertInstanceOf(ExternalProfile::class, $entry->externalprofile()->first());
 });
 
 test('anime', function () {
@@ -60,6 +60,6 @@ test('anime', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $entry->anime());
-    static::assertInstanceOf(Anime::class, $entry->anime()->first());
+    $this->assertInstanceOf(BelongsTo::class, $entry->anime());
+    $this->assertInstanceOf(Anime::class, $entry->anime()->first());
 });

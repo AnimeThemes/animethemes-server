@@ -9,10 +9,12 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
-    $response = $this->get(route('api.me.playlist.index'));
+    $response = get(route('api.me.playlist.index'));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.playlist.index'));
+    $response = get(route('api.me.playlist.index'));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('only sees owned playlists', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.playlist.index'));
+    $response = get(route('api.me.playlist.index'));
 
     $response->assertJsonCount($playlistCount, PlaylistCollection::$wrap);
 

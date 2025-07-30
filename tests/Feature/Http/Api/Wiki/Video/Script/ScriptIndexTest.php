@@ -30,6 +30,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -39,7 +41,7 @@ test('default', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.videoscript.index'));
+    $response = get(route('api.videoscript.index'));
 
     $response->assertJson(
         json_decode(
@@ -58,7 +60,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.videoscript.index'));
+    $response = get(route('api.videoscript.index'));
 
     $response->assertJsonStructure([
         ScriptCollection::$wrap,
@@ -87,7 +89,7 @@ test('allowed include paths', function () {
 
     $scripts = VideoScript::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -118,7 +120,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -151,7 +153,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $scripts = $this->sort(VideoScript::query(), $query, $schema)->get();
 
@@ -190,7 +192,7 @@ test('created at filter', function () {
 
     $script = VideoScript::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -227,7 +229,7 @@ test('updated at filter', function () {
 
     $script = VideoScript::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -257,7 +259,7 @@ test('without trashed filter', function () {
 
     $script = VideoScript::withoutTrashed()->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -287,7 +289,7 @@ test('with trashed filter', function () {
 
     $script = VideoScript::withTrashed()->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -317,7 +319,7 @@ test('only trashed filter', function () {
 
     $script = VideoScript::onlyTrashed()->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -355,7 +357,7 @@ test('deleted at filter', function () {
 
     $script = VideoScript::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -391,7 +393,7 @@ test('videos by lyrics', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -427,7 +429,7 @@ test('videos by nc', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -463,7 +465,7 @@ test('videos by overlap', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -504,7 +506,7 @@ test('videos by resolution', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -540,7 +542,7 @@ test('videos by source', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -576,7 +578,7 @@ test('videos by subbed', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -612,7 +614,7 @@ test('videos by uncen', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.videoscript.index', $parameters));
+    $response = get(route('api.videoscript.index', $parameters));
 
     $response->assertJson(
         json_decode(

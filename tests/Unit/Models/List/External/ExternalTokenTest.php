@@ -12,7 +12,7 @@ test('nameable', function () {
     $token = ExternalToken::factory()
         ->createOne();
 
-    static::assertIsString($token->getName());
+    $this->assertIsString($token->getName());
 });
 
 test('has subtitle', function () {
@@ -20,7 +20,7 @@ test('has subtitle', function () {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    static::assertIsString($token->getSubtitle());
+    $this->assertIsString($token->getSubtitle());
 });
 
 test('profile', function () {
@@ -28,8 +28,8 @@ test('profile', function () {
         ->for(ExternalProfile::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $token->externalprofile());
-    static::assertInstanceOf(ExternalProfile::class, $token->externalprofile()->first());
+    $this->assertInstanceOf(BelongsTo::class, $token->externalprofile());
+    $this->assertInstanceOf(ExternalProfile::class, $token->externalprofile()->first());
 });
 
 test('user', function () {
@@ -37,6 +37,6 @@ test('user', function () {
         ->for(ExternalProfile::factory()->for(User::factory()))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToThrough::class, $token->user());
-    static::assertInstanceOf(User::class, $token->user()->first());
+    $this->assertInstanceOf(BelongsToThrough::class, $token->user());
+    $this->assertInstanceOf(User::class, $token->user()->first());
 });

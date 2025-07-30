@@ -14,6 +14,9 @@ use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -22,11 +25,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = AnnouncementModel::factory()->count(10)->create();
 
-    $this->get(Announcement::getUrl('index'))
+    get(Announcement::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Announcement::class))

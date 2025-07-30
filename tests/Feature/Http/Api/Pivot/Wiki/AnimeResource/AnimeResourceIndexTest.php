@@ -30,6 +30,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -44,7 +46,7 @@ test('default', function () {
 
     $animeResources = AnimeResource::all();
 
-    $response = $this->get(route('api.animeresource.index'));
+    $response = get(route('api.animeresource.index'));
 
     $response->assertJson(
         json_decode(
@@ -66,7 +68,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index'));
+    $response = get(route('api.animeresource.index'));
 
     $response->assertJsonStructure([
         AnimeResourceCollection::$wrap,
@@ -95,7 +97,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = AnimeResource::with($includedPaths->all())->get();
 
@@ -131,7 +133,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = AnimeResource::all();
 
@@ -169,7 +171,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = $this->sort(AnimeResource::query(), $query, $schema)->get();
 
@@ -218,7 +220,7 @@ test('created at filter', function () {
 
     $animeResources = AnimeResource::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -265,7 +267,7 @@ test('updated at filter', function () {
 
     $animeResources = AnimeResource::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -296,7 +298,7 @@ test('resources by site', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = AnimeResource::with([
         AnimeResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
@@ -334,7 +336,7 @@ test('anime by media format', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = AnimeResource::with([
         AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -372,7 +374,7 @@ test('anime by season', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = AnimeResource::with([
         AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -416,7 +418,7 @@ test('anime by year', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animeresource.index', $parameters));
+    $response = get(route('api.animeresource.index', $parameters));
 
     $animeResources = AnimeResource::with([
         AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

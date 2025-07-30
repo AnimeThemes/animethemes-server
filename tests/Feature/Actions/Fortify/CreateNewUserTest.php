@@ -16,7 +16,7 @@ use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('required', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $action = new CreateNewUser();
 
@@ -24,7 +24,7 @@ test('required', function () {
 });
 
 test('username alpha dash', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $action = new CreateNewUser();
 
@@ -40,7 +40,7 @@ test('username alpha dash', function () {
 });
 
 test('username unique', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $name = fake()->word();
 
@@ -74,7 +74,7 @@ test('created', function () {
         'terms' => 'terms',
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseCount(User::class, 1);
 });
 
 test('created if not flagged by open ai', function () {
@@ -102,7 +102,7 @@ test('created if not flagged by open ai', function () {
         'terms' => 'terms',
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseCount(User::class, 1);
 });
 
 test('created if open ai fails', function () {
@@ -124,11 +124,11 @@ test('created if open ai fails', function () {
         'terms' => 'terms',
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseCount(User::class, 1);
 });
 
 test('validation error when flagged by open ai', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -156,7 +156,7 @@ test('validation error when flagged by open ai', function () {
 });
 
 test('disposable email', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $this->mock(Indisposable::class, function (MockInterface $mock) {
         $mock->shouldReceive('validate')->once()->andReturn(false);
@@ -192,11 +192,11 @@ test('indisposable email', function () {
         'terms' => 'terms',
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseCount(User::class, 1);
 });
 
 test('email unique', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $email = fake()->companyEmail();
 

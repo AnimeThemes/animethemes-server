@@ -7,10 +7,12 @@ use App\Http\Resources\Auth\Resource\UserResource;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
-    $response = $this->get(route('api.me.show'));
+    $response = get(route('api.me.show'));
 
     $response->assertUnauthorized();
 });
@@ -20,7 +22,7 @@ test('default', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.show'));
+    $response = get(route('api.me.show'));
 
     $response->assertJson(
         json_decode(

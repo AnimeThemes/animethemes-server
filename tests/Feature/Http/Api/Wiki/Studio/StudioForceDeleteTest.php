@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $studio = Studio::factory()->createOne();
 
-    $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+    $response = delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+    $response = delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+    $response = delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
     $response->assertOk();
-    static::assertModelMissing($studio);
+    $this->assertModelMissing($studio);
 });

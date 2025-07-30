@@ -8,13 +8,15 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $synonym = AnimeSynonym::factory()
         ->trashed()
         ->for(Anime::factory())
         ->createOne();
 
-    $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
     $response->assertUnauthorized();
 });
@@ -29,7 +31,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
     $response->assertForbidden();
 });
@@ -41,7 +43,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
     $response->assertForbidden();
 });
@@ -56,8 +58,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+    $response = patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($synonym);
+    $this->assertNotSoftDeleted($synonym);
 });

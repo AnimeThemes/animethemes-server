@@ -8,12 +8,14 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
     $parameters = AnimeSynonym::factory()->raw();
 
-    $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -27,7 +29,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertForbidden();
 });
@@ -44,7 +46,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertForbidden();
 });
@@ -58,7 +60,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+    $response = put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
 
     $response->assertOk();
 });

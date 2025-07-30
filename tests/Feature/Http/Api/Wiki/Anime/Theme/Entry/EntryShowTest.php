@@ -20,6 +20,8 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
@@ -27,7 +29,7 @@ test('default', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
 
     $response->assertJson(
         json_decode(
@@ -49,7 +51,7 @@ test('soft delete', function () {
 
     $entry->unsetRelations();
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry]));
 
     $response->assertJson(
         json_decode(
@@ -81,7 +83,7 @@ test('allowed include paths', function () {
         ->has(Video::factory()->count(fake()->randomDigitNotNull()))
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -112,7 +114,7 @@ test('sparse fieldsets', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->create();
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -146,7 +148,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -180,7 +182,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -222,7 +224,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -263,7 +265,7 @@ test('themes by sequence', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -297,7 +299,7 @@ test('themes by type', function () {
         },
     ]);
 
-    $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
+    $response = get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
 
     $response->assertJson(
         json_decode(

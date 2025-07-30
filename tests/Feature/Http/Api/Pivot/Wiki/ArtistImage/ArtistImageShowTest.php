@@ -17,13 +17,15 @@ use App\Pivots\Wiki\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $artist = Artist::factory()->createOne();
     $image = Image::factory()->createOne();
 
-    $response = $this->get(route('api.artistimage.show', ['artist' => $artist, 'image' => $image]));
+    $response = get(route('api.artistimage.show', ['artist' => $artist, 'image' => $image]));
 
     $response->assertNotFound();
 });
@@ -34,7 +36,7 @@ test('default', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
+    $response = get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
 
     $artistImage->unsetRelations();
 
@@ -68,7 +70,7 @@ test('allowed include paths', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
+    $response = get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
 
     $artistImage->unsetRelations()->load($includedPaths->all());
 
@@ -102,7 +104,7 @@ test('sparse fieldsets', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
+    $response = get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
 
     $artistImage->unsetRelations();
 
@@ -133,7 +135,7 @@ test('images by facet', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
+    $response = get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
 
     $artistImage->unsetRelations()->load([
         ArtistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {

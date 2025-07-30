@@ -13,13 +13,13 @@ uses(WithFaker::class);
 test('nameable', function () {
     $group = Group::factory()->createOne();
 
-    static::assertIsString($group->getName());
+    $this->assertIsString($group->getName());
 });
 
 test('has subtitle', function () {
     $group = Group::factory()->createOne();
 
-    static::assertIsString($group->getSubtitle());
+    $this->assertIsString($group->getSubtitle());
 });
 
 test('themes', function () {
@@ -29,7 +29,7 @@ test('themes', function () {
         ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $group->animethemes());
-    static::assertEquals($themeCount, $group->animethemes()->count());
-    static::assertInstanceOf(AnimeTheme::class, $group->animethemes()->first());
+    $this->assertInstanceOf(HasMany::class, $group->animethemes());
+    $this->assertEquals($themeCount, $group->animethemes()->count());
+    $this->assertInstanceOf(AnimeTheme::class, $group->animethemes()->first());
 });

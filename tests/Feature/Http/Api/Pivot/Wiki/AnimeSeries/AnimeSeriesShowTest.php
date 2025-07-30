@@ -18,13 +18,15 @@ use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $anime = Anime::factory()->createOne();
     $series = Series::factory()->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $anime, 'series' => $series]));
+    $response = get(route('api.animeseries.show', ['anime' => $anime, 'series' => $series]));
 
     $response->assertNotFound();
 });
@@ -35,7 +37,7 @@ test('default', function () {
         ->for(Series::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series]));
+    $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series]));
 
     $animeSeries->unsetRelations();
 
@@ -69,7 +71,7 @@ test('allowed include paths', function () {
         ->for(Series::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
+    $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load($includedPaths->all());
 
@@ -103,7 +105,7 @@ test('sparse fieldsets', function () {
         ->for(Series::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
+    $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations();
 
@@ -134,7 +136,7 @@ test('anime by media format', function () {
         ->for(Series::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
+    $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load([
         AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -169,7 +171,7 @@ test('anime by season', function () {
         ->for(Series::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
+    $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load([
         AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -210,7 +212,7 @@ test('anime by year', function () {
         ->for(Series::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
+    $response = get(route('api.animeseries.show', ['anime' => $animeSeries->anime, 'series' => $animeSeries->series] + $parameters));
 
     $animeSeries->unsetRelations()->load([
         AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

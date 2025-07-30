@@ -25,7 +25,7 @@ test('parse id from anime resource', function () {
 
     $link = $site->formatResourceLink(Anime::class, $animeId);
 
-    static::assertEquals(strval($animeId), ResourceSite::parseIdFromLink($link));
+    $this->assertEquals(strval($animeId), ResourceSite::parseIdFromLink($link));
 });
 
 test('parse id from studio resource', function () {
@@ -41,7 +41,7 @@ test('parse id from studio resource', function () {
 
     $link = $site->formatResourceLink(Studio::class, $studioId);
 
-    static::assertEquals(strval($studioId), ResourceSite::parseIdFromLink($link));
+    $this->assertEquals(strval($studioId), ResourceSite::parseIdFromLink($link));
 });
 
 test('fail parse anime planet id from studio resource', function () {
@@ -51,7 +51,7 @@ test('fail parse anime planet id from studio resource', function () {
         fake()->slug()
     );
 
-    static::assertEmpty(ResourceSite::parseIdFromLink($link));
+    $this->assertEmpty(ResourceSite::parseIdFromLink($link));
     Http::assertNothingSent();
 });
 
@@ -68,7 +68,7 @@ test('fail parse anime planet id from anime resource', function () {
         fake()->slug()
     );
 
-    static::assertEmpty(ResourceSite::parseIdFromLink($link));
+    $this->assertEmpty(ResourceSite::parseIdFromLink($link));
     Http::assertSentCount(1);
 });
 
@@ -93,7 +93,7 @@ test('parse anime planet id from anime resource', function () {
 
     $link = ResourceSite::ANIME_PLANET->formatResourceLink(Anime::class, $id, fake()->slug());
 
-    static::assertEquals(strval($id), ResourceSite::parseIdFromLink($link));
+    $this->assertEquals(strval($id), ResourceSite::parseIdFromLink($link));
     Http::assertSentCount(1);
 });
 
@@ -102,7 +102,7 @@ test('parse kitsu id for id from anime resource', function () {
 
     $link = ResourceSite::KITSU->formatResourceLink(Anime::class, $id);
 
-    static::assertEquals($id, ResourceSite::parseIdFromLink($link));
+    $this->assertEquals($id, ResourceSite::parseIdFromLink($link));
 });
 
 test('parse kitsu id for slug from anime resource', function () {
@@ -123,6 +123,6 @@ test('parse kitsu id for slug from anime resource', function () {
         ]),
     ]);
 
-    static::assertEquals(strval($id), ResourceSite::parseIdFromLink($linkWithSlug));
+    $this->assertEquals(strval($id), ResourceSite::parseIdFromLink($linkWithSlug));
     Http::assertSentCount(1);
 });

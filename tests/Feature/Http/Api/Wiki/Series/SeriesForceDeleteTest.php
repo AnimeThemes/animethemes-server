@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $series = Series::factory()->createOne();
 
-    $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+    $response = delete(route('api.series.forceDelete', ['series' => $series]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+    $response = delete(route('api.series.forceDelete', ['series' => $series]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+    $response = delete(route('api.series.forceDelete', ['series' => $series]));
 
     $response->assertOk();
-    static::assertModelMissing($series);
+    $this->assertModelMissing($series);
 });

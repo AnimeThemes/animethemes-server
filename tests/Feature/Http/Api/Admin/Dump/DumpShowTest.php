@@ -9,12 +9,14 @@ use App\Http\Api\Schema\Admin\DumpSchema;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $dump = Dump::factory()->create();
 
-    $response = $this->get(route('api.dump.show', ['dump' => $dump]));
+    $response = get(route('api.dump.show', ['dump' => $dump]));
 
     $response->assertJson(
         json_decode(
@@ -31,7 +33,7 @@ test('default', function () {
 test('cannot view unsafe', function () {
     $dump = Dump::factory()->unsafe()->create();
 
-    $response = $this->get(route('api.dump.show', ['dump' => $dump]));
+    $response = get(route('api.dump.show', ['dump' => $dump]));
 
     $response->assertForbidden();
 });
@@ -51,7 +53,7 @@ test('sparse fieldsets', function () {
 
     $dump = Dump::factory()->create();
 
-    $response = $this->get(route('api.dump.show', ['dump' => $dump] + $parameters));
+    $response = get(route('api.dump.show', ['dump' => $dump] + $parameters));
 
     $response->assertJson(
         json_decode(

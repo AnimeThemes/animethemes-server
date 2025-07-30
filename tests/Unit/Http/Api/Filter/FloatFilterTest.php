@@ -15,7 +15,7 @@ test('should not apply if no floats', function () {
 
     $filter = new FloatFilter($filterField);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('converts validated floats', function () {
@@ -29,5 +29,5 @@ test('converts validated floats', function () {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    static::assertEqualsWithDelta($floatValue, $filterValues[0], 0.0001);
+    $this->assertEqualsWithDelta($floatValue, $filterValues[0], 0.0001);
 });

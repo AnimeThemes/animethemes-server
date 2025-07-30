@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $audio = Audio::factory()->createOne();
 
-    $response = $this->delete(route('api.audio.forceDelete', ['audio' => $audio]));
+    $response = delete(route('api.audio.forceDelete', ['audio' => $audio]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.audio.forceDelete', ['audio' => $audio]));
+    $response = delete(route('api.audio.forceDelete', ['audio' => $audio]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.audio.forceDelete', ['audio' => $audio]));
+    $response = delete(route('api.audio.forceDelete', ['audio' => $audio]));
 
     $response->assertOk();
-    static::assertModelMissing($audio);
+    $this->assertModelMissing($audio);
 });

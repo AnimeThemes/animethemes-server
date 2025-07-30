@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('script downloading not allowed forbidden', function () {
@@ -20,7 +22,7 @@ test('script downloading not allowed forbidden', function () {
 
     $script = VideoScript::factory()->createOne();
 
-    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = get(route('videoscript.show', ['videoscript' => $script]));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('video streaming permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = get(route('videoscript.show', ['videoscript' => $script]));
 
     $response->assertDownload($script->path);
 });
@@ -50,7 +52,7 @@ test('cannot stream soft deleted video', function () {
 
     $script = VideoScript::factory()->trashed()->createOne();
 
-    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = get(route('videoscript.show', ['videoscript' => $script]));
 
     $response->assertNotFound();
 });
@@ -66,7 +68,7 @@ test('downloaded through response', function () {
         VideoScript::ATTRIBUTE_PATH => $fsFile,
     ]);
 
-    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = get(route('videoscript.show', ['videoscript' => $script]));
 
     $response->assertDownload($script->path);
 });

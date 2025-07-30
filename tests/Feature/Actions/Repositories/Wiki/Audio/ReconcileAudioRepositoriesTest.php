@@ -26,9 +26,9 @@ test('no results', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertFalse($result->hasChanges());
-    static::assertDatabaseCount(Audio::class, 0);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertFalse($result->hasChanges());
+    $this->assertDatabaseCount(Audio::class, 0);
 });
 
 test('created', function () {
@@ -47,10 +47,10 @@ test('created', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($createdAudioCount, $result->getCreated());
-    static::assertDatabaseCount(Audio::class, $createdAudioCount);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($createdAudioCount, $result->getCreated());
+    $this->assertDatabaseCount(Audio::class, $createdAudioCount);
 });
 
 test('deleted', function () {
@@ -69,13 +69,13 @@ test('deleted', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($deletedAudioCount, $result->getDeleted());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($deletedAudioCount, $result->getDeleted());
 
-    static::assertDatabaseCount(Audio::class, $deletedAudioCount);
+    $this->assertDatabaseCount(Audio::class, $deletedAudioCount);
     foreach ($audios as $audio) {
-        static::assertSoftDeleted($audio);
+        $this->assertSoftDeleted($audio);
     }
 });
 
@@ -105,8 +105,8 @@ test('updated', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($updatedAudioCount, $result->getUpdated());
-    static::assertDatabaseCount(Audio::class, $updatedAudioCount);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($updatedAudioCount, $result->getUpdated());
+    $this->assertDatabaseCount(Audio::class, $updatedAudioCount);
 });

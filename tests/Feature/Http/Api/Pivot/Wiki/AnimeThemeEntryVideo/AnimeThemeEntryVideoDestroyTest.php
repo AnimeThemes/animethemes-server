@@ -11,13 +11,15 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $entryVideo = AnimeThemeEntryVideo::factory()
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
 
     $response->assertUnauthorized();
 });
@@ -32,7 +34,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
 
     $response->assertForbidden();
 });
@@ -53,7 +55,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entry, 'video' => $video]));
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entry, 'video' => $video]));
 
     $response->assertNotFound();
 });
@@ -73,8 +75,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+    $response = delete(route('api.animethemeentryvideo.destroy', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
 
     $response->assertOk();
-    static::assertModelMissing($entryVideo);
+    $this->assertModelMissing($entryVideo);
 });

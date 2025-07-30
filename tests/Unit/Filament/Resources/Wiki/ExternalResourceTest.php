@@ -13,6 +13,9 @@ use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -21,11 +24,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = ExternalResourceModel::factory()->count(10)->create();
 
-    $this->get(ExternalResource::getUrl('index'))
+    get(ExternalResource::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(ExternalResource::class))
@@ -40,11 +43,11 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = ExternalResourceModel::factory()->createOne();
 
-    $this->get(ExternalResource::getUrl('view', ['record' => $record]))
+    get(ExternalResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -56,7 +59,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = ExternalResourceModel::factory()->createOne();
 

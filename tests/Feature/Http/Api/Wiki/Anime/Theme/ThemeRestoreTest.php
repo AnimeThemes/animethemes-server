@@ -8,13 +8,15 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $theme = AnimeTheme::factory()
         ->trashed()
         ->for(Anime::factory())
         ->createOne();
 
-    $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
     $response->assertUnauthorized();
 });
@@ -29,7 +31,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
     $response->assertForbidden();
 });
@@ -41,7 +43,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
     $response->assertForbidden();
 });
@@ -56,8 +58,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+    $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($theme);
+    $this->assertNotSoftDeleted($theme);
 });

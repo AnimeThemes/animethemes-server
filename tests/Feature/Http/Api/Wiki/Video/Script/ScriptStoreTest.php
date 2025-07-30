@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $script = VideoScript::factory()->makeOne();
 
-    $response = $this->post(route('api.videoscript.store', $script->toArray()));
+    $response = post(route('api.videoscript.store', $script->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.videoscript.store', $script->toArray()));
+    $response = post(route('api.videoscript.store', $script->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.videoscript.store'));
+    $response = post(route('api.videoscript.store'));
 
     $response->assertJsonValidationErrors([
         VideoScript::ATTRIBUTE_PATH,
@@ -46,8 +48,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.videoscript.store', $parameters));
+    $response = post(route('api.videoscript.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(VideoScript::class, 1);
+    $this->assertDatabaseCount(VideoScript::class, 1);
 });

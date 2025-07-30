@@ -30,9 +30,9 @@ test('skipped', function () {
 
     $result = $action->handle();
 
-    static::assertTrue($result->getStatus() === ActionStatus::SKIPPED);
-    static::assertDatabaseCount(Audio::class, 1);
-    static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertTrue($result->getStatus() === ActionStatus::SKIPPED);
+    $this->assertDatabaseCount(Audio::class, 1);
+    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('failed when no entries', function () {
@@ -45,9 +45,9 @@ test('failed when no entries', function () {
 
     $result = $action->handle();
 
-    static::assertTrue($result->hasFailed());
-    static::assertDatabaseCount(Audio::class, 0);
-    static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertTrue($result->hasFailed());
+    $this->assertDatabaseCount(Audio::class, 0);
+    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('passes source video', function () {
@@ -68,10 +68,10 @@ test('passes source video', function () {
 
     $result = $action->handle();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertDatabaseCount(Audio::class, 1);
-    static::assertTrue($video->audio()->exists());
-    static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertDatabaseCount(Audio::class, 1);
+    $this->assertTrue($video->audio()->exists());
+    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('passes with higher priority source', function () {
@@ -97,10 +97,10 @@ test('passes with higher priority source', function () {
 
     $result = $action->handle();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertDatabaseCount(Audio::class, 1);
-    static::assertTrue($video->audio()->exists());
-    static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertDatabaseCount(Audio::class, 1);
+    $this->assertTrue($video->audio()->exists());
+    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('passes with primary version source', function () {
@@ -133,8 +133,8 @@ test('passes with primary version source', function () {
 
     $result = $action->handle();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertDatabaseCount(Audio::class, 2);
-    static::assertTrue($video->audio()->is($sourceAudio));
-    static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertDatabaseCount(Audio::class, 2);
+    $this->assertTrue($video->audio()->is($sourceAudio));
+    $this->assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });

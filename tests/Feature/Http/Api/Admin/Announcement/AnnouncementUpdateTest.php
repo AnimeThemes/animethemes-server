@@ -7,12 +7,14 @@ use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $announcement = Announcement::factory()->createOne();
 
     $parameters = Announcement::factory()->raw();
 
-    $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+    $response = put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+    $response = put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+    $response = put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
 
     $response->assertOk();
 });

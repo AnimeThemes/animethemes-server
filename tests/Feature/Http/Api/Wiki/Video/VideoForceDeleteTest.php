@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $video = Video::factory()->createOne();
 
-    $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+    $response = delete(route('api.video.forceDelete', ['video' => $video]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+    $response = delete(route('api.video.forceDelete', ['video' => $video]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+    $response = delete(route('api.video.forceDelete', ['video' => $video]));
 
     $response->assertOk();
-    static::assertModelMissing($video);
+    $this->assertModelMissing($video);
 });

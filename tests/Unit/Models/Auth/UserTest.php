@@ -17,9 +17,9 @@ test('tokens', function () {
 
     $user->createToken(fake()->word());
 
-    static::assertInstanceOf(MorphMany::class, $user->tokens());
-    static::assertEquals(1, $user->tokens()->count());
-    static::assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
+    $this->assertInstanceOf(MorphMany::class, $user->tokens());
+    $this->assertEquals(1, $user->tokens()->count());
+    $this->assertInstanceOf(PersonalAccessToken::class, $user->tokens()->first());
 });
 
 test('verification email notification', function () {
@@ -33,13 +33,13 @@ test('verification email notification', function () {
 test('nameable', function () {
     $user = User::factory()->createOne();
 
-    static::assertIsString($user->getName());
+    $this->assertIsString($user->getName());
 });
 
 test('has subtitle', function () {
     $user = User::factory()->createOne();
 
-    static::assertIsString($user->getSubtitle());
+    $this->assertIsString($user->getSubtitle());
 });
 
 test('playlists', function () {
@@ -49,7 +49,7 @@ test('playlists', function () {
         ->has(Playlist::factory()->count($playlistCount))
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $user->playlists());
-    static::assertEquals($playlistCount, $user->playlists()->count());
-    static::assertInstanceOf(Playlist::class, $user->playlists()->first());
+    $this->assertInstanceOf(HasMany::class, $user->playlists());
+    $this->assertEquals($playlistCount, $user->playlists()->count());
+    $this->assertInstanceOf(Playlist::class, $user->playlists()->first());
 });

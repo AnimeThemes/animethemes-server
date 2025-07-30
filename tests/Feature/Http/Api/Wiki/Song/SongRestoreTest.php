@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $song = Song::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.song.restore', ['song' => $song]));
+    $response = patch(route('api.song.restore', ['song' => $song]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($song);
+    $this->assertNotSoftDeleted($song);
 });

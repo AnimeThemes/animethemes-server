@@ -29,6 +29,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -43,7 +45,7 @@ test('default', function () {
 
     $animeStudios = AnimeStudio::all();
 
-    $response = $this->get(route('api.animestudio.index'));
+    $response = get(route('api.animestudio.index'));
 
     $response->assertJson(
         json_decode(
@@ -65,7 +67,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index'));
+    $response = get(route('api.animestudio.index'));
 
     $response->assertJsonStructure([
         AnimeStudioCollection::$wrap,
@@ -94,7 +96,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with($includedPaths->all())->get();
 
@@ -130,7 +132,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::all();
 
@@ -168,7 +170,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = $this->sort(AnimeStudio::query(), $query, $schema)->get();
 
@@ -217,7 +219,7 @@ test('created at filter', function () {
 
     $animeStudios = AnimeStudio::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -264,7 +266,7 @@ test('updated at filter', function () {
 
     $animeStudios = AnimeStudio::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -295,7 +297,7 @@ test('anime by media format', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with([
         AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -333,7 +335,7 @@ test('anime by season', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with([
         AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -377,7 +379,7 @@ test('anime by year', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animestudio.index', $parameters));
+    $response = get(route('api.animestudio.index', $parameters));
 
     $animeStudios = AnimeStudio::with([
         AnimeStudio::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

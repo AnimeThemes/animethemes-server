@@ -10,6 +10,8 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
@@ -20,7 +22,7 @@ test('protected', function () {
         [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
     );
 
-    $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -39,7 +41,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
     $response->assertForbidden();
 });
@@ -61,7 +63,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
     $response->assertForbidden();
 });
@@ -80,7 +82,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+    $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
     $response->assertOk();
 });

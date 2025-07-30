@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $song = Song::factory()->makeOne();
 
-    $response = $this->post(route('api.song.store', $song->toArray()));
+    $response = post(route('api.song.store', $song->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.song.store', $song->toArray()));
+    $response = post(route('api.song.store', $song->toArray()));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.song.store', $parameters));
+    $response = post(route('api.song.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Song::class, 1);
+    $this->assertDatabaseCount(Song::class, 1);
 });

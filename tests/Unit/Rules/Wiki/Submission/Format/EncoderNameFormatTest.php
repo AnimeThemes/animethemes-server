@@ -40,7 +40,7 @@ test('fails when encoder name is not ffmpeg', function () {
         ['file' => new EncoderNameFormatRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -64,7 +64,7 @@ test('passes when encoder name is ffmpeg', function () {
         UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
             'format' => [
                 'tags' => [
-                    'ENCODER' => "Lavf{fake()->numberBetween()}",
+                    'ENCODER' => 'Lavf{fake()->numberBetween()}',
                 ],
             ],
         ])),
@@ -75,7 +75,7 @@ test('passes when encoder name is ffmpeg', function () {
         ['file' => new EncoderNameFormatRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

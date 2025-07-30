@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -48,7 +50,7 @@ test('default', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.video.index'));
+    $response = get(route('api.video.index'));
 
     $response->assertJson(
         json_decode(
@@ -67,7 +69,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.video.index'));
+    $response = get(route('api.video.index'));
 
     $response->assertJsonStructure([
         VideoCollection::$wrap,
@@ -102,7 +104,7 @@ test('allowed include paths', function () {
 
     $videos = Video::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -133,7 +135,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -166,7 +168,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $videos = $this->sort(Video::query(), $query, $schema)->get();
 
@@ -205,7 +207,7 @@ test('created at filter', function () {
 
     $video = Video::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -242,7 +244,7 @@ test('updated at filter', function () {
 
     $video = Video::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -272,7 +274,7 @@ test('without trashed filter', function () {
 
     $video = Video::withoutTrashed()->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -302,7 +304,7 @@ test('with trashed filter', function () {
 
     $video = Video::withTrashed()->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -332,7 +334,7 @@ test('only trashed filter', function () {
 
     $video = Video::onlyTrashed()->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -370,7 +372,7 @@ test('deleted at filter', function () {
 
     $video = Video::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -399,7 +401,7 @@ test('lyrics filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -428,7 +430,7 @@ test('nc filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_NC, $ncFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -457,7 +459,7 @@ test('overlap filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -491,7 +493,7 @@ test('resolution filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -520,7 +522,7 @@ test('source filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -549,7 +551,7 @@ test('subbed filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_SUBBED, $subbedFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -578,7 +580,7 @@ test('uncen filter', function () {
 
     $videos = Video::query()->where(Video::ATTRIBUTE_UNCEN, $uncenFilter)->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -618,7 +620,7 @@ test('entries by nsfw', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -658,7 +660,7 @@ test('entries by spoiler', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -703,7 +705,7 @@ test('entries by version', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -750,7 +752,7 @@ test('themes by sequence', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -790,7 +792,7 @@ test('themes by type', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -830,7 +832,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -870,7 +872,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -919,7 +921,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.video.index', $parameters));
+    $response = get(route('api.video.index', $parameters));
 
     $response->assertJson(
         json_decode(

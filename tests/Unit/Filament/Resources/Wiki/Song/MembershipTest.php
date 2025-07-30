@@ -15,6 +15,9 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership as MembershipModel;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -23,7 +26,7 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = MembershipModel::factory()
         ->count(10)
@@ -31,7 +34,7 @@ test('render index page', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->create();
 
-    $this->get(Membership::getUrl('index'))
+    get(Membership::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Membership::class))
@@ -46,14 +49,14 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = MembershipModel::factory()
         ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
-    $this->get(Membership::getUrl('view', ['record' => $record]))
+    get(Membership::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -65,7 +68,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(Membership::class))
         ->mountAction(CreateAction::class)
@@ -80,7 +83,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = MembershipModel::factory()
         ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)

@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $video = Video::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.video.restore', ['video' => $video]));
+    $response = patch(route('api.video.restore', ['video' => $video]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.video.restore', ['video' => $video]));
+    $response = patch(route('api.video.restore', ['video' => $video]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.video.restore', ['video' => $video]));
+    $response = patch(route('api.video.restore', ['video' => $video]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.video.restore', ['video' => $video]));
+    $response = patch(route('api.video.restore', ['video' => $video]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($video);
+    $this->assertNotSoftDeleted($video);
 });

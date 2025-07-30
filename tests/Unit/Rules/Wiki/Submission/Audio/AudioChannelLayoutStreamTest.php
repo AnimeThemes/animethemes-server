@@ -41,7 +41,7 @@ test('fails when layout is not stereo', function () {
         ['file' => new AudioChannelLayoutStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -77,7 +77,7 @@ test('passes when layout is stereo', function () {
         ['file' => new AudioChannelLayoutStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

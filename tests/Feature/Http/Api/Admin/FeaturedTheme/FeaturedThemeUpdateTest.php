@@ -13,6 +13,8 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -20,7 +22,7 @@ test('protected', function () {
 
     $parameters = FeaturedTheme::factory()->raw();
 
-    $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertForbidden();
 });
@@ -51,7 +53,7 @@ test('start at before end date', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertJsonValidationErrors([
         FeaturedTheme::ATTRIBUTE_START_AT,
@@ -77,7 +79,7 @@ test('anime theme entry video exists', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertJsonValidationErrors([
         FeaturedTheme::ATTRIBUTE_ENTRY,
@@ -102,7 +104,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
 
     $response->assertOk();
 });

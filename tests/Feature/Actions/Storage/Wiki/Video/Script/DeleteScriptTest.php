@@ -24,7 +24,7 @@ test('default', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -42,7 +42,7 @@ test('passed', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
 test('deleted from disk', function () {
@@ -58,7 +58,7 @@ test('deleted from disk', function () {
 
     $action->handle();
 
-    static::assertEmpty($fs->allFiles());
+    $this->assertEmpty($fs->allFiles());
 });
 
 test('video deleted', function () {
@@ -76,5 +76,5 @@ test('video deleted', function () {
 
     $action->then($result);
 
-    static::assertSoftDeleted($script);
+    $this->assertSoftDeleted($script);
 });

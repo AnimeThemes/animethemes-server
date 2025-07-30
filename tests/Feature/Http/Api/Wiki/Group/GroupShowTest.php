@@ -21,12 +21,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $group = Group::factory()->create();
 
-    $response = $this->get(route('api.group.show', ['group' => $group]));
+    $response = get(route('api.group.show', ['group' => $group]));
 
     $response->assertJson(
         json_decode(
@@ -45,7 +47,7 @@ test('soft delete', function () {
 
     $group->unsetRelations();
 
-    $response = $this->get(route('api.group.show', ['group' => $group]));
+    $response = get(route('api.group.show', ['group' => $group]));
 
     $response->assertJson(
         json_decode(
@@ -76,7 +78,7 @@ test('allowed include paths', function () {
         ->has(AnimeTheme::factory()->count(fake()->randomDigitNotNull())->for(Anime::factory()))
         ->createOne();
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -105,7 +107,7 @@ test('sparse fieldsets', function () {
 
     $group = Group::factory()->create();
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -148,7 +150,7 @@ test('themes by sequence', function () {
         },
     ]);
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -182,7 +184,7 @@ test('themes by type', function () {
         },
     ]);
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -216,7 +218,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -250,7 +252,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -294,7 +296,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
+    $response = get(route('api.group.show', ['group' => $group] + $parameters));
 
     $response->assertJson(
         json_decode(

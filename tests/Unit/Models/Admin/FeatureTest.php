@@ -9,19 +9,19 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('nameable', function () {
     $feature = Feature::factory()->createOne();
 
-    static::assertIsString($feature->getName());
+    $this->assertIsString($feature->getName());
 });
 
 test('has subtitle', function () {
     $feature = Feature::factory()->createOne();
 
-    static::assertIsString($feature->getSubtitle());
+    $this->assertIsString($feature->getSubtitle());
 });
 
 test('nullable scope', function () {
     $feature = Feature::factory()->createOne();
 
-    static::assertTrue($feature->isNullScope());
+    $this->assertTrue($feature->isNullScope());
 });
 
 test('non null scope', function () {
@@ -29,5 +29,5 @@ test('non null scope', function () {
         Feature::ATTRIBUTE_SCOPE => fake()->word(),
     ]);
 
-    static::assertFalse($feature->isNullScope());
+    $this->assertFalse($feature->isNullScope());
 });

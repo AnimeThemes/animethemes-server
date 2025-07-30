@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\patch;
+
 test('protected', function () {
     $page = Page::factory()->trashed()->createOne();
 
-    $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = patch(route('api.page.restore', ['page' => $page]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = patch(route('api.page.restore', ['page' => $page]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = patch(route('api.page.restore', ['page' => $page]));
 
     $response->assertForbidden();
 });
@@ -46,8 +48,8 @@ test('restored', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = patch(route('api.page.restore', ['page' => $page]));
 
     $response->assertOk();
-    static::assertNotSoftDeleted($page);
+    $this->assertNotSoftDeleted($page);
 });

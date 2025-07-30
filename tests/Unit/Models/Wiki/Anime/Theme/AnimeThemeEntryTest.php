@@ -19,7 +19,7 @@ test('searchable as', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertIsString($entry->searchableAs());
+    $this->assertIsString($entry->searchableAs());
 });
 
 test('to searchable array', function () {
@@ -27,7 +27,7 @@ test('to searchable array', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertIsArray($entry->toSearchableArray());
+    $this->assertIsArray($entry->toSearchableArray());
 });
 
 test('nameable', function () {
@@ -35,7 +35,7 @@ test('nameable', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertIsString($entry->getName());
+    $this->assertIsString($entry->getName());
 });
 
 test('has subtitle', function () {
@@ -43,7 +43,7 @@ test('has subtitle', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertIsString($entry->getSubtitle());
+    $this->assertIsString($entry->getSubtitle());
 });
 
 test('theme', function () {
@@ -51,8 +51,8 @@ test('theme', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $entry->animetheme());
-    static::assertInstanceOf(AnimeTheme::class, $entry->animetheme()->first());
+    $this->assertInstanceOf(BelongsTo::class, $entry->animetheme());
+    $this->assertInstanceOf(AnimeTheme::class, $entry->animetheme()->first());
 });
 
 test('videos', function () {
@@ -63,10 +63,10 @@ test('videos', function () {
         ->has(Video::factory()->count($videoCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $entry->videos());
-    static::assertEquals($videoCount, $entry->videos()->count());
-    static::assertInstanceOf(Video::class, $entry->videos()->first());
-    static::assertEquals(AnimeThemeEntryVideo::class, $entry->videos()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $entry->videos());
+    $this->assertEquals($videoCount, $entry->videos()->count());
+    $this->assertInstanceOf(Video::class, $entry->videos()->first());
+    $this->assertEquals(AnimeThemeEntryVideo::class, $entry->videos()->getPivotClass());
 });
 
 test('anime', function () {
@@ -74,6 +74,6 @@ test('anime', function () {
         ->for(AnimeTheme::factory()->for(Anime::factory()))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToThrough::class, $entry->anime());
-    static::assertInstanceOf(Anime::class, $entry->anime()->first());
+    $this->assertInstanceOf(BelongsToThrough::class, $entry->anime());
+    $this->assertInstanceOf(Anime::class, $entry->anime()->first());
 });

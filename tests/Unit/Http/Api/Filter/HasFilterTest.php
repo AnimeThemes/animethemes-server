@@ -10,6 +10,9 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+
+use function Pest\Laravel\get;
+
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -57,7 +60,7 @@ test('should not apply if no allowed paths', function () {
 
     $filter = new HasFilter($allowedIncludes->all());
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should apply if allowed paths', function () {
@@ -106,5 +109,5 @@ test('should apply if allowed paths', function () {
 
     $filter = new HasFilter($allowedIncludes->all());
 
-    static::assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
 });

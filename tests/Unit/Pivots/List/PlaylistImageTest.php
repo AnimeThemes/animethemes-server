@@ -13,8 +13,8 @@ test('playlist', function () {
         ->for(Image::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $playlistImage->playlist());
-    static::assertInstanceOf(Playlist::class, $playlistImage->playlist()->first());
+    $this->assertInstanceOf(BelongsTo::class, $playlistImage->playlist());
+    $this->assertInstanceOf(Playlist::class, $playlistImage->playlist()->first());
 });
 
 test('image', function () {
@@ -23,6 +23,6 @@ test('image', function () {
         ->for(Image::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $playlistImage->image());
-    static::assertInstanceOf(Image::class, $playlistImage->image()->first());
+    $this->assertInstanceOf(BelongsTo::class, $playlistImage->image());
+    $this->assertInstanceOf(Image::class, $playlistImage->image()->first());
 });

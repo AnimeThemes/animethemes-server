@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('dump downloading not allowed forbidden', function () {
@@ -20,7 +22,7 @@ test('dump downloading not allowed forbidden', function () {
 
     $dump = Dump::factory()->createOne();
 
-    $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $response = get(route('dump.show', ['dump' => $dump]));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('dump downloading forbidden for unsafe dumps', function () {
         ->unsafe()
         ->createOne();
 
-    $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $response = get(route('dump.show', ['dump' => $dump]));
 
     $response->assertForbidden();
 });
@@ -53,7 +55,7 @@ test('video streaming permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $response = get(route('dump.show', ['dump' => $dump]));
 
     $response->assertDownload($dump->path);
 });
@@ -70,7 +72,7 @@ test('downloaded through response', function () {
         Dump::ATTRIBUTE_PATH => $fsFile,
     ]);
 
-    $response = $this->get(route('dump.show', ['dump' => $dump]));
+    $response = get(route('dump.show', ['dump' => $dump]));
 
     $response->assertDownload($dump->path);
 });

@@ -10,10 +10,12 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $video = Video::factory()->makeOne();
 
-    $response = $this->post(route('api.video.store', $video->toArray()));
+    $response = post(route('api.video.store', $video->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -25,7 +27,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.video.store', $video->toArray()));
+    $response = post(route('api.video.store', $video->toArray()));
 
     $response->assertForbidden();
 });
@@ -35,7 +37,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.video.store'));
+    $response = post(route('api.video.store'));
 
     $response->assertJsonValidationErrors([
         Video::ATTRIBUTE_BASENAME,
@@ -62,8 +64,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.video.store', $parameters));
+    $response = post(route('api.video.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Video::class, 1);
+    $this->assertDatabaseCount(Video::class, 1);
 });

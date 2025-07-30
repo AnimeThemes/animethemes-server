@@ -12,6 +12,9 @@ use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 /**
  * Initial setup for the tests.
  */
@@ -28,11 +31,11 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = ExternalProfileModel::factory()->createOne();
 
-    $this->get(ExternalProfile::getUrl('view', ['record' => $record]))
+    get(ExternalProfile::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -45,11 +48,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = ExternalProfileModel::factory()->count(10)->create();
 
-    $this->get(ExternalProfile::getUrl('index'))
+    get(ExternalProfile::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(ExternalProfile::class))
@@ -65,7 +68,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(ExternalProfile::class))
         ->mountAction(CreateAction::class)
@@ -81,7 +84,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = ExternalProfileModel::factory()->createOne();
 

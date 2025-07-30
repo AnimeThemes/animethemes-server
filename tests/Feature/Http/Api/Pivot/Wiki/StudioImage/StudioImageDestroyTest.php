@@ -9,13 +9,15 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $studioImage = StudioImage::factory()
         ->for(Studio::factory())
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->delete(route('api.studioimage.destroy', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
+    $response = delete(route('api.studioimage.destroy', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
 
     $response->assertUnauthorized();
 });
@@ -30,7 +32,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.studioimage.destroy', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
+    $response = delete(route('api.studioimage.destroy', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('not found', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.studioimage.destroy', ['studio' => $studio, 'image' => $image]));
+    $response = delete(route('api.studioimage.destroy', ['studio' => $studio, 'image' => $image]));
 
     $response->assertNotFound();
 });
@@ -68,8 +70,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.studioimage.destroy', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
+    $response = delete(route('api.studioimage.destroy', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
 
     $response->assertOk();
-    static::assertModelMissing($studioImage);
+    $this->assertModelMissing($studioImage);
 });

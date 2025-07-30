@@ -17,7 +17,7 @@ use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('required', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $user = User::factory()->createOne();
 
@@ -27,7 +27,7 @@ test('required', function () {
 });
 
 test('username alpha dash', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $user = User::factory()->createOne();
 
@@ -39,7 +39,7 @@ test('username alpha dash', function () {
 });
 
 test('username unique', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $name = fake()->word();
 
@@ -69,11 +69,11 @@ test('update name', function () {
         User::ATTRIBUTE_NAME => $name,
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
-    static::assertDatabaseHas(User::class, [
+    $this->assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseHas(User::class, [
         User::ATTRIBUTE_NAME => $name,
     ]);
-    static::assertDatabaseMissing(User::class, [
+    $this->assertDatabaseMissing(User::class, [
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
     ]);
 });
@@ -93,8 +93,8 @@ test('update email', function () {
         User::ATTRIBUTE_EMAIL => $email,
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
-    static::assertDatabaseHas(User::class, [
+    $this->assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseHas(User::class, [
         User::ATTRIBUTE_EMAIL => $email,
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
     ]);
@@ -127,11 +127,11 @@ test('created if not flagged by open ai', function () {
         User::ATTRIBUTE_NAME => $name,
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
-    static::assertDatabaseHas(User::class, [
+    $this->assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseHas(User::class, [
         User::ATTRIBUTE_NAME => $name,
     ]);
-    static::assertDatabaseMissing(User::class, [
+    $this->assertDatabaseMissing(User::class, [
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
     ]);
 });
@@ -155,17 +155,17 @@ test('created if open ai fails', function () {
         User::ATTRIBUTE_NAME => $name,
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
-    static::assertDatabaseHas(User::class, [
+    $this->assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseHas(User::class, [
         User::ATTRIBUTE_NAME => $name,
     ]);
-    static::assertDatabaseMissing(User::class, [
+    $this->assertDatabaseMissing(User::class, [
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
     ]);
 });
 
 test('validation error when flagged by open ai', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -193,7 +193,7 @@ test('validation error when flagged by open ai', function () {
 });
 
 test('disposable email', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $this->mock(Indisposable::class, function (MockInterface $mock) {
         $mock->shouldReceive('validate')->once()->andReturn(false);
@@ -231,8 +231,8 @@ test('indisposable email', function () {
         User::ATTRIBUTE_EMAIL => $email,
     ]);
 
-    static::assertDatabaseCount(User::class, 1);
-    static::assertDatabaseHas(User::class, [
+    $this->assertDatabaseCount(User::class, 1);
+    $this->assertDatabaseHas(User::class, [
         User::ATTRIBUTE_EMAIL => $email,
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
     ]);
@@ -241,7 +241,7 @@ test('indisposable email', function () {
 });
 
 test('email unique', function () {
-    static::expectException(ValidationException::class);
+    $this->expectException(ValidationException::class);
 
     $email = fake()->companyEmail();
 

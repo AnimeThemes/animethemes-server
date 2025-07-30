@@ -17,13 +17,15 @@ use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $artist = Artist::factory()->createOne();
     $resource = ExternalResource::factory()->createOne();
 
-    $response = $this->get(route('api.artistresource.show', ['artist' => $artist, 'resource' => $resource]));
+    $response = get(route('api.artistresource.show', ['artist' => $artist, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -34,7 +36,7 @@ test('default', function () {
         ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
     $artistResource->unsetRelations();
 
@@ -68,7 +70,7 @@ test('allowed include paths', function () {
         ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
     $artistResource->unsetRelations()->load($includedPaths->all());
 
@@ -102,7 +104,7 @@ test('sparse fieldsets', function () {
         ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
     $artistResource->unsetRelations();
 
@@ -133,7 +135,7 @@ test('resources by site', function () {
         ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $response = get(route('api.artistresource.show', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
     $artistResource->unsetRelations()->load([
         ArtistResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {

@@ -9,12 +9,14 @@ use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $announcement = Announcement::factory()->create();
 
-    $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+    $response = get(route('api.announcement.show', ['announcement' => $announcement]));
 
     $response->assertJson(
         json_decode(
@@ -31,7 +33,7 @@ test('default', function () {
 test('cannot view private', function () {
     $announcement = Announcement::factory()->private()->create();
 
-    $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+    $response = get(route('api.announcement.show', ['announcement' => $announcement]));
 
     $response->assertForbidden();
 });
@@ -51,7 +53,7 @@ test('sparse fieldsets', function () {
 
     $announcement = Announcement::factory()->create();
 
-    $response = $this->get(route('api.announcement.show', ['announcement' => $announcement] + $parameters));
+    $response = get(route('api.announcement.show', ['announcement' => $announcement] + $parameters));
 
     $response->assertJson(
         json_decode(

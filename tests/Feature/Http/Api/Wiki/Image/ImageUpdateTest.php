@@ -9,6 +9,8 @@ use App\Models\Wiki\Image;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $image = Image::factory()->createOne();
 
@@ -19,7 +21,7 @@ test('protected', function () {
         [Image::ATTRIBUTE_FACET => $facet->localize()],
     );
 
-    $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
+    $response = put(route('api.image.update', ['image' => $image] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -38,7 +40,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
+    $response = put(route('api.image.update', ['image' => $image] + $parameters));
 
     $response->assertForbidden();
 });
@@ -57,7 +59,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
+    $response = put(route('api.image.update', ['image' => $image] + $parameters));
 
     $response->assertForbidden();
 });
@@ -76,7 +78,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
+    $response = put(route('api.image.update', ['image' => $image] + $parameters));
 
     $response->assertOk();
 });

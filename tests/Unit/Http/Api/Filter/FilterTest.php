@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default column', function () {
@@ -64,5 +66,5 @@ test('default column', function () {
         }
     };
 
-    static::assertEquals($filter->getKey(), $filter->getColumn());
+    $this->assertEquals($filter->getKey(), $filter->getColumn());
 });

@@ -22,19 +22,19 @@ test('casts season to enum', function () {
 
     $site = $resource->site;
 
-    static::assertInstanceOf(ResourceSite::class, $site);
+    $this->assertInstanceOf(ResourceSite::class, $site);
 });
 
 test('nameable', function () {
     $resource = ExternalResource::factory()->createOne();
 
-    static::assertIsString($resource->getName());
+    $this->assertIsString($resource->getName());
 });
 
 test('has subtitle', function () {
     $resource = ExternalResource::factory()->createOne();
 
-    static::assertIsString($resource->getSubtitle());
+    $this->assertIsString($resource->getSubtitle());
 });
 
 test('anime', function () {
@@ -44,10 +44,10 @@ test('anime', function () {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $resource->anime());
-    static::assertEquals($animeCount, $resource->anime()->count());
-    static::assertInstanceOf(Anime::class, $resource->anime()->first());
-    static::assertEquals(AnimeResource::class, $resource->anime()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $resource->anime());
+    $this->assertEquals($animeCount, $resource->anime()->count());
+    $this->assertInstanceOf(Anime::class, $resource->anime()->first());
+    $this->assertEquals(AnimeResource::class, $resource->anime()->getPivotClass());
 });
 
 test('artists', function () {
@@ -57,10 +57,10 @@ test('artists', function () {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $resource->artists());
-    static::assertEquals($artistCount, $resource->artists()->count());
-    static::assertInstanceOf(Artist::class, $resource->artists()->first());
-    static::assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $resource->artists());
+    $this->assertEquals($artistCount, $resource->artists()->count());
+    $this->assertInstanceOf(Artist::class, $resource->artists()->first());
+    $this->assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
 });
 
 test('song', function () {
@@ -70,10 +70,10 @@ test('song', function () {
         ->has(Song::factory()->count($songCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $resource->songs());
-    static::assertEquals($songCount, $resource->songs()->count());
-    static::assertInstanceOf(Song::class, $resource->songs()->first());
-    static::assertEquals(SongResource::class, $resource->songs()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $resource->songs());
+    $this->assertEquals($songCount, $resource->songs()->count());
+    $this->assertInstanceOf(Song::class, $resource->songs()->first());
+    $this->assertEquals(SongResource::class, $resource->songs()->getPivotClass());
 });
 
 test('studio', function () {
@@ -83,8 +83,8 @@ test('studio', function () {
         ->has(Studio::factory()->count($studioCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $resource->studios());
-    static::assertEquals($studioCount, $resource->studios()->count());
-    static::assertInstanceOf(Studio::class, $resource->studios()->first());
-    static::assertEquals(StudioResource::class, $resource->studios()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $resource->studios());
+    $this->assertEquals($studioCount, $resource->studios()->count());
+    $this->assertInstanceOf(Studio::class, $resource->studios()->first());
+    $this->assertEquals(StudioResource::class, $resource->studios()->getPivotClass());
 });

@@ -41,7 +41,7 @@ test('fails when channel count is not two', function () {
         ['file' => new AudioChannelsStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -77,7 +77,7 @@ test('passes when channel count is two', function () {
         ['file' => new AudioChannelsStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

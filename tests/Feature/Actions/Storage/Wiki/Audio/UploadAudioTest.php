@@ -24,7 +24,7 @@ test('default', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -39,7 +39,7 @@ test('passed', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
 test('uploaded to disk', function () {
@@ -52,7 +52,7 @@ test('uploaded to disk', function () {
 
     $action->handle();
 
-    static::assertCount(1, Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+    $this->assertCount(1, Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
 });
 
 test('created audio', function () {
@@ -67,5 +67,5 @@ test('created audio', function () {
 
     $action->then($result);
 
-    static::assertDatabaseCount(Audio::class, 1);
+    $this->assertDatabaseCount(Audio::class, 1);
 });

@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $audio = Audio::factory()->makeOne();
 
-    $response = $this->post(route('api.audio.store', $audio->toArray()));
+    $response = post(route('api.audio.store', $audio->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.audio.store', $audio->toArray()));
+    $response = post(route('api.audio.store', $audio->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.audio.store'));
+    $response = post(route('api.audio.store'));
 
     $response->assertJsonValidationErrors([
         Audio::ATTRIBUTE_BASENAME,
@@ -50,8 +52,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.audio.store', $parameters));
+    $response = post(route('api.audio.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Audio::class, 1);
+    $this->assertDatabaseCount(Audio::class, 1);
 });

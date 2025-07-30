@@ -8,10 +8,12 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
 
-    $response = $this->post(route('api.animesynonym.store', $synonym->toArray()));
+    $response = post(route('api.animesynonym.store', $synonym->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -23,7 +25,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animesynonym.store', $synonym->toArray()));
+    $response = post(route('api.animesynonym.store', $synonym->toArray()));
 
     $response->assertForbidden();
 });
@@ -33,7 +35,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animesynonym.store'));
+    $response = post(route('api.animesynonym.store'));
 
     $response->assertJsonValidationErrors([
         AnimeSynonym::ATTRIBUTE_TEXT,
@@ -52,8 +54,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.animesynonym.store', $parameters));
+    $response = post(route('api.animesynonym.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(AnimeSynonym::class, 1);
+    $this->assertDatabaseCount(AnimeSynonym::class, 1);
 });

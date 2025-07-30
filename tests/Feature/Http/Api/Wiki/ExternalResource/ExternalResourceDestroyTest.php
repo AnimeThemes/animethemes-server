@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $resource = ExternalResource::factory()->createOne();
 
-    $response = $this->delete(route('api.resource.destroy', ['resource' => $resource]));
+    $response = delete(route('api.resource.destroy', ['resource' => $resource]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.resource.destroy', ['resource' => $resource]));
+    $response = delete(route('api.resource.destroy', ['resource' => $resource]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.resource.destroy', ['resource' => $resource]));
+    $response = delete(route('api.resource.destroy', ['resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -46,8 +48,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.resource.destroy', ['resource' => $resource]));
+    $response = delete(route('api.resource.destroy', ['resource' => $resource]));
 
     $response->assertOk();
-    static::assertSoftDeleted($resource);
+    $this->assertSoftDeleted($resource);
 });

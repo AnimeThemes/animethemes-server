@@ -20,13 +20,13 @@ uses(WithFaker::class);
 test('nameable', function () {
     $audio = Audio::factory()->createOne();
 
-    static::assertIsString($audio->getName());
+    $this->assertIsString($audio->getName());
 });
 
 test('has subtitle', function () {
     $audio = Audio::factory()->createOne();
 
-    static::assertIsString($audio->getSubtitle());
+    $this->assertIsString($audio->getSubtitle());
 });
 
 test('videos', function () {
@@ -36,9 +36,9 @@ test('videos', function () {
         ->has(Video::factory()->count($videoCount))
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $audio->videos());
-    static::assertEquals($videoCount, $audio->videos()->count());
-    static::assertInstanceOf(Video::class, $audio->videos()->first());
+    $this->assertInstanceOf(HasMany::class, $audio->videos());
+    $this->assertEquals($videoCount, $audio->videos()->count());
+    $this->assertInstanceOf(Video::class, $audio->videos()->first());
 });
 
 test('views', function () {
@@ -46,9 +46,9 @@ test('views', function () {
 
     views($audio)->record();
 
-    static::assertInstanceOf(MorphMany::class, $audio->views());
-    static::assertEquals(1, $audio->views()->count());
-    static::assertInstanceOf(View::class, $audio->views()->first());
+    $this->assertInstanceOf(MorphMany::class, $audio->views());
+    $this->assertEquals(1, $audio->views()->count());
+    $this->assertInstanceOf(View::class, $audio->views()->first());
 });
 
 test('audio storage deletion', function () {
@@ -62,7 +62,7 @@ test('audio storage deletion', function () {
 
     $audio->delete();
 
-    static::assertTrue($fs->exists($audio->path));
+    $this->assertTrue($fs->exists($audio->path));
 });
 
 test('audio storage force deletion', function () {
@@ -78,5 +78,5 @@ test('audio storage force deletion', function () {
 
     $audio->forceDelete();
 
-    static::assertFalse($fs->exists($audio->path));
+    $this->assertFalse($fs->exists($audio->path));
 });

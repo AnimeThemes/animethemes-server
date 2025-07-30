@@ -31,7 +31,7 @@ test('get field criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertInstanceOf(FieldCriteria::class, $query->getFieldCriteria($type));
+    $this->assertInstanceOf(FieldCriteria::class, $query->getFieldCriteria($type));
 });
 
 test('get include criteria', function () {
@@ -41,7 +41,7 @@ test('get include criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertInstanceOf(IncludeCriteria::class, $query->getIncludeCriteria(fake()->word()));
+    $this->assertInstanceOf(IncludeCriteria::class, $query->getIncludeCriteria(fake()->word()));
 });
 
 test('get include resource criteria', function () {
@@ -55,7 +55,7 @@ test('get include resource criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertInstanceOf(ResourceCriteria::class, $query->getIncludeCriteria($type));
+    $this->assertInstanceOf(ResourceCriteria::class, $query->getIncludeCriteria($type));
 });
 
 test('get sort criteria', function () {
@@ -67,7 +67,7 @@ test('get sort criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertCount($fields->count(), $query->getSortCriteria());
+    $this->assertCount($fields->count(), $query->getSortCriteria());
 });
 
 test('get filter criteria', function () {
@@ -80,7 +80,7 @@ test('get filter criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertCount($filterCount, $query->getFilterCriteria());
+    $this->assertCount($filterCount, $query->getFilterCriteria());
 });
 
 test('does not have search', function () {
@@ -88,7 +88,7 @@ test('does not have search', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertFalse($query->hasSearchCriteria());
+    $this->assertFalse($query->hasSearchCriteria());
 });
 
 test('has search', function () {
@@ -98,7 +98,7 @@ test('has search', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertTrue($query->hasSearchCriteria());
+    $this->assertTrue($query->hasSearchCriteria());
 });
 
 test('null search', function () {
@@ -106,7 +106,7 @@ test('null search', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertNull($query->getSearchCriteria());
+    $this->assertNull($query->getSearchCriteria());
 });
 
 test('get search', function () {
@@ -116,7 +116,7 @@ test('get search', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertInstanceOf(SearchCriteria::class, $query->getSearchCriteria());
+    $this->assertInstanceOf(SearchCriteria::class, $query->getSearchCriteria());
 });
 
 test('get limit criteria', function () {
@@ -124,7 +124,7 @@ test('get limit criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT));
+    $this->assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT));
 });
 
 test('get offset criteria', function () {
@@ -132,5 +132,5 @@ test('get offset criteria', function () {
 
     $query = new FakeQuery($parameters);
 
-    static::assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET));
+    $this->assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET));
 });

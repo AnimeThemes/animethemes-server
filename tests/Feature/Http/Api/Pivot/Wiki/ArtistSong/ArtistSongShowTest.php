@@ -13,13 +13,15 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $artist = Artist::factory()->createOne();
     $song = Song::factory()->createOne();
 
-    $response = $this->get(route('api.artistsong.show', ['artist' => $artist, 'song' => $song]));
+    $response = get(route('api.artistsong.show', ['artist' => $artist, 'song' => $song]));
 
     $response->assertNotFound();
 });
@@ -30,7 +32,7 @@ test('default', function () {
         ->for(Song::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    $response = get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
     $artistSong->unsetRelations();
 
@@ -64,7 +66,7 @@ test('allowed include paths', function () {
         ->for(Song::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
     $artistSong->unsetRelations()->load($includedPaths->all());
 
@@ -98,7 +100,7 @@ test('sparse fieldsets', function () {
         ->for(Song::factory())
         ->createOne();
 
-    $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
     $artistSong->unsetRelations();
 

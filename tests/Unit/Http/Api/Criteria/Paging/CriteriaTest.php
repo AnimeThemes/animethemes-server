@@ -8,6 +8,8 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default size', function () {
@@ -33,11 +35,11 @@ test('default size', function () {
          */
         public function paginate(Builder $builder): Paginator
         {
-            return paginate();
+            return $builder->paginate();
         }
     };
 
-    static::assertEquals($resultSize, $criteria->getResultSize());
+    $this->assertEquals($resultSize, $criteria->getResultSize());
 });
 
 test('upper bound size', function () {
@@ -63,11 +65,11 @@ test('upper bound size', function () {
          */
         public function paginate(Builder $builder): Paginator
         {
-            return paginate();
+            return $builder->paginate();
         }
     };
 
-    static::assertEquals(Criteria::DEFAULT_SIZE, $criteria->getResultSize());
+    $this->assertEquals(Criteria::DEFAULT_SIZE, $criteria->getResultSize());
 });
 
 test('lower bound size', function () {
@@ -93,9 +95,9 @@ test('lower bound size', function () {
          */
         public function paginate(Builder $builder): Paginator
         {
-            return paginate();
+            return $builder->paginate();
         }
     };
 
-    static::assertEquals(Criteria::DEFAULT_SIZE, $criteria->getResultSize());
+    $this->assertEquals(Criteria::DEFAULT_SIZE, $criteria->getResultSize());
 });

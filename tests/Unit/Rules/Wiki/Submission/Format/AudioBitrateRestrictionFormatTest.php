@@ -42,7 +42,7 @@ test('fails when bitrate is not expected', function () {
         ['file' => new AudioBitrateRestrictionFormatRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -77,7 +77,7 @@ test('passes when bitrate is expected', function () {
         ['file' => new AudioBitrateRestrictionFormatRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

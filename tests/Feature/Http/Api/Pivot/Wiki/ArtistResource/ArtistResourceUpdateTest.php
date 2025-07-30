@@ -9,6 +9,8 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $artistResource = ArtistResource::factory()
         ->for(Artist::factory())
@@ -17,7 +19,7 @@ test('protected', function () {
 
     $parameters = ArtistResource::factory()->raw();
 
-    $response = $this->put(route('api.artistresource.update', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $response = put(route('api.artistresource.update', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artistresource.update', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $response = put(route('api.artistresource.update', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
     $response->assertForbidden();
 });
@@ -56,7 +58,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artistresource.update', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
+    $response = put(route('api.artistresource.update', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource] + $parameters));
 
     $response->assertOk();
 });

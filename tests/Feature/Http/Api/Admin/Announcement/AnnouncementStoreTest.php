@@ -7,10 +7,12 @@ use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $announcement = Announcement::factory()->makeOne();
 
-    $response = $this->post(route('api.announcement.store', $announcement->toArray()));
+    $response = post(route('api.announcement.store', $announcement->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.announcement.store', $announcement->toArray()));
+    $response = post(route('api.announcement.store', $announcement->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.announcement.store'));
+    $response = post(route('api.announcement.store'));
 
     $response->assertJsonValidationErrors([
         Announcement::ATTRIBUTE_CONTENT,
@@ -46,8 +48,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.announcement.store', $parameters));
+    $response = post(route('api.announcement.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Announcement::class, 1);
+    $this->assertDatabaseCount(Announcement::class, 1);
 });

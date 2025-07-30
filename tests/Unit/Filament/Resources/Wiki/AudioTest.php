@@ -13,6 +13,9 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -21,11 +24,11 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = AudioModel::factory()->count(10)->create();
 
-    $this->get(Audio::getUrl('index'))
+    get(Audio::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Audio::class))
@@ -40,11 +43,11 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = AudioModel::factory()->createOne();
 
-    $this->get(Audio::getUrl('view', ['record' => $record]))
+    get(Audio::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -56,7 +59,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = AudioModel::factory()->createOne();
 

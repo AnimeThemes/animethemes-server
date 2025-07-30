@@ -18,12 +18,14 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $series = Series::factory()->create();
 
-    $response = $this->get(route('api.series.show', ['series' => $series]));
+    $response = get(route('api.series.show', ['series' => $series]));
 
     $response->assertJson(
         json_decode(
@@ -42,7 +44,7 @@ test('soft delete', function () {
 
     $series->unsetRelations();
 
-    $response = $this->get(route('api.series.show', ['series' => $series]));
+    $response = get(route('api.series.show', ['series' => $series]));
 
     $response->assertJson(
         json_decode(
@@ -73,7 +75,7 @@ test('allowed include paths', function () {
         ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
         ->createOne();
 
-    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = get(route('api.series.show', ['series' => $series] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -102,7 +104,7 @@ test('sparse fieldsets', function () {
 
     $series = Series::factory()->create();
 
-    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = get(route('api.series.show', ['series' => $series] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -136,7 +138,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = get(route('api.series.show', ['series' => $series] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -170,7 +172,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = get(route('api.series.show', ['series' => $series] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -212,7 +214,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = get(route('api.series.show', ['series' => $series] + $parameters));
 
     $response->assertJson(
         json_decode(

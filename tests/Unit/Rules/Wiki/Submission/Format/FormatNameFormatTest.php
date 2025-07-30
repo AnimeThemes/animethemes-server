@@ -38,7 +38,7 @@ test('fails when format name is not expected', function () {
         ['file' => new FormatNameFormatRule(fake()->unique()->word())],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -73,7 +73,7 @@ test('passes when format name is expected', function () {
         ['file' => new FormatNameFormatRule($formatName)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

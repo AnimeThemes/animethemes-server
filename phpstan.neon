@@ -34,3 +34,15 @@ parameters:
         - '#Access to an undefined property App\\Models\\Wiki\\Artist::\$pivot.#'
         - '#Call to method assertActionMounted\(\) on an unknown class static.#'
         - '#Call to method assertTableActionMounted\(\) on an unknown class static.#'
+        -
+            message: '#Call to an undefined method PHPUnit\\Framework\\TestCase::.*\(\)#'
+            path: tests/*
+        -
+            message: '#Call to protected method expectException\(\) of class PHPUnit\\Framework\\TestCase.#'
+            path: tests/*
+        -
+            message: '#Call to an undefined method Pest\\PendingCalls\\TestCall::expect\(\).#'
+            path: tests/Unit/ArchTest.php
+        -
+            message: '#Undefined variable: \$this#'
+            path: tests/Pest.php

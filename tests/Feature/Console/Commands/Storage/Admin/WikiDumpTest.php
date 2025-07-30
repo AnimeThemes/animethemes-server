@@ -28,6 +28,6 @@ test('database dump file', function () {
 
     $this->artisan(WikiDumpCommand::class)->run();
 
-    static::assertEmpty($local->allFiles());
-    static::assertCount(1, $fs->allFiles());
+    $this->assertEmpty($local->allFiles());
+    $this->assertCount(1, $fs->allFiles());
 });

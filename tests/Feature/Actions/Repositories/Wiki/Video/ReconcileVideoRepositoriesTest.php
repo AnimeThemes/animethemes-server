@@ -26,9 +26,9 @@ test('no results', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertFalse($result->hasChanges());
-    static::assertDatabaseCount(Video::class, 0);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertFalse($result->hasChanges());
+    $this->assertDatabaseCount(Video::class, 0);
 });
 
 test('created', function () {
@@ -47,10 +47,10 @@ test('created', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($createdVideoCount, $result->getCreated());
-    static::assertDatabaseCount(Video::class, $createdVideoCount);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($createdVideoCount, $result->getCreated());
+    $this->assertDatabaseCount(Video::class, $createdVideoCount);
 });
 
 test('deleted', function () {
@@ -69,13 +69,13 @@ test('deleted', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($deletedVideoCount, $result->getDeleted());
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($deletedVideoCount, $result->getDeleted());
 
-    static::assertDatabaseCount(Video::class, $deletedVideoCount);
+    $this->assertDatabaseCount(Video::class, $deletedVideoCount);
     foreach ($videos as $video) {
-        static::assertSoftDeleted($video);
+        $this->assertSoftDeleted($video);
     }
 });
 
@@ -105,8 +105,8 @@ test('updated', function () {
 
     $result = $action->reconcileRepositories($source, $destination);
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    static::assertTrue($result->hasChanges());
-    static::assertCount($updatedVideoCount, $result->getUpdated());
-    static::assertDatabaseCount(Video::class, $updatedVideoCount);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->hasChanges());
+    $this->assertCount($updatedVideoCount, $result->getUpdated());
+    $this->assertDatabaseCount(Video::class, $updatedVideoCount);
 });

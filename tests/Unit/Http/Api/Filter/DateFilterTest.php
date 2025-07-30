@@ -18,7 +18,7 @@ test('should not apply if no dates', function () {
 
     $filter = new DateFilter($filterField);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should not apply if wrong format', function () {
@@ -28,7 +28,7 @@ test('should not apply if wrong format', function () {
 
     $filter = new DateFilter($filterField);
 
-    static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('should apply if accepted format', function () {
@@ -40,7 +40,7 @@ test('should apply if accepted format', function () {
 
     $filter = new DateFilter($filterField);
 
-    static::assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
+    $this->assertTrue($criteria->shouldFilter($filter, $criteria->getScope()));
 });
 
 test('converts dates to canonical format', function () {
@@ -56,7 +56,7 @@ test('converts dates to canonical format', function () {
 
     $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
-    static::assertEquals(
+    $this->assertEquals(
         DateTime::createFromFormat('!'.$dateFormat->value, $dateFilter)->format(AllowedDateFormat::YMDHISU->value),
         $filterValues[0]
     );

@@ -19,13 +19,15 @@ use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $anime = Anime::factory()->createOne();
     $resource = ExternalResource::factory()->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $anime, 'resource' => $resource]));
+    $response = get(route('api.animeresource.show', ['anime' => $anime, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -36,7 +38,7 @@ test('default', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource]));
 
     $animeResource->unsetRelations();
 
@@ -70,7 +72,7 @@ test('allowed include paths', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $animeResource->unsetRelations()->load($includedPaths->all());
 
@@ -104,7 +106,7 @@ test('sparse fieldsets', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $animeResource->unsetRelations();
 
@@ -135,7 +137,7 @@ test('resources by site', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $animeResource->unsetRelations()->load([
         AnimeResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
@@ -170,7 +172,7 @@ test('anime by media format', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $animeResource->unsetRelations()->load([
         AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -205,7 +207,7 @@ test('anime by season', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $animeResource->unsetRelations()->load([
         AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -246,7 +248,7 @@ test('anime by year', function () {
         ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+    $response = get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
 
     $animeResource->unsetRelations()->load([
         AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

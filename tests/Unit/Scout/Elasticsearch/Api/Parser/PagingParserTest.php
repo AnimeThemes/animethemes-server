@@ -13,11 +13,11 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('limit criteria', function () {
     $criteria = new BaseLimitCriteria(fake()->randomDigitNotNull());
 
-    static::assertInstanceOf(LimitCriteria::class, PagingParser::parse($criteria));
+    $this->assertInstanceOf(LimitCriteria::class, PagingParser::parse($criteria));
 });
 
 test('offset criteria', function () {
     $criteria = new BaseOffsetCriteria(fake()->randomDigitNotNull());
 
-    static::assertInstanceOf(OffsetCriteria::class, PagingParser::parse($criteria));
+    $this->assertInstanceOf(OffsetCriteria::class, PagingParser::parse($criteria));
 });

@@ -40,7 +40,7 @@ test('fails when true peak is not expected', function () {
         ['file' => new AudioLoudnessTruePeakStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatLoudnessCommand($file));
 });
@@ -75,7 +75,7 @@ test('passes when true peak is expected', function () {
         ['file' => new AudioLoudnessTruePeakStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatLoudnessCommand($file));
 });

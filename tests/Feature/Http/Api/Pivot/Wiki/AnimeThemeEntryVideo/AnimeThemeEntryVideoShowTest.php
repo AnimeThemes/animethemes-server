@@ -20,6 +20,8 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
@@ -29,7 +31,7 @@ test('not found', function () {
 
     $video = Video::factory()->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entry, 'video' => $video]));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entry, 'video' => $video]));
 
     $response->assertNotFound();
 });
@@ -40,7 +42,7 @@ test('default', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video]));
 
     $entryVideo->unsetRelations();
 
@@ -74,7 +76,7 @@ test('allowed include paths', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load($includedPaths->all());
 
@@ -108,7 +110,7 @@ test('sparse fieldsets', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations();
 
@@ -139,7 +141,7 @@ test('entry by nsfw', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($nsfwFilter) {
@@ -174,7 +176,7 @@ test('entry by spoiler', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($spoilerFilter) {
@@ -209,7 +211,7 @@ test('entry by version', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($versionFilter) {
@@ -244,7 +246,7 @@ test('video by lyrics', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter) {
@@ -279,7 +281,7 @@ test('video by nc', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter) {
@@ -314,7 +316,7 @@ test('video by overlap', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter) {
@@ -349,7 +351,7 @@ test('video by resolution', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter) {
@@ -384,7 +386,7 @@ test('video by source', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter) {
@@ -419,7 +421,7 @@ test('video by subbed', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter) {
@@ -454,7 +456,7 @@ test('video by uncen', function () {
         ->for(Video::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
+    $response = get(route('api.animethemeentryvideo.show', ['animethemeentry' => $entryVideo->animethemeentry, 'video' => $entryVideo->video] + $parameters));
 
     $entryVideo->unsetRelations()->load([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter) {

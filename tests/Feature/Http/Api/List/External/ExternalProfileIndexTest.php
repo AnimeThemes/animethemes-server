@@ -26,6 +26,8 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\AggregatesFields::class);
 
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
@@ -45,7 +47,7 @@ test('default', function () {
         ->count($privateCount)
         ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value]);
 
-    $response = $this->get(route('api.externalprofile.index'));
+    $response = get(route('api.externalprofile.index'));
 
     $response->assertJsonCount($publicCount, ExternalProfileCollection::$wrap);
 
@@ -66,7 +68,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
 
-    $response = $this->get(route('api.externalprofile.index'));
+    $response = get(route('api.externalprofile.index'));
 
     $response->assertJsonStructure([
         ExternalProfileCollection::$wrap,
@@ -98,7 +100,7 @@ test('allowed include paths', function () {
 
     $profiles = ExternalProfile::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.externalprofile.index', $parameters));
+    $response = get(route('api.externalprofile.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -129,7 +131,7 @@ test('sparse fieldsets', function () {
         ->count(fake()->randomDigitNotNull())
         ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
 
-    $response = $this->get(route('api.externalprofile.index', $parameters));
+    $response = get(route('api.externalprofile.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -162,7 +164,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
 
-    $response = $this->get(route('api.externalprofile.index', $parameters));
+    $response = get(route('api.externalprofile.index', $parameters));
 
     $builder = ExternalProfile::query();
     $this->withAggregates($builder, $query, $schema);
@@ -207,7 +209,7 @@ test('created at filter', function () {
 
     $profiles = ExternalProfile::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.externalprofile.index', $parameters));
+    $response = get(route('api.externalprofile.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -248,7 +250,7 @@ test('updated at filter', function () {
 
     $profiles = ExternalProfile::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.externalprofile.index', $parameters));
+    $response = get(route('api.externalprofile.index', $parameters));
 
     $response->assertJson(
         json_decode(

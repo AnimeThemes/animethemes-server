@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
@@ -21,7 +23,7 @@ test('protected', function () {
 
     $playlist = Playlist::factory()->createOne();
 
-    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
     $response->assertUnauthorized();
 });
@@ -37,7 +39,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
     $response->assertForbidden();
 });
@@ -55,7 +57,7 @@ test('forbidden if not own playlist', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
     $response->assertForbidden();
 });
@@ -73,7 +75,7 @@ test('forbidden if flag disabled', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
     $response->assertForbidden();
 });
@@ -91,10 +93,10 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
     $response->assertOk();
-    static::assertModelMissing($playlist);
+    $this->assertModelMissing($playlist);
 });
 
 test('destroy permitted for bypass', function () {
@@ -115,7 +117,7 @@ test('destroy permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
     $response->assertOk();
 });

@@ -23,6 +23,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
@@ -35,7 +37,7 @@ test('not found', function () {
         ]);
     $image = Image::factory()->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlist, 'image' => $image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlist, 'image' => $image]));
 
     $response->assertNotFound();
 });
@@ -54,7 +56,7 @@ test('private playlist image cannot be publicly viewed', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertForbidden();
 });
@@ -77,7 +79,7 @@ test('private playlist image cannot be publicly if not owned', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertForbidden();
 });
@@ -100,7 +102,7 @@ test('private playlist image can be viewed by owner', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertOk();
 });
@@ -119,7 +121,7 @@ test('unlisted playlist image can be viewed', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertOk();
 });
@@ -138,7 +140,7 @@ test('public playlist can be viewed', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $response->assertOk();
 });
@@ -157,7 +159,7 @@ test('default', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
 
     $playlistImage->unsetRelations();
 
@@ -199,7 +201,7 @@ test('allowed include paths', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
 
     $playlistImage->unsetRelations()->load($includedPaths->all());
 
@@ -241,7 +243,7 @@ test('sparse fieldsets', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
 
     $playlistImage->unsetRelations();
 
@@ -280,7 +282,7 @@ test('images by facet', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
+    $response = get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
 
     $playlistImage->unsetRelations()->load([
         PlaylistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {

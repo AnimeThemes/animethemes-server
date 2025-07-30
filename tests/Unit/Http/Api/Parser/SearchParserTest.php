@@ -10,7 +10,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('no criteria by default', function () {
     $parameters = [];
 
-    static::assertEmpty(SearchParser::parse($parameters));
+    $this->assertEmpty(SearchParser::parse($parameters));
 });
 
 test('parse search criteria', function () {
@@ -20,7 +20,7 @@ test('parse search criteria', function () {
 
     $criteria = SearchParser::parse($parameters)[0];
 
-    static::assertInstanceOf(Criteria::class, $criteria);
+    $this->assertInstanceOf(Criteria::class, $criteria);
 });
 
 test('parse search criteria term', function () {
@@ -32,5 +32,5 @@ test('parse search criteria term', function () {
 
     $criteria = SearchParser::parse($parameters)[0];
 
-    static::assertEquals($term, $criteria->getTerm());
+    $this->assertEquals($term, $criteria->getTerm());
 });

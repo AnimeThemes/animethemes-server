@@ -13,6 +13,9 @@ use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -21,14 +24,14 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = DiscordThreadModel::factory()
         ->for(Anime::factory())
         ->count(10)
         ->create();
 
-    $this->get(DiscordThread::getUrl('index'))
+    get(DiscordThread::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(DiscordThread::class))
@@ -43,13 +46,13 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = DiscordThreadModel::factory()
         ->for(Anime::factory())
         ->createOne();
 
-    $this->get(DiscordThread::getUrl('view', ['record' => $record]))
+    get(DiscordThread::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -61,7 +64,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(DiscordThread::class))
         ->mountAction(CreateAction::class)
@@ -76,7 +79,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = DiscordThreadModel::factory()
         ->for(Anime::factory())

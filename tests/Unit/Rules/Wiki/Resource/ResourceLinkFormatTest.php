@@ -22,7 +22,7 @@ test('passes for no site', function () {
         [$attribute => new ResourceLinkFormatRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes for no pattern', function () {
@@ -33,7 +33,7 @@ test('passes for no pattern', function () {
         [$attribute => new ResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes for anime resource', function () {
@@ -58,7 +58,7 @@ test('passes for anime resource', function () {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes for artist resource', function () {
@@ -83,7 +83,7 @@ test('passes for artist resource', function () {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes for song resource', function () {
@@ -105,7 +105,7 @@ test('passes for song resource', function () {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('passes for studio resource', function () {
@@ -128,7 +128,7 @@ test('passes for studio resource', function () {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 });
 
 test('fails for trailing slash', function () {
@@ -150,5 +150,5 @@ test('fails for trailing slash', function () {
         [$attribute => new ResourceLinkFormatRule($site)],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 });

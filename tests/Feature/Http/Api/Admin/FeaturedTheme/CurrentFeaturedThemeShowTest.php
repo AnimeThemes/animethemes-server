@@ -20,10 +20,12 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found if no featured themes', function () {
-    $response = $this->get(route('api.featuredtheme.current.show'));
+    $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertNotFound();
 });
@@ -33,7 +35,7 @@ test('not found if theme start at null', function () {
         FeaturedTheme::ATTRIBUTE_START_AT => null,
     ]);
 
-    $response = $this->get(route('api.featuredtheme.current.show'));
+    $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertNotFound();
 });
@@ -43,7 +45,7 @@ test('not found if theme end at null', function () {
         FeaturedTheme::ATTRIBUTE_END_AT => null,
     ]);
 
-    $response = $this->get(route('api.featuredtheme.current.show'));
+    $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertNotFound();
 });
@@ -53,7 +55,7 @@ test('not found if theme start at after now', function () {
         FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
     ]);
 
-    $response = $this->get(route('api.featuredtheme.current.show'));
+    $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertNotFound();
 });
@@ -63,7 +65,7 @@ test('not found if theme end at before now', function () {
         FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween(),
     ]);
 
-    $response = $this->get(route('api.featuredtheme.current.show'));
+    $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertNotFound();
 });
@@ -95,7 +97,7 @@ test('default', function () {
 
     $currentTheme = FeaturedTheme::factory()->create();
 
-    $response = $this->get(route('api.featuredtheme.current.show'));
+    $response = get(route('api.featuredtheme.current.show'));
 
     $response->assertJson(
         json_decode(
@@ -135,7 +137,7 @@ test('allowed include paths', function () {
         ->for(User::factory())
         ->createOne();
 
-    $response = $this->get(route('api.featuredtheme.current.show', $parameters));
+    $response = get(route('api.featuredtheme.current.show', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -164,7 +166,7 @@ test('sparse fieldsets', function () {
 
     $currentTheme = FeaturedTheme::factory()->create();
 
-    $response = $this->get(route('api.featuredtheme.current.show', $parameters));
+    $response = get(route('api.featuredtheme.current.show', $parameters));
 
     $response->assertJson(
         json_decode(

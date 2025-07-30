@@ -7,12 +7,14 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $artist = Artist::factory()->createOne();
 
     $parameters = Artist::factory()->raw();
 
-    $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -26,7 +28,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
     $response->assertForbidden();
 });
@@ -40,7 +42,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
     $response->assertForbidden();
 });
@@ -54,7 +56,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+    $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
     $response->assertOk();
 });

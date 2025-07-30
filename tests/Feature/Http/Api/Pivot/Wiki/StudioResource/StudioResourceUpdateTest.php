@@ -9,6 +9,8 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\put;
+
 test('protected', function () {
     $studioResource = StudioResource::factory()
         ->for(Studio::factory())
@@ -17,7 +19,7 @@ test('protected', function () {
 
     $parameters = StudioResource::factory()->raw();
 
-    $response = $this->put(route('api.studioresource.update', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $response = put(route('api.studioresource.update', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
     $response->assertUnauthorized();
 });
@@ -34,7 +36,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.studioresource.update', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $response = put(route('api.studioresource.update', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
     $response->assertForbidden();
 });
@@ -56,7 +58,7 @@ test('update', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->put(route('api.studioresource.update', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
+    $response = put(route('api.studioresource.update', ['studio' => $studioResource->studio, 'resource' => $studioResource->resource] + $parameters));
 
     $response->assertOk();
 });

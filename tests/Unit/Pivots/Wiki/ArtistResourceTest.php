@@ -13,8 +13,8 @@ test('artist', function () {
         ->for(ExternalResource::factory(), 'resource')
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $artistResource->artist());
-    static::assertInstanceOf(Artist::class, $artistResource->artist()->first());
+    $this->assertInstanceOf(BelongsTo::class, $artistResource->artist());
+    $this->assertInstanceOf(Artist::class, $artistResource->artist()->first());
 });
 
 test('resource', function () {
@@ -23,6 +23,6 @@ test('resource', function () {
         ->for(ExternalResource::factory(), 'resource')
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $artistResource->resource());
-    static::assertInstanceOf(ExternalResource::class, $artistResource->resource()->first());
+    $this->assertInstanceOf(BelongsTo::class, $artistResource->resource());
+    $this->assertInstanceOf(ExternalResource::class, $artistResource->resource()->first());
 });

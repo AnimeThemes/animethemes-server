@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -42,7 +44,7 @@ test('default', function () {
 
     $synonyms = AnimeSynonym::all();
 
-    $response = $this->get(route('api.animesynonym.index'));
+    $response = get(route('api.animesynonym.index'));
 
     $response->assertJson(
         json_decode(
@@ -62,7 +64,7 @@ test('paginated', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animesynonym.index'));
+    $response = get(route('api.animesynonym.index'));
 
     $response->assertJsonStructure([
         SynonymCollection::$wrap,
@@ -91,7 +93,7 @@ test('allowed include paths', function () {
 
     $synonyms = AnimeSynonym::with($includedPaths->all())->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -125,7 +127,7 @@ test('sparse fieldsets', function () {
 
     $synonyms = AnimeSynonym::all();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -159,7 +161,7 @@ test('sorts', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $synonyms = $this->sort(AnimeSynonym::query(), $query, $schema)->get();
 
@@ -204,7 +206,7 @@ test('created at filter', function () {
 
     $synonym = AnimeSynonym::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -247,7 +249,7 @@ test('updated at filter', function () {
 
     $synonym = AnimeSynonym::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -284,7 +286,7 @@ test('without trashed filter', function () {
 
     $synonym = AnimeSynonym::withoutTrashed()->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -321,7 +323,7 @@ test('with trashed filter', function () {
 
     $synonym = AnimeSynonym::withTrashed()->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -358,7 +360,7 @@ test('only trashed filter', function () {
 
     $synonym = AnimeSynonym::onlyTrashed()->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -402,7 +404,7 @@ test('deleted at filter', function () {
 
     $synonym = AnimeSynonym::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -438,7 +440,7 @@ test('anime by media format', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -474,7 +476,7 @@ test('anime by season', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -516,7 +518,7 @@ test('anime by year', function () {
     ])
         ->get();
 
-    $response = $this->get(route('api.animesynonym.index', $parameters));
+    $response = get(route('api.animesynonym.index', $parameters));
 
     $response->assertJson(
         json_decode(

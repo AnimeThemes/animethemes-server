@@ -17,7 +17,7 @@ test('casts type to enum', function () {
 
     $type = $theme->type;
 
-    static::assertInstanceOf(AnimeSynonymType::class, $type);
+    $this->assertInstanceOf(AnimeSynonymType::class, $type);
 });
 
 test('searchable as', function () {
@@ -25,7 +25,7 @@ test('searchable as', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($synonym->searchableAs());
+    $this->assertIsString($synonym->searchableAs());
 });
 
 test('to searchable array', function () {
@@ -33,7 +33,7 @@ test('to searchable array', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsArray($synonym->toSearchableArray());
+    $this->assertIsArray($synonym->toSearchableArray());
 });
 
 test('nameable', function () {
@@ -41,7 +41,7 @@ test('nameable', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($synonym->getName());
+    $this->assertIsString($synonym->getName());
 });
 
 test('has subtitle', function () {
@@ -49,7 +49,7 @@ test('has subtitle', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertIsString($synonym->getSubtitle());
+    $this->assertIsString($synonym->getSubtitle());
 });
 
 test('anime', function () {
@@ -57,6 +57,6 @@ test('anime', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $synonym->anime());
-    static::assertInstanceOf(Anime::class, $synonym->anime()->first());
+    $this->assertInstanceOf(BelongsTo::class, $synonym->anime());
+    $this->assertInstanceOf(Anime::class, $synonym->anime()->first());
 });

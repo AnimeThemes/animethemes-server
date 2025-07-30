@@ -31,6 +31,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -45,7 +47,7 @@ test('default', function () {
 
     $entryVideos = AnimeThemeEntryVideo::all();
 
-    $response = $this->get(route('api.animethemeentryvideo.index'));
+    $response = get(route('api.animethemeentryvideo.index'));
 
     $response->assertJson(
         json_decode(
@@ -67,7 +69,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index'));
+    $response = get(route('api.animethemeentryvideo.index'));
 
     $response->assertJsonStructure([
         AnimeThemeEntryVideoCollection::$wrap,
@@ -96,7 +98,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with($includedPaths->all())->get();
 
@@ -132,7 +134,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::all();
 
@@ -170,7 +172,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = $this->sort(AnimeThemeEntryVideo::query(), $query, $schema)->get();
 
@@ -219,7 +221,7 @@ test('created at filter', function () {
 
     $entryVideos = AnimeThemeEntryVideo::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -266,7 +268,7 @@ test('updated at filter', function () {
 
     $entryVideos = AnimeThemeEntryVideo::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -297,7 +299,7 @@ test('entries by nsfw', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($nsfwFilter) {
@@ -335,7 +337,7 @@ test('entries by spoiler', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($spoilerFilter) {
@@ -373,7 +375,7 @@ test('entries by version', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_ENTRY => function (BelongsTo $query) use ($versionFilter) {
@@ -411,7 +413,7 @@ test('videos by lyrics', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($lyricsFilter) {
@@ -449,7 +451,7 @@ test('videos by nc', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($ncFilter) {
@@ -487,7 +489,7 @@ test('videos by overlap', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($overlapFilter) {
@@ -525,7 +527,7 @@ test('videos by resolution', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($resolutionFilter) {
@@ -563,7 +565,7 @@ test('videos by source', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($sourceFilter) {
@@ -601,7 +603,7 @@ test('videos by subbed', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($subbedFilter) {
@@ -639,7 +641,7 @@ test('videos by uncen', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.animethemeentryvideo.index', $parameters));
+    $response = get(route('api.animethemeentryvideo.index', $parameters));
 
     $entryVideos = AnimeThemeEntryVideo::with([
         AnimeThemeEntryVideo::RELATION_VIDEO => function (BelongsTo $query) use ($uncenFilter) {

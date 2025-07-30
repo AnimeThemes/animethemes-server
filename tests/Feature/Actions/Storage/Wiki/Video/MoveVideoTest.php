@@ -28,7 +28,7 @@ test('default', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->hasFailed());
+    $this->assertTrue($result->hasFailed());
 });
 
 test('passed', function () {
@@ -53,7 +53,7 @@ test('passed', function () {
 
     $result = $storageResults->toActionResult();
 
-    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
 });
 
 test('moved in disk', function () {
@@ -107,5 +107,5 @@ test('video updated', function () {
 
     $action->then($result);
 
-    static::assertDatabaseHas(Video::class, [Video::ATTRIBUTE_PATH => $to]);
+    $this->assertDatabaseHas(Video::class, [Video::ATTRIBUTE_PATH => $to]);
 });

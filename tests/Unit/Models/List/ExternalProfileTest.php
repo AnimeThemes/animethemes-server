@@ -20,7 +20,7 @@ test('casts site to enum', function () {
 
     $site = $profile->site;
 
-    static::assertInstanceOf(ExternalProfileSite::class, $site);
+    $this->assertInstanceOf(ExternalProfileSite::class, $site);
 });
 
 test('casts visibility to enum', function () {
@@ -28,13 +28,13 @@ test('casts visibility to enum', function () {
 
     $visibility = $profile->visibility;
 
-    static::assertInstanceOf(ExternalProfileVisibility::class, $visibility);
+    $this->assertInstanceOf(ExternalProfileVisibility::class, $visibility);
 });
 
 test('nameable', function () {
     $profile = ExternalProfile::factory()->createOne();
 
-    static::assertIsString($profile->getName());
+    $this->assertIsString($profile->getName());
 });
 
 test('has subtitle', function () {
@@ -42,7 +42,7 @@ test('has subtitle', function () {
         ->for(User::factory())
         ->createOne();
 
-    static::assertIsString($profile->getSubtitle());
+    $this->assertIsString($profile->getSubtitle());
 });
 
 test('searchable if public', function () {
@@ -51,7 +51,7 @@ test('searchable if public', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
 
-    static::assertTrue($profile->shouldBeSearchable());
+    $this->assertTrue($profile->shouldBeSearchable());
 });
 
 test('not searchable if not public', function () {
@@ -69,7 +69,7 @@ test('not searchable if not public', function () {
             ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->value,
         ]);
 
-    static::assertFalse($profile->shouldBeSearchable());
+    $this->assertFalse($profile->shouldBeSearchable());
 });
 
 test('claimed', function () {
@@ -80,8 +80,8 @@ test('claimed', function () {
     $unclaimedProfile = ExternalProfile::factory()
         ->createOne();
 
-    static::assertTrue($claimedProfile->isClaimed());
-    static::assertFalse($unclaimedProfile->isClaimed());
+    $this->assertTrue($claimedProfile->isClaimed());
+    $this->assertFalse($unclaimedProfile->isClaimed());
 });
 
 test('user', function () {
@@ -89,8 +89,8 @@ test('user', function () {
         ->for(User::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $profile->user());
-    static::assertInstanceOf(User::class, $profile->user()->first());
+    $this->assertInstanceOf(BelongsTo::class, $profile->user());
+    $this->assertInstanceOf(User::class, $profile->user()->first());
 });
 
 test('external token', function () {
@@ -98,8 +98,8 @@ test('external token', function () {
         ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
         ->createOne();
 
-    static::assertInstanceOf(HasOne::class, $profile->externaltoken());
-    static::assertInstanceOf(ExternalToken::class, $profile->externaltoken()->first());
+    $this->assertInstanceOf(HasOne::class, $profile->externaltoken());
+    $this->assertInstanceOf(ExternalToken::class, $profile->externaltoken()->first());
 });
 
 test('external entries', function () {
@@ -112,7 +112,7 @@ test('external entries', function () {
         ->count($entryCount)
         ->create();
 
-    static::assertInstanceOf(HasMany::class, $profile->externalentries());
-    static::assertEquals($entryCount, $profile->externalentries()->count());
-    static::assertInstanceOf(ExternalEntry::class, $profile->externalentries()->first());
+    $this->assertInstanceOf(HasMany::class, $profile->externalentries());
+    $this->assertEquals($entryCount, $profile->externalentries()->count());
+    $this->assertInstanceOf(ExternalEntry::class, $profile->externalentries()->first());
 });

@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
+
+use function Pest\Laravel\get;
+
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -26,7 +29,7 @@ test('audio streaming not allowed forbidden', function () {
 
     $audio = Audio::factory()->createOne();
 
-    $response = $this->get(route('audio.show', ['audio' => $audio]));
+    $response = get(route('audio.show', ['audio' => $audio]));
 
     $response->assertForbidden();
 });
@@ -46,7 +49,7 @@ test('audio streaming permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('audio.show', ['audio' => $audio]));
+    $response = get(route('audio.show', ['audio' => $audio]));
 
     $response->assertSuccessful();
 });
@@ -58,7 +61,7 @@ test('cannot stream soft deleted audio', function () {
 
     $audio = Audio::factory()->trashed()->createOne();
 
-    $response = $this->get(route('audio.show', ['audio' => $audio]));
+    $response = get(route('audio.show', ['audio' => $audio]));
 
     $response->assertNotFound();
 });
@@ -71,9 +74,9 @@ test('view recording not allowed', function () {
 
     $audio = Audio::factory()->createOne();
 
-    $this->get(route('audio.show', ['audio' => $audio]));
+    get(route('audio.show', ['audio' => $audio]));
 
-    static::assertEquals(0, $audio->views()->count());
+    $this->assertEquals(0, $audio->views()->count());
 });
 
 test('view recording is allowed', function () {
@@ -84,9 +87,9 @@ test('view recording is allowed', function () {
 
     $audio = Audio::factory()->createOne();
 
-    $this->get(route('audio.show', ['audio' => $audio]));
+    get(route('audio.show', ['audio' => $audio]));
 
-    static::assertEquals(1, $audio->views()->count());
+    $this->assertEquals(1, $audio->views()->count());
 });
 
 test('view recording cooldown', function () {
@@ -98,10 +101,10 @@ test('view recording cooldown', function () {
     $audio = Audio::factory()->createOne();
 
     Collection::times(fake()->randomDigitNotNull(), function () use ($audio) {
-        $this->get(route('audio.show', ['audio' => $audio]));
+        get(route('audio.show', ['audio' => $audio]));
     });
 
-    static::assertEquals(1, $audio->views()->count());
+    $this->assertEquals(1, $audio->views()->count());
 });
 
 test('invalid streaming method error', function () {
@@ -112,7 +115,7 @@ test('invalid streaming method error', function () {
 
     $audio = Audio::factory()->createOne();
 
-    $response = $this->get(route('audio.show', ['audio' => $audio]));
+    $response = get(route('audio.show', ['audio' => $audio]));
 
     $response->assertServerError();
 });
@@ -125,9 +128,9 @@ test('streamed through response', function () {
 
     $audio = Audio::factory()->createOne();
 
-    $response = $this->get(route('audio.show', ['audio' => $audio]));
+    $response = get(route('audio.show', ['audio' => $audio]));
 
-    static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
 });
 
 test('streamed through nginx redirect', function () {
@@ -138,7 +141,7 @@ test('streamed through nginx redirect', function () {
 
     $audio = Audio::factory()->createOne();
 
-    $response = $this->get(route('audio.show', ['audio' => $audio]));
+    $response = get(route('audio.show', ['audio' => $audio]));
 
     $response->assertHeader('X-Accel-Redirect');
 });

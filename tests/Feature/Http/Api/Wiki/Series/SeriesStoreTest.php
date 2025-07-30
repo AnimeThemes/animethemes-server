@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\post;
+
 test('protected', function () {
     $series = Series::factory()->makeOne();
 
-    $response = $this->post(route('api.series.store', $series->toArray()));
+    $response = post(route('api.series.store', $series->toArray()));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.series.store', $series->toArray()));
+    $response = post(route('api.series.store', $series->toArray()));
 
     $response->assertForbidden();
 });
@@ -32,7 +34,7 @@ test('required fields', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.series.store'));
+    $response = post(route('api.series.store'));
 
     $response->assertJsonValidationErrors([
         Series::ATTRIBUTE_NAME,
@@ -47,8 +49,8 @@ test('create', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->post(route('api.series.store', $parameters));
+    $response = post(route('api.series.store', $parameters));
 
     $response->assertCreated();
-    static::assertDatabaseCount(Series::class, 1);
+    $this->assertDatabaseCount(Series::class, 1);
 });

@@ -9,10 +9,12 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('protected', function () {
-    $response = $this->get(route('api.me.externalprofile.index'));
+    $response = get(route('api.me.externalprofile.index'));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden if missing permission', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.externalprofile.index'));
+    $response = get(route('api.me.externalprofile.index'));
 
     $response->assertForbidden();
 });
@@ -48,7 +50,7 @@ test('only sees owned profiles', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.me.externalprofile.index'));
+    $response = get(route('api.me.externalprofile.index'));
 
     $response->assertJsonCount($profileCount, ExternalProfileCollection::$wrap);
 

@@ -16,7 +16,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('no criteria by default', function () {
     $parameters = [];
 
-    static::assertEmpty(SortParser::parse($parameters));
+    $this->assertEmpty(SortParser::parse($parameters));
 });
 
 test('parse random criteria', function () {
@@ -26,7 +26,7 @@ test('parse random criteria', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertInstanceOf(RandomCriteria::class, $criteria);
+    $this->assertInstanceOf(RandomCriteria::class, $criteria);
 });
 
 test('parse relation criteria', function () {
@@ -36,7 +36,7 @@ test('parse relation criteria', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertInstanceOf(RelationCriteria::class, $criteria);
+    $this->assertInstanceOf(RelationCriteria::class, $criteria);
 });
 
 test('parse field criteria', function () {
@@ -46,7 +46,7 @@ test('parse field criteria', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertInstanceOf(FieldCriteria::class, $criteria);
+    $this->assertInstanceOf(FieldCriteria::class, $criteria);
 });
 
 test('parse criteria field', function () {
@@ -58,7 +58,7 @@ test('parse criteria field', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertEquals($field, $criteria->getField());
+    $this->assertEquals($field, $criteria->getField());
 });
 
 test('parse default direction', function () {
@@ -68,7 +68,7 @@ test('parse default direction', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof FieldCriteria
         && $criteria->getDirection() === Direction::ASCENDING
     );
@@ -83,7 +83,7 @@ test('parse descending direction', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertTrue(
+    $this->assertTrue(
         $criteria instanceof FieldCriteria
         && $criteria->getDirection() === Direction::DESCENDING
     );
@@ -96,7 +96,7 @@ test('parse global scope', function () {
 
     $criteria = SortParser::parse($parameters)[0];
 
-    static::assertInstanceOf(GlobalScope::class, $criteria->getScope());
+    $this->assertInstanceOf(GlobalScope::class, $criteria->getScope());
 });
 
 test('parse type scope', function () {
@@ -112,5 +112,5 @@ test('parse type scope', function () {
 
     $scope = $criteria->getScope();
 
-    static::assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
+    $this->assertTrue($scope instanceof TypeScope && $scope->getType() === $type);
 });

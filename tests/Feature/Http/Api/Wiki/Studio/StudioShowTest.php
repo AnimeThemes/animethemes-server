@@ -22,12 +22,14 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $studio = Studio::factory()->create();
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio]));
+    $response = get(route('api.studio.show', ['studio' => $studio]));
 
     $response->assertJson(
         json_decode(
@@ -46,7 +48,7 @@ test('soft delete', function () {
 
     $studio->unsetRelations();
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio]));
+    $response = get(route('api.studio.show', ['studio' => $studio]));
 
     $response->assertJson(
         json_decode(
@@ -77,7 +79,7 @@ test('allowed include paths', function () {
         ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
         ->createOne();
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -106,7 +108,7 @@ test('sparse fieldsets', function () {
 
     $studio = Studio::factory()->create();
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -140,7 +142,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -174,7 +176,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -216,7 +218,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -250,7 +252,7 @@ test('resources by site', function () {
         },
     ]);
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -284,7 +286,7 @@ test('images by facet', function () {
         },
     ]);
 
-    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
     $response->assertJson(
         json_decode(

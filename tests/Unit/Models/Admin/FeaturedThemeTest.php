@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 test('nameable', function () {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
-    static::assertIsString($featuredTheme->getName());
+    $this->assertIsString($featuredTheme->getName());
 });
 
 test('has subtitle', function () {
@@ -22,19 +22,19 @@ test('has subtitle', function () {
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->createOne();
 
-    static::assertIsString($featuredTheme->getSubtitle());
+    $this->assertIsString($featuredTheme->getSubtitle());
 });
 
 test('casts end at', function () {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
-    static::assertInstanceOf(Carbon::class, $featuredTheme->end_at);
+    $this->assertInstanceOf(Carbon::class, $featuredTheme->end_at);
 });
 
 test('casts start at', function () {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
-    static::assertInstanceOf(Carbon::class, $featuredTheme->start_at);
+    $this->assertInstanceOf(Carbon::class, $featuredTheme->start_at);
 });
 
 test('user', function () {
@@ -42,8 +42,8 @@ test('user', function () {
         ->for(User::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $featuredTheme->user());
-    static::assertInstanceOf(User::class, $featuredTheme->user()->first());
+    $this->assertInstanceOf(BelongsTo::class, $featuredTheme->user());
+    $this->assertInstanceOf(User::class, $featuredTheme->user()->first());
 });
 
 test('video', function () {
@@ -51,8 +51,8 @@ test('video', function () {
         ->for(Video::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $featuredTheme->video());
-    static::assertInstanceOf(Video::class, $featuredTheme->video()->first());
+    $this->assertInstanceOf(BelongsTo::class, $featuredTheme->video());
+    $this->assertInstanceOf(Video::class, $featuredTheme->video()->first());
 });
 
 test('entry', function () {
@@ -60,6 +60,6 @@ test('entry', function () {
         ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $featuredTheme->animethemeentry());
-    static::assertInstanceOf(AnimeThemeEntry::class, $featuredTheme->animethemeentry()->first());
+    $this->assertInstanceOf(BelongsTo::class, $featuredTheme->animethemeentry());
+    $this->assertInstanceOf(AnimeThemeEntry::class, $featuredTheme->animethemeentry()->first());
 });

@@ -7,10 +7,12 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $artist = Artist::factory()->createOne();
 
-    $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
     $response->assertForbidden();
 });
@@ -34,7 +36,7 @@ test('trashed', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
     $response->assertNotFound();
 });
@@ -46,8 +48,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+    $response = delete(route('api.artist.destroy', ['artist' => $artist]));
 
     $response->assertOk();
-    static::assertSoftDeleted($artist);
+    $this->assertSoftDeleted($artist);
 });

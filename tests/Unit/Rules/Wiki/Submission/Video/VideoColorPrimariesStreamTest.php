@@ -46,7 +46,7 @@ test('fails when color primaries is not accepted', function () {
         ['file' => new VideoColorPrimariesStreamRule()],
     );
 
-    static::assertFalse($validator->passes());
+    $this->assertFalse($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });
@@ -84,7 +84,7 @@ test('passes when color primaries is accepted', function () {
         ['file' => new VideoColorPrimariesStreamRule()],
     );
 
-    static::assertTrue($validator->passes());
+    $this->assertTrue($validator->passes());
 
     Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
 });

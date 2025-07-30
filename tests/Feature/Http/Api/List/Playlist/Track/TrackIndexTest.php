@@ -32,6 +32,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -46,7 +48,7 @@ test('private playlist track cannot be publicly viewed', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
         ]);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertForbidden();
 });
@@ -65,7 +67,7 @@ test('private playlist track cannot be publicly viewed if not owned', function (
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertForbidden();
 });
@@ -84,7 +86,7 @@ test('private playlist track can be viewed by owner', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertOk();
 });
@@ -99,7 +101,7 @@ test('unlisted playlist track can be viewed', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
         ]);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertOk();
 });
@@ -114,7 +116,7 @@ test('public playlist track can be viewed', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertOk();
 });
@@ -139,7 +141,7 @@ test('default', function () {
             ])
     );
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertJsonCount($trackCount, TrackCollection::$wrap);
 
@@ -164,7 +166,7 @@ test('paginated', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
     $response->assertJsonStructure([
         TrackCollection::$wrap,
@@ -204,7 +206,7 @@ test('allowed include paths', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
     $tracks = PlaylistTrack::with($includedPaths->all())->get();
 
@@ -241,7 +243,7 @@ test('sparse fieldsets', function () {
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -278,7 +280,7 @@ test('sorts', function () {
 
     $query = new Query($parameters);
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
     $tracks = $this->sort(PlaylistTrack::query(), $query, $schema)->get();
 
@@ -332,7 +334,7 @@ test('created at filter', function () {
 
     $tracks = PlaylistTrack::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -384,7 +386,7 @@ test('updated at filter', function () {
 
     $tracks = PlaylistTrack::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
+    $response = get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
     $response->assertJson(
         json_decode(

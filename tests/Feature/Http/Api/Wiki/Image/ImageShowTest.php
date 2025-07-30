@@ -18,12 +18,14 @@ use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $image = Image::factory()->create();
 
-    $response = $this->get(route('api.image.show', ['image' => $image]));
+    $response = get(route('api.image.show', ['image' => $image]));
 
     $response->assertJson(
         json_decode(
@@ -42,7 +44,7 @@ test('soft delete', function () {
 
     $image->unsetRelations();
 
-    $response = $this->get(route('api.image.show', ['image' => $image]));
+    $response = get(route('api.image.show', ['image' => $image]));
 
     $response->assertJson(
         json_decode(
@@ -74,7 +76,7 @@ test('allowed include paths', function () {
         ->has(Artist::factory()->count(fake()->randomDigitNotNull()))
         ->createOne();
 
-    $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -103,7 +105,7 @@ test('sparse fieldsets', function () {
 
     $image = Image::factory()->create();
 
-    $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -137,7 +139,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -171,7 +173,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -212,7 +214,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.image.show', ['image' => $image] + $parameters));
+    $response = get(route('api.image.show', ['image' => $image] + $parameters));
 
     $response->assertJson(
         json_decode(

@@ -36,7 +36,7 @@ test('casts overlap to enum', function () {
 
     $overlap = $video->overlap;
 
-    static::assertInstanceOf(VideoOverlap::class, $overlap);
+    $this->assertInstanceOf(VideoOverlap::class, $overlap);
 });
 
 test('casts source to enum', function () {
@@ -44,31 +44,31 @@ test('casts source to enum', function () {
 
     $source = $video->source;
 
-    static::assertInstanceOf(VideoSource::class, $source);
+    $this->assertInstanceOf(VideoSource::class, $source);
 });
 
 test('searchable as', function () {
     $video = Video::factory()->createOne();
 
-    static::assertIsString($video->searchableAs());
+    $this->assertIsString($video->searchableAs());
 });
 
 test('to searchable array', function () {
     $video = Video::factory()->createOne();
 
-    static::assertIsArray($video->toSearchableArray());
+    $this->assertIsArray($video->toSearchableArray());
 });
 
 test('nameable', function () {
     $video = Video::factory()->createOne();
 
-    static::assertIsString($video->getName());
+    $this->assertIsString($video->getName());
 });
 
 test('has subtitle', function () {
     $video = Video::factory()->createOne();
 
-    static::assertIsString($video->getSubtitle());
+    $this->assertIsString($video->getSubtitle());
 });
 
 test('views', function () {
@@ -76,15 +76,15 @@ test('views', function () {
 
     views($video)->record();
 
-    static::assertInstanceOf(MorphMany::class, $video->views());
-    static::assertEquals(1, $video->views()->count());
-    static::assertInstanceOf(View::class, $video->views()->first());
+    $this->assertInstanceOf(MorphMany::class, $video->views());
+    $this->assertEquals(1, $video->views()->count());
+    $this->assertInstanceOf(View::class, $video->views()->first());
 });
 
 test('appends tags', function () {
     $video = Video::factory()->createOne();
 
-    static::assertArrayHasKey(Video::ATTRIBUTE_TAGS, $video);
+    $this->assertArrayHasKey(Video::ATTRIBUTE_TAGS, $video);
 });
 
 test('nc tag', function () {
@@ -92,7 +92,7 @@ test('nc tag', function () {
         Video::ATTRIBUTE_NC => true,
     ]);
 
-    static::assertContains('NC', $video->tags);
+    $this->assertContains('NC', $video->tags);
 });
 
 test('no nc tag', function () {
@@ -100,7 +100,7 @@ test('no nc tag', function () {
         Video::ATTRIBUTE_NC => false,
     ]);
 
-    static::assertNotContains('NC', $video->tags);
+    $this->assertNotContains('NC', $video->tags);
 });
 
 test('dvd tag', function () {
@@ -110,7 +110,7 @@ test('dvd tag', function () {
         Video::ATTRIBUTE_SOURCE => $source->value,
     ]);
 
-    static::assertContains($source->localize(), $video->tags);
+    $this->assertContains($source->localize(), $video->tags);
 });
 
 test('bd tag', function () {
@@ -120,7 +120,7 @@ test('bd tag', function () {
         Video::ATTRIBUTE_SOURCE => $source->value,
     ]);
 
-    static::assertContains($source->localize(), $video->tags);
+    $this->assertContains($source->localize(), $video->tags);
 });
 
 test('other source tag', function () {
@@ -136,13 +136,13 @@ test('other source tag', function () {
         Video::ATTRIBUTE_SOURCE => $source->value,
     ]);
 
-    static::assertNotContains($source->localize(), $video->tags);
+    $this->assertNotContains($source->localize(), $video->tags);
 });
 
 test('resolution tag', function () {
     $video = Video::factory()->createOne();
 
-    static::assertContains(strval($video->resolution), $video->tags);
+    $this->assertContains(strval($video->resolution), $video->tags);
 });
 
 test('no720 resolution tag', function () {
@@ -150,7 +150,7 @@ test('no720 resolution tag', function () {
         Video::ATTRIBUTE_RESOLUTION => 720,
     ]);
 
-    static::assertNotContains(strval($video->resolution), $video->tags);
+    $this->assertNotContains(strval($video->resolution), $video->tags);
 });
 
 test('subbed tag', function () {
@@ -158,8 +158,8 @@ test('subbed tag', function () {
         Video::ATTRIBUTE_SUBBED => true,
     ]);
 
-    static::assertContains('Subbed', $video->tags);
-    static::assertNotContains('Lyrics', $video->tags);
+    $this->assertContains('Subbed', $video->tags);
+    $this->assertNotContains('Lyrics', $video->tags);
 });
 
 test('lyrics tag', function () {
@@ -168,8 +168,8 @@ test('lyrics tag', function () {
         Video::ATTRIBUTE_LYRICS => true,
     ]);
 
-    static::assertNotContains('Subbed', $video->tags);
-    static::assertContains('Lyrics', $video->tags);
+    $this->assertNotContains('Subbed', $video->tags);
+    $this->assertContains('Lyrics', $video->tags);
 });
 
 test('source priority', function (array $a, array $b) {
@@ -177,7 +177,7 @@ test('source priority', function (array $a, array $b) {
 
     $second = Video::factory()->createOne($b);
 
-    static::assertGreaterThan($first->getSourcePriority(), $second->getSourcePriority());
+    $this->assertGreaterThan($first->getSourcePriority(), $second->getSourcePriority());
 })->with('priorityProvider');
 test('entries', function () {
     $entryCount = fake()->randomDigitNotNull();
@@ -186,10 +186,10 @@ test('entries', function () {
         ->has(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory()))->count($entryCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $video->animethemeentries());
-    static::assertEquals($entryCount, $video->animethemeentries()->count());
-    static::assertInstanceOf(AnimeThemeEntry::class, $video->animethemeentries()->first());
-    static::assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $video->animethemeentries());
+    $this->assertEquals($entryCount, $video->animethemeentries()->count());
+    $this->assertInstanceOf(AnimeThemeEntry::class, $video->animethemeentries()->first());
+    $this->assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
 });
 
 test('audio', function () {
@@ -197,8 +197,8 @@ test('audio', function () {
         ->for(Audio::factory())
         ->createOne();
 
-    static::assertInstanceOf(BelongsTo::class, $video->audio());
-    static::assertInstanceOf(Audio::class, $video->audio()->first());
+    $this->assertInstanceOf(BelongsTo::class, $video->audio());
+    $this->assertInstanceOf(Audio::class, $video->audio()->first());
 });
 
 test('tracks public', function () {
@@ -209,9 +209,9 @@ test('tracks public', function () {
         ->has(PlaylistTrack::factory()->for($playlist)->count($trackCount), Video::RELATION_TRACKS)
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $video->tracks());
-    static::assertEquals($trackCount, $video->tracks()->count());
-    static::assertInstanceOf(PlaylistTrack::class, $video->tracks()->first());
+    $this->assertInstanceOf(HasMany::class, $video->tracks());
+    $this->assertEquals($trackCount, $video->tracks()->count());
+    $this->assertInstanceOf(PlaylistTrack::class, $video->tracks()->first());
 });
 
 test('tracks not public', function () {
@@ -223,8 +223,8 @@ test('tracks not public', function () {
         ->has(PlaylistTrack::factory()->for($playlist)->count($trackCount), Video::RELATION_TRACKS)
         ->createOne();
 
-    static::assertInstanceOf(HasMany::class, $video->tracks());
-    static::assertNotEquals($trackCount, $video->tracks()->count());
+    $this->assertInstanceOf(HasMany::class, $video->tracks());
+    $this->assertNotEquals($trackCount, $video->tracks()->count());
 });
 
 test('script', function () {
@@ -232,8 +232,8 @@ test('script', function () {
         ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
         ->createOne();
 
-    static::assertInstanceOf(HasOne::class, $video->videoscript());
-    static::assertInstanceOf(VideoScript::class, $video->videoscript()->first());
+    $this->assertInstanceOf(HasOne::class, $video->videoscript());
+    $this->assertInstanceOf(VideoScript::class, $video->videoscript()->first());
 });
 /**
  * Provider for source priority testing.
@@ -320,7 +320,7 @@ test('video storage deletion', function () {
 
     $video->delete();
 
-    static::assertTrue($fs->exists($video->path));
+    $this->assertTrue($fs->exists($video->path));
 });
 
 test('video storage force deletion', function () {
@@ -336,5 +336,5 @@ test('video storage force deletion', function () {
 
     $video->forceDelete();
 
-    static::assertFalse($fs->exists($video->path));
+    $this->assertFalse($fs->exists($video->path));
 });

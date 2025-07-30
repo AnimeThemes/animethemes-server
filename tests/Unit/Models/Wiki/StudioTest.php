@@ -17,25 +17,25 @@ uses(WithFaker::class);
 test('searchable as', function () {
     $studio = Studio::factory()->createOne();
 
-    static::assertIsString($studio->searchableAs());
+    $this->assertIsString($studio->searchableAs());
 });
 
 test('to searchable array', function () {
     $studio = Studio::factory()->createOne();
 
-    static::assertIsArray($studio->toSearchableArray());
+    $this->assertIsArray($studio->toSearchableArray());
 });
 
 test('nameable', function () {
     $studio = Studio::factory()->createOne();
 
-    static::assertIsString($studio->getName());
+    $this->assertIsString($studio->getName());
 });
 
 test('has subtitle', function () {
     $studio = Studio::factory()->createOne();
 
-    static::assertIsString($studio->getSubtitle());
+    $this->assertIsString($studio->getSubtitle());
 });
 
 test('anime', function () {
@@ -45,10 +45,10 @@ test('anime', function () {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $studio->anime());
-    static::assertEquals($animeCount, $studio->anime()->count());
-    static::assertInstanceOf(Anime::class, $studio->anime()->first());
-    static::assertEquals(AnimeStudio::class, $studio->anime()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $studio->anime());
+    $this->assertEquals($animeCount, $studio->anime()->count());
+    $this->assertInstanceOf(Anime::class, $studio->anime()->first());
+    $this->assertEquals(AnimeStudio::class, $studio->anime()->getPivotClass());
 });
 
 test('external resources', function () {
@@ -58,10 +58,10 @@ test('external resources', function () {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $studio->resources());
-    static::assertEquals($resourceCount, $studio->resources()->count());
-    static::assertInstanceOf(ExternalResource::class, $studio->resources()->first());
-    static::assertEquals(StudioResource::class, $studio->resources()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $studio->resources());
+    $this->assertEquals($resourceCount, $studio->resources()->count());
+    $this->assertInstanceOf(ExternalResource::class, $studio->resources()->first());
+    $this->assertEquals(StudioResource::class, $studio->resources()->getPivotClass());
 });
 
 test('images', function () {
@@ -71,8 +71,8 @@ test('images', function () {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    static::assertInstanceOf(BelongsToMany::class, $studio->images());
-    static::assertEquals($imageCount, $studio->images()->count());
-    static::assertInstanceOf(Image::class, $studio->images()->first());
-    static::assertEquals(StudioImage::class, $studio->images()->getPivotClass());
+    $this->assertInstanceOf(BelongsToMany::class, $studio->images());
+    $this->assertEquals($imageCount, $studio->images()->count());
+    $this->assertInstanceOf(Image::class, $studio->images()->first());
+    $this->assertEquals(StudioImage::class, $studio->images()->getPivotClass());
 });

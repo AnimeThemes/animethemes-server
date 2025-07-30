@@ -22,6 +22,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -29,7 +31,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('default', function () {
     $features = Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.feature.index'));
+    $response = get(route('api.feature.index'));
 
     $response->assertJson(
         json_decode(
@@ -56,7 +58,7 @@ test('non null forbidden', function () {
         ]);
     });
 
-    $response = $this->get(route('api.feature.index'));
+    $response = get(route('api.feature.index'));
 
     $response->assertJsonCount($nullScopeCount, FeatureCollection::$wrap);
 
@@ -75,7 +77,7 @@ test('non null forbidden', function () {
 test('paginated', function () {
     Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.feature.index'));
+    $response = get(route('api.feature.index'));
 
     $response->assertJsonStructure([
         FeatureCollection::$wrap,
@@ -99,7 +101,7 @@ test('sparse fieldsets', function () {
 
     $features = Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.feature.index', $parameters));
+    $response = get(route('api.feature.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -130,7 +132,7 @@ test('sorts', function () {
 
     Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-    $response = $this->get(route('api.feature.index', $parameters));
+    $response = get(route('api.feature.index', $parameters));
 
     $features = $this->sort(Feature::query(), $query, $schema)->get();
 
@@ -169,7 +171,7 @@ test('created at filter', function () {
 
     $feature = Feature::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.feature.index', $parameters));
+    $response = get(route('api.feature.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -206,7 +208,7 @@ test('updated at filter', function () {
 
     $feature = Feature::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.feature.index', $parameters));
+    $response = get(route('api.feature.index', $parameters));
 
     $response->assertJson(
         json_decode(

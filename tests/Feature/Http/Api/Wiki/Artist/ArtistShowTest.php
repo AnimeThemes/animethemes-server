@@ -27,12 +27,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default', function () {
     $artist = Artist::factory()->create();
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist]));
+    $response = get(route('api.artist.show', ['artist' => $artist]));
 
     $response->assertJson(
         json_decode(
@@ -51,7 +53,7 @@ test('soft delete', function () {
 
     $artist->unsetRelations();
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist]));
+    $response = get(route('api.artist.show', ['artist' => $artist]));
 
     $response->assertJson(
         json_decode(
@@ -80,7 +82,7 @@ test('allowed include paths', function () {
 
     $artist = Artist::factory()->jsonApiResource()->createOne();
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -109,7 +111,7 @@ test('sparse fieldsets', function () {
 
     $artist = Artist::factory()->create();
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -156,7 +158,7 @@ test('themes by sequence', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -198,7 +200,7 @@ test('themes by type', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -240,7 +242,7 @@ test('anime by media format', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -282,7 +284,7 @@ test('anime by season', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -330,7 +332,7 @@ test('anime by year', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -364,7 +366,7 @@ test('resources by site', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(
@@ -398,7 +400,7 @@ test('images by facet', function () {
         },
     ]);
 
-    $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+    $response = get(route('api.artist.show', ['artist' => $artist] + $parameters));
 
     $response->assertJson(
         json_decode(

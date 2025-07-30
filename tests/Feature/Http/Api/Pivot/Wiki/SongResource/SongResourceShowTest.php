@@ -17,13 +17,15 @@ use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $song = Song::factory()->createOne();
     $resource = ExternalResource::factory()->createOne();
 
-    $response = $this->get(route('api.songresource.show', ['song' => $song, 'resource' => $resource]));
+    $response = get(route('api.songresource.show', ['song' => $song, 'resource' => $resource]));
 
     $response->assertNotFound();
 });
@@ -34,7 +36,7 @@ test('default', function () {
         ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    $response = get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
     $songResource->unsetRelations();
 
@@ -68,7 +70,7 @@ test('allowed include paths', function () {
         ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
     $songResource->unsetRelations()->load($includedPaths->all());
 
@@ -102,7 +104,7 @@ test('sparse fieldsets', function () {
         ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
     $songResource->unsetRelations();
 
@@ -133,7 +135,7 @@ test('resources by site', function () {
         ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
         ->createOne();
 
-    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
     $songResource->unsetRelations()->load([
         SongResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {

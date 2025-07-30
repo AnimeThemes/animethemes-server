@@ -19,13 +19,15 @@ use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
+use function Pest\Laravel\get;
+
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('not found', function () {
     $anime = Anime::factory()->createOne();
     $image = Image::factory()->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $anime, 'image' => $image]));
+    $response = get(route('api.animeimage.show', ['anime' => $anime, 'image' => $image]));
 
     $response->assertNotFound();
 });
@@ -36,7 +38,7 @@ test('default', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image]));
 
     $animeImage->unsetRelations();
 
@@ -70,7 +72,7 @@ test('allowed include paths', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
 
     $animeImage->unsetRelations()->load($includedPaths->all());
 
@@ -104,7 +106,7 @@ test('sparse fieldsets', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
 
     $animeImage->unsetRelations();
 
@@ -135,7 +137,7 @@ test('images by facet', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
 
     $animeImage->unsetRelations()->load([
         AnimeImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
@@ -170,7 +172,7 @@ test('anime by media format', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
 
     $animeImage->unsetRelations()->load([
         AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
@@ -205,7 +207,7 @@ test('anime by season', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
 
     $animeImage->unsetRelations()->load([
         AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
@@ -246,7 +248,7 @@ test('anime by year', function () {
         ->for(Image::factory())
         ->createOne();
 
-    $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+    $response = get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
 
     $animeImage->unsetRelations()->load([
         AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {

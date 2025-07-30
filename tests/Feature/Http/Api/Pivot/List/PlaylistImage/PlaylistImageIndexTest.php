@@ -31,6 +31,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
+use function Pest\Laravel\get;
+
 uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -83,7 +85,7 @@ test('default', function () {
         })
         ->get();
 
-    $response = $this->get(route('api.playlistimage.index'));
+    $response = get(route('api.playlistimage.index'));
 
     $response->assertJsonCount($publicCount, PlaylistImageCollection::$wrap);
 
@@ -113,7 +115,7 @@ test('paginated', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.playlistimage.index'));
+    $response = get(route('api.playlistimage.index'));
 
     $response->assertJsonStructure([
         PlaylistImageCollection::$wrap,
@@ -148,7 +150,7 @@ test('allowed include paths', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.playlistimage.index', $parameters));
+    $response = get(route('api.playlistimage.index', $parameters));
 
     $playlistImages = PlaylistImage::with($includedPaths->all())->get();
 
@@ -190,7 +192,7 @@ test('sparse fieldsets', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.playlistimage.index', $parameters));
+    $response = get(route('api.playlistimage.index', $parameters));
 
     $playlistImages = PlaylistImage::all();
 
@@ -234,7 +236,7 @@ test('sorts', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.playlistimage.index', $parameters));
+    $response = get(route('api.playlistimage.index', $parameters));
 
     $playlistImages = $this->sort(PlaylistImage::query(), $query, $schema)->get();
 
@@ -295,7 +297,7 @@ test('created at filter', function () {
 
     $playlistImages = PlaylistImage::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-    $response = $this->get(route('api.playlistimage.index', $parameters));
+    $response = get(route('api.playlistimage.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -354,7 +356,7 @@ test('updated at filter', function () {
 
     $playlistImages = PlaylistImage::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    $response = $this->get(route('api.playlistimage.index', $parameters));
+    $response = get(route('api.playlistimage.index', $parameters));
 
     $response->assertJson(
         json_decode(
@@ -391,7 +393,7 @@ test('images by facet', function () {
             ->create();
     });
 
-    $response = $this->get(route('api.playlistimage.index', $parameters));
+    $response = get(route('api.playlistimage.index', $parameters));
 
     $playlistImages = PlaylistImage::with([
         PlaylistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {

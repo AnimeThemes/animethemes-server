@@ -7,10 +7,12 @@ use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
+use function Pest\Laravel\delete;
+
 test('protected', function () {
     $featuredTheme = FeaturedTheme::factory()->createOne();
 
-    $response = $this->delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+    $response = delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
 
     $response->assertUnauthorized();
 });
@@ -22,7 +24,7 @@ test('forbidden', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+    $response = delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
 
     $response->assertForbidden();
 });
@@ -34,8 +36,8 @@ test('deleted', function () {
 
     Sanctum::actingAs($user);
 
-    $response = $this->delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
+    $response = delete(route('api.featuredtheme.destroy', ['featuredtheme' => $featuredTheme]));
 
     $response->assertOk();
-    static::assertModelMissing($featuredTheme);
+    $this->assertModelMissing($featuredTheme);
 });

@@ -15,6 +15,9 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
 use Livewire\Livewire;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 test('render index page', function () {
     $user = User::factory()
         ->withPermissions(
@@ -23,14 +26,14 @@ test('render index page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $records = PerformanceModel::factory()
         ->for(Song::factory())
         ->artist(Artist::factory()->createOne())
         ->create();
 
-    $this->get(Performance::getUrl('index'))
+    get(Performance::getUrl('index'))
         ->assertSuccessful();
 
     Livewire::test(getIndexPage(Performance::class))
@@ -45,14 +48,14 @@ test('render view page', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = PerformanceModel::factory()
         ->for(Song::factory())
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    $this->get(Performance::getUrl('view', ['record' => $record]))
+    get(Performance::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -64,7 +67,7 @@ test('mount create action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     Livewire::test(getIndexPage(Performance::class))
         ->mountAction('new performance')
@@ -79,7 +82,7 @@ test('mount edit action', function () {
         )
         ->createOne();
 
-    $this->actingAs($user);
+    actingAs($user);
 
     $record = PerformanceModel::factory()
         ->for(Song::factory())
