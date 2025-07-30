@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External\Entry;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Sort\Direction;
@@ -29,396 +26,342 @@ use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
+
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 /**
- * Class External EntryIndexTest.
+ * Setup the test environment.
  */
-class ExternalEntryIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+beforeEach(function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
+});
 
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
+test('private external entry cannot be publicly viewed', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->entries(fake()->numberBetween(2, 9))
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        Event::fakeExcept(ExternalProfileCreated::class);
-    }
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
-    /**
-     * The External Entry Index Endpoint shall forbid a private profile from being publicly viewed.
-     */
-    public function testPrivateExternalEntryCannotBePubliclyViewed(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->entries($this->faker->numberBetween(2, 9))
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    $response->assertForbidden();
+});
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+test('private external entry cannot be publicly viewed if not owned', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->entries(fake()->numberBetween(2, 9))
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        $response->assertForbidden();
-    }
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
-    /**
-     * The External Entry Index Endpoint shall forbid the user from viewing private profile entries if not owned.
-     */
-    public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->entries($this->faker->numberBetween(2, 9))
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    Sanctum::actingAs($user);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
-        Sanctum::actingAs($user);
+    $response->assertForbidden();
+});
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+test('private external entry can be viewed by owner', function () {
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
-        $response->assertForbidden();
-    }
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->entries(fake()->numberBetween(2, 9))
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-    /**
-     * The External Entry Index Endpoint shall allow private profile entries to be viewed by the owner.
-     */
-    public function testPrivateExternalEntryCanBeViewedByOwner(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
+    Sanctum::actingAs($user);
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->entries($this->faker->numberBetween(2, 9))
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
-        Sanctum::actingAs($user);
+    $response->assertOk();
+});
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+test('public external entry can be viewed', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->entries(fake()->numberBetween(2, 9))
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $response->assertOk();
-    }
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
-    /**
-     * The External Entry Index Endpoint shall allow public profile entries to be viewed.
-     */
-    public function testPublicExternalEntryCanBeViewed(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->entries($this->faker->numberBetween(2, 9))
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $response->assertOk();
+});
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+test('default', function () {
+    $entryCount = fake()->randomDigitNotNull();
 
-        $response->assertOk();
-    }
+    $profile = ExternalProfile::factory()
+        ->has(ExternalEntry::factory()->count($entryCount), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-    /**
-     * By default, the External Entry Index Endpoint shall return a collection of External Entry Resources that belong to the External Profile.
-     */
-    public function testDefault(): void
-    {
-        $entryCount = $this->faker->randomDigitNotNull();
-
-        $profile = ExternalProfile::factory()
+    Collection::times(
+        fake()->randomDigitNotNull(),
+        fn () => ExternalProfile::factory()
             ->has(ExternalEntry::factory()->count($entryCount), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
             ->createOne([
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+            ])
+    );
 
-        Collection::times(
-            $this->faker->randomDigitNotNull(),
-            fn () => ExternalProfile::factory()
-                ->has(ExternalEntry::factory()->count($entryCount), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-                ->createOne([
-                    ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-                ])
-        );
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
+    $response->assertJsonCount($entryCount, ExternalEntryCollection::$wrap);
 
-        $response->assertJsonCount($entryCount, ExternalEntryCollection::$wrap);
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryCollection($profile->externalentries, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryCollection($profile->externalentries, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The External Entry Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->has(ExternalEntry::factory()->count($this->faker->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
-
-        $response->assertJsonStructure([
-            ExternalEntryCollection::$wrap,
-            'links',
-            'meta',
+test('paginated', function () {
+    $profile = ExternalProfile::factory()
+        ->has(ExternalEntry::factory()->count(fake()->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
-    }
 
-    /**
-     * The External Entry Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ExternalEntrySchema();
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile]));
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $response->assertJsonStructure([
+        ExternalEntryCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+test('allowed include paths', function () {
+    $schema = new ExternalEntrySchema();
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        ExternalEntry::factory()
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
+
+    ExternalEntry::factory()
+        ->for($profile)
+        ->for(Anime::factory())
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+
+    $entries = ExternalEntry::with($includedPaths->all())->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryCollection($entries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new ExternalEntrySchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            ExternalEntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    $profile = ExternalProfile::factory()
+        ->has(ExternalEntry::factory()->count(fake()->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
+
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryCollection($profile->externalentries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new ExternalEntrySchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $profile = ExternalProfile::factory()
+        ->has(ExternalEntry::factory()->count(fake()->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
+
+    $query = new Query($parameters);
+
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+
+    $entries = $this->sort(ExternalEntry::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryCollection($entries, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
+
+    Carbon::withTestNow(
+        $createdFilter,
+        fn () => ExternalEntry::factory()
             ->for($profile)
-            ->for(Anime::factory())
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+            ->count(fake()->randomDigitNotNull())
+            ->create()
+    );
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    Carbon::withTestNow(
+        $excludedDate,
+        fn () => ExternalEntry::factory()
+            ->for($profile)
+            ->count(fake()->randomDigitNotNull())
+            ->create()
+    );
 
-        $entries = ExternalEntry::with($includedPaths->all())->get();
+    $entries = ExternalEntry::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryCollection($entries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
-    /**
-     * The External Entry Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ExternalEntrySchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryCollection($entries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $fields = collect($schema->fields());
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $parameters = [
-            FieldParser::param() => [
-                ExternalEntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $profile = ExternalProfile::factory()
-            ->has(ExternalEntry::factory()->count($this->faker->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    Carbon::withTestNow(
+        $updatedFilter,
+        fn () => ExternalEntry::factory()
+            ->for($profile)
+            ->count(fake()->randomDigitNotNull())
+            ->create()
+    );
 
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
+    Carbon::withTestNow(
+        $excludedDate,
+        fn () => ExternalEntry::factory()
+            ->for($profile)
+            ->count(fake()->randomDigitNotNull())
+            ->create()
+    );
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryCollection($profile->externalentries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $entries = ExternalEntry::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-    /**
-     * The External Entry Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new ExternalEntrySchema();
+    $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
-
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
-
-        $profile = ExternalProfile::factory()
-            ->has(ExternalEntry::factory()->count($this->faker->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        $query = new Query($parameters);
-
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
-
-        $entries = $this->sort(ExternalEntry::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryCollection($entries, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The External Entry Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        Carbon::withTestNow(
-            $createdFilter,
-            fn () => ExternalEntry::factory()
-                ->for($profile)
-                ->count($this->faker->randomDigitNotNull())
-                ->create()
-        );
-
-        Carbon::withTestNow(
-            $excludedDate,
-            fn () => ExternalEntry::factory()
-                ->for($profile)
-                ->count($this->faker->randomDigitNotNull())
-                ->create()
-        );
-
-        $entries = ExternalEntry::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryCollection($entries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The External Entry Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        Carbon::withTestNow(
-            $updatedFilter,
-            fn () => ExternalEntry::factory()
-                ->for($profile)
-                ->count($this->faker->randomDigitNotNull())
-                ->create()
-        );
-
-        Carbon::withTestNow(
-            $excludedDate,
-            fn () => ExternalEntry::factory()
-                ->for($profile)
-                ->count($this->faker->randomDigitNotNull())
-                ->create()
-        );
-
-        $entries = ExternalEntry::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.externalprofile.externalentry.index', ['externalprofile' => $profile] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryCollection($entries, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalEntryCollection($entries, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

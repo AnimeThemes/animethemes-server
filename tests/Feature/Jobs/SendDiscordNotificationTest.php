@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs;
-
 use App\Constants\FeatureConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
@@ -14,97 +12,83 @@ use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
-use Tests\TestCase;
 
-class SendDiscordNotificationTest extends TestCase
-{
-    /**
-     * The Send Discord Notification Job shall send a DiscordNotification.
-     */
-    public function testSendDiscordNotificationJobSendsNotification(): void
+test('send discord notification job sends notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Notification::fake();
+
+    $event = new class implements DiscordMessageEvent
     {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Notification::fake();
+        use Dispatchable;
 
-        $event = new class implements DiscordMessageEvent
+        /**
+         * Get Discord message payload.
+         *
+         * @return DiscordMessage
+         */
+        public function getDiscordMessage(): DiscordMessage
         {
-            use Dispatchable;
+            return DiscordMessage::create();
+        }
 
-            /**
-             * Get Discord message payload.
-             *
-             * @return DiscordMessage
-             */
-            public function getDiscordMessage(): DiscordMessage
-            {
-                return DiscordMessage::create();
-            }
+        /**
+         * Get Discord channel the message will be sent to.
+         */
+        public function getDiscordChannel(): string
+        {
+            return '';
+        }
 
-            /**
-             * Get Discord channel the message will be sent to.
-             */
-            public function getDiscordChannel(): string
-            {
-                return '';
-            }
+        /**
+         * Determine if the message should be sent.
+         */
+        public function shouldSendDiscordMessage(): bool
+        {
+            return true;
+        }
+    };
+    $job = new SendDiscordNotificationJob($event);
 
-            /**
-             * Determine if the message should be sent.
-             */
-            public function shouldSendDiscordMessage(): bool
-            {
-                return true;
-            }
-        };
+    $job->handle();
 
-        $job = new SendDiscordNotificationJob($event);
+    Notification::assertSentTo(
+        new AnonymousNotifiable(),
+        DiscordNotification::class,
+    );
+});
 
-        $job->handle();
-
-        Notification::assertSentTo(
-            new AnonymousNotifiable(),
-            DiscordNotification::class,
-        );
-    }
-
-    /**
-     * The Send Discord Notification Job shall use the RateLimited middleware.
-     */
-    public function testRateLimited(): void
+test('rate limited', function () {
+    $event = new class implements DiscordMessageEvent
     {
-        $event = new class implements DiscordMessageEvent
+        use Dispatchable;
+
+        /**
+         * Get Discord message payload.
+         */
+        public function getDiscordMessage(): DiscordMessage
         {
-            use Dispatchable;
+            return DiscordMessage::create();
+        }
 
-            /**
-             * Get Discord message payload.
-             */
-            public function getDiscordMessage(): DiscordMessage
-            {
-                return DiscordMessage::create();
-            }
+        /**
+         * Get Discord channel the message will be sent to.
+         */
+        public function getDiscordChannel(): string
+        {
+            return '';
+        }
 
-            /**
-             * Get Discord channel the message will be sent to.
-             */
-            public function getDiscordChannel(): string
-            {
-                return '';
-            }
+        /**
+         * Determine if the message should be sent.
+         */
+        public function shouldSendDiscordMessage(): bool
+        {
+            return true;
+        }
+    };
+    $job = new SendDiscordNotificationJob($event);
 
-            /**
-             * Determine if the message should be sent.
-             */
-            public function shouldSendDiscordMessage(): bool
-            {
-                return true;
-            }
-        };
+    $middleware = collect($job->middleware())->first();
 
-        $job = new SendDiscordNotificationJob($event);
-
-        $middleware = collect($job->middleware())->first();
-
-        static::assertInstanceOf(RateLimited::class, $middleware);
-    }
-}
+    static::assertInstanceOf(RateLimited::class, $middleware);
+});

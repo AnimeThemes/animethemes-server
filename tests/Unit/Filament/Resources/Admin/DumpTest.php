@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\Admin;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\DeleteAction;
@@ -14,84 +12,50 @@ use App\Filament\Resources\Admin\Dump;
 use App\Models\Admin\Dump as DumpModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class DumpTest extends BaseResourceTestCase
-{
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = Dump::getPages();
+test('render index page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(DumpModel::class)
+        )
+        ->createOne();
 
-        return $pages['index']->getPage();
-    }
+    $this->actingAs($user);
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(DumpModel::class)
-            )
-            ->createOne();
+    $records = DumpModel::factory()->count(10)->create();
 
-        $this->actingAs($user);
+    $this->get(Dump::getUrl('index'))
+        ->assertSuccessful();
 
-        $records = DumpModel::factory()->count(10)->create();
+    Livewire::test(getIndexPage(Dump::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $this->get(Dump::getUrl('index'))
-            ->assertSuccessful();
+test('user cannot edit record', function () {
+    $record = DumpModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    Livewire::test(getIndexPage(Dump::class))
+        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot edit a record.
-     */
-    public function testUserCannotEditRecord(): void
-    {
-        $record = DumpModel::factory()->createOne();
+test('user cannot delete record', function () {
+    $record = DumpModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getIndexPage(Dump::class))
+        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot delete a record.
-     */
-    public function testUserCannotDeleteRecord(): void
-    {
-        $record = DumpModel::factory()->createOne();
+test('user cannot restore record', function () {
+    $record = DumpModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getIndexPage(Dump::class))
+        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot restore a record.
-     */
-    public function testUserCannotRestoreRecord(): void
-    {
-        $record = DumpModel::factory()->createOne();
+test('user cannot force delete record', function () {
+    $record = DumpModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-    }
-
-    /**
-     * The user with no permissions cannot force delete a record.
-     */
-    public function testUserCannotForceDeleteRecord(): void
-    {
-        $record = DumpModel::factory()->createOne();
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
-    }
-}
+    Livewire::test(getIndexPage(Dump::class))
+        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+});

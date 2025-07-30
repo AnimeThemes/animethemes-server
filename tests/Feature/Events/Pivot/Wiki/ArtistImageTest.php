@@ -2,41 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Pivot\Wiki;
-
 use App\Events\Pivot\Wiki\ArtistImage\ArtistImageCreated;
 use App\Events\Pivot\Wiki\ArtistImage\ArtistImageDeleted;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class ArtistImageTest extends TestCase
-{
-    /**
-     * When an Artist is attached to an Image or vice versa, an ArtistImageCreated event shall be dispatched.
-     */
-    public function testArtistImageCreatedEventDispatched(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $image = Image::factory()->createOne();
+test('artist image created event dispatched', function () {
+    $artist = Artist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $artist->images()->attach($image);
+    $artist->images()->attach($image);
 
-        Event::assertDispatched(ArtistImageCreated::class);
-    }
+    Event::assertDispatched(ArtistImageCreated::class);
+});
 
-    /**
-     * When an Artist is detached from an Image or vice versa, an ArtistImageDeleted event shall be dispatched.
-     */
-    public function testArtistImageDeletedEventDispatched(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $image = Image::factory()->createOne();
+test('artist image deleted event dispatched', function () {
+    $artist = Artist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $artist->images()->attach($image);
-        $artist->images()->detach($image);
+    $artist->images()->attach($image);
+    $artist->images()->detach($image);
 
-        Event::assertDispatched(ArtistImageDeleted::class);
-    }
-}
+    Event::assertDispatched(ArtistImageDeleted::class);
+});

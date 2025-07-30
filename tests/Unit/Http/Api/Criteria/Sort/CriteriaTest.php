@@ -2,124 +2,101 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Criteria\Sort;
-
 use App\Http\Api\Criteria\Sort\Criteria;
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\TypeScope;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-class CriteriaTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If the criteria and sort keys do not match, the sort should not be applied.
-     */
-    public function testShouldNotSortIfKeyMismatch(): void
+test('should not sort if key mismatch', function () {
+    $criteria = new class(new GlobalScope(), fake()->word()) extends Criteria
     {
-        $criteria = new class(new GlobalScope(), $this->faker->word()) extends Criteria
+        /**
+         * Apply criteria to builder.
+         *
+         * @param  Builder  $builder
+         * @return Builder
+         */
+        public function sort(Builder $builder, Sort $sort): Builder
         {
-            /**
-             * Apply criteria to builder.
-             *
-             * @param  Builder  $builder
-             * @return Builder
-             */
-            public function sort(Builder $builder, Sort $sort): Builder
-            {
-                return $builder;
-            }
-        };
+            return $builder;
+        }
+    };
 
-        $sort = new Sort($this->faker->word());
+    $sort = new Sort(fake()->word());
 
-        static::assertFalse($criteria->shouldSort($sort, $criteria->getScope()));
-    }
+    static::assertFalse($criteria->shouldSort($sort, $criteria->getScope()));
+});
 
-    /**
-     * If the criteria and sort keys match, the sort should be applied.
-     */
-    public function testShouldSortIfKeyMatch(): void
+test('should sort if key match', function () {
+    $key = fake()->word();
+
+    $criteria = new class(new GlobalScope(), $key) extends Criteria
     {
-        $key = $this->faker->word();
-
-        $criteria = new class(new GlobalScope(), $key) extends Criteria
+        /**
+         * Apply criteria to builder.
+         *
+         * @param  Builder  $builder
+         * @return Builder
+         */
+        public function sort(Builder $builder, Sort $sort): Builder
         {
-            /**
-             * Apply criteria to builder.
-             *
-             * @param  Builder  $builder
-             * @return Builder
-             */
-            public function sort(Builder $builder, Sort $sort): Builder
-            {
-                return $builder;
-            }
-        };
+            return $builder;
+        }
+    };
 
-        $sort = new Sort($key);
+    $sort = new Sort($key);
 
-        static::assertTrue($criteria->shouldSort($sort, $criteria->getScope()));
-    }
+    static::assertTrue($criteria->shouldSort($sort, $criteria->getScope()));
+});
 
-    /**
-     * If the criteria and sort keys match, the sort should be applied.
-     */
-    public function testShouldNotSortIfNotWithinScope(): void
+test('should not sort if not within scope', function () {
+    $key = fake()->word();
+
+    $scope = new TypeScope(fake()->word());
+
+    $criteria = new class($scope, $key) extends Criteria
     {
-        $key = $this->faker->word();
-
-        $scope = new TypeScope($this->faker->word());
-
-        $criteria = new class($scope, $key) extends Criteria
+        /**
+         * Apply criteria to builder.
+         *
+         * @param  Builder  $builder
+         * @return Builder
+         */
+        public function sort(Builder $builder, Sort $sort): Builder
         {
-            /**
-             * Apply criteria to builder.
-             *
-             * @param  Builder  $builder
-             * @return Builder
-             */
-            public function sort(Builder $builder, Sort $sort): Builder
-            {
-                return $builder;
-            }
-        };
+            return $builder;
+        }
+    };
 
-        $sort = new Sort($key);
+    $sort = new Sort($key);
 
-        static::assertFalse($criteria->shouldSort($sort, new GlobalScope()));
-    }
+    static::assertFalse($criteria->shouldSort($sort, new GlobalScope()));
+});
 
-    /**
-     * If the criteria and sort keys match, the sort should be applied.
-     */
-    public function testShouldSortIfWithinScope(): void
+test('should sort if within scope', function () {
+    $key = fake()->word();
+
+    $scope = new TypeScope(Str::of(Str::random())->lower()->singular()->__toString());
+
+    $criteria = new class($scope, $key) extends Criteria
     {
-        $key = $this->faker->word();
-
-        $scope = new TypeScope(Str::of(Str::random())->lower()->singular()->__toString());
-
-        $criteria = new class($scope, $key) extends Criteria
+        /**
+         * Apply criteria to builder.
+         *
+         * @param  Builder  $builder
+         * @return Builder
+         */
+        public function sort(Builder $builder, Sort $sort): Builder
         {
-            /**
-             * Apply criteria to builder.
-             *
-             * @param  Builder  $builder
-             * @return Builder
-             */
-            public function sort(Builder $builder, Sort $sort): Builder
-            {
-                return $builder;
-            }
-        };
+            return $builder;
+        }
+    };
 
-        $sort = new Sort($key);
+    $sort = new Sort($key);
 
-        static::assertTrue($criteria->shouldSort($sort, $scope));
-    }
-}
+    static::assertTrue($criteria->shouldSort($sort, $scope));
+});

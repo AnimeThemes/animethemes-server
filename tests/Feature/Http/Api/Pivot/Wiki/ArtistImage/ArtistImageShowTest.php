@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistImage;
-
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -17,165 +15,140 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\ArtistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class ArtistImageShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Artist Image Show Endpoint shall return an error if the artist image does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $image = Image::factory()->createOne();
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $response = $this->get(route('api.artistimage.show', ['artist' => $artist, 'image' => $image]));
+    $response = $this->get(route('api.artistimage.show', ['artist' => $artist, 'image' => $image]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * By default, the Artist Image Show Endpoint shall return an Artist Image Resource.
-     */
-    public function testDefault(): void
-    {
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+test('default', function () {
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
+    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image]));
 
-        $artistImage->unsetRelations();
+    $artistImage->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistImageResource($artistImage, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistImageResource($artistImage, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Artist Image Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ArtistImageSchema();
+test('allowed include paths', function () {
+    $schema = new ArtistImageSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
+    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
 
-        $artistImage->unsetRelations()->load($includedPaths->all());
+    $artistImage->unsetRelations()->load($includedPaths->all());
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistImageResource($artistImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistImageResource($artistImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Artist Image Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ArtistImageSchema();
+test('sparse fieldsets', function () {
+    $schema = new ArtistImageSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                ArtistImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            ArtistImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
+    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
 
-        $artistImage->unsetRelations();
+    $artistImage->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistImageResource($artistImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistImageResource($artistImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Artist Image Show Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
+test('images by facet', function () {
+    $facetFilter = Arr::random(ImageFacet::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => ArtistImage::RELATION_IMAGE,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => ArtistImage::RELATION_IMAGE,
+    ];
 
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $artistImage = ArtistImage::factory()
+        ->for(Artist::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
+    $response = $this->get(route('api.artistimage.show', ['artist' => $artistImage->artist, 'image' => $artistImage->image] + $parameters));
 
-        $artistImage->unsetRelations()->load([
-            ArtistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ]);
+    $artistImage->unsetRelations()->load([
+        ArtistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistImageResource($artistImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistImageResource($artistImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

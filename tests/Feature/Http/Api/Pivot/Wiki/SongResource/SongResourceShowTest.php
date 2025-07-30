@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
-
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -17,165 +15,140 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class SongResourceShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Song Resource Show Endpoint shall return an error if the song resource does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('not found', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $response = $this->get(route('api.songresource.show', ['song' => $song, 'resource' => $resource]));
+    $response = $this->get(route('api.songresource.show', ['song' => $song, 'resource' => $resource]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * By default, the Song Resource Show Endpoint shall return an Song Resource Resource.
-     */
-    public function testDefault(): void
-    {
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+test('default', function () {
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource]));
+    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource]));
 
-        $songResource->unsetRelations();
+    $songResource->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceResource($songResource, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceResource($songResource, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Song Resource Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new SongResourceSchema();
+test('allowed include paths', function () {
+    $schema = new SongResourceSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
-        $songResource->unsetRelations()->load($includedPaths->all());
+    $songResource->unsetRelations()->load($includedPaths->all());
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceResource($songResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceResource($songResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Song Resource Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new SongResourceSchema();
+test('sparse fieldsets', function () {
+    $schema = new SongResourceSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                SongResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            SongResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
-        $songResource->unsetRelations();
+    $songResource->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceResource($songResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceResource($songResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Song Resource Show Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => SongResource::RELATION_RESOURCE,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => SongResource::RELATION_RESOURCE,
+    ];
 
-        $songResource = SongResource::factory()
-            ->for(Song::factory())
-            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-            ->createOne();
+    $songResource = SongResource::factory()
+        ->for(Song::factory())
+        ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
+    $response = $this->get(route('api.songresource.show', ['song' => $songResource->song, 'resource' => $songResource->resource] + $parameters));
 
-        $songResource->unsetRelations()->load([
-            SongResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ]);
+    $songResource->unsetRelations()->load([
+        SongResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceResource($songResource, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceResource($songResource, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

@@ -2,76 +2,54 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Document\Page;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PageStoreTest extends TestCase
-{
-    /**
-     * The Page Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $page = Page::factory()->makeOne();
+test('protected', function () {
+    $page = Page::factory()->makeOne();
 
-        $response = $this->post(route('api.page.store', $page->toArray()));
+    $response = $this->post(route('api.page.store', $page->toArray()));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Page Store Endpoint shall forbid users without the create page permission.
-     */
-    public function testForbidden(): void
-    {
-        $page = Page::factory()->makeOne();
+test('forbidden', function () {
+    $page = Page::factory()->makeOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.page.store', $page->toArray()));
+    $response = $this->post(route('api.page.store', $page->toArray()));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Page Store Endpoint shall require body, name & slug fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.page.store'));
+    $response = $this->post(route('api.page.store'));
 
-        $response->assertJsonValidationErrors([
-            Page::ATTRIBUTE_BODY,
-            Page::ATTRIBUTE_NAME,
-            Page::ATTRIBUTE_SLUG,
-        ]);
-    }
+    $response->assertJsonValidationErrors([
+        Page::ATTRIBUTE_BODY,
+        Page::ATTRIBUTE_NAME,
+        Page::ATTRIBUTE_SLUG,
+    ]);
+});
 
-    /**
-     * The Page Store Endpoint shall create a page.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Page::factory()->raw();
+test('create', function () {
+    $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.page.store', $parameters));
+    $response = $this->post(route('api.page.store', $parameters));
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Page::class, 1);
-    }
-}
+    $response->assertCreated();
+    static::assertDatabaseCount(Page::class, 1);
+});

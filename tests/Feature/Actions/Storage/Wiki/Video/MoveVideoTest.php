@@ -2,133 +2,110 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Storage\Wiki\Video;
-
 use App\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-class MoveVideoTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Move Video Action shall fail if there are no moves.
-     */
-    public function testDefault(): void
-    {
-        Config::set(VideoConstants::DISKS_QUALIFIED, []);
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+test('default', function () {
+    Config::set(VideoConstants::DISKS_QUALIFIED, []);
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        $video = Video::factory()->createOne();
+    $video = Video::factory()->createOne();
 
-        $action = new MoveVideoAction($video, $this->faker->word());
+    $action = new MoveVideoAction($video, fake()->word());
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
-    }
+    static::assertTrue($result->hasFailed());
+});
 
-    /**
-     * The Move Video Action shall pass if there are moves.
-     */
-    public function testPassed(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
+test('passed', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+    Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
-        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        $directory = $this->faker->unique()->word();
+    $directory = fake()->unique()->word();
 
-        $video = Video::factory()->createOne([
-            Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
-            Video::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
-            Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
-            Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
-        ]);
+    $video = Video::factory()->createOne([
+        Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
+        Video::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
+        Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
+        Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
+    ]);
 
-        $action = new MoveVideoAction($video, Str::replace($directory, $this->faker->unique()->word(), $video->path));
+    $action = new MoveVideoAction($video, Str::replace($directory, fake()->unique()->word(), $video->path));
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    }
+    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+});
 
-    /**
-     * The Move Video Action shall move the file in the configured disks.
-     */
-    public function testMovedInDisk(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
+test('moved in disk', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+    Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
-        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        $directory = $this->faker->unique()->word();
+    $directory = fake()->unique()->word();
 
-        $video = Video::factory()->createOne([
-            Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
-            Video::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
-            Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
-            Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
-        ]);
+    $video = Video::factory()->createOne([
+        Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
+        Video::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
+        Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
+        Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
+    ]);
 
-        $from = $video->path();
-        $to = Str::replace($directory, $this->faker->unique()->word(), $video->path);
+    $from = $video->path();
+    $to = Str::replace($directory, fake()->unique()->word(), $video->path);
 
-        $action = new MoveVideoAction($video, $to);
+    $action = new MoveVideoAction($video, $to);
 
-        $action->handle();
+    $action->handle();
 
-        $fs->assertMissing($from);
-        $fs->assertExists($to);
-    }
+    $fs->assertMissing($from);
+    $fs->assertExists($to);
+});
 
-    /**
-     * The Move Video Action shall move the video.
-     */
-    public function testVideoUpdated(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
+test('video updated', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+    Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
-        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        $directory = $this->faker->unique()->word();
+    $directory = fake()->unique()->word();
 
-        $video = Video::factory()->createOne([
-            Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
-            Video::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
-            Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
-            Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
-        ]);
+    $video = Video::factory()->createOne([
+        Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
+        Video::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
+        Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
+        Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
+    ]);
 
-        $to = Str::replace($directory, $this->faker->unique()->word(), $video->path);
+    $to = Str::replace($directory, fake()->unique()->word(), $video->path);
 
-        $action = new MoveVideoAction($video, $to);
+    $action = new MoveVideoAction($video, $to);
 
-        $result = $action->handle();
+    $result = $action->handle();
 
-        $action->then($result);
+    $action->then($result);
 
-        static::assertDatabaseHas(Video::class, [Video::ATTRIBUTE_PATH => $to]);
-    }
-}
+    static::assertDatabaseHas(Video::class, [Video::ATTRIBUTE_PATH => $to]);
+});

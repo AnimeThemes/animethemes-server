@@ -2,99 +2,84 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Wiki\Submission\Audio;
-
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Rules\Wiki\Submission\Audio\AudioIndexStreamRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
-use Tests\TestCase;
 
-class AudioIndexStreamTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Audio Index Stream Rule shall fail if the stream index is not expected.
-     */
-    public function testFailsWhenIndexIsNotExpected(): void
-    {
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+test('fails when index is not expected', function () {
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'audio',
-                        'index' => $this->faker->unique()->randomDigitNotNull(),
-                    ],
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'streams' => [
+                0 => [
+                    'codec_type' => 'audio',
+                    'index' => fake()->unique()->randomDigitNotNull(),
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new AudioIndexStreamRule($this->faker->unique()->randomDigitNotNull())],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new AudioIndexStreamRule(fake()->unique()->randomDigitNotNull())],
+    );
 
-        static::assertFalse($validator->passes());
+    static::assertFalse($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});
 
-    /**
-     * The Audio Index Stream Rule shall pass if the stream index is expected.
-     */
-    public function testPassesWhenIndexIsExpected(): void
-    {
-        $index = $this->faker->randomDigitNotNull();
+test('passes when index is expected', function () {
+    $index = fake()->randomDigitNotNull();
 
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'audio',
-                        'index' => $index,
-                    ],
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'streams' => [
+                0 => [
+                    'codec_type' => 'audio',
+                    'index' => $index,
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new AudioIndexStreamRule($index)],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new AudioIndexStreamRule($index)],
+    );
 
-        static::assertTrue($validator->passes());
+    static::assertTrue($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
-}
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});

@@ -2,81 +2,59 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Song;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SongUpdateTest extends TestCase
-{
-    /**
-     * The Song Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $song = Song::factory()->createOne();
+test('protected', function () {
+    $song = Song::factory()->createOne();
 
-        $parameters = Song::factory()->raw();
+    $parameters = Song::factory()->raw();
 
-        $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
+    $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Song Store Endpoint shall forbid users without the create song permission.
-     */
-    public function testForbidden(): void
-    {
-        $song = Song::factory()->createOne();
+test('forbidden', function () {
+    $song = Song::factory()->createOne();
 
-        $parameters = Song::factory()->raw();
+    $parameters = Song::factory()->raw();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
+    $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Song Update Endpoint shall forbid users from updating a song that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $song = Song::factory()->trashed()->createOne();
+test('trashed', function () {
+    $song = Song::factory()->trashed()->createOne();
 
-        $parameters = Song::factory()->raw();
+    $parameters = Song::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Song::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Song::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
+    $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Song Update Endpoint shall update a song.
-     */
-    public function testUpdate(): void
-    {
-        $song = Song::factory()->createOne();
+test('update', function () {
+    $song = Song::factory()->createOne();
 
-        $parameters = Song::factory()->raw();
+    $parameters = Song::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Song::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Song::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
+    $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
 
-        $response->assertOk();
-    }
-}
+    $response->assertOk();
+});

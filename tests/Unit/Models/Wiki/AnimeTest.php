@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Wiki;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
@@ -20,173 +18,121 @@ use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class AnimeTest extends TestCase
-{
-    use WithFaker;
+uses(WithFaker::class);
 
-    /**
-     * The season attribute of an anime shall be cast to an AnimeSeason enum instance.
-     */
-    public function testCastsSeasonToEnum(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('casts season to enum', function () {
+    $anime = Anime::factory()->createOne();
 
-        $season = $anime->season;
+    $season = $anime->season;
 
-        static::assertInstanceOf(AnimeSeason::class, $season);
-    }
+    static::assertInstanceOf(AnimeSeason::class, $season);
+});
 
-    /**
-     * The media_format attribute of an anime shall be cast to an AnimeMediaFormat enum instance.
-     */
-    public function testCastsMediaFormatToEnum(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('casts media format to enum', function () {
+    $anime = Anime::factory()->createOne();
 
-        $media_format = $anime->media_format;
+    $media_format = $anime->media_format;
 
-        static::assertInstanceOf(AnimeMediaFormat::class, $media_format);
-    }
+    static::assertInstanceOf(AnimeMediaFormat::class, $media_format);
+});
 
-    /**
-     * Anime shall be a searchable resource.
-     */
-    public function testSearchableAs(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('searchable as', function () {
+    $anime = Anime::factory()->createOne();
 
-        static::assertIsString($anime->searchableAs());
-    }
+    static::assertIsString($anime->searchableAs());
+});
 
-    /**
-     * Anime shall be a searchable resource.
-     */
-    public function testToSearchableArray(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('to searchable array', function () {
+    $anime = Anime::factory()->createOne();
 
-        static::assertIsArray($anime->toSearchableArray());
-    }
+    static::assertIsArray($anime->toSearchableArray());
+});
 
-    /**
-     * Anime shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('nameable', function () {
+    $anime = Anime::factory()->createOne();
 
-        static::assertIsString($anime->getName());
-    }
+    static::assertIsString($anime->getName());
+});
 
-    /**
-     * Anime shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('has subtitle', function () {
+    $anime = Anime::factory()->createOne();
 
-        static::assertIsString($anime->getSubtitle());
-    }
+    static::assertIsString($anime->getSubtitle());
+});
 
-    /**
-     * Anime shall have a one-to-many relationship with the type Synonym.
-     */
-    public function testSynonyms(): void
-    {
-        $synonymCount = $this->faker->randomDigitNotNull();
+test('synonyms', function () {
+    $synonymCount = fake()->randomDigitNotNull();
 
-        $anime = Anime::factory()
-            ->has(AnimeSynonym::factory()->count($synonymCount))
-            ->createOne();
+    $anime = Anime::factory()
+        ->has(AnimeSynonym::factory()->count($synonymCount))
+        ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $anime->animesynonyms());
-        static::assertEquals($synonymCount, $anime->animesynonyms()->count());
-        static::assertInstanceOf(AnimeSynonym::class, $anime->animesynonyms()->first());
-    }
+    static::assertInstanceOf(HasMany::class, $anime->animesynonyms());
+    static::assertEquals($synonymCount, $anime->animesynonyms()->count());
+    static::assertInstanceOf(AnimeSynonym::class, $anime->animesynonyms()->first());
+});
 
-    /**
-     * Anime shall have a many-to-many relationship with the type Series.
-     */
-    public function testSeries(): void
-    {
-        $seriesCount = $this->faker->randomDigitNotNull();
+test('series', function () {
+    $seriesCount = fake()->randomDigitNotNull();
 
-        $anime = Anime::factory()
-            ->has(Series::factory()->count($seriesCount))
-            ->createOne();
+    $anime = Anime::factory()
+        ->has(Series::factory()->count($seriesCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $anime->series());
-        static::assertEquals($seriesCount, $anime->series()->count());
-        static::assertInstanceOf(Series::class, $anime->series()->first());
-        static::assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
-    }
+    static::assertInstanceOf(BelongsToMany::class, $anime->series());
+    static::assertEquals($seriesCount, $anime->series()->count());
+    static::assertInstanceOf(Series::class, $anime->series()->first());
+    static::assertEquals(AnimeSeries::class, $anime->series()->getPivotClass());
+});
 
-    /**
-     * Anime shall have a one-to-many relationship with the type Theme.
-     */
-    public function testThemes(): void
-    {
-        $themeCount = $this->faker->randomDigitNotNull();
+test('themes', function () {
+    $themeCount = fake()->randomDigitNotNull();
 
-        $anime = Anime::factory()
-            ->has(AnimeTheme::factory()->count($themeCount))
-            ->createOne();
+    $anime = Anime::factory()
+        ->has(AnimeTheme::factory()->count($themeCount))
+        ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $anime->animethemes());
-        static::assertEquals($themeCount, $anime->animethemes()->count());
-        static::assertInstanceOf(AnimeTheme::class, $anime->animethemes()->first());
-    }
+    static::assertInstanceOf(HasMany::class, $anime->animethemes());
+    static::assertEquals($themeCount, $anime->animethemes()->count());
+    static::assertInstanceOf(AnimeTheme::class, $anime->animethemes()->first());
+});
 
-    /**
-     * Anime shall have a many-to-many relationship with the type ExternalResource.
-     */
-    public function testExternalResources(): void
-    {
-        $resourceCount = $this->faker->randomDigitNotNull();
+test('external resources', function () {
+    $resourceCount = fake()->randomDigitNotNull();
 
-        $anime = Anime::factory()
-            ->has(ExternalResource::factory()->count($resourceCount), 'resources')
-            ->createOne();
+    $anime = Anime::factory()
+        ->has(ExternalResource::factory()->count($resourceCount), 'resources')
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $anime->resources());
-        static::assertEquals($resourceCount, $anime->resources()->count());
-        static::assertInstanceOf(ExternalResource::class, $anime->resources()->first());
-        static::assertEquals(AnimeResource::class, $anime->resources()->getPivotClass());
-    }
+    static::assertInstanceOf(BelongsToMany::class, $anime->resources());
+    static::assertEquals($resourceCount, $anime->resources()->count());
+    static::assertInstanceOf(ExternalResource::class, $anime->resources()->first());
+    static::assertEquals(AnimeResource::class, $anime->resources()->getPivotClass());
+});
 
-    /**
-     * Anime shall have a many-to-many relationship with the type Image.
-     */
-    public function testImages(): void
-    {
-        $imageCount = $this->faker->randomDigitNotNull();
+test('images', function () {
+    $imageCount = fake()->randomDigitNotNull();
 
-        $anime = Anime::factory()
-            ->has(Image::factory()->count($imageCount))
-            ->createOne();
+    $anime = Anime::factory()
+        ->has(Image::factory()->count($imageCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $anime->images());
-        static::assertEquals($imageCount, $anime->images()->count());
-        static::assertInstanceOf(Image::class, $anime->images()->first());
-        static::assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
-    }
+    static::assertInstanceOf(BelongsToMany::class, $anime->images());
+    static::assertEquals($imageCount, $anime->images()->count());
+    static::assertInstanceOf(Image::class, $anime->images()->first());
+    static::assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
+});
 
-    /**
-     * Anime shall have a many-to-many relationship with the type Studio.
-     */
-    public function testStudios(): void
-    {
-        $studioCount = $this->faker->randomDigitNotNull();
+test('studios', function () {
+    $studioCount = fake()->randomDigitNotNull();
 
-        $anime = Anime::factory()
-            ->has(Studio::factory()->count($studioCount))
-            ->createOne();
+    $anime = Anime::factory()
+        ->has(Studio::factory()->count($studioCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $anime->studios());
-        static::assertEquals($studioCount, $anime->studios()->count());
-        static::assertInstanceOf(Studio::class, $anime->studios()->first());
-        static::assertEquals(AnimeStudio::class, $anime->studios()->getPivotClass());
-    }
-}
+    static::assertInstanceOf(BelongsToMany::class, $anime->studios());
+    static::assertEquals($studioCount, $anime->studios()->count());
+    static::assertInstanceOf(Studio::class, $anime->studios()->first());
+    static::assertEquals(AnimeStudio::class, $anime->studios()->getPivotClass());
+});

@@ -2,86 +2,67 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Feature;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\FeatureSchema;
 use App\Http\Resources\Admin\Resource\FeatureResource;
 use App\Models\Admin\Feature;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class FeatureShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * By default, the Feature Show Endpoint shall return a Feature Resource.
-     */
-    public function testDefault(): void
-    {
-        $feature = Feature::factory()->create();
+test('default', function () {
+    $feature = Feature::factory()->create();
 
-        $response = $this->get(route('api.feature.show', ['feature' => $feature]));
+    $response = $this->get(route('api.feature.show', ['feature' => $feature]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureResource($feature, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureResource($feature, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Feature Show Endpoint shall forbid showing features of nonnull scope.
-     */
-    public function testNonNullForbidden(): void
-    {
-        $feature = Feature::factory()->create([
-            Feature::ATTRIBUTE_SCOPE => $this->faker->word(),
-        ]);
+test('non null forbidden', function () {
+    $feature = Feature::factory()->create([
+        Feature::ATTRIBUTE_SCOPE => fake()->word(),
+    ]);
 
-        $response = $this->get(route('api.feature.show', ['feature' => $feature]));
+    $response = $this->get(route('api.feature.show', ['feature' => $feature]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Feature Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new FeatureSchema();
+test('sparse fieldsets', function () {
+    $schema = new FeatureSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $feature = Feature::factory()->create();
+    $feature = Feature::factory()->create();
 
-        $response = $this->get(route('api.feature.show', ['feature' => $feature] + $parameters));
+    $response = $this->get(route('api.feature.show', ['feature' => $feature] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureResource($feature, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureResource($feature, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

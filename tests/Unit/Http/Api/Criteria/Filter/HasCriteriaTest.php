@@ -2,101 +2,66 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Criteria\Filter;
-
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Criteria\Filter\HasCriteria;
 use App\Http\Api\Scope\GlobalScope;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-class HasCriteriaTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Has Criteria shall parse the field.
-     */
-    public function testField(): void
-    {
-        $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
+test('field', function () {
+    $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-        static::assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
-    }
+    static::assertEquals(HasCriteria::PARAM_VALUE, $criteria->getField());
+});
 
-    /**
-     * By default, the Has Criteria shall use the GTE comparison operator.
-     */
-    public function testDefaultComparisonOperator(): void
-    {
-        $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
+test('default comparison operator', function () {
+    $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-        static::assertEquals(ComparisonOperator::GTE, $criteria->getComparisonOperator());
-    }
+    static::assertEquals(ComparisonOperator::GTE, $criteria->getComparisonOperator());
+});
 
-    /**
-     * The Has Criteria shall parse the comparison operator.
-     */
-    public function testComparisonOperator(): void
-    {
-        $operator = Arr::random(ComparisonOperator::cases());
+test('comparison operator', function () {
+    $operator = Arr::random(ComparisonOperator::cases());
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->name)->__toString();
+    $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->name)->__toString();
 
-        $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
+    $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-        static::assertEquals($operator, $criteria->getComparisonOperator());
-    }
+    static::assertEquals($operator, $criteria->getComparisonOperator());
+});
 
-    /**
-     * By default, the Has Criteria shall have a count of 1.
-     */
-    public function testDefaultCount(): void
-    {
-        $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
+test('default count', function () {
+    $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, fake()->word());
 
-        static::assertEquals(1, $criteria->getCount());
-    }
+    static::assertEquals(1, $criteria->getCount());
+});
 
-    /**
-     * The Has Criteria shall parse count.
-     */
-    public function testCount(): void
-    {
-        $count = $this->faker->randomDigitNotNull();
+test('count', function () {
+    $count = fake()->randomDigitNotNull();
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append(strval($count))->__toString();
+    $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append(strval($count))->__toString();
 
-        $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
+    $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-        static::assertEquals($count, $criteria->getCount());
-    }
+    static::assertEquals($count, $criteria->getCount());
+});
 
-    /**
-     * By default, the Has Criteria shall use the AND logical operator.
-     */
-    public function testDefaultLogicalOperator(): void
-    {
-        $criteria = HasCriteria::make(new GlobalScope(), $this->faker->word(), $this->faker->word());
+test('default logical operator', function () {
+    $criteria = HasCriteria::make(new GlobalScope(), fake()->word(), fake()->word());
 
-        static::assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
-    }
+    static::assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
+});
 
-    /**
-     * The Has Criteria shall parse the logical operator.
-     */
-    public function testLogicalOperator(): void
-    {
-        $operator = Arr::random(BinaryLogicalOperator::cases());
+test('logical operator', function () {
+    $operator = Arr::random(BinaryLogicalOperator::cases());
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->name)->__toString();
+    $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->name)->__toString();
 
-        $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
+    $criteria = HasCriteria::make(new GlobalScope(), $filterParam, fake()->word());
 
-        static::assertEquals($operator, $criteria->getLogicalOperator());
-    }
-}
+    static::assertEquals($operator, $criteria->getLogicalOperator());
+});

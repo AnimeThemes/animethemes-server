@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Admin;
-
 use App\Constants\FeatureConstants;
 use App\Events\Admin\Announcement\AnnouncementCreated;
 use App\Events\Admin\Announcement\AnnouncementDeleted;
@@ -13,56 +11,40 @@ use App\Models\Admin\Announcement;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class AnnouncementTest extends TestCase
-{
-    /**
-     * When an announcement is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnnouncementCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnnouncementCreated::class);
+test('announcement created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnnouncementCreated::class);
 
-        Announcement::factory()->createOne();
+    Announcement::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an announcement is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnnouncementDeletedSendsDiscordNotification(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+test('announcement deleted sends discord notification', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnnouncementDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnnouncementDeleted::class);
 
-        $announcement->delete();
+    $announcement->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an announcement is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnnouncementUpdatedSendsDiscordNotification(): void
-    {
-        $announcement = Announcement::factory()->createOne();
+test('announcement updated sends discord notification', function () {
+    $announcement = Announcement::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnnouncementUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnnouncementUpdated::class);
 
-        $changes = Announcement::factory()->makeOne();
+    $changes = Announcement::factory()->makeOne();
 
-        $announcement->fill($changes->getAttributes());
-        $announcement->save();
+    $announcement->fill($changes->getAttributes());
+    $announcement->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

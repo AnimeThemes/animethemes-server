@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Document;
-
 use App\Constants\FeatureConstants;
 use App\Events\Document\Page\PageCreated;
 use App\Events\Document\Page\PageDeleted;
@@ -14,72 +12,52 @@ use App\Models\Document\Page;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class PageTest extends TestCase
-{
-    /**
-     * When n page is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testPageCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PageCreated::class);
+test('page created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PageCreated::class);
 
-        Page::factory()->createOne();
+    Page::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a page is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testPageDeletedSendsDiscordNotification(): void
-    {
-        $page = Page::factory()->createOne();
+test('page deleted sends discord notification', function () {
+    $page = Page::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PageDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PageDeleted::class);
 
-        $page->delete();
+    $page->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a page is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testPageRestoredSendsDiscordNotification(): void
-    {
-        $page = Page::factory()->createOne();
+test('page restored sends discord notification', function () {
+    $page = Page::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PageRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PageRestored::class);
 
-        $page->restore();
+    $page->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a page is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testPageUpdatedSendsDiscordNotification(): void
-    {
-        $page = Page::factory()->createOne();
+test('page updated sends discord notification', function () {
+    $page = Page::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PageUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PageUpdated::class);
 
-        $changes = Page::factory()->makeOne();
+    $changes = Page::factory()->makeOne();
 
-        $page->fill($changes->getAttributes());
-        $page->save();
+    $page->fill($changes->getAttributes());
+    $page->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

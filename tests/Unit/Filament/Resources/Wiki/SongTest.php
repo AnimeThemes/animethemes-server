@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\Wiki;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
@@ -15,174 +13,114 @@ use App\Filament\Resources\Wiki\Song;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song as SongModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class SongTest extends BaseResourceTestCase
-{
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = Song::getPages();
+test('render index page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(SongModel::class)
+        )
+        ->createOne();
 
-        return $pages['index']->getPage();
-    }
+    $this->actingAs($user);
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = Song::getPages();
+    $records = SongModel::factory()->count(10)->create();
 
-        return $pages['view']->getPage();
-    }
+    $this->get(Song::getUrl('index'))
+        ->assertSuccessful();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(SongModel::class)
-            )
-            ->createOne();
+    Livewire::test(getIndexPage(Song::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        $this->actingAs($user);
+test('render view page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(SongModel::class)
+        )
+        ->createOne();
 
-        $records = SongModel::factory()->count(10)->create();
+    $this->actingAs($user);
 
-        $this->get(Song::getUrl('index'))
-            ->assertSuccessful();
+    $record = SongModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    $this->get(Song::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(SongModel::class)
-            )
-            ->createOne();
+test('mount create action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::CREATE->format(SongModel::class)
+        )
+        ->createOne();
 
-        $this->actingAs($user);
+    $this->actingAs($user);
 
-        $record = SongModel::factory()->createOne();
+    Livewire::test(getIndexPage(Song::class))
+        ->mountAction(CreateAction::class)
+        ->assertActionMounted(CreateAction::class);
+});
 
-        $this->get(Song::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(SongModel::class)
+        )
+        ->createOne();
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountCreateAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(SongModel::class)
-            )
-            ->createOne();
+    $this->actingAs($user);
 
-        $this->actingAs($user);
+    $record = SongModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(CreateAction::class)
-            ->assertActionMounted(CreateAction::class);
-    }
+    Livewire::test(getIndexPage(Song::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(SongModel::class)
-            )
-            ->createOne();
+test('user cannot create record', function () {
+    Livewire::test(getIndexPage(Song::class))
+        ->assertActionHidden(CreateAction::class);
+});
 
-        $this->actingAs($user);
+test('user cannot edit record', function () {
+    $record = SongModel::factory()->createOne();
 
-        $record = SongModel::factory()->createOne();
+    Livewire::test(getIndexPage(Song::class))
+        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+});
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
+test('user cannot delete record', function () {
+    $record = SongModel::factory()->createOne();
 
-    /**
-     * The user with no permissions cannot create a record.
-     */
-    public function testUserCannotCreateRecord(): void
-    {
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(CreateAction::class);
-    }
+    Livewire::test(getViewPage(Song::class), ['record' => $record->getKey()])
+        ->assertActionHidden(DeleteAction::class);
 
-    /**
-     * The user with no permissions cannot edit a record.
-     */
-    public function testUserCannotEditRecord(): void
-    {
-        $record = SongModel::factory()->createOne();
+    Livewire::test(getIndexPage(Song::class))
+        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+});
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
-    }
+test('user cannot restore record', function () {
+    $record = SongModel::factory()->createOne();
 
-    /**
-     * The user with no permissions cannot delete a record.
-     */
-    public function testUserCannotDeleteRecord(): void
-    {
-        $record = SongModel::factory()->createOne();
+    $record->delete();
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteAction::class);
+    Livewire::test(getViewPage(Song::class), ['record' => $record->getKey()])
+        ->assertActionHidden(RestoreAction::class);
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getIndexPage(Song::class))
+        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The user with no permissions cannot restore a record.
-     */
-    public function testUserCannotRestoreRecord(): void
-    {
-        $record = SongModel::factory()->createOne();
+test('user cannot force delete record', function () {
+    $record = SongModel::factory()->createOne();
 
-        $record->delete();
+    Livewire::test(getViewPage(Song::class), ['record' => $record->getKey()])
+        ->assertActionHidden(ForceDeleteAction::class);
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-    }
-
-    /**
-     * The user with no permissions cannot force delete a record.
-     */
-    public function testUserCannotForceDeleteRecord(): void
-    {
-        $record = SongModel::factory()->createOne();
-
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
-    }
-}
+    Livewire::test(getIndexPage(Song::class))
+        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+});

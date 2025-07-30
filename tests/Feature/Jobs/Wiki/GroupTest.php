@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Wiki\Group\GroupCreated;
 use App\Events\Wiki\Group\GroupDeleted;
@@ -14,72 +12,52 @@ use App\Models\Wiki\Group;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class GroupTest extends TestCase
-{
-    /**
-     * When a group is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testGroupCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(GroupCreated::class);
+test('group created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(GroupCreated::class);
 
-        Group::factory()->createOne();
+    Group::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a group is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testGroupDeletedSendsDiscordNotification(): void
-    {
-        $group = Group::factory()->createOne();
+test('group deleted sends discord notification', function () {
+    $group = Group::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(GroupDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(GroupDeleted::class);
 
-        $group->delete();
+    $group->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a group is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testGroupRestoredSendsDiscordNotification(): void
-    {
-        $group = Group::factory()->createOne();
+test('group restored sends discord notification', function () {
+    $group = Group::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(GroupRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(GroupRestored::class);
 
-        $group->restore();
+    $group->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a group is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testGroupUpdatedSendsDiscordNotification(): void
-    {
-        $group = Group::factory()->createOne();
+test('group updated sends discord notification', function () {
+    $group = Group::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(GroupUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(GroupUpdated::class);
 
-        $changes = Group::factory()->makeOne();
+    $changes = Group::factory()->makeOne();
 
-        $group->fill($changes->getAttributes());
-        $group->save();
+    $group->fill($changes->getAttributes());
+    $group->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

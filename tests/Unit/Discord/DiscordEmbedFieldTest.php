@@ -2,130 +2,82 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Discord;
-
 use App\Discord\DiscordEmbedField;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
-use stdClass;
-use Tests\TestCase;
 use Tests\Unit\Enums\LocalizedEnum;
 
-class DiscordEmbedFieldTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * Discord Embed Fields shall format an Enum value by its description.
-     */
-    public function testDiscordEmbedFormatEnum(): void
-    {
-        $enum = Arr::random(LocalizedEnum::cases());
+test('discord embed format enum', function () {
+    $enum = Arr::random(LocalizedEnum::cases());
 
-        $field = new DiscordEmbedField($this->faker->word(), $enum);
+    $field = new DiscordEmbedField(fake()->word(), $enum);
 
-        static::assertEquals($enum->localize(), Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals($enum->localize(), Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall format a date value by the Y-m-d date format.
-     */
-    public function testDiscordEmbedFormatDate(): void
-    {
-        $date = Date::now()->subDays($this->faker->randomDigitNotNull());
+test('discord embed format date', function () {
+    $date = Date::now()->subDays(fake()->randomDigitNotNull());
 
-        $field = new DiscordEmbedField($this->faker->word(), $date);
+    $field = new DiscordEmbedField(fake()->word(), $date);
 
-        static::assertEquals($date->format(AllowedDateFormat::YMD->value), Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals($date->format(AllowedDateFormat::YMD->value), Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall format a boolean value by pretty printing.
-     */
-    public function testDiscordEmbedFormatBoolean(): void
-    {
-        $boolean = $this->faker->boolean();
+test('discord embed format boolean', function () {
+    $boolean = fake()->boolean();
 
-        $field = new DiscordEmbedField($this->faker->word(), $boolean);
+    $field = new DiscordEmbedField(fake()->word(), $boolean);
 
-        static::assertEquals($boolean ? 'true' : 'false', Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals($boolean ? 'true' : 'false', Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall format numbers by their string value.
-     */
-    public function testDiscordEmbedFormatNumber(): void
-    {
-        $number = $this->faker->randomNumber();
+test('discord embed format number', function () {
+    $number = fake()->randomNumber();
 
-        $field = new DiscordEmbedField($this->faker->word(), $number);
+    $field = new DiscordEmbedField(fake()->word(), $number);
 
-        static::assertEquals(strval($number), Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals(strval($number), Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall format floats by their string value.
-     */
-    public function testDiscordEmbedFormatFloat(): void
-    {
-        $float = $this->faker->randomFloat();
+test('discord embed format float', function () {
+    $float = fake()->randomFloat();
 
-        $field = new DiscordEmbedField($this->faker->word(), $float);
+    $field = new DiscordEmbedField(fake()->word(), $float);
 
-        static::assertEquals(strval($float), Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals(strval($float), Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall format non-empty string by their string value.
-     */
-    public function testDiscordEmbedFormatString(): void
-    {
-        $string = $this->faker->word();
+test('discord embed format string', function () {
+    $string = fake()->word();
 
-        $field = new DiscordEmbedField($this->faker->word(), $string);
+    $field = new DiscordEmbedField(fake()->word(), $string);
 
-        static::assertEquals($string, Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals($string, Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall use a default value for empty string values.
-     */
-    public function testDiscordEmbedFormatEmptyString(): void
-    {
-        $field = new DiscordEmbedField($this->faker->word(), '');
+test('discord embed format empty string', function () {
+    $field = new DiscordEmbedField(fake()->word(), '');
 
-        static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall use a default value for null values.
-     */
-    public function testDiscordEmbedFormatNull(): void
-    {
-        $field = new DiscordEmbedField($this->faker->word(), null);
+test('discord embed format null', function () {
+    $field = new DiscordEmbedField(fake()->word(), null);
 
-        static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall use a default value for arrays.
-     */
-    public function testDiscordEmbedFormatArray(): void
-    {
-        $field = new DiscordEmbedField($this->faker->word(), []);
+test('discord embed format array', function () {
+    $field = new DiscordEmbedField(fake()->word(), []);
 
-        static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
-    }
+    static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+});
 
-    /**
-     * Discord Embed Fields shall use a default value for objects.
-     */
-    public function testDiscordEmbedFormatObject(): void
-    {
-        $field = new DiscordEmbedField($this->faker->word(), new stdClass());
+test('discord embed format object', function () {
+    $field = new DiscordEmbedField(fake()->word(), new stdClass());
 
-        static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
-    }
-}
+    static::assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+});

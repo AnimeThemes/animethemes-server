@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External;
-
-use App\Concerns\Actions\Http\Api\AggregatesFields;
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -27,272 +23,241 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class ExternalProfileIndexTest extends TestCase
-{
-    use AggregatesFields;
-    use SortsModels;
-    use WithFaker;
+uses(App\Concerns\Actions\Http\Api\AggregatesFields::class);
 
-    /**
-     * By default, the External Profile Index Endpoint shall return a collection of External Profile Resources with public visibility.
-     */
-    public function testDefault(): void
-    {
-        $publicCount = $this->faker->randomDigitNotNull();
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
-        $profiles = ExternalProfile::factory()
-            ->count($publicCount)
-            ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $privateCount = $this->faker->randomDigitNotNull();
+test('default', function () {
+    $publicCount = fake()->randomDigitNotNull();
 
-        ExternalProfile::factory()
-            ->count($privateCount)
-            ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value]);
+    $profiles = ExternalProfile::factory()
+        ->count($publicCount)
+        ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
 
-        $response = $this->get(route('api.externalprofile.index'));
+    $privateCount = fake()->randomDigitNotNull();
 
-        $response->assertJsonCount($publicCount, ExternalProfileCollection::$wrap);
+    ExternalProfile::factory()
+        ->count($privateCount)
+        ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.externalprofile.index'));
 
-    /**
-     * The External Profile Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        ExternalProfile::factory()
-            ->count($this->faker->randomDigitNotNull())
-            ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+    $response->assertJsonCount($publicCount, ExternalProfileCollection::$wrap);
 
-        $response = $this->get(route('api.externalprofile.index'));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response->assertJsonStructure([
-            ExternalProfileCollection::$wrap,
-            'links',
-            'meta',
+test('paginated', function () {
+    ExternalProfile::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+
+    $response = $this->get(route('api.externalprofile.index'));
+
+    $response->assertJsonStructure([
+        ExternalProfileCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new ExternalProfileSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    ExternalProfile::factory()
+        ->for(User::factory())
+        ->has(ExternalEntry::factory(), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->count(fake()->randomDigitNotNull())
+        ->create([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
         ]);
-    }
 
-    /**
-     * The External Profile Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ExternalProfileSchema();
+    $profiles = ExternalProfile::with($includedPaths->all())->get();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $response = $this->get(route('api.externalprofile.index', $parameters));
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+test('sparse fieldsets', function () {
+    $schema = new ExternalProfileSchema();
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $fields = collect($schema->fields());
 
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            ExternalProfileResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    $profiles = ExternalProfile::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+
+    $response = $this->get(route('api.externalprofile.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new ExternalProfileSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    ExternalProfile::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+
+    $response = $this->get(route('api.externalprofile.index', $parameters));
+
+    $builder = ExternalProfile::query();
+    $this->withAggregates($builder, $query, $schema);
+    $profiles = $this->sort($builder, $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
         ExternalProfile::factory()
-            ->for(User::factory())
-            ->has(ExternalEntry::factory(), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-            ->count($this->faker->randomDigitNotNull())
-            ->create([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        $profiles = ExternalProfile::with($includedPaths->all())->get();
-
-        $response = $this->get(route('api.externalprofile.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The External Profile Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ExternalProfileSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                ExternalProfileResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        $profiles = ExternalProfile::factory()
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+    });
 
-        $response = $this->get(route('api.externalprofile.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The External Profile Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new ExternalProfileSchema();
-
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
-
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
-
-        $query = new Query($parameters);
-
+    Carbon::withTestNow($excludedDate, function () {
         ExternalProfile::factory()
-            ->count($this->faker->randomDigitNotNull())
+            ->count(fake()->randomDigitNotNull())
             ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+    });
 
-        $response = $this->get(route('api.externalprofile.index', $parameters));
+    $profiles = ExternalProfile::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $builder = ExternalProfile::query();
-        $this->withAggregates($builder, $query, $schema);
-        $profiles = $this->sort($builder, $query, $schema)->get();
+    $response = $this->get(route('api.externalprofile.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The External Profile Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        Carbon::withTestNow($createdFilter, function () {
-            ExternalProfile::factory()
-                ->count($this->faker->randomDigitNotNull())
-                ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
-        });
+    Carbon::withTestNow($updatedFilter, function () {
+        ExternalProfile::factory()
+            ->count(fake()->randomDigitNotNull())
+            ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+    });
 
-        Carbon::withTestNow($excludedDate, function () {
-            ExternalProfile::factory()
-                ->count($this->faker->randomDigitNotNull())
-                ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
-        });
+    Carbon::withTestNow($excludedDate, function () {
+        ExternalProfile::factory()
+            ->count(fake()->randomDigitNotNull())
+            ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
+    });
 
-        $profiles = ExternalProfile::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+    $profiles = ExternalProfile::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $response = $this->get(route('api.externalprofile.index', $parameters));
+    $response = $this->get(route('api.externalprofile.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The External Profile Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            ExternalProfile::factory()
-                ->count($this->faker->randomDigitNotNull())
-                ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            ExternalProfile::factory()
-                ->count($this->faker->randomDigitNotNull())
-                ->create([ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value]);
-        });
-
-        $profiles = ExternalProfile::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.externalprofile.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileCollection($profiles, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileCollection($profiles, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

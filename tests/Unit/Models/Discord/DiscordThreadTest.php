@@ -2,52 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Discord;
-
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class DiscordThreadTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * Thread shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $thread = DiscordThread::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('nameable', function () {
+    $thread = DiscordThread::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertIsString($thread->getName());
-    }
+    static::assertIsString($thread->getName());
+});
 
-    /**
-     * Thread shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $thread = DiscordThread::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('has subtitle', function () {
+    $thread = DiscordThread::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertIsString($thread->getSubtitle());
-    }
+    static::assertIsString($thread->getSubtitle());
+});
 
-    /**
-     * Discord Thread shall belong to an Anime.
-     */
-    public function testAnime(): void
-    {
-        $thread = DiscordThread::factory()
-            ->for(Anime::factory())
-            ->createOne();
+test('anime', function () {
+    $thread = DiscordThread::factory()
+        ->for(Anime::factory())
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $thread->anime());
-        static::assertInstanceOf(Anime::class, $thread->anime()->first());
-    }
-}
+    static::assertInstanceOf(BelongsTo::class, $thread->anime());
+    static::assertInstanceOf(Anime::class, $thread->anime()->first());
+});

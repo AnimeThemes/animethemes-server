@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki;
-
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
@@ -11,87 +9,57 @@ use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class ExternalResourceTest extends TestCase
-{
-    /**
-     * When a Resource is created, an ExternalResourceCreated event shall be dispatched.
-     */
-    public function testExternalResourceCreatedEventDispatched(): void
-    {
-        ExternalResource::factory()->createOne();
+test('external resource created event dispatched', function () {
+    ExternalResource::factory()->createOne();
 
-        Event::assertDispatched(ExternalResourceCreated::class);
-    }
+    Event::assertDispatched(ExternalResourceCreated::class);
+});
 
-    /**
-     * When a Resource is deleted, an ExternalResourceDeleted event shall be dispatched.
-     */
-    public function testExternalResourceDeletedEventDispatched(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+test('external resource deleted event dispatched', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        $resource->delete();
+    $resource->delete();
 
-        Event::assertDispatched(ExternalResourceDeleted::class);
-    }
+    Event::assertDispatched(ExternalResourceDeleted::class);
+});
 
-    /**
-     * When a Resource is restored, an ExternalResourceRestored event shall be dispatched.
-     */
-    public function testExternalResourceRestoredEventDispatched(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+test('external resource restored event dispatched', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        $resource->restore();
+    $resource->restore();
 
-        Event::assertDispatched(ExternalResourceRestored::class);
-    }
+    Event::assertDispatched(ExternalResourceRestored::class);
+});
 
-    /**
-     * When a Resource is restored, an ExternalResourceUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testExternalResourceRestoresQuietly(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+test('external resource restores quietly', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        $resource->restore();
+    $resource->restore();
 
-        Event::assertNotDispatched(ExternalResourceUpdated::class);
-    }
+    Event::assertNotDispatched(ExternalResourceUpdated::class);
+});
 
-    /**
-     * When an ExternalResource is updated, an ExternalResourceUpdated event shall be dispatched.
-     */
-    public function testExternalResourceUpdatedEventDispatched(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
-        $changes = ExternalResource::factory()->makeOne();
+test('external resource updated event dispatched', function () {
+    $resource = ExternalResource::factory()->createOne();
+    $changes = ExternalResource::factory()->makeOne();
 
-        $resource->fill($changes->getAttributes());
-        $resource->save();
+    $resource->fill($changes->getAttributes());
+    $resource->save();
 
-        Event::assertDispatched(ExternalResourceUpdated::class);
-    }
+    Event::assertDispatched(ExternalResourceUpdated::class);
+});
 
-    /**
-     * The ExternalResourceUpdated event shall contain embed fields.
-     */
-    public function testExternalResourceUpdatedEventEmbedFields(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
-        $changes = ExternalResource::factory()->makeOne();
+test('external resource updated event embed fields', function () {
+    $resource = ExternalResource::factory()->createOne();
+    $changes = ExternalResource::factory()->makeOne();
 
-        $resource->fill($changes->getAttributes());
-        $resource->save();
+    $resource->fill($changes->getAttributes());
+    $resource->save();
 
-        Event::assertDispatched(ExternalResourceUpdated::class, function (ExternalResourceUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(ExternalResourceUpdated::class, function (ExternalResourceUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

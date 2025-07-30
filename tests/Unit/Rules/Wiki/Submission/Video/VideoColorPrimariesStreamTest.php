@@ -2,104 +2,89 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Wiki\Submission\Video;
-
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Video\VideoColorPrimariesStreamRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class VideoColorPrimariesStreamTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Video Color Primaries Stream Rule shall fail if the color primaries is not in the list of accepted values.
-     */
-    public function testFailsWhenColorPrimariesIsNotAccepted(): void
-    {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
+test('fails when color primaries is not accepted', function () {
+    Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
 
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'video',
-                        'color_primaries' => $this->faker->word(),
-                    ],
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'streams' => [
+                0 => [
+                    'codec_type' => 'video',
+                    'color_primaries' => fake()->word(),
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new VideoColorPrimariesStreamRule()],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new VideoColorPrimariesStreamRule()],
+    );
 
-        static::assertFalse($validator->passes());
+    static::assertFalse($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});
 
-    /**
-     * The Video Color Primaries Stream Rule shall pass if the color primaries is in the list of accepted values.
-     */
-    public function testPassesWhenColorPrimariesIsAccepted(): void
-    {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
+test('passes when color primaries is accepted', function () {
+    Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
 
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'video',
-                        'color_primaries' => Arr::random(['bt709', 'smpte170m', 'bt470bg']),
-                    ],
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'streams' => [
+                0 => [
+                    'codec_type' => 'video',
+                    'color_primaries' => Arr::random(['bt709', 'smpte170m', 'bt470bg']),
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new VideoColorPrimariesStreamRule()],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new VideoColorPrimariesStreamRule()],
+    );
 
-        static::assertTrue($validator->passes());
+    static::assertTrue($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
-}
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});

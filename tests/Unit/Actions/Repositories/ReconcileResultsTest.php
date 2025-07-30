@@ -2,33 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Actions\Repositories;
-
 use App\Actions\Repositories\ReconcileResults;
 use App\Enums\Actions\ActionStatus;
 use Illuminate\Database\Eloquent\Model;
-use Tests\TestCase;
 
-class ReconcileResultsTest extends TestCase
-{
-    /**
-     * The Reconcile Results shall always return true.
-     */
-    public function testDefault(): void
+test('default', function () {
+    $reconcileResults = new class extends ReconcileResults
     {
-        $reconcileResults = new class extends ReconcileResults
+        /**
+         * Get the model of the reconciliation results.
+         *
+         * @return class-string<Model>
+         */
+        public function model(): string
         {
-            /**
-             * Get the model of the reconciliation results.
-             *
-             * @return class-string<Model>
-             */
-            protected function model(): string
-            {
-                return Model::class;
-            }
-        };
+            return Model::class;
+        }
+    };
 
-        static::assertTrue($reconcileResults->getStatus() === ActionStatus::PASSED);
-    }
-}
+    static::assertTrue($reconcileResults->getStatus() === ActionStatus::PASSED);
+});

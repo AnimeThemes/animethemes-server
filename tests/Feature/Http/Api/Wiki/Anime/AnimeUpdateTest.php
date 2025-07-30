@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Anime;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -11,99 +9,79 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnimeUpdateTest extends TestCase
-{
-    /**
-     * The Anime Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('protected', function () {
+    $anime = Anime::factory()->createOne();
 
-        $season = Arr::random(AnimeSeason::cases());
-        $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $season = Arr::random(AnimeSeason::cases());
+    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 
-        $parameters = array_merge(
-            Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
-        );
+    $parameters = array_merge(
+        Anime::factory()->raw(),
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+    );
 
-        $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Anime Update Endpoint shall forbid users without the update anime permission.
-     */
-    public function testForbidden(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('forbidden', function () {
+    $anime = Anime::factory()->createOne();
 
-        $season = Arr::random(AnimeSeason::cases());
-        $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $season = Arr::random(AnimeSeason::cases());
+    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 
-        $parameters = array_merge(
-            Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
-        );
+    $parameters = array_merge(
+        Anime::factory()->raw(),
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+    );
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Anime Update Endpoint shall forbid users from updating an anime that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $anime = Anime::factory()->trashed()->createOne();
+test('trashed', function () {
+    $anime = Anime::factory()->trashed()->createOne();
 
-        $season = Arr::random(AnimeSeason::cases());
-        $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $season = Arr::random(AnimeSeason::cases());
+    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 
-        $parameters = array_merge(
-            Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
-        );
+    $parameters = array_merge(
+        Anime::factory()->raw(),
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Anime Update Endpoint shall update an anime.
-     */
-    public function testUpdate(): void
-    {
-        $anime = Anime::factory()->createOne();
+test('update', function () {
+    $anime = Anime::factory()->createOne();
 
-        $season = Arr::random(AnimeSeason::cases());
-        $mediaFormat = Arr::random(AnimeMediaFormat::cases());
+    $season = Arr::random(AnimeSeason::cases());
+    $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 
-        $parameters = array_merge(
-            Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
-        );
+    $parameters = array_merge(
+        Anime::factory()->raw(),
+        [Anime::ATTRIBUTE_SEASON => $season->localize(), Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+    $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
-        $response->assertOk();
-    }
-}
+    $response->assertOk();
+});

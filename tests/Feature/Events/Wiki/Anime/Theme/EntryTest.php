@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki\Anime\Theme;
-
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
@@ -13,105 +11,75 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class EntryTest extends TestCase
-{
-    /**
-     * When an Entry is created, an EntryCreated event shall be dispatched.
-     */
-    public function testEntryCreatedEventDispatched(): void
-    {
-        AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry created event dispatched', function () {
+    AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        Event::assertDispatched(EntryCreated::class);
-    }
+    Event::assertDispatched(EntryCreated::class);
+});
 
-    /**
-     * When an Entry is deleted, an EntryDeleted event shall be dispatched.
-     */
-    public function testEntryDeletedEventDispatched(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry deleted event dispatched', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $entry->delete();
+    $entry->delete();
 
-        Event::assertDispatched(EntryDeleted::class);
-    }
+    Event::assertDispatched(EntryDeleted::class);
+});
 
-    /**
-     * When an Entry is restored, an EntryRestored event shall be dispatched.
-     */
-    public function testEntryRestoredEventDispatched(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry restored event dispatched', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $entry->restore();
+    $entry->restore();
 
-        Event::assertDispatched(EntryRestored::class);
-    }
+    Event::assertDispatched(EntryRestored::class);
+});
 
-    /**
-     * When an Entry is restored, an EntryUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testEntryRestoresQuietly(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry restores quietly', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $entry->restore();
+    $entry->restore();
 
-        Event::assertNotDispatched(EntryUpdated::class);
-    }
+    Event::assertNotDispatched(EntryUpdated::class);
+});
 
-    /**
-     * When an Entry is updated, an EntryUpdated event shall be dispatched.
-     */
-    public function testEntryUpdatedEventDispatched(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry updated event dispatched', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $changes = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->makeOne();
+    $changes = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->makeOne();
 
-        $entry->fill($changes->getAttributes());
-        $entry->save();
+    $entry->fill($changes->getAttributes());
+    $entry->save();
 
-        Event::assertDispatched(EntryUpdated::class);
-    }
+    Event::assertDispatched(EntryUpdated::class);
+});
 
-    /**
-     * The EntryUpdated event shall contain embed fields.
-     */
-    public function testEntryUpdatedEventEmbedFields(): void
-    {
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('entry updated event embed fields', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        $changes = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->makeOne();
+    $changes = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->makeOne();
 
-        $entry->fill($changes->getAttributes());
-        $entry->save();
+    $entry->fill($changes->getAttributes());
+    $entry->save();
 
-        Event::assertDispatched(EntryUpdated::class, function (EntryUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(EntryUpdated::class, function (EntryUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

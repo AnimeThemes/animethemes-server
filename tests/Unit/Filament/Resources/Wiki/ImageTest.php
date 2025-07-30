@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Filament\Resources\Wiki;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\DeleteAction;
@@ -14,156 +12,94 @@ use App\Filament\Resources\Wiki\Image;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image as ImageModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTestCase;
 
-class ImageTest extends BaseResourceTestCase
-{
-    /**
-     * Get the index page class of the resource.
-     */
-    protected static function getIndexPage(): string
-    {
-        $pages = Image::getPages();
+test('render index page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(ImageModel::class)
+        )
+        ->createOne();
 
-        return $pages['index']->getPage();
-    }
+    $this->actingAs($user);
 
-    /**
-     * Get the edit page class of the resource.
-     */
-    protected static function getEditPage(): string
-    {
-        $pages = Image::getPages();
+    $records = ImageModel::factory()->count(10)->create();
 
-        return $pages['edit']->getPage();
-    }
+    $this->get(Image::getUrl('index'))
+        ->assertSuccessful();
 
-    /**
-     * Get the view page class of the resource.
-     */
-    protected static function getViewPage(): string
-    {
-        $pages = Image::getPages();
+    Livewire::test(getIndexPage(Image::class))
+        ->assertCanSeeTableRecords($records);
+});
 
-        return $pages['view']->getPage();
-    }
+test('render view page', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::VIEW->format(ImageModel::class)
+        )
+        ->createOne();
 
-    /**
-     * The index page of the resource shall be rendered.
-     */
-    public function testRenderIndexPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ImageModel::class)
-            )
-            ->createOne();
+    $this->actingAs($user);
 
-        $this->actingAs($user);
+    $record = ImageModel::factory()->createOne();
 
-        $records = ImageModel::factory()->count(10)->create();
+    $this->get(Image::getUrl('view', ['record' => $record]))
+        ->assertSuccessful();
+});
 
-        $this->get(Image::getUrl('index'))
-            ->assertSuccessful();
+test('mount edit action', function () {
+    $user = User::factory()
+        ->withPermissions(
+            SpecialPermission::VIEW_FILAMENT->value,
+            CrudPermission::UPDATE->format(ImageModel::class)
+        )
+        ->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertCanSeeTableRecords($records);
-    }
+    $this->actingAs($user);
 
-    /**
-     * The view page of the resource shall be rendered.
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ImageModel::class)
-            )
-            ->createOne();
+    $record = ImageModel::factory()->createOne();
 
-        $this->actingAs($user);
+    Livewire::test(getIndexPage(Image::class))
+        ->mountAction(EditAction::class, ['record' => $record])
+        ->assertActionMounted(EditAction::class);
+});
 
-        $record = ImageModel::factory()->createOne();
+test('user cannot edit record', function () {
+    $record = ImageModel::factory()->createOne();
 
-        $this->get(Image::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
-    }
+    Livewire::test(getIndexPage(Image::class))
+        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+});
 
-    /**
-     * The create action of the resource shall be mounted.
-     */
-    public function testMountEditAction(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(ImageModel::class)
-            )
-            ->createOne();
+test('user cannot delete record', function () {
+    $record = ImageModel::factory()->createOne();
 
-        $this->actingAs($user);
+    Livewire::test(getViewPage(Image::class), ['record' => $record->getKey()])
+        ->assertActionHidden(DeleteAction::class);
 
-        $record = ImageModel::factory()->createOne();
+    Livewire::test(getIndexPage(Image::class))
+        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+});
 
-        Livewire::test(static::getIndexPage())
-            ->mountAction(EditAction::class, ['record' => $record])
-            ->assertActionMounted(EditAction::class);
-    }
+test('user cannot restore record', function () {
+    $record = ImageModel::factory()->createOne();
 
-    /**
-     * The user with no permissions cannot edit a record.
-     */
-    public function testUserCannotEditRecord(): void
-    {
-        $record = ImageModel::factory()->createOne();
+    $record->delete();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getViewPage(Image::class), ['record' => $record->getKey()])
+        ->assertActionHidden(RestoreAction::class);
 
-    /**
-     * The user with no permissions cannot delete a record.
-     */
-    public function testUserCannotDeleteRecord(): void
-    {
-        $record = ImageModel::factory()->createOne();
+    Livewire::test(getIndexPage(Image::class))
+        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+});
 
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteAction::class);
+test('user cannot force delete record', function () {
+    $record = ImageModel::factory()->createOne();
 
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-    }
+    Livewire::test(getViewPage(Image::class), ['record' => $record->getKey()])
+        ->assertActionHidden(ForceDeleteAction::class);
 
-    /**
-     * The user with no permissions cannot restore a record.
-     */
-    public function testUserCannotRestoreRecord(): void
-    {
-        $record = ImageModel::factory()->createOne();
-
-        $record->delete();
-
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-    }
-
-    /**
-     * The user with no permissions cannot force delete a record.
-     */
-    public function testUserCannotForceDeleteRecord(): void
-    {
-        $record = ImageModel::factory()->createOne();
-
-        Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteAction::class);
-
-        Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
-    }
-}
+    Livewire::test(getIndexPage(Image::class))
+        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+});

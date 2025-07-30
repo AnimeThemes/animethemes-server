@@ -2,75 +2,53 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Series;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SeriesStoreTest extends TestCase
-{
-    /**
-     * The Series Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $series = Series::factory()->makeOne();
+test('protected', function () {
+    $series = Series::factory()->makeOne();
 
-        $response = $this->post(route('api.series.store', $series->toArray()));
+    $response = $this->post(route('api.series.store', $series->toArray()));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Series Store Endpoint shall forbid users without the create series permission.
-     */
-    public function testForbidden(): void
-    {
-        $series = Series::factory()->makeOne();
+test('forbidden', function () {
+    $series = Series::factory()->makeOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.series.store', $series->toArray()));
+    $response = $this->post(route('api.series.store', $series->toArray()));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Series Store Endpoint shall require name & slug fields.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Series::class))->createOne();
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Series::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.series.store'));
+    $response = $this->post(route('api.series.store'));
 
-        $response->assertJsonValidationErrors([
-            Series::ATTRIBUTE_NAME,
-            Series::ATTRIBUTE_SLUG,
-        ]);
-    }
+    $response->assertJsonValidationErrors([
+        Series::ATTRIBUTE_NAME,
+        Series::ATTRIBUTE_SLUG,
+    ]);
+});
 
-    /**
-     * The Series Store Endpoint shall create a series.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Series::factory()->raw();
+test('create', function () {
+    $parameters = Series::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Series::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Series::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.series.store', $parameters));
+    $response = $this->post(route('api.series.store', $parameters));
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Series::class, 1);
-    }
-}
+    $response->assertCreated();
+    static::assertDatabaseCount(Series::class, 1);
+});

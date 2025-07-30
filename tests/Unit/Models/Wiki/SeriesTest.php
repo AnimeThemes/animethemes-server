@@ -2,73 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Wiki;
-
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class SeriesTest extends TestCase
-{
-    use WithFaker;
+uses(WithFaker::class);
 
-    /**
-     * Series shall be a searchable resource.
-     */
-    public function testSearchableAs(): void
-    {
-        $series = Series::factory()->createOne();
+test('searchable as', function () {
+    $series = Series::factory()->createOne();
 
-        static::assertIsString($series->searchableAs());
-    }
+    static::assertIsString($series->searchableAs());
+});
 
-    /**
-     * Series shall be a searchable resource.
-     */
-    public function testToSearchableArray(): void
-    {
-        $series = Series::factory()->createOne();
+test('to searchable array', function () {
+    $series = Series::factory()->createOne();
 
-        static::assertIsArray($series->toSearchableArray());
-    }
+    static::assertIsArray($series->toSearchableArray());
+});
 
-    /**
-     * Series shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $series = Series::factory()->createOne();
+test('nameable', function () {
+    $series = Series::factory()->createOne();
 
-        static::assertIsString($series->getName());
-    }
+    static::assertIsString($series->getName());
+});
 
-    /**
-     * Series shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $series = Series::factory()->createOne();
+test('has subtitle', function () {
+    $series = Series::factory()->createOne();
 
-        static::assertIsString($series->getSubtitle());
-    }
+    static::assertIsString($series->getSubtitle());
+});
 
-    /**
-     * Series shall have a many-to-many relationship with the type Anime.
-     */
-    public function testAnime(): void
-    {
-        $animeCount = $this->faker->randomDigitNotNull();
+test('anime', function () {
+    $animeCount = fake()->randomDigitNotNull();
 
-        $series = Series::factory()
-            ->has(Anime::factory()->count($animeCount))
-            ->createOne();
+    $series = Series::factory()
+        ->has(Anime::factory()->count($animeCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $series->anime());
-        static::assertEquals($animeCount, $series->anime()->count());
-        static::assertInstanceOf(Anime::class, $series->anime()->first());
-        static::assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
-    }
-}
+    static::assertInstanceOf(BelongsToMany::class, $series->anime());
+    static::assertEquals($animeCount, $series->anime()->count());
+    static::assertInstanceOf(Anime::class, $series->anime()->first());
+    static::assertEquals(AnimeSeries::class, $series->anime()->getPivotClass());
+});

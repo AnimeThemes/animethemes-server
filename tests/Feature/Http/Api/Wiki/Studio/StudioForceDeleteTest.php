@@ -2,58 +2,40 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Studio;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class StudioForceDeleteTest extends TestCase
-{
-    /**
-     * The Studio Force Delete Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('protected', function () {
+    $studio = Studio::factory()->createOne();
 
-        $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Studio Force Delete Endpoint shall forbid users without the force delete studio permission.
-     */
-    public function testForbidden(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('forbidden', function () {
+    $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Studio Force Delete Endpoint shall force delete the studio.
-     */
-    public function testDeleted(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('deleted', function () {
+    $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Studio::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Studio::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
 
-        $response->assertOk();
-        static::assertModelMissing($studio);
-    }
-}
+    $response->assertOk();
+    static::assertModelMissing($studio);
+});

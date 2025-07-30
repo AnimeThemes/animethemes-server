@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Pivot\Wiki;
-
 use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceUpdated;
@@ -12,86 +10,66 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class ArtistResourceTest extends TestCase
-{
-    /**
-     * When an Artist is attached to a Resource or vice versa, an ArtistResourceCreated event shall be dispatched.
-     */
-    public function testArtistResourceCreatedEventDispatched(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('artist resource created event dispatched', function () {
+    $artist = Artist::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $artist->resources()->attach($resource);
+    $artist->resources()->attach($resource);
 
-        Event::assertDispatched(ArtistResourceCreated::class);
-    }
+    Event::assertDispatched(ArtistResourceCreated::class);
+});
 
-    /**
-     * When an Artist is detached from a Resource or vice versa, an ArtistResourceDeleted event shall be dispatched.
-     */
-    public function testArtistResourceDeletedEventDispatched(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('artist resource deleted event dispatched', function () {
+    $artist = Artist::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $artist->resources()->attach($resource);
-        $artist->resources()->detach($resource);
+    $artist->resources()->attach($resource);
+    $artist->resources()->detach($resource);
 
-        Event::assertDispatched(ArtistResourceDeleted::class);
-    }
+    Event::assertDispatched(ArtistResourceDeleted::class);
+});
 
-    /**
-     * When an Artist Resource pivot is updated, an ArtistResourceUpdated event shall be dispatched.
-     */
-    public function testArtistResourceUpdatedEventDispatched(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('artist resource updated event dispatched', function () {
+    $artist = Artist::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $artistResource = ArtistResource::factory()
-            ->for($artist, 'artist')
-            ->for($resource, 'resource')
-            ->createOne();
+    $artistResource = ArtistResource::factory()
+        ->for($artist, 'artist')
+        ->for($resource, 'resource')
+        ->createOne();
 
-        $changes = ArtistResource::factory()
-            ->for($artist, 'artist')
-            ->for($resource, 'resource')
-            ->makeOne();
+    $changes = ArtistResource::factory()
+        ->for($artist, 'artist')
+        ->for($resource, 'resource')
+        ->makeOne();
 
-        $artistResource->fill($changes->getAttributes());
-        $artistResource->save();
+    $artistResource->fill($changes->getAttributes());
+    $artistResource->save();
 
-        Event::assertDispatched(ArtistResourceUpdated::class);
-    }
+    Event::assertDispatched(ArtistResourceUpdated::class);
+});
 
-    /**
-     * The ArtistResourceUpdated event shall contain embed fields.
-     */
-    public function testArtistResourceUpdatedEventEmbedFields(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('artist resource updated event embed fields', function () {
+    $artist = Artist::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $artistResource = ArtistResource::factory()
-            ->for($artist, 'artist')
-            ->for($resource, 'resource')
-            ->createOne();
+    $artistResource = ArtistResource::factory()
+        ->for($artist, 'artist')
+        ->for($resource, 'resource')
+        ->createOne();
 
-        $changes = ArtistResource::factory()
-            ->for($artist, 'artist')
-            ->for($resource, 'resource')
-            ->makeOne();
+    $changes = ArtistResource::factory()
+        ->for($artist, 'artist')
+        ->for($resource, 'resource')
+        ->makeOne();
 
-        $artistResource->fill($changes->getAttributes());
-        $artistResource->save();
+    $artistResource->fill($changes->getAttributes());
+    $artistResource->save();
 
-        Event::assertDispatched(ArtistResourceUpdated::class, function (ArtistResourceUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(ArtistResourceUpdated::class, function (ArtistResourceUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

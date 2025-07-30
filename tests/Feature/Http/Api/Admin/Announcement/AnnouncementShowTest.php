@@ -2,84 +2,65 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Announcement;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class AnnouncementShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * By default, the Announcement Show Endpoint shall return an Announcement Resource.
-     */
-    public function testDefault(): void
-    {
-        $announcement = Announcement::factory()->create();
+test('default', function () {
+    $announcement = Announcement::factory()->create();
 
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+    $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementResource($announcement, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementResource($announcement, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Announcement Show Endpoint shall forbid access to a private announcement.
-     */
-    public function testCannotViewPrivate(): void
-    {
-        $announcement = Announcement::factory()->private()->create();
+test('cannot view private', function () {
+    $announcement = Announcement::factory()->private()->create();
 
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+    $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Announcement Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new AnnouncementSchema();
+test('sparse fieldsets', function () {
+    $schema = new AnnouncementSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $announcement = Announcement::factory()->create();
+    $announcement = Announcement::factory()->create();
 
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement] + $parameters));
+    $response = $this->get(route('api.announcement.show', ['announcement' => $announcement] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementResource($announcement, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementResource($announcement, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

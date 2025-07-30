@@ -2,96 +2,71 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Wiki\Video\Script;
-
 use App\Constants\Config\VideoConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowScriptDownloading;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ScriptTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If script downloading is disabled through the Allow Script Downloading feature,
-     * the user shall receive a forbidden exception.
-     */
-    public function testScriptDownloadingNotAllowedForbidden(): void
-    {
-        Feature::deactivate(AllowScriptDownloading::class);
+test('script downloading not allowed forbidden', function () {
+    Feature::deactivate(AllowScriptDownloading::class);
 
-        $script = VideoScript::factory()->createOne();
+    $script = VideoScript::factory()->createOne();
 
-        $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to download scripts
-     * even if the Allow Script Downloading feature is disabled.
-     */
-    public function testVideoStreamingPermittedForBypass(): void
-    {
-        Feature::activate(AllowScriptDownloading::class, $this->faker->boolean());
+test('video streaming permitted for bypass', function () {
+    Feature::activate(AllowScriptDownloading::class, fake()->boolean());
 
-        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
-        $file = File::fake()->create($this->faker->word().'.txt');
-        $fsFile = $fs->putFile('', $file);
+    $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+    $file = File::fake()->create(fake()->word().'.txt');
+    $fsFile = $fs->putFile('', $file);
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $fsFile,
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
-        $response->assertDownload($script->path);
-    }
+    $response->assertDownload($script->path);
+});
 
-    /**
-     * If the script is soft-deleted, the user shall receive a not found exception.
-     */
-    public function testCannotStreamSoftDeletedVideo(): void
-    {
-        Feature::activate(AllowScriptDownloading::class);
+test('cannot stream soft deleted video', function () {
+    Feature::activate(AllowScriptDownloading::class);
 
-        $script = VideoScript::factory()->trashed()->createOne();
+    $script = VideoScript::factory()->trashed()->createOne();
 
-        $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * If script downloading is enabled, the script is downloaded from storage through the response.
-     */
-    public function testDownloadedThroughResponse(): void
-    {
-        Feature::activate(AllowScriptDownloading::class);
+test('downloaded through response', function () {
+    Feature::activate(AllowScriptDownloading::class);
 
-        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
-        $file = File::fake()->create($this->faker->word().'.txt');
-        $fsFile = $fs->putFile('', $file);
+    $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+    $file = File::fake()->create(fake()->word().'.txt');
+    $fsFile = $fs->putFile('', $file);
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $fsFile,
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-        $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+    $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
-        $response->assertDownload($script->path);
-    }
-}
+    $response->assertDownload($script->path);
+});

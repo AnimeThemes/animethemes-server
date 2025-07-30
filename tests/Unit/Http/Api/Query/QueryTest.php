@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Query;
-
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Criteria\Field\Criteria as FieldCriteria;
 use App\Http\Api\Criteria\Include\Criteria as IncludeCriteria;
@@ -16,171 +14,123 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Tests\TestCase;
+use Tests\Unit\Http\Api\Query\FakeQuery;
 
-class QueryTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Query shall retrieve field criteria by type.
-     */
-    public function testGetFieldCriteria(): void
-    {
-        $type = $this->faker->word();
+test('get field criteria', function () {
+    $type = fake()->word();
 
-        $parameters = [
-            FieldParser::param() => [
-                $type => $this->faker->word(),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            $type => fake()->word(),
+        ],
+    ];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(FieldCriteria::class, $query->getFieldCriteria($type));
-    }
+    static::assertInstanceOf(FieldCriteria::class, $query->getFieldCriteria($type));
+});
 
-    /**
-     * The Query shall retrieve include criteria by type.
-     */
-    public function testGetIncludeCriteria(): void
-    {
-        $parameters = [
-            IncludeParser::param() => $this->faker->word(),
-        ];
+test('get include criteria', function () {
+    $parameters = [
+        IncludeParser::param() => fake()->word(),
+    ];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(IncludeCriteria::class, $query->getIncludeCriteria($this->faker->word()));
-    }
+    static::assertInstanceOf(IncludeCriteria::class, $query->getIncludeCriteria(fake()->word()));
+});
 
-    /**
-     * The Query shall retrieve include resource criteria by type.
-     */
-    public function testGetIncludeResourceCriteria(): void
-    {
-        $type = $this->faker->word();
+test('get include resource criteria', function () {
+    $type = fake()->word();
 
-        $parameters = [
-            IncludeParser::param() => [
-                $type => $this->faker->word(),
-            ],
-        ];
+    $parameters = [
+        IncludeParser::param() => [
+            $type => fake()->word(),
+        ],
+    ];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(ResourceCriteria::class, $query->getIncludeCriteria($type));
-    }
+    static::assertInstanceOf(ResourceCriteria::class, $query->getIncludeCriteria($type));
+});
 
-    /**
-     * The query shall retrieve all sort criteria.
-     */
-    public function testGetSortCriteria(): void
-    {
-        $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
+test('get sort criteria', function () {
+    $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
-        $parameters = [
-            SortParser::param() => $fields->join(','),
-        ];
+    $parameters = [
+        SortParser::param() => $fields->join(','),
+    ];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertCount($fields->count(), $query->getSortCriteria());
-    }
+    static::assertCount($fields->count(), $query->getSortCriteria());
+});
 
-    /**
-     * The query shall retrieve all filter criteria.
-     */
-    public function testGetFilterCriteria(): void
-    {
-        $filterCount = $this->faker->randomDigitNotNull();
+test('get filter criteria', function () {
+    $filterCount = fake()->randomDigitNotNull();
 
-        $parameters = Collection::times($filterCount, fn () => FilterParser::param().'.'.Str::random())
-            ->combine(Collection::times($filterCount, fn () => Str::random()))
-            ->undot()
-            ->all();
+    $parameters = Collection::times($filterCount, fn () => FilterParser::param().'.'.Str::random())
+        ->combine(Collection::times($filterCount, fn () => Str::random()))
+        ->undot()
+        ->all();
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertCount($filterCount, $query->getFilterCriteria());
-    }
+    static::assertCount($filterCount, $query->getFilterCriteria());
+});
 
-    /**
-     * By default, the query shall not have a search term.
-     */
-    public function testDoesNotHaveSearch(): void
-    {
-        $parameters = [];
+test('does not have search', function () {
+    $parameters = [];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertFalse($query->hasSearchCriteria());
-    }
+    static::assertFalse($query->hasSearchCriteria());
+});
 
-    /**
-     * The query shall have a search if a term is provided.
-     */
-    public function testHasSearch(): void
-    {
-        $parameters = [
-            SearchParser::param() => $this->faker->word(),
-        ];
+test('has search', function () {
+    $parameters = [
+        SearchParser::param() => fake()->word(),
+    ];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertTrue($query->hasSearchCriteria());
-    }
+    static::assertTrue($query->hasSearchCriteria());
+});
 
-    /**
-     * By default, the query shall return null search criteria.
-     */
-    public function testNullSearch(): void
-    {
-        $parameters = [];
+test('null search', function () {
+    $parameters = [];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertNull($query->getSearchCriteria());
-    }
+    static::assertNull($query->getSearchCriteria());
+});
 
-    /**
-     * The query shall return search criteria if a term is provided.
-     */
-    public function testGetSearch(): void
-    {
-        $parameters = [
-            SearchParser::param() => $this->faker->word(),
-        ];
+test('get search', function () {
+    $parameters = [
+        SearchParser::param() => fake()->word(),
+    ];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(SearchCriteria::class, $query->getSearchCriteria());
-    }
+    static::assertInstanceOf(SearchCriteria::class, $query->getSearchCriteria());
+});
 
-    /**
-     * The query shall return limit criteria.
-     */
-    public function testGetLimitCriteria(): void
-    {
-        $parameters = [];
+test('get limit criteria', function () {
+    $parameters = [];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT));
-    }
+    static::assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT));
+});
 
-    /**
-     * The query shall return limit criteria.
-     */
-    public function testGetOffsetCriteria(): void
-    {
-        $parameters = [];
+test('get offset criteria', function () {
+    $parameters = [];
 
-        $query = new FakeQuery($parameters);
+    $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET));
-    }
-}
+    static::assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET));
+});

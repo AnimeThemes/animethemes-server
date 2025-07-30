@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioImage;
-
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -17,165 +15,140 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class StudioImageShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Studio Image Show Endpoint shall return an error if the studio image does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $image = Image::factory()->createOne();
+test('not found', function () {
+    $studio = Studio::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $response = $this->get(route('api.studioimage.show', ['studio' => $studio, 'image' => $image]));
+    $response = $this->get(route('api.studioimage.show', ['studio' => $studio, 'image' => $image]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * By default, the Studio Image Show Endpoint shall return an Studio Image Resource.
-     */
-    public function testDefault(): void
-    {
-        $studioImage = StudioImage::factory()
-            ->for(Studio::factory())
-            ->for(Image::factory())
-            ->createOne();
+test('default', function () {
+    $studioImage = StudioImage::factory()
+        ->for(Studio::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
+    $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image]));
 
-        $studioImage->unsetRelations();
+    $studioImage->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageResource($studioImage, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageResource($studioImage, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Image Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new StudioImageSchema();
+test('allowed include paths', function () {
+    $schema = new StudioImageSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $studioImage = StudioImage::factory()
-            ->for(Studio::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $studioImage = StudioImage::factory()
+        ->for(Studio::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image] + $parameters));
+    $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image] + $parameters));
 
-        $studioImage->unsetRelations()->load($includedPaths->all());
+    $studioImage->unsetRelations()->load($includedPaths->all());
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageResource($studioImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageResource($studioImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Image Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new StudioImageSchema();
+test('sparse fieldsets', function () {
+    $schema = new StudioImageSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                StudioImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            StudioImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $studioImage = StudioImage::factory()
-            ->for(Studio::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $studioImage = StudioImage::factory()
+        ->for(Studio::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image] + $parameters));
+    $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image] + $parameters));
 
-        $studioImage->unsetRelations();
+    $studioImage->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageResource($studioImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageResource($studioImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Image Show Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
+test('images by facet', function () {
+    $facetFilter = Arr::random(ImageFacet::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => StudioImage::RELATION_IMAGE,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => StudioImage::RELATION_IMAGE,
+    ];
 
-        $studioImage = StudioImage::factory()
-            ->for(Studio::factory())
-            ->for(Image::factory())
-            ->createOne();
+    $studioImage = StudioImage::factory()
+        ->for(Studio::factory())
+        ->for(Image::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image] + $parameters));
+    $response = $this->get(route('api.studioimage.show', ['studio' => $studioImage->studio, 'image' => $studioImage->image] + $parameters));
 
-        $studioImage->unsetRelations()->load([
-            StudioImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ]);
+    $studioImage->unsetRelations()->load([
+        StudioImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ]);
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioImageResource($studioImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioImageResource($studioImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

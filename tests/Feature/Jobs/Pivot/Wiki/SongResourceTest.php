@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Pivot\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\SongResource\SongResourceCreated;
 use App\Events\Pivot\Wiki\SongResource\SongResourceDeleted;
@@ -15,71 +13,55 @@ use App\Pivots\Wiki\SongResource;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class SongResourceTest extends TestCase
-{
-    /**
-     * When an Song is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testSongResourceCreatedSendsDiscordNotification(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('song resource created sends discord notification', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(SongResourceCreated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(SongResourceCreated::class);
 
-        $song->resources()->attach($resource);
+    $song->resources()->attach($resource);
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an Song is detached from a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testSongResourceDeletedSendsDiscordNotification(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('song resource deleted sends discord notification', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $song->resources()->attach($resource);
+    $song->resources()->attach($resource);
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(SongResourceDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(SongResourceDeleted::class);
 
-        $song->resources()->detach($resource);
+    $song->resources()->detach($resource);
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an Song Resource pivot is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testSongResourceUpdatedSendsDiscordNotification(): void
-    {
-        $song = Song::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('song resource updated sends discord notification', function () {
+    $song = Song::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $songResource = SongResource::factory()
-            ->for($song, 'song')
-            ->for($resource, 'resource')
-            ->createOne();
+    $songResource = SongResource::factory()
+        ->for($song, 'song')
+        ->for($resource, 'resource')
+        ->createOne();
 
-        $changes = SongResource::factory()
-            ->for($song, 'song')
-            ->for($resource, 'resource')
-            ->makeOne();
+    $changes = SongResource::factory()
+        ->for($song, 'song')
+        ->for($resource, 'resource')
+        ->makeOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(SongResourceUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(SongResourceUpdated::class);
 
-        $songResource->fill($changes->getAttributes());
-        $songResource->save();
+    $songResource->fill($changes->getAttributes());
+    $songResource->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

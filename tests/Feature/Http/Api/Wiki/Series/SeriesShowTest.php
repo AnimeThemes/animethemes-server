@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Series;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Field\Field;
@@ -18,245 +16,212 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class SeriesShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * By default, the Series Show Endpoint shall return a Series Resource.
-     */
-    public function testDefault(): void
-    {
-        $series = Series::factory()->create();
+test('default', function () {
+    $series = Series::factory()->create();
 
-        $response = $this->get(route('api.series.show', ['series' => $series]));
+    $response = $this->get(route('api.series.show', ['series' => $series]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Series Show Endpoint shall return a Series Resource for soft deleted series.
-     */
-    public function testSoftDelete(): void
-    {
-        $series = Series::factory()->trashed()->createOne();
+test('soft delete', function () {
+    $series = Series::factory()->trashed()->createOne();
 
-        $series->unsetRelations();
+    $series->unsetRelations();
 
-        $response = $this->get(route('api.series.show', ['series' => $series]));
+    $response = $this->get(route('api.series.show', ['series' => $series]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Series Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new SeriesSchema();
+test('allowed include paths', function () {
+    $schema = new SeriesSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $series = Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $series = Series::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Series Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new SeriesSchema();
+test('sparse fieldsets', function () {
+    $schema = new SeriesSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                SeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            SeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $series = Series::factory()->create();
+    $series = Series::factory()->create();
 
-        $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Series Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => Series::RELATION_ANIME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => Series::RELATION_ANIME,
+    ];
 
-        $series = Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $series = Series::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $series->unsetRelations()->load([
-            Series::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $series->unsetRelations()->load([
+        Series::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-        $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Series Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => Series::RELATION_ANIME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => Series::RELATION_ANIME,
+    ];
 
-        $series = Series::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $series = Series::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $series->unsetRelations()->load([
-            Series::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $series->unsetRelations()->load([
+        Series::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-        $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Series Index Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = $this->faker->numberBetween(2000, 2002);
+test('anime by year', function () {
+    $yearFilter = fake()->numberBetween(2000, 2002);
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => Series::RELATION_ANIME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => Series::RELATION_ANIME,
+    ];
 
-        $series = Series::factory()
-            ->has(
-                Anime::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->state(new Sequence(
-                        [Anime::ATTRIBUTE_YEAR => 2000],
-                        [Anime::ATTRIBUTE_YEAR => 2001],
-                        [Anime::ATTRIBUTE_YEAR => 2002],
-                    ))
-            )
-            ->createOne();
+    $series = Series::factory()
+        ->has(
+            Anime::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->state(new Sequence(
+                    [Anime::ATTRIBUTE_YEAR => 2000],
+                    [Anime::ATTRIBUTE_YEAR => 2001],
+                    [Anime::ATTRIBUTE_YEAR => 2002],
+                ))
+        )
+        ->createOne();
 
-        $series->unsetRelations()->load([
-            Series::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
+    $series->unsetRelations()->load([
+        Series::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
 
-        $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+    $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SeriesResource($series, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SeriesResource($series, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

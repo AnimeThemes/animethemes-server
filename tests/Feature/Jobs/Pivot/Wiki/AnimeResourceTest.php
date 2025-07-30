@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Pivot\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceDeleted;
@@ -15,71 +13,55 @@ use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class AnimeResourceTest extends TestCase
-{
-    /**
-     * When an Anime is attached to a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeResourceCreatedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('anime resource created sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeResourceCreated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeResourceCreated::class);
 
-        $anime->resources()->attach($resource);
+    $anime->resources()->attach($resource);
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an Anime is detached from a Resource or vice versa, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeResourceDeletedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('anime resource deleted sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $anime->resources()->attach($resource);
+    $anime->resources()->attach($resource);
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeResourceDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeResourceDeleted::class);
 
-        $anime->resources()->detach($resource);
+    $anime->resources()->detach($resource);
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an Anime Resource pivot is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeResourceUpdatedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('anime resource updated sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $animeResource = AnimeResource::factory()
-            ->for($anime, 'anime')
-            ->for($resource, 'resource')
-            ->createOne();
+    $animeResource = AnimeResource::factory()
+        ->for($anime, 'anime')
+        ->for($resource, 'resource')
+        ->createOne();
 
-        $changes = AnimeResource::factory()
-            ->for($anime, 'anime')
-            ->for($resource, 'resource')
-            ->makeOne();
+    $changes = AnimeResource::factory()
+        ->for($anime, 'anime')
+        ->for($resource, 'resource')
+        ->makeOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeResourceUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeResourceUpdated::class);
 
-        $animeResource->fill($changes->getAttributes());
-        $animeResource->save();
+    $animeResource->fill($changes->getAttributes());
+    $animeResource->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

@@ -2,74 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video\Script;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ScriptRestoreTest extends TestCase
-{
-    /**
-     * The Script Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $script = VideoScript::factory()->trashed()->createOne();
+test('protected', function () {
+    $script = VideoScript::factory()->trashed()->createOne();
 
-        $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
+    $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Script Restore Endpoint shall forbid users without the restore video script permission.
-     */
-    public function testForbidden(): void
-    {
-        $script = VideoScript::factory()->trashed()->createOne();
+test('forbidden', function () {
+    $script = VideoScript::factory()->trashed()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
+    $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Script Restore Endpoint shall forbid users from restoring a script that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $script = VideoScript::factory()->createOne();
+test('trashed', function () {
+    $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(VideoScript::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(VideoScript::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
+    $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Script Restore Endpoint shall restore the script.
-     */
-    public function testRestored(): void
-    {
-        $script = VideoScript::factory()->trashed()->createOne();
+test('restored', function () {
+    $script = VideoScript::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(VideoScript::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(VideoScript::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
+    $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($script);
-    }
-}
+    $response->assertOk();
+    static::assertNotSoftDeleted($script);
+});

@@ -2,42 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Storage\Admin\Dump;
-
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
-use Exception;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
-class DumpDocumentTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Database Dump Command shall output "Database dump '{dumpFile}' has been created".
-     *
-     * @throws Exception
-     */
-    public function testDataBaseDumpOutput(): void
-    {
-        $local = Storage::fake('local');
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('database dump output', function () {
+    $local = Storage::fake('local');
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Date::setTestNow($this->faker->iso8601());
+    Date::setTestNow(fake()->iso8601());
 
-        $action = new DumpDocumentAction();
+    $action = new DumpDocumentAction();
 
-        $result = $action->handle();
+    $result = $action->handle();
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-        static::assertEmpty($local->allFiles());
-        static::assertCount(1, $fs->allFiles());
-        static::assertDatabaseCount(Dump::class, 1);
-    }
-}
+    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    static::assertEmpty($local->allFiles());
+    static::assertCount(1, $fs->allFiles());
+    static::assertDatabaseCount(Dump::class, 1);
+});

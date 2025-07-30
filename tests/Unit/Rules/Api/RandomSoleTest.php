@@ -2,66 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Api;
-
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Rules\Api\RandomSoleRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
-use Tests\TestCase;
 
-class RandomSoleTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Random Sole Rule shall return false if the random key is provided and is not the sole sort.
-     */
-    public function testFailsIfRandomIsNotSoleSort(): void
-    {
-        $sorts = $this->faker->words($this->faker->randomDigitNotNull());
+test('fails if random is not sole sort', function () {
+    $sorts = fake()->words(fake()->randomDigitNotNull());
 
-        $sorts[] = RandomCriteria::PARAM_VALUE;
+    $sorts[] = RandomCriteria::PARAM_VALUE;
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => implode(',', $sorts)],
-            [$attribute => new RandomSoleRule()]
-        );
+    $validator = Validator::make(
+        [$attribute => implode(',', $sorts)],
+        [$attribute => new RandomSoleRule()]
+    );
 
-        static::assertFalse($validator->passes());
-    }
+    static::assertFalse($validator->passes());
+});
 
-    /**
-     * The Random Sole Rule shall return true if the random key is not provided.
-     */
-    public function testPassesIfRandomIsNotIncluded(): void
-    {
-        $sorts = $this->faker->words($this->faker->randomDigitNotNull());
+test('passes if random is not included', function () {
+    $sorts = fake()->words(fake()->randomDigitNotNull());
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => implode(',', $sorts)],
-            [$attribute => new RandomSoleRule()]
-        );
+    $validator = Validator::make(
+        [$attribute => implode(',', $sorts)],
+        [$attribute => new RandomSoleRule()]
+    );
 
-        static::assertTrue($validator->passes());
-    }
+    static::assertTrue($validator->passes());
+});
 
-    /**
-     * The Random Sole Rule shall return true if the random key is the only sort provided.
-     */
-    public function testPassesIfRandomIsSoleSort(): void
-    {
-        $attribute = $this->faker->word();
+test('passes if random is sole sort', function () {
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => RandomCriteria::PARAM_VALUE],
-            [$attribute => new RandomSoleRule()]
-        );
+    $validator = Validator::make(
+        [$attribute => RandomCriteria::PARAM_VALUE],
+        [$attribute => new RandomSoleRule()]
+    );
 
-        static::assertTrue($validator->passes());
-    }
-}
+    static::assertTrue($validator->passes());
+});

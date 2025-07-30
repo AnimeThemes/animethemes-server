@@ -2,37 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Scout\Elasticsearch\Api\Parser;
-
 use App\Http\Api\Criteria\Paging\LimitCriteria as BaseLimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria as BaseOffsetCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Paging\LimitCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Paging\OffsetCriteria;
 use App\Scout\Elasticsearch\Api\Parser\PagingParser;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class PagingParserTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Paging Parser shall parse Limit Criteria.
-     */
-    public function testLimitCriteria(): void
-    {
-        $criteria = new BaseLimitCriteria($this->faker->randomDigitNotNull());
+test('limit criteria', function () {
+    $criteria = new BaseLimitCriteria(fake()->randomDigitNotNull());
 
-        static::assertInstanceOf(LimitCriteria::class, PagingParser::parse($criteria));
-    }
+    static::assertInstanceOf(LimitCriteria::class, PagingParser::parse($criteria));
+});
 
-    /**
-     * The Paging Parser shall parse Offset Criteria.
-     */
-    public function testOffsetCriteria(): void
-    {
-        $criteria = new BaseOffsetCriteria($this->faker->randomDigitNotNull());
+test('offset criteria', function () {
+    $criteria = new BaseOffsetCriteria(fake()->randomDigitNotNull());
 
-        static::assertInstanceOf(OffsetCriteria::class, PagingParser::parse($criteria));
-    }
-}
+    static::assertInstanceOf(OffsetCriteria::class, PagingParser::parse($criteria));
+});

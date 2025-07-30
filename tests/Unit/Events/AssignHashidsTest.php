@@ -2,20 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Events;
-
 use App\Contracts\Events\AssignHashidsEvent;
 use App\Listeners\AssignHashids;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class AssignHashidsTest extends TestCase
-{
-    /**
-     * AssignHashids shall listen to AssignHashidsEvent.
-     */
-    public function testListening(): void
-    {
-        Event::assertListening(AssignHashidsEvent::class, AssignHashids::class);
-    }
-}
+test('listening', function () {
+    Event::assertListening(AssignHashidsEvent::class, AssignHashids::class);
+});

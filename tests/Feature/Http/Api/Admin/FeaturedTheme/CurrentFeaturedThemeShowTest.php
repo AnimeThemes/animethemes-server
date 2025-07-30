@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\FeaturedTheme;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -20,199 +18,162 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
 
-class CurrentFeaturedThemeShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Current Featured Theme Show Endpoint shall return a Not Found exception if there are no featured themes.
-     */
-    public function testNotFoundIfNoFeaturedThemes(): void
-    {
-        $response = $this->get(route('api.featuredtheme.current.show'));
+test('not found if no featured themes', function () {
+    $response = $this->get(route('api.featuredtheme.current.show'));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme has no start date.
-     */
-    public function testNotFoundIfThemeStartAtNull(): void
-    {
+test('not found if theme start at null', function () {
+    FeaturedTheme::factory()->create([
+        FeaturedTheme::ATTRIBUTE_START_AT => null,
+    ]);
+
+    $response = $this->get(route('api.featuredtheme.current.show'));
+
+    $response->assertNotFound();
+});
+
+test('not found if theme end at null', function () {
+    FeaturedTheme::factory()->create([
+        FeaturedTheme::ATTRIBUTE_END_AT => null,
+    ]);
+
+    $response = $this->get(route('api.featuredtheme.current.show'));
+
+    $response->assertNotFound();
+});
+
+test('not found if theme start at after now', function () {
+    FeaturedTheme::factory()->create([
+        FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
+    ]);
+
+    $response = $this->get(route('api.featuredtheme.current.show'));
+
+    $response->assertNotFound();
+});
+
+test('not found if theme end at before now', function () {
+    FeaturedTheme::factory()->create([
+        FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween(),
+    ]);
+
+    $response = $this->get(route('api.featuredtheme.current.show'));
+
+    $response->assertNotFound();
+});
+
+test('default', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_START_AT => null,
         ]);
+    });
 
-        $response = $this->get(route('api.featuredtheme.current.show'));
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme has no end date.
-     */
-    public function testNotFoundIfThemeEndAtNull(): void
-    {
+    Collection::times(fake()->randomDigitNotNull(), function () {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_END_AT => null,
         ]);
+    });
 
-        $response = $this->get(route('api.featuredtheme.current.show'));
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme starts after today.
-     */
-    public function testNotFoundIfThemeStartAtAfterNow(): void
-    {
+    Collection::times(fake()->randomDigitNotNull(), function () {
         FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
+            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
         ]);
+    });
 
-        $response = $this->get(route('api.featuredtheme.current.show'));
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme ends before today.
-     */
-    public function testNotFoundIfThemeEndAtBeforeNow(): void
-    {
+    Collection::times(fake()->randomDigitNotNull(), function () {
         FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween(),
+            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-1 year', '-1 day'),
         ]);
+    });
 
-        $response = $this->get(route('api.featuredtheme.current.show'));
+    $currentTheme = FeaturedTheme::factory()->create();
 
-        $response->assertNotFound();
-    }
+    $response = $this->get(route('api.featuredtheme.current.show'));
 
-    /**
-     * By default, the Current Featured Theme Show Endpoint shall return a Featured Theme Resource.
-     */
-    public function testDefault(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_START_AT => null,
-            ]);
-        });
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeaturedThemeResource($currentTheme, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_END_AT => null,
-            ]);
-        });
+test('allowed include paths', function () {
+    $schema = new FeaturedThemeSchema();
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
-            ]);
-        });
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-1 year', '-1 day'),
-            ]);
-        });
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $currentTheme = FeaturedTheme::factory()->create();
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $response = $this->get(route('api.featuredtheme.current.show'));
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($currentTheme, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $currentTheme = FeaturedTheme::factory()
+        ->for(
+            AnimeThemeEntry::factory()
+                ->for(
+                    AnimeTheme::factory()
+                        ->for(Anime::factory()->has(Image::factory()->count(fake()->randomDigitNotNull())))
+                        ->for(Song::factory()->has(Artist::factory()->count(fake()->randomDigitNotNull())))
+                )
+        )
+        ->for(Video::factory())
+        ->for(User::factory())
+        ->createOne();
 
-    /**
-     * The Featured Theme Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new FeaturedThemeSchema();
+    $response = $this->get(route('api.featuredtheme.current.show', $parameters));
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeaturedThemeResource($currentTheme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+test('sparse fieldsets', function () {
+    $schema = new FeaturedThemeSchema();
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $currentTheme = FeaturedTheme::factory()
-            ->for(
-                AnimeThemeEntry::factory()
-                    ->for(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory()->has(Image::factory()->count($this->faker->randomDigitNotNull())))
-                            ->for(Song::factory()->has(Artist::factory()->count($this->faker->randomDigitNotNull())))
-                    )
-            )
-            ->for(Video::factory())
-            ->for(User::factory())
-            ->createOne();
+    $parameters = [
+        FieldParser::param() => [
+            FeaturedThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.featuredtheme.current.show', $parameters));
+    $currentTheme = FeaturedTheme::factory()->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($currentTheme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.featuredtheme.current.show', $parameters));
 
-    /**
-     * The Current Featured Theme Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new FeaturedThemeSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                FeaturedThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        $currentTheme = FeaturedTheme::factory()->create();
-
-        $response = $this->get(route('api.featuredtheme.current.show', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($currentTheme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeaturedThemeResource($currentTheme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

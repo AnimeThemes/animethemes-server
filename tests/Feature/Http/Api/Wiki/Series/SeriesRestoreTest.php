@@ -2,74 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Series;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class SeriesRestoreTest extends TestCase
-{
-    /**
-     * The Series Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $series = Series::factory()->trashed()->createOne();
+test('protected', function () {
+    $series = Series::factory()->trashed()->createOne();
 
-        $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = $this->patch(route('api.series.restore', ['series' => $series]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Series Restore Endpoint shall forbid users without the restore series permission.
-     */
-    public function testForbidden(): void
-    {
-        $series = Series::factory()->trashed()->createOne();
+test('forbidden', function () {
+    $series = Series::factory()->trashed()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = $this->patch(route('api.series.restore', ['series' => $series]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Series Restore Endpoint shall forbid users from restoring a series that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $series = Series::factory()->createOne();
+test('trashed', function () {
+    $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Series::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Series::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = $this->patch(route('api.series.restore', ['series' => $series]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Series Restore Endpoint shall restore the series.
-     */
-    public function testRestored(): void
-    {
-        $series = Series::factory()->trashed()->createOne();
+test('restored', function () {
+    $series = Series::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Series::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Series::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.series.restore', ['series' => $series]));
+    $response = $this->patch(route('api.series.restore', ['series' => $series]));
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($series);
-    }
-}
+    $response->assertOk();
+    static::assertNotSoftDeleted($series);
+});

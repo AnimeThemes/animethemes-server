@@ -2,74 +2,56 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class StudioResourceStoreTest extends TestCase
-{
-    /**
-     * The Studio Resource Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('protected', function () {
+    $studio = Studio::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $parameters = StudioResource::factory()->raw();
+    $parameters = StudioResource::factory()->raw();
 
-        $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
+    $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Studio Resource Store Endpoint shall forbid users without the create studio & create resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('forbidden', function () {
+    $studio = Studio::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $parameters = StudioResource::factory()->raw();
+    $parameters = StudioResource::factory()->raw();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
+    $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Studio Resource Store Endpoint shall create a studio resource.
-     */
-    public function testCreate(): void
-    {
-        $studio = Studio::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('create', function () {
+    $studio = Studio::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $parameters = StudioResource::factory()->raw();
+    $parameters = StudioResource::factory()->raw();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Studio::class),
-                CrudPermission::CREATE->format(ExternalResource::class)
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Studio::class),
+            CrudPermission::CREATE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
+    $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
-        $response->assertCreated();
-        static::assertDatabaseCount(StudioResource::class, 1);
-    }
-}
+    $response->assertCreated();
+    static::assertDatabaseCount(StudioResource::class, 1);
+});

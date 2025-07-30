@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -27,329 +24,293 @@ use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
 
-class SongResourceIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
-    /**
-     * By default, the Song Resource Index Endpoint shall return a collection of Song Resource Resources.
-     */
-    public function testDefault(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+uses(Illuminate\Foundation\Testing\WithFaker::class);
+
+test('default', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        SongResource::factory()
+            ->for(Song::factory())
+            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $songResources = SongResource::all();
+
+    $response = $this->get(route('api.songresource.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('paginated', function () {
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        SongResource::factory()
+            ->for(Song::factory())
+            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = $this->get(route('api.songresource.index'));
+
+    $response->assertJsonStructure([
+        SongResourceCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
+
+test('allowed include paths', function () {
+    $schema = new SongResourceSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        SongResource::factory()
+            ->for(Song::factory())
+            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = $this->get(route('api.songresource.index', $parameters));
+
+    $songResources = SongResource::with($includedPaths->all())->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    $schema = new SongResourceSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            SongResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        SongResource::factory()
+            ->for(Song::factory())
+            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = $this->get(route('api.songresource.index', $parameters));
+
+    $songResources = SongResource::all();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sorts', function () {
+    $schema = new SongResourceSchema();
+
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
+
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
+
+    $query = new Query($parameters);
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        SongResource::factory()
+            ->for(Song::factory())
+            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+            ->create();
+    });
+
+    $response = $this->get(route('api.songresource.index', $parameters));
+
+    $songResources = $this->sort(SongResource::query(), $query, $schema)->get();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($createdFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             SongResource::factory()
                 ->for(Song::factory())
                 ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $songResources = SongResource::all();
-
-        $response = $this->get(route('api.songresource.index'));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Song Resource Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             SongResource::factory()
                 ->for(Song::factory())
                 ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.songresource.index'));
+    $songResources = SongResource::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJsonStructure([
-            SongResourceCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+    $response = $this->get(route('api.songresource.index', $parameters));
 
-    /**
-     * The Song Resource Index Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new SongResourceSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $parameters = [
+        FilterParser::param() => [
+            BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($updatedFilter, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             SongResource::factory()
                 ->for(Song::factory())
                 ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.songresource.index', $parameters));
-
-        $songResources = SongResource::with($includedPaths->all())->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Song Resource Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new SongResourceSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                SongResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
+    Carbon::withTestNow($excludedDate, function () {
+        Collection::times(fake()->randomDigitNotNull(), function () {
             SongResource::factory()
                 ->for(Song::factory())
                 ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
                 ->create();
         });
+    });
 
-        $response = $this->get(route('api.songresource.index', $parameters));
+    $songResources = SongResource::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $songResources = SongResource::all();
+    $response = $this->get(route('api.songresource.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Song Resource Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new SongResourceSchema();
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => SongResource::RELATION_RESOURCE,
+    ];
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        SongResource::factory()
+            ->for(Song::factory())
+            ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
+            ->create();
+    });
 
-        $query = new Query($parameters);
+    $response = $this->get(route('api.songresource.index', $parameters));
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            SongResource::factory()
-                ->for(Song::factory())
-                ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-                ->create();
-        });
+    $songResources = SongResource::with([
+        SongResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ])
+        ->get();
 
-        $response = $this->get(route('api.songresource.index', $parameters));
-
-        $songResources = $this->sort(SongResource::query(), $query, $schema)->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Song Resource Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($createdFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                SongResource::factory()
-                    ->for(Song::factory())
-                    ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                SongResource::factory()
-                    ->for(Song::factory())
-                    ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        $songResources = SongResource::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
-
-        $response = $this->get(route('api.songresource.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Song Resource Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
-
-        $parameters = [
-            FilterParser::param() => [
-                BasePivot::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
-
-        Carbon::withTestNow($updatedFilter, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                SongResource::factory()
-                    ->for(Song::factory())
-                    ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        Carbon::withTestNow($excludedDate, function () {
-            Collection::times($this->faker->randomDigitNotNull(), function () {
-                SongResource::factory()
-                    ->for(Song::factory())
-                    ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-                    ->create();
-            });
-        });
-
-        $songResources = SongResource::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
-
-        $response = $this->get(route('api.songresource.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Song Resource Index Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => SongResource::RELATION_RESOURCE,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            SongResource::factory()
-                ->for(Song::factory())
-                ->for(ExternalResource::factory(), SongResource::RELATION_RESOURCE)
-                ->create();
-        });
-
-        $response = $this->get(route('api.songresource.index', $parameters));
-
-        $songResources = SongResource::with([
-            SongResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ])
-            ->get();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new SongResourceCollection($songResources, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new SongResourceCollection($songResources, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

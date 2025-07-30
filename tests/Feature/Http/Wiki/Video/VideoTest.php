@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Wiki\Video;
-
 use App\Constants\Config\VideoConstants;
 use App\Constants\FeatureConstants;
 use App\Enums\Auth\SpecialPermission;
@@ -13,7 +11,6 @@ use App\Features\AllowVideoStreams;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
@@ -23,259 +20,201 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Tests\TestCase;
 
-class VideoTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If video streaming is disabled through the Allow Video Streams feature,
-     * the user shall receive a forbidden exception.
-     */
-    public function testVideoStreamingNotAllowedForbidden(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+test('video streaming not allowed forbidden', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Feature::deactivate(AllowVideoStreams::class);
+    Feature::deactivate(AllowVideoStreams::class);
 
-        $video = Video::factory()->createOne();
+    $video = Video::factory()->createOne();
 
-        $response = $this->get(route('video.show', ['video' => $video]));
+    $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * If the video is soft-deleted, the user shall receive a not found exception.
-     */
-    public function testCannotStreamSoftDeletedVideo(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+test('cannot stream soft deleted video', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Feature::activate(AllowVideoStreams::class);
+    Feature::activate(AllowVideoStreams::class);
 
-        $video = Video::factory()->trashed()->createOne();
+    $video = Video::factory()->trashed()->createOne();
 
-        $response = $this->get(route('video.show', ['video' => $video]));
+    $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * If view recording is disabled, the video show route shall not record a view for the video.
-     */
-    public function testViewRecordingNotAllowed(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+test('view recording not allowed', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Feature::activate(AllowVideoStreams::class);
-        Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
+    Feature::activate(AllowVideoStreams::class);
+    Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
-        $video = Video::factory()->createOne();
+    $video = Video::factory()->createOne();
 
+    $this->get(route('video.show', ['video' => $video]));
+
+    static::assertEquals(0, $video->views()->count());
+});
+
+test('video streaming permitted for bypass', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+    Feature::activate(AllowVideoStreams::class, fake()->boolean());
+
+    /** @var StreamingMethod $streamingMethod */
+    $streamingMethod = Arr::random(StreamingMethod::cases());
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, $streamingMethod->value);
+
+    $video = Video::factory()->createOne();
+
+    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+
+    Sanctum::actingAs($user);
+
+    $response = $this->get(route('video.show', ['video' => $video]));
+
+    $response->assertSuccessful();
+});
+
+test('view recording is allowed', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+    Feature::activate(AllowVideoStreams::class);
+    Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
+
+    $video = Video::factory()->createOne();
+
+    $this->get(route('video.show', ['video' => $video]));
+
+    static::assertEquals(1, $video->views()->count());
+});
+
+test('view recording cooldown', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+    Feature::activate(AllowVideoStreams::class);
+    Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
+
+    $video = Video::factory()->createOne();
+
+    Collection::times(fake()->randomDigitNotNull(), function () use ($video) {
         $this->get(route('video.show', ['video' => $video]));
+    });
 
-        static::assertEquals(0, $video->views()->count());
-    }
+    static::assertEquals(1, $video->views()->count());
+});
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to stream video
-     * even if the Allow Video Streams feature is disabled.
-     */
-    public function testVideoStreamingPermittedForBypass(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+test('invalid streaming method error', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Feature::activate(AllowVideoStreams::class, $this->faker->boolean());
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, fake()->word());
 
-        /** @var StreamingMethod $streamingMethod */
-        $streamingMethod = Arr::random(StreamingMethod::cases());
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, $streamingMethod->value);
+    $video = Video::factory()->createOne();
 
-        $video = Video::factory()->createOne();
+    $response = $this->get(route('video.show', ['video' => $video]));
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+    $response->assertServerError();
+});
 
-        Sanctum::actingAs($user);
+test('streamed through response', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        $response = $this->get(route('video.show', ['video' => $video]));
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE->value);
 
-        $response->assertSuccessful();
-    }
+    $video = Video::factory()->createOne();
 
-    /**
-     * If view recording is enabled, the video show route shall record a view for the video.
-     */
-    public function testViewRecordingIsAllowed(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+    $response = $this->get(route('video.show', ['video' => $video]));
 
-        Feature::activate(AllowVideoStreams::class);
-        Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
+    static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+});
 
-        $video = Video::factory()->createOne();
+test('streamed through nginx redirect', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX->value);
+
+    $video = Video::factory()->createOne();
+
+    $response = $this->get(route('video.show', ['video' => $video]));
+
+    $response->assertHeader('X-Accel-Redirect');
+});
+
+test('not throttled', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+    Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, -1);
+
+    $video = Video::factory()->createOne();
+
+    $response = $this->get(route('video.show', ['video' => $video]));
+
+    $response->assertHeaderMissing('X-RateLimit-Limit');
+    $response->assertHeaderMissing('X-RateLimit-Remaining');
+});
+
+test('rate limited', function () {
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+    Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, fake()->randomDigitNotNull());
+
+    $video = Video::factory()->createOne();
+
+    $response = $this->get(route('video.show', ['video' => $video]));
+
+    $response->assertHeader('X-RateLimit-Limit');
+    $response->assertHeader('X-RateLimit-Remaining');
+});
+
+test('throttled event', function () {
+    $limit = fake()->randomDigitNotNull();
+
+    Event::fake();
+
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+    Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $limit);
+
+    $video = Video::factory()->createOne();
+
+    Collection::times($limit + 1, function () use ($video) {
         $this->get(route('video.show', ['video' => $video]));
+    });
 
-        static::assertEquals(1, $video->views()->count());
-    }
+    Event::assertDispatched(VideoThrottled::class);
+});
 
-    /**
-     * If view recording is enabled, the video show route shall record a view for the video.
-     */
-    public function testViewRecordingCooldown(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+test('throttled notification', function () {
+    $limit = fake()->randomDigitNotNull();
 
-        Feature::activate(AllowVideoStreams::class);
-        Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
+    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        $video = Video::factory()->createOne();
+    Bus::fake(SendDiscordNotificationJob::class);
 
-        Collection::times($this->faker->randomDigitNotNull(), function () use ($video) {
-            $this->get(route('video.show', ['video' => $video]));
-        });
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Feature::activate(AllowVideoStreams::class);
+    Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+    Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $limit);
+    Event::fakeExcept(VideoThrottled::class);
 
-        static::assertEquals(1, $video->views()->count());
-    }
+    $video = Video::factory()->createOne();
 
-    /**
-     * If the streaming method is set to an unexpected value, the user shall receive an error.
-     */
-    public function testInvalidStreamingMethodError(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+    Collection::times($limit + 1, function () use ($video) {
+        $this->get(route('video.show', ['video' => $video]));
+    });
 
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, $this->faker->word());
-
-        $video = Video::factory()->createOne();
-
-        $response = $this->get(route('video.show', ['video' => $video]));
-
-        $response->assertServerError();
-    }
-
-    /**
-     * If the streaming method is set to 'response', the video shall be streamed through a Symfony StreamedResponse.
-     */
-    public function testStreamedThroughResponse(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE->value);
-
-        $video = Video::factory()->createOne();
-
-        $response = $this->get(route('video.show', ['video' => $video]));
-
-        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
-    }
-
-    /**
-     * If the streaming method is set to 'nginx', the video shall be streamed through a nginx internal redirect.
-     */
-    public function testStreamedThroughNginxRedirect(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX->value);
-
-        $video = Video::factory()->createOne();
-
-        $response = $this->get(route('video.show', ['video' => $video]));
-
-        $response->assertHeader('X-Accel-Redirect');
-    }
-
-    /**
-     * If the video rate limit is less than or equal to zero, videos shall not be throttled.
-     */
-    public function testNotThrottled(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
-        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, -1);
-
-        $video = Video::factory()->createOne();
-
-        $response = $this->get(route('video.show', ['video' => $video]));
-
-        $response->assertHeaderMissing('X-RateLimit-Limit');
-        $response->assertHeaderMissing('X-RateLimit-Remaining');
-    }
-
-    /**
-     * If the video rate limit is greater than or equal to zero, videos shall be throttled.
-     */
-    public function testRateLimited(): void
-    {
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
-        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $this->faker->randomDigitNotNull());
-
-        $video = Video::factory()->createOne();
-
-        $response = $this->get(route('video.show', ['video' => $video]));
-
-        $response->assertHeader('X-RateLimit-Limit');
-        $response->assertHeader('X-RateLimit-Remaining');
-    }
-
-    /**
-     * If the video rate limit attempt is exceeded, a VideoThrottled event shall be dispatched.
-     */
-    public function testThrottledEvent(): void
-    {
-        $limit = $this->faker->randomDigitNotNull();
-
-        Event::fake();
-
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
-        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $limit);
-
-        $video = Video::factory()->createOne();
-
-        Collection::times($limit + 1, function () use ($video) {
-            $this->get(route('video.show', ['video' => $video]));
-        });
-
-        Event::assertDispatched(VideoThrottled::class);
-    }
-
-    /**
-     * If the video rate limit attempt is exceeded, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testThrottledNotification(): void
-    {
-        $limit = $this->faker->randomDigitNotNull();
-
-        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        Bus::fake(SendDiscordNotificationJob::class);
-
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
-        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $limit);
-        Event::fakeExcept(VideoThrottled::class);
-
-        $video = Video::factory()->createOne();
-
-        Collection::times($limit + 1, function () use ($video) {
-            $this->get(route('video.show', ['video' => $video]));
-        });
-
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

@@ -2,48 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Console\Commands\Storage\Admin;
-
 use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
 use App\Constants\Config\DumpConstants;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
-class DocumentDumpTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Database Dump Command shall output "Database dump '{dumpFile}' has been created".
-     */
-    public function testDataBaseDumpOutput(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('database dump output', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Date::setTestNow($this->faker->iso8601());
+    Date::setTestNow(fake()->iso8601());
 
-        $this->artisan(DocumentDumpCommand::class)
-            ->assertSuccessful()
-            ->expectsOutputToContain('has been created');
-    }
+    $this->artisan(DocumentDumpCommand::class)
+        ->assertSuccessful()
+        ->expectsOutputToContain('has been created');
+});
 
-    /**
-     * The Database Dump Command shall produce a file in the /path/to/project/storage/db-dumps directory.
-     */
-    public function testDataBaseDumpFile(): void
-    {
-        $local = Storage::fake('local');
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('database dump file', function () {
+    $local = Storage::fake('local');
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Date::setTestNow($this->faker->iso8601());
+    Date::setTestNow(fake()->iso8601());
 
-        $this->artisan(DocumentDumpCommand::class)->run();
+    $this->artisan(DocumentDumpCommand::class)->run();
 
-        static::assertEmpty($local->allFiles());
-        static::assertCount(1, $fs->allFiles());
-    }
-}
+    static::assertEmpty($local->allFiles());
+    static::assertCount(1, $fs->allFiles());
+});

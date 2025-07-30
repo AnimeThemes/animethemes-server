@@ -2,93 +2,70 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Storage\Wiki\Audio;
-
 use App\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Constants\Config\AudioConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Audio;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
-class UploadAudioTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Upload Audio Action shall fail if there are no uploads.
-     */
-    public function testDefault(): void
-    {
-        Config::set(AudioConstants::DISKS_QUALIFIED, []);
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+test('default', function () {
+    Config::set(AudioConstants::DISKS_QUALIFIED, []);
+    Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.ogg', fake()->randomDigitNotNull());
 
-        $action = new UploadAudioAction($file, $this->faker->word());
+    $action = new UploadAudioAction($file, fake()->word());
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
-    }
+    static::assertTrue($result->hasFailed());
+});
 
-    /**
-     * The Upload Audio Action shall pass if given a valid file.
-     */
-    public function testPassed(): void
-    {
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
-        Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
+test('passed', function () {
+    Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+    Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
 
-        $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.ogg', fake()->randomDigitNotNull());
 
-        $action = new UploadAudioAction($file, $this->faker->word());
+    $action = new UploadAudioAction($file, fake()->word());
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    }
+    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+});
 
-    /**
-     * The Upload Audio Action shall upload the file to the configured disk.
-     */
-    public function testUploadedToDisk(): void
-    {
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
-        Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
+test('uploaded to disk', function () {
+    Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+    Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
 
-        $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.ogg', fake()->randomDigitNotNull());
 
-        $action = new UploadAudioAction($file, $this->faker->word());
+    $action = new UploadAudioAction($file, fake()->word());
 
-        $action->handle();
+    $action->handle();
 
-        static::assertCount(1, Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
-    }
+    static::assertCount(1, Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+});
 
-    /**
-     * The Upload Audio Action shall upload the file to the configured disk.
-     */
-    public function testCreatedAudio(): void
-    {
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
-        Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
+test('created audio', function () {
+    Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+    Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
 
-        $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.ogg', fake()->randomDigitNotNull());
 
-        $action = new UploadAudioAction($file, $this->faker->word());
+    $action = new UploadAudioAction($file, fake()->word());
 
-        $result = $action->handle();
+    $result = $action->handle();
 
-        $action->then($result);
+    $action->then($result);
 
-        static::assertDatabaseCount(Audio::class, 1);
-    }
-}
+    static::assertDatabaseCount(Audio::class, 1);
+});

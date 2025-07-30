@@ -2,76 +2,56 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Storage\Admin\Dump;
-
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Actions\Storage\Admin\Dump\PruneDumpAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
-use Exception;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
-class PruneDumpTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If no changes are needed, the Prune Dumps Action shall fail.
-     *
-     * @throws Exception
-     */
-    public function testNoResults(): void
-    {
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('no results', function () {
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $action = new PruneDumpAction($this->faker->numberBetween(2, 9));
+    $action = new PruneDumpAction(fake()->numberBetween(2, 9));
 
-        $pruneResults = $action->handle();
+    $pruneResults = $action->handle();
 
-        $result = $pruneResults->toActionResult();
+    $result = $pruneResults->toActionResult();
 
-        static::assertEmpty($fs->allFiles());
-        static::assertTrue($result->hasFailed());
-        static::assertDatabaseCount(Dump::class, 0);
-    }
+    static::assertEmpty($fs->allFiles());
+    static::assertTrue($result->hasFailed());
+    static::assertDatabaseCount(Dump::class, 0);
+});
 
-    /**
-     * The Prune Dumps Action shall prune dumps before the specified date by hours from the present time.
-     *
-     * @throws Exception
-     */
-    public function testPruned(): void
-    {
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('pruned', function () {
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $prunedCount = $this->faker->randomDigitNotNull();
+    $prunedCount = fake()->randomDigitNotNull();
 
-        Collection::times($prunedCount, function () {
-            Date::setTestNow($this->faker->iso8601());
+    Collection::times($prunedCount, function () {
+        Date::setTestNow(fake()->iso8601());
 
-            $action = new DumpWikiAction();
+        $action = new DumpWikiAction();
 
-            $action->handle();
-        });
+        $action->handle();
+    });
 
-        Date::setTestNow();
+    Date::setTestNow();
 
-        $action = new PruneDumpAction(-1);
+    $action = new PruneDumpAction(-1);
 
-        $pruneResults = $action->handle();
+    $pruneResults = $action->handle();
 
-        $action->then($pruneResults);
+    $action->then($pruneResults);
 
-        $result = $pruneResults->toActionResult();
+    $result = $pruneResults->toActionResult();
 
-        static::assertEmpty($fs->allFiles());
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-        static::assertEmpty(Dump::all());
-    }
-}
+    static::assertEmpty($fs->allFiles());
+    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+    static::assertEmpty(Dump::all());
+});

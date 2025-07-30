@@ -2,74 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Video\Script;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ScriptStoreTest extends TestCase
-{
-    /**
-     * The Script Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $script = VideoScript::factory()->makeOne();
+test('protected', function () {
+    $script = VideoScript::factory()->makeOne();
 
-        $response = $this->post(route('api.videoscript.store', $script->toArray()));
+    $response = $this->post(route('api.videoscript.store', $script->toArray()));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Script Store Endpoint shall forbid users without the create video script permission.
-     */
-    public function testForbidden(): void
-    {
-        $script = VideoScript::factory()->makeOne();
+test('forbidden', function () {
+    $script = VideoScript::factory()->makeOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.videoscript.store', $script->toArray()));
+    $response = $this->post(route('api.videoscript.store', $script->toArray()));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Script Store Endpoint shall require the path field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.videoscript.store'));
+    $response = $this->post(route('api.videoscript.store'));
 
-        $response->assertJsonValidationErrors([
-            VideoScript::ATTRIBUTE_PATH,
-        ]);
-    }
+    $response->assertJsonValidationErrors([
+        VideoScript::ATTRIBUTE_PATH,
+    ]);
+});
 
-    /**
-     * The Script Store Endpoint shall create a script.
-     */
-    public function testCreate(): void
-    {
-        $parameters = VideoScript::factory()->raw();
+test('create', function () {
+    $parameters = VideoScript::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.videoscript.store', $parameters));
+    $response = $this->post(route('api.videoscript.store', $parameters));
 
-        $response->assertCreated();
-        static::assertDatabaseCount(VideoScript::class, 1);
-    }
-}
+    $response->assertCreated();
+    static::assertDatabaseCount(VideoScript::class, 1);
+});

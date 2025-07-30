@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki;
-
 use App\Events\Wiki\Image\ImageCreated;
 use App\Events\Wiki\Image\ImageDeleted;
 use App\Events\Wiki\Image\ImageRestored;
@@ -11,87 +9,57 @@ use App\Events\Wiki\Image\ImageUpdated;
 use App\Models\Wiki\Image;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class ImageTest extends TestCase
-{
-    /**
-     * When an Image is created, an ImageCreated event shall be dispatched.
-     */
-    public function testImageCreatedEventDispatched(): void
-    {
-        Image::factory()->createOne();
+test('image created event dispatched', function () {
+    Image::factory()->createOne();
 
-        Event::assertDispatched(ImageCreated::class);
-    }
+    Event::assertDispatched(ImageCreated::class);
+});
 
-    /**
-     * When an Image is deleted, an ImageDeleted event shall be dispatched.
-     */
-    public function testImageDeletedEventDispatched(): void
-    {
-        $image = Image::factory()->createOne();
+test('image deleted event dispatched', function () {
+    $image = Image::factory()->createOne();
 
-        $image->delete();
+    $image->delete();
 
-        Event::assertDispatched(ImageDeleted::class);
-    }
+    Event::assertDispatched(ImageDeleted::class);
+});
 
-    /**
-     * When an Image is restored, an ImageRestored event shall be dispatched.
-     */
-    public function testImageRestoredEventDispatched(): void
-    {
-        $image = Image::factory()->createOne();
+test('image restored event dispatched', function () {
+    $image = Image::factory()->createOne();
 
-        $image->restore();
+    $image->restore();
 
-        Event::assertDispatched(ImageRestored::class);
-    }
+    Event::assertDispatched(ImageRestored::class);
+});
 
-    /**
-     * When an Image is restored, an ImageUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testImageRestoresQuietly(): void
-    {
-        $image = Image::factory()->createOne();
+test('image restores quietly', function () {
+    $image = Image::factory()->createOne();
 
-        $image->restore();
+    $image->restore();
 
-        Event::assertNotDispatched(ImageUpdated::class);
-    }
+    Event::assertNotDispatched(ImageUpdated::class);
+});
 
-    /**
-     * When an Image is updated, an ImageUpdated event shall be dispatched.
-     */
-    public function testImageUpdatedEventDispatched(): void
-    {
-        $image = Image::factory()->createOne();
-        $changes = Image::factory()->makeOne();
+test('image updated event dispatched', function () {
+    $image = Image::factory()->createOne();
+    $changes = Image::factory()->makeOne();
 
-        $image->fill($changes->getAttributes());
-        $image->save();
+    $image->fill($changes->getAttributes());
+    $image->save();
 
-        Event::assertDispatched(ImageUpdated::class);
-    }
+    Event::assertDispatched(ImageUpdated::class);
+});
 
-    /**
-     * The ImageUpdated event shall contain embed fields.
-     */
-    public function testImageUpdatedEventEmbedFields(): void
-    {
-        $image = Image::factory()->createOne();
-        $changes = Image::factory()->makeOne();
+test('image updated event embed fields', function () {
+    $image = Image::factory()->createOne();
+    $changes = Image::factory()->makeOne();
 
-        $image->fill($changes->getAttributes());
-        $image->save();
+    $image->fill($changes->getAttributes());
+    $image->save();
 
-        Event::assertDispatched(ImageUpdated::class, function (ImageUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(ImageUpdated::class, function (ImageUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

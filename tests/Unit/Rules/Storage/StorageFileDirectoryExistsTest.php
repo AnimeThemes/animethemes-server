@@ -2,56 +2,41 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Storage;
-
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Tests\TestCase;
 
-class StorageFileDirectoryExistsTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Storage File Directory Exists Rule shall return true if the directory exists in the filesystem.
-     */
-    public function testPassesIfDirectoryExists(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake($this->faker->word());
+test('passes if directory exists', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(fake()->word());
 
-        $file = File::fake()->create($this->faker->word());
+    $file = File::fake()->create(fake()->word());
 
-        $path = $fs->putFile($this->faker->word(), $file);
+    $path = $fs->putFile(fake()->word(), $file);
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $path],
-            [$attribute => new StorageFileDirectoryExistsRule($fs)]
-        );
+    $validator = Validator::make(
+        [$attribute => $path],
+        [$attribute => new StorageFileDirectoryExistsRule($fs)]
+    );
 
-        static::assertTrue($validator->passes());
-    }
+    static::assertTrue($validator->passes());
+});
 
-    /**
-     * The Storage File Directory Exists Rule shall return false if the directory does not exist in the filesystem.
-     */
-    public function testFailsIfDirectoryDoesNotExist(): void
-    {
-        $fs = Storage::fake($this->faker->word());
+test('fails if directory does not exist', function () {
+    $fs = Storage::fake(fake()->word());
 
-        $attribute = $this->faker->word();
+    $attribute = fake()->word();
 
-        $validator = Validator::make(
-            [$attribute => $this->faker->filePath()],
-            [$attribute => new StorageFileDirectoryExistsRule($fs)]
-        );
+    $validator = Validator::make(
+        [$attribute => fake()->filePath()],
+        [$attribute => new StorageFileDirectoryExistsRule($fs)]
+    );
 
-        static::assertFalse($validator->passes());
-    }
-}
+    static::assertFalse($validator->passes());
+});

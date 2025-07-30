@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Feature;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -21,236 +18,204 @@ use App\Http\Resources\Admin\Collection\FeatureCollection;
 use App\Http\Resources\Admin\Resource\FeatureResource;
 use App\Models\Admin\Feature;
 use App\Models\BaseModel;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Tests\TestCase;
 
-class FeatureIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
-    /**
-     * By default, the Feature Index Endpoint shall return a collection of Feature Resources.
-     */
-    public function testDefault(): void
-    {
-        $features = Feature::factory()->count($this->faker->randomDigitNotNull())->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.feature.index'));
+test('default', function () {
+    $features = Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureCollection($features, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.feature.index'));
 
-    /**
-     * The Feature Show Endpoint shall list features of nonnull scope.
-     */
-    public function testNonNullForbidden(): void
-    {
-        $nullScopeCount = $this->faker->randomDigitNotNull();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureCollection($features, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $features = Feature::factory()
-            ->count($nullScopeCount)
-            ->create();
+test('non null forbidden', function () {
+    $nullScopeCount = fake()->randomDigitNotNull();
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            Feature::factory()->create([
-                Feature::ATTRIBUTE_SCOPE => $this->faker->word(),
-            ]);
-        });
+    $features = Feature::factory()
+        ->count($nullScopeCount)
+        ->create();
 
-        $response = $this->get(route('api.feature.index'));
-
-        $response->assertJsonCount($nullScopeCount, FeatureCollection::$wrap);
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureCollection($features, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Feature Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Feature::factory()->count($this->faker->randomDigitNotNull())->create();
-
-        $response = $this->get(route('api.feature.index'));
-
-        $response->assertJsonStructure([
-            FeatureCollection::$wrap,
-            'links',
-            'meta',
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        Feature::factory()->create([
+            Feature::ATTRIBUTE_SCOPE => fake()->word(),
         ]);
-    }
+    });
 
-    /**
-     * The Feature Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new FeatureSchema();
+    $response = $this->get(route('api.feature.index'));
 
-        $fields = collect($schema->fields());
+    $response->assertJsonCount($nullScopeCount, FeatureCollection::$wrap);
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureCollection($features, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FieldParser::param() => [
-                FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+test('paginated', function () {
+    Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $features = Feature::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response = $this->get(route('api.feature.index'));
 
-        $response = $this->get(route('api.feature.index', $parameters));
+    $response->assertJsonStructure([
+        FeatureCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureCollection($features, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+test('sparse fieldsets', function () {
+    $schema = new FeatureSchema();
 
-    /**
-     * The Feature Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new FeatureSchema();
+    $fields = collect($schema->fields());
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $query = new Query($parameters);
+    $features = Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-        Feature::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response = $this->get(route('api.feature.index', $parameters));
 
-        $response = $this->get(route('api.feature.index', $parameters));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureCollection($features, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $features = $this->sort(Feature::query(), $query, $schema)->get();
+test('sorts', function () {
+    $schema = new FeatureSchema();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureCollection($features, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
 
-    /**
-     * The Feature Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    $query = new Query($parameters);
 
-        Carbon::withTestNow($createdFilter, function () {
-            Feature::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    Feature::factory()->count(fake()->randomDigitNotNull())->create();
 
-        Carbon::withTestNow($excludedDate, function () {
-            Feature::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $response = $this->get(route('api.feature.index', $parameters));
 
-        $feature = Feature::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+    $features = $this->sort(Feature::query(), $query, $schema)->get();
 
-        $response = $this->get(route('api.feature.index', $parameters));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureCollection($features, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureCollection($feature, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-    /**
-     * The Feature Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+    Carbon::withTestNow($createdFilter, function () {
+        Feature::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        Carbon::withTestNow($updatedFilter, function () {
-            Feature::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    Carbon::withTestNow($excludedDate, function () {
+        Feature::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        Carbon::withTestNow($excludedDate, function () {
-            Feature::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $feature = Feature::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $feature = Feature::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+    $response = $this->get(route('api.feature.index', $parameters));
 
-        $response = $this->get(route('api.feature.index', $parameters));
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureCollection($feature, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeatureCollection($feature, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
+
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
+
+    Carbon::withTestNow($updatedFilter, function () {
+        Feature::factory()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    Carbon::withTestNow($excludedDate, function () {
+        Feature::factory()->count(fake()->randomDigitNotNull())->create();
+    });
+
+    $feature = Feature::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+
+    $response = $this->get(route('api.feature.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeatureCollection($feature, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

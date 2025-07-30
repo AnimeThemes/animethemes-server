@@ -2,74 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Document\Page;
-
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PageRestoreTest extends TestCase
-{
-    /**
-     * The Page Restore Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $page = Page::factory()->trashed()->createOne();
+test('protected', function () {
+    $page = Page::factory()->trashed()->createOne();
 
-        $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = $this->patch(route('api.page.restore', ['page' => $page]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Page Restore Endpoint shall forbid users without the restore page permission.
-     */
-    public function testForbidden(): void
-    {
-        $page = Page::factory()->trashed()->createOne();
+test('forbidden', function () {
+    $page = Page::factory()->trashed()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = $this->patch(route('api.page.restore', ['page' => $page]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Page Restore Endpoint shall forbid users from restoring a page that isn't trashed.
-     */
-    public function testTrashed(): void
-    {
-        $page = Page::factory()->createOne();
+test('trashed', function () {
+    $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Page::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Page::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = $this->patch(route('api.page.restore', ['page' => $page]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Page Restore Endpoint shall restore the page.
-     */
-    public function testRestored(): void
-    {
-        $page = Page::factory()->trashed()->createOne();
+test('restored', function () {
+    $page = Page::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Page::class))->createOne();
+    $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Page::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.page.restore', ['page' => $page]));
+    $response = $this->patch(route('api.page.restore', ['page' => $page]));
 
-        $response->assertOk();
-        static::assertNotSoftDeleted($page);
-    }
-}
+    $response->assertOk();
+    static::assertNotSoftDeleted($page);
+});

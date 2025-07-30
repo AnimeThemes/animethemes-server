@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Dump;
-
-use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -21,230 +18,198 @@ use App\Http\Resources\Admin\Collection\DumpCollection;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use App\Models\BaseModel;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class DumpIndexTest extends TestCase
-{
-    use SortsModels;
-    use WithFaker;
+uses(App\Concerns\Actions\Http\Api\SortsModels::class);
 
-    /**
-     * By default, the Dump Index Endpoint shall return a collection of Dump Resources.
-     */
-    public function testDefault(): void
-    {
-        $dumps = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-        $response = $this->get(route('api.dump.index'));
+test('default', function () {
+    $dumps = Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpCollection($dumps, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.dump.index'));
 
-    /**
-     * The Dump Index Endpoint shall return a collection of safe Dump Resources.
-     */
-    public function testUnsafe(): void
-    {
-        Dump::factory()
-            ->unsafe()
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpCollection($dumps, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $dumps = Dump::factory()
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
+test('unsafe', function () {
+    Dump::factory()
+        ->unsafe()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $response = $this->get(route('api.dump.index'));
+    $dumps = Dump::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpCollection($dumps, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.dump.index'));
 
-    /**
-     * The Dump Index Endpoint shall be paginated.
-     */
-    public function testPaginated(): void
-    {
-        Dump::factory()->count($this->faker->randomDigitNotNull())->create();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpCollection($dumps, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $response = $this->get(route('api.dump.index'));
+test('paginated', function () {
+    Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJsonStructure([
-            DumpCollection::$wrap,
-            'links',
-            'meta',
-        ]);
-    }
+    $response = $this->get(route('api.dump.index'));
 
-    /**
-     * The Dump Index Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new DumpSchema();
+    $response->assertJsonStructure([
+        DumpCollection::$wrap,
+        'links',
+        'meta',
+    ]);
+});
 
-        $fields = collect($schema->fields());
+test('sparse fieldsets', function () {
+    $schema = new DumpSchema();
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $fields = collect($schema->fields());
 
-        $parameters = [
-            FieldParser::param() => [
-                DumpResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $dumps = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
+    $parameters = [
+        FieldParser::param() => [
+            DumpResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $response = $this->get(route('api.dump.index', $parameters));
+    $dumps = Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpCollection($dumps, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.dump.index', $parameters));
 
-    /**
-     * The Dump Index Endpoint shall support sorting resources.
-     */
-    public function testSorts(): void
-    {
-        $schema = new DumpSchema();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpCollection($dumps, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        /** @var Sort $sort */
-        $sort = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
-            ->random();
+test('sorts', function () {
+    $schema = new DumpSchema();
 
-        $parameters = [
-            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
-        ];
+    /** @var Sort $sort */
+    $sort = collect($schema->fields())
+        ->filter(fn (Field $field) => $field instanceof SortableField)
+        ->map(fn (SortableField $field) => $field->getSort())
+        ->random();
 
-        $query = new Query($parameters);
+    $parameters = [
+        SortParser::param() => $sort->format(Arr::random(Direction::cases())),
+    ];
 
-        Dump::factory()->count($this->faker->randomDigitNotNull())->create();
+    $query = new Query($parameters);
 
-        $response = $this->get(route('api.dump.index', $parameters));
+    Dump::factory()->count(fake()->randomDigitNotNull())->create();
 
-        $dumps = $this->sort(Dump::query(), $query, $schema)->get();
+    $response = $this->get(route('api.dump.index', $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpCollection($dumps, $query)
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $dumps = $this->sort(Dump::query(), $query, $schema)->get();
 
-    /**
-     * The Dump Index Endpoint shall support filtering by created_at.
-     */
-    public function testCreatedAtFilter(): void
-    {
-        $createdFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpCollection($dumps, $query)
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+test('created at filter', function () {
+    $createdFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($createdFilter, function () {
-            Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_CREATED_AT => $createdFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        Carbon::withTestNow($excludedDate, function () {
-            Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    Carbon::withTestNow($createdFilter, function () {
+        Dump::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $dump = Dump::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+    Carbon::withTestNow($excludedDate, function () {
+        Dump::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.dump.index', $parameters));
+    $dump = Dump::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpCollection($dump, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response = $this->get(route('api.dump.index', $parameters));
 
-    /**
-     * The Dump Index Endpoint shall support filtering by updated_at.
-     */
-    public function testUpdatedAtFilter(): void
-    {
-        $updatedFilter = $this->faker->date();
-        $excludedDate = $this->faker->date();
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpCollection($dump, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-        $parameters = [
-            FilterParser::param() => [
-                BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
-            ],
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
-        ];
+test('updated at filter', function () {
+    $updatedFilter = fake()->date();
+    $excludedDate = fake()->date();
 
-        Carbon::withTestNow($updatedFilter, function () {
-            Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    $parameters = [
+        FilterParser::param() => [
+            BaseModel::ATTRIBUTE_UPDATED_AT => $updatedFilter,
+        ],
+        PagingParser::param() => [
+            OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+        ],
+    ];
 
-        Carbon::withTestNow($excludedDate, function () {
-            Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        });
+    Carbon::withTestNow($updatedFilter, function () {
+        Dump::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $dump = Dump::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+    Carbon::withTestNow($excludedDate, function () {
+        Dump::factory()->count(fake()->randomDigitNotNull())->create();
+    });
 
-        $response = $this->get(route('api.dump.index', $parameters));
+    $dump = Dump::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpCollection($dump, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = $this->get(route('api.dump.index', $parameters));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpCollection($dump, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

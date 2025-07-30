@@ -2,100 +2,78 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalResourceUpdateTest extends TestCase
-{
-    /**
-     * The External Resource Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+test('protected', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        $parameters = array_merge(
-            ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
-        );
+    $parameters = array_merge(
+        ExternalResource::factory()->raw(),
+        [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
+    );
 
-        $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
+    $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The External Resource Update Endpoint shall forbid users without the update external resource permission.
-     */
-    public function testForbidden(): void
-    {
-        $resource = ExternalResource::factory()->createOne();
+test('forbidden', function () {
+    $resource = ExternalResource::factory()->createOne();
 
-        $parameters = array_merge(
-            ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
-        );
+    $parameters = array_merge(
+        ExternalResource::factory()->raw(),
+        [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
+    );
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
+    $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Resource Update Endpoint shall forbid users from updating a resource that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $resource = ExternalResource::factory()
-            ->trashed()
-            ->createOne([
-                ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
-            ]);
-
-        $parameters = array_merge(
-            ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
-        );
-
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalResource::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
-
-        $response->assertForbidden();
-    }
-
-    /**
-     * The External Resource Update Endpoint shall update a resource.
-     */
-    public function testUpdate(): void
-    {
-        $resource = ExternalResource::factory()->createOne([
+test('trashed', function () {
+    $resource = ExternalResource::factory()
+        ->trashed()
+        ->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
         ]);
 
-        $parameters = array_merge(
-            ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
-        );
+    $parameters = array_merge(
+        ExternalResource::factory()->raw(),
+        [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalResource::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalResource::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
+    $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
 
-        $response->assertOk();
-    }
-}
+    $response->assertForbidden();
+});
+
+test('update', function () {
+    $resource = ExternalResource::factory()->createOne([
+        ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
+    ]);
+
+    $parameters = array_merge(
+        ExternalResource::factory()->raw(),
+        [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
+    );
+
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalResource::class))->createOne();
+
+    Sanctum::actingAs($user);
+
+    $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
+
+    $response->assertOk();
+});

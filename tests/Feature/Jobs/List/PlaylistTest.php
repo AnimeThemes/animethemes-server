@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\List;
-
 use App\Constants\FeatureConstants;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
@@ -13,56 +11,40 @@ use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class PlaylistTest extends TestCase
-{
-    /**
-     * When a playlist is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testPlaylistCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PlaylistCreated::class);
+test('playlist created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Playlist::factory()->createOne();
+    Playlist::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a playlist is deleted, a SendDiscordNotification job shall not be dispatched.
-     */
-    public function testPlaylistDeletedSendsDiscordNotification(): void
-    {
-        $playlist = Playlist::factory()->createOne();
+test('playlist deleted sends discord notification', function () {
+    $playlist = Playlist::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PlaylistDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PlaylistDeleted::class);
 
-        $playlist->delete();
+    $playlist->delete();
 
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertNotDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a playlist is updated, a SendDiscordNotification job shall not be dispatched.
-     */
-    public function testPlaylistUpdatedSendsDiscordNotification(): void
-    {
-        $playlist = Playlist::factory()->createOne();
+test('playlist updated sends discord notification', function () {
+    $playlist = Playlist::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(PlaylistUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(PlaylistUpdated::class);
 
-        $changes = Playlist::factory()->makeOne();
+    $changes = Playlist::factory()->makeOne();
 
-        $playlist->fill($changes->getAttributes());
-        $playlist->save();
+    $playlist->fill($changes->getAttributes());
+    $playlist->save();
 
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertNotDispatched(SendDiscordNotificationJob::class);
+});

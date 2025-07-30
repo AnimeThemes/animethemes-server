@@ -2,79 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Api\Scope;
-
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\RelationScope;
 use App\Http\Api\Scope\TypeScope;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class TypeScopeTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * A global scope shall not be within the scope of a type scope.
-     */
-    public function testGlobalScopeIsNotWithinScope(): void
-    {
-        $scope = new TypeScope($this->faker->word());
+test('global scope is not within scope', function () {
+    $scope = new TypeScope(fake()->word());
 
-        $otherScope = new GlobalScope();
+    $otherScope = new GlobalScope();
 
-        static::assertFalse($scope->isWithinScope($otherScope));
-    }
+    static::assertFalse($scope->isWithinScope($otherScope));
+});
 
-    /**
-     * A type scope of unequal value shall not be within the scope of a type scope.
-     */
-    public function testTypeScopeIsNotWithinScope(): void
-    {
-        $scope = new TypeScope($this->faker->word());
+test('type scope is not within scope', function () {
+    $scope = new TypeScope(fake()->word());
 
-        $otherScope = new TypeScope($this->faker->word());
+    $otherScope = new TypeScope(fake()->word());
 
-        static::assertFalse($scope->isWithinScope($otherScope));
-    }
+    static::assertFalse($scope->isWithinScope($otherScope));
+});
 
-    /**
-     * A type scope of equal value shall be within the scope of a type scope.
-     */
-    public function testTypeScopeIsWithinScope(): void
-    {
-        $type = $this->faker->word();
+test('type scope is within scope', function () {
+    $type = fake()->word();
 
-        $scope = new TypeScope($type);
+    $scope = new TypeScope($type);
 
-        $otherScope = new TypeScope($type);
+    $otherScope = new TypeScope($type);
 
-        static::assertTrue($scope->isWithinScope($otherScope));
-    }
+    static::assertTrue($scope->isWithinScope($otherScope));
+});
 
-    /**
-     * A relation scope of unequal type shall not be within the scope of a type scope.
-     */
-    public function testRelationScopeIsNotWithinScope(): void
-    {
-        $scope = new TypeScope($this->faker->word());
+test('relation scope is not within scope', function () {
+    $scope = new TypeScope(fake()->word());
 
-        $otherScope = new RelationScope($this->faker->word());
+    $otherScope = new RelationScope(fake()->word());
 
-        static::assertFalse($scope->isWithinScope($otherScope));
-    }
+    static::assertFalse($scope->isWithinScope($otherScope));
+});
 
-    /**
-     * A relation scope of equal value shall be within the scope of a type scope.
-     */
-    public function testRelationScopeIsWithinScope(): void
-    {
-        $type = $this->faker->word();
+test('relation scope is within scope', function () {
+    $type = fake()->word();
 
-        $scope = new TypeScope($type);
+    $scope = new TypeScope($type);
 
-        $otherScope = new RelationScope($type);
+    $otherScope = new RelationScope($type);
 
-        static::assertTrue($scope->isWithinScope($otherScope));
-    }
-}
+    static::assertTrue($scope->isWithinScope($otherScope));
+});

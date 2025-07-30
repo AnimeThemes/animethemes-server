@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Wiki;
-
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
@@ -13,100 +11,68 @@ use App\Pivots\Wiki\StudioImage;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class StudioTest extends TestCase
-{
-    use WithFaker;
+uses(WithFaker::class);
 
-    /**
-     * Studio shall be a searchable resource.
-     */
-    public function testSearchableAs(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('searchable as', function () {
+    $studio = Studio::factory()->createOne();
 
-        static::assertIsString($studio->searchableAs());
-    }
+    static::assertIsString($studio->searchableAs());
+});
 
-    /**
-     * Studio shall be a searchable resource.
-     */
-    public function testToSearchableArray(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('to searchable array', function () {
+    $studio = Studio::factory()->createOne();
 
-        static::assertIsArray($studio->toSearchableArray());
-    }
+    static::assertIsArray($studio->toSearchableArray());
+});
 
-    /**
-     * Studio shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('nameable', function () {
+    $studio = Studio::factory()->createOne();
 
-        static::assertIsString($studio->getName());
-    }
+    static::assertIsString($studio->getName());
+});
 
-    /**
-     * Studio shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('has subtitle', function () {
+    $studio = Studio::factory()->createOne();
 
-        static::assertIsString($studio->getSubtitle());
-    }
+    static::assertIsString($studio->getSubtitle());
+});
 
-    /**
-     * Studio shall have a many-to-many relationship with the type Anime.
-     */
-    public function testAnime(): void
-    {
-        $animeCount = $this->faker->randomDigitNotNull();
+test('anime', function () {
+    $animeCount = fake()->randomDigitNotNull();
 
-        $studio = Studio::factory()
-            ->has(Anime::factory()->count($animeCount))
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(Anime::factory()->count($animeCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $studio->anime());
-        static::assertEquals($animeCount, $studio->anime()->count());
-        static::assertInstanceOf(Anime::class, $studio->anime()->first());
-        static::assertEquals(AnimeStudio::class, $studio->anime()->getPivotClass());
-    }
+    static::assertInstanceOf(BelongsToMany::class, $studio->anime());
+    static::assertEquals($animeCount, $studio->anime()->count());
+    static::assertInstanceOf(Anime::class, $studio->anime()->first());
+    static::assertEquals(AnimeStudio::class, $studio->anime()->getPivotClass());
+});
 
-    /**
-     * Studio shall have a many-to-many relationship with the type ExternalResource.
-     */
-    public function testExternalResources(): void
-    {
-        $resourceCount = $this->faker->randomDigitNotNull();
+test('external resources', function () {
+    $resourceCount = fake()->randomDigitNotNull();
 
-        $studio = Studio::factory()
-            ->has(ExternalResource::factory()->count($resourceCount), 'resources')
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(ExternalResource::factory()->count($resourceCount), 'resources')
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $studio->resources());
-        static::assertEquals($resourceCount, $studio->resources()->count());
-        static::assertInstanceOf(ExternalResource::class, $studio->resources()->first());
-        static::assertEquals(StudioResource::class, $studio->resources()->getPivotClass());
-    }
+    static::assertInstanceOf(BelongsToMany::class, $studio->resources());
+    static::assertEquals($resourceCount, $studio->resources()->count());
+    static::assertInstanceOf(ExternalResource::class, $studio->resources()->first());
+    static::assertEquals(StudioResource::class, $studio->resources()->getPivotClass());
+});
 
-    /**
-     * Studio shall have a many-to-many relationship with the type Image.
-     */
-    public function testImages(): void
-    {
-        $imageCount = $this->faker->randomDigitNotNull();
+test('images', function () {
+    $imageCount = fake()->randomDigitNotNull();
 
-        $studio = Studio::factory()
-            ->has(Image::factory()->count($imageCount))
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(Image::factory()->count($imageCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $studio->images());
-        static::assertEquals($imageCount, $studio->images()->count());
-        static::assertInstanceOf(Image::class, $studio->images()->first());
-        static::assertEquals(StudioImage::class, $studio->images()->getPivotClass());
-    }
-}
+    static::assertInstanceOf(BelongsToMany::class, $studio->images());
+    static::assertEquals($imageCount, $studio->images()->count());
+    static::assertInstanceOf(Image::class, $studio->images()->first());
+    static::assertEquals(StudioImage::class, $studio->images()->getPivotClass());
+});

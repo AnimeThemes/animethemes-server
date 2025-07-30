@@ -54,8 +54,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof FilterableField)
-            ->map(fn (FilterableField $field) =>
-                collect($field->filterDirectives())
+            ->map(
+                fn (FilterableField $field) => collect($field->filterDirectives())
                     ->map(fn (FilterDirective $directive) => $directive->argument())
                     ->toArray()
             )
@@ -106,8 +106,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
-            ->map(fn (Field $field) =>
-                new Argument($field->getColumn(), $field->type())
+            ->map(
+                fn (Field $field) => new Argument($field->getColumn(), $field->type())
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
@@ -124,8 +124,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
-            ->map(fn (Field $field) =>
-                new Argument($field->getColumn(), $field->type())
+            ->map(
+                fn (Field $field) => new Argument($field->getColumn(), $field->type())
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()
@@ -142,8 +142,8 @@ trait ResolvesArguments
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(fn (Field&BindableField $field) =>
-                new Argument($field->getName(), $field->type())
+            ->map(
+                fn (Field&BindableField $field) => new Argument($field->getName(), $field->type())
                     ->required($shouldRequire)
                     ->directives([
                         'bind' => [

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\List\PlaylistImage;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\ImageFacet;
@@ -21,328 +19,283 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PlaylistImageShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Playlist Image Show Endpoint shall return an error if the playlist image does not exist.
-     */
-    public function testNotFound(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('not found', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
-        $image = Image::factory()->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlist, 'image' => $image]));
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall forbid a private playlist image from being publicly viewed.
-     */
-    public function testPrivatePlaylistImageCannotBePubliclyViewed(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
-
-        $response->assertForbidden();
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall forbid the user from viewing a private playlist image if not owned.
-     */
-    public function testPrivatePlaylistImageCannotBePubliclyIfNotOwned(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
-
-        $response->assertForbidden();
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall allow a private playlist image to be viewed by the owner.
-     */
-    public function testPrivatePlaylistImageCanBeViewedByOwner(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for($user)
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
-
-        $response->assertOk();
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall allow an unlisted playlist image to be viewed.
-     */
-    public function testUnlistedPlaylistImageCanBeViewed(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
-
-        $response->assertOk();
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall allow a public playlist image to be viewed.
-     */
-    public function testPublicPlaylistCanBeViewed(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
-
-        $response->assertOk();
-    }
-
-    /**
-     * By default, the Playlist Image Show Endpoint shall return an Playlist Image Resource.
-     */
-    public function testDefault(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
-
-        $playlistImage->unsetRelations();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PlaylistImageResource($playlistImage, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $schema = new PlaylistImageSchema();
-
-        $allowedIncludes = collect($schema->allowedIncludes());
-
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
-
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
-
-        $playlistImage->unsetRelations()->load($includedPaths->all());
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PlaylistImageResource($playlistImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $schema = new PlaylistImageSchema();
-
-        $fields = collect($schema->fields());
-
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
-
-        $parameters = [
-            FieldParser::param() => [
-                PlaylistImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
-
-        $playlistImage->unsetRelations();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PlaylistImageResource($playlistImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Playlist Image Show Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $facetFilter = Arr::random(ImageFacet::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => PlaylistImage::RELATION_IMAGE,
-        ];
-
-        $playlistImage = PlaylistImage::factory()
-            ->for(
-                Playlist::factory()
-                    ->for(User::factory())
-                    ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-                    ])
-            )
-            ->for(Image::factory())
-            ->createOne();
-
-        $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
-
-        $playlistImage->unsetRelations()->load([
-            PlaylistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne([
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
         ]);
+    $image = Image::factory()->createOne();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PlaylistImageResource($playlistImage, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlist, 'image' => $image]));
+
+    $response->assertNotFound();
+});
+
+test('private playlist image cannot be publicly viewed', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+    $response->assertForbidden();
+});
+
+test('private playlist image cannot be publicly if not owned', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
+
+    Sanctum::actingAs($user);
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+    $response->assertForbidden();
+});
+
+test('private playlist image can be viewed by owner', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for($user)
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    Sanctum::actingAs($user);
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+    $response->assertOk();
+});
+
+test('unlisted playlist image can be viewed', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+    $response->assertOk();
+});
+
+test('public playlist can be viewed', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+    $response->assertOk();
+});
+
+test('default', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+    $playlistImage->unsetRelations();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PlaylistImageResource($playlistImage, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('allowed include paths', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $schema = new PlaylistImageSchema();
+
+    $allowedIncludes = collect($schema->allowedIncludes());
+
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
+
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
+
+    $playlistImage->unsetRelations()->load($includedPaths->all());
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PlaylistImageResource($playlistImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('sparse fieldsets', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $schema = new PlaylistImageSchema();
+
+    $fields = collect($schema->fields());
+
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
+
+    $parameters = [
+        FieldParser::param() => [
+            PlaylistImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
+
+    $playlistImage->unsetRelations();
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PlaylistImageResource($playlistImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('images by facet', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $facetFilter = Arr::random(ImageFacet::cases());
+
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => PlaylistImage::RELATION_IMAGE,
+    ];
+
+    $playlistImage = PlaylistImage::factory()
+        ->for(
+            Playlist::factory()
+                ->for(User::factory())
+                ->state([
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
+                ])
+        )
+        ->for(Image::factory())
+        ->createOne();
+
+    $response = $this->get(route('api.playlistimage.show', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image] + $parameters));
+
+    $playlistImage->unsetRelations()->load([
+        PlaylistImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ]);
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new PlaylistImageResource($playlistImage, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

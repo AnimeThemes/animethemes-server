@@ -2,115 +2,100 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Wiki\Submission\Format;
-
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Format\VideoBitrateRestrictionFormatRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class VideoBitrateRestrictionFormatTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Video Bitrate Restriction Format Rule shall fail if the video bitrate is outside the accepted boundaries.
-     */
-    public function testFailsWhenBitrateIsNotExpected(): void
-    {
-        Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
+test('fails when bitrate is not expected', function () {
+    Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
 
-        $height = $this->faker->numberBetween(360, 1080);
-        $bitrate = $height * 14200 + 475000;
+    $height = fake()->numberBetween(360, 1080);
+    $bitrate = $height * 14200 + 475000;
 
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'format' => [
-                    'bit_rate' => $bitrate,
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'format' => [
+                'bit_rate' => $bitrate,
+            ],
+            'streams' => [
+                0 => [
+                    'codec_type' => 'video',
+                    'height' => $height,
                 ],
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'video',
-                        'height' => $height,
-                    ],
+            ],
+        ])),
+    ]);
+
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new VideoBitrateRestrictionFormatRule()],
+    );
+
+    static::assertFalse($validator->passes());
+
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});
+
+test('passes when bitrate is expected', function () {
+    Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
+
+    $height = fake()->numberBetween(360, 1080);
+    $bitrate = $height * 3550 + 475000;
+
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
+
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'format' => [
+                'bit_rate' => $bitrate,
+            ],
+            'streams' => [
+                0 => [
+                    'codec_type' => 'video',
+                    'height' => $height,
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new VideoBitrateRestrictionFormatRule()],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new VideoBitrateRestrictionFormatRule()],
+    );
 
-        static::assertFalse($validator->passes());
+    static::assertTrue($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
-
-    /**
-     * The Video Bitrate Restriction Format Rule shall fail if the video bitrate is within the accepted boundaries.
-     */
-    public function testPassesWhenBitrateIsExpected(): void
-    {
-        Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
-
-        $height = $this->faker->numberBetween(360, 1080);
-        $bitrate = $height * 3550 + 475000;
-
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
-
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'format' => [
-                    'bit_rate' => $bitrate,
-                ],
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'video',
-                        'height' => $height,
-                    ],
-                ],
-            ])),
-        ]);
-
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new VideoBitrateRestrictionFormatRule()],
-        );
-
-        static::assertTrue($validator->passes());
-
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
-}
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\List\PlaylistImage;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\List\Playlist\PlaylistCreated;
@@ -12,139 +10,112 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PlaylistImageStoreTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Playlist Image Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('protected', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $playlist = Playlist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Playlist Image Store Endpoint shall forbid users without the create playlist & create image permissions.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $playlist = Playlist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Playlist Image Store Endpoint shall forbid users from creating playlist images
-     * if the Allow Playlist Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::deactivate(AllowPlaylistManagement::class);
+    Feature::deactivate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
-        $image = Image::factory()->createOne();
+    $playlist = Playlist::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Playlist::class),
-                CrudPermission::CREATE->format(Image::class)
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Playlist::class),
+            CrudPermission::CREATE->format(Image::class)
+        )
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Playlist Image Store Endpoint shall create an playlist image.
-     */
-    public function testCreate(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('create', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $image = Image::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Playlist::class),
-                CrudPermission::CREATE->format(Image::class)
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Playlist::class),
+            CrudPermission::CREATE->format(Image::class)
+        )
+        ->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
-        $response->assertCreated();
-        static::assertDatabaseCount(PlaylistImage::class, 1);
-    }
+    $response->assertCreated();
+    static::assertDatabaseCount(PlaylistImage::class, 1);
+});
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to create playlist images
-     * even if the Allow Playlist Management feature is inactive.
-     */
-    public function testCreatePermittedForBypass(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('create permitted for bypass', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
+    Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
 
-        $image = Image::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE->format(Playlist::class),
-                CrudPermission::CREATE->format(Image::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::CREATE->format(Playlist::class),
+            CrudPermission::CREATE->format(Image::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
+    $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
-        $response->assertCreated();
-    }
-}
+    $response->assertCreated();
+});

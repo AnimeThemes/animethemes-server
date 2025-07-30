@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
@@ -17,196 +15,163 @@ use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalProfileShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The External Profile Show Endpoint shall forbid a private profile from being publicly viewed.
-     */
-    public function testPrivateExternalProfileCannotBePubliclyViewed(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('private external profile cannot be publicly viewed', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Profile Show Endpoint shall forbid the user from viewing a private profile if not owned.
-     */
-    public function testPrivateExternalProfileCannotBePubliclyIfNotOwned(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('private external profile cannot be publicly if not owned', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Profile Show Endpoint shall allow a private profile to be viewed by the owner.
-     */
-    public function testPrivateExternalProfileCanBeViewedByOwner(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('private external profile can be viewed by owner', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalProfile::class))->createOne();
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
 
-        $response->assertOk();
-    }
+    $response->assertOk();
+});
 
-    /**
-     * The External Profile Show Endpoint shall allow a public profile to be viewed.
-     */
-    public function testPublicExternalProfileCanBeViewed(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('public external profile can be viewed', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
 
-        $response->assertOk();
-    }
+    $response->assertOk();
+});
 
-    /**
-     * By default, the External Profile Show Endpoint shall return a External Profile Resource.
-     */
-    public function testDefault(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('default', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileResource($profile, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileResource($profile, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The External Profile Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('allowed include paths', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $schema = new ExternalProfileSchema();
+    $schema = new ExternalProfileSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->has(ExternalEntry::factory(), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->has(ExternalEntry::factory(), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile] + $parameters));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileResource($profile, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileResource($profile, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The External Profile Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('sparse fieldsets', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        $schema = new ExternalProfileSchema();
+    $schema = new ExternalProfileSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                ExternalProfileResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            ExternalProfileResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile] + $parameters));
+    $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileResource($profile, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ExternalProfileResource($profile, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

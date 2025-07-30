@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Pivot\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\Wiki\AnimeImage\AnimeImageDeleted;
@@ -13,43 +11,31 @@ use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class AnimeImageTest extends TestCase
-{
-    /**
-     * When an Anime is attached to an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeImageCreatedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $image = Image::factory()->createOne();
+test('anime image created sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeImageCreated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeImageCreated::class);
 
-        $anime->images()->attach($image);
+    $anime->images()->attach($image);
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When an Anime is detached from an Image or vice versa, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testAnimeImageDeletedSendsDiscordNotification(): void
-    {
-        $anime = Anime::factory()->createOne();
-        $image = Image::factory()->createOne();
+test('anime image deleted sends discord notification', function () {
+    $anime = Anime::factory()->createOne();
+    $image = Image::factory()->createOne();
 
-        $anime->images()->attach($image);
+    $anime->images()->attach($image);
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(AnimeImageDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(AnimeImageDeleted::class);
 
-        $anime->images()->detach($image);
+    $anime->images()->detach($image);
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

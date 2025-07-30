@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Studio;
-
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
@@ -22,321 +20,280 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class StudioShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * By default, the Studio Show Endpoint shall return a Studio Resource.
-     */
-    public function testDefault(): void
-    {
-        $studio = Studio::factory()->create();
+test('default', function () {
+    $studio = Studio::factory()->create();
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio]));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall return a Studio Resource for soft deleted studios.
-     */
-    public function testSoftDelete(): void
-    {
-        $studio = Studio::factory()->trashed()->createOne();
+test('soft delete', function () {
+    $studio = Studio::factory()->trashed()->createOne();
 
-        $studio->unsetRelations();
+    $studio->unsetRelations();
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio]));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new StudioSchema();
+test('allowed include paths', function () {
+    $schema = new StudioSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $studio = Studio::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new StudioSchema();
+test('sparse fieldsets', function () {
+    $schema = new StudioSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $studio = Studio::factory()->create();
+    $studio = Studio::factory()->create();
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall support constrained eager loading of anime by media format.
-     */
-    public function testAnimeByMediaFormat(): void
-    {
-        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+test('anime by media format', function () {
+    $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_ANIME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_ANIME,
+    ];
 
-        $studio = Studio::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+    $studio = Studio::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->create();
 
-        $studio->unsetRelations()->load([
-            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
-                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
-            },
-        ]);
+    $studio->unsetRelations()->load([
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+        },
+    ]);
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall support constrained eager loading of anime by season.
-     */
-    public function testAnimeBySeason(): void
-    {
-        $seasonFilter = Arr::random(AnimeSeason::cases());
+test('anime by season', function () {
+    $seasonFilter = Arr::random(AnimeSeason::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_ANIME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_ANIME,
+    ];
 
-        $studio = Studio::factory()
-            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
-            ->create();
+    $studio = Studio::factory()
+        ->has(Anime::factory()->count(fake()->randomDigitNotNull()))
+        ->create();
 
-        $studio->unsetRelations()->load([
-            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
-                $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
-            },
-        ]);
+    $studio->unsetRelations()->load([
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($seasonFilter) {
+            $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
+        },
+    ]);
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Index Endpoint shall support constrained eager loading of anime by year.
-     */
-    public function testAnimeByYear(): void
-    {
-        $yearFilter = $this->faker->numberBetween(2000, 2002);
+test('anime by year', function () {
+    $yearFilter = fake()->numberBetween(2000, 2002);
 
-        $parameters = [
-            FilterParser::param() => [
-                Anime::ATTRIBUTE_YEAR => $yearFilter,
-            ],
-            IncludeParser::param() => Studio::RELATION_ANIME,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Anime::ATTRIBUTE_YEAR => $yearFilter,
+        ],
+        IncludeParser::param() => Studio::RELATION_ANIME,
+    ];
 
-        $studio = Studio::factory()
-            ->has(
-                Anime::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->state(new Sequence(
-                        [Anime::ATTRIBUTE_YEAR => 2000],
-                        [Anime::ATTRIBUTE_YEAR => 2001],
-                        [Anime::ATTRIBUTE_YEAR => 2002],
-                    ))
-            )
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(
+            Anime::factory()
+                ->count(fake()->randomDigitNotNull())
+                ->state(new Sequence(
+                    [Anime::ATTRIBUTE_YEAR => 2000],
+                    [Anime::ATTRIBUTE_YEAR => 2001],
+                    [Anime::ATTRIBUTE_YEAR => 2002],
+                ))
+        )
+        ->createOne();
 
-        $studio->unsetRelations()->load([
-            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
-                $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
-            },
-        ]);
+    $studio->unsetRelations()->load([
+        Studio::RELATION_ANIME => function (BelongsToMany $query) use ($yearFilter) {
+            $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
+        },
+    ]);
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall support constrained eager loading of resources by site.
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
+test('resources by site', function () {
+    $siteFilter = Arr::random(ResourceSite::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_RESOURCES,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_RESOURCES,
+    ];
 
-        $studio = Studio::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Studio::RELATION_RESOURCES)
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(ExternalResource::factory()->count(fake()->randomDigitNotNull()), Studio::RELATION_RESOURCES)
+        ->createOne();
 
-        $studio->unsetRelations()->load([
-            Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ]);
+    $studio->unsetRelations()->load([
+        Studio::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+        },
+    ]);
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Studio Show Endpoint shall support constrained eager loading of images by facet.
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
+test('images by facet', function () {
+    $facetFilter = Arr::random(ImageFacet::cases());
 
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => Studio::RELATION_IMAGES,
-        ];
+    $parameters = [
+        FilterParser::param() => [
+            Image::ATTRIBUTE_FACET => $facetFilter->localize(),
+        ],
+        IncludeParser::param() => Studio::RELATION_IMAGES,
+    ];
 
-        $studio = Studio::factory()
-            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
-            ->createOne();
+    $studio = Studio::factory()
+        ->has(Image::factory()->count(fake()->randomDigitNotNull()))
+        ->createOne();
 
-        $studio->unsetRelations()->load([
-            Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ]);
+    $studio->unsetRelations()->load([
+        Studio::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
+            $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+        },
+    ]);
 
-        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+    $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new StudioResource($studio, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new StudioResource($studio, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Wiki;
-
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
@@ -14,101 +12,69 @@ use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class SongTest extends TestCase
-{
-    use WithFaker;
+uses(WithFaker::class);
 
-    /**
-     * Song shall be a searchable resource.
-     */
-    public function testSearchableAs(): void
-    {
-        $song = Song::factory()->createOne();
+test('searchable as', function () {
+    $song = Song::factory()->createOne();
 
-        static::assertIsString($song->searchableAs());
-    }
+    static::assertIsString($song->searchableAs());
+});
 
-    /**
-     * Song shall be a searchable resource.
-     */
-    public function testToSearchableArray(): void
-    {
-        $song = Song::factory()->createOne();
+test('to searchable array', function () {
+    $song = Song::factory()->createOne();
 
-        static::assertIsArray($song->toSearchableArray());
-    }
+    static::assertIsArray($song->toSearchableArray());
+});
 
-    /**
-     * Songs shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $song = Song::factory()->createOne();
+test('nameable', function () {
+    $song = Song::factory()->createOne();
 
-        static::assertIsString($song->getName());
-    }
+    static::assertIsString($song->getName());
+});
 
-    /**
-     * Songs shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $song = Song::factory()
-            ->has(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
+test('has subtitle', function () {
+    $song = Song::factory()
+        ->has(AnimeTheme::factory()->for(Anime::factory()))
+        ->createOne();
 
-        static::assertIsString($song->getSubtitle());
-    }
+    static::assertIsString($song->getSubtitle());
+});
 
-    /**
-     * Song shall have a one-to-many relationship with the type Theme.
-     */
-    public function testThemes(): void
-    {
-        $themeCount = $this->faker->randomDigitNotNull();
+test('themes', function () {
+    $themeCount = fake()->randomDigitNotNull();
 
-        $song = Song::factory()
-            ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
-            ->createOne();
+    $song = Song::factory()
+        ->has(AnimeTheme::factory()->for(Anime::factory())->count($themeCount))
+        ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $song->animethemes());
-        static::assertEquals($themeCount, $song->animethemes()->count());
-        static::assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
-    }
+    static::assertInstanceOf(HasMany::class, $song->animethemes());
+    static::assertEquals($themeCount, $song->animethemes()->count());
+    static::assertInstanceOf(AnimeTheme::class, $song->animethemes()->first());
+});
 
-    /**
-     * Song shall have a many-to-many relationship with the type Artist.
-     */
-    public function testArtists(): void
-    {
-        $artistCount = $this->faker->randomDigitNotNull();
+test('artists', function () {
+    $artistCount = fake()->randomDigitNotNull();
 
-        $song = Song::factory()
-            ->has(Artist::factory()->count($artistCount))
-            ->createOne();
+    $song = Song::factory()
+        ->has(Artist::factory()->count($artistCount))
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $song->artists());
-        static::assertEquals($artistCount, $song->artists()->count());
-        static::assertInstanceOf(Artist::class, $song->artists()->first());
-        static::assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
-    }
+    static::assertInstanceOf(BelongsToMany::class, $song->artists());
+    static::assertEquals($artistCount, $song->artists()->count());
+    static::assertInstanceOf(Artist::class, $song->artists()->first());
+    static::assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
+});
 
-    /**
-     * Song shall have a many-to-many relationship with the type ExternalResource.
-     */
-    public function testExternalResources(): void
-    {
-        $resourceCount = $this->faker->randomDigitNotNull();
+test('external resources', function () {
+    $resourceCount = fake()->randomDigitNotNull();
 
-        $song = Song::factory()
-            ->has(ExternalResource::factory()->count($resourceCount), 'resources')
-            ->createOne();
+    $song = Song::factory()
+        ->has(ExternalResource::factory()->count($resourceCount), 'resources')
+        ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $song->resources());
-        static::assertEquals($resourceCount, $song->resources()->count());
-        static::assertInstanceOf(ExternalResource::class, $song->resources()->first());
-        static::assertEquals(SongResource::class, $song->resources()->getPivotClass());
-    }
-}
+    static::assertInstanceOf(BelongsToMany::class, $song->resources());
+    static::assertEquals($resourceCount, $song->resources()->count());
+    static::assertInstanceOf(ExternalResource::class, $song->resources()->first());
+    static::assertEquals(SongResource::class, $song->resources()->getPivotClass());
+});

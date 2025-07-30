@@ -2,74 +2,55 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Console\Commands\Repositories\Storage\Admin;
-
 use App\Console\Commands\Repositories\Storage\Admin\DumpReconcileCommand;
 use App\Constants\Config\DumpConstants;
 use App\Models\Admin\Dump;
 use App\Repositories\Storage\Admin\DumpRepository;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
-use Tests\TestCase;
 
-class DumpReconcileTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If no changes are needed, the Reconcile Dump Command shall output 'No Dumps created or deleted or updated'.
-     */
-    public function testNoResults(): void
-    {
-        $this->mock(DumpRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
-        });
+test('no results', function () {
+    $this->mock(DumpRepository::class, function (MockInterface $mock) {
+        $mock->shouldReceive('get')->once()->andReturn(Collection::make());
+    });
 
-        $this->artisan(DumpReconcileCommand::class)
-            ->assertSuccessful()
-            ->expectsOutput('No Dumps created or deleted or updated');
-    }
+    $this->artisan(DumpReconcileCommand::class)
+        ->assertSuccessful()
+        ->expectsOutput('No Dumps created or deleted or updated');
+});
 
-    /**
-     * If dumps are created, the Reconcile Dump Command shall output '{Created Count} Dumps created, 0 Dumps deleted, 0 Dumps updated'.
-     */
-    public function testCreated(): void
-    {
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('created', function () {
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $createdDumpCount = $this->faker->numberBetween(2, 9);
+    $createdDumpCount = fake()->numberBetween(2, 9);
 
-        $dumps = Dump::factory()->count($createdDumpCount)->make();
+    $dumps = Dump::factory()->count($createdDumpCount)->make();
 
-        $this->mock(DumpRepository::class, function (MockInterface $mock) use ($dumps) {
-            $mock->shouldReceive('get')->once()->andReturn($dumps);
-        });
+    $this->mock(DumpRepository::class, function (MockInterface $mock) use ($dumps) {
+        $mock->shouldReceive('get')->once()->andReturn($dumps);
+    });
 
-        $this->artisan(DumpReconcileCommand::class)
-            ->assertSuccessful()
-            ->expectsOutput("$createdDumpCount Dumps created, 0 Dumps deleted, 0 Dumps updated");
-    }
+    $this->artisan(DumpReconcileCommand::class)
+        ->assertSuccessful()
+        ->expectsOutput("$createdDumpCount Dumps created, 0 Dumps deleted, 0 Dumps updated");
+});
 
-    /**
-     * If dumps are deleted, the Reconcile Dump Command shall output '0 Dumps created, {Deleted Count} Dumps deleted, 0 Dumps updated'.
-     */
-    public function testDeleted(): void
-    {
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('deleted', function () {
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $deletedDumpCount = $this->faker->numberBetween(2, 9);
+    $deletedDumpCount = fake()->numberBetween(2, 9);
 
-        Dump::factory()->count($deletedDumpCount)->create();
+    Dump::factory()->count($deletedDumpCount)->create();
 
-        $this->mock(DumpRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('get')->once()->andReturn(Collection::make());
-        });
+    $this->mock(DumpRepository::class, function (MockInterface $mock) {
+        $mock->shouldReceive('get')->once()->andReturn(Collection::make());
+    });
 
-        $this->artisan(DumpReconcileCommand::class)
-            ->assertSuccessful()
-            ->expectsOutput("0 Dumps created, $deletedDumpCount Dumps deleted, 0 Dumps updated");
-    }
-}
+    $this->artisan(DumpReconcileCommand::class)
+        ->assertSuccessful()
+        ->expectsOutput("0 Dumps created, $deletedDumpCount Dumps deleted, 0 Dumps updated");
+});

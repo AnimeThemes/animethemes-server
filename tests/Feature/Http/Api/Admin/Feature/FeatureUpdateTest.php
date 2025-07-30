@@ -2,69 +2,51 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Feature;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Feature;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class FeatureUpdateTest extends TestCase
-{
-    /**
-     * The Feature Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $feature = Feature::factory()->createOne();
+test('protected', function () {
+    $feature = Feature::factory()->createOne();
 
-        $parameters = [
-            Feature::ATTRIBUTE_VALUE => ! $feature->value,
-        ];
+    $parameters = [
+        Feature::ATTRIBUTE_VALUE => ! $feature->value,
+    ];
 
-        $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
+    $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Feature Update Endpoint shall forbid users without the update feature permission.
-     */
-    public function testForbidden(): void
-    {
-        $feature = Feature::factory()->createOne();
+test('forbidden', function () {
+    $feature = Feature::factory()->createOne();
 
-        $parameters = [
-            Feature::ATTRIBUTE_VALUE => ! $feature->value,
-        ];
+    $parameters = [
+        Feature::ATTRIBUTE_VALUE => ! $feature->value,
+    ];
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
+    $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Feature Update Endpoint shall update a feature.
-     */
-    public function testUpdate(): void
-    {
-        $feature = Feature::factory()->createOne();
+test('update', function () {
+    $feature = Feature::factory()->createOne();
 
-        $parameters = [
-            Feature::ATTRIBUTE_VALUE => ! $feature->value,
-        ];
+    $parameters = [
+        Feature::ATTRIBUTE_VALUE => ! $feature->value,
+    ];
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Feature::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Feature::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
+    $response = $this->put(route('api.feature.update', ['feature' => $feature] + $parameters));
 
-        $response->assertOk();
-    }
-}
+    $response->assertOk();
+});

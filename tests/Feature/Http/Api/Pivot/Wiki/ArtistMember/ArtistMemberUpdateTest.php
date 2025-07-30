@@ -2,73 +2,55 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistMember;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistMemberUpdateTest extends TestCase
-{
-    /**
-     * The Artist Member Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->createOne();
+test('protected', function () {
+    $artistMember = ArtistMember::factory()
+        ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+        ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
+        ->createOne();
 
-        $parameters = ArtistMember::factory()->raw();
+    $parameters = ArtistMember::factory()->raw();
 
-        $response = $this->put(route('api.artistmember.update', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $response = $this->put(route('api.artistmember.update', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Artist Member Update Endpoint shall forbid users without the update artist permission.
-     */
-    public function testForbidden(): void
-    {
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->createOne();
+test('forbidden', function () {
+    $artistMember = ArtistMember::factory()
+        ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+        ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
+        ->createOne();
 
-        $parameters = ArtistMember::factory()->raw();
+    $parameters = ArtistMember::factory()->raw();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.artistmember.update', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $response = $this->put(route('api.artistmember.update', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Artist Member Update Endpoint shall update an artist member.
-     */
-    public function testUpdate(): void
-    {
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->createOne();
+test('update', function () {
+    $artistMember = ArtistMember::factory()
+        ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+        ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
+        ->createOne();
 
-        $parameters = ArtistMember::factory()->raw();
+    $parameters = ArtistMember::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Artist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Artist::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.artistmember.update', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
+    $response = $this->put(route('api.artistmember.update', ['artist' => $artistMember->artist, 'member' => $artistMember->member] + $parameters));
 
-        $response->assertOk();
-    }
-}
+    $response->assertOk();
+});

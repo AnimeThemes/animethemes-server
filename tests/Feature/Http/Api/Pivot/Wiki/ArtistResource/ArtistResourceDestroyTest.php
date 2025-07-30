@@ -2,96 +2,74 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistResource;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ArtistResourceDestroyTest extends TestCase
-{
-    /**
-     * The Artist Resource Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+test('protected', function () {
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Artist Resource Destroy Endpoint shall forbid users without the delete artist & delete resource permissions.
-     */
-    public function testForbidden(): void
-    {
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+test('forbidden', function () {
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Artist Resource Destroy Endpoint shall return an error if the artist resource does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $resource = ExternalResource::factory()->createOne();
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Artist::class),
-                CrudPermission::DELETE->format(ExternalResource::class)
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Artist::class),
+            CrudPermission::DELETE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artist, 'resource' => $resource]));
+    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artist, 'resource' => $resource]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * The Artist Resource Destroy Endpoint shall delete the artist resource.
-     */
-    public function testDeleted(): void
-    {
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->createOne();
+test('deleted', function () {
+    $artistResource = ArtistResource::factory()
+        ->for(Artist::factory())
+        ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
+        ->createOne();
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Artist::class),
-                CrudPermission::DELETE->format(ExternalResource::class)
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Artist::class),
+            CrudPermission::DELETE->format(ExternalResource::class)
+        )
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
+    $response = $this->delete(route('api.artistresource.destroy', ['artist' => $artistResource->artist, 'resource' => $artistResource->resource]));
 
-        $response->assertOk();
-        static::assertModelMissing($artistResource);
-    }
-}
+    $response->assertOk();
+    static::assertModelMissing($artistResource);
+});

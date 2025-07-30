@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Events\Wiki;
-
 use App\Events\Wiki\Video\VideoCreated;
 use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
@@ -11,87 +9,57 @@ use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Tests\TestCase;
 
-class VideoTest extends TestCase
-{
-    /**
-     * When a Video is created, a VideoCreated event shall be dispatched.
-     */
-    public function testVideoCreatedEventDispatched(): void
-    {
-        Video::factory()->createOne();
+test('video created event dispatched', function () {
+    Video::factory()->createOne();
 
-        Event::assertDispatched(VideoCreated::class);
-    }
+    Event::assertDispatched(VideoCreated::class);
+});
 
-    /**
-     * When a Video is deleted, a VideoDeleted event shall be dispatched.
-     */
-    public function testVideoDeletedEventDispatched(): void
-    {
-        $video = Video::factory()->createOne();
+test('video deleted event dispatched', function () {
+    $video = Video::factory()->createOne();
 
-        $video->delete();
+    $video->delete();
 
-        Event::assertDispatched(VideoDeleted::class);
-    }
+    Event::assertDispatched(VideoDeleted::class);
+});
 
-    /**
-     * When a Video is restored, a VideoRestored event shall be dispatched.
-     */
-    public function testVideoRestoredEventDispatched(): void
-    {
-        $video = Video::factory()->createOne();
+test('video restored event dispatched', function () {
+    $video = Video::factory()->createOne();
 
-        $video->restore();
+    $video->restore();
 
-        Event::assertDispatched(VideoRestored::class);
-    }
+    Event::assertDispatched(VideoRestored::class);
+});
 
-    /**
-     * When a Video is restored, a VideoUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     */
-    public function testVideoRestoresQuietly(): void
-    {
-        $video = Video::factory()->createOne();
+test('video restores quietly', function () {
+    $video = Video::factory()->createOne();
 
-        $video->restore();
+    $video->restore();
 
-        Event::assertNotDispatched(VideoUpdated::class);
-    }
+    Event::assertNotDispatched(VideoUpdated::class);
+});
 
-    /**
-     * When a Video is updated, a VideoUpdated event shall be dispatched.
-     */
-    public function testVideoUpdatedEventDispatched(): void
-    {
-        $video = Video::factory()->createOne();
-        $changes = Video::factory()->makeOne();
+test('video updated event dispatched', function () {
+    $video = Video::factory()->createOne();
+    $changes = Video::factory()->makeOne();
 
-        $video->fill($changes->getAttributes());
-        $video->save();
+    $video->fill($changes->getAttributes());
+    $video->save();
 
-        Event::assertDispatched(VideoUpdated::class);
-    }
+    Event::assertDispatched(VideoUpdated::class);
+});
 
-    /**
-     * The VideoUpdated event shall contain embed fields.
-     */
-    public function testVideoUpdatedEventEmbedFields(): void
-    {
-        $video = Video::factory()->createOne();
-        $changes = Video::factory()->makeOne();
+test('video updated event embed fields', function () {
+    $video = Video::factory()->createOne();
+    $changes = Video::factory()->makeOne();
 
-        $video->fill($changes->getAttributes());
-        $video->save();
+    $video->fill($changes->getAttributes());
+    $video->save();
 
-        Event::assertDispatched(VideoUpdated::class, function (VideoUpdated $event) {
-            $message = $event->getDiscordMessage();
+    Event::assertDispatched(VideoUpdated::class, function (VideoUpdated $event) {
+        $message = $event->getDiscordMessage();
 
-            return ! empty(Arr::get($message->embed, 'fields'));
-        });
-    }
-}
+        return ! empty(Arr::get($message->embed, 'fields'));
+    });
+});

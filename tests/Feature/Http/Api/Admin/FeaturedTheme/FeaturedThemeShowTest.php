@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\FeaturedTheme;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -20,122 +18,101 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class FeaturedThemeShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Featured Theme Show Endpoint shall forbid the user from viewing a featured theme whose start date is in the future.
-     */
-    public function testForbiddenIfFutureStartDate(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
-        ]);
+test('forbidden if future start date', function () {
+    $featuredTheme = FeaturedTheme::factory()->create([
+        FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
+    ]);
 
-        $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
+    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * By default, the Featured Theme Show Endpoint shall return a Featured Theme Resource.
-     */
-    public function testDefault(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->create();
+test('default', function () {
+    $featuredTheme = FeaturedTheme::factory()->create();
 
-        $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
+    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($featuredTheme, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeaturedThemeResource($featuredTheme, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Featured Theme Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new FeaturedThemeSchema();
+test('allowed include paths', function () {
+    $schema = new FeaturedThemeSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $featuredTheme = FeaturedTheme::factory()
-            ->for(
-                AnimeThemeEntry::factory()
-                    ->for(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory()->has(Image::factory()->count($this->faker->randomDigitNotNull())))
-                            ->for(Song::factory()->has(Artist::factory()->count($this->faker->randomDigitNotNull())))
-                    )
-            )
-            ->for(Video::factory())
-            ->for(User::factory())
-            ->createOne();
+    $featuredTheme = FeaturedTheme::factory()
+        ->for(
+            AnimeThemeEntry::factory()
+                ->for(
+                    AnimeTheme::factory()
+                        ->for(Anime::factory()->has(Image::factory()->count(fake()->randomDigitNotNull())))
+                        ->for(Song::factory()->has(Artist::factory()->count(fake()->randomDigitNotNull())))
+                )
+        )
+        ->for(Video::factory())
+        ->for(User::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($featuredTheme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeaturedThemeResource($featuredTheme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Featured Theme Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new FeaturedThemeSchema();
+test('sparse fieldsets', function () {
+    $schema = new FeaturedThemeSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                FeaturedThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            FeaturedThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $featuredTheme = FeaturedTheme::factory()->create();
+    $featuredTheme = FeaturedTheme::factory()->create();
 
-        $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
+    $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($featuredTheme, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new FeaturedThemeResource($featuredTheme, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

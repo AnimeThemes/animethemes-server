@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Admin;
-
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Constants\Config\DumpConstants;
@@ -11,8 +9,6 @@ use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
-use Exception;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -20,150 +16,122 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class LatestDocumentDumpTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * If dump downloading is disabled through the Allow Dump Downloading feature,
-     * the user shall receive a forbidden exception.
-     *
-     * @throws Exception
-     */
-    public function testDumpDownloadingNotAllowedForbidden(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('dump downloading not allowed forbidden', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Feature::deactivate(AllowDumpDownloading::class);
+    Feature::deactivate(AllowDumpDownloading::class);
 
+    $action = new DumpWikiAction();
+
+    $action->handle();
+
+    $response = $this->get(route('dump.latest.document.show'));
+
+    $response->assertForbidden();
+});
+
+test('video streaming permitted for bypass', function () {
+    Storage::fake('local');
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+
+    Feature::activate(AllowDumpDownloading::class, fake()->boolean());
+
+    Collection::times(fake()->randomDigitNotNull(), function () {
         $action = new DumpWikiAction();
 
         $action->handle();
+    });
 
-        $response = $this->get(route('dump.latest.document.show'));
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpDocumentAction();
 
-        $response->assertForbidden();
-    }
+        $action->handle();
+    });
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to download the latest document dump
-     * even if the Allow Dump Downloading feature is disabled.
-     */
-    public function testVideoStreamingPermittedForBypass(): void
-    {
-        Storage::fake('local');
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $path = Str::of(DumpDocumentAction::FILENAME_PREFIX)
+        ->append(fake()->word())
+        ->append('.sql')
+        ->__toString();
 
-        Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
+    $file = File::fake()->create($path);
+    $fsFile = $fs->putFileAs('', $file, $path);
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpWikiAction();
+    $dump = Dump::factory()->createOne([
+        Dump::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-            $action->handle();
-        });
+    $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpDocumentAction();
+    Sanctum::actingAs($user);
 
-            $action->handle();
-        });
+    $response = $this->get(route('dump.latest.document.show'));
 
-        $path = Str::of(DumpDocumentAction::FILENAME_PREFIX)
-            ->append($this->faker->word())
-            ->append('.sql')
-            ->__toString();
+    $response->assertDownload($dump->path);
+});
 
-        $file = File::fake()->create($path);
-        $fsFile = $fs->putFileAs('', $file, $path);
+test('not found if no document dumps', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $dump = Dump::factory()->createOne([
-            Dump::ATTRIBUTE_PATH => $fsFile,
-        ]);
+    Feature::activate(AllowDumpDownloading::class);
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
+    $response = $this->get(route('dump.latest.document.show'));
 
-        Sanctum::actingAs($user);
+    $response->assertNotFound();
+});
 
-        $response = $this->get(route('dump.latest.document.show'));
+test('not found if wiki dumps exist', function () {
+    Storage::fake('local');
+    Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        $response->assertDownload($dump->path);
-    }
+    Feature::activate(AllowDumpDownloading::class);
 
-    /**
-     * If no dumps exist, the user shall receive a not found error.
-     */
-    public function testNotFoundIfNoDocumentDumps(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpWikiAction();
 
-        Feature::activate(AllowDumpDownloading::class);
+        $action->handle();
+    });
 
-        $response = $this->get(route('dump.latest.document.show'));
+    $response = $this->get(route('dump.latest.document.show'));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * If no document dumps exist, the user shall receive a not found error.
-     */
-    public function testNotFoundIfWikiDumpsExist(): void
-    {
-        Storage::fake('local');
-        Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+test('latest document dump downloaded', function () {
+    Storage::fake('local');
+    $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Feature::activate(AllowDumpDownloading::class);
+    Feature::activate(AllowDumpDownloading::class);
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpWikiAction();
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpWikiAction();
 
-            $action->handle();
-        });
+        $action->handle();
+    });
 
-        $response = $this->get(route('dump.latest.document.show'));
+    Collection::times(fake()->randomDigitNotNull(), function () {
+        $action = new DumpDocumentAction();
 
-        $response->assertNotFound();
-    }
+        $action->handle();
+    });
 
-    /**
-     * If document dumps exist, the latest document dump is downloaded from storage through the response.
-     */
-    public function testLatestDocumentDumpDownloaded(): void
-    {
-        Storage::fake('local');
-        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+    $path = Str::of(DumpDocumentAction::FILENAME_PREFIX)
+        ->append(fake()->word())
+        ->append('.sql')
+        ->__toString();
 
-        Feature::activate(AllowDumpDownloading::class);
+    $file = File::fake()->create($path);
+    $fsFile = $fs->putFileAs('', $file, $path);
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpWikiAction();
+    $dump = Dump::factory()->createOne([
+        Dump::ATTRIBUTE_PATH => $fsFile,
+    ]);
 
-            $action->handle();
-        });
+    $response = $this->get(route('dump.latest.document.show'));
 
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            $action = new DumpDocumentAction();
-
-            $action->handle();
-        });
-
-        $path = Str::of(DumpDocumentAction::FILENAME_PREFIX)
-            ->append($this->faker->word())
-            ->append('.sql')
-            ->__toString();
-
-        $file = File::fake()->create($path);
-        $fsFile = $fs->putFileAs('', $file, $path);
-
-        $dump = Dump::factory()->createOne([
-            Dump::ATTRIBUTE_PATH => $fsFile,
-        ]);
-
-        $response = $this->get(route('dump.latest.document.show'));
-
-        $response->assertDownload($dump->path);
-    }
-}
+    $response->assertDownload($dump->path);
+});

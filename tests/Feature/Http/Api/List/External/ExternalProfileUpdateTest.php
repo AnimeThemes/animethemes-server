@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\External;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -11,193 +9,162 @@ use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Features\AllowExternalProfileManagement;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class ExternalProfileUpdateTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The External Profile Update Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('protected', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        Feature::activate(AllowExternalProfileManagement::class);
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $profile = ExternalProfile::factory()->createOne();
+    $profile = ExternalProfile::factory()->createOne();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
+    $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The External Profile Update Endpoint shall forbid users without the update profile permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        Feature::activate(AllowExternalProfileManagement::class);
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $profile = ExternalProfile::factory()->createOne();
+    $profile = ExternalProfile::factory()->createOne();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
+    $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Profile Update Endpoint shall forbid users from updating the profile if they don't own it.
-     */
-    public function testForbiddenIfNotOwnExternalProfile(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('forbidden if not own external profile', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        Feature::activate(AllowExternalProfileManagement::class);
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne();
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
+    );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
+    $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Profile Update Endpoint shall forbid users from updating profiles
-     * if the Allow ExternalProfile Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        Feature::deactivate(AllowExternalProfileManagement::class);
+    Feature::deactivate(AllowExternalProfileManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne();
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [
-                ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [
+            ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
+    $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The External Profile Update Endpoint shall update a profile.
-     */
-    public function testUpdate(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('update', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        Feature::activate(AllowExternalProfileManagement::class);
+    Feature::activate(AllowExternalProfileManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne();
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [
-                ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [
+            ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
+    $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertOk();
-    }
+    $response->assertOk();
+});
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to update profiles
-     * even if the Allow ExternalProfile Management feature is inactive.
-     */
-    public function testUpdatePermittedForBypass(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
+test('update permitted for bypass', function () {
+    Event::fakeExcept(ExternalProfileCreated::class);
 
-        Feature::activate(AllowExternalProfileManagement::class, $this->faker->boolean());
+    Feature::activate(AllowExternalProfileManagement::class, fake()->boolean());
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::UPDATE->format(ExternalProfile::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::UPDATE->format(ExternalProfile::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $profile = ExternalProfile::factory()
-            ->for($user)
-            ->createOne();
+    $profile = ExternalProfile::factory()
+        ->for($user)
+        ->createOne();
 
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
+    $visibility = Arr::random(ExternalProfileVisibility::cases());
 
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [
-                ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
+    $parameters = array_merge(
+        ExternalProfile::factory()->raw(),
+        [
+            ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
+        ],
+    );
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
+    $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
 
-        $response->assertOk();
-    }
-}
+    $response->assertOk();
+});

@@ -2,153 +2,120 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\List\Playlist;
-
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class PlaylistDestroyTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Playlist Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('protected', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
+    $playlist = Playlist::factory()->createOne();
 
-        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Playlist Destroy Endpoint shall forbid users without the delete playlist permission.
-     */
-    public function testForbiddenIfMissingPermission(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('forbidden if missing permission', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
+    $playlist = Playlist::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Playlist Destroy Endpoint shall forbid users from deleting the playlist if they don't own it.
-     */
-    public function testForbiddenIfNotOwnPlaylist(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('forbidden if not own playlist', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()
-            ->for(User::factory())
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Playlist Destroy Endpoint shall forbid users from destroying playlists
-     * if the Allow Playlist Management feature is inactive.
-     */
-    public function testForbiddenIfFlagDisabled(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('forbidden if flag disabled', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::deactivate(AllowPlaylistManagement::class);
+    Feature::deactivate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Playlist Destroy Endpoint shall delete the playlist.
-     */
-    public function testDeleted(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('deleted', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class);
+    Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
-        $response->assertOk();
-        static::assertModelMissing($playlist);
-    }
+    $response->assertOk();
+    static::assertModelMissing($playlist);
+});
 
-    /**
-     * Users with the bypass feature flag permission shall be permitted to destroy playlists
-     * even if the Allow Playlist Management feature is inactive.
-     */
-    public function testDestroyPermittedForBypass(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
+test('destroy permitted for bypass', function () {
+    Event::fakeExcept(PlaylistCreated::class);
 
-        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
+    Feature::activate(AllowPlaylistManagement::class, fake()->boolean());
 
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::DELETE->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS->value
-            )
-            ->createOne();
+    $user = User::factory()
+        ->withPermissions(
+            CrudPermission::DELETE->format(Playlist::class),
+            SpecialPermission::BYPASS_FEATURE_FLAGS->value
+        )
+        ->createOne();
 
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
+    $playlist = Playlist::factory()
+        ->for($user)
+        ->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+    $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
-        $response->assertOk();
-    }
-}
+    $response->assertOk();
+});

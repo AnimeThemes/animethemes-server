@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistSong;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -14,125 +12,104 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class ArtistSongShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Artist Song Show Endpoint shall return an error if the artist song does not exist.
-     */
-    public function testNotFound(): void
-    {
-        $artist = Artist::factory()->createOne();
-        $song = Song::factory()->createOne();
+test('not found', function () {
+    $artist = Artist::factory()->createOne();
+    $song = Song::factory()->createOne();
 
-        $response = $this->get(route('api.artistsong.show', ['artist' => $artist, 'song' => $song]));
+    $response = $this->get(route('api.artistsong.show', ['artist' => $artist, 'song' => $song]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * By default, the Artist Song Show Endpoint shall return an Artist Song Resource.
-     */
-    public function testDefault(): void
-    {
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->createOne();
+test('default', function () {
+    $artistSong = ArtistSong::factory()
+        ->for(Artist::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
+    $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song]));
 
-        $artistSong->unsetRelations();
+    $artistSong->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistSongResource($artistSong, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistSongResource($artistSong, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Artist Song Show Endpoint shall allow inclusion of related resources.
-     */
-    public function testAllowedIncludePaths(): void
-    {
-        $schema = new ArtistSongSchema();
+test('allowed include paths', function () {
+    $schema = new ArtistSongSchema();
 
-        $allowedIncludes = collect($schema->allowedIncludes());
+    $allowedIncludes = collect($schema->allowedIncludes());
 
-        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
 
-        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
 
-        $parameters = [
-            IncludeParser::param() => $includedPaths->join(','),
-        ];
+    $parameters = [
+        IncludeParser::param() => $includedPaths->join(','),
+    ];
 
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->createOne();
+    $artistSong = ArtistSong::factory()
+        ->for(Artist::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
-        $artistSong->unsetRelations()->load($includedPaths->all());
+    $artistSong->unsetRelations()->load($includedPaths->all());
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistSongResource($artistSong, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistSongResource($artistSong, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Artist Song Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new ArtistSongSchema();
+test('sparse fieldsets', function () {
+    $schema = new ArtistSongSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                ArtistSongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            ArtistSongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->createOne();
+    $artistSong = ArtistSong::factory()
+        ->for(Artist::factory())
+        ->for(Song::factory())
+        ->createOne();
 
-        $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
+    $response = $this->get(route('api.artistsong.show', ['artist' => $artistSong->artist, 'song' => $artistSong->song] + $parameters));
 
-        $artistSong->unsetRelations();
+    $artistSong->unsetRelations();
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ArtistSongResource($artistSong, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new ArtistSongResource($artistSong, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});

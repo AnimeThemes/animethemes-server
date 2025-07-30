@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\List;
-
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
@@ -13,153 +11,108 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Tests\TestCase;
 
-class ExternalProfileTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The site attribute of a profile shall be cast to a ExternalProfileSite enum instance.
-     */
-    public function testCastsSiteToEnum(): void
-    {
-        $profile = ExternalProfile::factory()->createOne();
+test('casts site to enum', function () {
+    $profile = ExternalProfile::factory()->createOne();
 
-        $site = $profile->site;
+    $site = $profile->site;
 
-        static::assertInstanceOf(ExternalProfileSite::class, $site);
-    }
+    static::assertInstanceOf(ExternalProfileSite::class, $site);
+});
 
-    /**
-     * The visibility attribute of a profile shall be cast to a ExternalProfileVisibility enum instance.
-     */
-    public function testCastsVisibilityToEnum(): void
-    {
-        $profile = ExternalProfile::factory()->createOne();
+test('casts visibility to enum', function () {
+    $profile = ExternalProfile::factory()->createOne();
 
-        $visibility = $profile->visibility;
+    $visibility = $profile->visibility;
 
-        static::assertInstanceOf(ExternalProfileVisibility::class, $visibility);
-    }
+    static::assertInstanceOf(ExternalProfileVisibility::class, $visibility);
+});
 
-    /**
-     * Profile shall be nameable.
-     */
-    public function testNameable(): void
-    {
-        $profile = ExternalProfile::factory()->createOne();
+test('nameable', function () {
+    $profile = ExternalProfile::factory()->createOne();
 
-        static::assertIsString($profile->getName());
-    }
+    static::assertIsString($profile->getName());
+});
 
-    /**
-     * Profile shall have subtitle.
-     */
-    public function testHasSubtitle(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne();
+test('has subtitle', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        static::assertIsString($profile->getSubtitle());
-    }
+    static::assertIsString($profile->getSubtitle());
+});
 
-    /**
-     * Public profiles shall be searchable.
-     */
-    public function testSearchableIfPublic(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
+test('searchable if public', function () {
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
+        ]);
 
-        static::assertTrue($profile->shouldBeSearchable());
-    }
+    static::assertTrue($profile->shouldBeSearchable());
+});
 
-    /**
-     * Profiles shall not be searchable if not public.
-     */
-    public function testNotSearchableIfNotPublic(): void
-    {
-        $visibility = null;
+test('not searchable if not public', function () {
+    $visibility = null;
 
-        while ($visibility == null) {
-            $candidate = Arr::random(ExternalProfileVisibility::cases());
-            if ($candidate !== ExternalProfileVisibility::PUBLIC) {
-                $visibility = $candidate;
-            }
+    while ($visibility == null) {
+        $candidate = Arr::random(ExternalProfileVisibility::cases());
+        if ($candidate !== ExternalProfileVisibility::PUBLIC) {
+            $visibility = $candidate;
         }
-
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->value,
-            ]);
-
-        static::assertFalse($profile->shouldBeSearchable());
     }
 
-    /**
-     * Profile with a user shall be claimed.
-     */
-    public function testClaimed(): void
-    {
-        $claimedProfile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne();
+    $profile = ExternalProfile::factory()
+        ->createOne([
+            ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->value,
+        ]);
 
-        $unclaimedProfile = ExternalProfile::factory()
-            ->createOne();
+    static::assertFalse($profile->shouldBeSearchable());
+});
 
-        static::assertTrue($claimedProfile->isClaimed());
-        static::assertFalse($unclaimedProfile->isClaimed());
-    }
+test('claimed', function () {
+    $claimedProfile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne();
 
-    /**
-     * Profiles shall belong to a user.
-     */
-    public function testUser(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->for(User::factory())
-            ->createOne();
+    $unclaimedProfile = ExternalProfile::factory()
+        ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $profile->user());
-        static::assertInstanceOf(User::class, $profile->user()->first());
-    }
+    static::assertTrue($claimedProfile->isClaimed());
+    static::assertFalse($unclaimedProfile->isClaimed());
+});
 
-    /**
-     * Profiles shall have a one-to-one relationship with the type external token.
-     */
-    public function testExternalToken(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
-            ->createOne();
+test('user', function () {
+    $profile = ExternalProfile::factory()
+        ->for(User::factory())
+        ->createOne();
 
-        static::assertInstanceOf(HasOne::class, $profile->externaltoken());
-        static::assertInstanceOf(ExternalToken::class, $profile->externaltoken()->first());
-    }
+    static::assertInstanceOf(BelongsTo::class, $profile->user());
+    static::assertInstanceOf(User::class, $profile->user()->first());
+});
 
-    /**
-     * Profiles shall have a one-to-many relationship with the type ExternalEntry.
-     */
-    public function testExternalEntries(): void
-    {
-        $entryCount = $this->faker->randomDigitNotNull();
+test('external token', function () {
+    $profile = ExternalProfile::factory()
+        ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
+        ->createOne();
 
-        $profile = ExternalProfile::factory()->createOne();
+    static::assertInstanceOf(HasOne::class, $profile->externaltoken());
+    static::assertInstanceOf(ExternalToken::class, $profile->externaltoken()->first());
+});
 
-        ExternalEntry::factory()
-            ->for($profile)
-            ->count($entryCount)
-            ->create();
+test('external entries', function () {
+    $entryCount = fake()->randomDigitNotNull();
 
-        static::assertInstanceOf(HasMany::class, $profile->externalentries());
-        static::assertEquals($entryCount, $profile->externalentries()->count());
-        static::assertInstanceOf(ExternalEntry::class, $profile->externalentries()->first());
-    }
-}
+    $profile = ExternalProfile::factory()->createOne();
+
+    ExternalEntry::factory()
+        ->for($profile)
+        ->count($entryCount)
+        ->create();
+
+    static::assertInstanceOf(HasMany::class, $profile->externalentries());
+    static::assertEquals($entryCount, $profile->externalentries()->count());
+    static::assertInstanceOf(ExternalEntry::class, $profile->externalentries()->first());
+});

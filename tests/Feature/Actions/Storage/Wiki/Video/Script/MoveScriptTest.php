@@ -2,119 +2,96 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Storage\Wiki\Video\Script;
-
 use App\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-class MoveScriptTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Move Script Action shall fail if there are no moves.
-     */
-    public function testDefault(): void
-    {
-        Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
-        Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('default', function () {
+    Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
+    Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $script = VideoScript::factory()->createOne();
+    $script = VideoScript::factory()->createOne();
 
-        $action = new MoveScriptAction($script, $this->faker->word());
+    $action = new MoveScriptAction($script, fake()->word());
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->hasFailed());
-    }
+    static::assertTrue($result->hasFailed());
+});
 
-    /**
-     * The Move Script Action shall pass if there are moves.
-     */
-    public function testPassed(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('passed', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
 
-        $directory = $this->faker->unique()->word();
+    $directory = fake()->unique()->word();
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
+    ]);
 
-        $action = new MoveScriptAction($script, Str::replace($directory, $this->faker->unique()->word(), $script->path));
+    $action = new MoveScriptAction($script, Str::replace($directory, fake()->unique()->word(), $script->path));
 
-        $storageResults = $action->handle();
+    $storageResults = $action->handle();
 
-        $result = $storageResults->toActionResult();
+    $result = $storageResults->toActionResult();
 
-        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-    }
+    static::assertTrue($result->getStatus() === ActionStatus::PASSED);
+});
 
-    /**
-     * The Move Script Action shall move the file in the configured disks.
-     */
-    public function testMovedInDisk(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('moved in disk', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
 
-        $directory = $this->faker->unique()->word();
+    $directory = fake()->unique()->word();
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
+    ]);
 
-        $from = $script->path;
-        $to = Str::replace($directory, $this->faker->unique()->word(), $script->path);
+    $from = $script->path;
+    $to = Str::replace($directory, fake()->unique()->word(), $script->path);
 
-        $action = new MoveScriptAction($script, $to);
+    $action = new MoveScriptAction($script, $to);
 
-        $action->handle();
+    $action->handle();
 
-        $fs->assertMissing($from);
-        $fs->assertExists($to);
-    }
+    $fs->assertMissing($from);
+    $fs->assertExists($to);
+});
 
-    /**
-     * The Move Script Action shall move the script.
-     */
-    public function testScriptUpdated(): void
-    {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+test('script updated', function () {
+    /** @var FilesystemAdapter $fs */
+    $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+    $file = File::fake()->create(fake()->word().'.txt', fake()->randomDigitNotNull());
 
-        $directory = $this->faker->unique()->word();
+    $directory = fake()->unique()->word();
 
-        $script = VideoScript::factory()->createOne([
-            VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
-        ]);
+    $script = VideoScript::factory()->createOne([
+        VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
+    ]);
 
-        $to = Str::replace($directory, $this->faker->unique()->word(), $script->path);
+    $to = Str::replace($directory, fake()->unique()->word(), $script->path);
 
-        $action = new MoveScriptAction($script, $to);
+    $action = new MoveScriptAction($script, $to);
 
-        $result = $action->handle();
+    $result = $action->handle();
 
-        $action->then($result);
+    $action->then($result);
 
-        static::assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_PATH => $to]);
-    }
-}
+    static::assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_PATH => $to]);
+});

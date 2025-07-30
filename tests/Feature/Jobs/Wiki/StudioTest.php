@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Jobs\Wiki;
-
 use App\Constants\FeatureConstants;
 use App\Events\Wiki\Studio\StudioCreated;
 use App\Events\Wiki\Studio\StudioDeleted;
@@ -14,72 +12,52 @@ use App\Models\Wiki\Studio;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Feature;
-use Tests\TestCase;
 
-class StudioTest extends TestCase
-{
-    /**
-     * When a studio is created, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testStudioCreatedSendsDiscordNotification(): void
-    {
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(StudioCreated::class);
+test('studio created sends discord notification', function () {
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(StudioCreated::class);
 
-        Studio::factory()->createOne();
+    Studio::factory()->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a studio is deleted, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testStudioDeletedSendsDiscordNotification(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('studio deleted sends discord notification', function () {
+    $studio = Studio::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(StudioDeleted::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(StudioDeleted::class);
 
-        $studio->delete();
+    $studio->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a studio is restored, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testStudioRestoredSendsDiscordNotification(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('studio restored sends discord notification', function () {
+    $studio = Studio::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(StudioRestored::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(StudioRestored::class);
 
-        $studio->restore();
+    $studio->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});
 
-    /**
-     * When a studio is updated, a SendDiscordNotification job shall be dispatched.
-     */
-    public function testStudioUpdatedSendsDiscordNotification(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('studio updated sends discord notification', function () {
+    $studio = Studio::factory()->createOne();
 
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(StudioUpdated::class);
+    Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+    Bus::fake(SendDiscordNotificationJob::class);
+    Event::fakeExcept(StudioUpdated::class);
 
-        $changes = Studio::factory()->makeOne();
+    $changes = Studio::factory()->makeOne();
 
-        $studio->fill($changes->getAttributes());
-        $studio->save();
+    $studio->fill($changes->getAttributes());
+    $studio->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-}
+    Bus::assertDispatched(SendDiscordNotificationJob::class);
+});

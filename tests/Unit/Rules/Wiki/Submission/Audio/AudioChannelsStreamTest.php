@@ -2,97 +2,82 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Wiki\Submission\Audio;
-
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
-use Tests\TestCase;
 
-class AudioChannelsStreamTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * The Audio Channels Stream Rule shall fail if the channel count is not 2.
-     */
-    public function testFailsWhenChannelCountIsNotTwo(): void
-    {
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+test('fails when channel count is not two', function () {
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'audio',
-                        'channels' => $this->faker->randomDigitNot(2),
-                    ],
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'streams' => [
+                0 => [
+                    'codec_type' => 'audio',
+                    'channels' => fake()->randomDigitNot(2),
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new AudioChannelsStreamRule()],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new AudioChannelsStreamRule()],
+    );
 
-        static::assertFalse($validator->passes());
+    static::assertFalse($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});
 
-    /**
-     * The Audio Channels Stream Rule shall pass if the channel count is 2.
-     */
-    public function testPassesWhenChannelCountIsTwo(): void
-    {
-        $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+test('passes when channel count is two', function () {
+    $file = UploadedFile::fake()->create(fake()->word().'.webm', fake()->randomDigitNotNull());
 
-        Process::fake([
-            UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
-                'input_i' => $this->faker->randomFloat(),
-                'input_tp' => $this->faker->randomFloat(),
-                'input_lra' => $this->faker->randomFloat(),
-                'input_thresh' => $this->faker->randomFloat(),
-                'output_i' => $this->faker->randomFloat(),
-                'output_tp' => $this->faker->randomFloat(),
-                'output_lra' => $this->faker->randomFloat(),
-                'output_thresh' => $this->faker->randomFloat(),
-                'normalization_type' => 'dynamic',
-                'target_offset' => $this->faker->randomFloat(),
-            ])),
-            UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
-                'streams' => [
-                    0 => [
-                        'codec_type' => 'audio',
-                        'channels' => 2,
-                    ],
+    Process::fake([
+        UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
+            'input_i' => fake()->randomFloat(),
+            'input_tp' => fake()->randomFloat(),
+            'input_lra' => fake()->randomFloat(),
+            'input_thresh' => fake()->randomFloat(),
+            'output_i' => fake()->randomFloat(),
+            'output_tp' => fake()->randomFloat(),
+            'output_lra' => fake()->randomFloat(),
+            'output_thresh' => fake()->randomFloat(),
+            'normalization_type' => 'dynamic',
+            'target_offset' => fake()->randomFloat(),
+        ])),
+        UploadedFileAction::formatFfprobeCommand($file) => Process::result(json_encode([
+            'streams' => [
+                0 => [
+                    'codec_type' => 'audio',
+                    'channels' => 2,
                 ],
-            ])),
-        ]);
+            ],
+        ])),
+    ]);
 
-        $validator = Validator::make(
-            ['file' => $file],
-            ['file' => new AudioChannelsStreamRule()],
-        );
+    $validator = Validator::make(
+        ['file' => $file],
+        ['file' => new AudioChannelsStreamRule()],
+    );
 
-        static::assertTrue($validator->passes());
+    static::assertTrue($validator->passes());
 
-        Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
-    }
-}
+    Process::assertRan(UploadedFileAction::formatFfprobeCommand($file));
+});

@@ -2,74 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Announcement;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class AnnouncementStoreTest extends TestCase
-{
-    /**
-     * The Announcement Store Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $announcement = Announcement::factory()->makeOne();
+test('protected', function () {
+    $announcement = Announcement::factory()->makeOne();
 
-        $response = $this->post(route('api.announcement.store', $announcement->toArray()));
+    $response = $this->post(route('api.announcement.store', $announcement->toArray()));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Announcement Store Endpoint shall forbid users without the create announcement permission.
-     */
-    public function testForbidden(): void
-    {
-        $announcement = Announcement::factory()->makeOne();
+test('forbidden', function () {
+    $announcement = Announcement::factory()->makeOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.announcement.store', $announcement->toArray()));
+    $response = $this->post(route('api.announcement.store', $announcement->toArray()));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Announcement Store Endpoint shall require the content field.
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Announcement::class))->createOne();
+test('required fields', function () {
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Announcement::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.announcement.store'));
+    $response = $this->post(route('api.announcement.store'));
 
-        $response->assertJsonValidationErrors([
-            Announcement::ATTRIBUTE_CONTENT,
-        ]);
-    }
+    $response->assertJsonValidationErrors([
+        Announcement::ATTRIBUTE_CONTENT,
+    ]);
+});
 
-    /**
-     * The Announcement Store Endpoint shall create an announcement.
-     */
-    public function testCreate(): void
-    {
-        $parameters = Announcement::factory()->raw();
+test('create', function () {
+    $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Announcement::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Announcement::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.announcement.store', $parameters));
+    $response = $this->post(route('api.announcement.store', $parameters));
 
-        $response->assertCreated();
-        static::assertDatabaseCount(Announcement::class, 1);
-    }
-}
+    $response->assertCreated();
+    static::assertDatabaseCount(Announcement::class, 1);
+});

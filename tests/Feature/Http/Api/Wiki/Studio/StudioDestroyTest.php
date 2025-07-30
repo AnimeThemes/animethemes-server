@@ -2,74 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Studio;
-
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
 
-class StudioDestroyTest extends TestCase
-{
-    /**
-     * The Studio Destroy Endpoint shall be protected by sanctum.
-     */
-    public function testProtected(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('protected', function () {
+    $studio = Studio::factory()->createOne();
 
-        $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
 
-        $response->assertUnauthorized();
-    }
+    $response->assertUnauthorized();
+});
 
-    /**
-     * The Studio Destroy Endpoint shall forbid users without the delete studio permission.
-     */
-    public function testForbidden(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('forbidden', function () {
+    $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->createOne();
+    $user = User::factory()->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Studio Destroy Endpoint shall forbid users from updating a studio that is trashed.
-     */
-    public function testTrashed(): void
-    {
-        $studio = Studio::factory()->trashed()->createOne();
+test('trashed', function () {
+    $studio = Studio::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Studio::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Studio::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
 
-        $response->assertNotFound();
-    }
+    $response->assertNotFound();
+});
 
-    /**
-     * The Studio Destroy Endpoint shall delete the studio.
-     */
-    public function testDeleted(): void
-    {
-        $studio = Studio::factory()->createOne();
+test('deleted', function () {
+    $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Studio::class))->createOne();
+    $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Studio::class))->createOne();
 
-        Sanctum::actingAs($user);
+    Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
+    $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
 
-        $response->assertOk();
-        static::assertSoftDeleted($studio);
-    }
-}
+    $response->assertOk();
+    static::assertSoftDeleted($studio);
+});

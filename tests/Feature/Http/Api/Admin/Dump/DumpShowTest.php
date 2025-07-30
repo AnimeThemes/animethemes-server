@@ -2,84 +2,65 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Admin\Dump;
-
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\DumpSchema;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class DumpShowTest extends TestCase
-{
-    use WithFaker;
+uses(Illuminate\Foundation\Testing\WithFaker::class);
 
-    /**
-     * By default, the Dump Show Endpoint shall return a Dump Resource.
-     */
-    public function testDefault(): void
-    {
-        $dump = Dump::factory()->create();
+test('default', function () {
+    $dump = Dump::factory()->create();
 
-        $response = $this->get(route('api.dump.show', ['dump' => $dump]));
+    $response = $this->get(route('api.dump.show', ['dump' => $dump]));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpResource($dump, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpResource($dump, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
 
-    /**
-     * The Dump Show Endpoint shall forbid access to an unsafe dump.
-     */
-    public function testCannotViewUnsafe(): void
-    {
-        $dump = Dump::factory()->unsafe()->create();
+test('cannot view unsafe', function () {
+    $dump = Dump::factory()->unsafe()->create();
 
-        $response = $this->get(route('api.dump.show', ['dump' => $dump]));
+    $response = $this->get(route('api.dump.show', ['dump' => $dump]));
 
-        $response->assertForbidden();
-    }
+    $response->assertForbidden();
+});
 
-    /**
-     * The Dump Show Endpoint shall implement sparse fieldsets.
-     */
-    public function testSparseFieldsets(): void
-    {
-        $schema = new DumpSchema();
+test('sparse fieldsets', function () {
+    $schema = new DumpSchema();
 
-        $fields = collect($schema->fields());
+    $fields = collect($schema->fields());
 
-        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+    $includedFields = $fields->random(fake()->numberBetween(1, $fields->count()));
 
-        $parameters = [
-            FieldParser::param() => [
-                DumpResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
-            ],
-        ];
+    $parameters = [
+        FieldParser::param() => [
+            DumpResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+        ],
+    ];
 
-        $dump = Dump::factory()->create();
+    $dump = Dump::factory()->create();
 
-        $response = $this->get(route('api.dump.show', ['dump' => $dump] + $parameters));
+    $response = $this->get(route('api.dump.show', ['dump' => $dump] + $parameters));
 
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpResource($dump, new Query($parameters))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-}
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new DumpResource($dump, new Query($parameters))
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
