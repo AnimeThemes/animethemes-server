@@ -60,7 +60,7 @@
         "barryvdh/laravel-debugbar": "^3.16.0",
         "laravel/pint": "^1.24.0",
         "laravel/sail": "^1.44.0",
-        "mockery/mockery": "^1.6",
+        "mockery/mockery": "^1.6.12",
         "pestphp/pest": "3.8.2",
         "pestphp/pest-plugin-drift": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.2",
