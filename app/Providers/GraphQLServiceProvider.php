@@ -35,6 +35,7 @@ use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\EnumType;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Unions\BaseUnion;
+use App\GraphQL\Support\Argument\WhereArgument;
 use App\GraphQL\Support\EdgeConnection;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
@@ -175,6 +176,10 @@ class GraphQLServiceProvider extends ServiceProvider
                         // Build edge connections for custom logic.
                         $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($edge)->__toString());
                     }
+                }
+
+                if ($class instanceof HasFields) {
+                    $dispatcher->listen(BuildSchemaString::class, fn () => WhereArgument::buildEnum($class));
                 }
 
                 // if ($class instanceof EloquentType && $class instanceof ReportableType) {

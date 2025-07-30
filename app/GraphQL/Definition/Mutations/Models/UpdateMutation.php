@@ -8,7 +8,7 @@ use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;

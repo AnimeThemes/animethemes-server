@@ -10,7 +10,7 @@ use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 
 #[UseBuilderDirective(PlaylistTrackController::class)]
 #[UsePaginateDirective]

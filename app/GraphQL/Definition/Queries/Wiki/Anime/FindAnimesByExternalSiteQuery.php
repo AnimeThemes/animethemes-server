@@ -10,7 +10,7 @@ use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Controllers\Wiki\Anime\FindAnimesByExternalSiteController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use App\Models\Wiki\Anime;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Directives\Filters;
 
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 
 final readonly class NotInFilterDirective extends FilterDirective

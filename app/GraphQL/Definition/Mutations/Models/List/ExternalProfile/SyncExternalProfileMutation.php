@@ -11,7 +11,7 @@ use App\GraphQL\Controllers\List\SyncExternalProfileController;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\Type;

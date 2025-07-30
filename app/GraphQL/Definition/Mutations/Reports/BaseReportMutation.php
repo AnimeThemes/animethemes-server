@@ -6,7 +6,7 @@ namespace App\GraphQL\Definition\Mutations\Reports;
 
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 
 abstract class BaseReportMutation extends BaseMutation
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support;
+namespace App\GraphQL\Support\Argument;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
 use GraphQL\Type\Definition\Type;
@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Stringable as SupportStringable;
 use Stringable;
 
-final class Argument implements Stringable
+class Argument implements Stringable
 {
     use ResolvesDirectives;
 

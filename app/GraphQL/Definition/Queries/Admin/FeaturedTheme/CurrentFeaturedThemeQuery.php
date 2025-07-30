@@ -9,7 +9,7 @@ use App\GraphQL\Attributes\Resolvers\UseFindDirective;
 use App\GraphQL\Controllers\Admin\CurrentFeaturedThemeController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 
 #[UseBuilderDirective(CurrentFeaturedThemeController::class, 'show')]
 #[UseFindDirective]

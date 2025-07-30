@@ -15,7 +15,7 @@ use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Directives\SortCustomDirective;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Directives\Filters\FilterDirective;
 use App\GraphQL\Support\Sort\RandomSort;
 use App\GraphQL\Support\SortableColumns;

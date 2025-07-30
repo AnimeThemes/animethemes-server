@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Resolvers\AnimeYearResolver;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use App\Models\Wiki\Anime;
 use GraphQL\Type\Definition\Type;
 
