@@ -10,7 +10,7 @@ use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\EdgeType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\Type;

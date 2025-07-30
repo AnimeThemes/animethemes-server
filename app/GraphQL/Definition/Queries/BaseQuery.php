@@ -9,7 +9,8 @@ use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\WhereArgument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
@@ -90,6 +91,10 @@ abstract class BaseQuery
 
         if ($baseType instanceof BaseType && $baseType instanceof HasFields && $this->resolvePaginateAttribute()) {
             $arguments[] = $this->resolveSortArguments($baseType);
+        }
+
+        if ($baseType instanceof BaseType && $baseType instanceof HasFields) {
+            $arguments[] = new WhereArgument($baseType);
         }
 
         return Arr::flatten($arguments);

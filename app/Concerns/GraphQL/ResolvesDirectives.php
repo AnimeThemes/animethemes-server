@@ -11,7 +11,7 @@ trait ResolvesDirectives
      *
      * @param  array<string, array<string, mixed>>  $directives
      */
-    protected function resolveDirectives(array $directives): string
+    protected static function resolveDirectives(array $directives): string
     {
         return collect($directives)
             ->map(function ($args, $directive) {

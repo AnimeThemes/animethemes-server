@@ -6,7 +6,7 @@ namespace App\GraphQL\Support\Directives\Filters;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Support\Argument;
+use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 
 abstract readonly class FilterDirective
