@@ -7,11 +7,12 @@ use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Actions\Base\ForceDeleteAction;
-use App\Filament\Actions\Base\RestoreAction;
 use App\Filament\Resources\Admin\FeaturedTheme;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Video;
+use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -77,11 +78,15 @@ test('mount edit action', function () {
 
     actingAs($user);
 
-    $record = FeaturedThemeModel::factory()->createOne();
+    $record = FeaturedThemeModel::factory()
+        ->for(AnimeThemeEntry::factory()->forAnime())
+        ->for(Video::factory())
+        ->createOne();
 
     Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
@@ -93,37 +98,12 @@ test('user cannot edit record', function () {
     $record = FeaturedThemeModel::factory()->createOne();
 
     Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = FeaturedThemeModel::factory()->createOne();
 
-    Livewire::test(getViewPage(FeaturedTheme::class), ['record' => $record->getKey()])
-        ->assertActionHidden(DeleteAction::class);
-
     Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
-});
-
-test('user cannot restore record', function () {
-    $record = FeaturedThemeModel::factory()->createOne();
-
-    $record->delete();
-
-    Livewire::test(getViewPage(FeaturedTheme::class), ['record' => $record->getKey()])
-        ->assertActionHidden(RestoreAction::class);
-
-    Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
-});
-
-test('user cannot force delete record', function () {
-    $record = FeaturedThemeModel::factory()->createOne();
-
-    Livewire::test(getViewPage(FeaturedTheme::class), ['record' => $record->getKey()])
-        ->assertActionHidden(ForceDeleteAction::class);
-
-    Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

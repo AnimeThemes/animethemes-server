@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Resources\BaseResource;
+use App\Models\Auth\User;
 
 use function Pest\Laravel\actingAs;
 
@@ -25,9 +26,6 @@ pest()->extend(Tests\TestCase::class)
 pest()
     ->in('Unit/Filament/Resources')
     ->beforeEach(function () {
-        $this->markTestIncomplete();
-
-        /** @phpstan-ignore-next-line */
         $user = User::factory()
             ->withPermissions(SpecialPermission::VIEW_FILAMENT->value)
             ->createOne();

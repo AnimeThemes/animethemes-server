@@ -29,7 +29,7 @@ class DeleteScriptAction extends DeleteAction
 
         $this->label(__('filament.actions.video_script.delete.name'));
 
-        $this->visible(Gate::allows('delete', VideoScript::class));
+        $this->visible(Gate::allows('deleteAny', VideoScript::class));
     }
 
     /**

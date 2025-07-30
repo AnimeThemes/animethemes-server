@@ -9,6 +9,7 @@ use App\Filament\Actions\Base\EditAction;
 use App\Filament\Resources\List\ExternalProfile;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
+use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 
@@ -89,6 +90,7 @@ test('mount edit action', function () {
     $record = ExternalProfileModel::factory()->createOne();
 
     Livewire::test(getIndexPage(ExternalProfile::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });

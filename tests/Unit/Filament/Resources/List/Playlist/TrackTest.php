@@ -10,6 +10,7 @@ use App\Filament\Resources\List\Playlist\Track;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack as PlaylistTrackModel;
+use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 
@@ -96,6 +97,7 @@ test('mount edit action', function () {
     $record = $playlist->tracks->first();
 
     Livewire::test(getIndexPage(Track::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });

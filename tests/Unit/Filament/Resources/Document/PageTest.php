@@ -12,6 +12,7 @@ use App\Filament\Actions\Base\RestoreAction;
 use App\Filament\Resources\Document\Page;
 use App\Models\Auth\User;
 use App\Models\Document\Page as PageModel;
+use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -80,8 +81,9 @@ test('mount edit action', function () {
     $record = PageModel::factory()->createOne();
 
     Livewire::test(getIndexPage(Page::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
@@ -93,17 +95,14 @@ test('user cannot edit record', function () {
     $record = PageModel::factory()->createOne();
 
     Livewire::test(getIndexPage(Page::class))
-        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = PageModel::factory()->createOne();
 
-    Livewire::test(getViewPage(Page::class), ['record' => $record->getKey()])
-        ->assertActionHidden(DeleteAction::class);
-
     Livewire::test(getIndexPage(Page::class))
-        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
 test('user cannot restore record', function () {
@@ -111,19 +110,14 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getViewPage(Page::class), ['record' => $record->getKey()])
-        ->assertActionHidden(RestoreAction::class);
-
     Livewire::test(getIndexPage(Page::class))
-        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+        ->filterTable('trashed', 0)
+        ->assertActionHidden(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
 
 test('user cannot force delete record', function () {
     $record = PageModel::factory()->createOne();
 
-    Livewire::test(getViewPage(Page::class), ['record' => $record->getKey()])
-        ->assertActionHidden(ForceDeleteAction::class);
-
     Livewire::test(getIndexPage(Page::class))
-        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

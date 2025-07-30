@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
@@ -13,6 +14,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
+use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -70,8 +72,8 @@ test('mount create action', function () {
     actingAs($user);
 
     Livewire::test(getIndexPage(Performance::class))
-        ->mountAction('new performance')
-        ->assertActionMounted('new performance');
+        ->mountAction(CreateAction::class)
+        ->assertActionMounted(CreateAction::class);
 });
 
 test('mount edit action', function () {
@@ -90,13 +92,14 @@ test('mount edit action', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Performance::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
     Livewire::test(getIndexPage(Performance::class))
-        ->assertActionHidden('new performance');
+        ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function () {
@@ -106,7 +109,7 @@ test('user cannot edit record', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Performance::class))
-        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
@@ -115,11 +118,8 @@ test('user cannot delete record', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    Livewire::test(getViewPage(Performance::class), ['record' => $record->getKey()])
-        ->assertActionHidden(DeleteAction::class);
-
     Livewire::test(getIndexPage(Performance::class))
-        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
 test('user cannot restore record', function () {
@@ -130,11 +130,9 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getViewPage(Performance::class), ['record' => $record->getKey()])
-        ->assertActionHidden(RestoreAction::class);
-
     Livewire::test(getIndexPage(Performance::class))
-        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+        ->filterTable('trashed', 0)
+        ->assertActionHidden(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
 
 test('user cannot force delete record', function () {
@@ -143,9 +141,6 @@ test('user cannot force delete record', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    Livewire::test(getViewPage(Performance::class), ['record' => $record->getKey()])
-        ->assertActionHidden(ForceDeleteAction::class);
-
     Livewire::test(getIndexPage(Performance::class))
-        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

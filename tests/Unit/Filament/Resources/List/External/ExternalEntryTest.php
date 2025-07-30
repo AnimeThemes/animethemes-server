@@ -9,6 +9,7 @@ use App\Filament\Resources\List\External\ExternalEntry;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use App\Models\List\ExternalProfile;
+use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 
@@ -79,6 +80,7 @@ test('mount edit action', function () {
     $record = $profile->externalentries->first();
 
     Livewire::test(getIndexPage(ExternalEntry::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });

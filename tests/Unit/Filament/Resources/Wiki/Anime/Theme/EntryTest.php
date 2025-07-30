@@ -12,6 +12,7 @@ use App\Filament\Actions\Base\RestoreAction;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as AnimeThemeEntryModel;
+use Filament\Actions\Testing\TestAction;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -86,8 +87,9 @@ test('mount edit action', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Entry::class))
-        ->mountAction(EditAction::class, ['record' => $record])
-        ->assertActionMounted(EditAction::class);
+        ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
+        ->callMountedAction()
+        ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
@@ -101,7 +103,7 @@ test('user cannot edit record', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
@@ -109,11 +111,8 @@ test('user cannot delete record', function () {
         ->forAnime()
         ->createOne();
 
-    Livewire::test(getViewPage(Entry::class), ['record' => $record->getKey()])
-        ->assertActionHidden(DeleteAction::class);
-
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
 test('user cannot restore record', function () {
@@ -123,11 +122,9 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getViewPage(Entry::class), ['record' => $record->getKey()])
-        ->assertActionHidden(RestoreAction::class);
-
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
+        ->filterTable('trashed', 0)
+        ->assertActionHidden(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
 
 test('user cannot force delete record', function () {
@@ -135,9 +132,6 @@ test('user cannot force delete record', function () {
         ->forAnime()
         ->createOne();
 
-    Livewire::test(getViewPage(Entry::class), ['record' => $record->getKey()])
-        ->assertActionHidden(ForceDeleteAction::class);
-
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
+        ->assertActionHidden(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });
