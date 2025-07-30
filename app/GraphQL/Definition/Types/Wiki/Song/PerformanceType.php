@@ -40,8 +40,10 @@ class PerformanceType extends EloquentType implements HasFields, HasRelations, R
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new SongType(), Performance::RELATION_SONG),
-            new MorphToRelation(new PerformanceArtistUnion(), Performance::RELATION_ARTIST),
+            new BelongsToRelation(new SongType(), Performance::RELATION_SONG)
+                ->notNullable(),
+            new MorphToRelation(new PerformanceArtistUnion(), Performance::RELATION_ARTIST)
+                ->notNullable(),
         ];
     }
 
