@@ -24,6 +24,7 @@ trait CanCreateExternalResource
         $url = $uri->withScheme('https')->__toString();
 
         $id = ResourceSite::parseIdFromLink($url);
+        $id = $id === null ? null : intval($id);
 
         if ($model instanceof BaseModel) {
             $urlPattern = $site->getUrlCaptureGroups($model);
@@ -33,7 +34,7 @@ trait CanCreateExternalResource
             }
 
             if ($id !== null && $site->usesIdInLink()) {
-                $url = $site->formatResourceLink($model::class, intval($id), $id);
+                $url = $site->formatResourceLink($model::class, $id, strval($id));
             }
         }
 
