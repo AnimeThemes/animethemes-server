@@ -33,6 +33,6 @@ class DumpLinkField extends Field implements RenderableField
      */
     public function render(Model $model): string
     {
-        return route('dump.show', $model);
+        return $model->getAttribute($this->getColumn());
     }
 }
