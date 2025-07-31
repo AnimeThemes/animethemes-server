@@ -93,6 +93,14 @@ abstract class BasePolicy
     }
 
     /**
+     * Determine whether the user can update any model.
+     */
+    public function updateAny(User $user): bool
+    {
+        return $user->can(CrudPermission::UPDATE->format(static::getModel()));
+    }
+
+    /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, Model $model): bool

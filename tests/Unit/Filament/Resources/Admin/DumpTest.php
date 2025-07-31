@@ -38,12 +38,12 @@ test('user cannot edit record', function () {
     $record = DumpModel::factory()->createOne();
 
     Livewire::test(getIndexPage(Dump::class))
-        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = DumpModel::factory()->createOne();
 
     Livewire::test(getIndexPage(Dump::class))
-        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

@@ -142,8 +142,10 @@ abstract class BaseRelationManager extends RelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
+        $relatedResource = static::$relatedResource;
+
         return [
-            ...(static::$relatedResource ? static::$relatedResource::getBulkActions() : []),
+            ...($relatedResource ? $relatedResource::getBulkActions() : []),
 
             DetachBulkAction::make(),
         ];
@@ -158,12 +160,14 @@ abstract class BaseRelationManager extends RelationManager
      */
     public static function getHeaderActions(): array
     {
+        $relatedResource = static::$relatedResource;
+
         return [
             CreateAction::make(),
 
             AttachAction::make(),
 
-            ...(static::$relatedResource ? static::$relatedResource::getTableActions() : []),
+            ...($relatedResource ? $relatedResource::getTableActions() : []),
         ];
     }
 

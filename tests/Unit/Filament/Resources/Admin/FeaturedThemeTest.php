@@ -98,12 +98,12 @@ test('user cannot edit record', function () {
     $record = FeaturedThemeModel::factory()->createOne();
 
     Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = FeaturedThemeModel::factory()->createOne();
 
     Livewire::test(getIndexPage(FeaturedTheme::class))
-        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

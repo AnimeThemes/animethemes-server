@@ -103,7 +103,7 @@ test('user cannot edit record', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(TestAction::make(EditAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
@@ -112,7 +112,7 @@ test('user cannot delete record', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(TestAction::make(DeleteAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
 test('user cannot restore record', function () {
@@ -124,7 +124,7 @@ test('user cannot restore record', function () {
 
     Livewire::test(getIndexPage(Entry::class))
         ->filterTable('trashed', 0)
-        ->assertActionHidden(TestAction::make(RestoreAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
 
 test('user cannot force delete record', function () {
@@ -133,5 +133,5 @@ test('user cannot force delete record', function () {
         ->createOne();
 
     Livewire::test(getIndexPage(Entry::class))
-        ->assertActionHidden(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
+        ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });
