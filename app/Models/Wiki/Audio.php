@@ -114,7 +114,7 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
      */
     public function getLinkAttribute(): ?string
     {
-        if ($this->hasAttribute(Audio::ATTRIBUTE_BASENAME) && $this->exists()) {
+        if ($this->hasAttribute(Audio::ATTRIBUTE_BASENAME) && $this->exists) {
             return route('audio.show', $this);
         }
 
