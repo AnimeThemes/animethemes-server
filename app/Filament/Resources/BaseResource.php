@@ -30,6 +30,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Gate;
 
 abstract class BaseResource extends Resource
 {
@@ -120,20 +121,20 @@ abstract class BaseResource extends Resource
     public static function getActions(): array
     {
         return [
-            ViewAction::make(),
+            ...(Gate::allows('viewAny', static::$model) ? [ViewAction::make()] : []),
 
-            EditAction::make(),
+            ...(Gate::allows('updateAny', static::$model) ? [EditAction::make()] : []),
 
             ActionGroup::make([
                 DetachAction::make(),
 
-                DeleteAction::make(),
+                ...(Gate::allows('deleteAny', static::$model) ? [DeleteAction::make()] : []),
 
-                ForceDeleteAction::make(),
+                ...(Gate::allows('forceDeleteAny', static::$model) ? [ForceDeleteAction::make()] : []),
 
-                RestoreAction::make(),
+                ...(Gate::allows('restoreAny', static::$model) ? [RestoreAction::make()] : []),
 
-                ReplicateAction::make(),
+                ...(Gate::allows('create', static::$model) ? [ReplicateAction::make()] : []),
 
                 ActionGroup::make(static::getRecordActions())->dropdown(false),
             ]),
