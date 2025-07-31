@@ -51,7 +51,7 @@ test('passes when true peak is expected', function () {
     Process::fake([
         UploadedFileAction::formatLoudnessCommand($file) => Process::result(errorOutput: json_encode([
             'input_i' => fake()->numberBetween(),
-            'input_tp' => fake()->randomFloat(min: -20, max: 0.1),
+            'input_tp' => fake()->randomFloat(min: -20, max: 0),
             'input_lra' => fake()->randomFloat(),
             'input_thresh' => fake()->randomFloat(),
             'output_i' => fake()->randomFloat(),

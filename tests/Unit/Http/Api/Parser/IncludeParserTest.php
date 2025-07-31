@@ -35,7 +35,7 @@ test('parse criteria paths', function () {
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertEquals($fields, $criteria->getPaths()->all());
+    $this->assertEquals(collect($fields)->unique()->all(), $criteria->getPaths()->all());
 });
 
 test('parse resource criteria', function () {

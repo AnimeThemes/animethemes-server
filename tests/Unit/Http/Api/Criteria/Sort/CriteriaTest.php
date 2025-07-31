@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('should not sort if key mismatch', function () {
-    $criteria = new class(new GlobalScope(), fake()->word()) extends Criteria
+    $criteria = new class(new GlobalScope(), fake()->unique()->word()) extends Criteria
     {
         /**
          * Apply criteria to builder.
@@ -26,7 +26,7 @@ test('should not sort if key mismatch', function () {
         }
     };
 
-    $sort = new Sort(fake()->word());
+    $sort = new Sort(fake()->unique()->word());
 
     $this->assertFalse($criteria->shouldSort($sort, $criteria->getScope()));
 });
