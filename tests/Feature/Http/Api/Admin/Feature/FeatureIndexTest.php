@@ -6,6 +6,7 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
@@ -97,6 +98,7 @@ test('sparse fieldsets', function () {
         FieldParser::param() => [
             FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
+        SortParser::param() => new IdField($schema, Feature::ATTRIBUTE_ID)->getSort()->format(Direction::ASCENDING),
     ];
 
     $features = Feature::factory()->count(fake()->randomDigitNotNull())->create();

@@ -10,7 +10,7 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('passes if all values pass', function () {
     $attribute = fake()->word();
 
-    $values = collect(fake()->words());
+    $values = collect(fake()->words())->unique();
 
     $validator = Validator::make(
         [$attribute => $values->implode(',')],

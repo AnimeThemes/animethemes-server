@@ -46,3 +46,9 @@ parameters:
         -
             message: '#Undefined variable: \$this#'
             path: tests/Pest.php
+        -
+            message: '#Call to method callMountedAction\(\) on an unknown class static.#'
+            path: tests/Unit/Filament/*
+        -
+            message: '#Call to method assertActionHidden\(\) on an unknown class static.#'
+            path: tests/Unit/Filament/*
