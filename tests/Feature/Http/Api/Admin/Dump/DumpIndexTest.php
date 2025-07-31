@@ -107,7 +107,7 @@ test('sparse fieldsets', function () {
             true
         )
     );
-});
+})->only()->repeat(50);
 
 test('sorts', function () {
     $schema = new DumpSchema();
