@@ -147,7 +147,7 @@ class Image extends BaseModel implements SoftDeletable
      */
     public function getLinkAttribute(): ?string
     {
-        if ($this->path) {
+        if ($this->hasAttribute(Image::ATTRIBUTE_PATH) && $this->exists) {
             /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
             $fs = Storage::disk(Config::get('image.disk'));
 
