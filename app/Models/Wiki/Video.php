@@ -174,7 +174,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
      */
     public function getLinkAttribute(): ?string
     {
-        if ($this->hasAttribute(Video::ATTRIBUTE_BASENAME) && $this->exists()) {
+        if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
             return route('video.show', $this);
         }
 

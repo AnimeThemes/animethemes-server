@@ -38,7 +38,7 @@
         "laravel/fortify": "^1.27.0",
         "laravel/framework": "^12.21.0",
         "laravel/horizon": "^5.33.1",
-        "laravel/pennant": "^1.17.1",
+        "laravel/pennant": "^1.18.0",
         "laravel/pulse": "^1.4.3",
         "laravel/sanctum": "^4.2.0",
         "laravel/scout": "^10.17.0",
@@ -51,7 +51,7 @@
         "spatie/db-dumper": "^3.8.0",
         "spatie/laravel-permission": "^6.21.0",
         "staudenmeir/belongs-to-through": "^2.17",
-        "staudenmeir/laravel-adjacency-list": "^1.25.1",
+        "staudenmeir/laravel-adjacency-list": "^1.25.2",
         "symfony/http-client": "^6.4.23",
         "symfony/mailgun-mailer": "^6.4.23",
         "vinkla/hashids": "^13.0"

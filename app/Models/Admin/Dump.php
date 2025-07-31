@@ -85,7 +85,7 @@ class Dump extends BaseModel
      */
     public function getLinkAttribute(): ?string
     {
-        if ($this->hasAttribute(Dump::ATTRIBUTE_PATH) && $this->exists()) {
+        if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
             return route('dump.show', $this);
         }
 
