@@ -15,22 +15,14 @@ final readonly class SortableColumns implements Stringable
     public function __construct(protected BaseType $type) {}
 
     /**
-     * Resolve the enum cases.
-     */
-    protected function resolveEnumCases(): string
-    {
-        return $this->type->sorts()
-            ->map(fn (Sort $sort) => $sort->__toString())
-            ->flatten()
-            ->implode(PHP_EOL);
-    }
-
-    /**
      * Resolve the SortableColumns as a GraphQL string representation.
      */
     public function __toString(): string
     {
-        $enumCases = $this->resolveEnumCases();
+        $enumCases = $this->type->sorts()
+            ->map(fn (Sort $sort) => $sort->__toString())
+            ->flatten()
+            ->implode(PHP_EOL);
 
         if (blank($enumCases)) {
             return '';

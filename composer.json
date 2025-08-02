@@ -44,6 +44,7 @@
         "laravel/scout": "^10.17.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.29",
+        "leandrocfe/filament-apex-charts": "4.0-beta1",
         "mll-lab/graphql-php-scalars": "^6.4.1",
         "mll-lab/laravel-graphiql": "^3.3.4",
         "nuwave/lighthouse": "^6.62.2",

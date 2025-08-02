@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Directives;
 
-use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Support\Sort\RandomSort;
+use App\GraphQL\Support\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -60,7 +60,7 @@ class SortCustomDirective extends BaseDirective implements ArgBuilderDirective
                 continue;
             }
 
-            $direction = SortDirection::resolveFromEnumCase($enumCase);
+            $direction = Sort::resolveFromEnumCase($enumCase);
 
             $sortByColumnValue = Str::remove('_DESC', $enumCase);
 
