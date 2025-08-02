@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Dashboards;
 
-use Filament\Panel;
-
 use App\Filament\Widgets\Wiki\Anime\AnimeChart;
 use App\Filament\Widgets\Wiki\Artist\ArtistChart;
 use App\Filament\Widgets\Wiki\Series\SeriesChart;
 use App\Filament\Widgets\Wiki\Video\VideoChart;
+use Filament\Panel;
 
 class WikiDashboard extends BaseDashboard
 {
