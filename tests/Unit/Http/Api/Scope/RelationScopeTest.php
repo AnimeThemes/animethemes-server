@@ -25,9 +25,9 @@ test('type scope is not within scope', function () {
 });
 
 test('unequal relation is not within scope', function () {
-    $scope = new RelationScope(fake()->word());
+    $scope = new RelationScope(fake()->unique()->word());
 
-    $otherScope = new RelationScope(fake()->word());
+    $otherScope = new RelationScope(fake()->unique()->word());
 
     $this->assertFalse($scope->isWithinScope($otherScope));
 });
