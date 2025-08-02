@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Admin;
 
-use App\Contracts\GraphQL\HasFields;
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Admin\FeaturedTheme\FeaturedThemeEndAtField;
 use App\GraphQL\Definition\Fields\Admin\FeaturedTheme\FeaturedThemeStartAtField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
@@ -20,7 +18,7 @@ use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Admin\FeaturedTheme;
 
-class FeaturedThemeType extends EloquentType implements HasFields, HasRelations
+class FeaturedThemeType extends EloquentType
 {
     /**
      * The description of the type.

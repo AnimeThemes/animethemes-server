@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Models;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Mutations\BaseMutation;
+use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +33,7 @@ abstract class DeleteMutation extends BaseMutation
 
         $baseType = $this->baseType();
 
-        if ($baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveBindArguments($baseType->fields());
         }
 

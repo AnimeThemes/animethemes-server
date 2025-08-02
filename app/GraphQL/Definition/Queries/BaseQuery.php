@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Queries;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\WhereArgument;
@@ -85,15 +84,15 @@ abstract class BaseQuery
             $arguments[] = new Argument('search', Type::string())->directives(['search' => []]);
         }
 
-        if ($baseType instanceof BaseType && $baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveFilterArguments($baseType->fields());
         }
 
-        if ($baseType instanceof BaseType && $baseType instanceof HasFields && $this->resolvePaginateAttribute()) {
+        if ($baseType instanceof BaseType && $this->resolvePaginateAttribute()) {
             $arguments[] = $this->resolveSortArguments($baseType);
         }
 
-        if ($baseType instanceof BaseType && $baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             $arguments[] = new WhereArgument($baseType);
         }
 

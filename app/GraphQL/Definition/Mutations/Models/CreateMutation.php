@@ -6,9 +6,9 @@ namespace App\GraphQL\Definition\Mutations\Models;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
+use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +36,7 @@ abstract class CreateMutation extends BaseMutation
 
         $baseType = $this->baseType();
 
-        if ($baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             $bindableFields = Arr::where($baseType->fields(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
             $notBindableFields = Arr::where($baseType->fields(), fn (Field $field) => ! $field instanceof BindableField);
             $arguments[] = $this->resolveBindArguments($bindableFields);
@@ -74,7 +74,7 @@ abstract class CreateMutation extends BaseMutation
     {
         $baseType = $this->baseType();
 
-        if ($baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             return collect($baseType->fields())
                 ->filter(fn (Field $field) => $field instanceof CreatableField)
                 ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])

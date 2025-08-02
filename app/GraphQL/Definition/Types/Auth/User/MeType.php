@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth\User;
 
-use App\Contracts\GraphQL\HasFields;
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Auth\User\Me\MeEmailField;
 use App\GraphQL\Definition\Fields\Auth\User\Me\MeEmailVerifiedAtField;
 use App\GraphQL\Definition\Fields\Auth\User\Me\MeNameField;
@@ -26,7 +24,7 @@ use App\GraphQL\Support\Sort\Sort;
 use App\Models\Auth\User;
 use Illuminate\Support\Collection;
 
-class MeType extends EloquentType implements HasFields, HasRelations
+class MeType extends EloquentType
 {
     /**
      * The description of the type.

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Auth\Permission\PermissionGuardNameField;
 use App\GraphQL\Definition\Fields\Auth\Permission\PermissionNameField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
@@ -14,7 +13,7 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Permission;
 
-class PermissionType extends EloquentType implements HasFields
+class PermissionType extends EloquentType
 {
     /**
      * The description of the type.

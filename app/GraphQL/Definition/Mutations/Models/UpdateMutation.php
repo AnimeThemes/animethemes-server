@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations\Models;
 
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
+use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +35,7 @@ abstract class UpdateMutation extends BaseMutation
 
         $baseType = $this->baseType();
 
-        if ($baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveBindArguments($baseType->fields());
             $arguments[] = $this->resolveUpdateMutationArguments($baseType->fields());
         }
@@ -71,7 +71,7 @@ abstract class UpdateMutation extends BaseMutation
     {
         $baseType = $this->baseType();
 
-        if ($baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             return collect($baseType->fields())
                 ->filter(fn (Field $field) => $field instanceof UpdatableField)
                 ->mapWithKeys(fn (Field&UpdatableField $field) => [$field->getColumn() => $field->getUpdateRules($args)])

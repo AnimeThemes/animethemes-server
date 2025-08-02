@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki;
 
-use App\Contracts\GraphQL\HasFields;
-use App\Contracts\GraphQL\HasRelations;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
@@ -26,7 +24,7 @@ use App\GraphQL\Support\Relations\MorphManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Artist;
 
-class ArtistType extends EloquentType implements HasFields, HasRelations, ReportableType
+class ArtistType extends EloquentType implements ReportableType
 {
     /**
      * The description of the type.

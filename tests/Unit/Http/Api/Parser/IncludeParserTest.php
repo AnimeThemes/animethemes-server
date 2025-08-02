@@ -72,15 +72,15 @@ test('parse resource criteria type', function () {
 });
 
 test('parse resource criteria paths', function () {
-    $fields = fake()->words(fake()->randomDigitNotNull());
+    $fields = collect(fake()->words(fake()->randomDigitNotNull()));
 
     $parameters = [
         IncludeParser::param() => [
-            fake()->word() => collect($fields)->join(','),
+            fake()->word() => $fields->join(','),
         ],
     ];
 
     $criteria = IncludeParser::parse($parameters)[0];
 
-    $this->assertEquals($fields, $criteria->getPaths()->all());
+    $this->assertEquals($fields->unique()->all(), $criteria->getPaths()->all());
 });

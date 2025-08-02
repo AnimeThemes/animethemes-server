@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Argument;
 
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use Illuminate\Support\Str;
 
 class WhereArgument extends Argument
 {
-    public function __construct(protected BaseType&HasFields $type)
+    public function __construct(protected BaseType $type)
     {
         $enumName = static::buildEnumName($type);
 
@@ -28,7 +27,7 @@ class WhereArgument extends Argument
     /**
      * Build the enum that applies the where conditions query.
      */
-    public static function buildEnum(BaseType&HasFields $type): string
+    public static function buildEnum(BaseType $type): string
     {
         $filterableFields = collect($type->fields())
             ->filter(fn (Field $field) => $field instanceof FilterableField)

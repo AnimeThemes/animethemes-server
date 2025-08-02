@@ -11,7 +11,7 @@ class Sort implements Stringable
 {
     public function __construct(
         protected string $name,
-        protected SortDirection $direction,
+        protected SortDirection $direction = SortDirection::ASC,
     ) {}
 
     /**

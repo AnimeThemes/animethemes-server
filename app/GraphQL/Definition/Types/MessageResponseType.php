@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Response\MessageResponseField;
 
-class MessageResponseType extends BaseType implements HasFields
+class MessageResponseType extends BaseType
 {
     /**
      * The description of the type.

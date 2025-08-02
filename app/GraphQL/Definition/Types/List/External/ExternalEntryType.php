@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\List\External;
 
-use App\Contracts\GraphQL\HasFields;
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
@@ -21,7 +19,7 @@ use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\External\ExternalEntry;
 
-class ExternalEntryType extends EloquentType implements HasFields, HasRelations
+class ExternalEntryType extends EloquentType
 {
     /**
      * The description of the type.

@@ -9,17 +9,14 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Directives\SortCustomDirective;
 use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\BindableArgument;
+use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Directives\Filters\FilterDirective;
-use App\GraphQL\Support\Sort\RandomSort;
-use App\GraphQL\Support\SortableColumns;
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 trait ResolvesArguments
 {
@@ -66,34 +63,11 @@ trait ResolvesArguments
     /**
      * Resolve the fields into arguments that are used for sorting.
      *
-     * @return Argument[]
+     * @return SortArgument[]
      */
-    protected function resolveSortArguments(BaseType&HasFields $type): array
+    protected function resolveSortArguments(BaseType $type): array
     {
-        $columns = collect($type->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (Field&SortableField $field) => [
-                SortCustomDirective::INPUT_COLUMN => $field->getColumn(),
-                SortCustomDirective::INPUT_VALUE => Str::of($field->getName())->snake()->upper()->__toString(),
-                SortCustomDirective::INPUT_SORT_TYPE => $field->sortType()->value,
-                SortCustomDirective::INPUT_RELATION => method_exists($field, 'relation') ? $field->{'relation'}() : null,
-            ])
-            // @phpstan-ignore-next-line
-            ->push([
-                SortCustomDirective::INPUT_VALUE => RandomSort::CASE,
-            ])
-            ->toArray();
-
-        $suffix = SortableColumns::SUFFIX;
-
-        return [
-            new Argument('sort', "[{$type->getName()}{$suffix}!]")
-                ->directives([
-                    'sortCustom' => [
-                        'columns' => json_encode($columns),
-                    ],
-                ]),
-        ];
+        return Arr::wrap(new SortArgument($type));
     }
 
     /**
@@ -136,22 +110,13 @@ trait ResolvesArguments
      * Resolve the bind arguments.
      *
      * @param  Field[]  $fields
-     * @return Argument[]
+     * @return BindableArgument[]
      */
     protected function resolveBindArguments(array $fields, bool $shouldRequire = true): array
     {
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(
-                fn (Field&BindableField $field) => new Argument($field->getName(), $field->type())
-                    ->required($shouldRequire)
-                    ->directives([
-                        'bind' => [
-                            'class' => $field->bindTo(),
-                            'column' => $field->bindUsingColumn(),
-                        ],
-                    ])
-            )
+            ->map(fn (Field&BindableField $field) => new BindableArgument($field, $shouldRequire))
             ->toArray();
     }
 }

@@ -8,8 +8,6 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Contracts\GraphQL\HasFields;
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Input\Input;
 use App\GraphQL\Definition\Input\Relations\UpdateBelongsToInput;
@@ -28,7 +26,7 @@ class UpdateInput extends Input
     use ResolvesArguments;
 
     public function __construct(
-        protected EloquentType&HasFields $type,
+        protected EloquentType $type,
     ) {
         parent::__construct("Update{$type->getName()}");
     }
@@ -56,24 +54,22 @@ class UpdateInput extends Input
             )
             ->toArray();
 
-        if ($baseType instanceof HasRelations) {
-            $fields[] = collect($baseType->relations())
-                ->mapWithKeys(function (Relation $relation) {
-                    $baseType = $relation->getBaseType();
-                    if (! $baseType instanceof EloquentType) {
-                        return [];
-                    }
+        $fields[] = collect($baseType->relations())
+            ->mapWithKeys(function (Relation $relation) {
+                $baseType = $relation->getBaseType();
+                if (! $baseType instanceof EloquentType) {
+                    return [];
+                }
 
-                    return match (true) {
-                        $relation instanceof BelongsToRelation => [$relation->getName() => new UpdateBelongsToInput($baseType)],
-                        $relation instanceof HasManyRelation => [$relation->getName() => new UpdateHasManyInput($baseType)],
-                        $relation instanceof BelongsToManyRelation => [$relation->getName() => new UpdateBelongsToManyInput($relation->getEdgeType()->getPivotType())],
-                        default => [],
-                    };
-                })
-                ->map(fn (Input $input, string $name) => new InputField($name, $input->getName()))
-                ->toArray();
-        }
+                return match (true) {
+                    $relation instanceof BelongsToRelation => [$relation->getName() => new UpdateBelongsToInput($baseType)],
+                    $relation instanceof HasManyRelation => [$relation->getName() => new UpdateHasManyInput($baseType)],
+                    $relation instanceof BelongsToManyRelation => [$relation->getName() => new UpdateBelongsToManyInput($relation->getEdgeType()->getPivotType())],
+                    default => [],
+                };
+            })
+            ->map(fn (Input $input, string $name) => new InputField($name, $input->getName()))
+            ->toArray();
 
         return Arr::flatten($fields);
     }
