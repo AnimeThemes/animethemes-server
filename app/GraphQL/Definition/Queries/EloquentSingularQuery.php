@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
@@ -63,7 +62,7 @@ abstract class EloquentSingularQuery extends BaseQuery
         $arguments = [];
         $baseType = $this->baseType();
 
-        if ($baseType instanceof BaseType && $baseType instanceof HasFields) {
+        if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveBindArguments($baseType->fields());
         }
 
@@ -95,7 +94,7 @@ abstract class EloquentSingularQuery extends BaseQuery
     {
         $baseType = $this->baseType();
 
-        if ($baseType instanceof EloquentType && $baseType instanceof HasFields) {
+        if ($baseType instanceof EloquentType) {
             return in_array(new DeletedAtField(), $baseType->fields());
         }
 

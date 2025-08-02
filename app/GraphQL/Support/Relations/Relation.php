@@ -7,7 +7,6 @@ namespace App\GraphQL\Support\Relations;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
-use App\Contracts\GraphQL\HasFields;
 use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
@@ -94,11 +93,11 @@ abstract class Relation implements Stringable
 
         $type = $this->type;
 
-        if ($type instanceof HasFields) {
+        if ($type instanceof BaseType) {
             $arguments[] = $this->resolveFilterArguments($type->fields());
         }
 
-        if ($type instanceof BaseType && $type instanceof HasFields && $this->type() instanceof ListOfType) {
+        if ($type instanceof BaseType && $this->type() instanceof ListOfType) {
             $arguments[] = $this->resolveSortArguments($type);
         }
 

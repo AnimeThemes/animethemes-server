@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth;
 
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Auth\Role\RoleColorField;
 use App\GraphQL\Definition\Fields\Auth\Role\RoleDefaultField;
@@ -20,7 +19,7 @@ use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Auth\Role;
 
-class RoleType extends EloquentType implements HasFields, HasRelations
+class RoleType extends EloquentType implements HasRelations
 {
     /**
      * The description of the type.

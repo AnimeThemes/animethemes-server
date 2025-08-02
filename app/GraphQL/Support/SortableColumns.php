@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Sort\Sort;
 use Stringable;
@@ -13,7 +12,7 @@ final readonly class SortableColumns implements Stringable
 {
     final public const SUFFIX = 'SortableColumns';
 
-    public function __construct(protected BaseType&HasFields $type) {}
+    public function __construct(protected BaseType $type) {}
 
     /**
      * Resolve the enum cases.

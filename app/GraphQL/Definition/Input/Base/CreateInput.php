@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Input\Base;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Input\Input;
@@ -24,7 +23,7 @@ use Illuminate\Support\Arr;
 class CreateInput extends Input
 {
     public function __construct(
-        protected EloquentType&HasFields $type,
+        protected EloquentType $type,
     ) {
         parent::__construct("Create{$type->getName()}");
     }

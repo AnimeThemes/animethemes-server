@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Admin;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Admin\Dump\DumpLinkField;
 use App\GraphQL\Definition\Fields\Admin\Dump\DumpPathField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
@@ -14,7 +13,7 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Dump;
 
-class DumpType extends EloquentType implements HasFields
+class DumpType extends EloquentType
 {
     /**
      * The description of the type.

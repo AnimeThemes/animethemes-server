@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Types;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\Enums\GraphQL\SortDirection;
 use App\GraphQL\Definition\Fields\Field;
@@ -37,20 +36,17 @@ abstract class BaseType extends ObjectType
      */
     public function toGraphQLString(): string
     {
-        $fields = [];
-        if ($this instanceof HasFields) {
-            $fields[] = collect($this->fields())
-                ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
-                ->map(
-                    fn (Field $field) => Str::of('"""')
-                        ->append($field->description())
-                        ->append('"""')
-                        ->newLine()
-                        ->append($field->__toString())
-                        ->__toString()
-                )
-                ->toArray();
-        }
+        $fields[] = collect($this->fields())
+            ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
+            ->map(
+                fn (Field $field) => Str::of('"""')
+                    ->append($field->description())
+                    ->append('"""')
+                    ->newLine()
+                    ->append($field->__toString())
+                    ->__toString()
+            )
+            ->toArray();
 
         if ($this instanceof HasRelations) {
             $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->__toString());
@@ -99,13 +95,9 @@ abstract class BaseType extends ObjectType
      */
     public function sorts(): Collection
     {
-        if (! $this instanceof HasFields) {
-            return collect();
-        }
-
         return collect($this->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (Field $field) => [new Sort($field->getName(), SortDirection::ASC), new Sort($field->getName(), SortDirection::DESC)])
+            ->map(fn (Field $field) => [new Sort($field->getName()), new Sort($field->getName(), SortDirection::DESC)])
             ->flatten()
             ->push(new RandomSort());
     }
@@ -116,6 +108,16 @@ abstract class BaseType extends ObjectType
      * @return array<string, array>
      */
     public function directives(): array
+    {
+        return [];
+    }
+
+    /**
+     * The fields of the type.
+     *
+     * @return Field[]
+     */
+    public function fields(): array
     {
         return [];
     }

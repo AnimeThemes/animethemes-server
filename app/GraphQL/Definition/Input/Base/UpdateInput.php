@@ -8,7 +8,6 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Input\Input;
@@ -28,7 +27,7 @@ class UpdateInput extends Input
     use ResolvesArguments;
 
     public function __construct(
-        protected EloquentType&HasFields $type,
+        protected EloquentType $type,
     ) {
         parent::__construct("Update{$type->getName()}");
     }

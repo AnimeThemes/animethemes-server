@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Reports\Base;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Input\Input;
 use App\GraphQL\Definition\Mutations\Reports\BaseReportMutation;
 use App\GraphQL\Definition\Types\BaseType;
@@ -38,12 +37,12 @@ abstract class UpdateReportMutation extends BaseReportMutation
     /**
      * The base return type of the mutation.
      */
-    abstract public function baseType(): BaseType&HasFields;
+    abstract public function baseType(): BaseType;
 
     /**
      * The type returned by the mutation.
      */
-    public function getType(): BaseType&HasFields
+    public function getType(): BaseType
     {
         return $this->baseType();
     }

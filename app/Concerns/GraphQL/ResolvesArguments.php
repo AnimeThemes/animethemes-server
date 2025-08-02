@@ -10,7 +10,6 @@ use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
@@ -66,7 +65,7 @@ trait ResolvesArguments
      *
      * @return SortArgument[]
      */
-    protected function resolveSortArguments(BaseType&HasFields $type): array
+    protected function resolveSortArguments(BaseType $type): array
     {
         return Arr::wrap(new SortArgument($type));
     }

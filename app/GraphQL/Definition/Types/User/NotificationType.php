@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\User;
 
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\User\Notification\NotificationDataField;
@@ -15,7 +14,7 @@ use App\GraphQL\Support\Relations\MorphToRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\User\Notification;
 
-class NotificationType extends EloquentType implements HasFields, HasRelations
+class NotificationType extends EloquentType implements HasRelations
 {
     /**
      * The description of the type.

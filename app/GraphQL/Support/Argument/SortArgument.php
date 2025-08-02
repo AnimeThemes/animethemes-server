@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Argument;
 
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Directives\SortCustomDirective;
@@ -15,7 +14,7 @@ use Illuminate\Support\Str;
 
 class SortArgument extends Argument
 {
-    public function __construct(protected BaseType&HasFields $type)
+    public function __construct(protected BaseType $type)
     {
         $suffix = SortableColumns::SUFFIX;
 

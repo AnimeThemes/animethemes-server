@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries;
 
-use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Types\EloquentType;
 use Exception;
@@ -69,7 +68,7 @@ abstract class EloquentQuery extends BaseQuery
     {
         $baseType = $this->baseType();
 
-        if ($baseType instanceof EloquentType && $baseType instanceof HasFields) {
+        if ($baseType instanceof EloquentType) {
             return in_array(new DeletedAtField(), $baseType->fields());
         }
 
