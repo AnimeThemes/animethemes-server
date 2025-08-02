@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki;
 
-use App\Contracts\GraphQL\HasRelations;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
@@ -30,7 +29,7 @@ use App\GraphQL\Support\Relations\HasManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime;
 
-class AnimeType extends EloquentType implements HasRelations, ReportableType
+class AnimeType extends EloquentType implements ReportableType
 {
     /**
      * The description of the type.

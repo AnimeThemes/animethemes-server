@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth;
 
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Auth\User\UserNameField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -16,7 +15,7 @@ use App\GraphQL\Support\Relations\HasManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Auth\User;
 
-class UserType extends EloquentType implements HasRelations
+class UserType extends EloquentType
 {
     /**
      * The description of the type.

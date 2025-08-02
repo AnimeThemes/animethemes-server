@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Types;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Contracts\GraphQL\HasRelations;
 use App\Enums\GraphQL\SortDirection;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Support\Relations\Relation;
@@ -48,9 +47,7 @@ abstract class BaseType extends ObjectType
             )
             ->toArray();
 
-        if ($this instanceof HasRelations) {
-            $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->__toString());
-        }
+        $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->__toString());
 
         if (blank($fields)) {
             throw new RuntimeException("There are no fields for the type {$this->getName()}.");
@@ -108,6 +105,16 @@ abstract class BaseType extends ObjectType
      * @return array<string, array>
      */
     public function directives(): array
+    {
+        return [];
+    }
+
+    /**
+     * The relations of the type.
+     *
+     * @return Relation[]
+     */
+    public function relations(): array
     {
         return [];
     }

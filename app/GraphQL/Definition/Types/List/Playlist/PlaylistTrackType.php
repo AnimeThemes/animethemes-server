@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\List\Playlist;
 
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
@@ -22,7 +21,7 @@ use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\Playlist\PlaylistTrack;
 
-class PlaylistTrackType extends EloquentType implements HasRelations
+class PlaylistTrackType extends EloquentType
 {
     /**
      * The description of the type.

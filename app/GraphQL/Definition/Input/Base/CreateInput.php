@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Input\Base;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Input\Input;
 use App\GraphQL\Definition\Input\Relations\CreateBelongsToInput;
@@ -46,24 +45,22 @@ class CreateInput extends Input
             )
             ->toArray();
 
-        if ($baseType instanceof HasRelations) {
-            $fields[] = collect($baseType->relations())
-                ->mapWithKeys(function (Relation $relation) {
-                    $baseType = $relation->getBaseType();
-                    if (! $baseType instanceof EloquentType) {
-                        return [];
-                    }
+        $fields[] = collect($baseType->relations())
+            ->mapWithKeys(function (Relation $relation) {
+                $baseType = $relation->getBaseType();
+                if (! $baseType instanceof EloquentType) {
+                    return [];
+                }
 
-                    return match (true) {
-                        $relation instanceof BelongsToRelation => [$relation->getName() => new CreateBelongsToInput($baseType)],
-                        $relation instanceof HasManyRelation => [$relation->getName() => new CreateHasManyInput($baseType)],
-                        $relation instanceof BelongsToManyRelation => [$relation->getName() => new CreateBelongsToManyInput($relation->getEdgeType()->getPivotType())],
-                        default => [],
-                    };
-                })
-                ->map(fn (Input $input, string $name) => new InputField($name, $input->getName()))
-                ->toArray();
-        }
+                return match (true) {
+                    $relation instanceof BelongsToRelation => [$relation->getName() => new CreateBelongsToInput($baseType)],
+                    $relation instanceof HasManyRelation => [$relation->getName() => new CreateHasManyInput($baseType)],
+                    $relation instanceof BelongsToManyRelation => [$relation->getName() => new CreateBelongsToManyInput($relation->getEdgeType()->getPivotType())],
+                    default => [],
+                };
+            })
+            ->map(fn (Input $input, string $name) => new InputField($name, $input->getName()))
+            ->toArray();
 
         return Arr::flatten($fields);
     }

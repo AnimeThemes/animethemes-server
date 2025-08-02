@@ -9,6 +9,7 @@ use App\Concerns\GraphQL\ResolvesAttributes;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\EdgeType;
 use GraphQL\Type\Definition\ListOfType;
@@ -28,7 +29,7 @@ abstract class Relation implements Stringable
     protected ?EdgeType $edgeType = null;
 
     public function __construct(
-        protected Type $type,
+        protected BaseType|BaseUnion $type,
         protected string $relationName,
     ) {}
 
@@ -59,6 +60,14 @@ abstract class Relation implements Stringable
     public function getName(): string
     {
         return $this->field ?? $this->relationName;
+    }
+
+    /**
+     * Get the relation name in the model.
+     */
+    public function getRelationName(): string
+    {
+        return $this->relationName;
     }
 
     /**
@@ -97,7 +106,7 @@ abstract class Relation implements Stringable
             $arguments[] = $this->resolveFilterArguments($type->fields());
         }
 
-        if ($type instanceof BaseType && $this->type() instanceof ListOfType) {
+        if ($this->type() instanceof ListOfType) {
             $arguments[] = $this->resolveSortArguments($type);
         }
 
@@ -107,7 +116,7 @@ abstract class Relation implements Stringable
     /**
      * The type returned by the field.
      */
-    public function getBaseType(): Type
+    public function getBaseType(): BaseType|BaseUnion
     {
         return $this->type;
     }

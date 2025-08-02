@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Contracts\GraphQL\HasRelations;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
@@ -29,6 +28,7 @@ use App\GraphQL\Definition\Input\Relations\UpdateBelongsToManyInput;
 use App\GraphQL\Definition\Input\Relations\UpdateHasManyInput;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Mutations\Reports\BaseReportMutation;
+use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\EnumType;
@@ -36,6 +36,7 @@ use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\WhereArgument;
 use App\GraphQL\Support\EdgeConnection;
+use App\GraphQL\Support\EdgeType;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\GraphQL\Support\SortableColumns;
@@ -65,6 +66,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $typeRegistry->register(new DateTimeTz());
 
         $this->bootTypes();
+        $this->bootUnions();
         $this->bootQueries();
         $this->bootMutations();
     }
@@ -129,78 +131,62 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $dispatcher = app(Dispatcher::class);
 
-        $paths = [
-            app_path('GraphQL/Definition/Types'),
-            app_path('GraphQL/Definition/Unions'),
-        ];
+        foreach (File::allFiles(app_path('GraphQL/Definition/Types')) as $file) {
+            $fullClass = Str::of($file->getPathname())
+                ->after(app_path())
+                ->prepend('App')
+                ->replace(['/', '.php'], ['\\', ''])
+                ->toString();
 
-        foreach ($paths as $path) {
-            $files = File::allFiles($path);
-
-            foreach ($files as $file) {
-                $relativePath = Str::after($file->getPathname(), app_path().DIRECTORY_SEPARATOR);
-                $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
-                $fullClass = 'App\\'.$class;
-
-                if (! class_exists($fullClass) || $fullClass === EnumType::class) {
-                    continue;
-                }
-
-                $reflection = new ReflectionClass($fullClass);
-
-                if (! $reflection->isInstantiable()) {
-                    continue;
-                }
-
-                /** @var BaseType|BaseUnion $class */
-                $class = new $fullClass;
-
-                // if ($class instanceof BaseType) {
-                //     Cache::put("lighthouse.types.{$class->getName()}", $fullClass);
-                // }
-
-                // Build SortableColumns enums.
-                if ($class instanceof BaseType) {
-                    $dispatcher->listen(BuildSchemaString::class, fn () => new SortableColumns($class)->__toString());
-                }
-
-                // Build the types.
-                $dispatcher->listen(BuildSchemaString::class, fn () => $class->toGraphQLString());
-
-                // Build the edges.
-                if ($class instanceof HasRelations) {
-                    $edges = collect($class->relations())
-                        ->filter(fn (Relation $relation) => $relation instanceof BelongsToManyRelation)
-                        ->map(fn (BelongsToManyRelation $relation) => $relation->getEdgeType())
-                        ->toArray();
-
-                    foreach ($edges as $edge) {
-                        // Build edges.
-                        $dispatcher->listen(BuildSchemaString::class, fn () => $edge->__toString());
-                        // Build edge connections for custom logic.
-                        $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($edge)->__toString());
-                    }
-                }
-
-                if ($class instanceof BaseType) {
-                    $dispatcher->listen(BuildSchemaString::class, fn () => WhereArgument::buildEnum($class));
-                }
-
-                // if ($class instanceof EloquentType && $class instanceof ReportableType) {
-                //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateInput($class)->__toString());
-                //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateInput($class)->__toString());
-
-                //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToInput($class)->__toString());
-                //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateHasManyInput($class)->__toString());
-                //     $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToInput($class)->__toString());
-                //     $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateHasManyInput($class)->__toString());
-
-                //     if ($class instanceof PivotType) {
-                //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToManyInput($class)->__toString());
-                //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToManyInput($class)->__toString());
-                //     }
-                // }
+            if ($fullClass === EnumType::class) {
+                continue;
             }
+
+            $reflection = new ReflectionClass($fullClass);
+
+            if (! $reflection->isInstantiable()) {
+                continue;
+            }
+
+            $class = $reflection->newInstance();
+
+            if (! $class instanceof BaseType) {
+                continue;
+            }
+
+            // Cache::put("lighthouse.types.{$class->getName()}", $fullClass);
+
+            // Build SortableColumns enums.
+            $dispatcher->listen(BuildSchemaString::class, fn () => new SortableColumns($class)->__toString());
+
+            // Build the types.
+            $dispatcher->listen(BuildSchemaString::class, fn () => $class->toGraphQLString());
+
+            // Build the edges.
+            collect($class->relations())
+                ->filter(fn (Relation $relation) => $relation instanceof BelongsToManyRelation)
+                ->map(fn (BelongsToManyRelation $relation) => $relation->getEdgeType())
+                ->each(function (EdgeType $edge) use ($dispatcher) {
+                    $dispatcher->listen(BuildSchemaString::class, fn () => $edge->__toString());
+                    $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($edge)->__toString());
+                });
+
+            $dispatcher->listen(BuildSchemaString::class, fn () => WhereArgument::buildEnum($class));
+
+            // if ($class instanceof EloquentType && $class instanceof ReportableType) {
+            //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateInput($class)->__toString());
+            //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateInput($class)->__toString());
+
+            //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToInput($class)->__toString());
+            //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateHasManyInput($class)->__toString());
+            //     $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToInput($class)->__toString());
+            //     $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateHasManyInput($class)->__toString());
+
+            //     if ($class instanceof PivotType) {
+            //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToManyInput($class)->__toString());
+            //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToManyInput($class)->__toString());
+            //     }
+            // }
         }
 
         $dispatcher->listen(
@@ -215,50 +201,69 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the unions that were made programmatically.
+     */
+    protected function bootUnions(): void
+    {
+        $dispatcher = app(Dispatcher::class);
+
+        foreach (File::allFiles(app_path('GraphQL/Definition/Unions')) as $file) {
+            $fullClass = Str::of($file->getPathname())
+                ->after(app_path())
+                ->prepend('App')
+                ->replace(['/', '.php'], ['\\', ''])
+                ->toString();
+
+            if (! class_exists($fullClass)) {
+                continue;
+            }
+
+            /** @var ReflectionClass<BaseUnion> $reflection */
+            $reflection = new ReflectionClass($fullClass);
+
+            if (! $reflection->isInstantiable()) {
+                continue;
+            }
+
+            $dispatcher->listen(BuildSchemaString::class, fn () => $reflection->newInstance()->toGraphQLString());
+        }
+    }
+
+    /**
      * Register the queries that were made programmatically.
      */
     protected function bootQueries(): void
     {
         $dispatcher = app(Dispatcher::class);
 
-        $paths = [
-            app_path('GraphQL/Definition/Queries'),
-        ];
-
         $queries = [];
 
-        foreach ($paths as $path) {
-            $files = File::allFiles($path);
+        foreach (File::allFiles(app_path('GraphQL/Definition/Queries')) as $file) {
+            $fullClass = Str::of($file->getPathname())
+                ->after(app_path())
+                ->prepend('App')
+                ->replace(['/', '.php'], ['\\', ''])
+                ->toString();
 
-            foreach ($files as $file) {
-                $relativePath = Str::after($file->getPathname(), app_path().DIRECTORY_SEPARATOR);
-                $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
-                $fullClass = 'App\\'.$class;
+            $reflection = new ReflectionClass($fullClass);
 
-                if (! class_exists($fullClass)) {
-                    continue;
-                }
-
-                $reflection = new ReflectionClass($fullClass);
-
-                if (! $reflection->isInstantiable()) {
-                    continue;
-                }
-
-                /** @var BaseType|BaseUnion $class */
-                $class = new $fullClass;
-
-                $dispatcher->listen(
-                    BuildSchemaString::class,
-                    fn (): string => "
-                        extend type Query {
-                            {$class->toGraphQLString()}
-                        }
-                    "
-                );
-
-                $queries[] = $class->toGraphQLString();
+            if (! $reflection->isInstantiable()) {
+                continue;
             }
+
+            /** @var BaseQuery $class */
+            $class = new $fullClass;
+
+            $dispatcher->listen(
+                BuildSchemaString::class,
+                fn (): string => "
+                    extend type Query {
+                        {$class->toGraphQLString()}
+                    }
+                "
+            );
+
+            $queries[] = $class->toGraphQLString();
         }
     }
 
@@ -269,49 +274,39 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $dispatcher = app(Dispatcher::class);
 
-        $paths = [
-            app_path('GraphQL/Definition/Mutations'),
-        ];
-
         $mutations = [];
 
-        foreach ($paths as $path) {
-            $files = File::allFiles($path);
+        foreach (File::allFiles(app_path('GraphQL/Definition/Mutations')) as $file) {
+            $fullClass = Str::of($file->getPathname())
+                ->after(app_path())
+                ->prepend('App')
+                ->replace(['/', '.php'], ['\\', ''])
+                ->toString();
 
-            foreach ($files as $file) {
-                $relativePath = Str::after($file->getPathname(), app_path().DIRECTORY_SEPARATOR);
-                $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
-                $fullClass = 'App\\'.$class;
+            $reflection = new ReflectionClass($fullClass);
 
-                if (! class_exists($fullClass)) {
-                    continue;
-                }
-
-                $reflection = new ReflectionClass($fullClass);
-
-                if (! $reflection->isInstantiable()) {
-                    continue;
-                }
-
-                /** @var BaseMutation $class */
-                $class = new $fullClass;
-
-                // Skip for now
-                if ($class instanceof BaseReportMutation) {
-                    continue;
-                }
-
-                $dispatcher->listen(
-                    BuildSchemaString::class,
-                    fn (): string => "
-                        extend type Mutation @guard {
-                            {$class->toGraphQLString()}
-                        }
-                    "
-                );
-
-                $mutations[] = $class->toGraphQLString();
+            if (! $reflection->isInstantiable()) {
+                continue;
             }
+
+            /** @var BaseMutation $class */
+            $class = new $fullClass;
+
+            // Skip for now
+            if ($class instanceof BaseReportMutation) {
+                continue;
+            }
+
+            $dispatcher->listen(
+                BuildSchemaString::class,
+                fn (): string => "
+                    extend type Mutation @guard {
+                        {$class->toGraphQLString()}
+                    }
+                "
+            );
+
+            $mutations[] = $class->toGraphQLString();
         }
     }
 }

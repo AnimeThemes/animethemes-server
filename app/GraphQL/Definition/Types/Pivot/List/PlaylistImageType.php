@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot\List;
 
-use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
@@ -15,7 +14,7 @@ use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Pivots\List\PlaylistImage;
 
-class PlaylistImageType extends PivotType implements HasRelations
+class PlaylistImageType extends PivotType
 {
     /**
      * The description of the type.

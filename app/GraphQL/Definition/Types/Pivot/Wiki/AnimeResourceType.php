@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot\Wiki;
 
-use App\Contracts\GraphQL\HasRelations;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
@@ -17,7 +16,7 @@ use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Pivots\Wiki\AnimeResource;
 
-class AnimeResourceType extends PivotType implements HasRelations, ReportableType
+class AnimeResourceType extends PivotType implements ReportableType
 {
     /**
      * The description of the type.
