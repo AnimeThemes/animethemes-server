@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\Enums\GraphQL\SortDirection;
@@ -41,6 +40,7 @@ use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\GraphQL\Support\SortableColumns;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -155,8 +155,12 @@ class GraphQLServiceProvider extends ServiceProvider
                 /** @var BaseType|BaseUnion $class */
                 $class = new $fullClass;
 
+                // if ($class instanceof BaseType) {
+                //     Cache::put("lighthouse.types.{$class->getName()}", $fullClass);
+                // }
+
                 // Build SortableColumns enums.
-                if ($class instanceof BaseType && $class instanceof HasFields) {
+                if ($class instanceof BaseType) {
                     $dispatcher->listen(BuildSchemaString::class, fn () => new SortableColumns($class)->__toString());
                 }
 
@@ -178,15 +182,13 @@ class GraphQLServiceProvider extends ServiceProvider
                     }
                 }
 
-                if ($class instanceof HasFields) {
+                if ($class instanceof BaseType) {
                     $dispatcher->listen(BuildSchemaString::class, fn () => WhereArgument::buildEnum($class));
                 }
 
                 // if ($class instanceof EloquentType && $class instanceof ReportableType) {
-                //     if ($class instanceof HasFields) {
                 //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateInput($class)->__toString());
                 //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateInput($class)->__toString());
-                //     }
 
                 //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateBelongsToInput($class)->__toString());
                 //     $dispatcher->listen(BuildSchemaString::class, fn () => new CreateHasManyInput($class)->__toString());
