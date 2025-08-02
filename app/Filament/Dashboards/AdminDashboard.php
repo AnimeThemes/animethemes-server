@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Dashboards;
 
 use App\Enums\Auth\Role as RoleEnum;
+use App\Filament\Widgets\Auth\UserChart;
+use App\Filament\Widgets\List\ExternalProfileChart;
+use App\Filament\Widgets\List\PlaylistChart;
+use App\Filament\Widgets\List\PlaylistTrackChart;
 use App\Models\Auth\User;
-// use App\Filament\Widgets\Auth\UserChart;
-// use App\Filament\Widgets\List\ExternalProfileChart;
-// use App\Filament\Widgets\List\PlaylistChart;
-// use App\Filament\Widgets\List\PlaylistTrackChart;
 use Filament\Facades\Filament;
 use Filament\Panel;
 
@@ -55,10 +55,10 @@ class AdminDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            // UserChart::class,
-            // ExternalProfileChart::class,
-            // PlaylistChart::class,
-            // PlaylistTrackChart::class,
+            UserChart::class,
+            ExternalProfileChart::class,
+            PlaylistChart::class,
+            PlaylistTrackChart::class,
         ];
     }
 }

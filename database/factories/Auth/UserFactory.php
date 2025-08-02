@@ -7,7 +7,6 @@ namespace Database\Factories\Auth;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
@@ -65,19 +64,13 @@ class UserFactory extends Factory
     }
 
     /**
-     * Create the admin role with all permissions.
+     * Assign the admin role to the user.
      */
     public function withAdmin(): static
     {
         return $this->afterCreating(
             function (User $user) {
                 $admin = Role::findOrCreate('Admin');
-
-                $permissionSeeder = new PermissionSeeder();
-
-                $permissionSeeder->run();
-
-                $admin->givePermissionTo(Permission::all());
 
                 $user->assignRole($admin);
             }

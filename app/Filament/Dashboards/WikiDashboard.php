@@ -6,10 +6,10 @@ namespace App\Filament\Dashboards;
 
 use Filament\Panel;
 
-// use App\Filament\Widgets\Wiki\Anime\AnimeChart;
-// use App\Filament\Widgets\Wiki\Artist\ArtistChart;
-// use App\Filament\Widgets\Wiki\Series\SeriesChart;
-// use App\Filament\Widgets\Wiki\Video\VideoChart;
+use App\Filament\Widgets\Wiki\Anime\AnimeChart;
+use App\Filament\Widgets\Wiki\Artist\ArtistChart;
+use App\Filament\Widgets\Wiki\Series\SeriesChart;
+use App\Filament\Widgets\Wiki\Video\VideoChart;
 
 class WikiDashboard extends BaseDashboard
 {
@@ -45,10 +45,10 @@ class WikiDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            // AnimeChart::class,
-            // ArtistChart::class,
-            // SeriesChart::class,
-            // VideoChart::class,
+            AnimeChart::class,
+            ArtistChart::class,
+            SeriesChart::class,
+            VideoChart::class,
         ];
     }
 }

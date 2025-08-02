@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Http\Middleware\Models\RecordView;
+use Database\Seeders\Auth\Permission\PermissionSeeder;
+use Database\Seeders\Auth\Role\AdminSeeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -49,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => new Response(status: 403));
+
+        ParallelTesting::setUpTestDatabase(function (string $database, int $token) {
+            Artisan::call('db:seed', ['--class' => PermissionSeeder::class]);
+            Artisan::call('db:seed', ['--class' => AdminSeeder::class]);
+        });
     }
 
     /**
