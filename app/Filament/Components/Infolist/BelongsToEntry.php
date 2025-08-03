@@ -58,7 +58,7 @@ class BelongsToEntry extends TextEntry
 
                 return $this->resource::getUrl('view', ['record' => $related]);
             })
-            ->formatStateUsing(function ($record) {
+            ->formatStateUsing(function (Model $record) {
                 $related = $this->getRelated($record);
 
                 if ($related === null) {
@@ -94,7 +94,7 @@ class BelongsToEntry extends TextEntry
         $relation = $this->getName();
 
         foreach (explode('.', $relation) as $relationPart) {
-            $record = $record->$relationPart;
+            $record = $record->getRelation($relationPart);
         }
 
         return $record;
