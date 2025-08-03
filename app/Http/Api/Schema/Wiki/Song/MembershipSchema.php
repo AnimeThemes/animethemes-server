@@ -35,7 +35,7 @@ class MembershipSchema extends EloquentSchema implements SearchableSchema
     public function allowedIncludes(): array
     {
         return $this->withIntermediatePaths([
-            new AllowedInclude(new ArtistSchema(), Membership::RELATION_ARTIST),
+            new AllowedInclude(new ArtistSchema(), Membership::RELATION_GROUP),
             new AllowedInclude(new ArtistSchema(), Membership::RELATION_MEMBER),
         ]);
     }

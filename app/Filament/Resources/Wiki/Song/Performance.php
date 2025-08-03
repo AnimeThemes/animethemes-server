@@ -113,7 +113,7 @@ class Performance extends BaseResource
             PerformanceModel::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
+                    Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
                 ]);
             },
             PerformanceModel::RELATION_SONG,
@@ -163,7 +163,7 @@ class Performance extends BaseResource
                     ->hiddenOn([PerformanceArtistRelationManager::class])
                     ->state(function ($record) {
                         if ($record->artist instanceof Membership) {
-                            return $record->artist->artist->name;
+                            return $record->artist->group->name;
                         }
 
                         return $record->artist->name;
@@ -210,7 +210,7 @@ class Performance extends BaseResource
                         BelongsToEntry::make(PerformanceModel::RELATION_ARTIST, ArtistResource::class)
                             ->hidden(fn (PerformanceModel $record) => $record->artist instanceof Membership),
 
-                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_ARTIST, ArtistResource::class)
+                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_GROUP, ArtistResource::class)
                             ->label(__('filament.fields.performance.artist'))
                             ->hidden(fn ($state) => is_null($state)),
 

@@ -101,7 +101,7 @@ class Membership extends BaseResource
 
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
-            MembershipModel::RELATION_ARTIST,
+            MembershipModel::RELATION_GROUP,
             MembershipModel::RELATION_MEMBER,
         ]);
     }
@@ -145,7 +145,7 @@ class Membership extends BaseResource
                 TextColumn::make(MembershipModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                BelongsToColumn::make(MembershipModel::RELATION_ARTIST, ArtistResource::class),
+                BelongsToColumn::make(MembershipModel::RELATION_GROUP, ArtistResource::class),
 
                 BelongsToColumn::make(MembershipModel::RELATION_MEMBER, ArtistResource::class)
                     ->label(__('filament.fields.membership.member')),
@@ -173,7 +173,7 @@ class Membership extends BaseResource
                         TextEntry::make(MembershipModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        BelongsToEntry::make(MembershipModel::RELATION_ARTIST, ArtistResource::class),
+                        BelongsToEntry::make(MembershipModel::RELATION_GROUP, ArtistResource::class),
 
                         BelongsToEntry::make(MembershipModel::RELATION_MEMBER, ArtistResource::class)
                             ->label(__('filament.fields.membership.member')),

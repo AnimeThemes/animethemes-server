@@ -33,10 +33,10 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
      */
     public function updateRelatedIndices(): void
     {
-        $membership = $this->getModel()->load([Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]);
+        $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);
 
         if ($membership->isForceDeleting()) {
-            $membership->artist->searchable();
+            $membership->group->searchable();
             $membership->member->searchable();
         }
     }
