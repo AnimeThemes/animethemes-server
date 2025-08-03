@@ -34,7 +34,7 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->artist->getName()}**' has been deleted.";
+        return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->group->getName()}**' has been deleted.";
     }
 
     /**
@@ -60,9 +60,9 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
      */
     public function updateRelatedIndices(): void
     {
-        $membership = $this->getModel()->load([Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]);
+        $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);
 
-        $membership->artist->searchable();
+        $membership->group->searchable();
         $membership->member->searchable();
     }
 }

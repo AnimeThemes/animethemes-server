@@ -31,7 +31,7 @@ test('render index page', function () {
 
     $records = MembershipModel::factory()
         ->count(10)
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->create();
 
@@ -53,7 +53,7 @@ test('render view page', function () {
     actingAs($user);
 
     $record = MembershipModel::factory()
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
@@ -87,7 +87,7 @@ test('mount edit action', function () {
     actingAs($user);
 
     $record = MembershipModel::factory()
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
@@ -104,7 +104,7 @@ test('user cannot create record', function () {
 
 test('user cannot edit record', function () {
     $record = MembershipModel::factory()
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
@@ -114,7 +114,7 @@ test('user cannot edit record', function () {
 
 test('user cannot delete record', function () {
     $record = MembershipModel::factory()
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
@@ -124,7 +124,7 @@ test('user cannot delete record', function () {
 
 test('user cannot restore record', function () {
     $record = MembershipModel::factory()
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
@@ -137,7 +137,7 @@ test('user cannot restore record', function () {
 
 test('user cannot force delete record', function () {
     $record = MembershipModel::factory()
-        ->for(Artist::factory(), MembershipModel::RELATION_ARTIST)
+        ->for(Artist::factory(), MembershipModel::RELATION_GROUP)
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 

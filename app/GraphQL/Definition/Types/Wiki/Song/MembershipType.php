@@ -37,8 +37,7 @@ class MembershipType extends EloquentType implements ReportableType
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new ArtistType(), Membership::RELATION_ARTIST)
-                ->renameTo('group')
+            new BelongsToRelation(new ArtistType(), Membership::RELATION_GROUP)
                 ->notNullable(),
             new BelongsToRelation(new ArtistType(), Membership::RELATION_MEMBER)
                 ->notNullable(),

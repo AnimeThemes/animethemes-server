@@ -42,9 +42,9 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
      */
     public function updateRelatedIndices(): void
     {
-        $membership = $this->getModel()->load([Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]);
+        $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);
 
-        $membership->artist->searchable();
+        $membership->group->searchable();
         $membership->member->searchable();
     }
 }

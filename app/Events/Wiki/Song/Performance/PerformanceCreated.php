@@ -43,7 +43,7 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
         $artist = $performance->artist;
 
         if ($this->getModel()->isMembership()) {
-            return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->member->getName()}**' as member of '**{$artist->artist->getName()}**'.";
+            return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->member->getName()}**' as member of '**{$artist->group->getName()}**'.";
         }
 
         return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.";
@@ -57,7 +57,7 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
         $performance = $this->getModel()->load([Performance::RELATION_ARTIST]);
 
         if ($performance->isMembership()) {
-            $performance->artist->artist->searchable();
+            $performance->artist->group->searchable();
             $performance->artist->member->searchable();
 
             return;
@@ -78,7 +78,7 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
 
         $artist = match ($performance->artist_type) {
             Artist::class => $performance->artist,
-            Membership::class => $performance->artist->artist,
+            Membership::class => $performance->artist->group,
             default => throw new Exception('Invalid artist type.'),
         };
 

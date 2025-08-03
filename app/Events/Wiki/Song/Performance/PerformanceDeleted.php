@@ -46,7 +46,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
         $artist = $performance->artist;
 
         if ($performance->isMembership()) {
-            return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->member->getName()}**' via Group '**{$artist->artist->getName()}**'.";
+            return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->member->getName()}**' via Group '**{$artist->group->getName()}**'.";
         }
 
         return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->getName()}**'.";
@@ -79,13 +79,13 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
             Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
+                    Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
                 ]);
             },
         ]);
 
         if ($performance->isMembership()) {
-            $performance->artist->artist->searchable();
+            $performance->artist->group->searchable();
             $performance->artist->member->searchable();
 
             return;
@@ -108,7 +108,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
             && Performance::query()
                 ->whereBelongsTo($song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
-                ->whereHas(Performance::RELATION_ARTIST, fn (Builder $query) => $query->where(Artist::ATTRIBUTE_ID, $performance->artist->artist->getKey()))
+                ->whereHas(Performance::RELATION_ARTIST, fn (Builder $query) => $query->where(Artist::ATTRIBUTE_ID, $performance->artist->group->getKey()))
                 ->exists()
         ) {
             return;
@@ -116,7 +116,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
 
         $artist = match ($performance->artist_type) {
             Artist::class => $performance->artist,
-            Membership::class => $performance->artist->artist,
+            Membership::class => $performance->artist->group,
             default => throw new Exception('Invalid artist type.'),
         };
 

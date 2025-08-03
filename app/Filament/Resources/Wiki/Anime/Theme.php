@@ -149,7 +149,7 @@ class Theme extends BaseResource
             AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
+                    Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
                 ]);
             },
         ]);

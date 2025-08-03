@@ -52,13 +52,13 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
             Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
+                    Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
                 ]);
             },
         ]);
 
         if ($performance->isMembership()) {
-            $performance->artist->artist->searchable();
+            $performance->artist->group->searchable();
             $performance->artist->member->searchable();
 
             return;
@@ -78,7 +78,7 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
 
         $artist = match ($performance->artist_type) {
             Artist::class => $performance->artist,
-            Membership::class => $performance->artist->artist,
+            Membership::class => $performance->artist->group,
             default => throw new Exception('Invalid artist type.'),
         };
 

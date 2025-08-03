@@ -27,7 +27,7 @@ use Illuminate\Support\Collection;
  * @property string|null $alias
  * @property string|null $as
  * @property int $artist_id
- * @property Artist $artist
+ * @property Artist $group
  * @property int $member_id
  * @property Artist $member
  * @property Collection<int, Performance> $performances
@@ -48,7 +48,7 @@ class Membership extends BaseModel implements SoftDeletable
     final public const ATTRIBUTE_AS = 'as';
     final public const ATTRIBUTE_MEMBER = 'member_id';
 
-    final public const RELATION_ARTIST = 'artist';
+    final public const RELATION_GROUP = 'group';
     final public const RELATION_MEMBER = 'member';
     final public const RELATION_PERFORMANCES = 'performances';
 
@@ -107,11 +107,11 @@ class Membership extends BaseModel implements SoftDeletable
     public function getSubtitle(): string
     {
         $this->loadMissing([
-            Membership::RELATION_ARTIST,
+            Membership::RELATION_GROUP,
             Membership::RELATION_MEMBER,
         ]);
 
-        return "Member {$this->member->getName()} of Group {$this->artist->getName()}";
+        return "Member {$this->member->getName()} of Group {$this->group->getName()}";
     }
 
     /**
@@ -122,17 +122,17 @@ class Membership extends BaseModel implements SoftDeletable
     public static function getEagerLoadsForSubtitle(): array
     {
         return [
-            Membership::RELATION_ARTIST,
+            Membership::RELATION_GROUP,
             Membership::RELATION_MEMBER,
         ];
     }
 
     /**
-     * Get the artist that owns the membership.
+     * Get the group that owns the membership.
      *
      * @return BelongsTo<Artist, $this>
      */
-    public function artist(): BelongsTo
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Artist::class, Membership::ATTRIBUTE_ARTIST);
     }
