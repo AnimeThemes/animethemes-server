@@ -50,33 +50,29 @@ class BelongsToEntry extends TextEntry
             ->color('related-link')
             ->placeholder('-')
             ->url(function (BaseModel|Model $record) {
-                $relation = $this->getName();
-
-                /** @var (Model&Nameable)|null $related */
-                $related = $record;
-                foreach (explode('.', $relation) as $relationPart) {
-                    $related = $related->$relationPart;
-                }
+                $related = $this->getRelated($record);
 
                 if ($related === null) {
                     return null;
                 }
 
-                $this->formatStateUsing(function () use ($related) {
-                    $name = $this->shouldUseModelName
-                        ? $related->getName()
-                        : $this->resource->getRecordTitle($related);
-
-                    return $name;
-                });
-
                 return $this->resource::getUrl('view', ['record' => $related]);
             })
-            ->tooltip(function (Model $record) {
-                $relation = $this->getName();
+            ->formatStateUsing(function ($record) {
+                $related = $this->getRelated($record);
 
-                /** @var (Model&Nameable)|null $related */
-                $related = $record->$relation;
+                if ($related === null) {
+                    return null;
+                }
+
+                $name = $this->shouldUseModelName
+                    ? $related->getName()
+                    : $this->resource->getRecordTitle($related);
+
+                return $name;
+            })
+            ->tooltip(function (Model $record) {
+                $related = $this->getRelated($record);
 
                 if ($related === null) {
                     return null;
@@ -86,5 +82,21 @@ class BelongsToEntry extends TextEntry
                     ? $related->getName()
                     : $this->resource->getRecordTitle($related);
             });
+    }
+
+    /**
+     * Get the related model of the owner record.
+     *
+     * @return (Model&Nameable)|null
+     */
+    private function getRelated(?Model $record): ?Model
+    {
+        $relation = $this->getName();
+
+        foreach (explode('.', $relation) as $relationPart) {
+            $record = $record->$relationPart;
+        }
+
+        return $record;
     }
 }
