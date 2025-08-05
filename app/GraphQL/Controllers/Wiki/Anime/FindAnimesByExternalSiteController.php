@@ -34,19 +34,21 @@ class FindAnimesByExternalSiteController extends BaseController
         $externalId = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_ID);
         $link = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_LINK);
 
-        $builder->whereRelation(Anime::RELATION_RESOURCES, ExternalResource::ATTRIBUTE_SITE, $site);
-
         if (is_null($externalId) && is_null($link)) {
             throw new ClientValidationException('At least "id" or "link" is required.');
         }
 
-        if (is_int($externalId)) {
-            $builder->whereRelation(Anime::RELATION_RESOURCES, ExternalResource::ATTRIBUTE_EXTERNAL_ID, $externalId);
-        }
+        $builder->whereRelation(Anime::RELATION_RESOURCES, function (Builder $query) use ($site, $externalId, $link) {
+            $query->where(ExternalResource::ATTRIBUTE_SITE, $site);
 
-        if (is_string($link)) {
-            $builder->whereRelation(Anime::RELATION_RESOURCES, ExternalResource::ATTRIBUTE_LINK, $link);
-        }
+            if (is_int($externalId)) {
+                $query->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $externalId);
+            }
+
+            if (is_string($link)) {
+                $query->where(ExternalResource::ATTRIBUTE_LINK, $link);
+            }
+        });
 
         return $builder;
     }
