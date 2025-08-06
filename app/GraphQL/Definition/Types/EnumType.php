@@ -64,7 +64,7 @@ class EnumType extends BaseEnumType
      */
     public function serialize($value): string
     {
-        return $value;
+        return (string) $value;
     }
 
     /**
