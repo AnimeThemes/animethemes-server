@@ -42,11 +42,11 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
     public function filterDirectives(): array
     {
         return [
-            new EqFilterDirective($this, $this->type()),
-            new InFilterDirective($this, $this->type()),
-            new NotInFilterDirective($this, $this->type()),
-            new LesserFilterDirective($this, $this->type()),
-            new GreaterFilterDirective($this, $this->type()),
+            new EqFilterDirective($this),
+            new InFilterDirective($this),
+            new NotInFilterDirective($this),
+            new LesserFilterDirective($this),
+            new GreaterFilterDirective($this),
         ];
     }
 

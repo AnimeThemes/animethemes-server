@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Controllers\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonsField;
@@ -31,6 +32,10 @@ class AnimeYearsController extends BaseController
     {
         $season = Arr::get($args, AnimeYearsQuery::ARGUMENT_SEASON);
         $year = Arr::get($args, AnimeYearsQuery::ARGUMENT_YEAR);
+
+        if (($year === null || count($year) > 1) && Arr::get($resolveInfo->getFieldSelection(1), 'seasons.animes')) {
+            throw new ClientValidationException("Please provide a unique 'year' argument to query the animes field.");
+        }
 
         return Anime::query()
             ->distinct(Anime::ATTRIBUTE_YEAR)

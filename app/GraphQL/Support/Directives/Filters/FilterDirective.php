@@ -13,10 +13,13 @@ abstract readonly class FilterDirective
 {
     use ResolvesDirectives;
 
+    protected Type $type;
+
     public function __construct(
         protected Field $field,
-        protected Type $type,
-    ) {}
+    ) {
+        $this->type = $field->type();
+    }
 
     /**
      * The argument for the filter directive.
