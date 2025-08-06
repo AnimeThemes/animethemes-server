@@ -14,7 +14,6 @@ use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
-use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
@@ -29,6 +28,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Str;
 
 /**
@@ -78,13 +78,15 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     final public const RELATION_VIDEOS = 'animethemeentries.videos';
 
     /**
-     * The "booting" method of the model.
+     * The "boot" method of the model.
      */
     protected static function boot(): void
     {
         parent::boot();
 
-        static::addGlobalScope(new WithoutInsertSongScope);
+        if (! Context::get('serving-graphql')) {
+            static::addGlobalScope(new WithoutInsertSongScope);
+        }
     }
 
     /**

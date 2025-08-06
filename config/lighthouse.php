@@ -34,6 +34,9 @@ return [
          * make sure to return spec-compliant responses in case an error is thrown.
          */
         'middleware' => [
+            // Set the serving context to graphql.
+            App\GraphQL\Middleware\SetServingGraphQL::class,
+
             // Rate limiting GraphQL to prevent abuse.
             'throttle:graphql',
 

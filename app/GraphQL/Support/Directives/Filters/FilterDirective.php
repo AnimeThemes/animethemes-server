@@ -17,6 +17,7 @@ abstract readonly class FilterDirective
 
     public function __construct(
         protected Field $field,
+        protected ?string $defaultValue = null,
     ) {
         $this->type = $field->type();
     }
