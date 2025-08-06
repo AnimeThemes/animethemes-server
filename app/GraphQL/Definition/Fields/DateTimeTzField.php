@@ -41,9 +41,9 @@ abstract class DateTimeTzField extends Field implements DisplayableField, Filter
     public function filterDirectives(): array
     {
         return [
-            new EqFilterDirective($this, $this->type()),
-            new LesserFilterDirective($this, $this->type()),
-            new GreaterFilterDirective($this, $this->type()),
+            new EqFilterDirective($this),
+            new LesserFilterDirective($this),
+            new GreaterFilterDirective($this),
         ];
     }
 

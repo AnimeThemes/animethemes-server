@@ -38,7 +38,7 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
     public function filterDirectives(): array
     {
         return [
-            new EqFilterDirective($this, $this->type()),
+            new EqFilterDirective($this),
         ];
     }
 

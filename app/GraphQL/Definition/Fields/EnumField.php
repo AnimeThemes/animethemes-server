@@ -71,9 +71,9 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
     public function filterDirectives(): array
     {
         return [
-            new EqFilterDirective($this, $this->type()),
-            new InFilterDirective($this, $this->type()),
-            new NotInFilterDirective($this, $this->type()),
+            new EqFilterDirective($this),
+            new InFilterDirective($this),
+            new NotInFilterDirective($this),
         ];
     }
 
