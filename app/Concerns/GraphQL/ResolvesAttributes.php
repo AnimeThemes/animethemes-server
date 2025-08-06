@@ -138,7 +138,7 @@ trait ResolvesAttributes
     /**
      * Resolve the paginate directive as an attribute.
      */
-    protected function resolvePaginateAttribute(): bool
+    protected function resolvePaginateAttribute(): array|bool
     {
         $reflection = new ReflectionClass($this);
 
@@ -146,6 +146,12 @@ trait ResolvesAttributes
 
         if (filled($attributes)) {
             $instance = Arr::first($attributes)->newInstance();
+
+            if ($instance->shouldUse && is_string($instance->builder)) {
+                return [
+                    'builder' => $instance->builder,
+                ];
+            }
 
             return $instance->shouldUse;
         }

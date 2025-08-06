@@ -84,11 +84,14 @@ abstract class Field implements Stringable
     {
         $deprecated = $this->resolveDeprecatedAttribute();
         $field = $this->resolveFieldAttribute();
+        $paginate = $this->resolvePaginateAttribute();
 
         return [
             ...(is_string($deprecated) ? ['deprecated' => ['reason' => $deprecated]] : []),
 
             ...(is_string($field) ? ['field' => ['resolver' => $field]] : []),
+
+            ...(is_array($paginate) ? ['paginate' => $paginate] : []),
         ];
     }
 

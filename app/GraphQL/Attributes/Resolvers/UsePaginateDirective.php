@@ -11,5 +11,6 @@ class UsePaginateDirective
 {
     public function __construct(
         public bool $shouldUse = true,
+        public ?string $builder = null,
     ) {}
 }
