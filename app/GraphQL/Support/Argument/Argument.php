@@ -15,6 +15,7 @@ class Argument implements Stringable
     use ResolvesDirectives;
 
     protected bool $required = false;
+    protected mixed $defaultValue = null;
 
     /**
      * @var array<string, array>
@@ -49,6 +50,16 @@ class Argument implements Stringable
     }
 
     /**
+     * Append a default value to the argument.
+     */
+    public function withDefaultValue(mixed $value): static
+    {
+        $this->defaultValue = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the resolved directives as a string.
      */
     protected function getResolvedDirectives(): string
@@ -67,6 +78,7 @@ class Argument implements Stringable
             ->append(': ')
             ->append(is_string($type) ? $type : $type->__toString())
             ->when($this->required, fn (SupportStringable $string) => $string->append('!'))
+            ->when($this->defaultValue, fn (SupportStringable $string) => $string->append(" = {$this->defaultValue}"))
             ->append(' ')
             ->append($this->getResolvedDirectives())
             ->__toString();

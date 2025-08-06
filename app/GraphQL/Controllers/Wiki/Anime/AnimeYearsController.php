@@ -53,10 +53,9 @@ class AnimeYearsController extends BaseController
                         return [
                             AnimeYearSeasonSeasonField::FIELD => $seasonNested,
                             'seasonLocalized' => $seasonNested->localize(),
-                            'ids' => Anime::query()->where(Anime::ATTRIBUTE_SEASON, $seasonNested)->where(Anime::ATTRIBUTE_YEAR, $yearNested)->pluck(Anime::ATTRIBUTE_ID),
+                            'year' => $yearNested,
                         ];
-                    })
-                        ->values()->all(),
+                    })->values()->all(),
                 ];
             })
             ->values()
@@ -69,6 +68,7 @@ class AnimeYearsController extends BaseController
     public function applyBuilder(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
         return Anime::query()
-            ->whereIn(Anime::ATTRIBUTE_ID, Arr::get($root, 'ids'));
+            ->where(Anime::ATTRIBUTE_SEASON, Arr::get($root, AnimeYearSeasonSeasonField::FIELD)->value)
+            ->where(Anime::ATTRIBUTE_YEAR, Arr::get($root, 'year'));
     }
 }

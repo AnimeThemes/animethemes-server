@@ -9,6 +9,9 @@ use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\Wiki\ThemeType;
 use App\GraphQL\Definition\Fields\EnumField;
+use App\GraphQL\Support\Directives\Filters\EqFilterDirective;
+use App\GraphQL\Support\Directives\Filters\InFilterDirective;
+use App\GraphQL\Support\Directives\Filters\NotInFilterDirective;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Validation\Rules\Enum;
 
@@ -25,6 +28,20 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
     public function description(): string
     {
         return 'The type of the sequence';
+    }
+
+    /**
+     * The directives available for this filter.
+     *
+     * @return FilterDirective[]
+     */
+    public function filterDirectives(): array
+    {
+        return [
+            new EqFilterDirective($this),
+            new InFilterDirective($this, '[OP, ED]'),
+            new NotInFilterDirective($this),
+        ];
     }
 
     /**

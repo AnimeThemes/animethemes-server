@@ -19,6 +19,7 @@ final readonly class InFilterDirective extends FilterDirective
                 'in' => [
                     'key' => $this->field->getColumn(),
                 ],
-            ]);
+            ])
+            ->withDefaultValue($this->defaultValue);
     }
 }
