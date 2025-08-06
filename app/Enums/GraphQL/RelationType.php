@@ -30,12 +30,14 @@ enum RelationType
             RelationType::BELONGS_TO_MANY => [
                 'belongsToMany' => [
                     'type' => 'CONNECTION',
+                    'defaultCount' => 1000000000,
                     ...$parameters,
                 ],
             ],
             RelationType::HAS_MANY => [
                 'hasMany' => [
                     'type' => 'PAGINATOR',
+                    'defaultCount' => 1000000000,
                     ...$parameters,
                 ],
             ],
@@ -45,6 +47,7 @@ enum RelationType
             RelationType::MORPH_MANY => [
                 'morphMany' => [
                     'type' => 'PAGINATOR',
+                    'defaultCount' => 1000000000,
                     ...$parameters,
                 ],
             ],
