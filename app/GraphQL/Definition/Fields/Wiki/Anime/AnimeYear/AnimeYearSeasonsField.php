@@ -6,14 +6,16 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
 use GraphQL\Type\Definition\Type;
 
-class AnimeYearFallField extends Field implements DisplayableField
+class AnimeYearSeasonsField extends Field implements DisplayableField
 {
+    final public const FIELD = 'seasons';
+
     public function __construct()
     {
-        parent::__construct('fall');
+        parent::__construct(self::FIELD);
     }
 
     /**
@@ -21,7 +23,7 @@ class AnimeYearFallField extends Field implements DisplayableField
      */
     public function description(): string
     {
-        return 'The fall season of the year';
+        return 'The list of season objects that composite the year';
     }
 
     /**
@@ -29,7 +31,7 @@ class AnimeYearFallField extends Field implements DisplayableField
      */
     public function type(): Type
     {
-        return Type::listOf(Type::nonNull(new AnimeType()));
+        return Type::listOf(Type::nonNull(new AnimeYearSeasonType()));
     }
 
     /**

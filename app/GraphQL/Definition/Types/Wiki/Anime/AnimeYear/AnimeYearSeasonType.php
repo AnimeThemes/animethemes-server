@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear;
+
+use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonAnimesField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
+use App\GraphQL\Definition\Types\BaseType;
+
+class AnimeYearSeasonType extends BaseType
+{
+    /**
+     * The description of the type.
+     */
+    public function getDescription(): string
+    {
+        return 'The anime year season type.';
+    }
+
+    /**
+     * The fields of the type.
+     *
+     * @return Field[]
+     */
+    public function fields(): array
+    {
+        return [
+            new AnimeYearSeasonSeasonField(),
+            new LocalizedEnumField(new AnimeYearSeasonSeasonField()),
+            new AnimeYearSeasonAnimesField(),
+        ];
+    }
+}

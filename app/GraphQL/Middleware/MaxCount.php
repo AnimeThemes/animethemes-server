@@ -17,8 +17,17 @@ class MaxCount
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        Config::set('lighthouse.pagination.max_count', $request->ip() === '127.0.0.1' ? null : 100);
+        Config::set('lighthouse.pagination.default_count', $this->isLocal($request) ? 1000000000 : 15);
+        Config::set('lighthouse.pagination.max_count', $this->isLocal($request) ? null : 100);
 
         return $next($request);
+    }
+
+    /**
+     * Determine if the request came from localhost.
+     */
+    private function isLocal(Request $request): bool
+    {
+        return $request->ip() === '127.0.0.1';
     }
 }

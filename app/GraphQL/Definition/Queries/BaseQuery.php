@@ -54,6 +54,7 @@ abstract class BaseQuery
     {
         $builder = $this->resolveBuilderAttribute();
         $field = $this->resolveFieldAttribute();
+        $paginate = $this->resolvePaginateAttribute();
 
         return [
             ...($this->resolveAllAttribute() ? ['all' => []] : []),
@@ -66,7 +67,7 @@ abstract class BaseQuery
 
             ...($this->resolveFindAttribute() ? ['find' => []] : []),
 
-            ...($this->resolvePaginateAttribute() ? ['paginate' => []] : []),
+            ...(is_bool($paginate) && $paginate ? ['paginate' => []] : []),
         ];
     }
 
