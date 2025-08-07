@@ -35,6 +35,7 @@ class AnimeYearsController extends BaseController
 
         $fieldSelection = $resolveInfo->getFieldSelection(1);
 
+        // Restrict 'animes' field to a unique year.
         if (
             ($year === null || count($year) > 1)
             && (Arr::get($fieldSelection, 'season.animes') || Arr::get($fieldSelection, 'seasons.animes'))
@@ -55,7 +56,7 @@ class AnimeYearsController extends BaseController
                     AnimeYearSeasonsField::FIELD => $items
                         ->map(function (Anime $anime) use ($year) {
                             return [
-                                'year' => $year,
+                                'year' => $year, // Needed to query animes on the 'seasons' field.
                                 AnimeYearSeasonSeasonField::FIELD => $anime->season,
                                 'seasonLocalized' => $anime->season->localize(),
                             ];
@@ -86,7 +87,7 @@ class AnimeYearsController extends BaseController
         return [
             AnimeYearSeasonSeasonField::FIELD => $season,
             'seasonLocalized' => $season->localize(),
-            'year' => $year,
+            'year' => $year, // Needed to query animes on the 'season' field.
         ];
     }
 
@@ -99,6 +100,7 @@ class AnimeYearsController extends BaseController
         $year = Arr::get($root, 'year');
 
         return Anime::query()
+            // season filter applies only on the 'season' field.
             ->when($season !== null, fn (Builder $query) => $query->where(Anime::ATTRIBUTE_SEASON, $season->value))
             ->where(Anime::ATTRIBUTE_YEAR, $year);
     }
