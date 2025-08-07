@@ -33,7 +33,12 @@ class AnimeYearsController extends BaseController
     {
         $year = Arr::get($args, AnimeYearsQuery::ARGUMENT_YEAR);
 
-        if (($year === null || count($year) > 1) && Arr::get($resolveInfo->getFieldSelection(1), 'season.animes')) {
+        $fieldSelection = $resolveInfo->getFieldSelection(1);
+
+        if (
+            ($year === null || count($year) > 1)
+            && (Arr::get($fieldSelection, 'season.animes') || Arr::get($fieldSelection, 'seasons.animes'))
+        ) {
             throw new ClientValidationException("Please provide a unique 'year' argument to query the animes field.");
         }
 
@@ -48,8 +53,9 @@ class AnimeYearsController extends BaseController
                     AnimeYearYearField::FIELD => $year,
 
                     AnimeYearSeasonsField::FIELD => $items
-                        ->map(function (Anime $anime) {
+                        ->map(function (Anime $anime) use ($year) {
                             return [
+                                'year' => $year,
                                 AnimeYearSeasonSeasonField::FIELD => $anime->season,
                                 'seasonLocalized' => $anime->season->localize(),
                             ];
@@ -68,8 +74,8 @@ class AnimeYearsController extends BaseController
      */
     public function applyFieldToSeasonField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
-        $year = Arr::get($root, AnimeYearsQuery::ARGUMENT_YEAR);
         $season = AnimeSeason::from(Arr::get($args, AnimeYearSeasonField::ARGUMENT_SEASON));
+        $year = Arr::get($root, AnimeYearsQuery::ARGUMENT_YEAR);
 
         $seasons = collect(Arr::get($root, 'seasons'));
 
@@ -89,8 +95,11 @@ class AnimeYearsController extends BaseController
      */
     public function applyBuilderToAnimesField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
+        $season = Arr::get($root, AnimeYearSeasonSeasonField::FIELD);
+        $year = Arr::get($root, 'year');
+
         return Anime::query()
-            ->where(Anime::ATTRIBUTE_SEASON, Arr::get($root, AnimeYearSeasonSeasonField::FIELD)->value)
-            ->where(Anime::ATTRIBUTE_YEAR, Arr::get($root, 'year'));
+            ->when($season !== null, fn (Builder $query) => $query->where(Anime::ATTRIBUTE_SEASON, $season->value))
+            ->where(Anime::ATTRIBUTE_YEAR, $year);
     }
 }
