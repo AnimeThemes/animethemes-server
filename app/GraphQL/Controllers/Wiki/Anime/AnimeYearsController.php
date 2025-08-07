@@ -56,9 +56,9 @@ class AnimeYearsController extends BaseController
                     AnimeYearSeasonsField::FIELD => $items
                         ->map(function (Anime $anime) use ($year) {
                             return [
-                                'year' => $year, // Needed to query animes on the 'seasons' field.
                                 AnimeYearSeasonSeasonField::FIELD => $anime->season,
                                 'seasonLocalized' => $anime->season->localize(),
+                                'year' => $year, // Needed to query animes on the 'seasons' field.
                             ];
                         })
                         ->unique(Anime::ATTRIBUTE_SEASON)
