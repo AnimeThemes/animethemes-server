@@ -107,14 +107,14 @@ abstract class BaseQuery
     {
         if (! $this->nullable) {
             if ($this->isList) {
-                return Type::listOf(Type::nonNull($this->baseType()));
+                return Type::nonNull(Type::listOf(Type::nonNull($this->baseType())));
             }
 
             return Type::nonNull($this->baseType());
         }
 
         if ($this->isList) {
-            return Type::listOf($this->baseType());
+            return Type::listOf(Type::nonNull($this->baseType()));
         }
 
         return $this->baseType();

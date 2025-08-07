@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
-use App\Enums\Models\Wiki\AnimeSeason;
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Definition\Queries\BaseQuery;
@@ -12,13 +11,11 @@ use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
 use App\GraphQL\Support\Argument\Argument;
 use App\Models\Wiki\Anime;
 use GraphQL\Type\Definition\Type;
-use Nuwave\Lighthouse\Schema\TypeRegistry;
 
 #[UseFieldDirective(AnimeYearsController::class, 'index')]
 class AnimeYearsQuery extends BaseQuery
 {
     final public const ARGUMENT_YEAR = 'year';
-    final public const ARGUMENT_SEASON = 'season';
 
     public function __construct()
     {
@@ -30,7 +27,7 @@ class AnimeYearsQuery extends BaseQuery
      */
     public function description(): string
     {
-        return 'Returns a list of unique years from all anime resources.';
+        return 'Returns a list of years grouped by its seasons.';
     }
 
     /**
@@ -58,12 +55,8 @@ class AnimeYearsQuery extends BaseQuery
      */
     public function arguments(): array
     {
-        $season = app(TypeRegistry::class)->get(class_basename(AnimeSeason::class));
-
         return [
             new Argument(self::ARGUMENT_YEAR, Type::listOf(Type::nonNull(Type::int()))),
-
-            new Argument(self::ARGUMENT_SEASON, Type::listOf(Type::nonNull($season))),
         ];
     }
 

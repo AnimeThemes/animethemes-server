@@ -14,7 +14,7 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 
-#[UsePaginateDirective(true, AnimeYearsController::class.'@applyBuilder')]
+#[UsePaginateDirective(true, AnimeYearsController::class.'@applyBuilderToAnimesField')]
 class AnimeYearSeasonAnimesField extends Field implements DisplayableField, HasArgumentsField
 {
     final public const FIELD = 'animes';
@@ -29,7 +29,7 @@ class AnimeYearSeasonAnimesField extends Field implements DisplayableField, HasA
      */
     public function description(): string
     {
-        return 'The animes of the season year';
+        return 'The animes of the season year filtered';
     }
 
     /**

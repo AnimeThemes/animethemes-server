@@ -10,6 +10,7 @@ use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\Wiki\ThemeType;
 use App\GraphQL\Definition\Fields\EnumField;
 use App\GraphQL\Support\Directives\Filters\EqFilterDirective;
+use App\GraphQL\Support\Directives\Filters\FilterDirective;
 use App\GraphQL\Support\Directives\Filters\InFilterDirective;
 use App\GraphQL\Support\Directives\Filters\NotInFilterDirective;
 use App\Models\Wiki\Anime\AnimeTheme;
