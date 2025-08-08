@@ -23,10 +23,8 @@ class PlaylistTrackPolicy extends BasePolicy
      */
     public function viewAny(?User $user, ?array $injected = null): bool
     {
-        $playlist = Playlist::query()->firstWhere(
-            Playlist::ATTRIBUTE_HASHID,
-            Arr::get($injected, PlaylistTrackPlaylistField::FIELD)
-        );
+        /** @var Playlist $playlist */
+        $playlist = Arr::get($injected, PlaylistTrackPlaylistField::FIELD);
 
         if ($user !== null) {
             return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)
@@ -43,10 +41,8 @@ class PlaylistTrackPolicy extends BasePolicy
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
-        $playlist = Playlist::query()->firstWhere(
-            Playlist::ATTRIBUTE_HASHID,
-            Arr::get($injected, PlaylistTrackPlaylistField::FIELD)
-        );
+        /** @var Playlist $playlist */
+        $playlist = Arr::get($injected, PlaylistTrackPlaylistField::FIELD);
 
         if ($user !== null) {
             return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)

@@ -28,6 +28,6 @@ class AnimeController extends BaseController
     public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
         return $builder
-            ->where(self::ROUTE_SLUG, Arr::get($args, self::ROUTE_SLUG));
+            ->whereKey(Arr::get($args, self::ROUTE_SLUG)->getKey());
     }
 }

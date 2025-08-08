@@ -6,14 +6,13 @@ namespace App\GraphQL\Definition\Fields\Document\Page;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
-use App\Contracts\GraphQL\Fields\RouteableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Document\Page;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class PageSlugField extends StringField implements CreatableField, RequiredOnCreation, RouteableField, UpdatableField
+class PageSlugField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     public function __construct()
     {

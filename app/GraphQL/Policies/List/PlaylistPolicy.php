@@ -21,7 +21,8 @@ class PlaylistPolicy extends BasePolicy
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
     {
-        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, Arr::get($injected, $keyName));
+        /** @var Playlist $playlist */
+        $playlist = Arr::get($injected, $keyName);
 
         if ($user !== null) {
             return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)

@@ -8,14 +8,13 @@ use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
-use App\Contracts\GraphQL\Fields\RouteableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use GraphQL\Type\Definition\Type;
 
-class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, RouteableField, UpdatableField
+class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, UpdatableField
 {
     final public const FIELD = PlaylistTrack::RELATION_PLAYLIST;
 

@@ -9,13 +9,11 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
-use App\Contracts\GraphQL\Fields\RouteableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\BindableArgument;
-use App\GraphQL\Support\Argument\RouteableArgument;
 use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Directives\Filters\FilterDirective;
 use Illuminate\Support\Arr;
@@ -119,20 +117,6 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof BindableField)
             ->map(fn (Field&BindableField $field) => new BindableArgument($field, $shouldRequire))
-            ->toArray();
-    }
-
-    /**
-     * Resolve the routeable arguments.
-     *
-     * @param  Field[]  $fields
-     * @return RouteableArgument[]
-     */
-    protected function resolveRouteableArguments(array $fields): array
-    {
-        return collect($fields)
-            ->filter(fn (Field $field) => $field instanceof RouteableField)
-            ->map(fn (Field&RouteableField $field) => new RouteableArgument($field))
             ->toArray();
     }
 }

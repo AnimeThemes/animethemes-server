@@ -66,7 +66,7 @@ abstract class EloquentSingularQuery extends BaseQuery
         $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveRouteableArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fields());
         }
 
         return Arr::flatten($arguments);
