@@ -42,6 +42,19 @@ class PlaylistController extends BaseController
     }
 
     /**
+     * Apply the query builder to the show query.
+     *
+     * @param  Builder<Playlist>  $builder
+     * @param  array  $args
+     * @return Builder<Playlist>
+     */
+    public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    {
+        return $builder
+            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, self::ROUTE_SLUG));
+    }
+
+    /**
      * Store a newly created resource.
      *
      * @param  null  $root

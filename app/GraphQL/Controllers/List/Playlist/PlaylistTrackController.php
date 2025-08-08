@@ -52,7 +52,7 @@ class PlaylistTrackController extends BaseController
     public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
         $builder->whereRelation(PlaylistTrack::RELATION_PLAYLIST, Playlist::ATTRIBUTE_HASHID, Arr::get($args, 'playlist'));
-        $builder->whereKey(Arr::get($args, self::ROUTE_SLUG));
+        $builder->where(PlaylistTrack::ATTRIBUTE_HASHID, Arr::get($args, self::ROUTE_SLUG));
 
         return $builder;
     }
