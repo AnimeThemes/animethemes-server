@@ -43,7 +43,7 @@ class PlaylistTrackController extends BaseController
     }
 
     /**
-     * Apply the query builder to the index query.
+     * Apply the query builder to the show query.
      *
      * @param  Builder<PlaylistTrack>  $builder
      * @param  array<string, mixed>  $args
@@ -51,14 +51,8 @@ class PlaylistTrackController extends BaseController
      */
     public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        /** @var Playlist $playlist */
-        $playlist = Arr::get($args, 'playlist');
-
-        /** @var PlaylistTrack $track */
-        $track = Arr::get($args, self::ROUTE_SLUG);
-
-        $builder->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey());
-        $builder->whereKey($track->getKey());
+        $builder->whereRelation(PlaylistTrack::RELATION_PLAYLIST, Playlist::ATTRIBUTE_HASHID, Arr::get($args, 'playlist'));
+        $builder->whereKey(Arr::get($args, self::ROUTE_SLUG));
 
         return $builder;
     }

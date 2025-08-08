@@ -22,7 +22,10 @@ class ExternalProfilePolicy extends BasePolicy
     public function view(?User $user, ?array $injected = null, ?string $keyName = SyncExternalProfileController::ROUTE_SLUG): bool
     {
         /** @var ExternalProfile $profile */
-        $profile = Arr::get($injected, $keyName);
+        $profile = ExternalProfile::query()->firstWhere(
+            ExternalProfile::ATTRIBUTE_ID,
+            Arr::get($injected, $keyName),
+        );
 
         if ($user !== null) {
             return ($profile->user()->is($user) || $profile->visibility !== ExternalProfileVisibility::PRIVATE)

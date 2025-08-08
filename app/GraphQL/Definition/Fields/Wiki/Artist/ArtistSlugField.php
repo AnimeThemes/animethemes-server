@@ -6,13 +6,14 @@ namespace App\GraphQL\Definition\Fields\Wiki\Artist;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
+use App\Contracts\GraphQL\Fields\RouteableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Artist;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class ArtistSlugField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
+class ArtistSlugField extends StringField implements CreatableField, RequiredOnCreation, RouteableField, UpdatableField
 {
     public function __construct()
     {

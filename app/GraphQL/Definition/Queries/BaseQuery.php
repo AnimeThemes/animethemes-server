@@ -67,6 +67,8 @@ abstract class BaseQuery
 
             ...($this->resolveFindAttribute() ? ['find' => []] : []),
 
+            ...($this->resolveFirstAttribute() ? ['first' => []] : []),
+
             ...(is_bool($paginate) && $paginate ? ['paginate' => []] : []),
         ];
     }

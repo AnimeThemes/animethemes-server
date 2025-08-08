@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Definition\Queries\Models\Paginator\Admin;
+
+use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
+use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
+use App\GraphQL\Controllers\Admin\DumpController;
+use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
+use App\GraphQL\Definition\Types\Admin\DumpType;
+
+#[UseBuilderDirective(DumpController::class)]
+#[UsePaginateDirective]
+class DumpPaginatorQuery extends EloquentPaginatorQuery
+{
+    public function __construct()
+    {
+        parent::__construct('dumpPaginator');
+    }
+
+    /**
+     * The description of the type.
+     */
+    public function description(): string
+    {
+        return 'Returns a listing of dump resources given fields.';
+    }
+
+    /**
+     * The base return type of the query.
+     */
+    public function baseType(): DumpType
+    {
+        return new DumpType();
+    }
+}
