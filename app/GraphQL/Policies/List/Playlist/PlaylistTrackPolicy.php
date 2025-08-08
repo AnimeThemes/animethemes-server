@@ -7,6 +7,7 @@ namespace App\GraphQL\Policies\List\Playlist;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -22,8 +23,10 @@ class PlaylistTrackPolicy extends BasePolicy
      */
     public function viewAny(?User $user, ?array $injected = null): bool
     {
-        /** @var Playlist|null $playlist */
-        $playlist = Arr::get($injected, 'playlist');
+        $playlist = Playlist::query()->firstWhere(
+            Playlist::ATTRIBUTE_HASHID,
+            Arr::get($injected, PlaylistTrackPlaylistField::FIELD)
+        );
 
         if ($user !== null) {
             return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)
@@ -40,8 +43,10 @@ class PlaylistTrackPolicy extends BasePolicy
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
-        /** @var Playlist|null $playlist */
-        $playlist = Arr::get($injected, 'playlist');
+        $playlist = Playlist::query()->firstWhere(
+            Playlist::ATTRIBUTE_HASHID,
+            Arr::get($injected, PlaylistTrackPlaylistField::FIELD)
+        );
 
         if ($user !== null) {
             return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)

@@ -10,6 +10,7 @@ use App\GraphQL\Attributes\Resolvers\UseAuthDirective;
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Attributes\Resolvers\UseFindDirective;
+use App\GraphQL\Attributes\Resolvers\UseFirstDirective;
 use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Attributes\UseSearchDirective;
 use Illuminate\Support\Arr;
@@ -115,6 +116,29 @@ trait ResolvesAttributes
         }
 
         return null;
+    }
+
+    /**
+     * Resolve the first directive as an attribute.
+     */
+    protected function resolveFirstAttribute(): bool
+    {
+        $reflection = new ReflectionClass($this);
+
+        $attributes = [];
+
+        while ($reflection) {
+            $attributes = array_merge($attributes, $reflection->getAttributes(UseFirstDirective::class));
+            $reflection = $reflection->getParentClass();
+
+            if (filled($attributes)) {
+                $instance = Arr::first($attributes)->newInstance();
+
+                return $instance->shouldUse;
+            }
+        }
+
+        return false;
     }
 
     /**

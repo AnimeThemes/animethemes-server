@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Singular;
 
+use App\GraphQL\Attributes\Resolvers\UseFirstDirective;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\BaseType;
@@ -13,6 +14,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
+#[UseFirstDirective]
 abstract class EloquentSingularQuery extends BaseQuery
 {
     public function __construct(
@@ -64,7 +66,7 @@ abstract class EloquentSingularQuery extends BaseQuery
         $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
+            $arguments[] = $this->resolveRouteableArguments($baseType->fields());
         }
 
         return Arr::flatten($arguments);
