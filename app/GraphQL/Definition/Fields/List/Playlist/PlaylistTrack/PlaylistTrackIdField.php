@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack;
 
 use App\Contracts\GraphQL\Fields\BindableField;
-use App\Contracts\GraphQL\Fields\RouteableField;
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\List\Playlist\PlaylistTrack;
 
-class PlaylistTrackIdField extends StringField implements BindableField, RouteableField
+class PlaylistTrackIdField extends StringField implements BindableField
 {
     public function __construct()
     {

@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
-use App\GraphQL\Definition\Fields\Base\IdField;
+use App\GraphQL\Definition\Fields\Base\IdUnbindableField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Studio\StudioNameField;
@@ -52,7 +52,7 @@ class StudioType extends EloquentType implements ReportableType
     public function fields(): array
     {
         return [
-            new IdField(Studio::ATTRIBUTE_ID, Studio::class),
+            new IdUnbindableField(Studio::ATTRIBUTE_ID),
             new StudioNameField(),
             new StudioSlugField(),
             new CreatedAtField(),
