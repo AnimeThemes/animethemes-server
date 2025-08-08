@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
-use App\GraphQL\Definition\Fields\Base\IdField;
+use App\GraphQL\Definition\Fields\Base\IdUnbindableField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
@@ -64,7 +64,7 @@ class AnimeType extends EloquentType implements ReportableType
     public function fields(): array
     {
         return [
-            new IdField(Anime::ATTRIBUTE_ID, Anime::class),
+            new IdUnbindableField(Anime::ATTRIBUTE_ID),
             new AnimeNameField(),
             new AnimeMediaFormatField(),
             new LocalizedEnumField(new AnimeMediaFormatField()),

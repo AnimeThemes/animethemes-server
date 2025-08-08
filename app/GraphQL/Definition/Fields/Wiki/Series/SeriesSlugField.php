@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Series;
 
+use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
@@ -12,7 +13,7 @@ use App\Models\Wiki\Series;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class SeriesSlugField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
+class SeriesSlugField extends StringField implements BindableField, CreatableField, RequiredOnCreation, UpdatableField
 {
     public function __construct()
     {
@@ -25,6 +26,24 @@ class SeriesSlugField extends StringField implements CreatableField, RequiredOnC
     public function description(): string
     {
         return 'The URL slug & route key of the resource';
+    }
+
+    /**
+     * Get the model that the field should bind to.
+     *
+     * @return class-string<Series>
+     */
+    public function bindTo(): string
+    {
+        return Series::class;
+    }
+
+    /**
+     * Get the column that the field should use to bind.
+     */
+    public function bindUsingColumn(): string
+    {
+        return $this->column;
     }
 
     /**

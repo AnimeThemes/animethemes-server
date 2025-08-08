@@ -23,7 +23,7 @@ class PlaylistTrackPolicy extends BasePolicy
      */
     public function viewAny(?User $user, ?array $injected = null): bool
     {
-        /** @var Playlist $playlist */
+        /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, PlaylistTrackPlaylistField::FIELD);
 
         if ($user !== null) {
@@ -41,7 +41,7 @@ class PlaylistTrackPolicy extends BasePolicy
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
-        /** @var Playlist $playlist */
+        /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, PlaylistTrackPlaylistField::FIELD);
 
         if ($user !== null) {

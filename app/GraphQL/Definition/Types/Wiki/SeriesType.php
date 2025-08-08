@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Types\Wiki;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
-use App\GraphQL\Definition\Fields\Base\IdField;
+use App\GraphQL\Definition\Fields\Base\IdUnbindableField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Series\SeriesNameField;
@@ -48,7 +48,7 @@ class SeriesType extends EloquentType implements ReportableType
     public function fields(): array
     {
         return [
-            new IdField(Series::ATTRIBUTE_ID, Series::class),
+            new IdUnbindableField(Series::ATTRIBUTE_ID),
             new SeriesNameField(),
             new SeriesSlugField(),
             new CreatedAtField(),
