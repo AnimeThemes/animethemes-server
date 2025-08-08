@@ -19,7 +19,7 @@ class ArtistController extends BaseController
     final public const ROUTE_SLUG = 'slug';
 
     /**
-     * Apply the query builder to the index query.
+     * Apply the query builder to the show query.
      *
      * @param  Builder<Artist>  $builder
      * @param  array  $args
