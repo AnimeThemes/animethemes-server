@@ -6,7 +6,7 @@ namespace App\GraphQL\Controllers\Wiki\Anime;
 
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Queries\Wiki\FindAnimesByExternalSiteQuery;
+use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,10 +17,8 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 /**
  * @extends BaseController<Anime>
  */
-class FindAnimesByExternalSiteController extends BaseController
+class FindAnimeByExternalSiteController extends BaseController
 {
-    final public const ROUTE_SLUG = 'id';
-
     /**
      * Apply the query builder to the show query.
      *
@@ -30,9 +28,9 @@ class FindAnimesByExternalSiteController extends BaseController
      */
     public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        $site = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_SITE);
-        $externalId = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_ID);
-        $link = Arr::get($args, FindAnimesByExternalSiteQuery::ATTRIBUTE_LINK);
+        $site = Arr::get($args, FindAnimeByExternalSiteQuery::ATTRIBUTE_SITE);
+        $externalId = Arr::get($args, FindAnimeByExternalSiteQuery::ATTRIBUTE_ID);
+        $link = Arr::get($args, FindAnimeByExternalSiteQuery::ATTRIBUTE_LINK);
 
         if (is_null($externalId) && is_null($link)) {
             throw new ClientValidationException('At least "id" or "link" is required.');

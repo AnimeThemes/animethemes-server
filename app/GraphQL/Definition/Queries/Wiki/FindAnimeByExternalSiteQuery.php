@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\GraphQL\Attributes\Resolvers\UseAllDirective;
 use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Controllers\Wiki\Anime\FindAnimesByExternalSiteController;
+use App\GraphQL\Controllers\Wiki\Anime\FindAnimeByExternalSiteController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Support\Argument\Argument;
@@ -16,8 +16,8 @@ use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
 #[UseAllDirective]
-#[UseBuilderDirective(FindAnimesByExternalSiteController::class, 'show')]
-class FindAnimesByExternalSiteQuery extends BaseQuery
+#[UseBuilderDirective(FindAnimeByExternalSiteController::class, 'show')]
+class FindAnimeByExternalSiteQuery extends BaseQuery
 {
     final public const ATTRIBUTE_SITE = 'site';
     final public const ATTRIBUTE_ID = 'id';
@@ -25,7 +25,7 @@ class FindAnimesByExternalSiteQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('findAnimesByExternalSite', false, false);
+        parent::__construct('findAnimeByExternalSite', false, false);
     }
 
     /**
@@ -33,7 +33,7 @@ class FindAnimesByExternalSiteQuery extends BaseQuery
      */
     public function description(): string
     {
-        return 'Filter animes by its external id on given site.';
+        return 'Filter anime by its external id on given site.';
     }
 
     /**
