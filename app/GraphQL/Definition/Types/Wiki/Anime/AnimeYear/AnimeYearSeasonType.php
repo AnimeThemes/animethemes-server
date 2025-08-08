@@ -6,7 +6,7 @@ namespace App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear;
 
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonAnimesField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonAnimeField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
 use App\GraphQL\Definition\Types\BaseType;
 
@@ -30,7 +30,7 @@ class AnimeYearSeasonType extends BaseType
         return [
             new AnimeYearSeasonSeasonField(),
             new LocalizedEnumField(new AnimeYearSeasonSeasonField()),
-            new AnimeYearSeasonAnimesField(),
+            new AnimeYearSeasonAnimeField(),
         ];
     }
 }

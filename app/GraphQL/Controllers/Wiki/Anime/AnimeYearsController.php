@@ -11,7 +11,7 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYear
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonsField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearYearField;
-use App\GraphQL\Definition\Queries\Wiki\Anime\AnimeYearsQuery;
+use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -92,9 +92,9 @@ class AnimeYearsController extends BaseController
     }
 
     /**
-     * Apply the builder for the AnimeYearSeasonAnimesField.
+     * Apply the builder for the AnimeYearSeasonAnimeField.
      */
-    public function applyBuilderToAnimesField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function applyBuilderToAnimeField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
         $season = Arr::get($root, AnimeYearSeasonSeasonField::FIELD);
         $year = Arr::get($root, 'year');

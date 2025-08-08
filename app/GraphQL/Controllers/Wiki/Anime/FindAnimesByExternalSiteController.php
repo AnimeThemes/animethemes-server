@@ -6,7 +6,7 @@ namespace App\GraphQL\Controllers\Wiki\Anime;
 
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Queries\Wiki\Anime\FindAnimesByExternalSiteQuery;
+use App\GraphQL\Definition\Queries\Wiki\FindAnimesByExternalSiteQuery;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
