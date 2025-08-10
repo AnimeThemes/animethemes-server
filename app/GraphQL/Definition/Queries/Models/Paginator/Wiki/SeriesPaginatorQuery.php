@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
 
-#[UsePaginateDirective]
-#[UseSearchDirective]
 class SeriesPaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -29,7 +25,7 @@ class SeriesPaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): SeriesType
+    public function baseRebingType(): SeriesType
     {
         return new SeriesType();
     }

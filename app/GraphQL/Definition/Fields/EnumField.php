@@ -8,13 +8,13 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Support\Directives\Filters\EqFilterDirective;
-use App\GraphQL\Support\Directives\Filters\FilterDirective;
-use App\GraphQL\Support\Directives\Filters\InFilterDirective;
-use App\GraphQL\Support\Directives\Filters\NotInFilterDirective;
+use App\GraphQL\Support\Filter\EqFilter;
+use App\GraphQL\Support\Filter\Filter;
+use App\GraphQL\Support\Filter\InFilter;
+use App\GraphQL\Support\Filter\NotInFilter;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
-use Nuwave\Lighthouse\Schema\TypeRegistry;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class EnumField extends Field implements DisplayableField, FilterableField, SortableField
 {
@@ -40,19 +40,7 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
      */
     public function type(): Type
     {
-        return app(TypeRegistry::class)->get(class_basename($this->enum));
-    }
-
-    /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'enumField' => [],
-        ];
+        return GraphQL::type(class_basename($this->enum));
     }
 
     /**
@@ -64,16 +52,16 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
     }
 
     /**
-     * The directives available for this filter.
+     * The filters of the field.
      *
-     * @return FilterDirective[]
+     * @return Filter[]
      */
-    public function filterDirectives(): array
+    public function getFilters(): array
     {
         return [
-            new EqFilterDirective($this),
-            new InFilterDirective($this),
-            new NotInFilterDirective($this),
+            new EqFilter($this),
+            new InFilter($this),
+            new NotInFilter($this),
         ];
     }
 

@@ -6,7 +6,6 @@ namespace App\GraphQL\Support\Relations;
 
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesAttributes;
-use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
@@ -22,7 +21,6 @@ abstract class Relation implements Stringable
 {
     use ResolvesArguments;
     use ResolvesAttributes;
-    use ResolvesDirectives;
 
     protected ?string $field = null;
     protected ?bool $nullable = true;

@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Admin;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Controllers\Admin\FeatureController;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Admin\FeatureType;
 
-#[UseBuilderDirective(FeatureController::class)]
-#[UsePaginateDirective]
 class FeaturePaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -30,7 +25,7 @@ class FeaturePaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): FeatureType
+    public function baseRebingType(): FeatureType
     {
         return new FeatureType();
     }

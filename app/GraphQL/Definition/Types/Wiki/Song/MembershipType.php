@@ -24,7 +24,7 @@ class MembershipType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents the link between an artist and a group related to the song credits.\n\nFor example, Sayuri Date is a member of Liella and has performed using the membership.";
     }
@@ -50,7 +50,7 @@ class MembershipType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Membership::ATTRIBUTE_ID, Membership::class),

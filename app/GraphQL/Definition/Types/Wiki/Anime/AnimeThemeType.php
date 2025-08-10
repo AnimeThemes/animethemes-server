@@ -29,7 +29,7 @@ class AnimeThemeType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents an OP or ED sequence for an anime.\n\nFor example, the anime Bakemonogatari has five OP anime themes and one ED anime theme.";
     }
@@ -55,7 +55,7 @@ class AnimeThemeType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(AnimeTheme::ATTRIBUTE_ID, AnimeTheme::class),

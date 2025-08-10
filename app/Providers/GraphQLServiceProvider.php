@@ -49,6 +49,7 @@ use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 use Nuwave\Lighthouse\Schema\Types\Scalars\DateTimeTz;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ReflectionClass;
@@ -60,15 +61,15 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function boot(TypeRegistry $typeRegistry): void
     {
-        $this->bootModels();
+        // $this->bootModels();
         $this->bootEnums();
 
-        $typeRegistry->register(new DateTimeTz());
+        //  $typeRegistry->register(new DateTimeTz());
 
-        $this->bootTypes();
-        $this->bootUnions();
-        $this->bootQueries();
-        $this->bootMutations();
+        //  $this->bootTypes();
+        //  $this->bootUnions();
+        //  $this->bootQueries();
+        //  $this->bootMutations();
     }
 
     /**
@@ -108,20 +109,21 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     protected function bootEnums(): void
     {
-        $typeRegistry = app(TypeRegistry::class);
-        $typeRegistry->register(new EnumType(SortDirection::class));
-        $typeRegistry->register(new EnumType(ExternalEntryWatchStatus::class));
-        $typeRegistry->register(new EnumType(ExternalProfileSite::class));
-        $typeRegistry->register(new EnumType(ExternalProfileVisibility::class));
-        $typeRegistry->register(new EnumType(PlaylistVisibility::class));
-        $typeRegistry->register(new EnumType(AnimeMediaFormat::class));
-        $typeRegistry->register(new EnumType(AnimeSeason::class));
-        $typeRegistry->register(new EnumType(AnimeSynonymType::class));
-        $typeRegistry->register(new EnumType(ImageFacet::class));
-        $typeRegistry->register(new EnumType(ResourceSite::class));
-        $typeRegistry->register(new EnumType(ThemeType::class));
-        $typeRegistry->register(new EnumType(VideoOverlap::class));
-        $typeRegistry->register(new EnumType(VideoSource::class));
+        GraphQL::addType(new EnumType(AnimeMediaFormat::class));
+
+        GraphQL::addType(new EnumType(SortDirection::class));
+        GraphQL::addType(new EnumType(ExternalEntryWatchStatus::class));
+        GraphQL::addType(new EnumType(ExternalProfileSite::class));
+        GraphQL::addType(new EnumType(ExternalProfileVisibility::class));
+        GraphQL::addType(new EnumType(PlaylistVisibility::class));
+        GraphQL::addType(new EnumType(AnimeMediaFormat::class));
+        GraphQL::addType(new EnumType(AnimeSeason::class));
+        GraphQL::addType(new EnumType(AnimeSynonymType::class));
+        GraphQL::addType(new EnumType(ImageFacet::class));
+        GraphQL::addType(new EnumType(ResourceSite::class));
+        GraphQL::addType(new EnumType(ThemeType::class));
+        GraphQL::addType(new EnumType(VideoOverlap::class));
+        GraphQL::addType(new EnumType(VideoSource::class));
     }
 
     /**

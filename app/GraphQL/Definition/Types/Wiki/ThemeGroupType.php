@@ -23,7 +23,7 @@ class ThemeGroupType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents the group that accompanies a Theme.\n\nFor example, English Version is the group for english dubbed Theme.";
     }
@@ -45,7 +45,7 @@ class ThemeGroupType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Group::ATTRIBUTE_ID, Group::class),

@@ -22,7 +22,7 @@ class VideoScriptType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents an encoding script used to produce a video.\n\nFor example, the 2009/Summer/Bakemonogatari-OP1.txt video script represents the encoding script of the Bakemonogatari-OP1.webm video.";
     }
@@ -45,7 +45,7 @@ class VideoScriptType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(VideoScript::ATTRIBUTE_ID, VideoScript::class),

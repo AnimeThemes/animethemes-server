@@ -20,21 +20,6 @@ class CountField extends Field implements DisplayableField
     }
 
     /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'count' => [
-                'relation' => $this->relation,
-            ],
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * The type returned by the field.
      */
     public function type(): Type

@@ -27,7 +27,7 @@ abstract class BaseUnion extends UnionType
         return Str::of('union ')
             ->append($this->name())
             ->append(' = ')
-            ->append(collect($this->types())->map(fn (BaseType $type) => $type->name())->implode(' | '))
+            ->append(collect($this->types())->map(fn (BaseType $type) => $type->getName())->implode(' | '))
             ->newLine()
             ->__toString();
     }

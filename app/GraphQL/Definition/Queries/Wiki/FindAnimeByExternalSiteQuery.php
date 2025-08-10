@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\GraphQL\Attributes\Resolvers\UseAllDirective;
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Controllers\Wiki\Anime\FindAnimeByExternalSiteController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Policies\Wiki\AnimePolicy;
 use App\GraphQL\Support\Argument\Argument;
-use App\Models\Wiki\Anime;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
-#[UseAllDirective]
-#[UseBuilderDirective(FindAnimeByExternalSiteController::class, 'show')]
 class FindAnimeByExternalSiteQuery extends BaseQuery
 {
     final public const ATTRIBUTE_SITE = 'site';
@@ -25,7 +26,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('findAnimeByExternalSite', false, false);
+        parent::__construct('findAnimeByExternalSite', false, true);
     }
 
     /**
@@ -36,22 +37,9 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
         return 'Filter anime by its external id on given site.';
     }
 
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return [
-            ...parent::directives(),
-
-            'canModel' => [
-                'ability' => 'viewAny',
-                'injectArgs' => 'true',
-                'model' => Anime::class,
-            ],
-        ];
+        return new AnimePolicy()->viewAny(Auth::user(), $args);
     }
 
     /**
@@ -74,8 +62,17 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): Type
+    public function baseRebingType(): AnimeType
     {
-        return Type::listof(Type::nonNull(new AnimeType()));
+        return new AnimeType();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function resolve($root, array $args, $context, $resolveInfo, $getSelectFields)
+    {
+        return App::make(FindAnimeByExternalSiteController::class)
+            ->index(func_get_args());
     }
 }

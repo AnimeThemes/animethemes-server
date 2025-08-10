@@ -25,21 +25,6 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
     }
 
     /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'with' => [
-                'relation' => $this->aggregateRelation,
-            ],
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * The type returned by the field.
      */
     public function type(): Type

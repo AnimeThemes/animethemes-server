@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 
-#[UsePaginateDirective]
-#[UseSearchDirective]
 class ArtistPaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -29,7 +25,7 @@ class ArtistPaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): ArtistType
+    public function baseRebingType(): ArtistType
     {
         return new ArtistType();
     }

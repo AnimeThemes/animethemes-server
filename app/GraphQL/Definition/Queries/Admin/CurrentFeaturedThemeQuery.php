@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Admin;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Attributes\Resolvers\UseFindDirective;
-use App\GraphQL\Controllers\Admin\CurrentFeaturedThemeController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 use App\GraphQL\Support\Argument\Argument;
+use App\Models\Admin\FeaturedTheme;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Facades\Date;
 
-#[UseBuilderDirective(CurrentFeaturedThemeController::class, 'show')]
-#[UseFindDirective]
 class CurrentFeaturedThemeQuery extends BaseQuery
 {
     public function __construct()
@@ -41,8 +40,18 @@ class CurrentFeaturedThemeQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): FeaturedThemeType
+    public function baseRebingType(): FeaturedThemeType
     {
         return new FeaturedThemeType();
+    }
+
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        return FeaturedTheme::query()
+            ->whereValueBetween(Date::now(), [
+                FeaturedTheme::ATTRIBUTE_START_AT,
+                FeaturedTheme::ATTRIBUTE_END_AT,
+            ])
+            ->first();
     }
 }

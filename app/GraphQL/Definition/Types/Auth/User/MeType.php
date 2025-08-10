@@ -20,16 +20,14 @@ use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
 use App\GraphQL\Support\Relations\MorphManyRelation;
 use App\GraphQL\Support\Relations\Relation;
-use App\GraphQL\Support\Sort\Sort;
 use App\Models\Auth\User;
-use Illuminate\Support\Collection;
 
 class MeType extends EloquentType
 {
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the currently authenticated user.';
     }
@@ -54,7 +52,7 @@ class MeType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(User::ATTRIBUTE_ID, User::class),
@@ -75,15 +73,5 @@ class MeType extends EloquentType
     public function model(): string
     {
         return User::class;
-    }
-
-    /**
-     * Get the sorts of the resource.
-     *
-     * @return Collection<int, Sort>
-     */
-    public function sorts(): Collection
-    {
-        return new Collection();
     }
 }

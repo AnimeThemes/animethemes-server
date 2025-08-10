@@ -23,7 +23,7 @@ class SeriesType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a collection of related anime.\n\nFor example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.";
     }
@@ -45,7 +45,7 @@ class SeriesType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdUnbindableField(Series::ATTRIBUTE_ID),

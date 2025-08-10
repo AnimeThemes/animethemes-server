@@ -18,7 +18,7 @@ class PermissionType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.';
     }
@@ -28,7 +28,7 @@ class PermissionType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Permission::ATTRIBUTE_ID, Permission::class),

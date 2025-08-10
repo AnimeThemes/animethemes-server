@@ -18,7 +18,7 @@ class NotificationType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents a notification that is sent to the user.';
     }
@@ -41,7 +41,7 @@ class NotificationType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new NotificationReadAtField(),

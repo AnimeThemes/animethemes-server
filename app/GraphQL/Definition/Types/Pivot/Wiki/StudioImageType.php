@@ -20,7 +20,7 @@ class StudioImageType extends PivotType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the association between a studio and an image.';
     }
@@ -45,7 +45,7 @@ class StudioImageType extends PivotType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new CreatedAtField(),

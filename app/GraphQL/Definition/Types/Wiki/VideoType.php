@@ -42,7 +42,7 @@ class VideoType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a WebM of an anime theme.\n\nFor example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.";
     }
@@ -66,7 +66,7 @@ class VideoType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Video::ATTRIBUTE_ID, Video::class),

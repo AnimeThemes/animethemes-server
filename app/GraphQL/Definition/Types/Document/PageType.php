@@ -13,15 +13,20 @@ use App\GraphQL\Definition\Fields\Document\Page\PageBodyField;
 use App\GraphQL\Definition\Fields\Document\Page\PageNameField;
 use App\GraphQL\Definition\Fields\Document\Page\PageSlugField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\BaseType;
 use App\Models\Document\Page;
 
-class PageType extends EloquentType implements ReportableType
+class PageType extends BaseType implements ReportableType
 {
+    protected $attributes = [
+        'name' => 'Page',
+        'model' => Page::class,
+    ];
+
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a static markdown page used for guides and other documentation.\n\nFor example, the 'encoding/audio_normalization' page represents the documentation for audio normalization.";
     }
@@ -31,7 +36,7 @@ class PageType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Page::ATTRIBUTE_ID, Page::class),

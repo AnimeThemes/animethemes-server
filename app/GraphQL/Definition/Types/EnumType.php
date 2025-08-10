@@ -4,129 +4,37 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
-use App\GraphQL\Attributes\Hidden;
-use Exception;
-use GraphQL\Language\AST\EnumTypeDefinitionNode;
-use GraphQL\Type\Definition\Deprecated;
-use GraphQL\Type\Definition\Description;
-use GraphQL\Type\Definition\EnumType as BaseEnumType;
-use GraphQL\Utils\PhpDoc;
-use ReflectionClass;
-use ReflectionClassConstant;
-use UnitEnum;
+use Rebing\GraphQL\Support\EnumType as BaseEnumType;
 
+/**
+ * Dynamic enum type to build the {Type}SortableColumns enums.
+ */
 class EnumType extends BaseEnumType
 {
-    public const MULTIPLE_DESCRIPTIONS_DISALLOWED = 'Using more than 1 Description attribute is not supported.';
-    public const MULTIPLE_DEPRECATIONS_DISALLOWED = 'Using more than 1 Deprecated attribute is not supported.';
-    public const MULTIPLE_HIDDEN_DISALLOWED = 'Using more than 1 Hidden attribute is not supported.';
+    public function __construct(protected string $enumClass) {}
 
     /**
-     * The enum class.
+     * Get the attributes of the type.
      *
-     * @var class-string<UnitEnum>
+     * @return array<string, mixed>
      */
-    protected string $enumClass;
-
-    public function __construct(
-        string $enumClass,
-        ?string $name = null,
-        ?string $description = null,
-        ?EnumTypeDefinitionNode $astNode = null,
-        ?array $extensionASTNodes = null
-    ) {
-        $this->enumClass = $enumClass;
-        $reflection = new \ReflectionEnum($enumClass);
-
-        $enumDefinitions = [];
-        foreach ($enumClass::cases() as $case) {
-            if ($this->hidden($reflection->getCase($case->name))) {
-                continue;
-            }
-            $enumDefinitions[$case->name] = [
-                'value' => $case->value,
-                'description' => $this->extractDescription($reflection->getCase($case->name)),
-                'deprecationReason' => $this->deprecationReason($reflection->getCase($case->name)),
-            ];
-        }
-
-        parent::__construct([
-            'name' => $name ?? class_basename($enumClass),
-            'values' => $enumDefinitions,
-            'description' => $description ?? $this->extractDescription($reflection),
-            'astNode' => $astNode,
-            'extensionASTNodes' => $extensionASTNodes,
-        ]);
+    public function attributes(): array
+    {
+        return [
+            'name' => class_basename($this->enumClass),
+            'values' => $this->getValues(),
+        ];
     }
 
     /**
-     * @param  mixed  $value
-     */
-    public function serialize($value): string
-    {
-        return (string) $value;
-    }
-
-    /**
-     * @param  ReflectionClassConstant|ReflectionClass<UnitEnum>  $reflection
+     * Get the values of the enum.
      *
-     * @throws Exception
+     * @return array<string, string>
      */
-    protected function extractDescription(ReflectionClassConstant|ReflectionClass $reflection): ?string
+    private function getValues(): array
     {
-        $attributes = $reflection->getAttributes(Description::class);
-
-        if (count($attributes) === 1) {
-            return $attributes[0]->newInstance()->description;
-        }
-
-        if (count($attributes) > 1) {
-            throw new Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
-        }
-
-        $comment = $reflection->getDocComment();
-        $unpadded = PhpDoc::unpad($comment);
-
-        return PhpDoc::unwrap($unpadded);
-    }
-
-    /**
-     * @param  ReflectionClassConstant  $reflection
-     *
-     * @throws Exception
-     */
-    protected function deprecationReason(ReflectionClassConstant $reflection): ?string
-    {
-        $attributes = $reflection->getAttributes(Deprecated::class);
-
-        if (count($attributes) === 1) {
-            return $attributes[0]->newInstance()->reason;
-        }
-
-        if (count($attributes) > 1) {
-            throw new Exception(self::MULTIPLE_DEPRECATIONS_DISALLOWED);
-        }
-
-        return null;
-    }
-
-    /**
-     * Determine whether the enum case should be hidden.
-     *
-     * @throws Exception
-     */
-    protected function hidden(ReflectionClassConstant $reflection): bool
-    {
-        $attributes = $reflection->getAttributes(Hidden::class);
-
-        if (count($attributes) === 1) {
-            return $attributes[0]->newInstance()->hidden;
-        }
-
-        if (count($attributes) > 1) {
-            throw new Exception(self::MULTIPLE_HIDDEN_DISALLOWED);
-        }
-
-        return false;
+        return collect($this->enumClass::cases())
+            ->mapWithKeys(fn ($case) => [$case->name => $case->name])
+            ->toArray();
     }
 }

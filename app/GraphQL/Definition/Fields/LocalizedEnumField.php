@@ -33,20 +33,6 @@ class LocalizedEnumField extends Field implements DisplayableField
     }
 
     /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'enumField' => [
-                'localize' => true,
-            ],
-        ];
-    }
-
-    /**
      * Resolve the field.
      *
      * @param  mixed  $root

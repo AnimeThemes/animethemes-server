@@ -12,7 +12,7 @@ class MessageResponseType extends BaseType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents a response containing a message.';
     }
@@ -22,7 +22,7 @@ class MessageResponseType extends BaseType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new MessageResponseField(),

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Argument;
 
-use App\Concerns\GraphQL\ResolvesDirectives;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable as SupportStringable;
@@ -12,8 +11,6 @@ use Stringable;
 
 class Argument implements Stringable
 {
-    use ResolvesDirectives;
-
     protected bool $required = false;
     protected mixed $defaultValue = null;
 
@@ -65,6 +62,11 @@ class Argument implements Stringable
     protected function getResolvedDirectives(): string
     {
         return $this->resolveDirectives($this->directives);
+    }
+
+    public function getDefaultValue(): mixed
+    {
+        return $this->defaultValue;
     }
 
     /**

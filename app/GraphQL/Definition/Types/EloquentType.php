@@ -21,20 +21,4 @@ abstract class EloquentType extends BaseType
             ->remove('Type')
             ->__toString();
     }
-
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            ...parent::directives(),
-
-            'model' => [
-                'class' => $this->model(),
-            ],
-        ];
-    }
 }

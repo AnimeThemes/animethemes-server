@@ -20,7 +20,7 @@ class AnimeThemeEntryVideoType extends PivotType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the association between an anime theme entry and a video.';
     }
@@ -45,7 +45,7 @@ class AnimeThemeEntryVideoType extends PivotType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new CreatedAtField(),

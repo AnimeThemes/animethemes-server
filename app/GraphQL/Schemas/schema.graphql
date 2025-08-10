@@ -1,6 +1,3 @@
-"A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sP`, e.g. `2020-04-20T13:53:12+02:00`."
-scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
-
 "Indicates what fields are available at the top level of a query operation."
 type Query {
     "Returns a listing of resources that match a given search term."

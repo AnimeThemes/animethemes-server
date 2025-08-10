@@ -15,12 +15,28 @@ use App\GraphQL\Support\Argument\Argument;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 #[UseFieldDirective(SyncExternalProfileController::class, 'store')]
 class SyncExternalProfileMutation extends BaseMutation
 {
+    protected $middleware = [
+        EnabledOnlyOnLocalhost::class,
+    ];
+
     public function __construct()
     {
+        $this->middleware = array_merge(
+            $this->middleware,
+            [
+                Str::of(EnsureFeaturesAreActive::class)
+                    ->append(':')
+                    ->append(AllowExternalProfileManagement::class)
+                    ->__toString(),
+            ]
+        );
+
         parent::__construct('SyncExternalProfile');
     }
 
@@ -52,12 +68,6 @@ class SyncExternalProfileMutation extends BaseMutation
     public function directives(): array
     {
         return [
-            'middleware' => [
-                'class' => EnabledOnlyOnLocalhost::class,
-            ],
-            'featureEnabled' => [
-                'class' => AllowExternalProfileManagement::class,
-            ],
             'canModel' => [
                 'ability' => 'update',
                 'injectArgs' => true,

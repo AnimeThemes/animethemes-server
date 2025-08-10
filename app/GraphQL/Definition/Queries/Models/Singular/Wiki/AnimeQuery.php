@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Singular\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Controllers\Wiki\AnimeController;
 use App\GraphQL\Definition\Queries\Models\Singular\EloquentSingularQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 
-#[UseBuilderDirective(AnimeController::class, 'show')]
 class AnimeQuery extends EloquentSingularQuery
 {
     public function __construct()
@@ -28,7 +25,7 @@ class AnimeQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): AnimeType
+    public function baseRebingType(): AnimeType
     {
         return new AnimeType();
     }

@@ -15,7 +15,7 @@ class NotificationDataType extends BaseType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the JSON data of the notification';
     }
@@ -25,7 +25,7 @@ class NotificationDataType extends BaseType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new NotificationDataTitleField(),

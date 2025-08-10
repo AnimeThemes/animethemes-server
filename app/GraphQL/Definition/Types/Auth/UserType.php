@@ -20,7 +20,7 @@ class UserType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents an AnimeThemes account.';
     }
@@ -42,7 +42,7 @@ class UserType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(User::ATTRIBUTE_ID, User::class),

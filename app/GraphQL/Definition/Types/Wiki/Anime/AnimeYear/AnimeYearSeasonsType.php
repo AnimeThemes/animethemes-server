@@ -15,7 +15,7 @@ class AnimeYearSeasonsType extends BaseType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'The anime year season type.';
     }
@@ -25,7 +25,7 @@ class AnimeYearSeasonsType extends BaseType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new AnimeYearSeasonSeasonField(),

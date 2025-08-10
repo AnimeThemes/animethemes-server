@@ -18,7 +18,7 @@ class DumpType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a database dump of selected tables at a given point in time.\n\nFor example, the animethemes-db-dump-wiki-1663559663946.sql dump represents the database dump of wiki tables performed at 2022-09-19.";
     }
@@ -28,7 +28,7 @@ class DumpType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Dump::ATTRIBUTE_ID, Dump::class),

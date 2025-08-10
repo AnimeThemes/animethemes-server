@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields\Base;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Resolvers\ExistsResolver;
 use GraphQL\Type\Definition\Type;
 
-#[UseFieldDirective(ExistsResolver::class)]
 class ExistsField extends Field implements DisplayableField
 {
     public function __construct(
@@ -19,21 +16,6 @@ class ExistsField extends Field implements DisplayableField
         protected bool $nullable = false,
     ) {
         parent::__construct($relation.'Exists', $name, $nullable);
-    }
-
-    /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'with' => [
-                'relation' => $this->relation,
-            ],
-            ...parent::directives(),
-        ];
     }
 
     /**
@@ -50,5 +32,15 @@ class ExistsField extends Field implements DisplayableField
     public function canBeDisplayed(): bool
     {
         return true;
+    }
+
+    /**
+     * Resolve the field.
+     *
+     * @param  Model  $root
+     */
+    public function resolve($root): mixed
+    {
+        return $root->{$this->relation}->isNotEmpty();
     }
 }

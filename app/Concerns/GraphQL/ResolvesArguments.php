@@ -15,13 +15,11 @@ use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\BindableArgument;
 use App\GraphQL\Support\Argument\SortArgument;
-use App\GraphQL\Support\Directives\Filters\FilterDirective;
+use App\GraphQL\Support\Filter\Filter;
 use Illuminate\Support\Arr;
 
 trait ResolvesArguments
 {
-    use ResolvesDirectives;
-
     /**
      * Build the arguments array into string.
      *
@@ -52,8 +50,8 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof FilterableField)
             ->map(
-                fn (FilterableField $field) => collect($field->filterDirectives())
-                    ->map(fn (FilterDirective $directive) => $directive->argument())
+                fn (FilterableField $field) => collect($field->getFilters())
+                    ->map(fn (Filter $filter) => $filter->argument())
                     ->toArray()
             )
             ->flatten()

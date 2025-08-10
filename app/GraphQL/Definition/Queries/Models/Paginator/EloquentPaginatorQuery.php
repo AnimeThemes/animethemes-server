@@ -4,62 +4,64 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator;
 
+use App\Concerns\Actions\GraphQL\FiltersModels;
+use App\Concerns\Actions\GraphQL\SortsModels;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\EloquentType;
-use Exception;
+use App\GraphQL\Support\SortableColumns;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class EloquentPaginatorQuery extends BaseQuery
 {
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
+    use FiltersModels;
+    use SortsModels;
+
+    public function __construct(protected string $name)
     {
-        return [
-            ...parent::directives(),
+        parent::__construct($name, false, true);
 
-            ...($this->isTrashable() ? ['softDeletes' => []] : []),
+        GraphQL::addType(new SortableColumns($this->baseRebingType()));
+    }
 
-            ...$this->canModelDirective(),
-        ];
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        $model = $this->model();
+
+        $builder = $model::query();
+
+        $this->filter($builder, $args, $this->baseRebingType());
+
+        $this->sort($builder, $args, $this->baseRebingType());
+
+        $first = Arr::get($args, 'first');
+        $page = Arr::get($args, 'page');
+
+        return $builder->paginate($first, page: $page);
     }
 
     /**
-     * Build the canModel directive for authorization.
-     *
-     * @return array
-     */
-    protected function canModelDirective(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'viewAny',
-                'injectArgs' => 'true',
-                'model' => $this->model(),
-            ],
-        ];
-    }
-
-    /**
-     * Get the model related to the query.
-     *
      * @return class-string<Model>
-     *
-     * @throws Exception
      */
     public function model(): string
     {
-        $baseType = $this->baseType();
+        /** @var EloquentType $type */
+        $type = $this->baseRebingType();
 
-        if ($baseType instanceof EloquentType) {
-            return $baseType->model();
-        }
+        return $type->model();
+    }
 
-        throw new Exception('The base return type must be an instance of EloquentType, '.get_class($baseType).' given.');
+    /**
+     * The return type of the query.
+     */
+    public function type(): Type
+    {
+        return Type::nonNull(GraphQL::paginate(Arr::get($this->baseRebingType()->getAttributes(), 'name')));
     }
 
     /**
@@ -70,7 +72,7 @@ abstract class EloquentPaginatorQuery extends BaseQuery
         $baseType = $this->baseType();
 
         if ($baseType instanceof EloquentType) {
-            return in_array(new DeletedAtField(), $baseType->fields());
+            return in_array(new DeletedAtField(), $baseType->fieldClasses());
         }
 
         return false;

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Video;
 
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 
-#[UsePaginateDirective]
 class VideoScriptPaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -27,7 +25,7 @@ class VideoScriptPaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): VideoScriptType
+    public function baseRebingType(): VideoScriptType
     {
         return new VideoScriptType();
     }
