@@ -15,7 +15,7 @@ class LikeFilter extends Filter
      */
     public function argument(): Argument
     {
-        return new Argument($this->field->getName().'_like', $this->field->type())
+        return new Argument($this->field->getName().'_like', $this->field->baseType())
             ->withDefaultValue($this->defaultValue);
     }
 

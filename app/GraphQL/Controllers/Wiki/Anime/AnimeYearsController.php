@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\Wiki\Anime;
 
-use App\Enums\Models\Wiki\AnimeSeason;
+use App\Concerns\Actions\GraphQL\FiltersModels;
+use App\Concerns\Actions\GraphQL\PaginatesModels;
+use App\Concerns\Actions\GraphQL\SortsModels;
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
@@ -12,24 +14,29 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonsField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearYearField;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
+use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\Models\Wiki\Anime;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<Anime>
  */
 class AnimeYearsController extends BaseController
 {
+    use FiltersModels;
+    use PaginatesModels;
+    use SortsModels;
+
     /**
      * Apply the builder to the animeyears query.
      *
      * @param  array<string, mixed>  $args
      */
-    public function index(null $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
+    public function index(null $root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         $year = Arr::get($args, AnimeYearsQuery::ARGUMENT_YEAR);
 
@@ -69,13 +76,13 @@ class AnimeYearsController extends BaseController
     }
 
     /**
-     * Apply the resolver to the AnimeYearSeasonField.
+     * Resolve the AnimeYearSeasonField.
      *
      * @param  array<string, mixed>  $args
      */
-    public function applyFieldToSeasonField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
+    public function resolveSeasonField(array $root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        $season = AnimeSeason::from(Arr::get($args, AnimeYearSeasonField::ARGUMENT_SEASON));
+        $season = Arr::get($args, AnimeYearSeasonField::ARGUMENT_SEASON);
         $year = Arr::get($root, AnimeYearsQuery::ARGUMENT_YEAR);
 
         $seasons = collect(Arr::get($root, 'seasons'));
@@ -92,16 +99,22 @@ class AnimeYearsController extends BaseController
     }
 
     /**
-     * Apply the builder for the AnimeYearSeasonAnimeField.
+     * Resolve the AnimeYearSeasonAnimeField.
      */
-    public function applyBuilderToAnimeField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function resolveAnimeField(array $root, array $args, $context, ResolveInfo $resolveInfo): Paginator
     {
         $season = Arr::get($root, AnimeYearSeasonSeasonField::FIELD);
         $year = Arr::get($root, 'year');
 
-        return Anime::query()
+        $builder = Anime::query()
             // season filter applies only on the 'season' field.
             ->when($season !== null, fn (Builder $query) => $query->where(Anime::ATTRIBUTE_SEASON, $season->value))
             ->where(Anime::ATTRIBUTE_YEAR, $year);
+
+        $this->filter($builder, $args, new AnimeType());
+
+        $this->sort($builder, $args, new AnimeType());
+
+        return $this->paginate($builder, $args);
     }
 }

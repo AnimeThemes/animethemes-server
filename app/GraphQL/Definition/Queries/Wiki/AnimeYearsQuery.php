@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
+use App\GraphQL\Policies\Wiki\AnimePolicy;
 use App\GraphQL\Support\Argument\Argument;
-use App\Models\Wiki\Anime;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
-#[UseFieldDirective(AnimeYearsController::class, 'index')]
 class AnimeYearsQuery extends BaseQuery
 {
     final public const ARGUMENT_YEAR = 'year';
 
     public function __construct()
     {
-        parent::__construct('animeyears');
+        parent::__construct('animeyears', false, true);
     }
 
     /**
@@ -30,22 +32,9 @@ class AnimeYearsQuery extends BaseQuery
         return 'Returns a list of years grouped by its seasons.';
     }
 
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return [
-            ...parent::directives(),
-
-            'canModel' => [
-                'ability' => 'viewAny',
-                'injectArgs' => 'true',
-                'model' => Anime::class,
-            ],
-        ];
+        return new AnimePolicy()->viewAny(Auth::user(), $args);
     }
 
     /**
@@ -63,16 +52,17 @@ class AnimeYearsQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): Type
+    public function baseRebingType(): AnimeYearType
     {
         return new AnimeYearType();
     }
 
     /**
-     * The type returned by the field.
+     * @return Collection
      */
-    public function getType(): Type
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
-        return Type::nonNull(Type::listOf(Type::nonNull($this->baseType())));
+        return App::make(AnimeYearsController::class)
+            ->index($root, $args, $context, $resolveInfo);
     }
 }

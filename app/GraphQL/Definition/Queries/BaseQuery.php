@@ -8,8 +8,6 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
-use Closure;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -97,7 +95,7 @@ abstract class BaseQuery extends Query
                 return [
                     $argument->name => [
                         'name' => $argument->name,
-                        'type' => $argument->returnType,
+                        'type' => $argument->getType(),
 
                         ...(! is_null($defaultValue) ? ['defaultValue' => $defaultValue] : []),
                     ],
@@ -138,11 +136,4 @@ abstract class BaseQuery extends Query
 
         return $this->baseType();
     }
-
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
-    {
-        return $this->controller(func_get_args());
-    }
-
-    public function controller() {}
 }

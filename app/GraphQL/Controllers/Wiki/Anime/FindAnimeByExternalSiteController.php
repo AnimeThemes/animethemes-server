@@ -11,7 +11,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 /**
  * @extends BaseController<Anime>
@@ -24,7 +23,7 @@ class FindAnimeByExternalSiteController extends BaseController
      * @param  array  $args
      * @return Builder<Anime>
      */
-    public function index(mixed $root, array $args, $context, $resolveInfo): Collection
+    public function index(mixed $root, array $args, $context, $resolveInfo): Builder
     {
         $builder = Anime::query();
 
@@ -48,6 +47,6 @@ class FindAnimeByExternalSiteController extends BaseController
             }
         });
 
-        return $builder->get();
+        return $builder;
     }
 }

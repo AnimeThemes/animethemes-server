@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Support\Argument\Argument;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class Field
 {
@@ -47,24 +52,56 @@ abstract class Field
     /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
+        $type = $this->baseType() instanceof BaseType
+            ? GraphQL::type($this->baseType()->getName())
+            : $this->baseType();
+
         if (! $this->nullable) {
-            return Type::nonNull($this->type());
+            return Type::nonNull($type);
         }
 
-        return $this->type();
+        return $type;
+    }
+
+    /**
+     * The arguments of the type.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [];
+    }
+
+    public function args(): array
+    {
+        $a = collect($this->arguments())
+            ->mapWithKeys(fn (Argument $argument) => [
+                $argument->name => [
+                    'name' => $argument->name,
+                    'type' => $argument->getType(),
+
+                    ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
+                ],
+            ])
+            ->toArray();
+
+        Log::info($a);
+
+        return $a;
     }
 
     /**
      * The type returned by the field.
      */
-    abstract public function type(): Type;
+    abstract public function baseType(): Type|BaseType;
 
     /**
      * Resolve the field.
      */
-    public function resolve($root): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, $this->column);
     }

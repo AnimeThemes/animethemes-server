@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Argument;
 
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Str;
-use Illuminate\Support\Stringable as SupportStringable;
-use Stringable;
 
-class Argument implements Stringable
+class Argument
 {
     protected bool $required = false;
     protected mixed $defaultValue = null;
@@ -57,32 +54,20 @@ class Argument implements Stringable
     }
 
     /**
-     * Get the resolved directives as a string.
+     * Get the default value.
      */
-    protected function getResolvedDirectives(): string
-    {
-        return $this->resolveDirectives($this->directives);
-    }
-
     public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
 
     /**
-     * Build the argument into a GraphQL string representation.
+     * Get the type of the argument.
      */
-    public function __toString(): string
+    public function getType(): Type
     {
-        $type = $this->returnType;
-
-        return Str::of($this->name)
-            ->append(': ')
-            ->append(is_string($type) ? $type : $type->__toString())
-            ->when($this->required, fn (SupportStringable $string) => $string->append('!'))
-            ->when($this->defaultValue, fn (SupportStringable $string) => $string->append(" = {$this->defaultValue}"))
-            ->append(' ')
-            ->append($this->getResolvedDirectives())
-            ->__toString();
+        return $this->required
+            ? Type::nonNull($this->returnType)
+            : $this->returnType;
     }
 }

@@ -21,7 +21,7 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::float();
     }

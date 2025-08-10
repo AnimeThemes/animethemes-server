@@ -15,7 +15,7 @@ class EqFilter extends Filter
      */
     public function argument(): Argument
     {
-        return new Argument($this->field->getName(), $this->field->type())
+        return new Argument($this->field->getName(), $this->field->baseType())
             ->withDefaultValue($this->defaultValue);
     }
 

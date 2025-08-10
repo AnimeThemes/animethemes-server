@@ -18,7 +18,7 @@ abstract class StringField extends Field implements DisplayableField, Filterable
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
     }

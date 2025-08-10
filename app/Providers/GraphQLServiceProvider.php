@@ -28,12 +28,10 @@ use App\GraphQL\Definition\Input\Relations\UpdateBelongsToManyInput;
 use App\GraphQL\Definition\Input\Relations\UpdateHasManyInput;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Mutations\Reports\BaseReportMutation;
-use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\EnumType;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
-use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\WhereArgument;
 use App\GraphQL\Support\EdgeConnection;
 use App\GraphQL\Support\EdgeType;
@@ -47,8 +45,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
-use Nuwave\Lighthouse\Schema\TypeRegistry;
-use Nuwave\Lighthouse\Schema\Types\Scalars\DateTimeTz;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -59,12 +55,10 @@ class GraphQLServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(TypeRegistry $typeRegistry): void
+    public function boot(): void
     {
         // $this->bootModels();
         $this->bootEnums();
-
-        //  $typeRegistry->register(new DateTimeTz());
 
         //  $this->bootTypes();
         //  $this->bootUnions();
@@ -109,8 +103,6 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     protected function bootEnums(): void
     {
-        GraphQL::addType(new EnumType(AnimeMediaFormat::class));
-
         GraphQL::addType(new EnumType(SortDirection::class));
         GraphQL::addType(new EnumType(ExternalEntryWatchStatus::class));
         GraphQL::addType(new EnumType(ExternalProfileSite::class));
@@ -200,73 +192,6 @@ class GraphQLServiceProvider extends ServiceProvider
                 }
             '
         );
-    }
-
-    /**
-     * Register the unions that were made programmatically.
-     */
-    protected function bootUnions(): void
-    {
-        $dispatcher = app(Dispatcher::class);
-
-        foreach (File::allFiles(app_path('GraphQL/Definition/Unions')) as $file) {
-            $fullClass = Str::of($file->getPathname())
-                ->after(app_path())
-                ->prepend('App')
-                ->replace(['/', '.php'], ['\\', ''])
-                ->toString();
-
-            if (! class_exists($fullClass)) {
-                continue;
-            }
-
-            /** @var ReflectionClass<BaseUnion> $reflection */
-            $reflection = new ReflectionClass($fullClass);
-
-            if (! $reflection->isInstantiable()) {
-                continue;
-            }
-
-            $dispatcher->listen(BuildSchemaString::class, fn () => $reflection->newInstance()->toGraphQLString());
-        }
-    }
-
-    /**
-     * Register the queries that were made programmatically.
-     */
-    protected function bootQueries(): void
-    {
-        $dispatcher = app(Dispatcher::class);
-
-        $queries = [];
-
-        foreach (File::allFiles(app_path('GraphQL/Definition/Queries')) as $file) {
-            $fullClass = Str::of($file->getPathname())
-                ->after(app_path())
-                ->prepend('App')
-                ->replace(['/', '.php'], ['\\', ''])
-                ->toString();
-
-            $reflection = new ReflectionClass($fullClass);
-
-            if (! $reflection->isInstantiable()) {
-                continue;
-            }
-
-            /** @var BaseQuery $class */
-            $class = new $fullClass;
-
-            $dispatcher->listen(
-                BuildSchemaString::class,
-                fn (): string => "
-                    extend type Query {
-                        {$class->toGraphQLString()}
-                    }
-                "
-            );
-
-            $queries[] = $class->toGraphQLString();
-        }
     }
 
     /**

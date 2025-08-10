@@ -16,7 +16,7 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Nuwave\Lighthouse\Schema\TypeRegistry;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class FindAnimeByExternalSiteQuery extends BaseQuery
 {
@@ -30,7 +30,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     }
 
     /**
-     * The description of the type.
+     * The description of the query.
      */
     public function description(): string
     {
@@ -50,7 +50,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     public function arguments(): array
     {
         return [
-            new Argument(self::ATTRIBUTE_SITE, app(TypeRegistry::class)->get(class_basename(ResourceSite::class)))
+            new Argument(self::ATTRIBUTE_SITE, GraphQL::type(class_basename(ResourceSite::class)))
                 ->required(),
 
             new Argument(self::ATTRIBUTE_ID, Type::int()),
@@ -70,9 +70,10 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     /**
      * @return Collection
      */
-    public function resolve($root, array $args, $context, $resolveInfo, $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         return App::make(FindAnimeByExternalSiteController::class)
-            ->index(func_get_args());
+            ->index($root, $args, $context, $resolveInfo)
+            ->get();
     }
 }

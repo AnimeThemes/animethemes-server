@@ -4,37 +4,22 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
-use Rebing\GraphQL\Support\EnumType as BaseEnumType;
+use GraphQL\Type\Definition\PhpEnumType;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
-/**
- * Dynamic enum type to build the {Type}SortableColumns enums.
- */
-class EnumType extends BaseEnumType
+class EnumType extends PhpEnumType implements TypeConvertible
 {
-    public function __construct(protected string $enumClass) {}
-
-    /**
-     * Get the attributes of the type.
-     *
-     * @return array<string, mixed>
-     */
-    public function attributes(): array
+    public function toType(): Type
     {
-        return [
-            'name' => class_basename($this->enumClass),
-            'values' => $this->getValues(),
-        ];
+        return $this;
     }
 
     /**
-     * Get the values of the enum.
-     *
-     * @return array<string, string>
+     * @param  mixed  $value
      */
-    private function getValues(): array
+    public function serialize($value): string
     {
-        return collect($this->enumClass::cases())
-            ->mapWithKeys(fn ($case) => [$case->name => $case->name])
-            ->toArray();
+        return (string) $value;
     }
 }

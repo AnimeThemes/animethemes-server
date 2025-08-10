@@ -12,6 +12,7 @@ use App\GraphQL\Support\Filter\EqFilter;
 use App\GraphQL\Support\Filter\Filter;
 use App\GraphQL\Support\Filter\InFilter;
 use App\GraphQL\Support\Filter\NotInFilter;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -38,7 +39,7 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return GraphQL::type(class_basename($this->enum));
     }
@@ -46,7 +47,7 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
     /**
      * Resolve the field.
      */
-    public function resolve(mixed $root): mixed
+    public function resolve(mixed $root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, $this->column)?->name;
     }

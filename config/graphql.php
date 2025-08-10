@@ -5,12 +5,19 @@ declare(strict_types=1);
 use App\GraphQL\Definition\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Definition\Queries\Auth\MeQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Document\PagePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeThemePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AnimePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
+use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
+use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
 use App\GraphQL\Definition\Types\Document\PageType;
+use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
+use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonsType;
+use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
+use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
 
@@ -98,7 +105,12 @@ return [
 
                 // Wiki
                 AnimePaginatorQuery::class,
+                AnimeThemePaginatorQuery::class,
                 SeriesPaginatorQuery::class,
+
+                // Others
+                AnimeYearsQuery::class,
+                FindAnimeByExternalSiteQuery::class,
             ],
             'mutation' => [
                 // ExampleMutation::class,
@@ -116,7 +128,13 @@ return [
 
                 // Wiki
                 AnimeType::class,
+                AnimeThemeType::class,
                 SeriesType::class,
+
+                // Others
+                AnimeYearSeasonsType::class,
+                AnimeYearSeasonType::class,
+                AnimeYearType::class,
             ],
 
             // Laravel HTTP middleware

@@ -15,7 +15,7 @@ class GreaterFilter extends Filter
      */
     public function argument(): Argument
     {
-        return new Argument($this->field->getName().'_greater', $this->field->type())
+        return new Argument($this->field->getName().'_greater', $this->field->baseType())
             ->withDefaultValue($this->defaultValue);
     }
 

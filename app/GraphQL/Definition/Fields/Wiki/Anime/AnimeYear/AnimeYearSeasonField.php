@@ -7,15 +7,15 @@ namespace App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\HasArgumentsField;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
 use App\GraphQL\Support\Argument\Argument;
-use GraphQL\Type\Definition\Type;
-use Nuwave\Lighthouse\Schema\TypeRegistry;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
-#[UseFieldDirective(AnimeYearsController::class, 'applyFieldToSeasonField')]
 class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumentsField
 {
     final public const FIELD = 'season';
@@ -37,7 +37,7 @@ class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumen
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): AnimeYearSeasonType
     {
         return new AnimeYearSeasonType();
     }
@@ -57,10 +57,20 @@ class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumen
      */
     public function arguments(): array
     {
-        $season = app(TypeRegistry::class)->get(class_basename(AnimeSeason::class));
+        $season = GraphQL::type(class_basename(AnimeSeason::class));
 
         return [
-            new Argument(self::ARGUMENT_SEASON, Type::nonNull($season)),
+            new Argument(self::ARGUMENT_SEASON, $season)
+                ->required(),
         ];
+    }
+
+    /**
+     * @return Collection
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        return App::make(AnimeYearsController::class)
+            ->resolveSeasonField($root, $args, $context, $resolveInfo);
     }
 }

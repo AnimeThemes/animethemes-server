@@ -15,7 +15,7 @@ class LesserFilter extends Filter
      */
     public function argument(): Argument
     {
-        return new Argument($this->field->getName().'_lesser', $this->field->type())
+        return new Argument($this->field->getName().'_lesser', $this->field->baseType())
             ->withDefaultValue($this->defaultValue);
     }
 

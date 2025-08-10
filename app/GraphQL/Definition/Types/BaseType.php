@@ -78,6 +78,7 @@ abstract class BaseType extends RebingType
                     'description' => $field->description(),
                     'alias' => $field->getColumn(),
                     'resolve' => $field->resolve(...),
+                    'args' => $field->args(),
                 ],
             ])
             ->toArray();
