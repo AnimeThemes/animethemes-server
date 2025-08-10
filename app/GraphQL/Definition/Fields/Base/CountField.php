@@ -22,7 +22,7 @@ class CountField extends Field implements DisplayableField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::int();
     }

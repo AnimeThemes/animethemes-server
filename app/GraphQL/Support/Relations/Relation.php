@@ -4,32 +4,38 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Relations;
 
+use App\Concerns\Actions\GraphQL\FiltersModels;
+use App\Concerns\Actions\GraphQL\SortsModels;
 use App\Concerns\GraphQL\ResolvesArguments;
-use App\Concerns\GraphQL\ResolvesAttributes;
+use App\Enums\GraphQL\PaginationType;
 use App\Enums\GraphQL\RelationType;
+use App\GraphQL\Definition\Types\Base\PaginatorType;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\EdgeType;
-use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Stringable;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
-abstract class Relation implements Stringable
+abstract class Relation
 {
+    use FiltersModels;
     use ResolvesArguments;
-    use ResolvesAttributes;
+    use SortsModels;
 
     protected ?string $field = null;
     protected ?bool $nullable = true;
+    protected Type $type;
     protected ?EdgeType $edgeType = null;
 
     public function __construct(
-        protected BaseType|BaseUnion $type,
+        protected BaseType|BaseUnion $rebingType,
         protected string $relationName,
-    ) {}
+    ) {
+        $this->type = GraphQL::type($rebingType->getName());
+    }
 
     /**
      * Rename the relation to something else.
@@ -71,23 +77,23 @@ abstract class Relation implements Stringable
     /**
      * Get the field as a string representation.
      */
-    public function __toString(): string
-    {
-        $directives = $this->resolveDirectives(
-            $this->relation()->getDirective([
-                'relation' => $this->relationName,
-                'edgeType' => $this->edgeType ? $this->edgeType->getName() : null,
-            ])
-        );
+    // public function __toString(): string
+    // {
+    //     $directives = $this->resolveDirectives(
+    //         $this->relation()->getDirective([
+    //             'relation' => $this->relationName,
+    //             'edgeType' => $this->edgeType ? $this->edgeType->getName() : null,
+    //         ])
+    //     );
 
-        return Str::of($this->getName())
-            ->append($this->buildArguments($this->arguments()))
-            ->append(': ')
-            ->append($this->type()->__toString())
-            ->append(' ')
-            ->append($directives)
-            ->__toString();
-    }
+    //     return Str::of($this->getName())
+    //         ->append($this->buildArguments($this->arguments()))
+    //         ->append(': ')
+    //         ->append($this->type()->__toString())
+    //         ->append(' ')
+    //         ->append($directives)
+    //         ->__toString();
+    // }
 
     /**
      * Resolve the arguments of the sub-query.
@@ -98,17 +104,40 @@ abstract class Relation implements Stringable
     {
         $arguments = [];
 
-        $type = $this->type;
+        $type = $this->rebingType;
+
+        $arguments[] = new Argument('first', Type::nonNull(Type::int()))->withDefaultValue(15);
+        $arguments[] = new Argument('page', Type::int());
 
         if ($type instanceof BaseType) {
-            $arguments[] = $this->resolveFilterArguments($type->fields());
+            $arguments[] = $this->resolveFilterArguments($type->fieldClasses());
         }
 
-        if ($this->type() instanceof ListOfType) {
-            $arguments[] = $this->resolveSortArguments($type);
+        // TODO: Fix
+        if ($this->type() instanceof PaginatorType) {
+            $arguments[] = $this->resolveSortArguments($this->rebingType);
         }
 
         return Arr::flatten($arguments);
+    }
+
+    /**
+     * The args for the field.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    public function args(): array
+    {
+        return collect($this->arguments())
+            ->mapWithKeys(fn (Argument $argument) => [
+                $argument->name => [
+                    'name' => $argument->name,
+                    'type' => $argument->getType(),
+
+                    ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
+                ],
+            ])
+            ->toArray();
     }
 
     /**
@@ -116,16 +145,26 @@ abstract class Relation implements Stringable
      */
     public function getBaseType(): BaseType|BaseUnion
     {
-        return $this->type;
+        return $this->rebingType;
+    }
+
+    public function resolve(mixed $root, array $args = [])
+    {
+        return new LengthAwarePaginator($root->{$this->getRelationName()}, 15, 15);
     }
 
     /**
      * The type returned by the field.
      */
-    abstract protected function type(): Type;
+    abstract public function type(): Type;
 
     /**
      * The Relation type.
      */
     abstract protected function relation(): RelationType;
+
+    /**
+     * The pagination type.
+     */
+    abstract public function paginationType(): PaginationType;
 }

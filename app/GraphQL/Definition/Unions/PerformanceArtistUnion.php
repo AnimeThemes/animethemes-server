@@ -23,7 +23,7 @@ class PerformanceArtistUnion extends BaseUnion
      *
      * @return BaseType[]
      */
-    public function types(): array
+    public function baseTypes(): array
     {
         return [
             new ArtistType(),

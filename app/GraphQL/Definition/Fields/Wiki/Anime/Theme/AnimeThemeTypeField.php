@@ -40,7 +40,7 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
     {
         return [
             new EqFilter($this),
-            new InFilter($this, '[OP, ED]'),
+            new InFilter($this, ['OP', 'ED']),
             new NotInFilter($this),
         ];
     }

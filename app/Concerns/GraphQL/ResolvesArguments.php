@@ -21,25 +21,6 @@ use Illuminate\Support\Arr;
 trait ResolvesArguments
 {
     /**
-     * Build the arguments array into string.
-     *
-     * @param  Argument[]  $arguments
-     */
-    protected function buildArguments(array $arguments): string
-    {
-        if (blank($arguments)) {
-            return '';
-        }
-
-        $arguments = collect($arguments)
-            ->flatten()
-            ->map(fn (Argument $argument) => $argument->__toString())
-            ->implode(', ');
-
-        return sprintf('(%s)', $arguments);
-    }
-
-    /**
      * Resolve the fields into arguments that are used for filtering.
      *
      * @param  Field[]  $fields

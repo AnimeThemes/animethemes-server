@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Audio;
 
-use App\GraphQL\Attributes\Deprecated;
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\Wiki\Audio;
 
-#[Deprecated('We will no longer track views.')]
-class AudioViewsCountField extends CountAggregateField
+class AudioViewsCountField extends CountAggregateField implements DeprecatedField
 {
     public function __construct()
     {
@@ -22,5 +21,13 @@ class AudioViewsCountField extends CountAggregateField
     public function description(): string
     {
         return 'The number of views recorded for the resource';
+    }
+
+    /**
+     * The reason which the field is deprecated.
+     */
+    public function deprecationReason(): string
+    {
+        return 'We will no longer track views.';
     }
 }

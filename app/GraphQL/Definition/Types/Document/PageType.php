@@ -13,16 +13,11 @@ use App\GraphQL\Definition\Fields\Document\Page\PageBodyField;
 use App\GraphQL\Definition\Fields\Document\Page\PageNameField;
 use App\GraphQL\Definition\Fields\Document\Page\PageSlugField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Document\Page;
 
-class PageType extends BaseType implements ReportableType
+class PageType extends EloquentType implements ReportableType
 {
-    protected $attributes = [
-        'name' => 'Page',
-        'model' => Page::class,
-    ];
-
     /**
      * The description of the type.
      */

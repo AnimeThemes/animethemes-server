@@ -10,7 +10,6 @@ use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
@@ -75,9 +74,14 @@ abstract class Field
         return [];
     }
 
+    /**
+     * The args for the field.
+     *
+     * @return array<string, array<string, mixed>>
+     */
     public function args(): array
     {
-        $a = collect($this->arguments())
+        return collect($this->arguments())
             ->mapWithKeys(fn (Argument $argument) => [
                 $argument->name => [
                     'name' => $argument->name,
@@ -87,10 +91,6 @@ abstract class Field
                 ],
             ])
             ->toArray();
-
-        Log::info($a);
-
-        return $a;
     }
 
     /**

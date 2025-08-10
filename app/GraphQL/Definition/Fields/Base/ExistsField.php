@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Fields\Base;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 
 class ExistsField extends Field implements DisplayableField
@@ -21,7 +22,7 @@ class ExistsField extends Field implements DisplayableField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::boolean();
     }
@@ -39,7 +40,7 @@ class ExistsField extends Field implements DisplayableField
      *
      * @param  Model  $root
      */
-    public function resolve($root): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return $root->{$this->relation}->isNotEmpty();
     }

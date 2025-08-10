@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Relations;
 
+use App\Enums\GraphQL\PaginationType;
 use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Support\EdgeType;
@@ -50,5 +51,13 @@ class BelongsToManyRelation extends Relation
     protected function relation(): RelationType
     {
         return RelationType::BELONGS_TO_MANY;
+    }
+
+    /**
+     * The pagination type if applicable.
+     */
+    public function paginationType(): PaginationType
+    {
+        return PaginationType::CONNECTION;
     }
 }

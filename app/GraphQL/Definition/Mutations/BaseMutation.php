@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations;
 
 use App\Concerns\GraphQL\ResolvesArguments;
-use App\Concerns\GraphQL\ResolvesAttributes;
 use App\GraphQL\Support\Argument\Argument;
 use Exception;
 use GraphQL\Type\Definition\Type;
@@ -16,26 +15,10 @@ use GraphQL\Type\Definition\Type;
 abstract class BaseMutation
 {
     use ResolvesArguments;
-    use ResolvesAttributes;
 
     public function __construct(
         protected string $name,
     ) {}
-
-    /**
-     * Mount the mutation and return its string representation.
-     */
-    public function toGraphQLString(): string
-    {
-        $directives = $this->resolveDirectives($this->directives());
-
-        $arguments = $this->buildArguments($this->arguments());
-
-        return "
-            \"\"\"{$this->description()}\"\"\"
-            {$this->name}{$arguments}: {$this->getType()->__toString()} {$directives}
-        ";
-    }
 
     /**
      * The arguments of the mutation.

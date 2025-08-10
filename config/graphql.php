@@ -5,21 +5,44 @@ declare(strict_types=1);
 use App\GraphQL\Definition\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Definition\Queries\Auth\MeQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Document\PagePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeSynonymPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeThemePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\Theme\AnimeThemeEntryPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AnimePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\VideoPaginatorQuery;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
+use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
 use App\GraphQL\Definition\Types\Document\PageType;
+use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
+use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
+use App\GraphQL\Definition\Types\User\NotificationType;
+use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonsType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
+use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Definition\Types\Wiki\ArtistType;
+use App\GraphQL\Definition\Types\Wiki\AudioType;
+use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
+use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
+use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
+use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
+use App\GraphQL\Definition\Types\Wiki\SongType;
+use App\GraphQL\Definition\Types\Wiki\StudioType;
+use App\GraphQL\Definition\Types\Wiki\ThemeGroupType;
+use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
+use App\GraphQL\Definition\Types\Wiki\VideoType;
+use App\GraphQL\Definition\Unions\LikedUnion;
+use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
 
 return [
     'route' => [
@@ -95,18 +118,21 @@ return [
         'default' => [
             'query' => [
                 // Admin
-                CurrentFeaturedThemeQuery::class,
+                //   CurrentFeaturedThemeQuery::class,
 
                 // Auth
-                MeQuery::class,
+                //  MeQuery::class,
 
                 // Document
                 PagePaginatorQuery::class,
 
                 // Wiki
                 AnimePaginatorQuery::class,
+                AnimeSynonymPaginatorQuery::class,
                 AnimeThemePaginatorQuery::class,
+                AnimeThemeEntryPaginatorQuery::class,
                 SeriesPaginatorQuery::class,
+                VideoPaginatorQuery::class,
 
                 // Others
                 AnimeYearsQuery::class,
@@ -122,19 +148,45 @@ return [
 
                 // Auth
                 MeType::class,
+                UserType::class,
 
                 // Document
                 PageType::class,
 
+                // List
+                PlaylistType::class,
+                PlaylistTrackType::class,
+
+                // User
+                NotificationType::class,
+                NotificationDataType::class,
+
                 // Wiki
                 AnimeType::class,
+                AnimeSynonymType::class,
                 AnimeThemeType::class,
+                AnimeThemeEntryType::class,
+                ArtistType::class,
+                AudioType::class,
+                ExternalResourceType::class,
+                ImageType::class,
+                MembershipType::class,
+                PerformanceType::class,
                 SeriesType::class,
+                SongType::class,
+                StudioType::class,
+                ThemeGroupType::class,
+                VideoType::class,
+                VideoScriptType::class,
 
                 // Others
                 AnimeYearSeasonsType::class,
                 AnimeYearSeasonType::class,
                 AnimeYearType::class,
+
+                // Unions
+                LikedUnion::class,
+                PerformanceArtistUnion::class,
             ],
 
             // Laravel HTTP middleware

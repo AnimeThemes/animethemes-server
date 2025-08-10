@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Support\Relations\Relation;
 use Illuminate\Support\Str;
@@ -70,17 +71,29 @@ abstract class BaseType extends RebingType
      */
     public function fields(): array
     {
-        // TODO: Add relations
-        return collect($this->fieldClasses())
+        $relations = collect($this->relations())
+            ->mapWithKeys(fn (Relation $relation) => [
+                $relation->getName() => [
+                    'type' => $relation->type(),
+                    'args' => $relation->args(),
+                    //   'query' => $relation->query(...),
+                    'resolve' => $relation->resolve(...),
+                ],
+            ]);
+
+        $fields = collect($this->fieldClasses())
             ->mapWithKeys(fn (Field $field) => [
                 $field->getName() => [
                     'type' => $field->type(),
                     'description' => $field->description(),
                     'alias' => $field->getColumn(),
-                    'resolve' => $field->resolve(...),
                     'args' => $field->args(),
+                    'resolve' => $field->resolve(...),
+
+                    ...($field instanceof DeprecatedField ? ['deprecationReason' => $field->deprecationReason()] : []),
                 ],
-            ])
-            ->toArray();
+            ]);
+
+        return $fields->merge($relations)->toArray();
     }
 }

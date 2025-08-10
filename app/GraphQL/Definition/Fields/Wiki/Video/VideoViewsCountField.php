@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
-use App\GraphQL\Attributes\Deprecated;
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Definition\Fields\Base\CountAggregateField;
 use App\Models\Wiki\Video;
 
-#[Deprecated('We will no longer track views. Use likesCount instead.')]
-class VideoViewsCountField extends CountAggregateField
+class VideoViewsCountField extends CountAggregateField implements DeprecatedField
 {
     public function __construct()
     {
@@ -22,5 +21,13 @@ class VideoViewsCountField extends CountAggregateField
     public function description(): string
     {
         return 'The number of views recorded for the resource';
+    }
+
+    /**
+     * The reason which the field is deprecated.
+     */
+    public function deprecationReason(): string
+    {
+        return 'We will no longer track views. Use likesCount instead';
     }
 }

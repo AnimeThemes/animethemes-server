@@ -14,7 +14,7 @@ abstract class Filter
 {
     public function __construct(
         protected Field $field,
-        protected ?string $defaultValue = null,
+        protected mixed $defaultValue = null,
     ) {}
 
     /**

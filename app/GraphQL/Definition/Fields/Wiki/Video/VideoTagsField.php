@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
 use App\GraphQL\Definition\Fields\StringField;
 use App\Models\Wiki\Video;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Model;
 
 class VideoTagsField extends StringField
@@ -28,7 +29,7 @@ class VideoTagsField extends StringField
      *
      * @param  Model  $root
      */
-    public function resolve($root): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return implode('', $root->getAttribute($this->getColumn()));
     }
