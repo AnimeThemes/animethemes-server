@@ -182,16 +182,6 @@ class GraphQLServiceProvider extends ServiceProvider
             //     }
             // }
         }
-
-        $dispatcher->listen(
-            BuildSchemaString::class,
-            fn (): string => '
-                input SortInput {
-                    column: String!
-                    direction: SortDirection!
-                }
-            '
-        );
     }
 
     /**

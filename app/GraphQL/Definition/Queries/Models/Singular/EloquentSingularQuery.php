@@ -22,38 +22,6 @@ abstract class EloquentSingularQuery extends BaseQuery
     }
 
     /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            ...parent::directives(),
-
-            ...($this->isTrashable() ? ['softDeletes' => []] : []),
-
-            ...$this->canModelDirective(),
-        ];
-    }
-
-    /**
-     * Build the canModel directive for authorization.
-     *
-     * @return array
-     */
-    protected function canModelDirective(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'view',
-                'injectArgs' => 'true',
-                'model' => $this->model(),
-            ],
-        ];
-    }
-
-    /**
      * The arguments of the type.
      *
      * @return Argument[]

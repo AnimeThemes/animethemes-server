@@ -50,7 +50,7 @@ class EdgeConnectionType extends RebingType
             'edges' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),
                 'description' => 'A list of %3$s edges.',
-                'resolve' => fn (LengthAwarePaginator $paginator) => $this->edgeResolver($paginator),
+                'resolve' => fn (LengthAwarePaginator $paginator) => $this->edgesResolver($paginator),
             ],
             'nodes' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->getNodeTypeName())))),
@@ -79,7 +79,10 @@ class EdgeConnectionType extends RebingType
         return Str::remove('Type', class_basename($this->edgeType->getNodeType()));
     }
 
-    protected function edgeResolver(LengthAwarePaginator $paginator)
+    /**
+     * Resolve the edges field.
+     */
+    protected function edgesResolver(LengthAwarePaginator $paginator): Collection
     {
         $fields = $this->edgeType->fields();
 
@@ -95,7 +98,7 @@ class EdgeConnectionType extends RebingType
                 if ($name === 'node') {
                     $edges['node'] = $item;
                 } else {
-                    $edges[$name] = $relation->getAttribute($column);
+                    $edges[$column] = $relation->getAttribute($column);
                 }
             }
 

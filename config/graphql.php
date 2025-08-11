@@ -13,6 +13,7 @@ use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ArtistPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\PerformancePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\VideoPaginatorQuery;
+use App\GraphQL\Definition\Queries\SearchQuery;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
@@ -22,6 +23,7 @@ use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
 use App\GraphQL\Definition\Types\Document\PageType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\GraphQL\Definition\Types\SearchType;
 use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
 use App\GraphQL\Definition\Types\User\NotificationType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
@@ -141,6 +143,7 @@ return [
                 // Others
                 AnimeYearsQuery::class,
                 FindAnimeByExternalSiteQuery::class,
+                SearchQuery::class,
             ],
             'mutation' => [
                 // ExampleMutation::class,
@@ -187,6 +190,7 @@ return [
                 AnimeYearSeasonsType::class,
                 AnimeYearSeasonType::class,
                 AnimeYearType::class,
+                SearchType::class,
 
                 // Unions
                 LikedUnion::class,

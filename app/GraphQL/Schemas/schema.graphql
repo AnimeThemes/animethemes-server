@@ -1,6 +1,0 @@
-"Indicates what fields are available at the top level of a query operation."
-type Query {
-    "Returns a listing of resources that match a given search term."
-    search(search: String @search, perPage: Int, page: Int): Search!
-    @field(resolver: "App\\GraphQL\\Resolvers\\SearchResolver")
-}

@@ -87,10 +87,6 @@ abstract class EloquentPaginatorQuery extends BaseQuery
     {
         $baseType = $this->baseType();
 
-        if ($baseType instanceof EloquentType) {
-            return in_array(new DeletedAtField(), $baseType->fieldClasses());
-        }
-
-        return false;
+        return in_array(new DeletedAtField(), $baseType->fieldClasses());
     }
 }

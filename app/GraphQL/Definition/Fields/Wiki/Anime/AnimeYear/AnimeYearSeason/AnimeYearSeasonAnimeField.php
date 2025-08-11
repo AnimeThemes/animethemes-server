@@ -13,6 +13,7 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 

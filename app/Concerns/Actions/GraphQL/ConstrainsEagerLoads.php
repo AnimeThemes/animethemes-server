@@ -19,9 +19,11 @@ trait ConstrainsEagerLoads
     /**
      * Aplica eager loads com filtros/ordenação baseados na seleção de campos do GraphQL.
      */
-    protected function constrainEagerLoads(Builder $query, ResolveInfo $resolveInfo, BaseType $type): void
+    protected function constrainEagerLoads(Builder $query, ResolveInfo|array $resolveInfo, BaseType $type): void
     {
-        $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), 'data.data.selectionSet');
+        $fields = $resolveInfo instanceof ResolveInfo
+            ? Arr::get($resolveInfo->getFieldSelectionWithAliases(100), 'data.data.selectionSet')
+            : $resolveInfo;
 
         $this->processEagerLoadForType($query, $fields, $type);
     }

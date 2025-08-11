@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class SearchAnimeField extends Field implements DisplayableField
 {
@@ -27,9 +28,9 @@ class SearchAnimeField extends Field implements DisplayableField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(new AnimeType()));
+        return Type::listOf(Type::nonNull(GraphQL::type(new AnimeType()->getName())));
     }
 
     /**

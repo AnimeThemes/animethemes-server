@@ -31,7 +31,7 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
     }

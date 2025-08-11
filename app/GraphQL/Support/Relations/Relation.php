@@ -11,7 +11,6 @@ use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
-use Exception;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -33,12 +32,7 @@ abstract class Relation
         protected BaseType|BaseUnion $rebingType,
         protected string $relationName,
     ) {
-        $this->type = Type::string();
-        // try {
-        //     $this->type = GraphQL::type($rebingType->getName());
-        // } catch (Exception $e) {
-
-        // }
+        $this->type = GraphQL::type($rebingType->getName());
     }
 
     /**
@@ -89,14 +83,13 @@ abstract class Relation
 
         $type = $this->rebingType;
 
-        $arguments[] = new Argument('first', Type::nonNull(Type::int()))->withDefaultValue(15);
-        $arguments[] = new Argument('page', Type::int());
-
-        if ($type instanceof BaseType) {
+        if ($this->paginationType() !== PaginationType::NONE) {
             $arguments[] = $this->resolveFilterArguments($type->fieldClasses());
         }
 
         if ($this->paginationType() !== PaginationType::NONE) {
+            $arguments[] = new Argument('first', Type::nonNull(Type::int()))->withDefaultValue(15);
+            $arguments[] = new Argument('page', Type::int());
             $arguments[] = $this->resolveSortArguments($this->rebingType);
         }
 
