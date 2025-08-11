@@ -5,14 +5,20 @@ declare(strict_types=1);
 namespace App\Concerns\Actions\GraphQL;
 
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
 trait FiltersModels
 {
-    public function filter(Builder $builder, array $args, BaseType $type): Builder
+    public function filter(Builder $builder, array $args, BaseType|BaseUnion $type): Builder
     {
+        // union not supported yet
+        if ($type instanceof BaseUnion) {
+            return $builder;
+        }
+
         $resolvers = Filter::getValueWithResolvers($type);
 
         foreach ($args as $arg => $value) {

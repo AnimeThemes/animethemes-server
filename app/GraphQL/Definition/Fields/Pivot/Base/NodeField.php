@@ -7,9 +7,9 @@ namespace App\GraphQL\Definition\Fields\Pivot\Base;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class NodeField extends Field implements DisplayableField
 {
@@ -25,14 +25,13 @@ class NodeField extends Field implements DisplayableField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         $type = Str::of(class_basename($this->nodeType))
             ->remove('Type')
             ->__toString();
 
-        // Necessary to prevent memory leak at compile time.
-        return new ObjectType(['name' => $type, 'fields' => []]);
+        return Type::nonNull(GraphQL::type($type));
     }
 
     /**

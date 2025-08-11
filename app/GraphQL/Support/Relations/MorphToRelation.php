@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Relations;
 
 use App\Enums\GraphQL\PaginationType;
-use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
 
 class MorphToRelation extends Relation
 {
@@ -23,18 +23,20 @@ class MorphToRelation extends Relation
     }
 
     /**
-     * The Relation type.
-     */
-    protected function relation(): RelationType
-    {
-        return RelationType::MORPH_TO;
-    }
-
-    /**
      * The pagination type if applicable.
      */
     public function paginationType(): PaginationType
     {
         return PaginationType::NONE;
+    }
+
+    /**
+     * Resolve the relation.
+     *
+     * @param  array<string, mixed>  $args
+     */
+    public function resolve(Model $root, array $args): mixed
+    {
+        return $root->{$this->relationName};
     }
 }

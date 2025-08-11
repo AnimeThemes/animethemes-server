@@ -36,7 +36,7 @@ class SeriesType extends EloquentType implements ReportableType
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation($this, SeriesType::class, Series::RELATION_ANIME, AnimeSeriesType::class),
+            new BelongsToManyRelation($this, AnimeType::class, Series::RELATION_ANIME, AnimeSeriesType::class),
         ];
     }
 

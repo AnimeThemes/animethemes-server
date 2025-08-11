@@ -9,7 +9,9 @@ use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeSynonymPagin
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeThemePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\Theme\AnimeThemeEntryPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AnimePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ArtistPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\PerformancePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\VideoPaginatorQuery;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
@@ -131,6 +133,8 @@ return [
                 AnimeSynonymPaginatorQuery::class,
                 AnimeThemePaginatorQuery::class,
                 AnimeThemeEntryPaginatorQuery::class,
+                ArtistPaginatorQuery::class,
+                PerformancePaginatorQuery::class,
                 SeriesPaginatorQuery::class,
                 VideoPaginatorQuery::class,
 

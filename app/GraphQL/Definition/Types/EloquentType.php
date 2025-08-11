@@ -11,9 +11,11 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class EloquentType extends BaseType
 {
-    public function __construct()
+    public function __construct(bool $first = true)
     {
-        GraphQL::addType(new SortableColumns($this));
+        if ($first) {
+            GraphQL::addType(new SortableColumns($this));
+        }
     }
 
     /**

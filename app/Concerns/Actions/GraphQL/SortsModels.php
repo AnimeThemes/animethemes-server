@@ -6,6 +6,7 @@ namespace App\Concerns\Actions\GraphQL;
 
 use App\Enums\GraphQL\SortType;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Sort\RandomSort;
 use App\GraphQL\Support\Sort\Sort;
@@ -20,7 +21,7 @@ trait SortsModels
     /**
      * Apply sorts to the query builder.
      */
-    public function sort(Builder $builder, array $args, BaseType $type): Builder
+    public function sort(Builder $builder, array $args, BaseType|BaseUnion $type): Builder
     {
         $sorts = Arr::get($args, SortArgument::ARGUMENT);
 

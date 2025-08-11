@@ -5,22 +5,27 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Relations;
 
 use App\Enums\GraphQL\PaginationType;
-use App\Enums\GraphQL\RelationType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Support\EdgeConnectionType;
 use App\GraphQL\Support\EdgeType;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class BelongsToManyRelation extends Relation
 {
+    protected EdgeType $edgeType;
+    protected EdgeConnectionType $edgeConnectionType;
+
     public function __construct(
-        protected EloquentType $parentType,
+        protected EloquentType $ownerType,
         protected string $nodeType,
         protected string $relationName,
         protected ?string $pivotType = null,
     ) {
-        $this->edgeType = new EdgeType($parentType, $nodeType, $pivotType);
+        $this->edgeType = new EdgeType($ownerType, $nodeType, $pivotType);
+        $this->edgeConnectionType = new EdgeConnectionType($this->edgeType);
 
-        $nodeType = $this->edgeType->getNodeType();
+        GraphQL::addType($this->edgeConnectionType, $this->edgeConnectionType->getName());
 
         parent::__construct(new $nodeType, $relationName);
     }
@@ -38,19 +43,7 @@ class BelongsToManyRelation extends Relation
      */
     public function type(): Type
     {
-        if (! $this->nullable) {
-            return Type::nonNull(Type::listOf($this->type));
-        }
-
-        return Type::listOf($this->type);
-    }
-
-    /**
-     * The Relation type.
-     */
-    protected function relation(): RelationType
-    {
-        return RelationType::BELONGS_TO_MANY;
+        return GraphQL::type($this->edgeConnectionType->getName());
     }
 
     /**

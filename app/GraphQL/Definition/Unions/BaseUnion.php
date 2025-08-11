@@ -54,11 +54,13 @@ abstract class BaseUnion extends UnionType
             ->toArray();
     }
 
-    public function resolveType($value)
+    public function resolveType($value): Type
     {
-        return collect($this->baseTypes())
+        $baseType = collect($this->baseTypes())
             ->filter(fn (BaseType $type) => $type instanceof EloquentType)
             ->first(fn (EloquentType $type) => $type->model() === $value::class);
+
+        return GraphQL::type($baseType->getName());
     }
 
     /**
