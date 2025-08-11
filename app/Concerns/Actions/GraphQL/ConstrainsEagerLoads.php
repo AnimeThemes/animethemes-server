@@ -50,14 +50,15 @@ trait ConstrainsEagerLoads
 
             $relationType = $relation->getBaseType();
 
-            $eagerLoadRelations[$path] = function (RelationsRelation $relationLaravel) use ($relationSelection, $relationArgs, $relationType) {
+            $eagerLoadRelations[$path] = function (RelationsRelation $relationLaravel) use ($relationSelection, $relationArgs, $relationType, $name) {
                 $relationQuery = $relationLaravel->getQuery();
 
                 $this->filter($relationQuery, $relationArgs, $relationType);
 
                 $this->sort($relationQuery, $relationArgs, $relationType);
 
-                $child = Arr::get($relationSelection, 'selectionSet.data.data.selectionSet', []);
+                $child = Arr::get($relationSelection, 'selectionSet.data.data.selectionSet')
+                    ?? Arr::get($relationSelection, 'selectionSet', []);
 
                 $this->processEagerLoadForType($relationQuery, $child, $relationType);
             };
