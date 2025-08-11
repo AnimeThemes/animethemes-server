@@ -6,12 +6,9 @@ namespace App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistImage;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Fields\IntField;
-use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\ArtistImage;
 
-#[UseFieldDirective(PivotResolver::class)]
 class ArtistImageDepthField extends IntField implements CreatableField, UpdatableField
 {
     public function __construct()

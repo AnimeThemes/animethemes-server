@@ -6,12 +6,9 @@ namespace App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Fields\StringField;
-use App\GraphQL\Resolvers\PivotResolver;
 use App\Pivots\Wiki\ArtistMember;
 
-#[UseFieldDirective(PivotResolver::class)]
 class ArtistMemberAsField extends StringField implements CreatableField, UpdatableField
 {
     public function __construct()
