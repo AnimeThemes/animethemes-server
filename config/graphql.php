@@ -47,6 +47,7 @@ use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\GraphQL\Definition\Unions\LikedUnion;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
+use App\GraphQL\Middleware\MaxCount;
 
 return [
     'route' => [
@@ -198,7 +199,22 @@ return [
             ],
 
             // Laravel HTTP middleware
-            'middleware' => null,
+            'middleware' => [
+                // Set the serving context to graphql.
+                App\GraphQL\Middleware\SetServingGraphQL::class,
+
+                // Rate limiting GraphQL to prevent abuse.
+                'throttle:graphql',
+
+                // GraphQL needs to have their own policies.
+                App\GraphQL\Middleware\GraphQLPolicy::class,
+
+                // Allow client to get full database.
+                MaxCount::class,
+
+                // Logs GraphQL Requests.
+                App\GraphQL\Middleware\LogGraphQLRequest::class,
+            ],
 
             // Which HTTP methods to support; must be given in UPPERCASE!
             'method' => ['POST'],
@@ -252,6 +268,16 @@ return [
         'query_max_complexity' => null,
         'query_max_depth' => null,
         'disable_introspection' => false,
+    ],
+
+    // Custom array
+    'pagination_values' => [
+        'default_count' => 15,
+        'max_count' => 10,
+        'relation' => [
+            'default_count' => 1000000,
+            'max_count' => null,
+        ],
     ],
 
     /*

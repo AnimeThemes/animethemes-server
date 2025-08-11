@@ -50,7 +50,7 @@ trait ConstrainsEagerLoads
 
             $relationType = $relation->getBaseType();
 
-            $eagerLoadRelations[$path] = function (RelationsRelation $relationLaravel) use ($relationSelection, $relationArgs, $relationType, $name) {
+            $eagerLoadRelations[$path] = function (RelationsRelation $relationLaravel) use ($relationSelection, $relationArgs, $relationType) {
                 $relationQuery = $relationLaravel->getQuery();
 
                 $this->filter($relationQuery, $relationArgs, $relationType);

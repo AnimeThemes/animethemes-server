@@ -16,6 +16,8 @@ use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\FirstArgument;
+use App\GraphQL\Support\Argument\PageArgument;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -59,10 +61,8 @@ class SearchQuery extends BaseQuery
             new Argument('search', Type::string())
                 ->required(),
 
-            new Argument('first', Type::int())
-                ->withDefaultValue(15),
-
-            new Argument('page', Type::int()),
+            new FirstArgument(),
+            new PageArgument(),
         ];
     }
 

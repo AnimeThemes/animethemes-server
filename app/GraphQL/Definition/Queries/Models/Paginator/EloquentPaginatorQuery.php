@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator;
 
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
+use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Queries\BaseQuery;
@@ -21,6 +22,7 @@ abstract class EloquentPaginatorQuery extends BaseQuery
 {
     use ConstrainsEagerLoads;
     use FiltersModels;
+    use PaginatesModels;
     use SortsModels;
 
     public function __construct(protected string $name)
@@ -58,7 +60,7 @@ abstract class EloquentPaginatorQuery extends BaseQuery
         $first = Arr::get($args, 'first');
         $page = Arr::get($args, 'page');
 
-        return $builder->paginate($first, page: $page);
+        return $this->paginate($builder, $args);
     }
 
     /**
@@ -85,7 +87,7 @@ abstract class EloquentPaginatorQuery extends BaseQuery
      */
     protected function isTrashable(): bool
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         return in_array(new DeletedAtField(), $baseType->fieldClasses());
     }

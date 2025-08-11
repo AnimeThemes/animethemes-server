@@ -8,6 +8,8 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\FirstArgument;
+use App\GraphQL\Support\Argument\PageArgument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -59,8 +61,8 @@ abstract class BaseQuery extends Query
         $baseType = $this->baseRebingType();
 
         if ($this instanceof EloquentPaginatorQuery) {
-            $arguments[] = new Argument('first', Type::nonNull(Type::int()))->withDefaultValue(15);
-            $arguments[] = new Argument('page', Type::int());
+            $arguments[] = new FirstArgument();
+            $arguments[] = new PageArgument();
         }
 
         // if ($this->resolveSearchAttribute()) {

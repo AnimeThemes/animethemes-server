@@ -11,6 +11,8 @@ use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\FirstArgument;
+use App\GraphQL\Support\Argument\PageArgument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -88,8 +90,8 @@ abstract class Relation
         }
 
         if ($this->paginationType() !== PaginationType::NONE) {
-            $arguments[] = new Argument('first', Type::nonNull(Type::int()))->withDefaultValue(15);
-            $arguments[] = new Argument('page', Type::int());
+            $arguments[] = new FirstArgument(true);
+            $arguments[] = new PageArgument();
             $arguments[] = $this->resolveSortArguments($this->rebingType);
         }
 
