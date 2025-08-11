@@ -32,18 +32,6 @@ class Argument
     }
 
     /**
-     * Set the directives of the argument.
-     *
-     * @param  array<string, array>  $directives
-     */
-    public function directives(array $directives = []): static
-    {
-        $this->directives = $directives;
-
-        return $this;
-    }
-
-    /**
      * Append a default value to the argument.
      */
     public function withDefaultValue(mixed $value): static

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Models\List\Playlist\Track;
 
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Mutations\Models\DeleteMutation;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\MessageResponseType;
 use App\Models\List\Playlist\PlaylistTrack;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Facades\App;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
-#[UseFieldDirective(PlaylistTrackController::class, 'destroy')]
 class DeletePlaylistTrackMutation extends DeleteMutation
 {
     public function __construct()
@@ -31,7 +32,7 @@ class DeletePlaylistTrackMutation extends DeleteMutation
     /**
      * The base return type of the query.
      */
-    public function baseType(): PlaylistTrackType
+    public function baseRebingType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
     }
@@ -39,8 +40,19 @@ class DeletePlaylistTrackMutation extends DeleteMutation
     /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
-        return Type::nonNull(new MessageResponseType());
+        return Type::nonNull(GraphQL::type(new MessageResponseType()->getName()));
+    }
+
+    /**
+     * Resolve the mutation.
+     *
+     * @param  array<string, mixed>  $args
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        return App::make(PlaylistTrackController::class)
+            ->destroy($root, $args, $context, $resolveInfo);
     }
 }

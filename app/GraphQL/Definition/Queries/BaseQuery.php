@@ -26,7 +26,7 @@ abstract class BaseQuery extends Query
     ) {}
 
     /**
-     * Get the attributes of the type.
+     * Get the attributes of the query.
      *
      * @return array<string, mixed>
      */
@@ -88,24 +88,9 @@ abstract class BaseQuery extends Query
         return Arr::flatten($arguments);
     }
 
-    public function args(): array
-    {
-        return collect($this->arguments())
-            ->mapWithKeys(function (Argument $argument) {
-                $defaultValue = $argument->getDefaultValue();
-
-                return [
-                    $argument->name => [
-                        'name' => $argument->name,
-                        'type' => $argument->getType(),
-
-                        ...(! is_null($defaultValue) ? ['defaultValue' => $defaultValue] : []),
-                    ],
-                ];
-            })
-            ->toArray();
-    }
-
+    /**
+     * Convert the rebing type to a GraphQL type.
+     */
     public function baseType(): Type
     {
         return GraphQL::type($this->baseRebingType()->getName());

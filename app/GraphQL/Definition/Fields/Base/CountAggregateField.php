@@ -7,12 +7,10 @@ namespace App\GraphQL\Definition\Fields\Base;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
 
-#[UseFieldDirective(CountAggregateResolver::class)]
+// TODO
 class CountAggregateField extends Field implements DisplayableField, SortableField
 {
     public function __construct(

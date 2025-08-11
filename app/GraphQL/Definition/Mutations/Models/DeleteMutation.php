@@ -41,27 +41,9 @@ abstract class DeleteMutation extends BaseMutation
     }
 
     /**
-     * The directives of the mutation.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'delete',
-                'injectArgs' => true,
-                'model' => $this->model,
-            ],
-
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
         return Type::nonNull($this->baseType());
     }

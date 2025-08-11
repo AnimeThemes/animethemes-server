@@ -21,6 +21,29 @@ use Illuminate\Support\Arr;
 trait ResolvesArguments
 {
     /**
+     * Resolve the args.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    public function args(): array
+    {
+        return collect($this->arguments())
+            ->mapWithKeys(function (Argument $argument) {
+                $defaultValue = $argument->getDefaultValue();
+
+                return [
+                    $argument->name => [
+                        'name' => $argument->name,
+                        'type' => $argument->getType(),
+
+                        ...(! is_null($defaultValue) ? ['defaultValue' => $defaultValue] : []),
+                    ],
+                ];
+            })
+            ->toArray();
+    }
+
+    /**
      * Resolve the fields into arguments that are used for filtering.
      *
      * @param  Field[]  $fields

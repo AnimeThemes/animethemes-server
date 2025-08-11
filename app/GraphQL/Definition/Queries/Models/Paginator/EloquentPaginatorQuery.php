@@ -57,9 +57,6 @@ abstract class EloquentPaginatorQuery extends BaseQuery
 
         $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
 
-        $first = Arr::get($args, 'first');
-        $page = Arr::get($args, 'page');
-
         return $this->paginate($builder, $args);
     }
 

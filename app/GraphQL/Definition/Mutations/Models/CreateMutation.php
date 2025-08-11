@@ -47,30 +47,12 @@ abstract class CreateMutation extends BaseMutation
     }
 
     /**
-     * The directives of the mutation.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'create',
-                'injectArgs' => true,
-                'model' => $this->model,
-            ],
-
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * Get the rules for the create mutation.
      *
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
-    public function rules(array $args): array
+    protected function rules(array $args = []): array
     {
         $baseType = $this->baseType();
 
@@ -87,7 +69,7 @@ abstract class CreateMutation extends BaseMutation
     /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
         return Type::nonNull($this->baseType());
     }
