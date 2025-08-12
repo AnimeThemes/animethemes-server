@@ -7,10 +7,9 @@ namespace App\GraphQL\Controllers\List\External;
 use App\GraphQL\Controllers\BaseController;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<ExternalEntry>
@@ -26,7 +25,7 @@ class ExternalEntryController extends BaseController
      * @param  array  $args
      * @return Builder<ExternalEntry>
      */
-    public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function index(Builder $builder, mixed $value, mixed $root, array $args, $context, ResolveInfo $resolveInfo): Builder
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::get($args, 'profile');

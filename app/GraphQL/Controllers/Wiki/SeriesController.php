@@ -6,10 +6,9 @@ namespace App\GraphQL\Controllers\Wiki;
 
 use App\GraphQL\Controllers\BaseController;
 use App\Models\Wiki\Series;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<Series>
@@ -25,7 +24,7 @@ class SeriesController extends BaseController
      * @param  array  $args
      * @return Builder<Series>
      */
-    public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function show(Builder $builder, mixed $value, mixed $root, array $args, $context, ResolveInfo $resolveInfo): Builder
     {
         return $builder
             ->whereKey(Arr::get($args, self::ROUTE_SLUG)->getKey());

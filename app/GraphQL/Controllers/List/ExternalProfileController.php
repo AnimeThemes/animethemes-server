@@ -7,10 +7,9 @@ namespace App\GraphQL\Controllers\List;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\GraphQL\Controllers\BaseController;
 use App\Models\List\ExternalProfile;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<ExternalProfile>
@@ -26,7 +25,7 @@ class ExternalProfileController extends BaseController
      * @param  array  $args
      * @return Builder<ExternalProfile>
      */
-    public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function index(Builder $builder, mixed $value, mixed $root, array $args, $context, ResolveInfo $resolveInfo): Builder
     {
         $builder->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);
 

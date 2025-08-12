@@ -9,12 +9,11 @@ use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Mutations\Models\List\Playlist\CreatePlaylistMutation;
 use App\GraphQL\Definition\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<Playlist>
@@ -30,7 +29,7 @@ class PlaylistController extends BaseController
      * @param  array  $args
      * @return Builder<Playlist>
      */
-    public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function index(Builder $builder, mixed $value, mixed $root, array $args, $context, ResolveInfo $resolveInfo): Builder
     {
         $builder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
 
@@ -48,7 +47,7 @@ class PlaylistController extends BaseController
      * @param  array  $args
      * @return Builder<Playlist>
      */
-    public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function show(Builder $builder, mixed $value, mixed $root, array $args, $context, ResolveInfo $resolveInfo): Builder
     {
         return $builder
             ->whereKey(Arr::get($args, self::ROUTE_SLUG)->getKey());

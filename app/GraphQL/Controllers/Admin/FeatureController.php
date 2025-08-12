@@ -7,9 +7,8 @@ namespace App\GraphQL\Controllers\Admin;
 use App\Constants\FeatureConstants;
 use App\GraphQL\Controllers\BaseController;
 use App\Models\Admin\Feature;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<Feature>
@@ -25,7 +24,7 @@ class FeatureController extends BaseController
      * @param  array  $args
      * @return Builder<Feature>
      */
-    public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function index(Builder $builder, mixed $value, mixed $root, array $args, $context, ResolveInfo $resolveInfo): Builder
     {
         return $builder->where(Feature::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE);
     }

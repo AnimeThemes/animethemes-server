@@ -35,7 +35,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Nuwave\Lighthouse\Events\BuildSchemaString;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use ReflectionClass;
 

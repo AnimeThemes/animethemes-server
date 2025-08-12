@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bbe979b5a4174f166c64098b6e82563",
+    "content-hash": "fc8b7be75eaf89268537fd99fdb1262a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3278,48 +3278,6 @@
             "time": "2023-02-23T15:00:54+00:00"
         },
         {
-            "name": "haydenpierce/class-finder",
-            "version": "0.5.3",
-            "source": {
-                "type": "git",
-                "url": "git@gitlab.com:hpierce1102/ClassFinder.git",
-                "reference": "40703445c18784edcc6411703e7c3869af11ec8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=40703445c18784edcc6411703e7c3869af11ec8c",
-                "reference": "40703445c18784edcc6411703e7c3869af11ec8c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "~9.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "HaydenPierce\\ClassFinder\\": "src/",
-                    "HaydenPierce\\ClassFinder\\UnitTest\\": "test/unit"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hayden Pierce",
-                    "email": "hayden@haydenpierce.com"
-                }
-            ],
-            "description": "A library that can provide of a list of classes in a given namespace",
-            "time": "2023-06-18T17:43:01+00:00"
-        },
-        {
             "name": "iamcal/sql-parser",
             "version": "v0.6",
             "source": {
@@ -6300,136 +6258,6 @@
                 }
             ],
             "time": "2025-05-08T08:14:37+00:00"
-        },
-        {
-            "name": "nuwave/lighthouse",
-            "version": "v6.62.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nuwave/lighthouse.git",
-                "reference": "f6cb9c828a2d877b862f24599652c2b06636df2b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/f6cb9c828a2d877b862f24599652c2b06636df2b",
-                "reference": "f6cb9c828a2d877b862f24599652c2b06636df2b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "haydenpierce/class-finder": "^0.4 || ^0.5",
-                "illuminate/auth": "^9 || ^10 || ^11 || ^12",
-                "illuminate/bus": "^9 || ^10 || ^11 || ^12",
-                "illuminate/contracts": "^9 || ^10 || ^11 || ^12",
-                "illuminate/http": "^9 || ^10 || ^11 || ^12",
-                "illuminate/pagination": "^9 || ^10 || ^11 || ^12",
-                "illuminate/queue": "^9 || ^10 || ^11 || ^12",
-                "illuminate/routing": "^9 || ^10 || ^11 || ^12",
-                "illuminate/support": "^9 || ^10 || ^11 || ^12",
-                "illuminate/validation": "^9 || ^10 || ^11 || ^12",
-                "laragraph/utils": "^1.5 || ^2",
-                "php": "^8",
-                "thecodingmachine/safe": "^1 || ^2 || ^3",
-                "webonyx/graphql-php": "^15"
-            },
-            "require-dev": {
-                "algolia/algoliasearch-client-php": "^3",
-                "bensampo/laravel-enum": "^5 || ^6",
-                "ergebnis/composer-normalize": "^2.2.2",
-                "fakerphp/faker": "^1.21",
-                "google/protobuf": "^3.21",
-                "larastan/larastan": "^2.9.14 || ^3.0.4",
-                "laravel/framework": "^9 || ^10 || ^11 || ^12",
-                "laravel/legacy-factories": "^1.1.1",
-                "laravel/pennant": "^1",
-                "laravel/scout": "^8 || ^9 || ^10",
-                "mattiasgeniar/phpunit-query-count-assertions": "^1.1",
-                "mll-lab/graphql-php-scalars": "^6.4.1",
-                "mll-lab/php-cs-fixer-config": "^5",
-                "mockery/mockery": "^1.5",
-                "nesbot/carbon": "^2.62.1 || ^3.8.4",
-                "orchestra/testbench": "^7.50 || ^8.32 || ^9.10 || ^10.1",
-                "phpbench/phpbench": "^1.2.6",
-                "phpstan/extension-installer": "^1",
-                "phpstan/phpstan": "^1.12.18 || ^2",
-                "phpstan/phpstan-mockery": "^1.1.3 || ^2",
-                "phpstan/phpstan-phpunit": "^1.1.1 || ^2",
-                "phpunit/phpunit": "^9.6.4 || ^10 || ^11",
-                "predis/predis": "^1.1 || ^2.1",
-                "pusher/pusher-php-server": "^5 || ^6 || ^7.0.2",
-                "rector/rector": "^1 || ^2",
-                "thecodingmachine/phpstan-safe-rule": "^1.2"
-            },
-            "suggest": {
-                "ext-protobuf": "Improve protobuf serialization performance (used for tracing)",
-                "google/protobuf": "Required when using the tracing driver federated-tracing",
-                "laravel/pennant": "Required for the @feature directive",
-                "laravel/scout": "Required for the @search directive",
-                "mll-lab/graphql-php-scalars": "Useful scalar types, required for @whereConditions",
-                "mll-lab/laravel-graphiql": "A graphical interactive in-browser GraphQL IDE - integrated with Laravel",
-                "pusher/pusher-php-server": "Required when using the Pusher Subscriptions driver"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Nuwave\\Lighthouse\\LighthouseServiceProvider",
-                        "Nuwave\\Lighthouse\\Async\\AsyncServiceProvider",
-                        "Nuwave\\Lighthouse\\Auth\\AuthServiceProvider",
-                        "Nuwave\\Lighthouse\\Bind\\BindServiceProvider",
-                        "Nuwave\\Lighthouse\\Cache\\CacheServiceProvider",
-                        "Nuwave\\Lighthouse\\GlobalId\\GlobalIdServiceProvider",
-                        "Nuwave\\Lighthouse\\OrderBy\\OrderByServiceProvider",
-                        "Nuwave\\Lighthouse\\Pagination\\PaginationServiceProvider",
-                        "Nuwave\\Lighthouse\\SoftDeletes\\SoftDeletesServiceProvider",
-                        "Nuwave\\Lighthouse\\Testing\\TestingServiceProvider",
-                        "Nuwave\\Lighthouse\\Validation\\ValidationServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Nuwave\\Lighthouse\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christopher Moore",
-                    "email": "chris@nuwavecommerce.com",
-                    "homepage": "https://www.nuwavecommerce.com"
-                },
-                {
-                    "name": "Benedikt Franke",
-                    "email": "benedikt@franke.tech",
-                    "homepage": "https://franke.tech"
-                }
-            ],
-            "description": "A framework for serving GraphQL from Laravel",
-            "homepage": "https://lighthouse-php.com",
-            "keywords": [
-                "graphql",
-                "laravel",
-                "laravel-graphql"
-            ],
-            "support": {
-                "issues": "https://github.com/nuwave/lighthouse/issues",
-                "source": "https://github.com/nuwave/lighthouse"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spawnia",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/lighthouse_php",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2025-07-23T10:46:42+00:00"
         },
         {
             "name": "open-telemetry/api",
