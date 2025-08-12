@@ -8,13 +8,22 @@ use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Support\Argument\Argument;
 use Exception;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use RuntimeException;
 
 abstract class EloquentSingularQuery extends BaseQuery
 {
+    protected $middleware = [
+        ResolveBindableArgs::class,
+    ];
+
     public function __construct(
         protected string $name,
     ) {
@@ -29,10 +38,10 @@ abstract class EloquentSingularQuery extends BaseQuery
     public function arguments(): array
     {
         $arguments = [];
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
         }
 
         return Arr::flatten($arguments);
@@ -47,13 +56,27 @@ abstract class EloquentSingularQuery extends BaseQuery
      */
     public function model(): string
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof EloquentType) {
             return $baseType->model();
         }
 
-        throw new Exception('The base return type must be an instance of EloquentType, '.get_class($baseType).' given.');
+        throw new RuntimeException('The base return rebing type must be an instance of EloquentType, '.get_class($baseType).' given.');
+    }
+
+    /**
+     * The return type of the query.
+     */
+    public function type(): Type
+    {
+        $rebingType = $this->baseRebingType();
+
+        if (! $rebingType instanceof BaseType) {
+            throw new RuntimeException("baseRebingType not defined for query {$this->getName()}");
+        }
+
+        return Type::nonNull(GraphQL::type($this->baseRebingType()->getName()));
     }
 
     /**
@@ -64,9 +87,14 @@ abstract class EloquentSingularQuery extends BaseQuery
         $baseType = $this->baseType();
 
         if ($baseType instanceof EloquentType) {
-            return in_array(new DeletedAtField(), $baseType->fields());
+            return in_array(new DeletedAtField(), $baseType->fieldClasses());
         }
 
         return false;
+    }
+
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
+    {
+        return $args['model'];
     }
 }

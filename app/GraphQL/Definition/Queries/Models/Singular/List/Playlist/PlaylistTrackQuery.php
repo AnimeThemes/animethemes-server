@@ -25,7 +25,7 @@ class PlaylistTrackQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseBebingType(): PlaylistTrackType
+    public function baseRebingType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
     }

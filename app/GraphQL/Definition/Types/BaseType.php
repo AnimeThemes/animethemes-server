@@ -22,6 +22,7 @@ abstract class BaseType extends RebingType
         return [
             'name' => $this->getName(),
             'description' => $this->description(),
+            'rebingType' => $this,
         ];
     }
 
@@ -76,7 +77,6 @@ abstract class BaseType extends RebingType
                 $relation->getName() => [
                     'type' => $relation->type(),
                     'args' => $relation->args(),
-                    //   'query' => $relation->query(...),
                     'resolve' => $relation->resolve(...),
                 ],
             ]);
@@ -89,6 +89,8 @@ abstract class BaseType extends RebingType
                     'alias' => $field->getColumn(),
                     'args' => $field->args(),
                     'resolve' => $field->resolve(...),
+
+                    'fieldClass' => $field,
 
                     ...($field instanceof DeprecatedField ? ['deprecationReason' => $field->deprecationReason()] : []),
                 ],

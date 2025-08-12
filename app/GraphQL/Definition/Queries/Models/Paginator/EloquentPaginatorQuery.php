@@ -10,6 +10,7 @@ use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Queries\BaseQuery;
+use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\SelectFields;
+use RuntimeException;
 
 abstract class EloquentPaginatorQuery extends BaseQuery
 {
@@ -65,10 +67,13 @@ abstract class EloquentPaginatorQuery extends BaseQuery
      */
     public function model(): string
     {
-        /** @var EloquentType $type */
-        $type = $this->baseRebingType();
+        $baseType = $this->baseRebingType();
 
-        return $type->model();
+        if ($baseType instanceof EloquentType) {
+            return $baseType->model();
+        }
+
+        throw new RuntimeException('The base return rebing type must be an instance of EloquentType, '.get_class($baseType).' given.');
     }
 
     /**
@@ -76,7 +81,13 @@ abstract class EloquentPaginatorQuery extends BaseQuery
      */
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::paginate(Arr::get($this->baseRebingType()->getAttributes(), 'name')));
+        $rebingType = $this->baseRebingType();
+
+        if (! $rebingType instanceof BaseType) {
+            throw new RuntimeException("baseRebingType not defined for query {$this->getName()}");
+        }
+
+        return Type::nonNull(GraphQL::paginate($this->baseRebingType()->getName()));
     }
 
     /**

@@ -28,18 +28,14 @@ trait ResolvesArguments
     public function args(): array
     {
         return collect($this->arguments())
-            ->mapWithKeys(function (Argument $argument) {
-                $defaultValue = $argument->getDefaultValue();
+            ->mapWithKeys(fn (Argument $argument) => [
+                $argument->name => [
+                    'name' => $argument->name,
+                    'type' => $argument->getType(),
 
-                return [
-                    $argument->name => [
-                        'name' => $argument->name,
-                        'type' => $argument->getType(),
-
-                        ...(! is_null($defaultValue) ? ['defaultValue' => $defaultValue] : []),
-                    ],
-                ];
-            })
+                    ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
+                ],
+            ])
             ->toArray();
     }
 

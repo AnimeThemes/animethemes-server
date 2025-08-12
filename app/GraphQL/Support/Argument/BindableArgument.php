@@ -13,15 +13,8 @@ class BindableArgument extends Argument
         Field&BindableField $field,
         bool $shouldRequire = true,
     ) {
-        parent::__construct($field->getName(), $field->type());
+        parent::__construct($field->getName(), $field->baseType());
 
         $this->required($shouldRequire);
-
-        $this->directives([
-            'bind' => [
-                'class' => $field->bindTo(),
-                'column' => $field->bindUsingColumn(),
-            ],
-        ]);
     }
 }

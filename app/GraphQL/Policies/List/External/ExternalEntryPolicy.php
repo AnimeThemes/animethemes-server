@@ -17,12 +17,12 @@ class ExternalEntryPolicy extends BasePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function viewAny(?User $user, ?array $injected = null): bool
+    public function viewAny(?User $user, array $args = []): bool
     {
         /** @var ExternalProfile|null $profile */
-        $profile = Arr::get($injected, 'profile');
+        $profile = Arr::get($args, 'profile');
 
         if ($user !== null) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
@@ -35,12 +35,12 @@ class ExternalEntryPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         /** @var ExternalProfile|null $profile */
-        $profile = Arr::get($injected, 'profile');
+        $profile = Arr::get($args, 'profile');
 
         if ($user !== null) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
@@ -53,9 +53,9 @@ class ExternalEntryPolicy extends BasePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function create(User $user, ?array $injected = null): bool
+    public function create(User $user, array $args = []): bool
     {
         return false;
     }
@@ -63,9 +63,9 @@ class ExternalEntryPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function update(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function update(User $user, array $args, ?string $keyName = 'model'): bool
     {
         return false;
     }
@@ -73,9 +73,9 @@ class ExternalEntryPolicy extends BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function delete(User $user, array $args, ?string $keyName = 'model'): bool
     {
         return false;
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Middleware;
+namespace App\Http\Middleware\GraphQL;
 
 use Closure;
 use Illuminate\Http\Request;

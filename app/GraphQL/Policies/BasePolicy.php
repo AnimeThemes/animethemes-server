@@ -51,9 +51,9 @@ abstract class BasePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function viewAny(?User $user, ?array $injected = null): bool
+    public function viewAny(?User $user, array $args = []): bool
     {
         return $user === null || $user->can(CrudPermission::VIEW->format(static::getModel()));
     }
@@ -61,9 +61,9 @@ abstract class BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         return $user === null || $user->can(CrudPermission::VIEW->format(static::getModel()));
     }
@@ -71,9 +71,9 @@ abstract class BasePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function create(User $user, ?array $injected = null): bool
+    public function create(User $user, array $args = []): bool
     {
         return $user->can(CrudPermission::CREATE->format(static::getModel()));
     }
@@ -81,12 +81,12 @@ abstract class BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function update(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function update(User $user, array $args, ?string $keyName = 'model'): bool
     {
         /** @var Model $model */
-        $model = Arr::get($injected, $keyName);
+        $model = Arr::get($args, $keyName);
 
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()
@@ -98,12 +98,12 @@ abstract class BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function delete(User $user, array $args, ?string $keyName = 'model'): bool
     {
         /** @var Model $model */
-        $model = Arr::get($injected, $keyName);
+        $model = Arr::get($args, $keyName);
 
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()
@@ -131,12 +131,12 @@ abstract class BasePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function restore(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function restore(User $user, array $args, ?string $keyName = 'model'): bool
     {
         /** @var Model $model */
-        $model = Arr::get($injected, $keyName);
+        $model = Arr::get($args, $keyName);
 
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()

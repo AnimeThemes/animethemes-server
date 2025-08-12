@@ -81,10 +81,6 @@ abstract class BaseQuery extends Query
         //     $arguments[] = $this->resolveSortArguments($baseType);
         // }
 
-        // if ($baseType instanceof BaseType) {
-        //     $arguments[] = new WhereArgument($baseType);
-        // }
-
         return Arr::flatten($arguments);
     }
 
@@ -97,7 +93,7 @@ abstract class BaseQuery extends Query
     }
 
     /**
-     * The base return type of the query.
+     * The base return rebing type of the query.
      */
     public function baseRebingType(): ?BaseType
     {

@@ -53,9 +53,11 @@ abstract class Field
      */
     public function type(): Type
     {
-        $type = $this->baseType() instanceof BaseType
-            ? GraphQL::type($this->baseType()->getName())
-            : $this->baseType();
+        $baseType = $this->baseType();
+
+        $type = $baseType instanceof BaseType
+            ? GraphQL::type($baseType->getName())
+            : $baseType;
 
         if (! $this->nullable) {
             return Type::nonNull($type);

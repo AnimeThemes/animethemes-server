@@ -26,28 +26,17 @@ use App\GraphQL\Definition\Input\Relations\CreateHasManyInput;
 use App\GraphQL\Definition\Input\Relations\UpdateBelongsToInput;
 use App\GraphQL\Definition\Input\Relations\UpdateBelongsToManyInput;
 use App\GraphQL\Definition\Input\Relations\UpdateHasManyInput;
-use App\GraphQL\Definition\Mutations\BaseMutation;
-use App\GraphQL\Definition\Mutations\Reports\BaseReportMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\EnumType;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
-use App\GraphQL\Support\Argument\WhereArgument;
-use App\GraphQL\Support\EdgeConnection;
-use App\GraphQL\Support\EdgeType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
-use App\GraphQL\Support\SortableColumns;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use ReflectionClass;
 
 class GraphQLServiceProvider extends ServiceProvider
@@ -57,45 +46,9 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->bootModels();
         $this->bootEnums();
 
         //  $this->bootTypes();
-        //  $this->bootUnions();
-        //  $this->bootQueries();
-        //  $this->bootMutations();
-    }
-
-    /**
-     * Boot the model namespaces so schema can find them.
-     */
-    protected function bootModels(): void
-    {
-        $modelNamespaces = Config::get('lighthouse.namespaces.models', []);
-
-        $modelsBasePaths = [
-            'App\\Models' => app_path('Models'),
-            'App\\Pivots' => app_path('Pivots'),
-        ];
-
-        foreach ($modelsBasePaths as $baseNamespace => $basePath) {
-            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($basePath)) as $file) {
-                if ($file->isDir() || $file->getExtension() !== 'php') {
-                    continue;
-                }
-
-                $relativePath = str_replace($basePath.DIRECTORY_SEPARATOR, '', $file->getPath());
-                $relativeNamespace = $relativePath ? '\\'.str_replace(DIRECTORY_SEPARATOR, '\\', $relativePath) : '';
-
-                $namespace = $baseNamespace.$relativeNamespace;
-
-                if (! in_array($namespace, $modelNamespaces)) {
-                    $modelNamespaces[] = $namespace;
-                }
-            }
-        }
-
-        Config::set('lighthouse.namespaces.models', $modelNamespaces);
     }
 
     /**
@@ -150,23 +103,6 @@ class GraphQLServiceProvider extends ServiceProvider
 
             // Cache::put("lighthouse.types.{$class->getName()}", $fullClass);
 
-            // Build SortableColumns enums.
-            $dispatcher->listen(BuildSchemaString::class, fn () => new SortableColumns($class)->__toString());
-
-            // Build the types.
-            $dispatcher->listen(BuildSchemaString::class, fn () => $class->toGraphQLString());
-
-            // Build the edges.
-            collect($class->relations())
-                ->filter(fn (Relation $relation) => $relation instanceof BelongsToManyRelation)
-                ->map(fn (BelongsToManyRelation $relation) => $relation->getEdgeType())
-                ->each(function (EdgeType $edge) use ($dispatcher) {
-                    $dispatcher->listen(BuildSchemaString::class, fn () => $edge->__toString());
-                    $dispatcher->listen(BuildSchemaString::class, fn () => new EdgeConnection($edge)->__toString());
-                });
-
-            $dispatcher->listen(BuildSchemaString::class, fn () => WhereArgument::buildEnum($class));
-
             // if ($class instanceof EloquentType && $class instanceof ReportableType) {
             //         $dispatcher->listen(BuildSchemaString::class, fn () => new CreateInput($class)->__toString());
             //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateInput($class)->__toString());
@@ -181,49 +117,6 @@ class GraphQLServiceProvider extends ServiceProvider
             //         $dispatcher->listen(BuildSchemaString::class, fn () => new UpdateBelongsToManyInput($class)->__toString());
             //     }
             // }
-        }
-    }
-
-    /**
-     * Register the queries that were made programmatically.
-     */
-    protected function bootMutations(): void
-    {
-        $dispatcher = app(Dispatcher::class);
-
-        $mutations = [];
-
-        foreach (File::allFiles(app_path('GraphQL/Definition/Mutations')) as $file) {
-            $fullClass = Str::of($file->getPathname())
-                ->after(app_path())
-                ->prepend('App')
-                ->replace(['/', '.php'], ['\\', ''])
-                ->toString();
-
-            $reflection = new ReflectionClass($fullClass);
-
-            if (! $reflection->isInstantiable()) {
-                continue;
-            }
-
-            /** @var BaseMutation $class */
-            $class = new $fullClass;
-
-            // Skip for now
-            if ($class instanceof BaseReportMutation) {
-                continue;
-            }
-
-            $dispatcher->listen(
-                BuildSchemaString::class,
-                fn (): string => "
-                    extend type Mutation @guard {
-                        {$class->toGraphQLString()}
-                    }
-                "
-            );
-
-            $mutations[] = $class->toGraphQLString();
         }
     }
 }

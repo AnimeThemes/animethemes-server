@@ -14,12 +14,12 @@ class AnnouncementPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         /** @var Announcement $announcement */
-        $announcement = Arr::get($injected, $keyName);
+        $announcement = Arr::get($args, $keyName);
 
         return $announcement->public;
     }

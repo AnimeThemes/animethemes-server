@@ -9,14 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 interface BindableField
 {
     /**
-     * Get the model that the field should bind to.
-     *
-     * @return class-string<Model>
+     * The resolver to cast the model.
      */
-    public function bindTo(): string;
-
-    /**
-     * Get the column that the field should use to bind.
-     */
-    public function bindUsingColumn(): string;
+    public function bindResolver(array $args): ?Model;
 }

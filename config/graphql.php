@@ -13,6 +13,8 @@ use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ArtistPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\PerformancePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\VideoPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\List\Playlist\PlaylistTrackQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\Wiki\AnimeQuery;
 use App\GraphQL\Definition\Queries\SearchQuery;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
@@ -47,7 +49,6 @@ use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\GraphQL\Definition\Unions\LikedUnion;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
-use App\GraphQL\Middleware\MaxCount;
 
 return [
     'route' => [
@@ -131,7 +132,11 @@ return [
                 // Document
                 PagePaginatorQuery::class,
 
+                // List
+                PlaylistTrackQuery::class,
+
                 // Wiki
+                AnimeQuery::class,
                 AnimePaginatorQuery::class,
                 AnimeSynonymPaginatorQuery::class,
                 AnimeThemePaginatorQuery::class,
@@ -201,19 +206,19 @@ return [
             // Laravel HTTP middleware
             'middleware' => [
                 // Set the serving context to graphql.
-                App\GraphQL\Middleware\SetServingGraphQL::class,
+                App\Http\Middleware\GraphQL\SetServingGraphQL::class,
 
                 // Rate limiting GraphQL to prevent abuse.
                 'throttle:graphql',
 
                 // GraphQL needs to have their own policies.
-                App\GraphQL\Middleware\GraphQLPolicy::class,
+                App\Http\Middleware\GraphQL\GraphQLPolicy::class,
 
                 // Allow client to get full database.
-                MaxCount::class,
+                App\Http\Middleware\GraphQL\MaxCount::class,
 
                 // Logs GraphQL Requests.
-                App\GraphQL\Middleware\LogGraphQLRequest::class,
+                App\Http\Middleware\GraphQL\LogGraphQLRequest::class,
             ],
 
             // Which HTTP methods to support; must be given in UPPERCASE!

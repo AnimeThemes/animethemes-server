@@ -6,7 +6,6 @@ namespace App\GraphQL\Policies\List;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
-use App\GraphQL\Controllers\List\PlaylistController;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -17,12 +16,12 @@ class PlaylistPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, $keyName);
+        $playlist = Arr::get($args, $keyName);
 
         if ($user !== null) {
             return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)
@@ -35,39 +34,39 @@ class PlaylistPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function update(User $user, array $injected, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
+    public function update(User $user, array $args, ?string $keyName = 'model'): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, $keyName);
+        $playlist = Arr::get($args, $keyName);
 
-        return $playlist->user()->is($user) && parent::update($user, $injected, $keyName);
+        return $playlist->user()->is($user) && parent::update($user, $args, $keyName);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function delete(User $user, array $injected, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
+    public function delete(User $user, array $args, ?string $keyName = 'model'): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, $keyName);
+        $playlist = Arr::get($args, $keyName);
 
-        return $playlist->user()->is($user) && parent::delete($user, $injected, $keyName);
+        return $playlist->user()->is($user) && parent::delete($user, $args, $keyName);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function restore(User $user, array $injected, ?string $keyName = PlaylistController::ROUTE_SLUG): bool
+    public function restore(User $user, array $args, ?string $keyName = 'model'): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, $keyName);
+        $playlist = Arr::get($args, $keyName);
 
-        return $playlist->user()->is($user) && parent::restore($user, $injected, $keyName);
+        return $playlist->user()->is($user) && parent::restore($user, $args, $keyName);
     }
 }

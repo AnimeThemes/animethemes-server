@@ -31,7 +31,6 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 class SearchQuery extends BaseQuery
 {
@@ -75,7 +74,7 @@ class SearchQuery extends BaseQuery
     }
 
     /**
-     * @return Collection
+     * @return array<string, array>
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
@@ -128,6 +127,7 @@ class SearchQuery extends BaseQuery
 
         $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$field}.{$field}.selectionSet");
 
+        /** @phpstan-ignore-next-line */
         return $model::search($term)
             ->query(fn (Builder $builder) => $this->constrainEagerLoads($builder, $fields, $type))
             ->paginate($first, $page)
