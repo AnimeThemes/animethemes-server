@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
 
 class ExistsField extends Field implements DisplayableField
 {

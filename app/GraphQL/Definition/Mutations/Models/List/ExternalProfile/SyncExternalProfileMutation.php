@@ -56,7 +56,7 @@ class SyncExternalProfileMutation extends BaseMutation
     {
         $type = new ExternalProfileType();
 
-        return $this->resolveBindArguments($type->fields());
+        return $this->resolveBindArguments($type->fieldClasses());
     }
 
     /**
@@ -69,7 +69,7 @@ class SyncExternalProfileMutation extends BaseMutation
     {
         $type = new ExternalProfileType();
 
-        return collect($type->fields())
+        return collect($type->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof BindableField)
             ->mapWithKeys(fn (Field&BindableField $field) => [$field->getColumn() => ['required']])
             ->toArray();
@@ -99,6 +99,6 @@ class SyncExternalProfileMutation extends BaseMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::make(SyncExternalProfileController::class)
-            ->store($root, $args, $context, $resolveInfo);
+            ->store($root, $args);
     }
 }

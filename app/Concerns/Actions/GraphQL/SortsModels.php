@@ -37,7 +37,7 @@ trait SortsModels
     }
 
     /**
-     * @param  array<string, string>  $args
+     * @param  array<string, string>  $sorts
      * @param  array<string, array<string, mixed>>  $resolvers
      *
      * @throws InvalidArgumentException
@@ -64,7 +64,7 @@ trait SortsModels
             if ($sortType === SortType::AGGREGATE) {
                 $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
                 if ($relation === null) {
-                    throw new InvalidArgumentException("The 'relation' argument is required for the @{$this->name()} directive with aggregate sort type.");
+                    throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type.");
                 }
 
                 $builder->withAggregate([

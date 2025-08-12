@@ -39,7 +39,7 @@ class UnlikeMutation extends BaseMutation
     {
         $type = new LikeType();
 
-        return $this->resolveBindArguments($type->fields(), false);
+        return $this->resolveBindArguments($type->fieldClasses(), false);
     }
 
     /**
@@ -52,7 +52,7 @@ class UnlikeMutation extends BaseMutation
     {
         $type = new LikeType();
 
-        return collect($type->fields())
+        return collect($type->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof DeletableField)
             ->mapWithKeys(fn (Field&DeletableField $field) => [$field->getColumn() => $field->getDeleteRules($args)])
             ->toArray();
@@ -82,6 +82,6 @@ class UnlikeMutation extends BaseMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::make(LikeController::class)
-            ->destroy($root, $args, $context, $resolveInfo);
+            ->destroy($root, $args);
     }
 }

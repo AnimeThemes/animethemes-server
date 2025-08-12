@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Input\Base;
 
-use App\Concerns\GraphQL\ResolvesArguments;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
@@ -23,8 +22,6 @@ use Illuminate\Support\Arr;
 
 class UpdateInput extends Input
 {
-    use ResolvesArguments;
-
     public function __construct(
         protected EloquentType $type,
     ) {
@@ -42,12 +39,12 @@ class UpdateInput extends Input
 
         $baseType = $this->type;
 
-        $fields[] = collect($baseType->fields())
+        $fields[] = collect($baseType->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof BindableField)
             ->map(fn (Field&BindableField $field) => new InputField($field->getName(), $field->type()->__toString().'!'))
             ->toArray();
 
-        $fields[] = collect($baseType->fields())
+        $fields[] = collect($baseType->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof UpdatableField) // and reportable field?
             ->map(
                 fn (Field&UpdatableField $field) => new InputField($field->getName(), $field->type().($field instanceof RequiredOnUpdate ? '!' : ''))

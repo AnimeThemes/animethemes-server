@@ -31,10 +31,10 @@ abstract class DeleteMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
         }
 
         return Arr::flatten($arguments);

@@ -13,7 +13,7 @@ use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
@@ -69,7 +69,7 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasAr
     }
 
     /**
-     * @return Collection
+     * @return Paginator
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {

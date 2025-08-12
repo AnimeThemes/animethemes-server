@@ -34,11 +34,11 @@ abstract class CreateMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $bindableFields = Arr::where($baseType->fields(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
-            $notBindableFields = Arr::where($baseType->fields(), fn (Field $field) => ! $field instanceof BindableField);
+            $bindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
+            $notBindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => ! $field instanceof BindableField);
             $arguments[] = $this->resolveBindArguments($bindableFields);
             $arguments[] = $this->resolveCreateMutationArguments($notBindableFields);
         }
@@ -54,10 +54,10 @@ abstract class CreateMutation extends BaseMutation
      */
     protected function rules(array $args = []): array
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            return collect($baseType->fields())
+            return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field) => $field instanceof CreatableField)
                 ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
                 ->toArray();

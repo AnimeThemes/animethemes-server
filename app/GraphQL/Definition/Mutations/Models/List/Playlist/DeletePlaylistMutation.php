@@ -53,6 +53,6 @@ class DeletePlaylistMutation extends DeleteMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::make(PlaylistController::class)
-            ->destroy($root, $args, $context, $resolveInfo);
+            ->destroy($root, $args);
     }
 }

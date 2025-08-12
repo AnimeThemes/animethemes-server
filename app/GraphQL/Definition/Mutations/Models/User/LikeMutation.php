@@ -40,7 +40,7 @@ class LikeMutation extends BaseMutation
     {
         $type = new LikeType();
 
-        return $this->resolveBindArguments($type->fields(), false);
+        return $this->resolveBindArguments($type->fieldClasses(), false);
     }
 
     /**
@@ -53,7 +53,7 @@ class LikeMutation extends BaseMutation
     {
         $type = new LikeType();
 
-        return collect($type->fields())
+        return collect($type->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof CreatableField)
             ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
             ->toArray();
@@ -83,6 +83,6 @@ class LikeMutation extends BaseMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::make(LikeController::class)
-            ->store($root, $args, $context, $resolveInfo);
+            ->store($root, $args);
     }
 }

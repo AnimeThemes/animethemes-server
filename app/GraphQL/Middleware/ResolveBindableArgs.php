@@ -19,6 +19,7 @@ class ResolveBindableArgs extends Middleware
      */
     public function handle($root, array $args, $context, ResolveInfo $resolveInfo, Closure $next)
     {
+        /** @phpstan-ignore-next-line */
         $rebingType = $resolveInfo->fieldDefinition->config['type']->getWrappedType()->config['rebingType'];
 
         if (! $rebingType instanceof EloquentType) {

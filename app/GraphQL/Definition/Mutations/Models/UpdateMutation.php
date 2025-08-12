@@ -33,11 +33,11 @@ abstract class UpdateMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
-            $arguments[] = $this->resolveUpdateMutationArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
+            $arguments[] = $this->resolveUpdateMutationArguments($baseType->fieldClasses());
         }
 
         return Arr::flatten($arguments);
@@ -51,10 +51,10 @@ abstract class UpdateMutation extends BaseMutation
      */
     protected function rules(array $args = []): array
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            return collect($baseType->fields())
+            return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field) => $field instanceof UpdatableField)
                 ->mapWithKeys(fn (Field&UpdatableField $field) => [$field->getColumn() => $field->getUpdateRules($args)])
                 ->toArray();

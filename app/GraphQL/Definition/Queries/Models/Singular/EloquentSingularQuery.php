@@ -84,7 +84,7 @@ abstract class EloquentSingularQuery extends BaseQuery
      */
     protected function isTrashable(): bool
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof EloquentType) {
             return in_array(new DeletedAtField(), $baseType->fieldClasses());

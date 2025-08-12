@@ -42,6 +42,6 @@ class UpdatePlaylistTrackMutation extends UpdateMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::make(PlaylistTrackController::class)
-            ->update($root, $args, $context, $resolveInfo);
+            ->update($root, $args);
     }
 }
