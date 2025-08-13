@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator;
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\Actions\GraphQL\PaginatesModels;
+use App\Concerns\Actions\GraphQL\SearchModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\GraphQL\Definition\Queries\Models\EloquentQuery;
 use App\GraphQL\Definition\Types\BaseType;
@@ -24,6 +25,7 @@ abstract class EloquentPaginatorQuery extends EloquentQuery
     use ConstrainsEagerLoads;
     use FiltersModels;
     use PaginatesModels;
+    use SearchModels;
     use SortsModels;
 
     public function __construct(protected string $name)
@@ -50,6 +52,8 @@ abstract class EloquentPaginatorQuery extends EloquentQuery
         $builder = $model::query();
 
         $this->query($builder, $args);
+
+        $this->search($builder, $args);
 
         $this->filter($builder, $args, $this->baseRebingType());
 

@@ -52,6 +52,8 @@ abstract class BaseQuery extends Query
     abstract public function description(): string;
 
     /**
+     * The arguments of the class resolve as customs class helper.
+     *
      * @return Argument[]
      */
     public function arguments(): array
@@ -64,10 +66,6 @@ abstract class BaseQuery extends Query
             $arguments[] = new FirstArgument();
             $arguments[] = new PageArgument();
         }
-
-        // if ($this->resolveSearchAttribute()) {
-        //     $arguments[] = new Argument('search', Type::string())->directives(['search' => []]);
-        // }
 
         if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveFilterArguments($baseType->fieldClasses());

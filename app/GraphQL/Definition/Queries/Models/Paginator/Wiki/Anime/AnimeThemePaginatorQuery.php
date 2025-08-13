@@ -6,6 +6,8 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime;
 
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\SearchArgument;
 
 class AnimeThemePaginatorQuery extends EloquentPaginatorQuery
 {
@@ -28,5 +30,19 @@ class AnimeThemePaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): AnimeThemeType
     {
         return new AnimeThemeType();
+    }
+
+    /**
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [
+            ...parent::arguments(),
+
+            new SearchArgument(),
+        ];
     }
 }

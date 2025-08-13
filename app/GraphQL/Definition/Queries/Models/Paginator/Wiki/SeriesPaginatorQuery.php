@@ -6,6 +6,8 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki;
 
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\SearchArgument;
 
 class SeriesPaginatorQuery extends EloquentPaginatorQuery
 {
@@ -28,5 +30,19 @@ class SeriesPaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): SeriesType
     {
         return new SeriesType();
+    }
+
+    /**
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [
+            ...parent::arguments(),
+
+            new SearchArgument(),
+        ];
     }
 }

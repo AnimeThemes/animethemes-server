@@ -6,6 +6,8 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki;
 
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\SearchArgument;
 
 class StudioPaginatorQuery extends EloquentPaginatorQuery
 {
@@ -28,5 +30,19 @@ class StudioPaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): StudioType
     {
         return new StudioType();
+    }
+
+    /**
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [
+            ...parent::arguments(),
+
+            new SearchArgument(),
+        ];
     }
 }

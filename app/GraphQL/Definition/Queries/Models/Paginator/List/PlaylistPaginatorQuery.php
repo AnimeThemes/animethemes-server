@@ -7,6 +7,8 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator\List;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\SearchArgument;
 use App\Models\List\Playlist;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,20 @@ class PlaylistPaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): PlaylistType
     {
         return new PlaylistType();
+    }
+
+    /**
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [
+            ...parent::arguments(),
+
+            new SearchArgument(),
+        ];
     }
 
     /**
