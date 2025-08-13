@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Types\Document;
 use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
-use App\GraphQL\Definition\Fields\Base\IdField;
+use App\GraphQL\Definition\Fields\Base\IdUnbindableField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Document\Page\PageBodyField;
 use App\GraphQL\Definition\Fields\Document\Page\PageNameField;
@@ -34,7 +34,7 @@ class PageType extends EloquentType implements ReportableType
     public function fieldClasses(): array
     {
         return [
-            new IdField(Page::ATTRIBUTE_ID, Page::class),
+            new IdUnbindableField(Page::ATTRIBUTE_ID),
             new PageNameField(),
             new PageSlugField(),
             new PageBodyField(),

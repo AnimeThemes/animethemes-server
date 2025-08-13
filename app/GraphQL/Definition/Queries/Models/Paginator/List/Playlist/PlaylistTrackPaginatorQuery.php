@@ -8,6 +8,10 @@ use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlayl
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Support\Argument\Argument;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class PlaylistTrackPaginatorQuery extends EloquentPaginatorQuery
 {
@@ -44,5 +48,18 @@ class PlaylistTrackPaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
+    }
+
+    /**
+     * Manage the query.
+     */
+    protected function query(Builder $builder, array $args): Builder
+    {
+        /** @var Playlist $playlist */
+        $playlist = Arr::get($args, 'playlist');
+
+        $builder->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey());
+
+        return $builder;
     }
 }

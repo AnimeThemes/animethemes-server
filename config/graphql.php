@@ -4,25 +4,47 @@ declare(strict_types=1);
 
 use App\GraphQL\Definition\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Definition\Queries\Auth\MeQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Admin\AnnouncementPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Admin\DumpPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Admin\FeaturedThemePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Admin\FeaturePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Document\PagePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\List\ExternalProfilePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\List\Playlist\PlaylistTrackPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\List\PlaylistPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeSynonymPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeThemePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\Theme\AnimeThemeEntryPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AnimePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ArtistPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AudioPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ExternalResourcePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ImagePaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\MembershipPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\PerformancePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SongPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\StudioPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ThemeGroupPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Video\VideoScriptPaginatorQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\VideoPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\Document\PageQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\List\Playlist\PlaylistTrackQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\List\PlaylistQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\Wiki\AnimeQuery;
 use App\GraphQL\Definition\Queries\SearchQuery;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
+use App\GraphQL\Definition\Types\Admin\AnnouncementType;
+use App\GraphQL\Definition\Types\Admin\DumpType;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
+use App\GraphQL\Definition\Types\Admin\FeatureType;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
 use App\GraphQL\Definition\Types\Document\PageType;
+use App\GraphQL\Definition\Types\List\External\ExternalEntryType;
+use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\SearchType;
@@ -124,16 +146,25 @@ return [
         'default' => [
             'query' => [
                 // Admin
-                //   CurrentFeaturedThemeQuery::class,
+                AnnouncementPaginatorQuery::class,
+                DumpPaginatorQuery::class,
+                FeaturePaginatorQuery::class,
+                FeaturedThemePaginatorQuery::class,
+                CurrentFeaturedThemeQuery::class,
 
                 // Auth
-                //  MeQuery::class,
+                MeQuery::class,
 
                 // Document
+                PageQuery::class,
                 PagePaginatorQuery::class,
 
                 // List
+                ExternalProfilePaginatorQuery::class,
+                PlaylistQuery::class,
                 PlaylistTrackQuery::class,
+                PlaylistPaginatorQuery::class,
+                PlaylistTrackPaginatorQuery::class,
 
                 // Wiki
                 AnimeQuery::class,
@@ -142,9 +173,17 @@ return [
                 AnimeThemePaginatorQuery::class,
                 AnimeThemeEntryPaginatorQuery::class,
                 ArtistPaginatorQuery::class,
+                AudioPaginatorQuery::class,
+                ExternalResourcePaginatorQuery::class,
+                ImagePaginatorQuery::class,
+                MembershipPaginatorQuery::class,
                 PerformancePaginatorQuery::class,
                 SeriesPaginatorQuery::class,
+                SongPaginatorQuery::class,
+                StudioPaginatorQuery::class,
+                ThemeGroupPaginatorQuery::class,
                 VideoPaginatorQuery::class,
+                VideoScriptPaginatorQuery::class,
 
                 // Others
                 AnimeYearsQuery::class,
@@ -157,6 +196,9 @@ return [
             // The types only available in this schema
             'types' => [
                 // Admin
+                AnnouncementType::class,
+                DumpType::class,
+                FeatureType::class,
                 FeaturedThemeType::class,
 
                 // Auth
@@ -167,6 +209,8 @@ return [
                 PageType::class,
 
                 // List
+                ExternalProfileType::class,
+                ExternalEntryType::class,
                 PlaylistType::class,
                 PlaylistTrackType::class,
 

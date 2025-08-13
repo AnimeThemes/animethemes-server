@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Document\Page;
 
+use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
@@ -12,7 +13,7 @@ use App\Models\Document\Page;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class PageSlugField extends StringField implements CreatableField, RequiredOnCreation, UpdatableField
+class PageSlugField extends StringField implements BindableField, CreatableField, RequiredOnCreation, UpdatableField
 {
     public function __construct()
     {
@@ -25,6 +26,14 @@ class PageSlugField extends StringField implements CreatableField, RequiredOnCre
     public function description(): string
     {
         return 'The URL slug & route key of the resource';
+    }
+
+    /**
+     * The resolver to cast the model.
+     */
+    public function bindResolver(array $args): null
+    {
+        return null;
     }
 
     /**

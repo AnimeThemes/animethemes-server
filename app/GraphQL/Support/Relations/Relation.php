@@ -111,7 +111,7 @@ abstract class Relation
                     'name' => $argument->name,
                     'type' => $argument->getType(),
 
-                    //     ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
+                    ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
                 ],
             ])
             ->toArray();

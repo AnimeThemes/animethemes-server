@@ -15,7 +15,7 @@ class FirstArgument extends Argument
 
         $this->required();
 
-        // Ddefault count set to unlimited for relations for everyone
+        // Default count set to unlimited for relations for everyone
         // and set to config value for paginator queries.
         $this->withDefaultValue(
             $isRelation

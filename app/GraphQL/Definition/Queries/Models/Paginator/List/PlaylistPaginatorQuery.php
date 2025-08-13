@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\List;
 
+use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\Models\List\Playlist;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class PlaylistPaginatorQuery extends EloquentPaginatorQuery
 {
@@ -28,5 +32,19 @@ class PlaylistPaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): PlaylistType
     {
         return new PlaylistType();
+    }
+
+    /**
+     * Manage the query.
+     */
+    protected function query(Builder $builder, array $args): Builder
+    {
+        $builder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
+
+        if ($user = Auth::user()) {
+            return $builder->orWhereBelongsTo($user, Playlist::RELATION_USER);
+        }
+
+        return $builder;
     }
 }

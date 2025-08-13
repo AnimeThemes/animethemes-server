@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Queries\Auth;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 use App\GraphQL\Support\Argument\Argument;
+use App\Models\Auth\User;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,11 @@ class MeQuery extends BaseQuery
         return new MeType();
     }
 
+    /**
+     * Resolve the query.
+     *
+     * @return User|null
+     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         return Auth::user();

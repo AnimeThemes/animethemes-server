@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Queries\Models\Paginator\Admin;
 
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Admin\AnnouncementType;
+use Illuminate\Database\Eloquent\Builder;
 
 class AnnouncementPaginatorQuery extends EloquentPaginatorQuery
 {
@@ -28,5 +29,14 @@ class AnnouncementPaginatorQuery extends EloquentPaginatorQuery
     public function baseRebingType(): AnnouncementType
     {
         return new AnnouncementType();
+    }
+
+    /**
+     * Manage the query.
+     */
+    protected function query(Builder $builder, array $args): Builder
+    {
+        /** @phpstan-ignore-next-line */
+        return $builder->public();
     }
 }

@@ -45,6 +45,12 @@ class CurrentFeaturedThemeQuery extends BaseQuery
         return new FeaturedThemeType();
     }
 
+    /**
+     * Resolve the query.
+     *
+     * @param  array<string, mixed>  $args
+     * @return FeaturedTheme|null
+     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         return FeaturedTheme::query()
