@@ -18,7 +18,7 @@ trait ConstrainsEagerLoads
     use SortsModels;
 
     /**
-     * Aplica eager loads com filtros/ordenação baseados na seleção de campos do GraphQL.
+     * Apply eager loads with filters and sorting.
      */
     protected function constrainEagerLoads(Builder $query, ResolveInfo|array $resolveInfo, BaseType $type): void
     {
