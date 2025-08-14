@@ -49,12 +49,12 @@ class EdgeConnectionType extends RebingType
             ],
             'edges' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),
-                'description' => 'A list of %3$s edges.',
+                'description' => "A list of {$this->getNodeTypeName()} edges.",
                 'resolve' => fn (LengthAwarePaginator $paginator) => $this->edgesResolver($paginator),
             ],
             'nodes' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->getNodeTypeName())))),
-                'description' => 'A list of %3$s resources. Use this if you don\'t care about pivot fields.',
+                'description' => "A list of {$this->getNodeTypeName()} resources. Use this if you don\'t care about pivot fields.",
                 'resolve' => fn (LengthAwarePaginator $paginator) => new Collection(array_values($paginator->items())),
             ],
         ];
