@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\CreatePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\DeletePlaylistMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\Track\DeletePlaylistTrackMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
+use App\GraphQL\Definition\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
 use App\GraphQL\Definition\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Definition\Queries\Auth\MeQuery;
 use App\GraphQL\Definition\Queries\Models\Paginator\Admin\AnnouncementPaginatorQuery;
@@ -47,6 +53,7 @@ use App\GraphQL\Definition\Types\List\External\ExternalEntryType;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\GraphQL\Definition\Types\MessageResponseType;
 use App\GraphQL\Definition\Types\SearchType;
 use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
 use App\GraphQL\Definition\Types\User\NotificationType;
@@ -122,15 +129,6 @@ return [
     //
     //          ]
     //      ],
-    //      'user' => [
-    //          'query' => [
-    //              App\GraphQL\Queries\ProfileQuery::class,
-    //          ],
-    //          'mutation' => [
-    //
-    //          ],
-    //          'middleware' => ['auth'],
-    //      ],
     //      'user/me' => [
     //          'query' => [
     //              App\GraphQL\Queries\MyProfileQuery::class,
@@ -191,9 +189,14 @@ return [
                 SearchQuery::class,
             ],
             'mutation' => [
-                // ExampleMutation::class,
+                CreatePlaylistMutation::class,
+                UpdatePlaylistMutation::class,
+                DeletePlaylistMutation::class,
+
+                CreatePlaylistTrackMutation::class,
+                UpdatePlaylistTrackMutation::class,
+                DeletePlaylistTrackMutation::class,
             ],
-            // The types only available in this schema
             'types' => [
                 // Admin
                 AnnouncementType::class,
@@ -240,6 +243,7 @@ return [
                 AnimeYearSeasonsType::class,
                 AnimeYearSeasonType::class,
                 AnimeYearType::class,
+                MessageResponseType::class,
                 SearchType::class,
 
                 // Unions
@@ -275,13 +279,6 @@ return [
 
     // The global types available to all schemas.
     // You can then access it from the facade like this: GraphQL::type('user')
-    //
-    // Example:
-    //
-    // 'types' => [
-    //     App\GraphQL\Types\UserType::class
-    // ]
-    //
     'types' => [
         // Paginator
         PaginatorInfoType::class,
@@ -314,8 +311,8 @@ return [
      * for details. Disabled by default.
      */
     'security' => [
-        'query_max_complexity' => null,
-        'query_max_depth' => null,
+        'query_max_complexity' => 217,
+        'query_max_depth' => 13,
         'disable_introspection' => false,
     ],
 

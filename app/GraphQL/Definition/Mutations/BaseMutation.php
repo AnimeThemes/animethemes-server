@@ -7,6 +7,7 @@ namespace App\GraphQL\Definition\Mutations;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Unions\BaseUnion;
+use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -22,7 +23,14 @@ abstract class BaseMutation extends Mutation
 
     public function __construct(
         protected string $name,
-    ) {}
+    ) {
+        $this->middleware = array_merge(
+            $this->middleware,
+            [
+                ResolveBindableArgs::class,
+            ],
+        );
+    }
 
     /**
      * Get the attributes of the mutation.
@@ -34,6 +42,7 @@ abstract class BaseMutation extends Mutation
         return [
             'name' => $this->getName(),
             'description' => $this->description(),
+            'rebingType' => $this->baseRebingType(),
         ];
     }
 

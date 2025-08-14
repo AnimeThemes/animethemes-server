@@ -10,9 +10,12 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 abstract class CreateMutation extends BaseMutation
@@ -23,6 +26,14 @@ abstract class CreateMutation extends BaseMutation
     public function __construct(protected string $model)
     {
         parent::__construct('Create'.Str::pascal(class_basename($model)));
+    }
+
+    /**
+     * Authorize the mutation.
+     */
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    {
+        return Gate::allows('create', [$this->model, $args]);
     }
 
     /**
@@ -52,7 +63,7 @@ abstract class CreateMutation extends BaseMutation
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
-    protected function rules(array $args = []): array
+    public function rulesForValidation(array $args = []): array
     {
         $baseType = $this->baseRebingType();
 

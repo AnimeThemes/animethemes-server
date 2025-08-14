@@ -79,7 +79,7 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
             ->map(
-                fn (Field $field) => new Argument($field->getColumn(), $field->type())
+                fn (Field $field) => new Argument($field->getColumn(), $field->baseType())
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
@@ -97,7 +97,7 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
             ->map(
-                fn (Field $field) => new Argument($field->getColumn(), $field->type())
+                fn (Field $field) => new Argument($field->getColumn(), $field->baseType())
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()

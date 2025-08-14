@@ -28,7 +28,7 @@ class LikeController extends BaseController
      * Store a newly created resource.
      *
      * @param  null  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      *
      * @throws ClientValidationException
      */
@@ -58,7 +58,7 @@ class LikeController extends BaseController
      * Remove the specified resource.
      *
      * @param  null  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      *
      * @throws ClientValidationException
      */

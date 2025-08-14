@@ -48,7 +48,7 @@ class UnlikeMutation extends BaseMutation
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
-    protected function rules(array $args = []): array
+    public function rulesForValidation(array $args = []): array
     {
         $type = new LikeType();
 

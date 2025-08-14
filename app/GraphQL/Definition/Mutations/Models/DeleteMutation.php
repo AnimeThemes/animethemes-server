@@ -7,9 +7,12 @@ namespace App\GraphQL\Definition\Mutations\Models;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 abstract class DeleteMutation extends BaseMutation
@@ -20,6 +23,14 @@ abstract class DeleteMutation extends BaseMutation
     public function __construct(protected string $model)
     {
         parent::__construct('Delete'.Str::pascal(class_basename($model)));
+    }
+
+    /**
+     * Authorize the mutation.
+     */
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    {
+        return Gate::allows('delete', [$this->model, $args]);
     }
 
     /**

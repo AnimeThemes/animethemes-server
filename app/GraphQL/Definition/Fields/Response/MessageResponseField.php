@@ -12,7 +12,7 @@ class MessageResponseField extends Field implements DisplayableField
 {
     public function __construct()
     {
-        parent::__construct('message');
+        parent::__construct('message', nullable: false);
     }
 
     /**

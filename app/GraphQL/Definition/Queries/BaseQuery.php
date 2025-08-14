@@ -35,6 +35,7 @@ abstract class BaseQuery extends Query
         return [
             'name' => $this->getName(),
             'description' => $this->description(),
+            'rebingType' => $this->baseRebingType(),
         ];
     }
 

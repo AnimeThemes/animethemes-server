@@ -12,7 +12,6 @@ use App\GraphQL\Definition\Mutations\Models\List\Playlist\Track\CreatePlaylistTr
 use App\GraphQL\Definition\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 /**
@@ -20,13 +19,11 @@ use Illuminate\Support\Arr;
  */
 class PlaylistTrackController extends BaseController
 {
-    final public const ROUTE_SLUG = 'id';
-
     /**
      * Store a newly created resource.
      *
      * @param  null  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
     public function store($root, array $args): PlaylistTrack
     {
@@ -46,14 +43,14 @@ class PlaylistTrackController extends BaseController
      * Update the specified resource.
      *
      * @param  null  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
     public function update($root, array $args): PlaylistTrack
     {
         $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
 
         /** @var PlaylistTrack $track */
-        $track = Arr::pull($validated, self::ROUTE_SLUG);
+        $track = Arr::pull($validated, self::MODEL);
 
         $action = new UpdateTrackAction();
 
@@ -66,19 +63,19 @@ class PlaylistTrackController extends BaseController
      * Remove the specified resource.
      *
      * @param  null  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
-    public function destroy($root, array $args): JsonResponse
+    public function destroy($root, array $args): array
     {
         /** @var PlaylistTrack $track */
-        $track = Arr::get($args, self::ROUTE_SLUG);
+        $track = Arr::get($args, self::MODEL);
 
         $action = new DestroyTrackAction();
 
         $message = $action->destroy($track->playlist, $track);
 
-        return new JsonResponse([
+        return [
             'message' => $message,
-        ]);
+        ];
     }
 }
