@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Actions\GraphQL;
 
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Relations\Relation;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,9 +32,13 @@ trait ConstrainsEagerLoads
     /**
      * Process recursively the relations available for the given type.
      */
-    private function processEagerLoadForType(Builder $builder, array $fields, BaseType $type): void
+    private function processEagerLoadForType(Builder $builder, array $fields, BaseType|BaseUnion $type): void
     {
         $eagerLoadRelations = [];
+
+        if ($type instanceof BaseUnion) {
+            return;
+        }
 
         /** @var array<int, Relation> $relations */
         $relations = collect($type->relations())
