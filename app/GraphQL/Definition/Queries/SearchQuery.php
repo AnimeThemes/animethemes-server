@@ -31,6 +31,7 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Number;
 
 class SearchQuery extends BaseQuery
 {
@@ -123,7 +124,7 @@ class SearchQuery extends BaseQuery
     {
         $term = Arr::get($args, 'search');
         $page = Arr::get($args, 'page');
-        $first = Arr::get($args, 'first');
+        $first = Number::clamp(Arr::get($args, 'first'), 1, 15);
 
         $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$field}.{$field}.selectionSet");
 

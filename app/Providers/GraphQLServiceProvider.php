@@ -46,8 +46,6 @@ class GraphQLServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->bootEnums();
-
-        //  $this->bootTypes();
     }
 
     /**

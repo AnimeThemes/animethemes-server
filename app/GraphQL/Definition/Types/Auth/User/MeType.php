@@ -12,6 +12,8 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Types\Auth\PermissionType;
+use App\GraphQL\Definition\Types\Auth\RoleType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\User\NotificationType;
@@ -42,6 +44,8 @@ class MeType extends EloquentType
         return [
             new MorphManyRelation(new NotificationType(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
+            new BelongsToManyRelation($this, RoleType::class, User::RELATION_ROLES),
+            new BelongsToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
             new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
             new BelongsToManyRelation($this, VideoType::class, 'likedvideos'),
         ];

@@ -45,6 +45,8 @@ use App\GraphQL\Definition\Types\Admin\AnnouncementType;
 use App\GraphQL\Definition\Types\Admin\DumpType;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
 use App\GraphQL\Definition\Types\Admin\FeatureType;
+use App\GraphQL\Definition\Types\Auth\PermissionType;
+use App\GraphQL\Definition\Types\Auth\RoleType;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
@@ -206,6 +208,8 @@ return [
 
                 // Auth
                 MeType::class,
+                RoleType::class,
+                PermissionType::class,
                 UserType::class,
 
                 // Document
