@@ -46,7 +46,8 @@ class PlaylistType extends EloquentType
         return [
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_FIRST),
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
-            new BelongsToRelation(new UserType(), Playlist::RELATION_USER),
+            new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
+                ->notNullable(),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
             new BelongsToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, PlaylistImageType::class),
         ];

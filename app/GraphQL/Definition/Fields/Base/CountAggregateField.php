@@ -8,9 +8,10 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
 use App\GraphQL\Definition\Fields\Field;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
 
-// TODO
 class CountAggregateField extends Field implements DisplayableField, SortableField
 {
     public function __construct(
@@ -52,5 +53,15 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
     public function relation(): ?string
     {
         return $this->aggregateRelation;
+    }
+
+    /**
+     * Resolve the field.
+     *
+     * @param  Model  $root
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        return (int) $root->{$this->aggregateRelation}?->value;
     }
 }
