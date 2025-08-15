@@ -16,16 +16,16 @@ class DumpPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         if ($user?->hasRole(Role::ADMIN->value)) {
             return true;
         }
 
         /** @var Dump $dump */
-        $dump = Arr::get($injected, $keyName);
+        $dump = Arr::get($args, $keyName);
 
         return Str::contains($dump->path, Dump::safeDumps());
     }

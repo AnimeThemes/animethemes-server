@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Admin;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Controllers\Admin\DumpController;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
+use Illuminate\Database\Eloquent\Builder;
 
-#[UseBuilderDirective(DumpController::class)]
-#[UsePaginateDirective]
 class DumpPaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -30,8 +26,17 @@ class DumpPaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): DumpType
+    public function baseRebingType(): DumpType
     {
         return new DumpType();
+    }
+
+    /**
+     * Manage the query.
+     */
+    protected function query(Builder $builder, array $args): Builder
+    {
+        /** @phpstan-ignore-next-line */
+        return $builder->onlySafeDumps();
     }
 }

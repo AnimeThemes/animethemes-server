@@ -27,7 +27,7 @@ class NotificationDataField extends JsonField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): NotificationDataType
     {
         return new NotificationDataType();
     }

@@ -12,13 +12,13 @@ class MessageResponseField extends Field implements DisplayableField
 {
     public function __construct()
     {
-        parent::__construct('message');
+        parent::__construct('message', nullable: false);
     }
 
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
     }

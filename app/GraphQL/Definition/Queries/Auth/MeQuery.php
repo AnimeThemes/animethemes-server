@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Auth;
 
-use App\GraphQL\Attributes\Resolvers\UseAuthDirective;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 use App\GraphQL\Support\Argument\Argument;
+use App\Models\Auth\User;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Facades\Auth;
 
-#[UseAuthDirective]
 class MeQuery extends BaseQuery
 {
     public function __construct()
@@ -38,8 +40,18 @@ class MeQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): MeType
+    public function baseRebingType(): MeType
     {
         return new MeType();
+    }
+
+    /**
+     * Resolve the query.
+     *
+     * @return User|null
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        return Auth::user();
     }
 }

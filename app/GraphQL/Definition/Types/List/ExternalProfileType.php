@@ -25,7 +25,7 @@ class ExternalProfileType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents a user profile on the external site like MAL.';
     }
@@ -48,7 +48,7 @@ class ExternalProfileType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new ExternalProfileIdField(),

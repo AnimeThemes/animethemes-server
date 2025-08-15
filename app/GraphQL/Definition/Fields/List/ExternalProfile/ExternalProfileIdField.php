@@ -16,20 +16,10 @@ class ExternalProfileIdField extends IdField implements BindableField
     }
 
     /**
-     * Get the model that the field should bind to.
-     *
-     * @return class-string<ExternalProfile>
+     * The resolver to cast the model.
      */
-    public function bindTo(): string
+    public function bindResolver(array $args): null
     {
-        return ExternalProfile::class;
-    }
-
-    /**
-     * Get the column that the field should use to bind.
-     */
-    public function bindUsingColumn(): string
-    {
-        return $this->column;
+        return null;
     }
 }

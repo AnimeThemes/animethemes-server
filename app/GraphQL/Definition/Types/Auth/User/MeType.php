@@ -12,6 +12,8 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Types\Auth\PermissionType;
+use App\GraphQL\Definition\Types\Auth\RoleType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\User\NotificationType;
@@ -20,16 +22,14 @@ use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
 use App\GraphQL\Support\Relations\MorphManyRelation;
 use App\GraphQL\Support\Relations\Relation;
-use App\GraphQL\Support\Sort\Sort;
 use App\Models\Auth\User;
-use Illuminate\Support\Collection;
 
 class MeType extends EloquentType
 {
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the currently authenticated user.';
     }
@@ -44,6 +44,8 @@ class MeType extends EloquentType
         return [
             new MorphManyRelation(new NotificationType(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
+            new BelongsToManyRelation($this, RoleType::class, User::RELATION_ROLES),
+            new BelongsToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
             new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
             new BelongsToManyRelation($this, VideoType::class, 'likedvideos'),
         ];
@@ -54,7 +56,7 @@ class MeType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(User::ATTRIBUTE_ID, User::class),
@@ -75,15 +77,5 @@ class MeType extends EloquentType
     public function model(): string
     {
         return User::class;
-    }
-
-    /**
-     * Get the sorts of the resource.
-     *
-     * @return Collection<int, Sort>
-     */
-    public function sorts(): Collection
-    {
-        return new Collection();
     }
 }

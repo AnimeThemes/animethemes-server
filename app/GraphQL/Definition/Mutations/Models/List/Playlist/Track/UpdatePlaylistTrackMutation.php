@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Mutations\Models\List\Playlist\Track;
 
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
 use App\GraphQL\Definition\Mutations\Models\UpdateMutation;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist\PlaylistTrack;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Facades\App;
 
-#[UseFieldDirective(PlaylistTrackController::class, 'update')]
 class UpdatePlaylistTrackMutation extends UpdateMutation
 {
     public function __construct()
@@ -29,8 +29,19 @@ class UpdatePlaylistTrackMutation extends UpdateMutation
     /**
      * The base return type of the query.
      */
-    public function baseType(): PlaylistTrackType
+    public function baseRebingType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
+    }
+
+    /**
+     * Resolve the mutation.
+     *
+     * @param  array<string, mixed>  $args
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        return App::make(PlaylistTrackController::class)
+            ->update($root, $args);
     }
 }

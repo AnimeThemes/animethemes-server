@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Input;
 
 use App\GraphQL\Support\InputField;
-use Illuminate\Support\Arr;
-use Stringable;
 
-abstract class Input implements Stringable
+abstract class Input
 {
     public function __construct(
         protected string $name,
@@ -29,22 +27,4 @@ abstract class Input implements Stringable
      * @return InputField[]
      */
     abstract public function fields(): array;
-
-    /**
-     * Get the input as a string representation.
-     */
-    public function __toString(): string
-    {
-        if (blank($this->fields())) {
-            return '';
-        }
-
-        return sprintf(
-            'input %s {
-                %s
-            }',
-            $this->getName(),
-            implode(PHP_EOL, Arr::map($this->fields(), fn (InputField $field) => $field->__toString()))
-        );
-    }
 }

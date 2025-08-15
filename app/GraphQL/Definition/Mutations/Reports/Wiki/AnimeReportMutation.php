@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Mutations\Reports\Wiki;
 
 use App\GraphQL\Definition\Mutations\Reports\Base\UpdateReportMutation;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class AnimeReportMutation extends UpdateReportMutation
 {
@@ -25,8 +26,19 @@ class AnimeReportMutation extends UpdateReportMutation
     /**
      * The base return type of the mutation.
      */
-    public function baseType(): AnimeType
+    public function baseRebingType(): AnimeType
     {
         return new AnimeType();
+    }
+
+    /**
+     * Resolve the mutation.
+     *
+     * @param  array<string, mixed>  $args
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        // TODO
+        return null;
     }
 }

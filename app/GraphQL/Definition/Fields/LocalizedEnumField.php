@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
@@ -27,23 +28,9 @@ class LocalizedEnumField extends Field implements DisplayableField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
-    }
-
-    /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'enumField' => [
-                'localize' => true,
-            ],
-        ];
     }
 
     /**
@@ -51,7 +38,7 @@ class LocalizedEnumField extends Field implements DisplayableField
      *
      * @param  mixed  $root
      */
-    public function resolve(mixed $root): mixed
+    public function resolve(mixed $root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, $this->column)?->localize();
     }

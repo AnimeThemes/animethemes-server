@@ -5,38 +5,31 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Unions;
 
 use App\GraphQL\Definition\Types\BaseType;
-use GraphQL\Type\Definition\UnionType;
-use Illuminate\Support\Str;
+use App\GraphQL\Definition\Types\EloquentType;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\UnionType;
 
 abstract class BaseUnion extends UnionType
 {
-    public function __construct()
-    {
-        parent::__construct([
-            'name' => $this->name(),
-            'description' => $this->description(),
-            'types' => $this->types(),
-        ]);
-    }
-
     /**
-     * Mount the type definition string.
+     * The attributes of the union.
+     *
+     * @return array<string,mixed>
      */
-    public function toGraphQLString(): string
+    public function attributes(): array
     {
-        return Str::of('union ')
-            ->append($this->name())
-            ->append(' = ')
-            ->append(collect($this->types())->map(fn (BaseType $type) => $type->name())->implode(' | '))
-            ->newLine()
-            ->__toString();
+        return [
+            'name' => $this->getName(),
+            'description' => $this->description(),
+        ];
     }
 
     /**
      * The name of the union type.
      * By default, it will be the class name.
      */
-    public function name(): string
+    public function getName(): string
     {
         return class_basename($this);
     }
@@ -50,9 +43,30 @@ abstract class BaseUnion extends UnionType
     }
 
     /**
+     * The types converted to the base.
+     *
+     * @return Type[]
+     */
+    public function types(): array
+    {
+        return collect($this->baseTypes())
+            ->map(fn (BaseType $type) => GraphQL::type($type->getName()))
+            ->toArray();
+    }
+
+    public function resolveType($value): Type
+    {
+        $baseType = collect($this->baseTypes())
+            ->filter(fn (BaseType $type) => $type instanceof EloquentType)
+            ->first(fn (EloquentType $type) => $type->model() === $value::class);
+
+        return GraphQL::type($baseType->getName());
+    }
+
+    /**
      * The types that this union can resolve to.
      *
      * @return BaseType[]
      */
-    abstract public function types(): array;
+    abstract public function baseTypes(): array;
 }

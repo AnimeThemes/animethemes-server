@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Relations;
 
-use App\Enums\GraphQL\RelationType;
+use App\Enums\GraphQL\PaginationType;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
 
 class HasOneRelation extends Relation
 {
@@ -22,10 +23,20 @@ class HasOneRelation extends Relation
     }
 
     /**
-     * The Relation type.
+     * The pagination type if applicable.
      */
-    protected function relation(): RelationType
+    public function paginationType(): PaginationType
     {
-        return RelationType::HAS_ONE;
+        return PaginationType::NONE;
+    }
+
+    /**
+     * Resolve the relation.
+     *
+     * @param  array<string, mixed>  $args
+     */
+    public function resolve(Model $root, array $args): mixed
+    {
+        return $root->{$this->relationName};
     }
 }

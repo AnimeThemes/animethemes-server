@@ -15,30 +15,28 @@ use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\BindableArgument;
 use App\GraphQL\Support\Argument\SortArgument;
-use App\GraphQL\Support\Directives\Filters\FilterDirective;
+use App\GraphQL\Support\Filter\Filter;
 use Illuminate\Support\Arr;
 
 trait ResolvesArguments
 {
-    use ResolvesDirectives;
-
     /**
-     * Build the arguments array into string.
+     * Resolve the args.
      *
-     * @param  Argument[]  $arguments
+     * @return array<string, array<string, mixed>>
      */
-    protected function buildArguments(array $arguments): string
+    public function args(): array
     {
-        if (blank($arguments)) {
-            return '';
-        }
+        return collect($this->arguments())
+            ->mapWithKeys(fn (Argument $argument) => [
+                $argument->name => [
+                    'name' => $argument->name,
+                    'type' => $argument->getType(),
 
-        $arguments = collect($arguments)
-            ->flatten()
-            ->map(fn (Argument $argument) => $argument->__toString())
-            ->implode(', ');
-
-        return sprintf('(%s)', $arguments);
+                    ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
+                ],
+            ])
+            ->toArray();
     }
 
     /**
@@ -52,8 +50,8 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof FilterableField)
             ->map(
-                fn (FilterableField $field) => collect($field->filterDirectives())
-                    ->map(fn (FilterDirective $directive) => $directive->argument())
+                fn (FilterableField $field) => collect($field->getFilters())
+                    ->map(fn (Filter $filter) => $filter->argument())
                     ->toArray()
             )
             ->flatten()
@@ -81,7 +79,7 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof CreatableField)
             ->map(
-                fn (Field $field) => new Argument($field->getColumn(), $field->type())
+                fn (Field $field) => new Argument($field->getColumn(), $field->baseType())
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
@@ -99,7 +97,7 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field) => $field instanceof UpdatableField)
             ->map(
-                fn (Field $field) => new Argument($field->getColumn(), $field->type())
+                fn (Field $field) => new Argument($field->getColumn(), $field->baseType())
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()

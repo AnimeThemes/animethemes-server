@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Admin;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Controllers\Admin\FeaturedThemeController;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
+use App\Models\Admin\FeaturedTheme;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Date;
 
-#[UseBuilderDirective(FeaturedThemeController::class)]
-#[UsePaginateDirective]
 class FeaturedThemePaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -30,8 +29,17 @@ class FeaturedThemePaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): FeaturedThemeType
+    public function baseRebingType(): FeaturedThemeType
     {
         return new FeaturedThemeType();
+    }
+
+    /**
+     * Manage the query.
+     */
+    protected function query(Builder $builder, array $args): Builder
+    {
+        return $builder->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
+            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now());
     }
 }

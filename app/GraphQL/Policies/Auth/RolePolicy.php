@@ -14,9 +14,9 @@ class RolePolicy extends BasePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function viewAny(?User $user, ?array $injected = null): bool
+    public function viewAny(?User $user, array $args = []): bool
     {
         return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
     }
@@ -24,9 +24,9 @@ class RolePolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
     }

@@ -11,8 +11,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * @extends BaseController<Anime>
@@ -20,14 +18,15 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class FindAnimeByExternalSiteController extends BaseController
 {
     /**
-     * Apply the query builder to the show query.
+     * Apply the query builder to the index query.
      *
-     * @param  Builder<Anime>  $builder
      * @param  array  $args
      * @return Builder<Anime>
      */
-    public function show(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    public function index(mixed $root, array $args, $context, $resolveInfo): Builder
     {
+        $builder = Anime::query();
+
         $site = Arr::get($args, FindAnimeByExternalSiteQuery::ATTRIBUTE_SITE);
         $externalId = Arr::get($args, FindAnimeByExternalSiteQuery::ATTRIBUTE_ID);
         $link = Arr::get($args, FindAnimeByExternalSiteQuery::ATTRIBUTE_LINK);

@@ -8,9 +8,9 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Support\Directives\Filters\EqFilterDirective;
-use App\GraphQL\Support\Directives\Filters\FilterDirective;
-use App\GraphQL\Support\Directives\Filters\LikeFilterDirective;
+use App\GraphQL\Support\Filter\EqFilter;
+use App\GraphQL\Support\Filter\Filter;
+use App\GraphQL\Support\Filter\LikeFilter;
 use GraphQL\Type\Definition\Type;
 
 abstract class StringField extends Field implements DisplayableField, FilterableField, SortableField
@@ -18,7 +18,7 @@ abstract class StringField extends Field implements DisplayableField, Filterable
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
     }
@@ -32,15 +32,15 @@ abstract class StringField extends Field implements DisplayableField, Filterable
     }
 
     /**
-     * The directives available for this filter.
+     * The filters of the field.
      *
-     * @return FilterDirective[]
+     * @return Filter[]
      */
-    public function filterDirectives(): array
+    public function getFilters(): array
     {
         return [
-            new EqFilterDirective($this),
-            new LikeFilterDirective($this),
+            new EqFilter($this),
+            new LikeFilter($this),
         ];
     }
 

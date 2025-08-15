@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Fields\StringField;
-use App\GraphQL\Resolvers\ImplodeArrayResolver;
 use App\Models\Wiki\Video;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Database\Eloquent\Model;
 
-#[UseFieldDirective(ImplodeArrayResolver::class)]
 class VideoTagsField extends StringField
 {
     public function __construct()
@@ -27,10 +26,11 @@ class VideoTagsField extends StringField
 
     /**
      * Resolve the field.
+     *
+     * @param  Model  $root
      */
-    public function resolve($root): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        // Not applicable for this field, as it is handled by the resolver.
-        return '';
+        return implode('', $root->getAttribute($this->getColumn()));
     }
 }

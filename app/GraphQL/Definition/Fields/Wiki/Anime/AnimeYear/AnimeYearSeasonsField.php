@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonsType;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class AnimeYearSeasonsField extends Field implements DisplayableField
 {
@@ -29,9 +30,11 @@ class AnimeYearSeasonsField extends Field implements DisplayableField
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(new AnimeYearSeasonsType()));
+        $type = GraphQL::type(new AnimeYearSeasonsType()->getName());
+
+        return Type::listOf(Type::nonNull($type));
     }
 
     /**

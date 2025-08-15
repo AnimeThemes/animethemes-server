@@ -19,7 +19,7 @@ class SearchType extends BaseType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Returns a listing of resources that match a given search term.';
     }
@@ -29,7 +29,7 @@ class SearchType extends BaseType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new SearchAnimeField(),

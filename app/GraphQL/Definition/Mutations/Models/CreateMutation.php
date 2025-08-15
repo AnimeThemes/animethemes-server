@@ -10,9 +10,12 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 abstract class CreateMutation extends BaseMutation
@@ -26,6 +29,14 @@ abstract class CreateMutation extends BaseMutation
     }
 
     /**
+     * Authorize the mutation.
+     */
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    {
+        return Gate::allows('create', [$this->model, $args]);
+    }
+
+    /**
      * Get the arguments for the create mutation.
      *
      * @return Argument[]
@@ -34,11 +45,11 @@ abstract class CreateMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $bindableFields = Arr::where($baseType->fields(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
-            $notBindableFields = Arr::where($baseType->fields(), fn (Field $field) => ! $field instanceof BindableField);
+            $bindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
+            $notBindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => ! $field instanceof BindableField);
             $arguments[] = $this->resolveBindArguments($bindableFields);
             $arguments[] = $this->resolveCreateMutationArguments($notBindableFields);
         }
@@ -47,35 +58,17 @@ abstract class CreateMutation extends BaseMutation
     }
 
     /**
-     * The directives of the mutation.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'create',
-                'injectArgs' => true,
-                'model' => $this->model,
-            ],
-
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * Get the rules for the create mutation.
      *
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
-    public function rules(array $args): array
+    public function rulesForValidation(array $args = []): array
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            return collect($baseType->fields())
+            return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field) => $field instanceof CreatableField)
                 ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
                 ->toArray();
@@ -87,7 +80,7 @@ abstract class CreateMutation extends BaseMutation
     /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
         return Type::nonNull($this->baseType());
     }

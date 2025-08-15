@@ -4,69 +4,26 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
-use App\Concerns\GraphQL\ResolvesDirectives;
-use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\Fields\SortableField;
-use App\Enums\GraphQL\SortDirection;
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Support\Relations\Relation;
-use App\GraphQL\Support\Sort\RandomSort;
-use App\GraphQL\Support\Sort\Sort;
-use GraphQL\Type\Definition\ObjectType;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use RuntimeException;
+use Rebing\GraphQL\Support\Type as RebingType;
 
-abstract class BaseType extends ObjectType
+abstract class BaseType extends RebingType
 {
-    use ResolvesDirectives;
-
-    public function __construct()
-    {
-        // This is just a fake as we are defining the types through strings.
-        parent::__construct(['name' => $this->getName(), 'fields' => []]);
-    }
-
     /**
-     * Mount the type definition string.
+     * Get the attributes of the type.
      *
-     * @throws RuntimeException
+     * @return array<string, mixed>
      */
-    public function toGraphQLString(): string
+    public function attributes(): array
     {
-        $fields[] = collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
-            ->map(
-                fn (Field $field) => Str::of('"""')
-                    ->append($field->description())
-                    ->append('"""')
-                    ->newLine()
-                    ->append($field->__toString())
-                    ->__toString()
-            )
-            ->toArray();
-
-        $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->__toString());
-
-        if (blank($fields)) {
-            throw new RuntimeException("There are no fields for the type {$this->getName()}.");
-        }
-
-        return Str::of('"""')
-            ->append($this->getDescription())
-            ->append('"""')
-            ->newLine()
-            ->append('type ')
-            ->append($this->getName())
-            ->append(' ')
-            ->append($this->resolveDirectives($this->directives()))
-            ->append(' {')
-            ->newLine()
-            ->append(implode(PHP_EOL, Arr::flatten($fields)))
-            ->newLine()
-            ->append('}')
-            ->__toString();
+        return [
+            'name' => $this->getName(),
+            'description' => $this->description(),
+            'rebingType' => $this,
+        ];
     }
 
     /**
@@ -83,30 +40,9 @@ abstract class BaseType extends ObjectType
     /**
      * The description of the type.
      */
-    abstract public function getDescription(): string;
-
-    /**
-     * Get the sorts of the resource.
-     *
-     * @return Collection<int, Sort>
-     */
-    public function sorts(): Collection
+    public function description(): string
     {
-        return collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (Field $field) => [new Sort($field->getName()), new Sort($field->getName(), SortDirection::DESC)])
-            ->flatten()
-            ->push(new RandomSort());
-    }
-
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [];
+        return '';
     }
 
     /**
@@ -124,8 +60,42 @@ abstract class BaseType extends ObjectType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [];
+    }
+
+    /**
+     * Convert the fields to rebing resolve.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    public function fields(): array
+    {
+        $relations = collect($this->relations())
+            ->mapWithKeys(fn (Relation $relation) => [
+                $relation->getName() => [
+                    'type' => $relation->type(),
+                    'args' => $relation->args(),
+                    'resolve' => $relation->resolve(...),
+                ],
+            ]);
+
+        $fields = collect($this->fieldClasses())
+            ->mapWithKeys(fn (Field $field) => [
+                $field->getName() => [
+                    'type' => $field->type(),
+                    'description' => $field->description(),
+                    'alias' => $field->getColumn(),
+                    'args' => $field->args(),
+                    'resolve' => $field->resolve(...),
+
+                    'fieldClass' => $field,
+
+                    ...($field instanceof DeprecatedField ? ['deprecationReason' => $field->deprecationReason()] : []),
+                ],
+            ]);
+
+        return $fields->merge($relations)->toArray();
     }
 }

@@ -26,7 +26,7 @@ class PlaylistTrackType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents an entry in a playlist.\n\nFor example, a \"/r/anime's Best OPs and EDs of 2022\" playlist may contain a track for the ParipiKoumei-OP1.webm video.";
     }
@@ -55,7 +55,7 @@ class PlaylistTrackType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new PlaylistTrackIdField(),

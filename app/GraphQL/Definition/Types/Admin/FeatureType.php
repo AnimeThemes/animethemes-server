@@ -18,7 +18,7 @@ class FeatureType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a feature flag that enable/disable site functionalities.\n\nFor example, the 'allow_discord_notifications' feature enables/disables discord notifications for the configured bot.";
     }
@@ -28,7 +28,7 @@ class FeatureType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Feature::ATTRIBUTE_ID, Feature::class),

@@ -19,7 +19,7 @@ class PlaylistImageType extends PivotType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the association between a playlist and an image.';
     }
@@ -44,7 +44,7 @@ class PlaylistImageType extends PivotType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new CreatedAtField(),

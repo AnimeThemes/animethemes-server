@@ -22,7 +22,7 @@ class ArtistMemberType extends PivotType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents the association of an artist and a group/unit.';
     }
@@ -47,7 +47,7 @@ class ArtistMemberType extends PivotType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new ArtistMemberAliasField(),

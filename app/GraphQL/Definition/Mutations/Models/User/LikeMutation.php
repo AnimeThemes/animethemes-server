@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations\Models\User;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
@@ -13,9 +12,10 @@ use App\GraphQL\Definition\Types\User\LikeType;
 use App\GraphQL\Definition\Unions\LikedUnion;
 use App\GraphQL\Support\Argument\Argument;
 use App\Models\User\Like;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Facades\App;
 
-#[UseFieldDirective(LikeController::class, 'store')]
 class LikeMutation extends BaseMutation
 {
     public function __construct()
@@ -40,23 +40,7 @@ class LikeMutation extends BaseMutation
     {
         $type = new LikeType();
 
-        return $this->resolveBindArguments($type->fields(), false);
-    }
-
-    /**
-     * The directives of the mutation.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'create',
-                'model' => Like::class,
-            ],
-            ...parent::directives(),
-        ];
+        return $this->resolveBindArguments($type->fieldClasses(), false);
     }
 
     /**
@@ -65,11 +49,11 @@ class LikeMutation extends BaseMutation
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
-    public function rules(array $args): array
+    public function rulesForValidation(array $args = []): array
     {
         $type = new LikeType();
 
-        return collect($type->fields())
+        return collect($type->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof CreatableField)
             ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
             ->toArray();
@@ -78,7 +62,7 @@ class LikeMutation extends BaseMutation
     /**
      * The base return type of the mutation.
      */
-    public function baseType(): Type
+    public function baseRebingType(): LikedUnion
     {
         return new LikedUnion();
     }
@@ -86,8 +70,19 @@ class LikeMutation extends BaseMutation
     /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
         return Type::nonNull($this->baseType());
+    }
+
+    /**
+     * Resolve the mutation.
+     *
+     * @param  array<string, mixed>  $args
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        return App::make(LikeController::class)
+            ->store($root, $args);
     }
 }

@@ -4,55 +4,40 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Singular;
 
-use App\GraphQL\Attributes\Resolvers\UseFirstDirective;
-use App\GraphQL\Definition\Fields\Base\DeletedAtField;
-use App\GraphQL\Definition\Queries\BaseQuery;
+use App\GraphQL\Definition\Queries\Models\EloquentQuery;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Support\Argument\Argument;
-use Exception;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use RuntimeException;
 
-#[UseFirstDirective]
-abstract class EloquentSingularQuery extends BaseQuery
+abstract class EloquentSingularQuery extends EloquentQuery
 {
     public function __construct(
         protected string $name,
     ) {
+        $this->middleware = array_merge(
+            $this->middleware,
+            [
+                ResolveBindableArgs::class,
+            ],
+        );
+
         parent::__construct($name, nullable: true, isList: false);
     }
 
     /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
+     * Authorize the query.
      */
-    public function directives(): array
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return [
-            ...parent::directives(),
-
-            ...($this->isTrashable() ? ['softDeletes' => []] : []),
-
-            ...$this->canModelDirective(),
-        ];
-    }
-
-    /**
-     * Build the canModel directive for authorization.
-     *
-     * @return array
-     */
-    protected function canModelDirective(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'view',
-                'injectArgs' => 'true',
-                'model' => $this->model(),
-            ],
-        ];
+        return Gate::allows('view', [$this->model(), $args]);
     }
 
     /**
@@ -63,44 +48,42 @@ abstract class EloquentSingularQuery extends BaseQuery
     public function arguments(): array
     {
         $arguments = [];
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
         }
 
         return Arr::flatten($arguments);
     }
 
     /**
-     * Get the model related to the query.
-     *
-     * @return class-string<Model>
-     *
-     * @throws Exception
+     * The return type of the query.
      */
-    public function model(): string
+    public function type(): Type
     {
-        $baseType = $this->baseType();
+        $rebingType = $this->baseRebingType();
 
-        if ($baseType instanceof EloquentType) {
-            return $baseType->model();
+        if (! $rebingType instanceof BaseType) {
+            throw new RuntimeException("baseRebingType not defined for query {$this->getName()}");
         }
 
-        throw new Exception('The base return type must be an instance of EloquentType, '.get_class($baseType).' given.');
+        return Type::nonNull(GraphQL::type($this->baseRebingType()->getName()));
     }
 
     /**
-     * Determine if the return model is trashable.
+     * Resolve the singular record with the binded argument.
+     *
+     * @return Model
      */
-    protected function isTrashable(): bool
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
-        $baseType = $this->baseType();
+        /** @var Model $model */
+        $model = Arr::get($args, 'model');
 
-        if ($baseType instanceof EloquentType) {
-            return in_array(new DeletedAtField(), $baseType->fields());
-        }
+        $builder = $this->query($this->model()::query(), $args);
 
-        return false;
+        return $builder->whereKey($model->getKey())
+            ->firstOrFail();
     }
 }

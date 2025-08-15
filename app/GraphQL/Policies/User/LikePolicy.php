@@ -14,9 +14,9 @@ class LikePolicy extends BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  array  $injected
+     * @param  array  $args
      */
-    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function delete(User $user, array $args, ?string $keyName = 'model'): bool
     {
         return $user->can(CrudPermission::DELETE->format(Like::class));
     }

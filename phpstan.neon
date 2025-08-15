@@ -18,9 +18,6 @@ parameters:
     # The level 9 is the highest level
     level: 5
 
-    stubFiles:
-        - vendor/nuwave/lighthouse/_ide_helper.php
-
     ignoreErrors:
         -
             identifier: missingType.iterableValue

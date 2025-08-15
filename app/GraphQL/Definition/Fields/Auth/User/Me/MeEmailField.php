@@ -6,7 +6,7 @@ namespace App\GraphQL\Definition\Fields\Auth\User\Me;
 
 use App\Enums\GraphQL\SortType;
 use App\GraphQL\Definition\Fields\StringField;
-use App\GraphQL\Support\Directives\Filters\FilterDirective;
+use App\GraphQL\Support\Filter\Filter;
 use App\Models\Auth\User;
 
 class MeEmailField extends StringField
@@ -25,11 +25,11 @@ class MeEmailField extends StringField
     }
 
     /**
-     * The directives available for this filter.
+     * The filters of the field.
      *
-     * @return FilterDirective[]
+     * @return Filter[]
      */
-    public function filterDirectives(): array
+    public function getFilters(): array
     {
         return [];
     }

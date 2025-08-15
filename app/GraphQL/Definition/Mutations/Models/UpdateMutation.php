@@ -9,9 +9,12 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 abstract class UpdateMutation extends BaseMutation
@@ -25,6 +28,14 @@ abstract class UpdateMutation extends BaseMutation
     }
 
     /**
+     * Authorize the mutation.
+     */
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    {
+        return Gate::allows('update', [$this->model, $args]);
+    }
+
+    /**
      * Get the arguments for the create mutation.
      *
      * @return Argument[]
@@ -33,32 +44,14 @@ abstract class UpdateMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
-            $arguments[] = $this->resolveUpdateMutationArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
+            $arguments[] = $this->resolveUpdateMutationArguments($baseType->fieldClasses());
         }
 
         return Arr::flatten($arguments);
-    }
-
-    /**
-     * The directives of the mutation.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'update',
-                'injectArgs' => true,
-                'model' => $this->model,
-            ],
-
-            ...parent::directives(),
-        ];
     }
 
     /**
@@ -67,12 +60,12 @@ abstract class UpdateMutation extends BaseMutation
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
-    public function rules(array $args): array
+    public function rulesForValidation(array $args = []): array
     {
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            return collect($baseType->fields())
+            return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field) => $field instanceof UpdatableField)
                 ->mapWithKeys(fn (Field&UpdatableField $field) => [$field->getColumn() => $field->getUpdateRules($args)])
                 ->toArray();
@@ -84,7 +77,7 @@ abstract class UpdateMutation extends BaseMutation
     /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
         return Type::nonNull($this->baseType());
     }

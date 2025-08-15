@@ -15,13 +15,13 @@ class FeaturedThemePolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  array|null  $injected
+     * @param  array  $args
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
     {
         /** @var FeaturedTheme $featuredtheme */
-        $featuredtheme = Arr::get($injected, $keyName);
+        $featuredtheme = Arr::get($args, $keyName);
 
-        return $featuredtheme->start_at->isBefore(Date::now()) && parent::view($user, $injected, $keyName);
+        return $featuredtheme->start_at->isBefore(Date::now()) && parent::view($user, $args, $keyName);
     }
 }

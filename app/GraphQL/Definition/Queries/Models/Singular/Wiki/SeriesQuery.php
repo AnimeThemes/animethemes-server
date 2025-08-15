@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Singular\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Controllers\Wiki\SeriesController;
 use App\GraphQL\Definition\Queries\Models\Singular\EloquentSingularQuery;
 use App\GraphQL\Definition\Types\Wiki\SeriesType;
 
-#[UseBuilderDirective(SeriesController::class, 'show')]
 class SeriesQuery extends EloquentSingularQuery
 {
     public function __construct()
@@ -28,7 +25,7 @@ class SeriesQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): SeriesType
+    public function baseRebingType(): SeriesType
     {
         return new SeriesType();
     }

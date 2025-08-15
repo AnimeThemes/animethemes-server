@@ -31,7 +31,7 @@ class PlaylistType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a list of ordered tracks intended for continuous playback.\n\nFor example, a \"/r/anime's Best OPs and EDs of 2022\" playlist may contain a collection of tracks allowing the continuous playback of Best OP and ED nominations for the /r/anime Awards.";
     }
@@ -46,7 +46,8 @@ class PlaylistType extends EloquentType
         return [
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_FIRST),
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
-            new BelongsToRelation(new UserType(), Playlist::RELATION_USER),
+            new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
+                ->notNullable(),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
             new BelongsToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, PlaylistImageType::class),
         ];
@@ -57,7 +58,7 @@ class PlaylistType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new PlaylistIdField(),

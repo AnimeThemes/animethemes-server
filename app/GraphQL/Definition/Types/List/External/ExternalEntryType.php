@@ -24,7 +24,7 @@ class ExternalEntryType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents an anime entry on the external profile.\n\nFor example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.";
     }
@@ -49,7 +49,7 @@ class ExternalEntryType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(ExternalEntry::ATTRIBUTE_ID, ExternalEntry::class),

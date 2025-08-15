@@ -7,12 +7,11 @@ namespace App\GraphQL\Definition\Fields\Base;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Attributes\Resolvers\UseFieldDirective;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Resolvers\CountAggregateResolver;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
 
-#[UseFieldDirective(CountAggregateResolver::class)]
 class CountAggregateField extends Field implements DisplayableField, SortableField
 {
     public function __construct(
@@ -25,24 +24,9 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
     }
 
     /**
-     * Get the directives of the field.
-     *
-     * @return array
-     */
-    public function directives(): array
-    {
-        return [
-            'with' => [
-                'relation' => $this->aggregateRelation,
-            ],
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::int();
     }
@@ -69,5 +53,15 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
     public function relation(): ?string
     {
         return $this->aggregateRelation;
+    }
+
+    /**
+     * Resolve the field.
+     *
+     * @param  Model  $root
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    {
+        return (int) $root->{$this->aggregateRelation}?->value;
     }
 }

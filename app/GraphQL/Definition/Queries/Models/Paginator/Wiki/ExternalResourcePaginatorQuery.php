@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 
-#[UsePaginateDirective]
 class ExternalResourcePaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -27,7 +25,7 @@ class ExternalResourcePaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): ExternalResourceType
+    public function baseRebingType(): ExternalResourceType
     {
         return new ExternalResourceType();
     }

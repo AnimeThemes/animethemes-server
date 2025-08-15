@@ -4,25 +4,18 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support;
 
-use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Pivot\Base\NodeField;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
 use Illuminate\Support\Str;
-use Illuminate\Support\Stringable as SupportStringable;
-use Stringable;
+use Illuminate\Support\Stringable;
+use Rebing\GraphQL\Support\Type as RebingType;
 
-final readonly class EdgeType implements Stringable
+class EdgeType extends RebingType
 {
     protected ?PivotType $pivotType;
 
-    /**
-     * @param  class-string<EloquentType>  $nodeType
-     * @param  class-string<PivotType>|null  $pivotType
-     */
     public function __construct(
         protected EloquentType $parentType,
         protected string $nodeType,
@@ -32,48 +25,30 @@ final readonly class EdgeType implements Stringable
     }
 
     /**
-     * Node and pivot fields.
-     *
-     * @return Field[]
+     * @return array<string,mixed>
      */
-    public function fields(): array
+    public function attributes(): array
     {
-        $fields = $this->pivotType instanceof PivotType
-            ? $this->pivotType->fields()
-            : [new CreatedAtField(), new UpdatedAtField()];
-
         return [
-            new NodeField($this->nodeType),
-
-            ...$fields,
+            'name' => $this->getName(),
         ];
     }
 
-    /**
-     * Get the edge type as a string representation.
-     */
-    public function __toString(): string
+    public function fields(): array
     {
-        $fields = collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof DisplayableField && $field->canBeDisplayed())
-            ->map(
-                fn (Field $field) => Str::of('"')
-                    ->append($field->description())
-                    ->append('"')
-                    ->newLine()
-                    ->append($field->__toString())
-                    ->__toString()
-            )
-            ->implode(PHP_EOL);
-
-        return sprintf(
-            '"""%1$s to use in belongs to many relationships"""
-            type %1$s {
-                %2$s
-            }',
-            $this->getName(),
-            $fields,
-        );
+        return collect($this->getPivotType()?->fieldClasses() ?? [])
+            ->prepend(new NodeField($this->nodeType))
+            ->flatMap(function (Field $field) {
+                return [
+                    $field->getName() => [
+                        'type' => $field->baseType(),
+                        'description' => $field->description(),
+                        'alias' => $field->getColumn(),
+                        'resolve' => $field->resolve(...),
+                    ],
+                ];
+            })
+            ->toArray();
     }
 
     /**
@@ -84,7 +59,7 @@ final readonly class EdgeType implements Stringable
     public function getName(): string
     {
         return Str::of('')
-            ->when($this->pivotType instanceof PivotType, fn (SupportStringable $string) => $string->append($this->parentType->getName()))
+            ->when($this->pivotType instanceof PivotType, fn (Stringable $string) => $string->append($this->parentType->getName()))
             ->append(class_basename($this->nodeType))
             ->remove('Type')
             ->append('Edge')

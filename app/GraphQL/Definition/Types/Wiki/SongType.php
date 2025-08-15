@@ -25,7 +25,7 @@ class SongType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents the composition that accompanies an AnimeTheme.\n\nFor example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.";
     }
@@ -49,7 +49,7 @@ class SongType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Song::ATTRIBUTE_ID, Song::class),

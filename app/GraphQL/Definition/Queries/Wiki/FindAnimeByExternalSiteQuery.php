@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\GraphQL\Attributes\Resolvers\UseAllDirective;
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
 use App\GraphQL\Controllers\Wiki\Anime\FindAnimeByExternalSiteController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Policies\Wiki\AnimePolicy;
 use App\GraphQL\Support\Argument\Argument;
-use App\Models\Wiki\Anime;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Nuwave\Lighthouse\Schema\TypeRegistry;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
-#[UseAllDirective]
-#[UseBuilderDirective(FindAnimeByExternalSiteController::class, 'show')]
 class FindAnimeByExternalSiteQuery extends BaseQuery
 {
     final public const ATTRIBUTE_SITE = 'site';
@@ -25,33 +26,20 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('findAnimeByExternalSite', false, false);
+        parent::__construct('findAnimeByExternalSite', false, true);
     }
 
     /**
-     * The description of the type.
+     * The description of the query.
      */
     public function description(): string
     {
         return 'Filter anime by its external id on given site.';
     }
 
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return [
-            ...parent::directives(),
-
-            'canModel' => [
-                'ability' => 'viewAny',
-                'injectArgs' => 'true',
-                'model' => Anime::class,
-            ],
-        ];
+        return new AnimePolicy()->viewAny(Auth::user(), $args);
     }
 
     /**
@@ -62,7 +50,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     public function arguments(): array
     {
         return [
-            new Argument(self::ATTRIBUTE_SITE, app(TypeRegistry::class)->get(class_basename(ResourceSite::class)))
+            new Argument(self::ATTRIBUTE_SITE, GraphQL::type(class_basename(ResourceSite::class)))
                 ->required(),
 
             new Argument(self::ATTRIBUTE_ID, Type::int()),
@@ -74,8 +62,18 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): Type
+    public function baseRebingType(): AnimeType
     {
-        return Type::listof(Type::nonNull(new AnimeType()));
+        return new AnimeType();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        return App::make(FindAnimeByExternalSiteController::class)
+            ->index($root, $args, $context, $resolveInfo)
+            ->get();
     }
 }

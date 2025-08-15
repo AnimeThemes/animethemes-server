@@ -7,9 +7,12 @@ namespace App\GraphQL\Definition\Mutations\Models;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 abstract class DeleteMutation extends BaseMutation
@@ -23,6 +26,14 @@ abstract class DeleteMutation extends BaseMutation
     }
 
     /**
+     * Authorize the mutation.
+     */
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    {
+        return Gate::allows('delete', [$this->model, $args]);
+    }
+
+    /**
      * Get the arguments for the create mutation.
      *
      * @return Argument[]
@@ -31,37 +42,19 @@ abstract class DeleteMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseType();
+        $baseType = $this->baseRebingType();
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fields());
+            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
         }
 
         return Arr::flatten($arguments);
     }
 
     /**
-     * The directives of the mutation.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [
-            'canModel' => [
-                'ability' => 'delete',
-                'injectArgs' => true,
-                'model' => $this->model,
-            ],
-
-            ...parent::directives(),
-        ];
-    }
-
-    /**
      * The type returned by the field.
      */
-    public function getType(): Type
+    public function type(): Type
     {
         return Type::nonNull($this->baseType());
     }

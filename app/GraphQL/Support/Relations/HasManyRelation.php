@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Relations;
 
-use App\Enums\GraphQL\RelationType;
+use App\Enums\GraphQL\PaginationType;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class HasManyRelation extends Relation
 {
@@ -14,18 +15,14 @@ class HasManyRelation extends Relation
      */
     public function type(): Type
     {
-        if (! $this->nullable) {
-            return Type::nonNull(Type::listOf($this->type));
-        }
-
-        return Type::listOf($this->type);
+        return Type::nonNull(GraphQL::paginate($this->rebingType->getName()));
     }
 
     /**
-     * The Relation type.
+     * The pagination type if applicable.
      */
-    protected function relation(): RelationType
+    public function paginationType(): PaginationType
     {
-        return RelationType::HAS_MANY;
+        return PaginationType::PAGINATOR;
     }
 }

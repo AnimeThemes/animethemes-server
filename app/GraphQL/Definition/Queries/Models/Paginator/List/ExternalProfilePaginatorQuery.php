@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\List;
 
-use App\GraphQL\Attributes\Resolvers\UseBuilderDirective;
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Attributes\UseSearchDirective;
-use App\GraphQL\Controllers\List\ExternalProfileController;
+use App\Enums\Models\List\ExternalProfileVisibility;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Models\List\ExternalProfile;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
-#[UseBuilderDirective(ExternalProfileController::class)]
-#[UsePaginateDirective]
-#[UseSearchDirective]
 class ExternalProfilePaginatorQuery extends EloquentPaginatorQuery
 {
+    protected $middleware = [
+        EnabledOnlyOnLocalhost::class,
+    ];
+
     public function __construct()
     {
         parent::__construct('externalprofilePaginator');
@@ -31,26 +32,24 @@ class ExternalProfilePaginatorQuery extends EloquentPaginatorQuery
     }
 
     /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
+     * The base return type of the query.
      */
-    public function directives(): array
+    public function baseRebingType(): ExternalProfileType
     {
-        return [
-            'middleware' => [
-                'class' => EnabledOnlyOnLocalhost::class,
-            ],
-
-            ...parent::directives(),
-        ];
+        return new ExternalProfileType();
     }
 
     /**
-     * The base return type of the query.
+     * Manage the query.
      */
-    public function baseType(): ExternalProfileType
+    protected function query(Builder $builder, array $args): Builder
     {
-        return new ExternalProfileType();
+        $builder->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);
+
+        if ($user = Auth::user()) {
+            return $builder->orWhereBelongsTo($user, ExternalProfile::RELATION_USER);
+        }
+
+        return $builder;
     }
 }

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Document;
 
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Document\PageType;
 
-#[UsePaginateDirective]
 class PagePaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -27,7 +25,7 @@ class PagePaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): PageType
+    public function baseRebingType(): PageType
     {
         return new PageType();
     }

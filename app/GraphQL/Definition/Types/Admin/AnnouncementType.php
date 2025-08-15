@@ -17,7 +17,7 @@ class AnnouncementType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents a site-wide message to be broadcasted on the homepage.';
     }
@@ -27,7 +27,7 @@ class AnnouncementType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Announcement::ATTRIBUTE_ID, Announcement::class),

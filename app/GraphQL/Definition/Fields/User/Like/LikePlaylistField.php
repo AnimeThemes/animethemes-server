@@ -11,6 +11,7 @@ use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class LikePlaylistField extends Field implements BindableField, CreatableField, DeletableField
@@ -31,27 +32,19 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
     }
 
     /**
-     * Get the model that the field should bind to.
-     *
-     * @return class-string<Playlist>
+     * The resolver to cast the model.
      */
-    public function bindTo(): string
+    public function bindResolver(array $args): Playlist
     {
-        return Playlist::class;
-    }
-
-    /**
-     * Get the column that the field should use to bind.
-     */
-    public function bindUsingColumn(): string
-    {
-        return Playlist::ATTRIBUTE_HASHID;
+        return Playlist::query()
+            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, $this->getName()))
+            ->firstOrFail();
     }
 
     /**

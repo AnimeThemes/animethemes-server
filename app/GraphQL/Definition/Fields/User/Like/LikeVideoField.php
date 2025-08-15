@@ -11,6 +11,7 @@ use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Definition\Fields\Field;
 use App\Models\Wiki\Video;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class LikeVideoField extends Field implements BindableField, CreatableField, DeletableField
@@ -31,27 +32,19 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::int();
     }
 
     /**
-     * Get the model that the field should bind to.
-     *
-     * @return class-string<Video>
+     * The resolver to cast the model.
      */
-    public function bindTo(): string
+    public function bindResolver(array $args): Video
     {
-        return Video::class;
-    }
-
-    /**
-     * Get the column that the field should use to bind.
-     */
-    public function bindUsingColumn(): string
-    {
-        return Video::ATTRIBUTE_ID;
+        return Video::query()
+            ->where(Video::ATTRIBUTE_ID, Arr::get($args, $this->getName()))
+            ->firstOrFail();
     }
 
     /**

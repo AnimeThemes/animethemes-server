@@ -24,20 +24,10 @@ class PlaylistTrackIdField extends StringField implements BindableField
     }
 
     /**
-     * Get the model that the field should bind to.
-     *
-     * @return class-string<PlaylistTrack>
+     * The resolver to cast the model.
      */
-    public function bindTo(): string
+    public function bindResolver(array $args): null
     {
-        return PlaylistTrack::class;
-    }
-
-    /**
-     * Get the column that the field should use to bind.
-     */
-    public function bindUsingColumn(): string
-    {
-        return PlaylistTrack::ATTRIBUTE_HASHID;
+        return null;
     }
 }

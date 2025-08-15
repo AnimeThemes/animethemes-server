@@ -4,36 +4,32 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\List;
 
+use App\Exceptions\GraphQL\ClientForbiddenException;
 use App\GraphQL\Controllers\BaseController;
 use App\Models\List\ExternalProfile;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 class SyncExternalProfileController extends BaseController
 {
-    final public const ROUTE_SLUG = 'id';
-
     /**
      * Start a new sync job.
      *
      * @param  null  $root
-     * @param  array  $args
+     * @param  array<string, mixed>  $args
      */
-    public function store($root, array $args): JsonResponse
+    public function store($root, array $args): array
     {
         /** @var ExternalProfile $profile */
-        $profile = Arr::pull($args, self::ROUTE_SLUG);
+        $profile = Arr::pull($args, self::MODEL);
 
         if (! $profile->canBeSynced()) {
-            return new JsonResponse([
-                'error' => 'This external profile cannot be synced at the moment.',
-            ], 403);
+            throw new ClientForbiddenException('This external profile cannot be synced at the moment.');
         }
 
         $profile->dispatchSyncJob();
 
-        return new JsonResponse([
+        return [
             'message' => 'Job dispatched.',
-        ], 201);
+        ];
     }
 }

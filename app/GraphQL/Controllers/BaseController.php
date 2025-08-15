@@ -9,6 +9,7 @@ use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\GraphQL\Definition\Mutations\BaseMutation;
 use Dotenv\Exception\ValidationException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Validator;
  */
 abstract class BaseController
 {
+    final public const MODEL = 'model';
+
     /**
      * @param  StoreAction<TModel>  $storeAction
      * @param  UpdateAction<TModel>  $updateAction
@@ -43,6 +46,12 @@ abstract class BaseController
     {
         $mutationInstance = App::make($mutation);
 
-        return Validator::make($args, $mutationInstance->rules($args))->validated();
+        $validated = Validator::make($args, $mutationInstance->rulesForValidation($args))->validated();
+
+        return [
+            ...$validated,
+
+            'model' => Arr::get($args, self::MODEL),
+        ];
     }
 }

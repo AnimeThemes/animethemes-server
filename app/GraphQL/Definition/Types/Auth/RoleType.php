@@ -23,7 +23,7 @@ class RoleType extends EloquentType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return 'Represents an assignable label for users that provides a configured group of permissions.';
     }
@@ -45,7 +45,7 @@ class RoleType extends EloquentType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(Role::ATTRIBUTE_ID, Role::class),

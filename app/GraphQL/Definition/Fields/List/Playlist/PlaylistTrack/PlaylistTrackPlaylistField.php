@@ -13,6 +13,7 @@ use App\GraphQL\Definition\Fields\Field;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 
 class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, UpdatableField
 {
@@ -34,27 +35,19 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
     /**
      * The type returned by the field.
      */
-    public function type(): Type
+    public function baseType(): Type
     {
         return Type::string();
     }
 
     /**
-     * Get the model that the field should bind to.
-     *
-     * @return class-string<Playlist>
+     * The resolver to cast the model.
      */
-    public function bindTo(): string
+    public function bindResolver(array $args): Playlist
     {
-        return Playlist::class;
-    }
-
-    /**
-     * Get the column that the field should use to bind.
-     */
-    public function bindUsingColumn(): string
-    {
-        return Playlist::ATTRIBUTE_HASHID;
+        return Playlist::query()
+            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, $this->getName()))
+            ->firstOrFail();
     }
 
     /**

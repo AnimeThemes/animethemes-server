@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator\Wiki;
 
-use App\GraphQL\Attributes\Resolvers\UsePaginateDirective;
-use App\GraphQL\Attributes\UseSearchDirective;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\SearchArgument;
 
-#[UsePaginateDirective]
-#[UseSearchDirective]
 class AnimePaginatorQuery extends EloquentPaginatorQuery
 {
     public function __construct()
@@ -29,8 +27,22 @@ class AnimePaginatorQuery extends EloquentPaginatorQuery
     /**
      * The base return type of the query.
      */
-    public function baseType(): AnimeType
+    public function baseRebingType(): AnimeType
     {
         return new AnimeType();
+    }
+
+    /**
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [
+            ...parent::arguments(),
+
+            new SearchArgument(),
+        ];
     }
 }

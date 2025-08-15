@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Mutations\Reports;
 
 use App\GraphQL\Definition\Mutations\BaseMutation;
-use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
+use GraphQL\Type\Definition\Type;
 
 abstract class BaseReportMutation extends BaseMutation
 {
@@ -19,20 +19,22 @@ abstract class BaseReportMutation extends BaseMutation
     {
         $arguments = [
             new Argument('input', $this->rootInput())
-                ->required()
-                ->directives(['spread' => []]),
+                ->required(),
         ];
 
         return $arguments;
     }
 
     /**
+     * The type returned by the field.
+     */
+    public function type(): Type
+    {
+        return Type::nonNull($this->baseRebingType());
+    }
+
+    /**
      * The input type of the 'input' argument on the top mutation.
      */
     abstract public function rootInput(): string;
-
-    /**
-     * The base return type of the mutation.
-     */
-    abstract public function baseType(): BaseType;
 }

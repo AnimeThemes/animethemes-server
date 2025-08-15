@@ -29,7 +29,7 @@ class AnimeThemeEntryType extends EloquentType implements ReportableType
     /**
      * The description of the type.
      */
-    public function getDescription(): string
+    public function description(): string
     {
         return "Represents a version of an anime theme.\n\nFor example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.";
     }
@@ -53,7 +53,7 @@ class AnimeThemeEntryType extends EloquentType implements ReportableType
      *
      * @return Field[]
      */
-    public function fields(): array
+    public function fieldClasses(): array
     {
         return [
             new IdField(AnimeThemeEntry::ATTRIBUTE_ID, AnimeThemeEntry::class),
