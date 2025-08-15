@@ -30,15 +30,15 @@
         "bepsvpt/secure-headers": "^7.5",
         "cyrildewit/eloquent-viewable": "^7.0.6",
         "fakerphp/faker": "^1.24.1",
-        "filament/filament": "^4.0",
+        "filament/filament": "^4.0.1",
         "flowframe/laravel-trend": ">=0.4",
         "guzzlehttp/guzzle": "^7.9.3",
         "larastan/larastan": "^3.6.0",
         "laravel-notification-channels/discord": "^1.7",
-        "laravel/fortify": "^1.27.0",
-        "laravel/framework": "^12.21.0",
-        "laravel/horizon": "^5.33.1",
-        "laravel/pennant": "^1.18.0",
+        "laravel/fortify": "^1.28.0",
+        "laravel/framework": "^12.24.0",
+        "laravel/horizon": "^5.33.2",
+        "laravel/pennant": "^1.18.1",
         "laravel/pulse": "^1.4.3",
         "laravel/sanctum": "^4.2.0",
         "laravel/scout": "^10.17.0",
@@ -47,14 +47,14 @@
         "leandrocfe/filament-apex-charts": "4.0-beta1",
         "mll-lab/graphql-php-scalars": "^6.4.1",
         "mll-lab/laravel-graphiql": "^3.3.4",
-        "propaganistas/laravel-disposable-email": "^2.4.16",
+        "propaganistas/laravel-disposable-email": "^2.4.17",
         "rebing/graphql-laravel": "^9.10",
         "spatie/db-dumper": "^3.8.0",
         "spatie/laravel-permission": "^6.21.0",
         "staudenmeir/belongs-to-through": "^2.17",
         "staudenmeir/laravel-adjacency-list": "^1.25.2",
-        "symfony/http-client": "^6.4.23",
-        "symfony/mailgun-mailer": "^6.4.23",
+        "symfony/http-client": "^6.4.24",
+        "symfony/mailgun-mailer": "^6.4.24",
         "vinkla/hashids": "^13.0"
     },
     "require-dev": {
@@ -97,7 +97,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "beta",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
