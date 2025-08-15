@@ -13,23 +13,20 @@ use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Models\BaseModel;
-use App\Pivots\Wiki\AnimeResource;
-use App\Pivots\Wiki\ArtistResource;
-use App\Pivots\Wiki\SongResource;
-use App\Pivots\Wiki\StudioResource;
+use App\Pivots\Morph\Resourceable;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Uri;
 
 /**
- * Class Resource.
+ * Class ExternalResource.
  *
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
@@ -132,13 +129,13 @@ class ExternalResource extends BaseModel implements SoftDeletable
     /**
      * Get the anime that reference this resource.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function anime(): BelongsToMany
+    public function anime(): MorphToMany
     {
-        return $this->belongsToMany(Anime::class, AnimeResource::TABLE, ExternalResource::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
-            ->using(AnimeResource::class)
-            ->withPivot(AnimeResource::ATTRIBUTE_AS)
+        return $this->morphedByMany(Anime::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as(AnimeResourceResource::$wrap)
             ->withTimestamps();
     }
@@ -146,27 +143,27 @@ class ExternalResource extends BaseModel implements SoftDeletable
     /**
      * Get the artists that reference this resource.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function artists(): BelongsToMany
+    public function artists(): MorphToMany
     {
-        return $this->belongsToMany(Artist::class, ArtistResource::TABLE, ExternalResource::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
-            ->using(ArtistResource::class)
-            ->withPivot(ArtistResource::ATTRIBUTE_AS)
+        return $this->morphedByMany(Artist::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as(ArtistResourceResource::$wrap)
             ->withTimestamps();
     }
 
     /**
-     * Get the song that reference this resource.
+     * Get the songs that reference this resource.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function songs(): BelongsToMany
+    public function songs(): MorphToMany
     {
-        return $this->belongsToMany(Song::class, SongResource::TABLE, ExternalResource::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
-            ->using(SongResource::class)
-            ->withPivot(SongResource::ATTRIBUTE_AS)
+        return $this->morphedByMany(Song::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as(SongResourceResource::$wrap)
             ->withTimestamps();
     }
@@ -174,14 +171,14 @@ class ExternalResource extends BaseModel implements SoftDeletable
     /**
      * Get the studios that reference this resource.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function studios(): BelongsToMany
+    public function studios(): MorphToMany
     {
-        return $this->belongsToMany(Studio::class, StudioResource::TABLE, ExternalResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
-            ->using(StudioResource::class)
-            ->withPivot(StudioResource::ATTRIBUTE_AS)
-            ->as(AnimeStudioResource::$wrap)
+        return $this->morphedByMany(Studio::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as(StudioResourceResource::$wrap)
             ->withTimestamps();
     }
 }

@@ -15,11 +15,8 @@ use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceExternal
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceLinkField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\GraphQL\Definition\Types\EloquentType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeResourceType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistResourceType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\SongResourceType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\StudioResourceType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
+use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\ExternalResource;
 
@@ -41,10 +38,10 @@ class ExternalResourceType extends EloquentType implements ReportableType
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation($this, AnimeType::class, ExternalResource::RELATION_ANIME, AnimeResourceType::class),
-            new BelongsToManyRelation($this, ArtistType::class, ExternalResource::RELATION_ARTISTS, ArtistResourceType::class),
-            new BelongsToManyRelation($this, SongType::class, ExternalResource::RELATION_SONGS, SongResourceType::class),
-            new BelongsToManyRelation($this, StudioType::class, ExternalResource::RELATION_STUDIOS, StudioResourceType::class),
+            new MorphToManyRelation($this, AnimeType::class, ExternalResource::RELATION_ANIME, ResourceableType::class),
+            new MorphToManyRelation($this, ArtistType::class, ExternalResource::RELATION_ARTISTS, ResourceableType::class),
+            new MorphToManyRelation($this, SongType::class, ExternalResource::RELATION_SONGS, ResourceableType::class),
+            new MorphToManyRelation($this, StudioType::class, ExternalResource::RELATION_STUDIOS, ResourceableType::class),
         ];
     }
 

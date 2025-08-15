@@ -56,6 +56,7 @@ use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\MessageResponseType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\SearchType;
 use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
 use App\GraphQL\Definition\Types\User\NotificationType;
@@ -80,6 +81,7 @@ use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\GraphQL\Definition\Unions\LikedUnion;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
+use App\GraphQL\Definition\Unions\ResourceableUnion;
 
 return [
     'route' => [
@@ -250,9 +252,13 @@ return [
                 MessageResponseType::class,
                 SearchType::class,
 
+                // Pivot
+                // ResourceableType::class,
+
                 // Unions
                 LikedUnion::class,
                 PerformanceArtistUnion::class,
+                ResourceableUnion::class,
             ],
 
             // Laravel HTTP middleware

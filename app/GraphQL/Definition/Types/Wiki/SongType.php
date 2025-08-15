@@ -12,11 +12,11 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Song\SongTitleField;
 use App\GraphQL\Definition\Types\EloquentType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\SongResourceType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Song;
 
@@ -40,7 +40,7 @@ class SongType extends EloquentType implements ReportableType
         return [
             new HasManyRelation(new AnimeThemeType(), Song::RELATION_ANIMETHEMES),
             new HasManyRelation(new PerformanceType(), Song::RELATION_PERFORMANCES),
-            new BelongsToManyRelation($this, ExternalResourceType::class, Song::RELATION_RESOURCES, SongResourceType::class),
+            new MorphToManyRelation($this, ExternalResourceType::class, Song::RELATION_RESOURCES, ResourceableType::class),
         ];
     }
 
