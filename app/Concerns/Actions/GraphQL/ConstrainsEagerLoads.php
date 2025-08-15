@@ -9,7 +9,8 @@ use App\GraphQL\Definition\Unions\BaseUnion;
 use App\GraphQL\Support\Relations\Relation;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation as RelationsRelation;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation as RelationLaravel;
 use Illuminate\Support\Arr;
 
 trait ConstrainsEagerLoads
@@ -36,10 +37,6 @@ trait ConstrainsEagerLoads
     {
         $eagerLoadRelations = [];
 
-        if ($type instanceof BaseUnion) {
-            return;
-        }
-
         /** @var array<int, Relation> $relations */
         $relations = collect($type->relations())
             ->filter(fn (Relation $relation) => Arr::has($fields, $relation->getName()))
@@ -55,17 +52,30 @@ trait ConstrainsEagerLoads
 
             $relationType = $relation->getBaseType();
 
-            $eagerLoadRelations[$path] = function (RelationsRelation $relationLaravel) use ($relationSelection, $relationArgs, $relationType) {
+            $eagerLoadRelations[$path] = function (RelationLaravel $relationLaravel) use ($relationSelection, $relationArgs, $relationType) {
                 $relationQuery = $relationLaravel->getQuery();
 
-                $this->filter($relationQuery, $relationArgs, $relationType);
+                if ($relationLaravel instanceof MorphTo) {
+                    foreach ($relationType->baseTypes() as $subType) {
+                        $this->filter($relationQuery, $relationArgs, $subType);
 
-                $this->sort($relationQuery, $relationArgs, $relationType);
+                        $this->sort($relationQuery, $relationArgs, $subType);
 
-                $child = Arr::get($relationSelection, 'selectionSet.data.data.selectionSet')
-                    ?? Arr::get($relationSelection, 'selectionSet', []);
+                        $child = Arr::get($relationSelection, "unions.{$subType->getName()}.selectionSet")
+                            ?? Arr::get($relationSelection, 'selectionSet', []);
 
-                $this->processEagerLoadForType($relationQuery, $child, $relationType);
+                        $this->processEagerLoadForType($relationQuery, $child, $subType);
+                    }
+                } else {
+                    $this->filter($relationQuery, $relationArgs, $relationType);
+
+                    $this->sort($relationQuery, $relationArgs, $relationType);
+
+                    $child = Arr::get($relationSelection, 'selectionSet.data.data.selectionSet')
+                        ?? Arr::get($relationSelection, 'selectionSet', []);
+
+                    $this->processEagerLoadForType($relationQuery, $child, $relationType);
+                }
             };
         }
 
