@@ -46,7 +46,7 @@ trait ConstrainsEagerLoads
             $name = $relation->getName();
             $path = $relation->getRelationName();
 
-            $relationSelection = Arr::get($fields, $name.'.'.$name);
+            $relationSelection = Arr::get($fields, "{$name}.{$name}");
 
             $relationArgs = Arr::get($relationSelection, 'args');
 
@@ -56,16 +56,21 @@ trait ConstrainsEagerLoads
                 $relationQuery = $relationLaravel->getQuery();
 
                 if ($relationLaravel instanceof MorphTo) {
-                    foreach ($relationType->baseTypes() as $subType) {
-                        $this->filter($relationQuery, $relationArgs, $subType);
+                    $unions = Arr::get($relationSelection, 'unions');
+                    $subTypes = collect($relationType->baseTypes())
+                        ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
+                        ->toArray();
 
-                        $this->sort($relationQuery, $relationArgs, $subType);
+                    $morphConstrains = [];
+                    foreach ($subTypes as $subType) {
+                        $subTypeSelection = Arr::get($unions, "{$subType->getName()}.selectionSet");
 
-                        $child = Arr::get($relationSelection, "unions.{$subType->getName()}.selectionSet")
-                            ?? Arr::get($relationSelection, 'selectionSet', []);
-
-                        $this->processEagerLoadForType($relationQuery, $child, $subType);
+                        $morphConstrains[$subType->model()] = function (Builder $subMorphQuery) use ($subTypeSelection, $subType) {
+                            $this->processEagerLoadForType($subMorphQuery, $subTypeSelection, $subType);
+                        };
                     }
+
+                    $relationLaravel->constrain($morphConstrains);
                 } else {
                     $this->filter($relationQuery, $relationArgs, $relationType);
 
