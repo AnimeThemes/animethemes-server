@@ -556,12 +556,6 @@ return [
                 'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
                 'name' => 'Media Format',
             ],
-            'resources' => [
-                'as' => [
-                    'help' => 'Used to distinguish resources that map to the same anime. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
-                    'name' => 'As',
-                ],
-            ],
         ],
         'artist' => [
             'groups' => [
@@ -599,12 +593,6 @@ return [
             'name' => [
                 'help' => 'The display title of the Artist. By default, we will use the same title as MAL, but we will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',
                 'name' => 'Name',
-            ],
-            'resources' => [
-                'as' => [
-                    'help' => 'Used to distinguish resources that map to the same artist. For example, the OxT music unit has a dedicated AnidB page but ANN does not.',
-                    'name' => 'As',
-                ],
             ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv"',
@@ -859,6 +847,12 @@ return [
             'status' => 'Status',
             'target' => 'Target',
         ],
+        'resourceable' => [
+            'as' => [
+                'help' => 'Used to distinguish resources that map to the same model. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
+                'name' => 'As',
+            ],
+        ],
         'role' => [
             'color' => [
                 'help' => 'The color that will be used on the profile screen to designate the user.',
@@ -889,23 +883,11 @@ return [
                 'help' => 'The title of the song',
                 'name' => 'Title',
             ],
-            'resources' => [
-                'as' => [
-                    'help' => 'Used to distinguish resources that map to the same song.',
-                    'name' => 'As',
-                ],
-            ],
         ],
         'studio' => [
             'name' => [
                 'help' => 'The display title of the Studio',
                 'name' => 'Name',
-            ],
-            'resources' => [
-                'as' => [
-                    'help' => 'Used to distinguish resources that map to the same studio.',
-                    'name' => 'As',
-                ],
             ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted.',
