@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Pivots\Morph;
 
+use App\Models\Auth\User;
+use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Studio;
@@ -37,6 +39,14 @@ class ImageableFactory extends Factory
         return [
             Imageable::ATTRIBUTE_DEPTH => fake()->randomDigitNotNull(),
         ];
+    }
+
+    /**
+     * Resolve the imageable for a given model.
+     */
+    public function forPlaylist(): static
+    {
+        return $this->for(Playlist::factory()->for(User::factory()), Imageable::RELATION_IMAGEABLE);
     }
 
     /**

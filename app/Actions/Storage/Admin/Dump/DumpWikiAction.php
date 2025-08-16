@@ -21,15 +21,13 @@ use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
-use App\Pivots\Wiki\StudioImage;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -49,7 +47,6 @@ class DumpWikiAction extends DumpAction
     {
         return [
             Anime::TABLE,
-            AnimeImage::TABLE,
             AnimeSeries::TABLE,
             AnimeStudio::TABLE,
             AnimeSynonym::TABLE,
@@ -57,20 +54,19 @@ class DumpWikiAction extends DumpAction
             AnimeThemeEntry::TABLE,
             AnimeThemeEntryVideo::TABLE,
             Artist::TABLE,
-            ArtistImage::TABLE,
             ArtistMember::TABLE,
             ArtistSong::TABLE,
             Audio::TABLE,
             ExternalResource::TABLE,
             Group::TABLE,
             Image::TABLE,
+            Imageable::TABLE,
             Membership::TABLE,
             Performance::TABLE,
             Resourceable::TABLE,
             Series::TABLE,
             Song::TABLE,
             Studio::TABLE,
-            StudioImage::TABLE,
             Video::TABLE,
             VideoScript::TABLE,
         ];
