@@ -14,11 +14,10 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Pivots\BaseMorphPivot;
 use Database\Factories\Pivots\Morph\ResourceableFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
@@ -33,10 +32,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @method static ResourceableFactory factory(...$parameters)
  */
-class Resourceable extends MorphPivot
+class Resourceable extends BaseMorphPivot
 {
-    use HasFactory;
-
     final public const TABLE = 'resourceables';
 
     final public const ATTRIBUTE_AS = 'as';
