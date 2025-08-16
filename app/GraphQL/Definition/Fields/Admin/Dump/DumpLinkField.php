@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Admin\Dump;
 
-use App\GraphQL\Definition\Fields\StringField;
+use App\Contracts\GraphQL\Fields\DisplayableField;
+use App\GraphQL\Definition\Fields\Field;
+use App\Models\Admin\Dump;
+use GraphQL\Type\Definition\Type;
 
-class DumpLinkField extends StringField
+class DumpLinkField extends Field implements DisplayableField
 {
-    final public const FIELD = 'link';
-
     public function __construct()
     {
-        parent::__construct(self::FIELD, nullable: false);
+        parent::__construct(Dump::ATTRIBUTE_LINK, nullable: false);
     }
 
     /**
@@ -24,10 +25,18 @@ class DumpLinkField extends StringField
     }
 
     /**
-     * Determine if the field is nullable.
+     * The type returned by the field.
      */
-    protected function nullable(): bool
+    public function baseType(): Type
     {
-        return false;
+        return Type::string();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }

@@ -17,11 +17,11 @@ use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\Wiki\ImageRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
-use App\Filament\Resources\Wiki\Anime\RelationManagers\ImageAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
@@ -265,7 +265,7 @@ class Anime extends BaseResource
                 ThemeAnimeRelationManager::class,
                 SeriesAnimeRelationManager::class,
                 ResourceRelationManager::class,
-                ImageAnimeRelationManager::class,
+                ImageRelationManager::class,
                 StudioAnimeRelationManager::class,
 
                 ...parent::getBaseRelations(),
