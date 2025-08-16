@@ -9,7 +9,6 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Pivots\List\PlaylistImage;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -32,7 +31,6 @@ class DumpListAction extends DumpAction
             ExternalProfile::TABLE,
             PlaylistTrack::TABLE,
             Playlist::TABLE,
-            PlaylistImage::TABLE,
         ];
     }
 

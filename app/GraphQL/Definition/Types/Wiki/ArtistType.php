@@ -14,6 +14,7 @@ use App\GraphQL\Definition\Fields\Wiki\Artist\ArtistInformationField;
 use App\GraphQL\Definition\Fields\Wiki\Artist\ArtistNameField;
 use App\GraphQL\Definition\Fields\Wiki\Artist\ArtistSlugField;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistMemberType;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
@@ -45,7 +46,7 @@ class ArtistType extends EloquentType implements ReportableType
         return [
             new BelongsToManyRelation($this, ArtistType::class, Artist::RELATION_GROUPS, ArtistMemberType::class),
             new BelongsToManyRelation($this, ArtistType::class, Artist::RELATION_MEMBERS, ArtistMemberType::class),
-            new BelongsToManyRelation($this, ImageType::class, Artist::RELATION_IMAGES, ArtistMemberType::class),
+            new MorphToManyRelation($this, ImageType::class, Artist::RELATION_IMAGES, ImageableType::class),
             new MorphToManyRelation($this, ExternalResourceType::class, Artist::RELATION_RESOURCES, ResourceableType::class),
             new HasManyRelation(new MembershipType(), Artist::RELATION_MEMBERSHIPS),
             new MorphManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),

@@ -13,9 +13,9 @@ use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Studio\StudioNameField;
 use App\GraphQL\Definition\Fields\Wiki\Studio\StudioSlugField;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeStudioType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\StudioImageType;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
@@ -40,7 +40,7 @@ class StudioType extends EloquentType implements ReportableType
     {
         return [
             new BelongsToManyRelation($this, AnimeType::class, Studio::RELATION_ANIME, AnimeStudioType::class),
-            new BelongsToManyRelation($this, ImageType::class, Studio::RELATION_IMAGES, StudioImageType::class),
+            new MorphToManyRelation($this, ImageType::class, Studio::RELATION_IMAGES, ImageableType::class),
             new MorphToManyRelation($this, ExternalResourceType::class, Studio::RELATION_RESOURCES, ResourceableType::class),
         ];
     }

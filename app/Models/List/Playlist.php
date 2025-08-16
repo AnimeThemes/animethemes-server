@@ -14,18 +14,17 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
 use App\Events\List\Playlist\PlaylistUpdated;
-use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
-use App\Pivots\List\PlaylistImage;
+use App\Pivots\Morph\Imageable;
 use Database\Factories\List\PlaylistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -213,13 +212,13 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     /**
      * Get the images for the playlist.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function images(): BelongsToMany
+    public function images(): MorphToMany
     {
-        return $this->belongsToMany(Image::class, PlaylistImage::class, Playlist::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
-            ->using(PlaylistImage::class)
-            ->as(PlaylistImageResource::$wrap)
+        return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
+            ->using(Imageable::class)
+            ->as('playlistimage')
             ->withTimestamps();
     }
 

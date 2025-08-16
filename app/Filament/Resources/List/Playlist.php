@@ -15,11 +15,11 @@ use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\Wiki\ImageRelationManager;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist\Pages\ListPlaylists;
 use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
-use App\Filament\Resources\List\Playlist\RelationManagers\ImagePlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\Track;
 use App\Models\List\Playlist as PlaylistModel;
@@ -259,7 +259,7 @@ class Playlist extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
-                ImagePlaylistRelationManager::class,
+                ImageRelationManager::class,
                 TrackPlaylistRelationManager::class,
 
                 ...parent::getBaseRelations(),

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Wiki\Video;
 
-use App\GraphQL\Definition\Fields\StringField;
+use App\Contracts\GraphQL\Fields\DisplayableField;
+use App\GraphQL\Definition\Fields\Field;
 use App\Models\Wiki\Video;
+use GraphQL\Type\Definition\Type;
 
-class VideoLinkField extends StringField
+class VideoLinkField extends Field implements DisplayableField
 {
     public function __construct()
     {
@@ -20,5 +22,21 @@ class VideoLinkField extends StringField
     public function description(): string
     {
         return 'The URL to stream the file from storage';
+    }
+
+    /**
+     * The type returned by the field.
+     */
+    public function baseType(): Type
+    {
+        return Type::string();
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     */
+    public function canBeDisplayed(): bool
+    {
+        return true;
     }
 }

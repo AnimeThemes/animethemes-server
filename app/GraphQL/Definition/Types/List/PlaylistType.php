@@ -18,11 +18,11 @@ use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Types\Auth\UserType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
-use App\GraphQL\Definition\Types\Pivot\List\PlaylistImageType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\List\Playlist;
 
@@ -49,7 +49,7 @@ class PlaylistType extends EloquentType
             new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
                 ->notNullable(),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new BelongsToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, PlaylistImageType::class),
+            new MorphToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, ImageableType::class),
         ];
     }
 

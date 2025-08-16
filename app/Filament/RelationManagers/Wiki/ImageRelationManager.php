@@ -9,9 +9,10 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Image as ImageResource;
 use App\Models\Wiki\Image;
+use App\Pivots\Morph\Imageable;
 use Filament\Tables\Table;
 
-abstract class ImageRelationManager extends BaseRelationManager
+class ImageRelationManager extends BaseRelationManager
 {
     /**
      * The resource of the relation manager.
@@ -21,6 +22,11 @@ abstract class ImageRelationManager extends BaseRelationManager
     protected static ?string $relatedResource = ImageResource::class;
 
     /**
+     * The relationship the relation manager corresponds to.
+     */
+    protected static string $relationship = 'images';
+
+    /**
      * The index page of the resource.
      */
     public function table(Table $table): Table
@@ -28,6 +34,7 @@ abstract class ImageRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
+                ->reorderable(Imageable::ATTRIBUTE_DEPTH)
                 ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc')
         );
     }

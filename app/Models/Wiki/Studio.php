@@ -14,11 +14,10 @@ use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
 use App\Models\BaseModel;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Pivots\Wiki\StudioImage;
 use Database\Factories\Wiki\StudioFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -148,13 +147,13 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     /**
      * Get the images for the studio.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function images(): BelongsToMany
+    public function images(): MorphToMany
     {
-        return $this->belongsToMany(Image::class, StudioImage::TABLE, Studio::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
-            ->using(StudioImage::class)
-            ->as(StudioImageResource::$wrap)
+        return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
+            ->using(Imageable::class)
+            ->as('studioimage')
             ->withTimestamps();
     }
 }

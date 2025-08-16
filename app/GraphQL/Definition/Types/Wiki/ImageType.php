@@ -15,10 +15,8 @@ use App\GraphQL\Definition\Fields\Wiki\Image\ImageFacetField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImagePathField;
 use App\GraphQL\Definition\Types\EloquentType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeImageType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\ArtistImageType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\StudioImageType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
+use App\GraphQL\Definition\Types\Pivot\Morph\ImageableType;
+use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Image;
 
@@ -40,9 +38,9 @@ class ImageType extends EloquentType implements ReportableType
     public function relations(): array
     {
         return [
-            new BelongsToManyRelation($this, AnimeType::class, Image::RELATION_ANIME, AnimeImageType::class),
-            new BelongsToManyRelation($this, ArtistType::class, Image::RELATION_ARTISTS, ArtistImageType::class),
-            new BelongsToManyRelation($this, StudioType::class, Image::RELATION_STUDIOS, StudioImageType::class),
+            new MorphToManyRelation($this, AnimeType::class, Image::RELATION_ANIME, ImageableType::class),
+            new MorphToManyRelation($this, ArtistType::class, Image::RELATION_ARTISTS, ImageableType::class),
+            new MorphToManyRelation($this, StudioType::class, Image::RELATION_STUDIOS, ImageableType::class),
         ];
     }
 

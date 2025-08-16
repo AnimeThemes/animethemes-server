@@ -13,14 +13,13 @@ use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\ArtistFactory;
@@ -248,14 +247,14 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     /**
      * Get the images for the artist.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function images(): BelongsToMany
+    public function images(): MorphToMany
     {
-        return $this->belongsToMany(Image::class, ArtistImage::TABLE, Artist::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
-            ->using(ArtistImage::class)
-            ->withPivot(ArtistImage::ATTRIBUTE_DEPTH)
-            ->as(ArtistImageResource::$wrap)
+        return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
+            ->using(Imageable::class)
+            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
+            ->as('artistimage')
             ->withTimestamps();
     }
 }

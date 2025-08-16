@@ -10,8 +10,8 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
 use App\Policies\BasePolicy;
@@ -122,9 +122,9 @@ class ArtistPolicy extends BasePolicy
      */
     public function attachImage(User $user, Artist $artist, Image $image): bool
     {
-        $attached = ArtistImage::query()
-            ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
-            ->where(ArtistImage::ATTRIBUTE_IMAGE, $image->getKey())
+        $attached = Imageable::query()
+            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $artist)
+            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
         return ! $attached
