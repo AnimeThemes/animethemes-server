@@ -7,10 +7,11 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistSong;
-use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
@@ -73,8 +74,8 @@ test('external resources', function () {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $song->resources());
+    $this->assertInstanceOf(MorphToMany::class, $song->resources());
     $this->assertEquals($resourceCount, $song->resources()->count());
     $this->assertInstanceOf(ExternalResource::class, $song->resources()->first());
-    $this->assertEquals(SongResource::class, $song->resources()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $song->resources()->getPivotClass());
 });

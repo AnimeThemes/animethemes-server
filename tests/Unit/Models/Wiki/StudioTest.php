@@ -6,10 +6,11 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\StudioImage;
-use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
@@ -58,10 +59,10 @@ test('external resources', function () {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $studio->resources());
+    $this->assertInstanceOf(MorphToMany::class, $studio->resources());
     $this->assertEquals($resourceCount, $studio->resources()->count());
     $this->assertInstanceOf(ExternalResource::class, $studio->resources()->first());
-    $this->assertEquals(StudioResource::class, $studio->resources()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $studio->resources()->getPivotClass());
 });
 
 test('images', function () {

@@ -6,11 +6,12 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
@@ -59,10 +60,10 @@ test('external resources', function () {
         ->has(ExternalResource::factory()->count($resourceCount), 'resources')
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $artist->resources());
+    $this->assertInstanceOf(MorphToMany::class, $artist->resources());
     $this->assertEquals($resourceCount, $artist->resources()->count());
     $this->assertInstanceOf(ExternalResource::class, $artist->resources()->first());
-    $this->assertEquals(ArtistResource::class, $artist->resources()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $artist->resources()->getPivotClass());
 });
 
 test('members', function () {
