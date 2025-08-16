@@ -11,10 +11,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Pivots\Wiki\AnimeResource;
-use App\Pivots\Wiki\ArtistResource;
-use App\Pivots\Wiki\SongResource;
-use App\Pivots\Wiki\StudioResource;
+use App\Pivots\Morph\Resourceable;
 use App\Policies\BasePolicy;
 
 class ExternalResourcePolicy extends BasePolicy
@@ -32,9 +29,9 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachAnime(User $user, ExternalResource $resource, Anime $anime): bool
     {
-        $attached = AnimeResource::query()
-            ->where(AnimeResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
+        $attached = Resourceable::query()
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $anime)
             ->exists();
 
         return ! $attached
@@ -63,9 +60,9 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachArtist(User $user, ExternalResource $resource, Artist $artist): bool
     {
-        $attached = ArtistResource::query()
-            ->where(ArtistResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(ArtistResource::ATTRIBUTE_ARTIST, $artist->getKey())
+        $attached = Resourceable::query()
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $artist)
             ->exists();
 
         return ! $attached
@@ -94,9 +91,9 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachSong(User $user, ExternalResource $resource, Song $song): bool
     {
-        $attached = SongResource::query()
-            ->where(SongResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(SongResource::ATTRIBUTE_SONG, $song->getKey())
+        $attached = Resourceable::query()
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $song)
             ->exists();
 
         return ! $attached
@@ -125,9 +122,9 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachStudio(User $user, ExternalResource $resource, Studio $studio): bool
     {
-        $attached = StudioResource::query()
-            ->where(StudioResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
+        $attached = Resourceable::query()
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $studio)
             ->exists();
 
         return ! $attached

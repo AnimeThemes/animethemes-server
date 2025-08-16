@@ -11,12 +11,12 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ImageStudioRelationManager;
-use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourceStudioRelationManager;
 use App\Models\Wiki\Studio as StudioModel;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -174,7 +174,7 @@ class Studio extends BaseResource
         return [
             RelationGroup::make(static::getModelLabel(), [
                 AnimeStudioRelationManager::class,
-                ResourceStudioRelationManager::class,
+                ResourceRelationManager::class,
                 ImageStudioRelationManager::class,
 
                 ...parent::getBaseRelations(),

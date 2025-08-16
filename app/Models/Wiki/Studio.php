@@ -15,15 +15,15 @@ use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Models\BaseModel;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\StudioImage;
-use App\Pivots\Wiki\StudioResource;
 use Database\Factories\Wiki\StudioFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -132,16 +132,16 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the resources for the studio.
+     * Get the resources for the studio through the resourceable morph pivot.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function resources(): BelongsToMany
+    public function resources(): MorphToMany
     {
-        return $this->belongsToMany(ExternalResource::class, StudioResource::TABLE, Studio::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
-            ->using(StudioResource::class)
-            ->withPivot(StudioResource::ATTRIBUTE_AS)
-            ->as(StudioResourceResource::$wrap)
+        return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as('studioresource')
             ->withTimestamps();
     }
 

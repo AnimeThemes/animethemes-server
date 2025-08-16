@@ -22,17 +22,13 @@ use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
 use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
-use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
-use App\Http\Controllers\Api\Pivot\Wiki\ArtistResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistSongController;
-use App\Http\Controllers\Api\Pivot\Wiki\SongResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\StudioImageController;
-use App\Http\Controllers\Api\Pivot\Wiki\StudioResourceController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
@@ -237,17 +233,13 @@ Route::get('playlist/{playlist}/track/{track}/backward', [TrackBackwardControlle
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);
-apiEditablePivotResource('animeresource', 'anime', 'resource', AnimeResourceController::class);
 apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class);
 apiPivotResource('animestudio', 'anime', 'studio', AnimeStudioController::class);
 apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', AnimeThemeEntryVideoController::class);
 apiPivotResource('artistimage', 'artist', 'image', ArtistImageController::class);
 apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
-apiEditablePivotResource('artistresource', 'artist', 'resource', ArtistResourceController::class);
 apiPivotResource('playlistimage', 'playlist', 'image', PlaylistImageController::class);
-apiEditablePivotResource('songresource', 'song', 'resource', SongResourceController::class);
 apiPivotResource('studioimage', 'studio', 'image', StudioImageController::class);
-apiEditablePivotResource('studioresource', 'studio', 'resource', StudioResourceController::class);
 apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::class);
 
 // Wiki Routes

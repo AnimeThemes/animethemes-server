@@ -14,17 +14,17 @@ use App\Events\Wiki\Song\SongDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
-use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song\Performance;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistSong;
-use App\Pivots\Wiki\SongResource;
 use Database\Factories\Wiki\SongFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -167,16 +167,16 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     }
 
     /**
-     * Get the resources for the song.
+     * Get the resources for the song through the resourceable morph pivot.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function resources(): BelongsToMany
+    public function resources(): MorphToMany
     {
-        return $this->belongsToMany(ExternalResource::class, SongResource::TABLE, Song::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
-            ->using(SongResource::class)
-            ->withPivot(SongResource::ATTRIBUTE_AS)
-            ->as(SongResourceResource::$wrap)
+        return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as('songresource')
             ->withTimestamps();
     }
 }

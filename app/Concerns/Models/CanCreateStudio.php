@@ -7,7 +7,7 @@ namespace App\Concerns\Models;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Pivots\Wiki\StudioResource;
+use App\Pivots\Morph\Resourceable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -56,9 +56,9 @@ trait CanCreateStudio
             ]);
         }
 
-        if (StudioResource::query()
-            ->where($studio->getKeyName(), $studio->getKey())
-            ->where($studioResource->getKeyName(), $studioResource->getKey())
+        if (Resourceable::query()
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $studio)
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $studioResource->getKey())
             ->doesntExist()
         ) {
             Log::info("Attaching resource '$studioResource->link' to studio '{$studio->getName()}'");

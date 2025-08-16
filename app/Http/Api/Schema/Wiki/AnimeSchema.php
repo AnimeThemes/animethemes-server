@@ -17,12 +17,11 @@ use App\Http\Api\Field\Wiki\Anime\AnimeYearField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
+use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 
@@ -36,7 +35,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
     public function allowedPivots(): array
     {
         return [
-            new AllowedInclude(new AnimeResourceSchema(), AnimeResourceResource::$wrap),
+            new AllowedInclude(new ResourceableSchema($this, 'animeresource'), 'animeresource'),
         ];
     }
 

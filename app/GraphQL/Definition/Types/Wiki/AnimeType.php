@@ -18,14 +18,15 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSlugField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynopsisField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYearField;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeImageType;
-use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeResourceType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeSeriesType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeStudioType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
+use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime;
 
@@ -50,9 +51,9 @@ class AnimeType extends EloquentType implements ReportableType
             new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
             new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
             new BelongsToManyRelation($this, ImageType::class, Anime::RELATION_IMAGES, AnimeImageType::class),
-            new BelongsToManyRelation($this, ExternalResourceType::class, Anime::RELATION_RESOURCES, AnimeResourceType::class),
             new BelongsToManyRelation($this, SeriesType::class, Anime::RELATION_SERIES, AnimeSeriesType::class),
             new BelongsToManyRelation($this, StudioType::class, Anime::RELATION_STUDIOS, AnimeStudioType::class),
+            new MorphToManyRelation($this, ExternalResourceType::class, Anime::RELATION_RESOURCES, ResourceableType::class),
         ];
     }
 

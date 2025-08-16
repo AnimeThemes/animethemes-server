@@ -10,8 +10,8 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistSong;
-use App\Pivots\Wiki\SongResource;
 use App\Policies\BasePolicy;
 
 class SongPolicy extends BasePolicy
@@ -68,9 +68,9 @@ class SongPolicy extends BasePolicy
      */
     public function attachExternalResource(User $user, Song $song, ExternalResource $resource): bool
     {
-        $attached = SongResource::query()
-            ->where(SongResource::ATTRIBUTE_SONG, $song->getKey())
-            ->where(SongResource::ATTRIBUTE_RESOURCE, $resource->getKey())
+        $attached = Resourceable::query()
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $song)
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
         return ! $attached

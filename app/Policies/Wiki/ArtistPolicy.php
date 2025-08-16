@@ -10,9 +10,9 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use App\Policies\BasePolicy;
 
@@ -62,9 +62,9 @@ class ArtistPolicy extends BasePolicy
      */
     public function attachExternalResource(User $user, Artist $artist, ExternalResource $resource): bool
     {
-        $attached = ArtistResource::query()
-            ->where(ArtistResource::ATTRIBUTE_ARTIST, $artist->getKey())
-            ->where(ArtistResource::ATTRIBUTE_RESOURCE, $resource->getKey())
+        $attached = Resourceable::query()
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $artist)
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
         return ! $attached

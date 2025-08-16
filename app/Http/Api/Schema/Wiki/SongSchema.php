@@ -11,12 +11,11 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Song\SongTitleField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
-use App\Http\Api\Schema\Pivot\Wiki\SongResourceSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
-use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 
@@ -31,7 +30,7 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
     {
         return [
             new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
-            new AllowedInclude(new SongResourceSchema(), SongResourceResource::$wrap),
+            new AllowedInclude(new ResourceableSchema($this, 'songresource'), 'songresource'),
         ];
     }
 

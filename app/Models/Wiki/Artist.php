@@ -15,14 +15,13 @@ use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\ArtistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
@@ -30,6 +29,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -204,16 +204,16 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the resources for the artist.
+     * Get the resources for the artist through the resourceable morph pivot.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function resources(): BelongsToMany
+    public function resources(): MorphToMany
     {
-        return $this->belongsToMany(ExternalResource::class, ArtistResource::TABLE, Artist::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
-            ->using(ArtistResource::class)
-            ->withPivot(ArtistResource::ATTRIBUTE_AS)
-            ->as(ArtistResourceResource::$wrap)
+        return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as('artistresource')
             ->withTimestamps();
     }
 

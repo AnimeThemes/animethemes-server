@@ -10,9 +10,9 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\StudioImage;
-use App\Pivots\Wiki\StudioResource;
 use App\Policies\BasePolicy;
 
 class StudioPolicy extends BasePolicy
@@ -61,9 +61,9 @@ class StudioPolicy extends BasePolicy
      */
     public function attachExternalResource(User $user, Studio $studio, ExternalResource $resource): bool
     {
-        $attached = StudioResource::query()
-            ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
-            ->where(StudioResource::ATTRIBUTE_RESOURCE, $resource->getKey())
+        $attached = Resourceable::query()
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $studio)
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
         return ! $attached

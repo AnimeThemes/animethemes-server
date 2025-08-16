@@ -10,6 +10,7 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
@@ -19,7 +20,6 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRe
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ImageArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
@@ -212,7 +212,7 @@ class Artist extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 PerformanceArtistRelationManager::class,
                 GroupPerformanceArtistRelationManager::class,
-                ResourceArtistRelationManager::class,
+                ResourceRelationManager::class,
                 MemberArtistRelationManager::class,
                 GroupArtistRelationManager::class,
                 ImageArtistRelationManager::class,

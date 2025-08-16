@@ -12,8 +12,7 @@ use App\Http\Api\Field\Wiki\Studio\StudioNameField;
 use App\Http\Api\Field\Wiki\Studio\StudioSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Pivot\Wiki\StudioResourceSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
+use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 
@@ -27,7 +26,7 @@ class StudioSchema extends EloquentSchema implements InteractsWithPivots, Search
     public function allowedPivots(): array
     {
         return [
-            new AllowedInclude(new StudioResourceSchema(), StudioResourceResource::$wrap),
+            new AllowedInclude(new ResourceableSchema($this, 'studioresource'), 'studioresource'),
         ];
     }
 

@@ -8,11 +8,8 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Pivots\Wiki\AnimeResource;
-use App\Pivots\Wiki\ArtistResource;
-use App\Pivots\Wiki\SongResource;
-use App\Pivots\Wiki\StudioResource;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Pivots\Morph\Resourceable;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
@@ -44,10 +41,10 @@ test('anime', function () {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $resource->anime());
+    $this->assertInstanceOf(MorphToMany::class, $resource->anime());
     $this->assertEquals($animeCount, $resource->anime()->count());
     $this->assertInstanceOf(Anime::class, $resource->anime()->first());
-    $this->assertEquals(AnimeResource::class, $resource->anime()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $resource->anime()->getPivotClass());
 });
 
 test('artists', function () {
@@ -57,10 +54,10 @@ test('artists', function () {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $resource->artists());
+    $this->assertInstanceOf(MorphToMany::class, $resource->artists());
     $this->assertEquals($artistCount, $resource->artists()->count());
     $this->assertInstanceOf(Artist::class, $resource->artists()->first());
-    $this->assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $resource->artists()->getPivotClass());
 });
 
 test('song', function () {
@@ -70,10 +67,10 @@ test('song', function () {
         ->has(Song::factory()->count($songCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $resource->songs());
+    $this->assertInstanceOf(MorphToMany::class, $resource->songs());
     $this->assertEquals($songCount, $resource->songs()->count());
     $this->assertInstanceOf(Song::class, $resource->songs()->first());
-    $this->assertEquals(SongResource::class, $resource->songs()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $resource->songs()->getPivotClass());
 });
 
 test('studio', function () {
@@ -83,8 +80,8 @@ test('studio', function () {
         ->has(Studio::factory()->count($studioCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $resource->studios());
+    $this->assertInstanceOf(MorphToMany::class, $resource->studios());
     $this->assertEquals($studioCount, $resource->studios()->count());
     $this->assertInstanceOf(Studio::class, $resource->studios()->first());
-    $this->assertEquals(StudioResource::class, $resource->studios()->getPivotClass());
+    $this->assertEquals(Resourceable::class, $resource->studios()->getPivotClass());
 });
