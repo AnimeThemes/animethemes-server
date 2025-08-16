@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\StudioResource\StudioResourceCreated;
-use App\Events\Pivot\Wiki\StudioResource\StudioResourceDeleted;
-use App\Events\Pivot\Wiki\StudioResource\StudioResourceUpdated;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\BasePivot;
@@ -65,19 +62,6 @@ class StudioResource extends BasePivot
             StudioResource::ATTRIBUTE_RESOURCE,
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for the native Eloquent events.
-     *
-     * @var array
-     */
-    protected $dispatchesEvents = [
-        'created' => StudioResourceCreated::class,
-        'deleted' => StudioResourceDeleted::class,
-        'updated' => StudioResourceUpdated::class,
-    ];
 
     /**
      * Gets the studio that owns the studio resource.

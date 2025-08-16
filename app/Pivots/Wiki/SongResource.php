@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\SongResource\SongResourceCreated;
-use App\Events\Pivot\Wiki\SongResource\SongResourceDeleted;
-use App\Events\Pivot\Wiki\SongResource\SongResourceUpdated;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
@@ -65,19 +62,6 @@ class SongResource extends BasePivot
             SongResource::ATTRIBUTE_RESOURCE,
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => SongResourceCreated::class,
-        'deleted' => SongResourceDeleted::class,
-        'updated' => SongResourceUpdated::class,
-    ];
 
     /**
      * Gets the song that owns the anime resource.

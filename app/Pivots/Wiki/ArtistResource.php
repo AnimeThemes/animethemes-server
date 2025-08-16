@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceCreated;
-use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceDeleted;
-use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\BasePivot;
@@ -65,19 +62,6 @@ class ArtistResource extends BasePivot
             ArtistResource::ATTRIBUTE_RESOURCE,
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => ArtistResourceCreated::class,
-        'deleted' => ArtistResourceDeleted::class,
-        'updated' => ArtistResourceUpdated::class,
-    ];
 
     /**
      * Gets the artist that owns the artist resource.

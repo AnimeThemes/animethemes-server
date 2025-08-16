@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Models\Wiki\Image;
 
 use App\Concerns\Models\CanCreateImage;
-use App\Concerns\Models\HasLabel;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;

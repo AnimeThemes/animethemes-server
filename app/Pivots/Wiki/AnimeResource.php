@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceCreated;
-use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceDeleted;
-use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\BasePivot;
@@ -65,19 +62,6 @@ class AnimeResource extends BasePivot
             AnimeResource::ATTRIBUTE_RESOURCE,
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => AnimeResourceCreated::class,
-        'deleted' => AnimeResourceDeleted::class,
-        'updated' => AnimeResourceUpdated::class,
-    ];
 
     /**
      * Gets the anime that owns the anime resource.
