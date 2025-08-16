@@ -15,7 +15,6 @@ use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Song\Membership;
@@ -214,7 +213,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(ArtistResourceResource::$wrap)
+            ->as('artistresource')
             ->withTimestamps();
     }
 

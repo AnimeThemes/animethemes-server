@@ -17,7 +17,6 @@ use App\Events\Wiki\Anime\AnimeDeleting;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Models\BaseModel;
@@ -253,7 +252,7 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(AnimeResourceResource::$wrap)
+            ->as('animeresource')
             ->withTimestamps();
     }
 

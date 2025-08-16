@@ -13,15 +13,14 @@ use App\Http\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Http\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistImageSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
-use App\Http\Api\Schema\Pivot\Wiki\ArtistResourceSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
@@ -38,7 +37,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
         return [
             new AllowedInclude(new ArtistImageSchema(), ArtistImageResource::$wrap),
             new AllowedInclude(new ArtistMemberSchema(), ArtistMemberResource::$wrap),
-            new AllowedInclude(new ArtistResourceSchema(), ArtistResourceResource::$wrap),
+            new AllowedInclude(new ResourceableSchema($this, 'artistresource'), 'artistresource'),
             new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
         ];
     }

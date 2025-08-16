@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Pivot\Wiki\StudioResource;
+namespace App\Http\Api\Field\Pivot\Morph\Resourceable;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
-use App\Pivots\Wiki\StudioResource;
+use App\Pivots\Morph\Resourceable;
 use Illuminate\Http\Request;
 
-class StudioResourceAsField extends StringField implements CreatableField, UpdatableField
+class ResourceableAsField extends StringField implements CreatableField, UpdatableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, StudioResource::ATTRIBUTE_AS);
+        parent::__construct($schema, Resourceable::ATTRIBUTE_AS);
     }
 
     /**

@@ -12,6 +12,8 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Morph\Resourceable;
+use Filament\Schemas\Components\Component;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 

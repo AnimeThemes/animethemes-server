@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Pivot\Wiki\SongResource;
+namespace App\Http\Api\Field\Pivot\Morph\Resourceable;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Pivots\Wiki\SongResource;
+use App\Pivots\Morph\Resourceable;
 
-class SongResourceResourceIdField extends Field implements SelectableField
+class ResourceableResourceIdField extends Field implements SelectableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, SongResource::ATTRIBUTE_RESOURCE);
+        parent::__construct($schema, Resourceable::ATTRIBUTE_RESOURCE);
     }
 
     /**

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\Pivot\Wiki\Resource;
+namespace App\Http\Resources\Pivot\Morph\Resource;
 
-use App\Http\Api\Schema\Pivot\Wiki\StudioResourceSchema;
+use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\BaseResource;
 
-class StudioResourceResource extends BaseResource
+class StudioResourceableResource extends BaseResource
 {
     /**
      * The "data" wrapper that should be applied.
@@ -22,6 +23,6 @@ class StudioResourceResource extends BaseResource
      */
     protected function schema(): Schema
     {
-        return new StudioResourceSchema();
+        return new ResourceableSchema(new StudioSchema(), 'studioresource');
     }
 }

@@ -12,14 +12,7 @@ use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceLinkField;
 use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
-use App\Http\Api\Schema\Pivot\Wiki\ArtistResourceSchema;
-use App\Http\Api\Schema\Pivot\Wiki\SongResourceSchema;
-use App\Http\Api\Schema\Pivot\Wiki\StudioResourceSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
+use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 
@@ -33,10 +26,10 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
     public function allowedPivots(): array
     {
         return [
-            new AllowedInclude(new AnimeResourceSchema(), AnimeResourceResource::$wrap),
-            new AllowedInclude(new ArtistResourceSchema(), ArtistResourceResource::$wrap),
-            new AllowedInclude(new StudioResourceSchema(), StudioResourceResource::$wrap),
-            new AllowedInclude(new SongResourceSchema(), SongResourceResource::$wrap),
+            new AllowedInclude(new ResourceableSchema(new AnimeSchema(), 'animeresource'), 'animeresource'),
+            new AllowedInclude(new ResourceableSchema(new ArtistSchema(), 'artistresource'), 'artistresource'),
+            new AllowedInclude(new ResourceableSchema(new SongSchema(), 'songresource'), 'songresource'),
+            new AllowedInclude(new ResourceableSchema(new StudioSchema(), 'studioresource'), 'studioresource'),
         ];
     }
 

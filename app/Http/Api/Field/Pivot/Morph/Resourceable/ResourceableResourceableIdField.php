@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Pivot\Wiki\ArtistResource;
+namespace App\Http\Api\Field\Pivot\Morph\Resourceable;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Pivots\Wiki\ArtistResource;
+use App\Pivots\Morph\Resourceable;
 
-class ArtistResourceResourceIdField extends Field implements SelectableField
+class ResourceableResourceableIdField extends Field implements SelectableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ArtistResource::ATTRIBUTE_RESOURCE);
+        parent::__construct($schema, Resourceable::ATTRIBUTE_RESOURCEABLE_ID);
     }
 
     /**
@@ -22,7 +22,7 @@ class ArtistResourceResourceIdField extends Field implements SelectableField
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
-        // Needed to match resource relation.
+        // Needed to match anime relation.
         return true;
     }
 }

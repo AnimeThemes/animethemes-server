@@ -12,10 +12,6 @@ use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Models\BaseModel;
 use App\Pivots\Morph\Resourceable;
 use Database\Factories\Wiki\ExternalResourceFactory;
@@ -136,7 +132,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
         return $this->morphedByMany(Anime::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(AnimeResourceResource::$wrap)
+            ->as('animeresource')
             ->withTimestamps();
     }
 
@@ -150,7 +146,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
         return $this->morphedByMany(Artist::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(ArtistResourceResource::$wrap)
+            ->as('artistresource')
             ->withTimestamps();
     }
 
@@ -164,7 +160,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
         return $this->morphedByMany(Song::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(SongResourceResource::$wrap)
+            ->as('songresource')
             ->withTimestamps();
     }
 
@@ -178,7 +174,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
         return $this->morphedByMany(Studio::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(StudioResourceResource::$wrap)
+            ->as('studioresource')
             ->withTimestamps();
     }
 }

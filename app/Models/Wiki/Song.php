@@ -14,7 +14,6 @@ use App\Events\Wiki\Song\SongDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
-use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song\Performance;
@@ -177,7 +176,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(SongResourceResource::$wrap)
+            ->as('songresource')
             ->withTimestamps();
     }
 }

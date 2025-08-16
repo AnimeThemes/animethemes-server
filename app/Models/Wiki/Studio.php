@@ -15,7 +15,6 @@ use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Models\BaseModel;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
@@ -142,7 +141,7 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as(StudioResourceResource::$wrap)
+            ->as('studioresource')
             ->withTimestamps();
     }
 

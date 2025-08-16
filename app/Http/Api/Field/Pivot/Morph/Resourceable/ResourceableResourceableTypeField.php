@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Pivot\Wiki\AnimeResource;
+namespace App\Http\Api\Field\Pivot\Morph\Resourceable;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Pivots\Wiki\AnimeResource;
+use App\Pivots\Morph\Resourceable;
 
-class AnimeResourceAnimeIdField extends Field implements SelectableField
+class ResourceableResourceableTypeField extends Field implements SelectableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, AnimeResource::ATTRIBUTE_ANIME);
+        parent::__construct($schema, Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE);
     }
 
     /**
