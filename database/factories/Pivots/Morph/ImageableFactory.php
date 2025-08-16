@@ -37,7 +37,7 @@ class ImageableFactory extends Factory
     public function definition(): array
     {
         return [
-            Imageable::ATTRIBUTE_DEPTH => fake()->randomDigitNotNull(),
+            Imageable::ATTRIBUTE_DEPTH => fake()->unique()->numberBetween(),
         ];
     }
 

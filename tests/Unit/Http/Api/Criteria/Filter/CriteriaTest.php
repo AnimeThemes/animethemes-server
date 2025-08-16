@@ -11,9 +11,6 @@ use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\TypeScope;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-
-use function Pest\Laravel\get;
-
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -21,13 +18,13 @@ uses(Illuminate\Foundation\Testing\WithFaker::class);
 test('should not filter if key mismatch', function () {
     $expression = new Expression(fake()->word());
     $comparisonOperator = Arr::random(ComparisonOperator::cases());
-    $predicate = new Predicate(fake()->word(), $comparisonOperator, $expression);
+    $predicate = new Predicate(fake()->unique()->word(), $comparisonOperator, $expression);
     $scope = new GlobalScope();
     $logicalOperator = Arr::random(BinaryLogicalOperator::cases());
 
     $criteria = new FakeCriteria($predicate, $logicalOperator, $scope);
 
-    $filter = new class(fake()->word()) extends Filter
+    $filter = new class(fake()->unique()->word()) extends Filter
     {
         /**
          * Convert filter values to integers.
