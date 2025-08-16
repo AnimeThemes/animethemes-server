@@ -14,8 +14,8 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Policies\BasePolicy;
@@ -113,9 +113,9 @@ class AnimePolicy extends BasePolicy
      */
     public function attachImage(User $user, Anime $anime, Image $image): bool
     {
-        $attached = AnimeImage::query()
-            ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
-            ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
+        $attached = Imageable::query()
+            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $anime)
+            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
         return ! $attached

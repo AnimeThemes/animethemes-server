@@ -16,7 +16,6 @@ use App\Events\Wiki\Anime\AnimeDeleted;
 use App\Events\Wiki\Anime\AnimeDeleting;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Models\BaseModel;
@@ -24,8 +23,8 @@ use App\Models\Discord\DiscordThread;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use Database\Factories\Wiki\AnimeFactory;
@@ -259,13 +258,13 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     /**
      * Get the images for the anime.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function images(): BelongsToMany
+    public function images(): MorphToMany
     {
-        return $this->belongsToMany(Image::class, AnimeImage::TABLE, Anime::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
-            ->using(AnimeImage::class)
-            ->as(AnimeImageResource::$wrap)
+        return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
+            ->using(Imageable::class)
+            ->as('animeimage')
             ->withTimestamps();
     }
 

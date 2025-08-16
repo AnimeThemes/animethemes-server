@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property Model&HasResources&Nameable $resourceable
  * @property string $resourceable_type
  * @property int $resourceable_id
- * @property string $as
+ * @property string|null $as
  * @property ExternalResource $resource
  * @property int $resource_id
  *
@@ -113,7 +113,7 @@ class Resourceable extends BaseMorphPivot
     }
 
     /**
-     * Gets the resource that owns the resourceable.
+     * Gets the model that owns the resourceable.
      *
      * @return MorphTo
      */

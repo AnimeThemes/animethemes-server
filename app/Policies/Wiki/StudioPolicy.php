@@ -10,9 +10,9 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Pivots\Wiki\StudioImage;
 use App\Policies\BasePolicy;
 
 class StudioPolicy extends BasePolicy
@@ -92,9 +92,9 @@ class StudioPolicy extends BasePolicy
      */
     public function attachImage(User $user, Studio $studio, Image $image): bool
     {
-        $attached = StudioImage::query()
-            ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
-            ->where(StudioImage::ATTRIBUTE_IMAGE, $image->getKey())
+        $attached = Imageable::query()
+            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $studio)
+            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
         return ! $attached

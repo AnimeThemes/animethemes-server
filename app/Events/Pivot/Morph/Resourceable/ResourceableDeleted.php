@@ -22,9 +22,9 @@ class ResourceableDeleted extends PivotDeletedEvent
         privateLabel as label;
     }
 
-    public function __construct(Resourceable $animeResource)
+    public function __construct(Resourceable $resourceable)
     {
-        parent::__construct($animeResource->resourceable, $animeResource->resource);
+        parent::__construct($resourceable->resourceable, $resourceable->resource);
     }
 
     /**

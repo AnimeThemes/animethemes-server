@@ -13,8 +13,7 @@ use App\Http\Api\Field\Wiki\Image\ImageLinkField;
 use App\Http\Api\Field\Wiki\Image\ImagePathField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Pivot\Wiki\ArtistImageSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
+use App\Http\Api\Schema\Pivot\Morph\ImageableSchema;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 
@@ -28,7 +27,7 @@ class ImageSchema extends EloquentSchema implements InteractsWithPivots
     public function allowedPivots(): array
     {
         return [
-            new AllowedInclude(new ArtistImageSchema(), ArtistImageResource::$wrap),
+            new AllowedInclude(new ImageableSchema(new ArtistSchema(), 'artistimage'), 'artistimage'),
         ];
     }
 

@@ -9,10 +9,8 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\Wiki\AnimeImage;
-use App\Pivots\Wiki\ArtistImage;
-use App\Pivots\Wiki\StudioImage;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Pivots\Morph\Imageable;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
@@ -49,10 +47,10 @@ test('anime', function () {
         ->has(Anime::factory()->count($animeCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $image->anime());
+    $this->assertInstanceOf(MorphToMany::class, $image->anime());
     $this->assertEquals($animeCount, $image->anime()->count());
     $this->assertInstanceOf(Anime::class, $image->anime()->first());
-    $this->assertEquals(AnimeImage::class, $image->anime()->getPivotClass());
+    $this->assertEquals(Imageable::class, $image->anime()->getPivotClass());
 });
 
 test('artists', function () {
@@ -62,10 +60,10 @@ test('artists', function () {
         ->has(Artist::factory()->count($artistCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $image->artists());
+    $this->assertInstanceOf(MorphToMany::class, $image->artists());
     $this->assertEquals($artistCount, $image->artists()->count());
     $this->assertInstanceOf(Artist::class, $image->artists()->first());
-    $this->assertEquals(ArtistImage::class, $image->artists()->getPivotClass());
+    $this->assertEquals(Imageable::class, $image->artists()->getPivotClass());
 });
 
 test('studios', function () {
@@ -75,10 +73,10 @@ test('studios', function () {
         ->has(Studio::factory()->count($studioCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $image->studios());
+    $this->assertInstanceOf(MorphToMany::class, $image->studios());
     $this->assertEquals($studioCount, $image->studios()->count());
     $this->assertInstanceOf(Studio::class, $image->studios()->first());
-    $this->assertEquals(StudioImage::class, $image->studios()->getPivotClass());
+    $this->assertEquals(Imageable::class, $image->studios()->getPivotClass());
 });
 
 test('playlists', function () {
@@ -88,9 +86,10 @@ test('playlists', function () {
         ->has(Playlist::factory()->count($playlistCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $image->playlists());
+    $this->assertInstanceOf(MorphToMany::class, $image->playlists());
     $this->assertEquals($playlistCount, $image->playlists()->count());
     $this->assertInstanceOf(Playlist::class, $image->playlists()->first());
+    $this->assertEquals(Imageable::class, $image->playlists()->getPivotClass());
 });
 
 test('image storage deletion', function () {

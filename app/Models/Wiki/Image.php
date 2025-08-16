@@ -14,19 +14,12 @@ use App\Events\Wiki\Image\ImageDeleting;
 use App\Events\Wiki\Image\ImageForceDeleting;
 use App\Events\Wiki\Image\ImageRestored;
 use App\Events\Wiki\Image\ImageUpdated;
-use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
-use App\Pivots\List\PlaylistImage;
-use App\Pivots\Wiki\AnimeImage;
-use App\Pivots\Wiki\ArtistImage;
-use App\Pivots\Wiki\StudioImage;
+use App\Pivots\Morph\Imageable;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -160,53 +153,53 @@ class Image extends BaseModel implements SoftDeletable
     /**
      * Get the anime that use this image.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function anime(): BelongsToMany
+    public function anime(): MorphToMany
     {
-        return $this->belongsToMany(Anime::class, AnimeImage::TABLE, Image::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
-            ->using(AnimeImage::class)
-            ->as(AnimeImageResource::$wrap)
+        return $this->morphedByMany(Anime::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
+            ->using(Imageable::class)
+            ->as('animeimage')
             ->withTimestamps();
     }
 
     /**
      * Get the artists that use this image.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function artists(): BelongsToMany
+    public function artists(): MorphToMany
     {
-        return $this->belongsToMany(Artist::class, ArtistImage::TABLE, Image::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
-            ->using(ArtistImage::class)
-            ->as(ArtistImageResource::$wrap)
-            ->withPivot(ArtistImage::ATTRIBUTE_DEPTH)
+        return $this->morphedByMany(Artist::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
+            ->using(Imageable::class)
+            ->as('artistimage')
+            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
             ->withTimestamps();
     }
 
     /**
      * Get the studios that use this image.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function studios(): BelongsToMany
+    public function studios(): MorphToMany
     {
-        return $this->belongsToMany(Studio::class, StudioImage::TABLE, Image::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
-            ->using(StudioImage::class)
-            ->as(StudioImageResource::$wrap)
+        return $this->morphedByMany(Studio::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
+            ->using(Imageable::class)
+            ->as('studioimage')
             ->withTimestamps();
     }
 
     /**
      * Get the playlists that use this image.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function playlists(): BelongsToMany
+    public function playlists(): MorphToMany
     {
-        return $this->belongsToMany(Playlist::class, PlaylistImage::TABLE, Image::ATTRIBUTE_ID, Playlist::ATTRIBUTE_ID)
-            ->using(PlaylistImage::class)
-            ->as(PlaylistImageResource::$wrap)
+        return $this->morphedByMany(Playlist::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
+            ->using(Imageable::class)
+            ->as('playlistimage')
             ->withTimestamps();
     }
 }

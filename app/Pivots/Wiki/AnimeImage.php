@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\AnimeImage\AnimeImageCreated;
-use App\Events\Pivot\Wiki\AnimeImage\AnimeImageDeleted;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Pivots\BasePivot;
@@ -60,18 +58,6 @@ class AnimeImage extends BasePivot
     protected $fillable = [
         AnimeImage::ATTRIBUTE_ANIME,
         AnimeImage::ATTRIBUTE_IMAGE,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => AnimeImageCreated::class,
-        'deleted' => AnimeImageDeleted::class,
     ];
 
     /**

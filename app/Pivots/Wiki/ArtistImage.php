@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\ArtistImage\ArtistImageCreated;
-use App\Events\Pivot\Wiki\ArtistImage\ArtistImageDeleted;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Pivots\BasePivot;
@@ -63,18 +61,6 @@ class ArtistImage extends BasePivot
         ArtistImage::ATTRIBUTE_ARTIST,
         ArtistImage::ATTRIBUTE_IMAGE,
         ArtistImage::ATTRIBUTE_DEPTH,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => ArtistImageCreated::class,
-        'deleted' => ArtistImageDeleted::class,
     ];
 
     /**

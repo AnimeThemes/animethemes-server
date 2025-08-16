@@ -7,10 +7,10 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
-use App\Pivots\List\PlaylistImage;
+use App\Pivots\Morph\Imageable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -125,10 +125,10 @@ test('images', function () {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $playlist->images());
+    $this->assertInstanceOf(MorphToMany::class, $playlist->images());
     $this->assertEquals($imageCount, $playlist->images()->count());
     $this->assertInstanceOf(Image::class, $playlist->images()->first());
-    $this->assertEquals(PlaylistImage::class, $playlist->images()->getPivotClass());
+    $this->assertEquals(Imageable::class, $playlist->images()->getPivotClass());
 });
 
 test('tracks', function () {

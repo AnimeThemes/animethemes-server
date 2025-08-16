@@ -20,15 +20,11 @@ use App\Http\Controllers\Api\List\Playlist\TrackForwardController;
 use App\Http\Controllers\Api\List\PlaylistBackwardController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
-use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
-use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
-use App\Http\Controllers\Api\Pivot\Wiki\ArtistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistSongController;
-use App\Http\Controllers\Api\Pivot\Wiki\StudioImageController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
@@ -232,14 +228,10 @@ Route::get('playlist/{playlist}/track/{track}/backward', [TrackBackwardControlle
     ->name('playlist.track.backward');
 
 // Pivot Routes
-apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);
 apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class);
 apiPivotResource('animestudio', 'anime', 'studio', AnimeStudioController::class);
 apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', AnimeThemeEntryVideoController::class);
-apiPivotResource('artistimage', 'artist', 'image', ArtistImageController::class);
 apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
-apiPivotResource('playlistimage', 'playlist', 'image', PlaylistImageController::class);
-apiPivotResource('studioimage', 'studio', 'image', StudioImageController::class);
 apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::class);
 
 // Wiki Routes

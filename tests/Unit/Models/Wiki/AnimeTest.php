@@ -11,8 +11,8 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -119,10 +119,10 @@ test('images', function () {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $anime->images());
+    $this->assertInstanceOf(MorphToMany::class, $anime->images());
     $this->assertEquals($imageCount, $anime->images()->count());
     $this->assertInstanceOf(Image::class, $anime->images()->first());
-    $this->assertEquals(AnimeImage::class, $anime->images()->getPivotClass());
+    $this->assertEquals(Imageable::class, $anime->images()->getPivotClass());
 });
 
 test('studios', function () {

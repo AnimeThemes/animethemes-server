@@ -6,8 +6,8 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -99,8 +99,8 @@ test('images', function () {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $artist->images());
+    $this->assertInstanceOf(MorphToMany::class, $artist->images());
     $this->assertEquals($imageCount, $artist->images()->count());
     $this->assertInstanceOf(Image::class, $artist->images()->first());
-    $this->assertEquals(ArtistImage::class, $artist->images()->getPivotClass());
+    $this->assertEquals(Imageable::class, $artist->images()->getPivotClass());
 });

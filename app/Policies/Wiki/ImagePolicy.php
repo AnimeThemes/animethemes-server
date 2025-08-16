@@ -11,9 +11,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\Wiki\AnimeImage;
-use App\Pivots\Wiki\ArtistImage;
-use App\Pivots\Wiki\StudioImage;
+use App\Pivots\Morph\Imageable;
 use App\Policies\BasePolicy;
 
 class ImagePolicy extends BasePolicy
@@ -31,9 +29,9 @@ class ImagePolicy extends BasePolicy
      */
     public function attachArtist(User $user, Image $image, Artist $artist): bool
     {
-        $attached = ArtistImage::query()
-            ->where(ArtistImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
+        $attached = Imageable::query()
+            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
+            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $artist)
             ->exists();
 
         return ! $attached
@@ -62,9 +60,9 @@ class ImagePolicy extends BasePolicy
      */
     public function attachAnime(User $user, Image $image, Anime $anime): bool
     {
-        $attached = AnimeImage::query()
-            ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
+        $attached = Imageable::query()
+            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
+            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $anime)
             ->exists();
 
         return ! $attached
@@ -93,9 +91,9 @@ class ImagePolicy extends BasePolicy
      */
     public function attachStudio(User $user, Image $image, Studio $studio): bool
     {
-        $attached = StudioImage::query()
-            ->where(StudioImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
+        $attached = Imageable::query()
+            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
+            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $studio)
             ->exists();
 
         return ! $attached

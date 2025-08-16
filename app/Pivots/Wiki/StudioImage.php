@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\StudioImage\StudioImageCreated;
-use App\Events\Pivot\Wiki\StudioImage\StudioImageDeleted;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\BasePivot;
@@ -60,18 +58,6 @@ class StudioImage extends BasePivot
     protected $fillable = [
         StudioImage::ATTRIBUTE_IMAGE,
         StudioImage::ATTRIBUTE_STUDIO,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => StudioImageCreated::class,
-        'deleted' => StudioImageDeleted::class,
     ];
 
     /**

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\List;
 
-use App\Events\Pivot\List\PlaylistImage\PlaylistImageCreated;
-use App\Events\Pivot\List\PlaylistImage\PlaylistImageDeleted;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\BasePivot;
@@ -60,18 +58,6 @@ class PlaylistImage extends BasePivot
     protected $fillable = [
         PlaylistImage::ATTRIBUTE_IMAGE,
         PlaylistImage::ATTRIBUTE_PLAYLIST,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => PlaylistImageCreated::class,
-        'deleted' => PlaylistImageDeleted::class,
     ];
 
     /**

@@ -6,9 +6,9 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
-use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -72,8 +72,8 @@ test('images', function () {
         ->has(Image::factory()->count($imageCount))
         ->createOne();
 
-    $this->assertInstanceOf(BelongsToMany::class, $studio->images());
+    $this->assertInstanceOf(MorphToMany::class, $studio->images());
     $this->assertEquals($imageCount, $studio->images()->count());
     $this->assertInstanceOf(Image::class, $studio->images()->first());
-    $this->assertEquals(StudioImage::class, $studio->images()->getPivotClass());
+    $this->assertEquals(Imageable::class, $studio->images()->getPivotClass());
 });
