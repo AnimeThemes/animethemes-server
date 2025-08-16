@@ -14,8 +14,8 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeImage;
-use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Policies\BasePolicy;
@@ -82,9 +82,9 @@ class AnimePolicy extends BasePolicy
      */
     public function attachExternalResource(User $user, Anime $anime, ExternalResource $resource): bool
     {
-        $attached = AnimeResource::query()
-            ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
-            ->where(AnimeResource::ATTRIBUTE_RESOURCE, $resource->getKey())
+        $attached = Resourceable::query()
+            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $anime)
+            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
         return ! $attached
