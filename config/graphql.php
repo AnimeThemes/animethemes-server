@@ -86,7 +86,7 @@ use App\GraphQL\Definition\Unions\ResourceableUnion;
 return [
     'route' => [
         // The prefix for routes; do NOT use a leading slash!
-        'prefix' => 'graphql',
+        'prefix' => env('GRAPHQL_PATH', '/'),
 
         // The controller/method to use in GraphQL request.
         // Also supported array syntax: `[\Rebing\GraphQL\GraphQLController::class, 'query']`
@@ -102,7 +102,9 @@ return [
         //
         // 'group_attributes' => ['guard' => 'api']
         //
-        'group_attributes' => [],
+        'group_attributes' => [
+            'guard' => 'web',
+        ],
     ],
 
     // The name of the default schema
