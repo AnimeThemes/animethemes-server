@@ -31,6 +31,7 @@ use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
+use App\Models\Wiki\Song;
 use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
@@ -138,7 +139,7 @@ class Entry extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
             AnimeThemeEntry::RELATION_ANIME_SHALLOW,
-            AnimeThemeEntry::RELATION_SONG,
+            AnimeThemeEntry::RELATION_SONG_SHALLOW,
             AnimeThemeEntry::RELATION_THEME,
         ]);
     }
@@ -204,7 +205,7 @@ class Entry extends BaseResource
                     ->maxLength(255)
                     ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
                     ->uri()
-                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, Uri $state) {
+                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, ?Uri $state) {
                         $fields = [
                             ResourceSite::YOUTUBE->name => $state,
                         ];
@@ -249,8 +250,15 @@ class Entry extends BaseResource
                     ->limit(50)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
-                BelongsToColumn::make(AnimeThemeEntry::RELATION_SONG, SongResource::class)
-                    ->hiddenOn(EntryThemeRelationManager::class),
+                BelongsToColumn::make(EntryModel::RELATION_SONG_SHALLOW, SongResource::class)
+                    ->hiddenOn(EntryThemeRelationManager::class)
+                    ->searchable(true, function (Builder $query, string $search) {
+                        $songs = Song::search($search)->take(25)->keys();
+
+                        $query->whereHas(EntryModel::RELATION_SONG, function (Builder $query) use ($songs) {
+                            $query->whereIn(Song::ATTRIBUTE_ID, $songs);
+                        });
+                    }, true),
             ])
             ->searchable();
     }

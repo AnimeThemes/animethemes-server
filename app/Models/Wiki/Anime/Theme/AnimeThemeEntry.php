@@ -22,6 +22,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -77,6 +78,7 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     final public const RELATION_ANIME_SHALLOW = 'anime';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONG = 'animetheme.song';
+    final public const RELATION_SONG_SHALLOW = 'song';
     final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
     final public const RELATION_THEME = 'animetheme';
     final public const RELATION_THEME_GROUP = 'animetheme.group';
@@ -263,6 +265,25 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
             ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('entryresource')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the song that owns the entry through the theme.
+     *
+     * @return BelongsToThrough
+     */
+    public function song(): BelongsToThrough
+    {
+        return $this->belongsToThrough(
+            Song::class,
+            AnimeTheme::class,
+            null,
+            '',
+            [
+                Song::class => Song::ATTRIBUTE_ID,
+                AnimeTheme::class => AnimeTheme::ATTRIBUTE_ID,
+            ]
+        );
     }
 
     /**

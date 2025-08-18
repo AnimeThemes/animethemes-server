@@ -63,7 +63,7 @@ test('external resources', function () {
 
     $entry = AnimeThemeEntry::factory()
         ->for(AnimeTheme::factory()->for(Anime::factory()))
-        ->has(ExternalResource::factory()->count($resourcesCount))
+        ->has(ExternalResource::factory()->count($resourcesCount), AnimeThemeEntry::RELATION_RESOURCES)
         ->createOne();
 
     $this->assertInstanceOf(MorphToMany::class, $entry->resources());

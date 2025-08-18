@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Studio\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Filament\Tabs\Studio\StudioImageTab;
+use App\Filament\Tabs\Base\ImageTab;
 
-class StudioLargeCoverTab extends StudioImageTab
+class StudioLargeCoverTab extends ImageTab
 {
     /**
      * Get the slug for the tab.

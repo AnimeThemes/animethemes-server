@@ -263,7 +263,14 @@ class Theme extends BaseResource
                 BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
                 BelongsToColumn::make(ThemeModel::RELATION_SONG, SongResource::class)
-                    ->hiddenOn(ThemeSongRelationManager::class),
+                    ->hiddenOn(ThemeSongRelationManager::class)
+                    ->searchable(true, function (Builder $query, string $search) {
+                        $songs = Song::search($search)->take(25)->keys();
+
+                        $query->whereHas(ThemeModel::RELATION_SONG, function (Builder $query) use ($songs) {
+                            $query->whereIn(Song::ATTRIBUTE_ID, $songs);
+                        });
+                    }, true),
             ])
             ->searchable();
     }

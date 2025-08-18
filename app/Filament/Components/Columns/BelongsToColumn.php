@@ -95,7 +95,7 @@ class BelongsToColumn extends TextColumn
         $relation = $this->getName();
 
         foreach (explode('.', $relation) as $relationPart) {
-            $record = $record->getRelation($relationPart);
+            $record = $record->$relationPart;
         }
 
         return $record;

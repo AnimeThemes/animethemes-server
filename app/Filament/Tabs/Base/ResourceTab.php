@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Studio;
+namespace App\Filament\Tabs\Base;
 
+use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\BaseTab;
 use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Builder;
 
-abstract class StudioResourceTab extends BaseTab
+abstract class ResourceTab extends BaseTab
 {
     /**
      * The resource site.
@@ -24,7 +24,7 @@ abstract class StudioResourceTab extends BaseTab
      */
     public function getLabel(): string
     {
-        return __('filament.tabs.studio.resources.name', ['site' => static::site()->localize()]);
+        return __('filament.tabs.base.resources.name', ['site' => static::site()->localize()]);
     }
 
     /**
@@ -35,7 +35,7 @@ abstract class StudioResourceTab extends BaseTab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Studio::RELATION_RESOURCES, function (Builder $resourceQuery) {
+        return $query->whereDoesntHave(HasResources::RESOURCES_RELATION, function (Builder $resourceQuery) {
             $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         });
     }

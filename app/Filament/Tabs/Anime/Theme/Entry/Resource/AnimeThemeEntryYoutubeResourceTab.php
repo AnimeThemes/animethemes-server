@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Studio\Resource;
+namespace App\Filament\Tabs\Anime\Theme\Entry\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Base\ResourceTab;
 
-class StudioAnidbResourceTab extends ResourceTab
+class AnimeThemeEntryYoutubeResourceTab extends ResourceTab
 {
     /**
      * Get the slug for the tab.
      */
     public static function getSlug(): string
     {
-        return 'studio-anidb-resource-tab';
+        return 'entry-youtube-resource-tab';
     }
 
     /**
@@ -22,6 +22,6 @@ class StudioAnidbResourceTab extends ResourceTab
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANIDB;
+        return ResourceSite::YOUTUBE;
     }
 }

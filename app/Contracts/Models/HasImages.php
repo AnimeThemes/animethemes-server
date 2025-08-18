@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Contracts\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 interface HasImages
 {
+    public const IMAGES_RELATION = 'images';
+
     /**
-     * Get name.
+     * Get the images for the owner model.
      *
-     * @return BelongsToMany
+     * @return MorphToMany
      */
-    public function images(): BelongsToMany;
+    public function images(): MorphToMany;
 }

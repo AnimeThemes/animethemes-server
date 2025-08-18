@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Anime\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Tabs\Anime\AnimeResourceTab;
+use App\Filament\Tabs\Base\ResourceTab;
 
-class AnimeKitsuResourceTab extends AnimeResourceTab
+class AnimeKitsuResourceTab extends ResourceTab
 {
     /**
      * Get the slug for the tab.

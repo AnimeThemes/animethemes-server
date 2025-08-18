@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Anime;
+namespace App\Filament\Tabs\Base;
 
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\BaseTab;
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Builder;
 
-abstract class AnimeImageTab extends BaseTab
+abstract class ImageTab extends BaseTab
 {
     /**
      * The image facet.
@@ -24,7 +24,7 @@ abstract class AnimeImageTab extends BaseTab
      */
     public function getLabel(): string
     {
-        return __('filament.tabs.anime.images.name', ['facet' => static::facet()->localize()]);
+        return __('filament.tabs.base.images.name', ['facet' => static::facet()->localize()]);
     }
 
     /**
@@ -35,18 +35,8 @@ abstract class AnimeImageTab extends BaseTab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
+        return $query->whereDoesntHave(HasImages::IMAGES_RELATION, function (Builder $imageQuery) {
             $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
         });
-    }
-
-    /**
-     * Get the badge for the tab.
-     */
-    public function getBadge(): int
-    {
-        return Anime::query()->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
-            $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
-        })->count();
     }
 }

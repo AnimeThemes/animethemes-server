@@ -36,7 +36,9 @@ class ExternalResourceUnlinkedTab extends BaseTab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(ExternalResource::RELATION_ANIME)
+        return $query
+            ->whereDoesntHave(ExternalResource::RELATION_ANIME)
+            ->whereDoesntHave(ExternalResource::RELATION_ANIMETHEMEENTRIES)
             ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
             ->whereDoesntHave(ExternalResource::RELATION_SONGS)
             ->whereDoesntHave(ExternalResource::RELATION_STUDIOS);
@@ -47,7 +49,9 @@ class ExternalResourceUnlinkedTab extends BaseTab
      */
     public function getBadge(): int
     {
-        return ExternalResource::query()->whereDoesntHave(ExternalResource::RELATION_ANIME)
+        return ExternalResource::query()
+            ->whereDoesntHave(ExternalResource::RELATION_ANIME)
+            ->whereDoesntHave(ExternalResource::RELATION_ANIMETHEMEENTRIES)
             ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
             ->whereDoesntHave(ExternalResource::RELATION_SONGS)
             ->whereDoesntHave(ExternalResource::RELATION_STUDIOS)
