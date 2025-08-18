@@ -31,6 +31,7 @@ use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
+use App\Models\Wiki\Song;
 use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
@@ -250,7 +251,14 @@ class Entry extends BaseResource
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 BelongsToColumn::make(EntryModel::RELATION_SONG_SHALLOW, SongResource::class)
-                    ->hiddenOn(EntryThemeRelationManager::class),
+                    ->hiddenOn(EntryThemeRelationManager::class)
+                    ->searchable(true, function (Builder $query, string $search) {
+                        $songs = Song::search($search)->take(25)->keys();
+
+                        $query->whereHas(EntryModel::RELATION_SONG, function (Builder $query) use ($songs) {
+                            $query->whereIn(Song::ATTRIBUTE_ID, $songs);
+                        });
+                    }, true),
             ])
             ->searchable();
     }
