@@ -7,6 +7,7 @@ namespace App\Models\Wiki\Anime\Theme;
 use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Contracts\Models\HasResources;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
@@ -20,7 +21,9 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Video;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
@@ -29,6 +32,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Znck\Eloquent\Relations\BelongsToThrough;
@@ -43,6 +47,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  * @property string|null $episodes
  * @property string|null $notes
  * @property bool $nsfw
+ * @property Collection<int, ExternalResource> $resources
  * @property bool $spoiler
  * @property int $theme_id
  * @property int|null $version
@@ -50,7 +55,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
-class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDeletable
+class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSchema, SoftDeletable
 {
     use HasFactory;
     use Reportable;
@@ -70,6 +75,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
 
     final public const RELATION_ANIME = 'animetheme.anime';
     final public const RELATION_ANIME_SHALLOW = 'anime';
+    final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONG = 'animetheme.song';
     final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
     final public const RELATION_THEME = 'animetheme';
@@ -242,6 +248,20 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
         )
             ->using(AnimeThemeEntryVideo::class)
             ->as(AnimeThemeEntryVideoResource::$wrap)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the resources for the entry through the resourceable morph pivot.
+     *
+     * @return MorphToMany
+     */
+    public function resources(): MorphToMany
+    {
+        return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as('entryresource')
             ->withTimestamps();
     }
 

@@ -13,6 +13,7 @@ use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\BaseModel;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Pivots\Morph\Resourceable;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Casts\AsUri;
@@ -49,6 +50,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     final public const ATTRIBUTE_SITE = 'site';
 
     final public const RELATION_ANIME = 'anime';
+    final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
     final public const RELATION_ARTISTS = 'artists';
     final public const RELATION_SONGS = 'songs';
     final public const RELATION_STUDIOS = 'studios';
@@ -133,6 +135,20 @@ class ExternalResource extends BaseModel implements SoftDeletable
             ->using(Resourceable::class)
             ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('animeresource')
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the entry that reference this resource.
+     *
+     * @return MorphToMany
+     */
+    public function animethemeentries(): MorphToMany
+    {
+        return $this->morphedByMany(AnimeThemeEntry::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as('entryresource')
             ->withTimestamps();
     }
 

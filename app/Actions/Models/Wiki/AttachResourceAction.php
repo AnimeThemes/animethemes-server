@@ -25,7 +25,7 @@ class AttachResourceAction
         foreach ($sites as $resourceSite) {
             $url = Arr::get($fields, $resourceSite->name);
 
-            if (empty($url)) {
+            if (blank($url)) {
                 continue;
             }
 

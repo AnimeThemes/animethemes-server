@@ -16,6 +16,7 @@ use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\EntryResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
@@ -195,6 +196,7 @@ class ExternalResource extends BaseResource
         return [
             RelationGroup::make(static::getModelLabel(), [
                 AnimeResourceRelationManager::class,
+                EntryResourceRelationManager::class,
                 ArtistResourceRelationManager::class,
                 SongResourceRelationManager::class,
                 StudioResourceRelationManager::class,

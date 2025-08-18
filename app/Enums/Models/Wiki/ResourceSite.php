@@ -7,10 +7,12 @@ namespace App\Enums\Models\Wiki;
 use App\Concerns\Enums\LocalizesName;
 use App\Contracts\Models\HasResources;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\SongResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
@@ -197,6 +199,7 @@ enum ResourceSite: int implements HasLabel
     {
         return match (true) {
             $model instanceof Anime => new AnimeResourceLinkFormatRule($this),
+            $model instanceof AnimeThemeEntry => new AnimeThemeEntryResourceLinkFormatRule($this),
             $model instanceof Artist => new ArtistResourceLinkFormatRule($this),
             $model instanceof Song => new SongResourceLinkFormatRule($this),
             $model instanceof Studio => new StudioResourceLinkFormatRule($this),
@@ -231,6 +234,9 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::OFFICIAL_SITE,
                 ResourceSite::WIKI,
                 ResourceSite::LIVECHART,
+            ],
+            AnimeThemeEntry::class => [
+                ResourceSite::YOUTUBE,
             ],
             Artist::class => [
                 ResourceSite::X,
@@ -293,6 +299,13 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/$type/$slug/$id",
                 ResourceSite::HULU => "https://www.hulu.com/$type/$slug",
                 ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
+                default => null,
+            };
+        }
+
+        if ($modelClass === AnimeThemeEntry::class) {
+            return match ($this) {
+                ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
                 default => null,
             };
         }
@@ -377,6 +390,13 @@ enum ResourceSite: int implements HasLabel
             };
         }
 
+        if ($model instanceof AnimeThemeEntry) {
+            return match ($this) {
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
+                default => '/^$/',
+            };
+        }
+
         if ($model instanceof Artist) {
             return match ($this) {
                 ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)$/',
@@ -445,6 +465,13 @@ enum ResourceSite: int implements HasLabel
                 ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
                 ResourceSite::OFFICIAL_SITE,
                 ResourceSite::WIKI => null,
+                default => '/$.^/',
+            };
+        }
+
+        if ($modelClass === AnimeThemeEntry::class) {
+            return match ($this) {
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
                 default => '/$.^/',
             };
         }

@@ -516,6 +516,9 @@ return [
                 'help' => 'The Version number of the Theme. Can be left blank if there is only one version. Version is only required if there exist at least 2 in the sequence.',
                 'name' => 'Version',
             ],
+            'youtube' => [
+                'help' => 'An YouTube URL to attach to the entry.',
+            ],
         ],
         'anime_theme' => [
             'sequence' => [

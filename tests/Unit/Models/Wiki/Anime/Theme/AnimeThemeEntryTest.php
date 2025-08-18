@@ -5,10 +5,13 @@ declare(strict_types=1);
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Video;
+use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
@@ -53,6 +56,20 @@ test('theme', function () {
 
     $this->assertInstanceOf(BelongsTo::class, $entry->animetheme());
     $this->assertInstanceOf(AnimeTheme::class, $entry->animetheme()->first());
+});
+
+test('external resources', function () {
+    $resourcesCount = fake()->randomDigitNotNull();
+
+    $entry = AnimeThemeEntry::factory()
+        ->for(AnimeTheme::factory()->for(Anime::factory()))
+        ->has(ExternalResource::factory()->count($resourcesCount))
+        ->createOne();
+
+    $this->assertInstanceOf(MorphToMany::class, $entry->resources());
+    $this->assertEquals($resourcesCount, $entry->resources()->count());
+    $this->assertInstanceOf(ExternalResource::class, $entry->resources()->first());
+    $this->assertEquals(Resourceable::class, $entry->resources()->getPivotClass());
 });
 
 test('videos', function () {
