@@ -1124,12 +1124,14 @@ return [
         ],
     ],
     'tabs' => [
+        'base' => [
+            'resources' => [
+                'name' => 'Without :site Resource',
+            ],
+        ],
         'anime' => [
             'images' => [
                 'name' => 'Without :facet Image',
-            ],
-            'resources' => [
-                'name' => 'Without :site Resource',
             ],
             'streaming_resources' => [
                 'name' => 'Without Streaming Resources',
@@ -1149,9 +1151,6 @@ return [
             'images' => [
                 'name' => 'Without :facet Image',
             ],
-            'resources' => [
-                'name' => 'Without :site Resource',
-            ],
             'songs' => [
                 'name' => 'Without Songs',
             ],
@@ -1163,7 +1162,7 @@ return [
         ],
         'external_resource' => [
             'unlinked' => [
-                'name' => 'Without Anime or Artist or Song or Studio',
+                'name' => 'Without Anime/Entry/Artist/Song/Studio',
             ],
         ],
         'image' => [
@@ -1175,16 +1174,10 @@ return [
             'artist' => [
                 'name' => 'Without Artists',
             ],
-            'resources' => [
-                'name' => 'Without :site Resource',
-            ],
         ],
         'studio' => [
             'images' => [
                 'name' => 'Without :facet Image',
-            ],
-            'resources' => [
-                'name' => 'Without :site Resource',
             ],
             'unlinked' => [
                 'name' => 'Without Anime',

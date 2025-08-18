@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Song\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Tabs\Song\SongResourceTab;
+use App\Filament\Tabs\Base\ResourceTab;
 
-class SongSpotifyResourceTab extends SongResourceTab
+class SongSpotifyResourceTab extends ResourceTab
 {
     /**
      * Get the slug for the tab.

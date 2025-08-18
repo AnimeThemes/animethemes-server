@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Artist\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Tabs\Artist\ArtistResourceTab;
+use App\Filament\Tabs\Base\ResourceTab;
 
-class ArtistAnidbResourceTab extends ArtistResourceTab
+class ArtistAnidbResourceTab extends ResourceTab
 {
     /**
      * Get the slug for the tab.

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 interface HasResources
 {
+    public const RESOURCES_RELATION = 'resources';
+
     /**
      * Get the resources for the owner model.
      *

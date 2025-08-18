@@ -204,7 +204,7 @@ class Entry extends BaseResource
                     ->maxLength(255)
                     ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
                     ->uri()
-                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, Uri $state) {
+                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, ?Uri $state) {
                         $fields = [
                             ResourceSite::YOUTUBE->name => $state,
                         ];

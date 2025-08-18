@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Studio\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Tabs\Studio\StudioResourceTab;
+use App\Filament\Tabs\Base\ResourceTab;
 
-class StudioAnnResourceTab extends StudioResourceTab
+class StudioAnnResourceTab extends ResourceTab
 {
     /**
      * Get the slug for the tab.

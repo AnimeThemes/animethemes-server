@@ -8,6 +8,7 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Tabs\Anime\Theme\Entry\AnimeThemeEntryVideoTab;
+use App\Filament\Tabs\Anime\Theme\Entry\Resource\AnimeThemeEntryYoutubeResourceTab;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,6 +38,7 @@ class ListEntries extends BaseListResources
     public function getTabs(): array
     {
         return ['all' => Tab::make()] + $this->toArray([
+            AnimeThemeEntryYoutubeResourceTab::class,
             AnimeThemeEntryVideoTab::class,
         ]);
     }
