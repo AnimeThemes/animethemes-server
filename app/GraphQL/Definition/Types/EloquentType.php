@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
-use App\GraphQL\Support\SortableColumns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class EloquentType extends BaseType
 {
-    public function __construct(bool $first = true)
+    public static array $typesToLoad = [];
+
+    public function __construct()
     {
-        if ($first) {
-            GraphQL::addType(new SortableColumns($this));
+        if (! in_array($this, static::$typesToLoad)) {
+            static::$typesToLoad[] = $this;
         }
     }
 

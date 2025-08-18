@@ -11,6 +11,8 @@ use App\Concerns\Actions\GraphQL\SearchModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\GraphQL\Definition\Queries\Models\EloquentQuery;
 use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Support\SortableColumns;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -28,9 +30,18 @@ abstract class EloquentPaginatorQuery extends EloquentQuery
     use SearchModels;
     use SortsModels;
 
+    protected static bool $typesLoaded = false;
+
     public function __construct(protected string $name)
     {
         parent::__construct($name, false, true);
+
+        if (static::$typesLoaded === false) {
+            static::$typesLoaded = true;
+            foreach (EloquentType::$typesToLoad as $type) {
+                GraphQL::addType(new SortableColumns($type));
+            }
+        }
     }
 
     /**

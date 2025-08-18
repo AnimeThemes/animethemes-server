@@ -76,10 +76,6 @@ abstract class BaseQuery extends Query
             $arguments[] = $this->resolveSortArguments($baseType);
         }
 
-        // if ($baseType instanceof BaseType && $this->resolvePaginateAttribute()) {
-        //     $arguments[] = $this->resolveSortArguments($baseType);
-        // }
-
         return Arr::flatten($arguments);
     }
 

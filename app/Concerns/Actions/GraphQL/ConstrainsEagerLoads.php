@@ -24,7 +24,7 @@ trait ConstrainsEagerLoads
     protected function constrainEagerLoads(Builder $query, ResolveInfo|array $resolveInfo, BaseType $type): void
     {
         $fields = $resolveInfo instanceof ResolveInfo
-            ? Arr::get($resolveInfo->getFieldSelectionWithAliases(100), 'data.data.selectionSet')
+            ? Arr::get($resolveInfo->getFieldSelectionWithAliases(100), 'data.data.selectionSet') ?? $resolveInfo->getFieldSelectionWithAliases(100)
             : $resolveInfo;
 
         $this->processEagerLoadForType($query, $fields, $type);

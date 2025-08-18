@@ -61,8 +61,8 @@ trait SortsModels
                 $builder->orderBy($column, $direction);
             }
 
+            $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
             if ($sortType === SortType::AGGREGATE) {
-                $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
                 if ($relation === null) {
                     throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type.");
                 }
@@ -74,6 +74,21 @@ trait SortsModels
                 ], 'value');
 
                 $builder->orderBy("{$relation}_value", $direction);
+            }
+
+            if ($sortType === SortType::RELATION) {
+                $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
+                if ($relation === null) {
+                    throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type.");
+                }
+
+                $builder->withAggregate([
+                    "$relation as {$relation}_{$column}" => function ($query) use ($direction, $column) {
+                        $query->orderBy($column, $direction);
+                    },
+                ], $column);
+
+                $builder->orderBy("{$relation}_{$column}", $direction);
             }
         }
 

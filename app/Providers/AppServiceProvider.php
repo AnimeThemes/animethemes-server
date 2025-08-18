@@ -8,6 +8,7 @@ use App\Http\Middleware\Models\RecordView;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Role\AdminSeeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
@@ -59,6 +60,12 @@ class AppServiceProvider extends ServiceProvider
         ParallelTesting::setUpTestDatabase(function (string $database, int $token) {
             Artisan::call('db:seed', ['--class' => PermissionSeeder::class]);
             Artisan::call('db:seed', ['--class' => AdminSeeder::class]);
+        });
+
+        DB::listen(function (QueryExecuted $query) {
+            if (app()->isLocal()) {
+                Log::debug($query->toRawSql());
+            }
         });
     }
 
