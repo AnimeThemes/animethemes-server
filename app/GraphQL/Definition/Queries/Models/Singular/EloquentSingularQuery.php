@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Singular;
 
+use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
+use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\GraphQL\Definition\Queries\Models\EloquentQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Middleware\ResolveBindableArgs;
@@ -19,6 +21,9 @@ use RuntimeException;
 
 abstract class EloquentSingularQuery extends EloquentQuery
 {
+    use ConstrainsEagerLoads;
+    use FiltersModels;
+
     public function __construct(
         protected string $name,
     ) {
@@ -83,7 +88,13 @@ abstract class EloquentSingularQuery extends EloquentQuery
 
         $builder = $this->query($this->model()::query(), $args);
 
-        return $builder->whereKey($model->getKey())
+        $this->filter($builder, $args, $this->baseRebingType());
+
+        $builder->whereKey($model->getKey());
+
+        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
+
+        return $builder
             ->firstOrFail();
     }
 }
