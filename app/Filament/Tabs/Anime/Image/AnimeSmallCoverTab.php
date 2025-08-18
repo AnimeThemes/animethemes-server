@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Anime\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Filament\Tabs\Anime\AnimeImageTab;
+use App\Filament\Tabs\Base\ImageTab;
 
-class AnimeSmallCoverTab extends AnimeImageTab
+class AnimeSmallCoverTab extends ImageTab
 {
     /**
      * Get the slug for the tab.

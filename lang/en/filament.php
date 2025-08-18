@@ -1125,14 +1125,14 @@ return [
     ],
     'tabs' => [
         'base' => [
+            'images' => [
+                'name' => 'Without :facet',
+            ],
             'resources' => [
                 'name' => 'Without :site Resource',
             ],
         ],
         'anime' => [
-            'images' => [
-                'name' => 'Without :facet Image',
-            ],
             'streaming_resources' => [
                 'name' => 'Without Streaming Resources',
             ],
@@ -1148,9 +1148,6 @@ return [
             ],
         ],
         'artist' => [
-            'images' => [
-                'name' => 'Without :facet Image',
-            ],
             'songs' => [
                 'name' => 'Without Songs',
             ],
@@ -1176,9 +1173,6 @@ return [
             ],
         ],
         'studio' => [
-            'images' => [
-                'name' => 'Without :facet Image',
-            ],
             'unlinked' => [
                 'name' => 'Without Anime',
             ],

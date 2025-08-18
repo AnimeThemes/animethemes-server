@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Tabs\Artist\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Filament\Tabs\Artist\ArtistImageTab;
+use App\Filament\Tabs\Base\ImageTab;
 
-class ArtistSmallCoverTab extends ArtistImageTab
+class ArtistSmallCoverTab extends ImageTab
 {
     /**
      * Get the slug for the tab.
