@@ -16,11 +16,14 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNsfwFiel
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntrySpoilerField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryVersionField;
 use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
+use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\BelongsToRelation;
+use App\GraphQL\Support\Relations\MorphToManyRelation;
 use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
@@ -45,6 +48,7 @@ class AnimeThemeEntryType extends EloquentType implements ReportableType
             new BelongsToRelation(new AnimeThemeType(), AnimeThemeEntry::RELATION_THEME)
                 ->notNullable(),
             new BelongsToManyRelation($this, VideoType::class, AnimeThemeEntry::RELATION_VIDEOS, AnimeThemeEntryVideoType::class),
+            new MorphToManyRelation($this, ExternalResourceType::class, AnimeThemeEntry::RELATION_RESOURCES, ResourceableType::class),
         ];
     }
 

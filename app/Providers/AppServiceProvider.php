@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
 
         DB::listen(function (QueryExecuted $query) {
             if (app()->isLocal()) {
-                Log::debug($query->toRawSql());
+                Log::debug($query->sql);
             }
         });
     }

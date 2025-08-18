@@ -10,6 +10,7 @@ use App\Events\Pivot\Morph\Resourceable\ResourceableCreated;
 use App\Events\Pivot\Morph\Resourceable\ResourceableDeleted;
 use App\Events\Pivot\Morph\Resourceable\ResourceableUpdated;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
@@ -51,6 +52,7 @@ class Resourceable extends BaseMorphPivot
      */
     public static $resourceables = [
         Anime::class,
+        AnimeThemeEntry::class,
         Artist::class,
         Song::class,
         Studio::class,

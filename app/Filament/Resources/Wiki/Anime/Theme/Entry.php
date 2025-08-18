@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
+use App\Actions\Models\Wiki\AttachResourceAction;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
+use App\Filament\Actions\Models\Wiki\Anime\Theme\Entry\AttachEntryResourceAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -16,6 +19,7 @@ use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
@@ -23,9 +27,11 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
+use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
+use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -37,6 +43,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Uri;
 
 class Entry extends BaseResource
 {
@@ -129,7 +136,11 @@ class Entry extends BaseResource
         $query = parent::getEloquentQuery();
 
         // Necessary to prevent lazy loading when loading related resources
-        return $query->with([AnimeThemeEntry::RELATION_ANIME_SHALLOW, AnimeThemeEntry::RELATION_THEME]);
+        return $query->with([
+            AnimeThemeEntry::RELATION_ANIME_SHALLOW,
+            AnimeThemeEntry::RELATION_SONG,
+            AnimeThemeEntry::RELATION_THEME,
+        ]);
     }
 
     /**
@@ -185,6 +196,21 @@ class Entry extends BaseResource
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.notes.help'))
                     ->maxLength(192),
+
+                TextInput::make(ResourceSite::YOUTUBE->name)
+                    ->label(ResourceSite::YOUTUBE->localize())
+                    ->helperText(__('filament.fields.anime_theme_entry.youtube.help'))
+                    ->url()
+                    ->maxLength(255)
+                    ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
+                    ->uri()
+                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, Uri $state) {
+                        $fields = [
+                            ResourceSite::YOUTUBE->name => $state,
+                        ];
+
+                        $action->handle($record, $fields, [ResourceSite::YOUTUBE]);
+                    }),
             ])
             ->columns(1);
     }
@@ -222,6 +248,9 @@ class Entry extends BaseResource
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->limit(50)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
+
+                BelongsToColumn::make(AnimeThemeEntry::RELATION_SONG, SongResource::class)
+                    ->hiddenOn(EntryThemeRelationManager::class),
             ])
             ->searchable();
     }
@@ -240,6 +269,8 @@ class Entry extends BaseResource
                         BelongsToEntry::make(EntryModel::RELATION_ANIME_SHALLOW, AnimeResource::class),
 
                         BelongsToEntry::make(EntryModel::RELATION_THEME, ThemeResource::class, true),
+
+                        BelongsToEntry::make(EntryModel::RELATION_SONG, SongResource::class, true),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_VERSION)
                             ->label(__('filament.fields.anime_theme_entry.version.name')),
@@ -280,6 +311,7 @@ class Entry extends BaseResource
         return [
             RelationGroup::make(static::getModelLabel(), [
                 VideoEntryRelationManager::class,
+                ResourceRelationManager::class,
 
                 ...parent::getBaseRelations(),
             ]),
@@ -312,6 +344,18 @@ class Entry extends BaseResource
                 ->default(true),
 
             ...parent::getFilters(),
+        ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            AttachEntryResourceAction::make(),
         ];
     }
 
