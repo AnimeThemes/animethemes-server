@@ -77,9 +77,8 @@ trait SortsModels
             }
 
             if ($sortType === SortType::RELATION) {
-                $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
                 if ($relation === null) {
-                    throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type.");
+                    throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with relation sort type.");
                 }
 
                 $builder->withAggregate([
