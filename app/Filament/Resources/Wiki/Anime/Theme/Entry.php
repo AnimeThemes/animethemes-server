@@ -138,7 +138,7 @@ class Entry extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
             AnimeThemeEntry::RELATION_ANIME_SHALLOW,
-            AnimeThemeEntry::RELATION_SONG,
+            AnimeThemeEntry::RELATION_SONG_SHALLOW,
             AnimeThemeEntry::RELATION_THEME,
         ]);
     }
@@ -249,7 +249,7 @@ class Entry extends BaseResource
                     ->limit(50)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
-                BelongsToColumn::make(AnimeThemeEntry::RELATION_SONG, SongResource::class)
+                BelongsToColumn::make(EntryModel::RELATION_SONG_SHALLOW, SongResource::class)
                     ->hiddenOn(EntryThemeRelationManager::class),
             ])
             ->searchable();
