@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -36,6 +37,7 @@ class AnimeThemeFactory extends Factory
         $type = Arr::random([ThemeType::OP, ThemeType::ED]);
 
         return [
+            AnimeTheme::ATTRIBUTE_ANIME => Anime::factory(),
             AnimeTheme::ATTRIBUTE_SEQUENCE => fake()->randomDigitNotNull(),
             AnimeTheme::ATTRIBUTE_SLUG => fake()->word(),
             AnimeTheme::ATTRIBUTE_TYPE => $type->value,
