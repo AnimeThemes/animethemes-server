@@ -34,6 +34,7 @@ class AnimeThemeEntryFactory extends Factory
     public function definition(): array
     {
         return [
+            AnimeThemeEntry::ATTRIBUTE_THEME => AnimeTheme::factory(),
             AnimeThemeEntry::ATTRIBUTE_EPISODES => fake()->word(),
             AnimeThemeEntry::ATTRIBUTE_NOTES => fake()->word(),
             AnimeThemeEntry::ATTRIBUTE_NSFW => fake()->boolean(),
