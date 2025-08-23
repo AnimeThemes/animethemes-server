@@ -47,6 +47,6 @@ class ForceDeleteAction extends Action
             $this->success();
         });
 
-        $this->visible(fn (string $model) => in_array(SoftDeletable::class, class_implements($model)));
+        $this->visible(fn (string $model) => $model::isSoftDeletable());
     }
 }

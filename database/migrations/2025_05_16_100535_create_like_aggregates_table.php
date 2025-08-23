@@ -19,7 +19,6 @@ return new class extends Migration
                 $table->morphs(LikeAggregate::ATTRIBUTE_LIKEABLE);
                 $table->integer(LikeAggregate::ATTRIBUTE_VALUE)->default(0);
                 $table->primary([LikeAggregate::ATTRIBUTE_LIKEABLE_ID, LikeAggregate::ATTRIBUTE_LIKEABLE_TYPE]);
-                $table->index([LikeAggregate::ATTRIBUTE_LIKEABLE_ID, LikeAggregate::ATTRIBUTE_LIKEABLE_TYPE]);
             });
         }
     }

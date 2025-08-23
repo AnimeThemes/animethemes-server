@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\User\ApprovableStatus;
 use App\Models\Auth\User;
 use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
@@ -22,18 +21,20 @@ return new class extends Migration
                 $table->id(Report::ATTRIBUTE_ID);
 
                 $table->longText(Report::ATTRIBUTE_NOTES)->nullable();
-                $table->integer(Report::ATTRIBUTE_STATUS)->default(ApprovableStatus::PENDING->value);
+                $table->longText(Report::ATTRIBUTE_MOD_NOTES)->nullable();
+
+                $table->integer(Report::ATTRIBUTE_STATUS)->nullable();
 
                 $table->unsignedBigInteger(Report::ATTRIBUTE_USER)->nullable();
-                $table->foreign(Report::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
+                $table->foreign(Report::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->nullOnDelete();
 
                 $table->unsignedBigInteger(Report::ATTRIBUTE_MODERATOR)->nullable();
                 $table->foreign(Report::ATTRIBUTE_MODERATOR)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->nullOnDelete();
 
-                $table->longText(Report::ATTRIBUTE_MOD_NOTES)->nullable();
                 $table->timestamp(Report::ATTRIBUTE_FINISHED_AT, 6)->nullable();
-
                 $table->timestamps(6);
+
+                $table->index(Report::ATTRIBUTE_STATUS);
             });
         }
 
@@ -42,14 +43,12 @@ return new class extends Migration
                 $table->id(ReportStep::ATTRIBUTE_ID);
 
                 $table->integer(ReportStep::ATTRIBUTE_ACTION)->nullable();
-                $table->string(ReportStep::ATTRIBUTE_ACTIONABLE_TYPE)->nullable();
-                $table->uuid(ReportStep::ATTRIBUTE_ACTIONABLE_ID)->nullable();
-                $table->string(ReportStep::ATTRIBUTE_TARGET_TYPE)->nullable();
-                $table->uuid(ReportStep::ATTRIBUTE_TARGET_ID)->nullable();
-                $table->string(ReportStep::ATTRIBUTE_PIVOT_CLASS)->nullable();
+                $table->nullableMorphs(ReportStep::RELATION_ACTIONABLE);
+                $table->nullableMorphs(ReportStep::RELATION_TARGET);
+                $table->string(ReportStep::ATTRIBUTE_PIVOT)->nullable();
 
                 $table->json(ReportStep::ATTRIBUTE_FIELDS)->nullable();
-                $table->integer(ReportStep::ATTRIBUTE_STATUS)->default(ApprovableStatus::PENDING->value);
+                $table->integer(ReportStep::ATTRIBUTE_STATUS)->nullable();
 
                 $table->unsignedBigInteger(ReportStep::ATTRIBUTE_REPORT)->nullable();
                 $table->foreign(ReportStep::ATTRIBUTE_REPORT)->references(Report::ATTRIBUTE_ID)->on(Report::TABLE)->cascadeOnDelete();

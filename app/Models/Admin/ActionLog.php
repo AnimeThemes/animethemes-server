@@ -15,6 +15,7 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Session;
@@ -178,6 +179,17 @@ class ActionLog extends Model implements Nameable
     }
 
     /**
+     * Get the target of the action for user interface linking.
+     *
+     * @return MorphTo|BaseModel
+     */
+    public function target(): MorphTo|BaseModel
+    {
+        return $this->morphTo()
+            ->withTrashed();
+    }
+
+    /**
      * Get the user that initiated the action.
      *
      * @return BelongsTo<User, $this>
@@ -185,18 +197,6 @@ class ActionLog extends Model implements Nameable
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, ActionLog::ATTRIBUTE_USER);
-    }
-
-    /**
-     * Get the target of the action for user interface linking.
-     *
-     * @return MorphTo|BaseModel
-     */
-    public function target(): MorphTo|BaseModel
-    {
-        return $this
-            ->morphTo(ActionLog::ATTRIBUTE_TARGET, ActionLog::ATTRIBUTE_TARGET_TYPE, ActionLog::ATTRIBUTE_TARGET_ID)
-            ->withTrashed();
     }
 
     /**
@@ -216,11 +216,11 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => 'Create',
-            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_TARGET_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => static::getFields($model->getAttributes(), $model),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
@@ -237,11 +237,11 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => 'Update',
-            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_TARGET_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => static::getFields($model->getChanges(), $model),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
@@ -274,11 +274,11 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $actionName,
-            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_TARGET_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => static::getFields($model->getAttributes(), $model),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
@@ -297,11 +297,11 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $actionName,
-            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $related->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => Relation::getMorphAlias($related->getMorphClass()),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $related->getKey(),
-            ActionLog::ATTRIBUTE_TARGET_TYPE => $parent->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($parent->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => $pivot->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($pivot->getMorphClass()),
             ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => $data ? static::getFields($data) : static::getFields($pivot->getAttributes(), $pivot),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
@@ -318,11 +318,11 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $actionName,
-            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $related->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => Relation::getMorphAlias($related->getMorphClass()),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $related->getKey(),
-            ActionLog::ATTRIBUTE_TARGET_TYPE => $parent->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($parent->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => $related->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($related->getMorphClass()),
             ActionLog::ATTRIBUTE_MODEL_ID => $related->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => static::getFields($action->getData()),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
@@ -339,11 +339,11 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_BATCH_ID => $batchId,
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $action->getLabel(),
-            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_TARGET_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($model->getMorphClass()),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => static::getFields($action->getData()),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::RUNNING->value,

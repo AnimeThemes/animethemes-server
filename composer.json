@@ -115,7 +115,6 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "lint": "pint",
-        "test:graphql": "@php artisan lighthouse:validate-schema",
         "test:types": "./vendor/bin/phpstan analyse --memory-limit=-1"
     }
 }
