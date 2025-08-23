@@ -221,7 +221,7 @@ class ReportStep extends BaseResource
 
             $targetLink = "<a style='color: rgb(64, 184, 166);' href='{$targetUrl}'>{$targetName}</a>";
 
-            return $state->localize().' '.$actionableLink.' to '.$targetLink.' via '.class_basename($record->pivot_class);
+            return $state->localize().' '.$actionableLink.' to '.$targetLink.' via '.class_basename($record->pivot);
         }
 
         return $record->action->localize().' '.$actionableLink;

@@ -10,6 +10,7 @@ use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -93,13 +94,13 @@ class ReportAction
     {
         return new ReportStep([
             ReportStep::ATTRIBUTE_ACTION => $action->value,
-            ReportStep::ATTRIBUTE_ACTIONABLE_TYPE => $model instanceof Model ? $model->getMorphClass() : $model,
+            ReportStep::ATTRIBUTE_ACTIONABLE_TYPE => $model instanceof Model ? Relation::getMorphAlias($model->getMorphClass()) : $model,
             ReportStep::ATTRIBUTE_ACTIONABLE_ID => $model instanceof Model ? $model->getKey() : null,
             ReportStep::ATTRIBUTE_FIELDS => Arr::where($fields, fn ($value, $key) => $model->isFillable($key)),
             ReportStep::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
-            ReportStep::ATTRIBUTE_TARGET_TYPE => $related instanceof Model ? $related->getMorphClass() : null,
+            ReportStep::ATTRIBUTE_TARGET_TYPE => $related instanceof Model ? Relation::getMorphAlias($related->getMorphClass()) : null,
             ReportStep::ATTRIBUTE_TARGET_ID => $related instanceof Model ? $related->getKey() : null,
-            ReportStep::ATTRIBUTE_PIVOT => $pivot instanceof Model ? $pivot->getMorphClass() : $pivot,
+            ReportStep::ATTRIBUTE_PIVOT => $pivot instanceof Model ?Relation::getMorphAlias($pivot->getMorphClass()) : $pivot,
         ]);
     }
 }

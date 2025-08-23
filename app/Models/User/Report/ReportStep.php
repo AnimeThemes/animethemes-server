@@ -24,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $actionable_id
  * @property array|null $fields
  * @property Carbon|null $finished_at
- * @property class-string<Model>|null $pivot_class
+ * @property class-string<Model>|null $pivot
  * @property ApprovableStatus $status
  * @property Model|null $target
  * @property string|null $target_type

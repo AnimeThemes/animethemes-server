@@ -8,6 +8,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class PerformanceFactory.
@@ -45,7 +46,7 @@ class PerformanceFactory extends Factory
     public function artist(Artist|Membership $artist): static
     {
         return $this->state([
-            Performance::ATTRIBUTE_ARTIST_TYPE => $artist->getMorphClass(),
+            Performance::ATTRIBUTE_ARTIST_TYPE => Relation::getMorphAlias($artist->getMorphClass()),
             Performance::ATTRIBUTE_ARTIST_ID => $artist->getKey(),
         ]);
     }

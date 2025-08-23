@@ -67,7 +67,7 @@ class ManageStepAction
     protected static function approveAttach(ReportStep $step): void
     {
         /** @var Pivot $pivot */
-        $pivot = new $step->pivot_class;
+        $pivot = new $step->pivot;
 
         $pivot::query()->create($step->fields);
 
@@ -80,7 +80,7 @@ class ManageStepAction
     protected static function approveDetach(ReportStep $step): void
     {
         /** @var Pivot $pivot */
-        $pivot = new $step->pivot_class;
+        $pivot = new $step->pivot;
 
         $pivot::query()->where($step->fields)->delete();
 
@@ -116,7 +116,7 @@ class ManageStepAction
      */
     protected static function updateStatus(ReportStep $step, ApprovableStatus $status): void
     {
-        $step->query()->update([
+        $step->update([
             ReportStep::ATTRIBUTE_STATUS => $status->value,
             ReportStep::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);

@@ -6,6 +6,7 @@ namespace App\Concerns\Models;
 
 use App\Models\User\Like;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 
 trait InteractsWithLikes
@@ -18,7 +19,7 @@ trait InteractsWithLikes
         return Like::query()
             ->create([
                 Like::ATTRIBUTE_USER => Auth::id(),
-                Like::ATTRIBUTE_LIKEABLE_TYPE => $this->getMorphClass(),
+                Like::ATTRIBUTE_LIKEABLE_TYPE => Relation::getMorphAlias($this->getMorphClass()),
                 Like::ATTRIBUTE_LIKEABLE_ID => $this->getKey(),
             ]);
     }
