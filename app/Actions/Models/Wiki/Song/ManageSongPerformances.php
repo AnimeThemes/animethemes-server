@@ -10,6 +10,7 @@ use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistMember;
 use Exception;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,7 +37,7 @@ class ManageSongPerformances
     public function addSingleArtist(int $artist, ?string $alias = null, ?string $as = null): static
     {
         $this->performances[] = [
-            Performance::ATTRIBUTE_ARTIST_TYPE => Artist::class,
+            Performance::ATTRIBUTE_ARTIST_TYPE => Relation::getMorphAlias(Artist::class),
             Performance::ATTRIBUTE_ARTIST_ID => $artist,
             Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
             Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
@@ -64,7 +65,7 @@ class ManageSongPerformances
     public function addMembership(int $group, int $member, ?string $alias = null, ?string $as = null): static
     {
         $this->performances[] = [
-            Performance::ATTRIBUTE_ARTIST_TYPE => Membership::class,
+            Performance::ATTRIBUTE_ARTIST_TYPE => Relation::getMorphAlias(Membership::class),
             Performance::ATTRIBUTE_ALIAS => Arr::get($this->groups, "{$group}.".Performance::ATTRIBUTE_ALIAS),
             Performance::ATTRIBUTE_AS => Arr::get($this->groups, "{$group}.".Performance::ATTRIBUTE_AS),
             Performance::RELATION_MEMBERSHIP => [
@@ -104,7 +105,7 @@ class ManageSongPerformances
                     $data = [
                         ...Arr::except($performance, Performance::RELATION_MEMBERSHIP),
                         Performance::ATTRIBUTE_SONG => $this->song,
-                        Performance::ATTRIBUTE_ARTIST_TYPE => Membership::class,
+                        Performance::ATTRIBUTE_ARTIST_TYPE => Relation::getMorphAlias(Membership::class),
                         Performance::ATTRIBUTE_ARTIST_ID => $membership->getKey(),
                     ];
                 }
@@ -126,11 +127,11 @@ class ManageSongPerformances
             // Delete membership performances that are not in the new list.
             $membershipPerformances = Performance::query()
                 ->where(Performance::ATTRIBUTE_SONG, $this->song)
-                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
+                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class))
                 ->whereNotIn(
                     Performance::ATTRIBUTE_ARTIST_ID,
                     Arr::map(
-                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Membership::class),
+                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Membership::class)),
                         fn ($performanceMembership) => Arr::get($performanceMembership, Performance::ATTRIBUTE_ARTIST_ID)
                     )
                 );
@@ -140,11 +141,11 @@ class ManageSongPerformances
             // Delete solo performances that are not in the new list.
             $soloPerformances = Performance::query()
                 ->where(Performance::ATTRIBUTE_SONG, $this->song)
-                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Artist::class)
+                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Artist::class))
                 ->whereNotIn(
                     Performance::ATTRIBUTE_ARTIST_ID,
                     Arr::map(
-                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Artist::class),
+                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Artist::class)),
                         fn ($solo) => Arr::get($solo, Performance::ATTRIBUTE_ARTIST_ID)
                     )
                 );

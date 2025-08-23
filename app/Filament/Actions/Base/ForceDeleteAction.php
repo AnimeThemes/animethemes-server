@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use App\Contracts\Models\SoftDeletable;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Icons\Heroicon;

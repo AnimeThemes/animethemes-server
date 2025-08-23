@@ -11,6 +11,7 @@ use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
@@ -23,7 +24,7 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
     {
         return [
             Hidden::make(Performance::ATTRIBUTE_ARTIST_TYPE)
-                ->default(Artist::class),
+                ->default(Relation::getMorphAlias(Artist::class)),
 
             TextInput::make(Performance::ATTRIBUTE_AS)
                 ->label(__('filament.fields.performance.as.name'))

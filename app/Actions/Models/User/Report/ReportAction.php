@@ -100,7 +100,7 @@ class ReportAction
             ReportStep::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
             ReportStep::ATTRIBUTE_TARGET_TYPE => $related instanceof Model ? Relation::getMorphAlias($related->getMorphClass()) : null,
             ReportStep::ATTRIBUTE_TARGET_ID => $related instanceof Model ? $related->getKey() : null,
-            ReportStep::ATTRIBUTE_PIVOT => $pivot instanceof Model ?Relation::getMorphAlias($pivot->getMorphClass()) : $pivot,
+            ReportStep::ATTRIBUTE_PIVOT => $pivot instanceof Model ? Relation::getMorphAlias($pivot->getMorphClass()) : $pivot,
         ]);
     }
 }
