@@ -15,6 +15,7 @@ use App\Pivots\Wiki\ArtistSong;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class PerformanceDeleted.
@@ -107,7 +108,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
             $performance->artist_type === Membership::class
             && Performance::query()
                 ->whereBelongsTo($song)
-                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
+                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class))
                 ->whereHas(Performance::RELATION_ARTIST, fn (Builder $query) => $query->where(Artist::ATTRIBUTE_ID, $performance->artist->group->getKey()))
                 ->exists()
         ) {

@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 
 /**
@@ -194,7 +195,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
             'member_id',
             'artist_id'
         )->select(['memberships.as', 'memberships.alias'])
-            ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class);
+            ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class));
     }
 
     public function memberships()

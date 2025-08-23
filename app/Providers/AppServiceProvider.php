@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Http\Middleware\Models\RecordView;
-use App\Models\Auth\User;
 use App\Models\Document\Page;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -102,8 +101,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
-        Relation::enforceMorphMap([
-            'user' => User::class,
+        Relation::morphMap([
             'page' => Page::class,
             'anime' => Anime::class,
             'animesynonym' => AnimeSynonym::class,

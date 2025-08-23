@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -231,7 +232,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
             null,
             Playlist::ATTRIBUTE_ID
         )
-            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Playlist::class)
+            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(Playlist::class))
             ->withTimestamps();
     }
 
@@ -250,7 +251,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
             null,
             Video::ATTRIBUTE_ID
         )
-            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Video::class)
+            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(Video::class))
             ->withTimestamps();
     }
 
