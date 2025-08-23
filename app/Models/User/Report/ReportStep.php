@@ -41,21 +41,21 @@ class ReportStep extends BaseModel
     final public const ATTRIBUTE_ID = 'step_id';
 
     final public const ATTRIBUTE_ACTION = 'action';
-    final public const ATTRIBUTE_ACTIONABLE = 'actionable';
     final public const ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
     final public const ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
 
-    final public const ATTRIBUTE_TARGET = 'target';
     final public const ATTRIBUTE_TARGET_TYPE = 'target_type';
     final public const ATTRIBUTE_TARGET_ID = 'target_id';
 
-    final public const ATTRIBUTE_PIVOT_CLASS = 'pivot_class';
+    final public const ATTRIBUTE_PIVOT = 'pivot';
 
     final public const ATTRIBUTE_REPORT = 'report_id';
     final public const ATTRIBUTE_FIELDS = 'fields';
     final public const ATTRIBUTE_FINISHED_AT = 'finished_at';
     final public const ATTRIBUTE_STATUS = 'status';
 
+    final public const RELATION_ACTIONABLE = 'actionable';
+    final public const RELATION_TARGET = 'target';
     final public const RELATION_REPORT = 'report';
 
     /**
@@ -68,7 +68,7 @@ class ReportStep extends BaseModel
         ReportStep::ATTRIBUTE_ACTIONABLE_TYPE,
         ReportStep::ATTRIBUTE_ACTIONABLE_ID,
         ReportStep::ATTRIBUTE_FIELDS,
-        ReportStep::ATTRIBUTE_PIVOT_CLASS,
+        ReportStep::ATTRIBUTE_PIVOT,
         ReportStep::ATTRIBUTE_REPORT,
         ReportStep::ATTRIBUTE_STATUS,
         ReportStep::ATTRIBUTE_TARGET_TYPE,

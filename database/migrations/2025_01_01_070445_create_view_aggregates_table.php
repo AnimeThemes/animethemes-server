@@ -19,7 +19,6 @@ return new class extends Migration
                 $table->morphs(ViewAggregate::ATTRIBUTE_VIEWABLE);
                 $table->integer(ViewAggregate::ATTRIBUTE_VALUE)->default(0);
                 $table->primary([ViewAggregate::ATTRIBUTE_VIEWABLE_ID, ViewAggregate::ATTRIBUTE_VIEWABLE_TYPE]);
-                $table->index([ViewAggregate::ATTRIBUTE_VIEWABLE_ID, ViewAggregate::ATTRIBUTE_VIEWABLE_TYPE]);
             });
         }
     }

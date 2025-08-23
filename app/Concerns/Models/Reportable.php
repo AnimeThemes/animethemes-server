@@ -16,6 +16,6 @@ trait Reportable
      */
     public function reportsteps(): MorphMany
     {
-        return $this->morphMany(ReportStep::class, ReportStep::ATTRIBUTE_ACTIONABLE);
+        return $this->morphMany(ReportStep::class, ReportStep::RELATION_ACTIONABLE);
     }
 }
