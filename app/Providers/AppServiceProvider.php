@@ -101,7 +101,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
-        Relation::enforceMorphMap([
+        Relation::morphMap([
             'page' => Page::class,
             'anime' => Anime::class,
             'animesynonym' => AnimeSynonym::class,
