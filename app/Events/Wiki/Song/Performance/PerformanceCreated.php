@@ -12,6 +12,7 @@ use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistSong;
 use Exception;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class PerformanceCreated.
@@ -76,7 +77,7 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
 
         $song = $performance->song;
 
-        $artist = match ($performance->artist_type) {
+        $artist = match (Relation::getMorphedModel($performance->artist_type)) {
             Artist::class => $performance->artist,
             Membership::class => $performance->artist->group,
             default => throw new Exception('Invalid artist type.'),

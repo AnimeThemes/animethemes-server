@@ -13,6 +13,7 @@ use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistSong;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class PerformanceRestored.
@@ -75,7 +76,7 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
         $performance = $this->getModel();
         $song = $performance->song;
 
-        $artist = match ($performance->artist_type) {
+        $artist = match (Relation::getMorphedModel($performance->artist_type)) {
             Artist::class => $performance->artist,
             Membership::class => $performance->artist->group,
             default => throw new Exception('Invalid artist type.'),
