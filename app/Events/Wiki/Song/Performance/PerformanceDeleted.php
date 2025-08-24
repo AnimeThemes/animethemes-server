@@ -105,7 +105,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
         $song = $performance->song;
 
         if (
-            $performance->artist_type === Membership::class
+            $performance->artist_type === Relation::getMorphAlias(Membership::class)
             && Performance::query()
                 ->whereBelongsTo($song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class))
@@ -115,7 +115,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
             return;
         }
 
-        $artist = match ($performance->artist_type) {
+        $artist = match (Relation::getMorphedModel($performance->artist_type)) {
             Artist::class => $performance->artist,
             Membership::class => $performance->artist->group,
             default => throw new Exception('Invalid artist type.'),
