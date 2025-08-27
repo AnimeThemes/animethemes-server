@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\User;
 
 use App\Models\User\Notification;
-use App\Notifications\UserNotification;
+use App\Notifications\ExternalProfileSyncedNotification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -33,16 +33,9 @@ class NotificationFactory extends Factory
      */
     public function definition(): array
     {
-        $data = [
-            'title' => fake()->text(),
-            'body' => fake()->text(),
-            'image' => fake()->imageUrl(),
-        ];
-
         return [
             Notification::ATTRIBUTE_ID => Str::uuid()->__toString(),
-            Notification::ATTRIBUTE_TYPE => UserNotification::class,
-            Notification::ATTRIBUTE_DATA => $data,
+            Notification::ATTRIBUTE_TYPE => ExternalProfileSyncedNotification::class,
         ];
     }
 }

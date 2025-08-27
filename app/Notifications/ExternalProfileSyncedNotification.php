@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Enums\Models\User\NotificationType;
+use App\Models\List\ExternalProfile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Notifications\Notification;
 
-class UserNotification extends Notification implements Arrayable, ShouldQueue
+class ExternalProfileSyncedNotification extends Notification implements Arrayable, ShouldQueue
 {
     use Queueable;
 
     public function __construct(
-        public string $title,
-        public string $body,
-        public NotificationType $type,
-        public ?string $image = null,
+        public ExternalProfile $profile,
     ) {}
 
     /**
@@ -41,10 +38,8 @@ class UserNotification extends Notification implements Arrayable, ShouldQueue
     public function toArray(): array
     {
         return [
-            'title' => $this->title,
-            'body' => $this->body,
-            'type' => $this->type->value,
-            'image' => $this->image,
+            'profileId' => $this->profile->getKey(),
+            'profileName' => $this->profile->getName(),
         ];
     }
 }

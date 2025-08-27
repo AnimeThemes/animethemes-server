@@ -13,8 +13,9 @@ class ImageableUnion extends BaseUnion
 {
     /**
      * The name of the union type.
+     * By default, it will be the class name.
      */
-    public function name(): string
+    public function getName(): string
     {
         return 'Imageable';
     }

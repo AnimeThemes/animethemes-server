@@ -58,8 +58,7 @@ use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\MessageResponseType;
 use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\SearchType;
-use App\GraphQL\Definition\Types\User\Notification\NotificationDataType;
-use App\GraphQL\Definition\Types\User\NotificationType;
+use App\GraphQL\Definition\Types\User\Notification\ExternalProfileSyncedNotificationType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonsType;
@@ -79,7 +78,9 @@ use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\GraphQL\Definition\Types\Wiki\ThemeGroupType;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
+use App\GraphQL\Definition\Unions\ImageableUnion;
 use App\GraphQL\Definition\Unions\LikedUnion;
+use App\GraphQL\Definition\Unions\NotificationUnion;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
 use App\GraphQL\Definition\Unions\ResourceableUnion;
 
@@ -226,8 +227,7 @@ return [
                 PlaylistTrackType::class,
 
                 // User
-                NotificationType::class,
-                NotificationDataType::class,
+                ExternalProfileSyncedNotificationType::class,
 
                 // Wiki
                 AnimeType::class,
@@ -258,7 +258,10 @@ return [
                 // ResourceableType::class,
 
                 // Unions
+
+                ImageableUnion::class,
                 LikedUnion::class,
+                NotificationUnion::class,
                 PerformanceArtistUnion::class,
                 ResourceableUnion::class,
             ],

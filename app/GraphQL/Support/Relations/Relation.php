@@ -85,14 +85,17 @@ abstract class Relation
 
         $type = $this->rebingType;
 
-        if ($this->paginationType() !== PaginationType::NONE) {
+        if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType) {
             $arguments[] = $this->resolveFilterArguments($type->fieldClasses());
         }
 
         if ($this->paginationType() !== PaginationType::NONE) {
             $arguments[] = new FirstArgument(true);
             $arguments[] = new PageArgument();
-            $arguments[] = $this->resolveSortArguments($this->rebingType);
+
+            if ($type instanceof BaseType) {
+                $arguments[] = $this->resolveSortArguments($this->rebingType);
+            }
         }
 
         return Arr::flatten($arguments);
