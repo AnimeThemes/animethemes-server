@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki\Anime\ExternalApi;
 
 use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Constants\Config\ServiceConstants;
 use App\Contracts\Actions\Models\Wiki\BackfillStudios;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
@@ -34,7 +35,7 @@ class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStu
         $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
 
         if ($resource instanceof ExternalResource) {
-            $response = Http::withHeaders(['X-MAL-CLIENT-ID' => Config::get('services.mal.client_id')])
+            $response = Http::withHeaders(['X-MAL-CLIENT-ID' => Config::get(ServiceConstants::MAL_CLIENT_ID)])
                 ->get("https://api.myanimelist.net/v2/anime/$resource->external_id", [
                     'fields' => 'studios',
                 ])

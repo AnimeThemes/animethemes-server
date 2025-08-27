@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Pivots\Wiki;
 
-use App\Events\Pivot\Wiki\ArtistSong\ArtistSongCreated;
-use App\Events\Pivot\Wiki\ArtistSong\ArtistSongDeleted;
-use App\Events\Pivot\Wiki\ArtistSong\ArtistSongUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
@@ -68,19 +65,6 @@ class ArtistSong extends BasePivot
             ArtistSong::ATTRIBUTE_SONG,
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var class-string[]
-     */
-    protected $dispatchesEvents = [
-        'created' => ArtistSongCreated::class,
-        'deleted' => ArtistSongDeleted::class,
-        'updated' => ArtistSongUpdated::class,
-    ];
 
     /**
      * Gets the artist that owns the artist song.

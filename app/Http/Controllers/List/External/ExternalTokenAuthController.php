@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -44,7 +43,7 @@ class ExternalTokenAuthController extends Controller
             $link = $profileSite->getAuthorizeUrl();
 
             if ($link !== null) {
-                return Redirect::to($link);
+                $link->redirect();
             }
         }
 
