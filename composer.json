@@ -47,6 +47,7 @@
         "leandrocfe/filament-apex-charts": "4.0-beta1",
         "mll-lab/graphql-php-scalars": "^6.4.1",
         "mll-lab/laravel-graphiql": "^3.3.4",
+        "owen-it/laravel-auditing": "^14.0",
         "propaganistas/laravel-disposable-email": "^2.4.17",
         "rebing/graphql-laravel": "^9.10",
         "spatie/db-dumper": "^3.8.0",

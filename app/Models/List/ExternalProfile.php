@@ -65,6 +65,13 @@ class ExternalProfile extends BaseModel
     final public const RELATION_USER = 'user';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

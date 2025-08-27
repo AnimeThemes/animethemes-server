@@ -12,7 +12,6 @@ use App\Events\Wiki\Video\Script\VideoScriptDeleted;
 use App\Events\Wiki\Video\Script\VideoScriptForceDeleting;
 use App\Events\Wiki\Video\Script\VideoScriptRestored;
 use App\Events\Wiki\Video\Script\VideoScriptUpdated;
-use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;

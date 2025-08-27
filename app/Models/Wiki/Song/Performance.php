@@ -19,6 +19,7 @@ use Database\Factories\Wiki\Song\PerformanceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class Performance.
@@ -132,7 +133,7 @@ class Performance extends BaseModel implements SoftDeletable
      */
     public function isMembership(): bool
     {
-        return $this->artist_type === Membership::class;
+        return $this->artist_type === Relation::getMorphAlias(Membership::class);
     }
 
     /**
