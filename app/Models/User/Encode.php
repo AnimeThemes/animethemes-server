@@ -35,6 +35,13 @@ class Encode extends BaseModel
     final public const RELATION_VIDEO = 'video';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The table associated with the model.
      *
      * @var string

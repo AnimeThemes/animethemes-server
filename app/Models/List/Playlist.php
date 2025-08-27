@@ -70,6 +70,13 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     final public const RELATION_VIEWS = 'views';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

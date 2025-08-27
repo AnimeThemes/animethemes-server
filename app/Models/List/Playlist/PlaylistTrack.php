@@ -63,6 +63,13 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     final public const RELATION_VIDEO = 'video';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

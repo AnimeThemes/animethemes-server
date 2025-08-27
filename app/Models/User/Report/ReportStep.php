@@ -59,6 +59,13 @@ class ReportStep extends BaseModel
     final public const RELATION_REPORT = 'report';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

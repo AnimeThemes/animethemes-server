@@ -36,6 +36,13 @@ class Dump extends BaseModel
     final public const ATTRIBUTE_LINK = 'link';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

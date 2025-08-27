@@ -35,6 +35,13 @@ class DiscordThread extends BaseModel
     final public const RELATION_ANIME = 'anime';
 
     /**
+     * Is auditing disabled?
+     *
+     * @var bool
+     */
+    public static $auditingDisabled = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
