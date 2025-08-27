@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries;
 
+use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
+use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
 use App\GraphQL\Definition\Types\BaseType;
@@ -17,6 +19,8 @@ use Rebing\GraphQL\Support\Query;
 
 abstract class BaseQuery extends Query
 {
+    use ConstrainsEagerLoads;
+    use FiltersModels;
     use ResolvesArguments;
 
     public function __construct(

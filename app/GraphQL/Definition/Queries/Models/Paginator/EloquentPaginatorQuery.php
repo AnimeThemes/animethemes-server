@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries\Models\Paginator;
 
-use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
-use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SearchModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
@@ -24,8 +22,6 @@ use RuntimeException;
 
 abstract class EloquentPaginatorQuery extends EloquentQuery
 {
-    use ConstrainsEagerLoads;
-    use FiltersModels;
     use PaginatesModels;
     use SearchModels;
     use SortsModels;

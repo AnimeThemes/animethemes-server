@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\Wiki\Anime;
 
+use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
@@ -27,6 +28,7 @@ use Illuminate\Support\Arr;
  */
 class AnimeYearsController extends BaseController
 {
+    use ConstrainsEagerLoads;
     use FiltersModels;
     use PaginatesModels;
     use SortsModels;
@@ -114,6 +116,8 @@ class AnimeYearsController extends BaseController
         $this->filter($builder, $args, new AnimeType());
 
         $this->sort($builder, $args, new AnimeType());
+
+        $this->constrainEagerLoads($builder, $resolveInfo, new AnimeType());
 
         return $this->paginate($builder, $args);
     }

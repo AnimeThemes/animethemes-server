@@ -53,37 +53,77 @@ trait ConstrainsEagerLoads
             $relationType = $relation->getBaseType();
 
             $eagerLoadRelations[$path] = function (RelationLaravel $relationLaravel) use ($relationSelection, $relationArgs, $relationType) {
-                $relationQuery = $relationLaravel->getQuery();
-
                 if ($relationLaravel instanceof MorphTo) {
-                    $unions = Arr::get($relationSelection, 'unions');
-                    $subTypes = collect($relationType->baseTypes())
-                        ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
-                        ->toArray();
-
-                    $morphConstrains = [];
-                    foreach ($subTypes as $subType) {
-                        $subTypeSelection = Arr::get($unions, "{$subType->getName()}.selectionSet");
-
-                        $morphConstrains[$subType->model()] = function (Builder $subMorphQuery) use ($subTypeSelection, $subType) {
-                            $this->processEagerLoadForType($subMorphQuery, $subTypeSelection, $subType);
-                        };
-                    }
-
-                    $relationLaravel->constrain($morphConstrains);
+                    $this->processMorphToRelation($relationSelection, $relationType, $relationLaravel);
                 } else {
-                    $this->filter($relationQuery, $relationArgs, $relationType);
-
-                    $this->sort($relationQuery, $relationArgs, $relationType);
-
-                    $child = Arr::get($relationSelection, 'selectionSet.data.data.selectionSet')
-                        ?? Arr::get($relationSelection, 'selectionSet', []);
-
-                    $this->processEagerLoadForType($relationQuery, $child, $relationType);
+                    if ($relationType instanceof BaseUnion) {
+                        $this->processUnion($relationSelection, $relationLaravel, $relationType);
+                    } else {
+                        $this->processGenericRelation($relationLaravel, $relationArgs, $relationSelection, $relationType);
+                    }
                 }
             };
         }
 
         $builder->with($eagerLoadRelations);
+    }
+
+    /**
+     * MorphTo relationships have to be handled differently since they can have multiple types.
+     */
+    private function processMorphToRelation(array $selection, BaseUnion $union, MorphTo $relation): void
+    {
+        $unions = Arr::get($selection, 'unions');
+        $types = collect($union->baseTypes())
+            ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
+            ->toArray();
+
+        $morphConstrains = [];
+        foreach ($types as $type) {
+            $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet");
+
+            $morphConstrains[$type->model()] = function (Builder $query) use ($typeSelection, $type) {
+                $this->processEagerLoadForType($query, $typeSelection, $type);
+            };
+        }
+
+        $relation->constrain($morphConstrains);
+    }
+
+    /**
+     * Process a union relation by applying the eager loads for each type in the union.
+     */
+    private function processUnion(array $selection, RelationLaravel $relation, BaseUnion $union)
+    {
+        $query = $relation->getQuery();
+
+        $unions = Arr::get($selection, 'selectionSet.data.data.unions', []);
+
+        $types = collect($union->baseTypes())
+            ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
+            ->toArray();
+
+        foreach ($types as $type) {
+            $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet", []);
+
+            $this->processEagerLoadForType($query, $typeSelection, $type);
+        }
+    }
+
+    /**
+     * Process a generic relation by applying filters, sorting and eager loads.
+     */
+    private function processGenericRelation(RelationLaravel $relation, array $args, array $selection, BaseType $type)
+    {
+        $query = $relation->getQuery();
+
+        $this->filter($query, $args, $type);
+
+        $this->sort($query, $args, $type);
+
+        $child = Arr::get($selection, 'selectionSet.data.data.selectionSet')
+            ?? Arr::get($selection, 'selectionSet', []);
+
+        $this->processEagerLoadForType($query, $child, $type);
     }
 }
