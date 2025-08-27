@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Enums\Models\List;
 
 use App\Concerns\Enums\LocalizesName;
+use App\Constants\Config\ServiceConstants;
 use App\Enums\Models\Wiki\ResourceSite;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 
 enum ExternalProfileSite: int implements HasLabel
 {
@@ -34,7 +36,7 @@ enum ExternalProfileSite: int implements HasLabel
     /**
      * Get the link of the external site to authenticate the user.
      */
-    public function getAuthorizeUrl(): ?string
+    public function getAuthorizeUrl(): ?Uri
     {
         if ($this === self::MAL) {
             $codeVerifier = bin2hex(random_bytes(64));
@@ -43,26 +45,24 @@ enum ExternalProfileSite: int implements HasLabel
 
             Cache::set("mal-external-token-request-{$id}", $codeVerifier);
 
-            $query = [
-                'client_id' => Config::get('services.mal.client_id'),
-                'redirect_uri' => Config::get('services.mal.redirect_uri'),
-                'code_challenge' => $codeVerifier,
-                'state' => $id,
-                'response_type' => 'code',
-                'code_challenge_method' => 'plain',
-            ];
-
-            return 'https://myanimelist.net/v1/oauth2/authorize?'.http_build_query($query);
+            return Uri::of('https://myanimelist.net/v1/oauth2/authorize')
+                ->withQuery([
+                    'client_id' => Config::get(ServiceConstants::MAL_CLIENT_ID),
+                    'redirect_uri' => Config::get(ServiceConstants::MAL_REDIRECT_URI),
+                    'code_challenge' => $codeVerifier,
+                    'state' => $id,
+                    'response_type' => 'code',
+                    'code_challenge_method' => 'plain',
+                ]);
         }
 
         if ($this === self::ANILIST) {
-            $query = [
-                'client_id' => Config::get('services.anilist.client_id'),
-                'redirect_uri' => Config::get('services.anilist.redirect_uri'),
-                'response_type' => 'code',
-            ];
-
-            return 'https://anilist.co/api/v2/oauth/authorize?'.http_build_query($query);
+            return Uri::of('https://anilist.co/api/v2/oauth/authorize')
+                ->withQuery([
+                    'client_id' => Config::get(ServiceConstants::ANILIST_CLIENT_ID),
+                    'redirect_uri' => Config::get(ServiceConstants::ANILIST_REDIRECT_URI),
+                    'response_type' => 'code',
+                ]);
         }
 
         return null;

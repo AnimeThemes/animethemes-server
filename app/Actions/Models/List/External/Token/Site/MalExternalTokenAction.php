@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\External\Token\Site;
 
 use App\Actions\Models\List\External\Token\BaseExternalTokenAction;
+use App\Constants\Config\ServiceConstants;
 use App\Models\List\External\ExternalToken;
 use Error;
 use Exception;
@@ -38,9 +39,9 @@ class MalExternalTokenAction extends BaseExternalTokenAction
             $response = Http::asForm()
                 ->post('https://myanimelist.net/v1/oauth2/token', [
                     'grant_type' => 'authorization_code',
-                    'client_id' => Config::get('services.mal.client_id'),
-                    'client_secret' => Config::get('services.mal.client_secret'),
-                    'redirect_uri' => Config::get('services.mal.redirect_uri'),
+                    'client_id' => Config::get(ServiceConstants::MAL_CLIENT_ID),
+                    'client_secret' => Config::get(ServiceConstants::MAL_CLIENT_SECRET),
+                    'redirect_uri' => Config::get(ServiceConstants::MAL_REDIRECT_URI),
                     'code' => $code,
                     'code_verifier' => $codeVerifier,
                 ])

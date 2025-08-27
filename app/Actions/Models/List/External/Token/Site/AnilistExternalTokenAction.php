@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\External\Token\Site;
 
 use App\Actions\Models\List\External\Token\BaseExternalTokenAction;
+use App\Constants\Config\ServiceConstants;
 use App\Models\List\External\ExternalToken;
 use Error;
 use Exception;
@@ -32,9 +33,9 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
                 ->asForm()
                 ->post('https://anilist.co/api/v2/oauth/token', [
                     'grant_type' => 'authorization_code',
-                    'client_id' => Config::get('services.anilist.client_id'),
-                    'client_secret' => Config::get('services.anilist.client_secret'),
-                    'redirect_uri' => Config::get('services.anilist.redirect_uri'),
+                    'client_id' => Config::get(ServiceConstants::ANILIST_CLIENT_ID),
+                    'client_secret' => Config::get(ServiceConstants::ANILIST_CLIENT_SECRET),
+                    'redirect_uri' => Config::get(ServiceConstants::ANILIST_REDIRECT_URI),
                     'code' => $code,
                 ])
                 ->throw()

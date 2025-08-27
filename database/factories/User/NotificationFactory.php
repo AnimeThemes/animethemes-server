@@ -36,6 +36,7 @@ class NotificationFactory extends Factory
         return [
             Notification::ATTRIBUTE_ID => Str::uuid()->__toString(),
             Notification::ATTRIBUTE_TYPE => ExternalProfileSyncedNotification::class,
+            Notification::ATTRIBUTE_DATA => [],
         ];
     }
 }
