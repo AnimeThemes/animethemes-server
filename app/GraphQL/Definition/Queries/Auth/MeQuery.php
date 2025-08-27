@@ -52,6 +52,10 @@ class MeQuery extends BaseQuery
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        return Auth::user();
+        $builder = User::query()->whereKey(Auth::id());
+
+        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
+
+        return $builder->firstOrFail();
     }
 }

@@ -53,11 +53,15 @@ class CurrentFeaturedThemeQuery extends BaseQuery
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        return FeaturedTheme::query()
-            ->whereValueBetween(Date::now(), [
-                FeaturedTheme::ATTRIBUTE_START_AT,
-                FeaturedTheme::ATTRIBUTE_END_AT,
-            ])
-            ->first();
+        $builder = FeaturedTheme::query();
+
+        $builder->whereValueBetween(Date::now(), [
+            FeaturedTheme::ATTRIBUTE_START_AT,
+            FeaturedTheme::ATTRIBUTE_END_AT,
+        ]);
+
+        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
+
+        return $builder->first();
     }
 }

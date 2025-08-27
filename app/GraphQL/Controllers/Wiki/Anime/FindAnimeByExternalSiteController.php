@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\Wiki\Anime;
 
+use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
+use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +19,8 @@ use Illuminate\Support\Arr;
  */
 class FindAnimeByExternalSiteController extends BaseController
 {
+    use ConstrainsEagerLoads;
+
     /**
      * Apply the query builder to the index query.
      *
@@ -46,6 +50,8 @@ class FindAnimeByExternalSiteController extends BaseController
                 $query->where(ExternalResource::ATTRIBUTE_LINK, $link);
             }
         });
+
+        $this->constrainEagerLoads($builder, $resolveInfo, new AnimeType());
 
         return $builder;
     }
