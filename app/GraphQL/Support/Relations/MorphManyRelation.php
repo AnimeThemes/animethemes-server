@@ -23,6 +23,6 @@ class MorphManyRelation extends Relation
      */
     public function paginationType(): PaginationType
     {
-        return PaginationType::CONNECTION;
+        return PaginationType::PAGINATOR;
     }
 }

@@ -21,7 +21,6 @@ use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Report;
 use App\Models\Wiki\Video;
-use App\Notifications\UserNotification;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
@@ -298,7 +297,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
             return $notifications->where(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
         }
 
-        return $notifications->where(Notification::ATTRIBUTE_TYPE, UserNotification::class);
+        return $notifications;
     }
 
     /**

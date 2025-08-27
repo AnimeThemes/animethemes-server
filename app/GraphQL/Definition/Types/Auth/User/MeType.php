@@ -16,8 +16,8 @@ use App\GraphQL\Definition\Types\Auth\PermissionType;
 use App\GraphQL\Definition\Types\Auth\RoleType;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
-use App\GraphQL\Definition\Types\User\NotificationType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
+use App\GraphQL\Definition\Unions\NotificationUnion;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
 use App\GraphQL\Support\Relations\MorphManyRelation;
@@ -42,7 +42,7 @@ class MeType extends EloquentType
     public function relations(): array
     {
         return [
-            new MorphManyRelation(new NotificationType(), User::RELATION_NOTIFICATIONS),
+            new MorphManyRelation(new NotificationUnion(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
             new BelongsToManyRelation($this, RoleType::class, User::RELATION_ROLES),
             new BelongsToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),

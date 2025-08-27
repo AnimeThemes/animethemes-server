@@ -10,6 +10,7 @@ use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Models\User\NotificationType;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
@@ -58,6 +59,7 @@ class GraphQLServiceProvider extends ServiceProvider
         GraphQL::addType(new EnumType(ExternalProfileSite::class));
         GraphQL::addType(new EnumType(ExternalProfileVisibility::class));
         GraphQL::addType(new EnumType(PlaylistVisibility::class));
+        GraphQL::addType(new EnumType(NotificationType::class));
         GraphQL::addType(new EnumType(AnimeMediaFormat::class));
         GraphQL::addType(new EnumType(AnimeSeason::class));
         GraphQL::addType(new EnumType(AnimeSynonymType::class));

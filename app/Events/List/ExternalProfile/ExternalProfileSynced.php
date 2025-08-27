@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Events\List\ExternalProfile;
 
 use App\Contracts\Events\NotifiesUsersEvent;
-use App\Enums\Models\User\NotificationType;
 use App\Models\List\ExternalProfile;
-use App\Notifications\UserNotification;
+use App\Notifications\ExternalProfileSyncedNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 
 class ExternalProfileSynced implements NotifiesUsersEvent
@@ -23,12 +22,8 @@ class ExternalProfileSynced implements NotifiesUsersEvent
     {
         $profile = $this->profile;
 
-        $notification = new UserNotification(
-            'External Profile Synced',
-            "Your external profile [{$profile->getName()}]({$profile->getClientUrl()}) has been synced.",
-            NotificationType::SYNCED_PROFILE,
+        $profile->user?->notifyNow(
+            new ExternalProfileSyncedNotification($profile)
         );
-
-        $profile->user?->notifyNow($notification);
     }
 }
