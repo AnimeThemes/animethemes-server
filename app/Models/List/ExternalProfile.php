@@ -142,18 +142,6 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            ExternalProfile::RELATION_USER,
-        ];
-    }
-
-    /**
      * Only get the attributes as an array to prevent recursive toArray() calls.
      *
      * @return array

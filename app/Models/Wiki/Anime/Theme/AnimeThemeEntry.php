@@ -181,12 +181,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
      */
     public function getName(): string
     {
-        $this->loadMissing([
-            AnimeThemeEntry::RELATION_ANIME,
-            AnimeThemeEntry::RELATION_THEME,
-            AnimeThemeEntry::RELATION_THEME_GROUP,
-        ]);
-
         $theme = is_null($this->animetheme)
             ? $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first()
             : $this->animetheme;
@@ -210,19 +204,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     public function getSubtitle(): string
     {
         return "{$this->anime->getName()} {$this->animetheme->getName()}";
-    }
-
-    /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            AnimeThemeEntry::RELATION_ANIME_SHALLOW,
-            AnimeThemeEntry::RELATION_THEME,
-        ];
     }
 
     /**

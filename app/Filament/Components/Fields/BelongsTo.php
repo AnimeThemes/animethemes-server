@@ -12,7 +12,6 @@ use App\Models\Admin\ActionLog;
 use App\Models\Auth\User;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Filament\Schemas\Schema;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -67,10 +66,8 @@ class BelongsTo extends ComponentsSelect
 
     /**
      * Determine if the create option is available. The resource is required for this.
-     *
-     * @param  array|null  $eagerLoads
      */
-    public function showCreateOption(bool $condition = true, ?array $eagerLoads = []): static
+    public function showCreateOption(bool $condition = true): static
     {
         $this->showCreateOption = $condition;
         $this->reload();
@@ -99,18 +96,13 @@ class BelongsTo extends ComponentsSelect
         $this->searchable();
         $this->getOptionLabelUsing(fn ($state) => is_null($state) ? '' : static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
 
-        $eagerLoads = method_exists($model, 'getEagerLoadsForSubtitle')
-            ? $model::getEagerLoadsForSubtitle()
-            : [];
-
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
-                ->getSearchResultsUsing(function (string $search) use ($model, $eagerLoads) {
+                ->getSearchResultsUsing(function (string $search) use ($model) {
                     $search = $this->escapeReservedChars($search);
 
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
-                        ->query(fn (Builder $query) => $query->with($eagerLoads))
                         ->take(25)
                         ->get()
                         ->mapWithKeys(fn (Model $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
@@ -119,10 +111,9 @@ class BelongsTo extends ComponentsSelect
         }
 
         return $this
-            ->getSearchResultsUsing(function (string $search) use ($model, $eagerLoads) {
+            ->getSearchResultsUsing(function (string $search) use ($model) {
                 return $model::query()
                     ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
-                    ->with($eagerLoads)
                     ->take(25)
                     ->get()
                     ->mapWithKeys(fn ($model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])

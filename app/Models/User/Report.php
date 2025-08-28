@@ -107,18 +107,6 @@ class Report extends BaseModel
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            Report::RELATION_USER,
-        ];
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

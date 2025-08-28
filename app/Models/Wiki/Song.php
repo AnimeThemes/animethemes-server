@@ -121,18 +121,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            Song::RELATION_ANIME,
-        ];
-    }
-
-    /**
      * Get the anime themes that use this song.
      *
      * @return HasMany<AnimeTheme, $this>

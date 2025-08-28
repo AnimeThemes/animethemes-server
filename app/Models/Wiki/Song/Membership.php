@@ -106,25 +106,7 @@ class Membership extends BaseModel implements SoftDeletable
      */
     public function getSubtitle(): string
     {
-        $this->loadMissing([
-            Membership::RELATION_GROUP,
-            Membership::RELATION_MEMBER,
-        ]);
-
         return "Member {$this->member->getName()} of Group {$this->group->getName()}";
-    }
-
-    /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            Membership::RELATION_GROUP,
-            Membership::RELATION_MEMBER,
-        ];
     }
 
     /**

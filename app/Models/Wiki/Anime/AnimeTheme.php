@@ -182,11 +182,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
      */
     public function getName(): string
     {
-        $this->loadMissing([
-            AnimeTheme::RELATION_SONG,
-            AnimeTheme::RELATION_GROUP,
-        ]);
-
         $name = Str::of($this->type->localize());
 
         if ($this->type === ThemeType::IN && $this->song !== null) {
@@ -206,18 +201,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     public function getSubtitle(): string
     {
         return $this->anime->getName();
-    }
-
-    /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            AnimeTheme::RELATION_ANIME,
-        ];
     }
 
     /**

@@ -122,18 +122,6 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            VideoScript::RELATION_VIDEO,
-        ];
-    }
-
-    /**
      * Get the video that owns the script.
      *
      * @return BelongsTo<Video, $this>

@@ -109,18 +109,6 @@ class DiscordThread extends BaseModel
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            DiscordThread::RELATION_ANIME,
-        ];
-    }
-
-    /**
      * Gets the anime that the thread uses.
      *
      * @return BelongsTo<Anime, $this>
