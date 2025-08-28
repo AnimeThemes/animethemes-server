@@ -35,8 +35,6 @@ abstract class UserRelationManager extends BaseRelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return \Filament\Actions\Action[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

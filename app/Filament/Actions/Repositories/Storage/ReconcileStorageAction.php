@@ -46,8 +46,6 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

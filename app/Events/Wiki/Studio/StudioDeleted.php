@@ -49,8 +49,6 @@ class StudioDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = StudioFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return StudioFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

@@ -18,8 +18,6 @@ class ThemeSongRelationManager extends ThemeRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {

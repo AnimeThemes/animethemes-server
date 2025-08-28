@@ -97,8 +97,6 @@ class BackfillAnimeAction extends BaseAction
 
     /**
      * Get the schema available on the action.|null.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): ?Schema
     {

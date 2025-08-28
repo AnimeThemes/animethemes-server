@@ -28,8 +28,6 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

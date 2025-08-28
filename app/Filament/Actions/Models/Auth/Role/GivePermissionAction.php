@@ -50,8 +50,6 @@ class GivePermissionAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

@@ -49,8 +49,6 @@ class AudioDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = AudioFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return AudioFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

@@ -56,17 +56,4 @@ class ExternalProfilePolicy extends BasePolicy
 
         return $profile->user()->is($user) && parent::update($user, $args, $keyName);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  array  $args
-     */
-    public function restore(User $user, array $args, ?string $keyName = 'model'): bool
-    {
-        /** @var ExternalProfile $profile */
-        $profile = Arr::get($args, $keyName);
-
-        return $profile->user()->is($user) && parent::update($user, $args, $keyName);
-    }
 }

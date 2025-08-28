@@ -49,8 +49,6 @@ class ImageDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = ImageFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return ImageFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

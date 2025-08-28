@@ -13,8 +13,6 @@ abstract class BaseManageResources extends ManageRecords
      * Get the header actions available.
      *
      * @return \Filament\Actions\Action[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getActions(): array
     {

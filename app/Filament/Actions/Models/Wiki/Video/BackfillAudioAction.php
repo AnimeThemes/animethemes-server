@@ -83,8 +83,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

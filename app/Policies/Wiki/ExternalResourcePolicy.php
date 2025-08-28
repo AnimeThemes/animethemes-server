@@ -11,7 +11,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
-use App\Pivots\Morph\Resourceable;
 use App\Policies\BasePolicy;
 
 class ExternalResourcePolicy extends BasePolicy
@@ -22,21 +21,6 @@ class ExternalResourcePolicy extends BasePolicy
     public function attachAnyAnime(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
-    }
-
-    /**
-     * Determine whether the user can attach an anime to the resource.
-     */
-    public function attachAnime(User $user, ExternalResource $resource, Anime $anime): bool
-    {
-        $attached = Resourceable::query()
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $anime)
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
     /**
@@ -56,21 +40,6 @@ class ExternalResourcePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can attach an artist to the resource.
-     */
-    public function attachArtist(User $user, ExternalResource $resource, Artist $artist): bool
-    {
-        $attached = Resourceable::query()
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $artist)
-            ->exists();
-
-        return ! $attached
-        && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-        && $user->can(CrudPermission::CREATE->format(Artist::class));
-    }
-
-    /**
      * Determine whether the user can detach any artist from the resource.
      */
     public function detachAnyArtist(User $user): bool
@@ -87,21 +56,6 @@ class ExternalResourcePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can attach a song to the resource.
-     */
-    public function attachSong(User $user, ExternalResource $resource, Song $song): bool
-    {
-        $attached = Resourceable::query()
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $song)
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            && $user->can(CrudPermission::CREATE->format(Song::class));
-    }
-
-    /**
      * Determine whether the user can detach any song from the resource.
      */
     public function detachAnySong(User $user): bool
@@ -115,21 +69,6 @@ class ExternalResourcePolicy extends BasePolicy
     public function attachAnyStudio(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
-    }
-
-    /**
-     * Determine whether the user can attach a studio to the resource.
-     */
-    public function attachStudio(User $user, ExternalResource $resource, Studio $studio): bool
-    {
-        $attached = Resourceable::query()
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $studio)
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**

@@ -15,8 +15,6 @@ class ListExternalEntries extends BaseListResources
      * Get the header actions available.
      *
      * @return \Filament\Actions\Action[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getHeaderActions(): array
     {

@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
-use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\ArtistSong;
 use App\Policies\BasePolicy;
 
 class SongPolicy extends BasePolicy
@@ -22,21 +20,6 @@ class SongPolicy extends BasePolicy
     public function attachAnyArtist(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(Song::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
-    }
-
-    /**
-     * Determine whether the user can attach an artist to the song.
-     */
-    public function attachArtist(User $user, Song $song, Artist $artist): bool
-    {
-        $attached = ArtistSong::query()
-            ->where(ArtistSong::ATTRIBUTE_SONG, $song->getKey())
-            ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Song::class))
-            && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -61,21 +44,6 @@ class SongPolicy extends BasePolicy
     public function attachAnyExternalResource(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(Song::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
-    }
-
-    /**
-     * Determine whether the user can attach a resource to the song.
-     */
-    public function attachExternalResource(User $user, Song $song, ExternalResource $resource): bool
-    {
-        $attached = Resourceable::query()
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $song)
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Song::class))
-            && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
 
     /**

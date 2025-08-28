@@ -49,8 +49,6 @@ class AnimeDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = AnimeFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return AnimeFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

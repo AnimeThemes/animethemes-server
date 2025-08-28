@@ -20,8 +20,6 @@ class ExternalResourceUnlinkedTab extends BaseTab
 
     /**
      * Get the displayable name of the tab.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getLabel(): string
     {

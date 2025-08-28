@@ -49,8 +49,6 @@ class ArtistDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = ArtistFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return ArtistFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

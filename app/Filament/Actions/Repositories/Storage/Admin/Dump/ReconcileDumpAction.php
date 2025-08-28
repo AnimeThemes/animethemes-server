@@ -38,8 +38,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

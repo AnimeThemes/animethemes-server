@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Policies\BasePolicy;
 
 class AnimeThemeEntryPolicy extends BasePolicy
@@ -19,21 +18,6 @@ class AnimeThemeEntryPolicy extends BasePolicy
     public function attachAnyVideo(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class)) && $user->can(CrudPermission::CREATE->format(Video::class));
-    }
-
-    /**
-     * Determine whether the user can attach an entry to the video.
-     */
-    public function attachVideo(User $user, AnimeThemeEntry $entry, Video $video): bool
-    {
-        $attached = AnimeThemeEntryVideo::query()
-            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $entry->getKey())
-            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $video->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class))
-            && $user->can(CrudPermission::CREATE->format(Video::class));
     }
 
     /**

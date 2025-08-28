@@ -21,8 +21,6 @@ class Exception extends ExceptionResource
 {
     /**
      * The logical group associated with the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
     {
@@ -31,8 +29,6 @@ class Exception extends ExceptionResource
 
     /**
      * The index page of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
@@ -96,8 +92,6 @@ class Exception extends ExceptionResource
      * Get the pages available for the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPages(): array
     {

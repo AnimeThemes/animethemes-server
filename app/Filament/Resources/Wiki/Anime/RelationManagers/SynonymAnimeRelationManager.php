@@ -18,8 +18,6 @@ class SynonymAnimeRelationManager extends SynonymRelationManager
 
     /**
      * The index page of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {

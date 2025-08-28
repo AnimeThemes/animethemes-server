@@ -50,8 +50,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {
@@ -66,8 +64,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the fields available on the action for a MySql db connection.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fieldsForMySql(Schema $schema): Schema
     {
@@ -136,8 +132,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the fields available on the action for a PostgreSql db connection.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fieldsForPostgreSql(Schema $schema): Schema
     {

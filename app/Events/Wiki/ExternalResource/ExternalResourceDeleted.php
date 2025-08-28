@@ -49,8 +49,6 @@ class ExternalResourceDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = ExternalResourceFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return ExternalResourceFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

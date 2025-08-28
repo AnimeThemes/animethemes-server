@@ -44,7 +44,7 @@ class AttachAction extends BaseAttachAction
                 ->__toString();
 
             return is_object($gate) & method_exists($gate, $ability)
-                ? Gate::forUser(Auth::user())->any($ability, $ownerRecord)
+                ? Gate::forUser(Auth::user())->check($ability, $ownerRecord)
                 : true;
         });
 
