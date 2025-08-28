@@ -38,6 +38,9 @@ use App\GraphQL\Definition\Queries\Models\Singular\Document\PageQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\List\Playlist\PlaylistTrackQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\List\PlaylistQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\Wiki\AnimeQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\Wiki\ArtistQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\Wiki\SeriesQuery;
+use App\GraphQL\Definition\Queries\Models\Singular\Wiki\StudioQuery;
 use App\GraphQL\Definition\Queries\SearchQuery;
 use App\GraphQL\Definition\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Definition\Queries\Wiki\FindAnimeByExternalSiteQuery;
@@ -177,14 +180,17 @@ return [
                 AnimeSynonymPaginatorQuery::class,
                 AnimeThemePaginatorQuery::class,
                 AnimeThemeEntryPaginatorQuery::class,
+                ArtistQuery::class,
                 ArtistPaginatorQuery::class,
                 AudioPaginatorQuery::class,
                 ExternalResourcePaginatorQuery::class,
                 ImagePaginatorQuery::class,
                 MembershipPaginatorQuery::class,
                 PerformancePaginatorQuery::class,
+                SeriesQuery::class,
                 SeriesPaginatorQuery::class,
                 SongPaginatorQuery::class,
+                StudioQuery::class,
                 StudioPaginatorQuery::class,
                 ThemeGroupPaginatorQuery::class,
                 VideoPaginatorQuery::class,
