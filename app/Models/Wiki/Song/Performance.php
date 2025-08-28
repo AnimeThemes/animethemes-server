@@ -109,23 +109,7 @@ class Performance extends BaseModel implements SoftDeletable
      */
     public function getSubtitle(): string
     {
-        $this->loadMissing([
-            Performance::RELATION_SONG,
-        ]);
-
         return $this->song->getName();
-    }
-
-    /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            Performance::RELATION_SONG,
-        ];
     }
 
     /**

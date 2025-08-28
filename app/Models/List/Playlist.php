@@ -167,18 +167,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            Playlist::RELATION_USER,
-        ];
-    }
-
-    /**
      * Determine if the model should be searchable.
      */
     public function shouldBeSearchable(): bool

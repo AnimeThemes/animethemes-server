@@ -156,19 +156,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * Get the eager loads needed to the subtitle.
-     *
-     * @return string[]
-     */
-    public static function getEagerLoadsForSubtitle(): array
-    {
-        return [
-            PlaylistTrack::RELATION_PLAYLIST,
-            'playlist.user',
-        ];
-    }
-
-    /**
      * Get the entry of the track.
      *
      * @return BelongsTo<AnimeThemeEntry, $this>

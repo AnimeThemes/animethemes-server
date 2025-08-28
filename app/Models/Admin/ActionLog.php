@@ -161,8 +161,6 @@ class ActionLog extends Model implements Nameable
      */
     public function getName(): string
     {
-        $this->loadMissing(ActionLog::RELATION_TARGET);
-
         return Str::of($this->name)
             ->append(' - ')
             ->append($this->target()->getName())
