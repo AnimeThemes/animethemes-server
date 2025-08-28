@@ -15,6 +15,7 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
@@ -302,7 +303,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($parent->getMorphClass()),
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($pivot->getMorphClass()),
-            ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
+            ActionLog::ATTRIBUTE_MODEL_ID => $pivot instanceof Pivot ? null : $pivot->getKey(),
             ActionLog::ATTRIBUTE_FIELDS => $data ? static::getFields($data) : static::getFields($pivot->getAttributes(), $pivot),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
