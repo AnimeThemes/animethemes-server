@@ -17,9 +17,6 @@ class ThemeGroupNameField extends StringField implements CreatableField, Require
         parent::__construct(Group::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The name of the group';

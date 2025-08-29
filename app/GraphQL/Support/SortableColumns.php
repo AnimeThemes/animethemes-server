@@ -31,8 +31,6 @@ class SortableColumns extends EnumType
     public function __construct(protected BaseType $type) {}
 
     /**
-     * Get the attributes of the type.
-     *
      * @return array<string, mixed>
      */
     public function attributes(): array

@@ -16,9 +16,6 @@ class VideoLyricsField extends BooleanField implements CreatableField, Updatable
         parent::__construct(Video::ATTRIBUTE_LYRICS, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Does the video include subtitles of song lyrics?';

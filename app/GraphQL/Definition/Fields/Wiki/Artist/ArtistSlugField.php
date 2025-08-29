@@ -20,9 +20,6 @@ class ArtistSlugField extends StringField implements BindableField, CreatableFie
         parent::__construct(Artist::ATTRIBUTE_SLUG, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL slug & route key of the resource';

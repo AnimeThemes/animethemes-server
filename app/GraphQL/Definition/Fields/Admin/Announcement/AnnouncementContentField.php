@@ -17,9 +17,6 @@ class AnnouncementContentField extends StringField implements CreatableField, Re
         parent::__construct(Announcement::ATTRIBUTE_CONTENT, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The announcement text';

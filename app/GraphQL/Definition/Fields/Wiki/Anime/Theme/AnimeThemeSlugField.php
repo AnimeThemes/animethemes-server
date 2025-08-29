@@ -17,9 +17,6 @@ class AnimeThemeSlugField extends StringField implements CreatableField, Require
         parent::__construct(AnimeTheme::ATTRIBUTE_SLUG);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The slug that represents the anime theme.';

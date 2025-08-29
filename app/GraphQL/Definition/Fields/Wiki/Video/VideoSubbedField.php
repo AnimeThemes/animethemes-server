@@ -16,9 +16,6 @@ class VideoSubbedField extends BooleanField implements CreatableField, Updatable
         parent::__construct(Video::ATTRIBUTE_SUBBED, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Does the video include subtitles of dialogue?';

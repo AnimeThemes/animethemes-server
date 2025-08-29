@@ -16,9 +16,6 @@ class StudioPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('studioPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of studio resources given fields.';

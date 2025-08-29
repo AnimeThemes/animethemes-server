@@ -15,9 +15,6 @@ class VideoViewsCountField extends CountAggregateField implements DeprecatedFiel
         parent::__construct(Video::RELATION_VIEW_AGGREGATE, 'viewsCount');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The number of views recorded for the resource';

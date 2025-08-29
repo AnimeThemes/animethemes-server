@@ -14,9 +14,6 @@ class PlaylistTracksExistsField extends ExistsField
         parent::__construct(Playlist::RELATION_TRACKS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The existence of tracks belonging to the resource';

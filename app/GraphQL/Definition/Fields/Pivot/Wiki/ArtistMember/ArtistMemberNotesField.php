@@ -16,9 +16,6 @@ class ArtistMemberNotesField extends StringField implements CreatableField, Upda
         parent::__construct(ArtistMember::ATTRIBUTE_NOTES);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to extra annotation, like member role';

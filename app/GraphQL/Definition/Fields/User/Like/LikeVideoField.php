@@ -21,9 +21,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
         parent::__construct('video');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The id of the video to like';

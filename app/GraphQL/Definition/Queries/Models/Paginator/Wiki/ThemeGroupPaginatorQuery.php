@@ -14,9 +14,6 @@ class ThemeGroupPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('themegroupPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of theme groups resources given fields.';

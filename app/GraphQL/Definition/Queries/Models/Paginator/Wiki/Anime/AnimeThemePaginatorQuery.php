@@ -16,9 +16,6 @@ class AnimeThemePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('animethemePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of anime themes resources given fields.';

@@ -22,9 +22,6 @@ class UnlikeMutation extends BaseMutation
         parent::__construct('unlike');
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Unlike a model';
@@ -43,8 +40,6 @@ class UnlikeMutation extends BaseMutation
     }
 
     /**
-     * Get the rules for the create mutation.
-     *
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
@@ -75,8 +70,6 @@ class UnlikeMutation extends BaseMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

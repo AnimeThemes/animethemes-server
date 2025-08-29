@@ -18,9 +18,6 @@ class FeaturedThemePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('featuredthemePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of featured theme resources given fields.';

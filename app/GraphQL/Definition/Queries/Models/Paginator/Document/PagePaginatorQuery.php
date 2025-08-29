@@ -14,9 +14,6 @@ class PagePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('pagePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of page resources given fields.';

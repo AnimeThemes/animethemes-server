@@ -16,9 +16,6 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
         parent::__construct(Performance::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The character the artist is performing as';

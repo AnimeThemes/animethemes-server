@@ -20,9 +20,6 @@ class PageSlugField extends StringField implements BindableField, CreatableField
         parent::__construct(Page::ATTRIBUTE_SLUG, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL slug & route key of the resource';

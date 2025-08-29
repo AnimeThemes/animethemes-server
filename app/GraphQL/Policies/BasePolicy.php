@@ -47,8 +47,6 @@ abstract class BasePolicy
     }
 
     /**
-     * Determine whether the user can view any models.
-     *
      * @param  array  $args
      */
     public function viewAny(?User $user, array $args = []): bool
@@ -57,8 +55,6 @@ abstract class BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  array  $args
      */
     public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
@@ -67,8 +63,6 @@ abstract class BasePolicy
     }
 
     /**
-     * Determine whether the user can create models.
-     *
      * @param  array  $args
      */
     public function create(User $user, array $args = []): bool
@@ -77,8 +71,6 @@ abstract class BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  array  $args
      */
     public function update(User $user, array $args, ?string $keyName = 'model'): bool
@@ -94,8 +86,6 @@ abstract class BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  array  $args
      */
     public function delete(User $user, array $args, ?string $keyName = 'model'): bool
@@ -110,25 +100,17 @@ abstract class BasePolicy
         return ! $trashed && $user->can(CrudPermission::DELETE->format(static::getModel()));
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user): bool
     {
         return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()));
     }
 
-    /**
-     * Determine whether the user can permanently delete any model.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()));
     }
 
     /**
-     * Determine whether the user can restore the model.
-     *
      * @param  array  $args
      */
     public function restore(User $user, array $args, ?string $keyName = 'model'): bool
@@ -143,9 +125,6 @@ abstract class BasePolicy
         return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
     }
 
-    /**
-     * Determine whether the user can restore any model.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));

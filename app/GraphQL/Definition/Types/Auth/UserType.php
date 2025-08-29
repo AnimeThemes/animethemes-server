@@ -17,9 +17,6 @@ use App\Models\Auth\User;
 
 class UserType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents an AnimeThemes account.';

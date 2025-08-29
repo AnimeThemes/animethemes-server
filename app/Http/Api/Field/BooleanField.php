@@ -25,9 +25,6 @@ abstract class BooleanField extends Field implements FilterableField, Renderable
         return new BooleanFilter($this->getKey(), $this->getColumn());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

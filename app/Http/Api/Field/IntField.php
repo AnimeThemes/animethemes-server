@@ -25,9 +25,6 @@ abstract class IntField extends Field implements FilterableField, RenderableFiel
         return new IntFilter($this->getKey(), $this->getColumn());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

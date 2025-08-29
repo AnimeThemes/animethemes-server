@@ -21,9 +21,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
         parent::__construct('playlist');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The hashid of the playlist to like';

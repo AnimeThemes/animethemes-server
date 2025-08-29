@@ -14,9 +14,6 @@ class VideoMimetypeField extends StringField
         parent::__construct(Video::ATTRIBUTE_MIMETYPE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The media type of the file in storage';

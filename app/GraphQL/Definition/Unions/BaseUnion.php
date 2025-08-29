@@ -13,8 +13,6 @@ use Rebing\GraphQL\Support\UnionType;
 abstract class BaseUnion extends UnionType
 {
     /**
-     * The attributes of the union.
-     *
      * @return array<string,mixed>
      */
     public function attributes(): array
@@ -34,9 +32,6 @@ abstract class BaseUnion extends UnionType
         return class_basename($this);
     }
 
-    /**
-     * The description of the union type.
-     */
     public function description(): string
     {
         return '';

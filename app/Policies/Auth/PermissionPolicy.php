@@ -13,17 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class PermissionPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(?User $user): bool
     {
         return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class));
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  Permission  $permission
      */
     public function view(?User $user, Model $permission): bool
@@ -32,8 +27,6 @@ class PermissionPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  Permission  $permission
      */
     public function update(User $user, Model $permission): bool
@@ -42,8 +35,6 @@ class PermissionPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  Permission  $permission
      */
     public function delete(User $user, Model $permission): bool
@@ -52,8 +43,6 @@ class PermissionPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     *
      * @param  Permission  $permission
      */
     public function restore(User $user, Model $permission): bool

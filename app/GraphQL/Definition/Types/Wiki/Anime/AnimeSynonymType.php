@@ -21,9 +21,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 
 class AnimeSynonymType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents an alternate title or common abbreviation for an anime.\n\nFor example, the anime Bakemonogatari has the anime synonym \"Monstory\".";

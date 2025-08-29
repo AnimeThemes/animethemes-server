@@ -17,9 +17,6 @@ use App\Pivots\Wiki\AnimeSeries;
 
 class AnimeSeriesType extends PivotType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the association between an anime and a series.';

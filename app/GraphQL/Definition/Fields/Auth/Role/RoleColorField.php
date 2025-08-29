@@ -14,9 +14,6 @@ class RoleColorField extends StringField
         parent::__construct(Role::ATTRIBUTE_COLOR, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The hex representation of the color used to distinguish the resource';

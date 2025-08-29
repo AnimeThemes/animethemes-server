@@ -14,9 +14,6 @@ class PermissionGuardNameField extends StringField
         parent::__construct(Permission::ATTRIBUTE_GUARD_NAME, 'guardName', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The authentication guard of the resource';

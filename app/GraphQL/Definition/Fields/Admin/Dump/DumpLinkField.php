@@ -16,9 +16,6 @@ class DumpLinkField extends Field implements DisplayableField
         parent::__construct(Dump::ATTRIBUTE_LINK, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL to download the file from storage';
@@ -32,9 +29,6 @@ class DumpLinkField extends Field implements DisplayableField
         return Type::string();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

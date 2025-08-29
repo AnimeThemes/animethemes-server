@@ -30,8 +30,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): SongCollection
@@ -46,8 +44,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Song>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): SongResource
@@ -58,8 +54,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Song $song, ShowAction $action): SongResource
@@ -72,8 +66,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Song $song, UpdateAction $action): SongResource
@@ -84,8 +76,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Song $song, DestroyAction $action): SongResource
@@ -96,8 +86,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Song $song, RestoreAction $action): SongResource
@@ -108,8 +96,6 @@ class SongController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Song $song, ForceDeleteAction $action): JsonResponse

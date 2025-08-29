@@ -17,9 +17,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
         parent::__construct(Playlist::ATTRIBUTE_DESCRIPTION);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The description of the playlist';

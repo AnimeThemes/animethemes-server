@@ -16,9 +16,6 @@ class AnimeThemeEntryVersionField extends IntField implements CreatableField, Up
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_VERSION);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The version number of the theme';

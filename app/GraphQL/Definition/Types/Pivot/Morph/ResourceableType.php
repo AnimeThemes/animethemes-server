@@ -19,9 +19,6 @@ use App\Pivots\Morph\Resourceable;
 
 class ResourceableType extends PivotType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the association between a resourceable object and an external resource.';

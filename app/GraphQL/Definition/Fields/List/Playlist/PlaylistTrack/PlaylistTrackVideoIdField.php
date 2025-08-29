@@ -22,9 +22,6 @@ class PlaylistTrackVideoIdField extends Field implements CreatableField, Require
         parent::__construct(PlaylistTrack::ATTRIBUTE_VIDEO, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The video id of the track';

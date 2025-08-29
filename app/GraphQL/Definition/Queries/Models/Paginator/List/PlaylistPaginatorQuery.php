@@ -20,9 +20,6 @@ class PlaylistPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('playlistPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of playlist resources given fields.';

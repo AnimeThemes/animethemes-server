@@ -17,9 +17,6 @@ class PlaylistTrackQuery extends EloquentSingularQuery
         parent::__construct('playlisttrack');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a playlist track resource.';

@@ -32,9 +32,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         parent::__construct($schema, $this->alias());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

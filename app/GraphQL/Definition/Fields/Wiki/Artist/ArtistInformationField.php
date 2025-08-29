@@ -16,9 +16,6 @@ class ArtistInformationField extends StringField implements CreatableField, Upda
         parent::__construct(Artist::ATTRIBUTE_INFORMATION);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The brief information of the resource';

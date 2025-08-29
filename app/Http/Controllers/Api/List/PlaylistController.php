@@ -42,8 +42,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
@@ -60,8 +58,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Playlist>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): PlaylistResource
@@ -77,8 +73,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Playlist $playlist, ShowAction $action): PlaylistResource
@@ -91,8 +85,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Playlist $playlist, UpdateAction $action): PlaylistResource
@@ -103,8 +95,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Playlist $playlist, DestroyAction $action): JsonResponse

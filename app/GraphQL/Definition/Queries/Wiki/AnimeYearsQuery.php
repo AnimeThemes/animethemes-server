@@ -25,9 +25,6 @@ class AnimeYearsQuery extends BaseQuery
         parent::__construct('animeyears', false, true);
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a list of years grouped by its seasons.';

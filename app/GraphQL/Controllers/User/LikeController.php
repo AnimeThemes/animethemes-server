@@ -23,8 +23,6 @@ class LikeController extends BaseController
     final public const ATTRIBUTE_VIDEO = 'video';
 
     /**
-     * Store a newly created resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      *
@@ -53,8 +51,6 @@ class LikeController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      *

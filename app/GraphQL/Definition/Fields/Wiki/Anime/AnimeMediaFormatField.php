@@ -19,9 +19,6 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Require
         parent::__construct(Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The media format of the anime';

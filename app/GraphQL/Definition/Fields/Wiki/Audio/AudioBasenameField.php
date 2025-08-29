@@ -14,9 +14,6 @@ class AudioBasenameField extends StringField
         parent::__construct(Audio::ATTRIBUTE_BASENAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The basename of the file in storage';

@@ -17,9 +17,6 @@ use App\Models\User\Like;
 
 class LikeType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents a like of a user.';

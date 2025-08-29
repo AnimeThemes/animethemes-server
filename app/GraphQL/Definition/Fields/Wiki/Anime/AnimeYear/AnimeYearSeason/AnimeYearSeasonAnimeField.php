@@ -26,9 +26,6 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasAr
         parent::__construct(self::FIELD, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The animes of the season year filtered';
@@ -50,9 +47,6 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasAr
         return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

@@ -16,9 +16,6 @@ class AnimeThemeEntryEpisodesField extends StringField implements CreatableField
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_EPISODES);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The episodes that the theme is used for';

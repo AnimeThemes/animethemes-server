@@ -15,17 +15,11 @@ class ExternalProfileSyncedProfileNameField extends DateTimeTzField
         parent::__construct('profileName', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The name of the profile';
     }
 
-    /**
-     * Resolve the field.
-     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, 'data.profileName');

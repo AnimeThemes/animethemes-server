@@ -14,9 +14,6 @@ class NotificationReadAtField extends DateTimeTzField
         parent::__construct(Notification::ATTRIBUTE_READ_AT);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The date that the user read the notification';

@@ -16,9 +16,6 @@ class AnimeThemeSequenceField extends IntField implements CreatableField, Updata
         parent::__construct(AnimeTheme::ATTRIBUTE_SEQUENCE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The numeric ordering of the theme';

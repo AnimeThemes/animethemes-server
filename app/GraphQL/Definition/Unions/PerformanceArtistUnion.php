@@ -10,9 +10,6 @@ use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 
 class PerformanceArtistUnion extends BaseUnion
 {
-    /**
-     * The description of the union type.
-     */
     public function description(): string
     {
         return 'Represents the resource type performing';

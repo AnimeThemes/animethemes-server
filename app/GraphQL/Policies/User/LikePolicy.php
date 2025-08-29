@@ -12,8 +12,6 @@ use App\Models\User\Like;
 class LikePolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  array  $args
      */
     public function delete(User $user, array $args, ?string $keyName = 'model'): bool

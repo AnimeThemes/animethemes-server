@@ -17,9 +17,6 @@ class PageBodyField extends StringField implements CreatableField, RequiredOnCre
         parent::__construct(Page::ATTRIBUTE_BODY, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The body content of the resource';

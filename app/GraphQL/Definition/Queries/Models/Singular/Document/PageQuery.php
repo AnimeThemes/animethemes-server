@@ -14,9 +14,6 @@ class PageQuery extends EloquentSingularQuery
         parent::__construct('page');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a page resource.';

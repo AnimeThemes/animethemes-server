@@ -17,9 +17,6 @@ class SearchAnimeThemesField extends Field implements DisplayableField
         parent::__construct('animethemes', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The theme results of the search';
@@ -33,9 +30,6 @@ class SearchAnimeThemesField extends Field implements DisplayableField
         return Type::listOf(Type::nonNull(GraphQL::type(new AnimeThemeType()->getName())));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

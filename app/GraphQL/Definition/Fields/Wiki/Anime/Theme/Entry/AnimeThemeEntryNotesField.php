@@ -16,9 +16,6 @@ class AnimeThemeEntryNotesField extends StringField implements CreatableField, U
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_NOTES);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Any additional information for this sequence';

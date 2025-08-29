@@ -19,9 +19,6 @@ class ImageFacetField extends EnumField implements CreatableField, RequiredOnCre
         parent::__construct(Image::ATTRIBUTE_FACET, ImageFacet::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The component that the resource is intended for';

@@ -46,9 +46,6 @@ abstract class BaseMutation extends Mutation
         ];
     }
 
-    /**
-     * Get the name of the query.
-     */
     public function getName(): string
     {
         return $this->name;
@@ -77,14 +74,9 @@ abstract class BaseMutation extends Mutation
         return null;
     }
 
-    /**
-     * The description of the mutation.
-     */
     abstract public function description(): string;
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     abstract public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed;

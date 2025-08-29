@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class JsonField extends Field implements RenderableField, SelectableField
 {
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

@@ -162,7 +162,6 @@ class BackfillAnimeAction extends BackfillWikiAction
         }
     }
 
-
     protected function getModel(): Anime
     {
         return $this->anime;

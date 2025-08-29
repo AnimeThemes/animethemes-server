@@ -30,9 +30,6 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
         return new StringFilter($this->getKey(), $this->getColumn());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

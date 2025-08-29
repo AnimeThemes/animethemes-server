@@ -42,8 +42,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
@@ -58,8 +56,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreTrackAction  $action
      *
      * @throws Exception
@@ -72,8 +68,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      *
      * @noinspection PhpUnusedParameterInspection
@@ -88,8 +82,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateTrackAction  $action
      *
      * @throws Exception
@@ -102,8 +94,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyTrackAction  $action
      *
      * @throws Exception

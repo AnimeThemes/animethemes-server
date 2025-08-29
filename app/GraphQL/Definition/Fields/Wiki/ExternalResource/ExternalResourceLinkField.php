@@ -19,9 +19,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
         parent::__construct(ExternalResource::ATTRIBUTE_LINK, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL of the external site';

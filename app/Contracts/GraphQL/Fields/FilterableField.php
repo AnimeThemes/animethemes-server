@@ -9,8 +9,6 @@ use App\GraphQL\Support\Filter\Filter;
 interface FilterableField
 {
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array;

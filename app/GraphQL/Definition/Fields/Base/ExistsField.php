@@ -28,9 +28,6 @@ class ExistsField extends Field implements DisplayableField
         return Type::boolean();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

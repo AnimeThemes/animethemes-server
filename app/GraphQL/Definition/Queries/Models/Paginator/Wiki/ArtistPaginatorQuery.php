@@ -16,9 +16,6 @@ class ArtistPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('artistPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of artist resources given fields.';

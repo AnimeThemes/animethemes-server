@@ -16,9 +16,6 @@ class ResourceableAsField extends StringField implements CreatableField, Updatab
         parent::__construct(Resourceable::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to distinguish resources that map to the same resourceable';

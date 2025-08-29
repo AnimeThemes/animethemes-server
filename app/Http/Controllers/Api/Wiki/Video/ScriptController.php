@@ -30,8 +30,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): ScriptCollection
@@ -44,8 +42,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<VideoScript>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): ScriptResource
@@ -56,8 +52,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, VideoScript $videoscript, ShowAction $action): ScriptResource
@@ -70,8 +64,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, VideoScript $videoscript, UpdateAction $action): ScriptResource
@@ -82,8 +74,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(VideoScript $videoscript, DestroyAction $action): ScriptResource
@@ -94,8 +84,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(VideoScript $videoscript, RestoreAction $action): ScriptResource
@@ -106,8 +94,6 @@ class ScriptController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(VideoScript $videoscript, ForceDeleteAction $action): JsonResponse

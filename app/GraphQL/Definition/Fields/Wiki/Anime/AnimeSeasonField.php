@@ -19,9 +19,6 @@ class AnimeSeasonField extends EnumField implements CreatableField, RequiredOnCr
         parent::__construct(Anime::ATTRIBUTE_SEASON, AnimeSeason::class);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The premiere season of the anime';

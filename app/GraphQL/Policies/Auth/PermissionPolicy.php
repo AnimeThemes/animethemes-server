@@ -12,8 +12,6 @@ use App\Models\Auth\User;
 class PermissionPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     *
      * @param  array  $args
      */
     public function viewAny(?User $user, array $args = []): bool
@@ -22,8 +20,6 @@ class PermissionPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  array  $args
      */
     public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool

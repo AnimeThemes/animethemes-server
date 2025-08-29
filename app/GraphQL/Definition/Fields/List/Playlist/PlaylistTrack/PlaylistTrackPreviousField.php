@@ -22,9 +22,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
         parent::__construct(PlaylistTrack::RELATION_PREVIOUS, nullable: true);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The previous track of the current track';

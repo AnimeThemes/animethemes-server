@@ -21,9 +21,6 @@ class ResourceableUnion extends BaseUnion
         return 'Resourceable';
     }
 
-    /**
-     * The description of the union type.
-     */
     public function description(): string
     {
         return 'Represents the types that have resources';

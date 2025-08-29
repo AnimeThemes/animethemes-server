@@ -23,9 +23,6 @@ class ExternalProfilePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('externalprofilePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of external profile resources given fields.';

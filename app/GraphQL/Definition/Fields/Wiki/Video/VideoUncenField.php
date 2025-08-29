@@ -16,9 +16,6 @@ class VideoUncenField extends BooleanField implements CreatableField, UpdatableF
         parent::__construct(Video::ATTRIBUTE_UNCEN, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Is the video an uncensored version of a censored sequence?';

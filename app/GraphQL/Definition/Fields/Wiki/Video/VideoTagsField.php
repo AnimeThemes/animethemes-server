@@ -16,9 +16,6 @@ class VideoTagsField extends StringField
         parent::__construct(Video::ATTRIBUTE_TAGS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The attributes used to distinguish the file within the context of a theme';

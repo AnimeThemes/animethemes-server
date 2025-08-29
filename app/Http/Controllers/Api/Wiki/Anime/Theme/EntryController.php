@@ -30,8 +30,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): EntryCollection
@@ -46,8 +44,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<AnimeThemeEntry>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): EntryResource
@@ -58,8 +54,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, ShowAction $action): EntryResource
@@ -72,8 +66,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, AnimeThemeEntry $animethemeentry, UpdateAction $action): EntryResource
@@ -84,8 +76,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(AnimeThemeEntry $animethemeentry, DestroyAction $action): EntryResource
@@ -96,8 +86,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(AnimeThemeEntry $animethemeentry, RestoreAction $action): EntryResource
@@ -108,8 +96,6 @@ class EntryController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(AnimeThemeEntry $animethemeentry, ForceDeleteAction $action): JsonResponse

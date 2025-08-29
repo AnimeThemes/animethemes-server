@@ -16,9 +16,6 @@ class AnimeThemeEntrySpoilerField extends BooleanField implements CreatableField
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_SPOILER, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Is content included that may spoil the viewer?';

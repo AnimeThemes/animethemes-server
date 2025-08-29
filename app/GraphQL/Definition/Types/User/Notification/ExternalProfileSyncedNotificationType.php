@@ -18,9 +18,6 @@ use App\Models\User\Notification;
 
 class ExternalProfileSyncedNotificationType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents a notification that is sent to the user when a profile is synced.';

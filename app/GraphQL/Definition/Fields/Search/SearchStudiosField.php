@@ -17,9 +17,6 @@ class SearchStudiosField extends Field implements DisplayableField
         parent::__construct('studios', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The studio results of the search';
@@ -33,9 +30,6 @@ class SearchStudiosField extends Field implements DisplayableField
         return Type::listOf(Type::nonNull(GraphQL::type(new StudioType()->getName())));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

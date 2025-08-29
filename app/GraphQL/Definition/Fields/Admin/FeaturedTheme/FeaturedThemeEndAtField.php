@@ -20,9 +20,6 @@ class FeaturedThemeEndAtField extends DateTimeTzField implements CreatableField,
         parent::__construct(FeaturedTheme::ATTRIBUTE_END_AT, 'endAt', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The end date of the resource';

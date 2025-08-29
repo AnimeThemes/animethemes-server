@@ -15,9 +15,6 @@ class FeatureValueField extends StringField implements UpdatableField
         parent::__construct(Feature::ATTRIBUTE_VALUE, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The value of the resource';

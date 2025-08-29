@@ -14,9 +14,6 @@ class AnimeSynonymPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('animesynonymPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of anime synonyms resources given fields.';

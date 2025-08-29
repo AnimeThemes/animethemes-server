@@ -29,8 +29,6 @@ class ArtistMemberController extends PivotController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistMemberCollection
@@ -43,8 +41,6 @@ class ArtistMemberController extends PivotController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<ArtistMember>  $action
      */
     public function store(StoreRequest $request, Artist $artist, Artist $member, StoreAction $action): ArtistMemberResource
@@ -63,8 +59,6 @@ class ArtistMemberController extends PivotController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Artist $artist, Artist $member, ShowAction $action): ArtistMemberResource
@@ -82,8 +76,6 @@ class ArtistMemberController extends PivotController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Artist $artist, Artist $member, UpdateAction $action): ArtistMemberResource
@@ -101,8 +93,6 @@ class ArtistMemberController extends PivotController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Artist $artist, Artist $member, DestroyAction $action): JsonResponse

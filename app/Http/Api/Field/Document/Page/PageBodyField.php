@@ -36,9 +36,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
         ];
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

@@ -14,9 +14,6 @@ use App\Models\Admin\Announcement;
 
 class AnnouncementType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents a site-wide message to be broadcasted on the homepage.';

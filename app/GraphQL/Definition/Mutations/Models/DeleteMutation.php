@@ -25,9 +25,6 @@ abstract class DeleteMutation extends BaseMutation
         parent::__construct('Delete'.Str::pascal(class_basename($model)));
     }
 
-    /**
-     * Authorize the mutation.
-     */
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         return Gate::allows('delete', [$this->model, $args]);

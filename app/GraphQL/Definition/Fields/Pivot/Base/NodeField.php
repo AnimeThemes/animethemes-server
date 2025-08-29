@@ -34,9 +34,6 @@ class NodeField extends Field implements DisplayableField
         return Type::nonNull(GraphQL::type($type));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

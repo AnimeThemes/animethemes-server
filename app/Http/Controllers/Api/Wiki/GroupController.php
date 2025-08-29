@@ -30,8 +30,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): GroupCollection
@@ -46,8 +44,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Group>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): GroupResource
@@ -58,8 +54,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Group $group, ShowAction $action): GroupResource
@@ -72,8 +66,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Group $group, UpdateAction $action): GroupResource
@@ -84,8 +76,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Group $group, DestroyAction $action): GroupResource
@@ -96,8 +86,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Group $group, RestoreAction $action): GroupResource
@@ -108,8 +96,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Group $group, ForceDeleteAction $action): JsonResponse

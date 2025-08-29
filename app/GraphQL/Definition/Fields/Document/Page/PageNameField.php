@@ -17,9 +17,6 @@ class PageNameField extends StringField implements CreatableField, RequiredOnCre
         parent::__construct(Page::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary title of the page';

@@ -14,9 +14,6 @@ class AnimeQuery extends EloquentSingularQuery
         parent::__construct('anime');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns an anime resource.';

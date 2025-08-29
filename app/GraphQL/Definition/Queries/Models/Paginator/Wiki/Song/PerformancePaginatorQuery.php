@@ -14,9 +14,6 @@ class PerformancePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('performancePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of performances resources given fields.';

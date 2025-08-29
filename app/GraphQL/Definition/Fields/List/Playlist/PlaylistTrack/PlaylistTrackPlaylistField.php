@@ -24,9 +24,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
         parent::__construct(self::FIELD, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The playlist of the track';

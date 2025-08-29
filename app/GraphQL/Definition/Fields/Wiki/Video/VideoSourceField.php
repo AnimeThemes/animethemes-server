@@ -19,9 +19,6 @@ class VideoSourceField extends EnumField implements CreatableField, RequiredOnCr
         parent::__construct(Video::ATTRIBUTE_SOURCE, VideoSource::class);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Where did this video come from?';

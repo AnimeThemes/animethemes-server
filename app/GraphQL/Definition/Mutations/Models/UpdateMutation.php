@@ -27,9 +27,6 @@ abstract class UpdateMutation extends BaseMutation
         parent::__construct('Update'.Str::pascal(class_basename($model)));
     }
 
-    /**
-     * Authorize the mutation.
-     */
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         return Gate::allows('update', [$this->model, $args]);
@@ -55,8 +52,6 @@ abstract class UpdateMutation extends BaseMutation
     }
 
     /**
-     * Get the rules for the create mutation.
-     *
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */

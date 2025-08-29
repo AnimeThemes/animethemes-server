@@ -20,9 +20,6 @@ class ImageableUnion extends BaseUnion
         return 'Imageable';
     }
 
-    /**
-     * The description of the union type.
-     */
     public function description(): string
     {
         return 'Represents the types that have images';

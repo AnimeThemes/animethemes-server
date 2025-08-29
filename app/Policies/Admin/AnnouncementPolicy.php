@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 class AnnouncementPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  Announcement  $announcement
      */
     public function view(?User $user, Model $announcement): bool

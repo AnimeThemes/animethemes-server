@@ -16,9 +16,6 @@ class ExternalResourceExternalIdField extends IntField implements CreatableField
         parent::__construct(ExternalResource::ATTRIBUTE_EXTERNAL_ID);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary key of the resource in the external site';

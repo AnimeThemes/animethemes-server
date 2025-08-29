@@ -69,7 +69,6 @@ class BackfillStudioAction extends BackfillWikiAction
         ];
     }
 
-
     protected function getModel(): Studio
     {
         return $this->studio;

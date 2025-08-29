@@ -16,9 +16,6 @@ class AnimeThemeEntryNsfwField extends BooleanField implements CreatableField, U
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_NSFW, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Is not safe for work content included?';

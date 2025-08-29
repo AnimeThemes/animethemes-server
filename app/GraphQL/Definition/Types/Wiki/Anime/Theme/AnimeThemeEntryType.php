@@ -29,9 +29,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 class AnimeThemeEntryType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents a version of an anime theme.\n\nFor example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.";

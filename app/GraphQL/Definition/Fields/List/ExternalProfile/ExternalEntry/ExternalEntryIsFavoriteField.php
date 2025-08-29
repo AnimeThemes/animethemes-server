@@ -14,9 +14,6 @@ class ExternalEntryIsFavoriteField extends BooleanField
         parent::__construct(ExternalEntry::ATTRIBUTE_IS_FAVORITE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The favorite state of the entry on the external site';

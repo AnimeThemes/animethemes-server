@@ -22,9 +22,6 @@ class PlaylistTrackNextField extends Field implements CreatableField, UpdatableF
         parent::__construct(PlaylistTrack::RELATION_NEXT, nullable: true);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The next track of the current track';

@@ -15,17 +15,11 @@ class ExternalProfileSyncedProfileIdField extends IntField
         parent::__construct('profileId', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The id of the profile';
     }
 
-    /**
-     * Resolve the field.
-     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, 'data.profileId');

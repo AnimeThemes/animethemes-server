@@ -31,17 +31,11 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
         return Type::int();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::AGGREGATE;

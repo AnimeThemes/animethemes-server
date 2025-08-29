@@ -16,9 +16,6 @@ class AnimeSynopsisField extends StringField implements CreatableField, Updatabl
         parent::__construct(Anime::ATTRIBUTE_SYNOPSIS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The brief summary of the anime';

@@ -19,9 +19,6 @@ class LikedUnion extends BaseUnion
         return 'Liked';
     }
 
-    /**
-     * The description of the union type.
-     */
     public function description(): string
     {
         return 'Represents the resources that can be liked';

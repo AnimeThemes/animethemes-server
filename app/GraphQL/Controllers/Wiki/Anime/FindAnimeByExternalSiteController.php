@@ -22,8 +22,6 @@ class FindAnimeByExternalSiteController extends BaseController
     use ConstrainsEagerLoads;
 
     /**
-     * Apply the query builder to the index query.
-     *
      * @param  array  $args
      * @return Builder<Anime>
      */

@@ -29,9 +29,6 @@ class MeQuery extends BaseQuery
         return [];
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns the data of the currently authenticated user.';

@@ -14,9 +14,6 @@ class AudioMimetypeField extends StringField
         parent::__construct(Audio::ATTRIBUTE_MIMETYPE, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The media type of the file in storage';

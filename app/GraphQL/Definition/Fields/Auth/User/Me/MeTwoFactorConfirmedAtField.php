@@ -16,17 +16,12 @@ class MeTwoFactorConfirmedAtField extends DateTimeTzField
         parent::__construct(User::ATTRIBUTE_TWO_FACTOR_CONFIRMED_AT, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The date the user confirmed their two-factor authentication';
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -34,9 +29,6 @@ class MeTwoFactorConfirmedAtField extends DateTimeTzField
         return [];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::NONE;

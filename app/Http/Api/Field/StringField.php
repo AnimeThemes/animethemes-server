@@ -25,9 +25,6 @@ abstract class StringField extends Field implements FilterableField, RenderableF
         return new StringFilter($this->getKey(), $this->getColumn());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

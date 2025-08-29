@@ -19,8 +19,6 @@ abstract class BackfillAction
      */
     public function __construct(protected BaseModel $model) {}
 
-    /**
-/
     abstract public function handle(): ActionResult;
 
     /**

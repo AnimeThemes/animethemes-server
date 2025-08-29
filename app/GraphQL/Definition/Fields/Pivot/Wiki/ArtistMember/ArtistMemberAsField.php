@@ -16,9 +16,6 @@ class ArtistMemberAsField extends StringField implements CreatableField, Updatab
         parent::__construct(ArtistMember::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to distinguish member by character';

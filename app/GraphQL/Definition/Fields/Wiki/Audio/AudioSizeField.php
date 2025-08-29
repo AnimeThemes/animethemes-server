@@ -14,9 +14,6 @@ class AudioSizeField extends IntField
         parent::__construct(Audio::ATTRIBUTE_SIZE, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The size of the file in storage in Bytes';

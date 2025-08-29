@@ -12,17 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(?User $user): bool
     {
         return $user?->can(CrudPermission::VIEW->format(Notification::class));
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  Notification  $notification
      */
     public function view(?User $user, Model $notification): bool
@@ -58,17 +53,12 @@ class NotificationPolicy extends BasePolicy
         return $user->can(CrudPermission::UPDATE->format(Notification::class));
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         return false;
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  Notification  $notification
      */
     public function update(User $user, Model $notification): bool
@@ -77,8 +67,6 @@ class NotificationPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  Notification  $notification
      */
     public function delete(User $user, Model $notification): bool

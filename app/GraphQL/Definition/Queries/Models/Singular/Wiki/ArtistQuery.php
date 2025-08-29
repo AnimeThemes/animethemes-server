@@ -14,9 +14,6 @@ class ArtistQuery extends EloquentSingularQuery
         parent::__construct('artist');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns an artist resource.';

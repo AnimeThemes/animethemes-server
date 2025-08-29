@@ -16,9 +16,6 @@ class AnimePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('animePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of anime resources given fields.';

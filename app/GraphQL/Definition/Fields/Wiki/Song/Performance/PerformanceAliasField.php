@@ -16,9 +16,6 @@ class PerformanceAliasField extends StringField implements CreatableField, Updat
         parent::__construct(Performance::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The alias the artist is using for this performance';

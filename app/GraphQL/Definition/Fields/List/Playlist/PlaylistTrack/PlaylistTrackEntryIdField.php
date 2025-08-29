@@ -22,9 +22,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
         parent::__construct(PlaylistTrack::ATTRIBUTE_ENTRY, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The entry id of the track';

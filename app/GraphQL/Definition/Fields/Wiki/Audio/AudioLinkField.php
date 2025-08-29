@@ -15,9 +15,6 @@ class AudioLinkField extends Field
         parent::__construct(Audio::ATTRIBUTE_LINK, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL to stream the file from storage';
@@ -31,9 +28,6 @@ class AudioLinkField extends Field
         return Type::string();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

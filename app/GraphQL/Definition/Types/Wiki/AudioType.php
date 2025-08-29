@@ -23,9 +23,6 @@ use App\Models\Wiki\Audio;
 
 class AudioType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents the audio track of a video.\n\nFor example, the audio Bakemonogatari-OP1.ogg represents the audio track of the Bakemonogatari-OP1.webm video.";

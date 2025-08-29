@@ -14,9 +14,6 @@ class VideoScriptPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('videoscriptPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of scripts resources given fields.';

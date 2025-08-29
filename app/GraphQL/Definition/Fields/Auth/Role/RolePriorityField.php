@@ -14,9 +14,6 @@ class RolePriorityField extends IntField
         parent::__construct(Role::ATTRIBUTE_PRIORITY, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The weight assigned to the resource, where higher values correspond to higher priority';

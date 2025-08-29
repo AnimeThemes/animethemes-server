@@ -16,9 +16,6 @@ class MembershipAliasField extends StringField implements CreatableField, Updata
         parent::__construct(Membership::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The alias the artist is using for this membership';

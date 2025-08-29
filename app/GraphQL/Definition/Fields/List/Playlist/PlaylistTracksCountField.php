@@ -14,9 +14,6 @@ class PlaylistTracksCountField extends CountField
         parent::__construct(Playlist::RELATION_TRACKS, 'tracksCount');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The number of tracks belonging to the resource';

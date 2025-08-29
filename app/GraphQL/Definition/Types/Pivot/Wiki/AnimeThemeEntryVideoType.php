@@ -17,9 +17,6 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 class AnimeThemeEntryVideoType extends PivotType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the association between an anime theme entry and a video.';

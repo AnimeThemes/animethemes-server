@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Date;
 class CurrentFeaturedThemeController extends Controller implements InteractsWithSchema
 {
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, ShowAction $action): FeaturedThemeResource

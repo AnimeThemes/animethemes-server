@@ -15,9 +15,6 @@ class AnnouncementPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('announcementPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of announcement resources given fields.';

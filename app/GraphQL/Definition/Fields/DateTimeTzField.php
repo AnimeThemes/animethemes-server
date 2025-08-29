@@ -12,8 +12,6 @@ use App\GraphQL\Support\Filter\LesserFilter;
 abstract class DateTimeTzField extends StringField
 {
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array

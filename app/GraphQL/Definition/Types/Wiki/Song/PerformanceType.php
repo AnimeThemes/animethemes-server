@@ -22,9 +22,6 @@ use App\Models\Wiki\Song\Performance;
 
 class PerformanceType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents the link between a song and an artist or membership.\n\nFor example, Liella has performed using memberships, with its members credited.";

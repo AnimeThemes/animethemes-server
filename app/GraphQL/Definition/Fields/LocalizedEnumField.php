@@ -17,9 +17,6 @@ class LocalizedEnumField extends Field implements DisplayableField
         parent::__construct($field->column, $field->getName().'Localized', $field->nullable);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return "The formatted string value of the {$this->field->getName()} field";
@@ -43,9 +40,6 @@ class LocalizedEnumField extends Field implements DisplayableField
         return Arr::get($root, $this->column)?->localize();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

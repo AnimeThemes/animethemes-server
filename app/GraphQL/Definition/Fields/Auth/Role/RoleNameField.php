@@ -14,9 +14,6 @@ class RoleNameField extends StringField
         parent::__construct(Role::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The label of the resource';

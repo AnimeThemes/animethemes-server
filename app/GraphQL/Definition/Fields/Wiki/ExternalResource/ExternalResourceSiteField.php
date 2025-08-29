@@ -20,9 +20,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
         parent::__construct(ExternalResource::ATTRIBUTE_SITE, ResourceSite::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The external site that the resource belongs to';

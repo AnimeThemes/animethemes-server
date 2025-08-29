@@ -18,9 +18,6 @@ class AudioLinkField extends Field implements RenderableField
         parent::__construct($schema, Audio::ATTRIBUTE_LINK);
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

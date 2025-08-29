@@ -14,9 +14,6 @@ class MembershipPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('membershipPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of memberships resources given fields.';

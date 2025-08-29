@@ -17,9 +17,6 @@ class SeriesNameField extends StringField implements CreatableField, RequiredOnC
         parent::__construct(Series::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary title of the series';

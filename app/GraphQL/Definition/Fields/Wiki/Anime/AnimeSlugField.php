@@ -20,9 +20,6 @@ class AnimeSlugField extends StringField implements BindableField, CreatableFiel
         parent::__construct(Anime::ATTRIBUTE_SLUG, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL slug & route key of the resource';

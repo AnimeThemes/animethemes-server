@@ -20,8 +20,6 @@ use Illuminate\Support\Arr;
 class PlaylistTrackController extends BaseController
 {
     /**
-     * Store a newly created resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      */
@@ -40,8 +38,6 @@ class PlaylistTrackController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      */
@@ -60,8 +56,6 @@ class PlaylistTrackController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      */

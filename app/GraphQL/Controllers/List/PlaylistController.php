@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Auth;
 class PlaylistController extends BaseController
 {
     /**
-     * Store a newly created resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      */
@@ -37,8 +35,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      */
@@ -55,8 +51,6 @@ class PlaylistController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      */

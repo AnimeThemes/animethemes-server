@@ -17,9 +17,6 @@ use App\Pivots\Wiki\AnimeStudio;
 
 class AnimeStudioType extends PivotType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the association between an anime and a studio.';

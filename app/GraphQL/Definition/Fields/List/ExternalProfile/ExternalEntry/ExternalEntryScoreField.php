@@ -14,9 +14,6 @@ class ExternalEntryScoreField extends FloatField
         parent::__construct(ExternalEntry::ATTRIBUTE_SCORE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The score of the entry on the external site';

@@ -17,9 +17,6 @@ class DumpPathField extends StringField implements CreatableField, RequiredOnCre
         parent::__construct(Dump::ATTRIBUTE_PATH, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The path of the file in storage';

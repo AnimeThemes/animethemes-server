@@ -21,9 +21,6 @@ class DeletePlaylistTrackMutation extends DeleteMutation
         parent::__construct(PlaylistTrack::class);
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Delete playlist track';
@@ -46,8 +43,6 @@ class DeletePlaylistTrackMutation extends DeleteMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

@@ -16,9 +16,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
         parent::__construct(Song::ATTRIBUTE_TITLE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The name of the composition';

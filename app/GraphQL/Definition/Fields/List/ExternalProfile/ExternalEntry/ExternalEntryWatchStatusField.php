@@ -15,9 +15,6 @@ class ExternalEntryWatchStatusField extends EnumField
         parent::__construct(ExternalEntry::ATTRIBUTE_WATCH_STATUS, ExternalEntryWatchStatus::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The watch status of the entry on the external site';

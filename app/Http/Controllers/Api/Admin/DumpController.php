@@ -28,8 +28,6 @@ class DumpController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): DumpCollection
@@ -43,8 +41,6 @@ class DumpController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Dump>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): DumpResource
@@ -55,8 +51,6 @@ class DumpController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Dump $dump, ShowAction $action): DumpResource
@@ -69,8 +63,6 @@ class DumpController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Dump $dump, UpdateAction $action): DumpResource
@@ -81,8 +73,6 @@ class DumpController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Dump $dump, DestroyAction $action): JsonResponse
