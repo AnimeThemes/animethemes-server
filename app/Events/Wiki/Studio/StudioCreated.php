@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Studio;
 
 /**
- * Class StudioCreated.
- *
  * @extends WikiCreatedEvent<Studio>
  */
 class StudioCreated extends WikiCreatedEvent

@@ -10,8 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
- * Class DumpFactory.
- *
  * @method Dump createOne($attributes = [])
  * @method Dump makeOne($attributes = [])
  *

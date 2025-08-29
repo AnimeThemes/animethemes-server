@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Document\Page;
 
 /**
- * Class PageCreated.
- *
  * @extends WikiCreatedEvent<Page>
  */
 class PageCreated extends WikiCreatedEvent

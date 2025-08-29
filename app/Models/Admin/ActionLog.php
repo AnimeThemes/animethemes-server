@@ -24,8 +24,6 @@ use Illuminate\Support\Str;
 use Throwable;
 
 /**
- * Class ActionLog.
- *
  * @property int $id
  * @property string $batch_id
  * @property string $name
@@ -156,9 +154,6 @@ class ActionLog extends Model implements Nameable
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return Str::of($this->name)

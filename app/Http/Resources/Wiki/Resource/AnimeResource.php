@@ -10,8 +10,6 @@ use App\Http\Resources\BaseResource;
 use App\Models\Wiki\Anime;
 
 /**
- * Class AnimeResource.
- *
  * @mixin Anime
  */
 class AnimeResource extends BaseResource

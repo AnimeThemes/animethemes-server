@@ -12,8 +12,6 @@ use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class BaseCreatedEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseEvent<TModel>

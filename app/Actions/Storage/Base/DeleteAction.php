@@ -12,8 +12,6 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class DeleteAction.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class DeleteAction implements InteractsWithDisks, StorageAction

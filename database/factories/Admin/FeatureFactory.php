@@ -9,8 +9,6 @@ use App\Models\Admin\Feature;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class FeatureFactory.
- *
  * @method Feature createOne($attributes = [])
  * @method Feature makeOne($attributes = [])
  *

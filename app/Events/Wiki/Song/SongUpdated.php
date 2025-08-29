@@ -13,8 +13,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
- * Class SongUpdated.
- *
  * @extends WikiUpdatedEvent<Song>
  */
 class SongUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent

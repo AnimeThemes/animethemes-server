@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class BasePivotEvent.
- *
  * @template TModelRelated of \Illuminate\Database\Eloquent\Model
  * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  */

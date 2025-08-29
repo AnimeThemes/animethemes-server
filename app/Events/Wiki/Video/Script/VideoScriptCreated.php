@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Video\VideoScript;
 
 /**
- * Class VideoScriptCreated.
- *
  * @extends WikiCreatedEvent<VideoScript>
  */
 class VideoScriptCreated extends WikiCreatedEvent

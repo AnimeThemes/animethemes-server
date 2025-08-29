@@ -21,8 +21,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class Imageable.
- *
  * @property Model&HasImages&Nameable $imageable
  * @property string $imageable_type
  * @property int $imageable_id

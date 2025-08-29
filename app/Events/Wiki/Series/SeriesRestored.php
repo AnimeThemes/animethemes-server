@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Series;
 
 /**
- * Class SeriesRestored.
- *
  * @extends WikiRestoredEvent<Series>
  */
 class SeriesRestored extends WikiRestoredEvent

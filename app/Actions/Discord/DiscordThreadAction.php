@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Log;
 class DiscordThreadAction
 {
     /**
-     * Handle the action.
-     *
      * @param  array<string, mixed>  $fields
      */
     public function handle(Anime $anime, array $fields): ?Exception

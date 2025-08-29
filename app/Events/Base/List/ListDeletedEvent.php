@@ -9,8 +9,6 @@ use App\Events\Base\BaseDeletedEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ListDeletedEvent.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @extends BaseDeletedEvent<TModel>

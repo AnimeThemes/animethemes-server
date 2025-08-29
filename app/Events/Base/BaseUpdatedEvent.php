@@ -12,8 +12,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class BaseUpdatedEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseEvent<TModel>

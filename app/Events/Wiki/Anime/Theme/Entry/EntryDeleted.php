@@ -11,8 +11,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryDeleted.
- *
  * @extends WikiDeletedEvent<AnimeThemeEntry>
  */
 class EntryDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent

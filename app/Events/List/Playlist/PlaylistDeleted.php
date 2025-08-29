@@ -8,8 +8,6 @@ use App\Events\Base\List\ListDeletedEvent;
 use App\Models\List\Playlist;
 
 /**
- * Class PlaylistDeleted.
- *
  * @extends ListDeletedEvent<Playlist>
  */
 class PlaylistDeleted extends ListDeletedEvent

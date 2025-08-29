@@ -9,8 +9,6 @@ use App\Events\Base\BaseDeletedEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class AdminDeletedEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseDeletedEvent<TModel>

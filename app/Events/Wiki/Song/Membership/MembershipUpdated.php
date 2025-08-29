@@ -9,8 +9,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Song\Membership;
 
 /**
- * Class MembershipUpdated.
- *
  * @extends WikiUpdatedEvent<Membership>
  */
 class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent

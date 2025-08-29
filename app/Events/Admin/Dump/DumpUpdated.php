@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Admin\Dump;
 
 /**
- * Class DumpUpdated.
- *
  * @extends AdminUpdatedEvent<Dump>
  */
 class DumpUpdated extends AdminUpdatedEvent

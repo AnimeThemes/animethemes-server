@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Log;
 
 class FixPlaylistAction
 {
-    /**
-     * Handle the action.
-     */
     public function handle(Playlist $playlist, mixed $context = null): int
     {
         // Fetch all tracks in the playlist and index them by track_id

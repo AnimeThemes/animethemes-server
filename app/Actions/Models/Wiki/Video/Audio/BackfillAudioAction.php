@@ -33,8 +33,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Class BackfillVideoAudioAction.
- *
  * @extends BackfillAction<Video>
  */
 class BackfillAudioAction extends BackfillAction

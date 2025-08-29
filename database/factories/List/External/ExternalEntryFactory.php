@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class ExternalEntryFactory.
- *
  * @method ExternalEntry createOne($attributes = [])
  * @method ExternalEntry makeOne($attributes = [])
  *

@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class Like.
- *
  * @property User $user
  * @property int $user_id
  * @property Model $likeable
@@ -65,17 +63,11 @@ class Like extends BaseModel
         Like::ATTRIBUTE_LIKEABLE_ID,
     ];
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return '';

@@ -15,8 +15,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceCreated.
- *
  * @extends WikiCreatedEvent<Performance>
  */
 class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent

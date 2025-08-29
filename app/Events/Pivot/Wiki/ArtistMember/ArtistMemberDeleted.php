@@ -9,8 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 
 /**
- * Class ArtistMemberDeleted.
- *
  * @extends PivotDeletedEvent<Artist, Artist>
  */
 class ArtistMemberDeleted extends PivotDeletedEvent

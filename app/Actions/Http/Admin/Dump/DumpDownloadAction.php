@@ -10,8 +10,6 @@ use App\Models\Admin\Dump;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class DumpDownloadAction.
- *
  * @extends DownloadAction<Dump>
  */
 class DumpDownloadAction extends DownloadAction

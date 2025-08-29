@@ -9,8 +9,6 @@ use App\Events\Base\BaseRestoredEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class AdminRestoredEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseRestoredEvent<TModel>

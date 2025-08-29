@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Series as SeriesFilament;
 use App\Models\Wiki\Series;
 
 /**
- * Class SeriesDeleted.
- *
  * @extends WikiDeletedEvent<Series>
  */
 class SeriesDeleted extends WikiDeletedEvent

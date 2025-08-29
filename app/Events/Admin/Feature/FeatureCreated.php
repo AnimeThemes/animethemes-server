@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminCreatedEvent;
 use App\Models\Admin\Feature;
 
 /**
- * Class FeatureCreated.
- *
  * @extends AdminCreatedEvent<Feature>
  */
 class FeatureCreated extends AdminCreatedEvent

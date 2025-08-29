@@ -10,8 +10,6 @@ use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 
 /**
- * Class AnimeSeriesCreated.
- *
  * @extends PivotCreatedEvent<Series, Anime>
  */
 class AnimeSeriesCreated extends PivotCreatedEvent

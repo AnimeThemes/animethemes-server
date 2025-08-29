@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminRestoredEvent;
 use App\Models\Auth\User;
 
 /**
- * Class UserRestored.
- *
  * @extends AdminRestoredEvent<User>
  */
 class UserRestored extends AdminRestoredEvent

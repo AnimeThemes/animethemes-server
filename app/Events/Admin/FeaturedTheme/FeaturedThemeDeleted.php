@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Admin\FeaturedTheme;
 
 /**
- * Class FeaturedThemeDeleted.
- *
  * @extends AdminDeletedEvent<FeaturedTheme>
  */
 class FeaturedThemeDeleted extends AdminDeletedEvent

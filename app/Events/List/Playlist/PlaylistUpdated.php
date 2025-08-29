@@ -8,8 +8,6 @@ use App\Events\Base\List\ListUpdatedEvent;
 use App\Models\List\Playlist;
 
 /**
- * Class PlaylistUpdated.
- *
  * @extends ListUpdatedEvent<Playlist>
  */
 class PlaylistUpdated extends ListUpdatedEvent

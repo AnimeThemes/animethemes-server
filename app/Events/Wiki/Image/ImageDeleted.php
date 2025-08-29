@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Image as ImageFilament;
 use App\Models\Wiki\Image;
 
 /**
- * Class ImageDeleted.
- *
  * @extends WikiDeletedEvent<Image>
  */
 class ImageDeleted extends WikiDeletedEvent

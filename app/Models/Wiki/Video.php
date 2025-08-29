@@ -43,8 +43,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 
 /**
- * Class Video.
- *
  * @property Collection<int, AnimeThemeEntry> $animethemeentries
  * @property Audio|null $audio
  * @property int|null $audio_id
@@ -293,17 +291,11 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->basename;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->path();

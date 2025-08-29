@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class ReconcileVideoRepositories.
- *
  * @extends ReconcileRepositoriesAction<Video>
  */
 class ReconcileVideoRepositoriesAction extends ReconcileRepositoriesAction

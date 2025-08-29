@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryRestored.
- *
  * @extends WikiRestoredEvent<AnimeThemeEntry>
  */
 class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent

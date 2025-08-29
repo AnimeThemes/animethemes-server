@@ -9,8 +9,6 @@ use App\Events\Base\List\ListCreatedEvent;
 use App\Models\List\Playlist;
 
 /**
- * Class PlaylistCreated.
- *
  * @extends ListCreatedEvent<Playlist>
  */
 class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent

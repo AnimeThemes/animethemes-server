@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceFilament;
 use App\Models\Wiki\ExternalResource;
 
 /**
- * Class ExternalResourceDeleted.
- *
  * @extends WikiDeletedEvent<ExternalResource>
  */
 class ExternalResourceDeleted extends WikiDeletedEvent

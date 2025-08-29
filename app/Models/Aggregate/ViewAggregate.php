@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class ViewAggregate.
- *
  * @property Viewable $viewable
  * @property string $viewable_type
  * @property int $viewable_id

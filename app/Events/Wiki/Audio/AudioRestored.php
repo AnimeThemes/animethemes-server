@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioRestored.
- *
  * @extends WikiRestoredEvent<Audio>
  */
 class AudioRestored extends WikiRestoredEvent

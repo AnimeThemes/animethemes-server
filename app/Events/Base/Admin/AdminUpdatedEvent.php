@@ -9,8 +9,6 @@ use App\Events\Base\BaseUpdatedEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class AdminUpdatedEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseUpdatedEvent<TModel>

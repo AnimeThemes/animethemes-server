@@ -13,8 +13,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class SynonymRestored.
- *
  * @extends WikiRestoredEvent<AnimeSynonym>
  */
 class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent

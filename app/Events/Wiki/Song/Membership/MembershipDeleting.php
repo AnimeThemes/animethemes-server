@@ -9,8 +9,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Song\Membership;
 
 /**
- * Class MembershipDeleting.
- *
  * @extends BaseEvent<Membership>
  */
 class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent

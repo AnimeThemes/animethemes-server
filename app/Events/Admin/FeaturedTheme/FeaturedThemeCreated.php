@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminCreatedEvent;
 use App\Models\Admin\FeaturedTheme;
 
 /**
- * Class FeaturedThemeCreated.
- *
  * @extends AdminCreatedEvent<FeaturedTheme>
  */
 class FeaturedThemeCreated extends AdminCreatedEvent

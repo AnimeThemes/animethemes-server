@@ -32,8 +32,6 @@ use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Str;
 
 /**
- * Class AnimeTheme.
- *
  * @property Anime $anime
  * @property int $anime_id
  * @property Collection<int, AnimeThemeEntry> $animethemeentries
@@ -177,9 +175,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         $name = Str::of($this->type->localize());
@@ -195,9 +190,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
             ->__toString();
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->anime->getName();

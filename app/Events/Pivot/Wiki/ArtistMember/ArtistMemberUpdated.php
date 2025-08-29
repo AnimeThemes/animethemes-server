@@ -9,8 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 
 /**
- * Class ArtistMemberUpdated.
- *
  * @extends PivotUpdatedEvent<Artist, Artist>
  */
 class ArtistMemberUpdated extends PivotUpdatedEvent

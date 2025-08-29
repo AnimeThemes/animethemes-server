@@ -9,8 +9,6 @@ use App\Events\Base\BaseUpdatedEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ListUpdatedEvent.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @extends BaseUpdatedEvent<TModel>

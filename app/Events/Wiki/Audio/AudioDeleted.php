@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Audio as AudioFilament;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioDeleted.
- *
  * @extends WikiDeletedEvent<Audio>
  */
 class AudioDeleted extends WikiDeletedEvent

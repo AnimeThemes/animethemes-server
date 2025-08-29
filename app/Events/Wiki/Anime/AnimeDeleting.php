@@ -13,8 +13,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Facades\Event;
 
 /**
- * Class AnimeDeleting.
- *
  * @extends BaseEvent<Anime>
  */
 class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent

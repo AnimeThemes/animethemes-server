@@ -10,8 +10,6 @@ use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission as BasePermission;
 
 /**
- * Class Permission.
- *
  * @property Carbon $created_at
  * @property string $guard_name
  * @property int $id
@@ -31,9 +29,6 @@ class Permission extends BasePermission implements Nameable
     final public const RELATION_ROLES = 'roles';
     final public const RELATION_USERS = 'users';
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;

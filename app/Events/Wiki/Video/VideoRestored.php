@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Video;
 
 /**
- * Class VideoRestored.
- *
  * @extends WikiRestoredEvent<Video>
  */
 class VideoRestored extends WikiRestoredEvent

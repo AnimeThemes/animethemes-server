@@ -22,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Series.
- *
  * @property Collection<int, Anime> $anime
  * @property string $name
  * @property int $series_id
@@ -121,17 +119,11 @@ class Series extends BaseModel implements SoftDeletable
         return Series::ATTRIBUTE_SLUG;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->slug;

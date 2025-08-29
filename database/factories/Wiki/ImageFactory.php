@@ -11,8 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
- * Class ImageFactory.
- *
  * @method Image createOne($attributes = [])
  * @method Image makeOne($attributes = [])
  *

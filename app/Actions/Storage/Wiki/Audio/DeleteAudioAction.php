@@ -10,8 +10,6 @@ use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class DeleteAudioAction.
- *
  * @extends DeleteAction<Audio>
  */
 class DeleteAudioAction extends DeleteAction

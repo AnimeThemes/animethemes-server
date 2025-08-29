@@ -10,8 +10,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
- * Class TrackCreated.
- *
  * @extends ListCreatedEvent<PlaylistTrack>
  */
 class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent

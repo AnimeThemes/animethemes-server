@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Anime as AnimeFilament;
 use App\Models\Wiki\Anime;
 
 /**
- * Class AnimeDeleted.
- *
  * @extends WikiDeletedEvent<Anime>
  */
 class AnimeDeleted extends WikiDeletedEvent

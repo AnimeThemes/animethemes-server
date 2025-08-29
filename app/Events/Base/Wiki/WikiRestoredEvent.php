@@ -9,8 +9,6 @@ use App\Events\Base\BaseRestoredEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class WikiRestoredEvent.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @extends BaseRestoredEvent<TModel>

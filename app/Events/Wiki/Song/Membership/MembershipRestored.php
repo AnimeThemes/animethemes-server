@@ -9,8 +9,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Song\Membership;
 
 /**
- * Class MembershipRestored.
- *
  * @extends WikiRestoredEvent<Membership>
  */
 class MembershipRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent

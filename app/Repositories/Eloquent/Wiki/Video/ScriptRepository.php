@@ -10,8 +10,6 @@ use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ScriptRepository.
- *
  * @extends EloquentRepository<VideoScript>
  */
 class ScriptRepository extends EloquentRepository

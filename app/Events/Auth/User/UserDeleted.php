@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Auth\User;
 
 /**
- * Class UserDeleted.
- *
  * @extends AdminDeletedEvent<User>
  */
 class UserDeleted extends AdminDeletedEvent

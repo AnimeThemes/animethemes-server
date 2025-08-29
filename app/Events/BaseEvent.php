@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class BaseEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 abstract class BaseEvent

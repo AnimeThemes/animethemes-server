@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Auth\User;
 
 /**
- * Class UserUpdated.
- *
  * @extends AdminUpdatedEvent<User>
  */
 class UserUpdated extends AdminUpdatedEvent

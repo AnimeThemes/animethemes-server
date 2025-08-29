@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryUpdated.
- *
  * @extends WikiUpdatedEvent<AnimeThemeEntry>
  */
 class EntryUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent

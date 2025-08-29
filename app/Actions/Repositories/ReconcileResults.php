@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class ReconcileResults.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class ReconcileResults extends ActionResult

@@ -11,8 +11,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class PivotUpdatedEvent.
- *
  * @template TModelRelated of \Illuminate\Database\Eloquent\Model
  * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *

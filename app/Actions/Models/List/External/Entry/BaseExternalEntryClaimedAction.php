@@ -9,8 +9,6 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Crypt;
 
 /**
- * Class BaseExternalEntryClaimedAction.
- *
  * This action will create the entries through the authentication method.
  */
 abstract class BaseExternalEntryClaimedAction

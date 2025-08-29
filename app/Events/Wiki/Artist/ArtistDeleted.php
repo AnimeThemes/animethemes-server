@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Artist as ArtistFilament;
 use App\Models\Wiki\Artist;
 
 /**
- * Class ArtistDeleted.
- *
  * @extends WikiDeletedEvent<Artist>
  */
 class ArtistDeleted extends WikiDeletedEvent

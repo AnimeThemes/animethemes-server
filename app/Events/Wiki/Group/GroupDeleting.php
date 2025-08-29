@@ -12,8 +12,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Video;
 
 /**
- * Class GroupDeleting.
- *
  * @extends BaseEvent<Group>
  */
 class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent

@@ -30,8 +30,6 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
 /**
- * Class ExternalProfile.
- *
  * @property int $profile_id
  * @property Collection<int, ExternalEntry> $externalentries
  * @property ExternalToken|null $externaltoken
@@ -127,17 +125,11 @@ class ExternalProfile extends BaseModel
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->user === null ? $this->getName() : $this->user->getName();

@@ -12,8 +12,6 @@ use Illuminate\Support\Collection;
 class DiscordVideoNotificationAction
 {
     /**
-     * Handle the action.
-     *
      * @param  Collection<int, Video>  $videos
      * @param  array<string, mixed>  $fields
      */

@@ -11,8 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class MoveVideoAction.
- *
  * @extends MoveAction<VideoScript>
  */
 class MoveScriptAction extends MoveAction

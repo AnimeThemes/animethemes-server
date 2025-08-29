@@ -10,8 +10,6 @@ use App\Filament\Resources\Wiki\Song\Membership as MembershipFilament;
 use App\Models\Wiki\Song\Membership;
 
 /**
- * Class MembershipDeleted.
- *
  * @extends WikiDeletedEvent<Membership>
  */
 class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent

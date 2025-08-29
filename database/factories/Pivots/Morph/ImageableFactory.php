@@ -13,8 +13,6 @@ use App\Pivots\Morph\Imageable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class ImageableFactory.
- *
  * @method Imageable createOne($attributes = [])
  * @method Imageable makeOne($attributes = [])
  *

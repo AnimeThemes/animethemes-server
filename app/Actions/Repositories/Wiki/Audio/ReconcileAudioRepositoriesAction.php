@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class ReconcileAudioRepositories.
- *
  * @extends ReconcileRepositoriesAction<Audio>
  */
 class ReconcileAudioRepositoriesAction extends ReconcileRepositoriesAction

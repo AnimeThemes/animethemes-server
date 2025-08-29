@@ -12,8 +12,6 @@ use App\Models\Wiki\Song\Performance;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class PerformanceDeleting.
- *
  * @extends BaseEvent<Performance>
  */
 class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent

@@ -8,8 +8,6 @@ use App\Models\Wiki\Song\Membership;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class MembershipFactory.
- *
  * @method Membership createOne($attributes = [])
  * @method Membership makeOne($attributes = [])
  *

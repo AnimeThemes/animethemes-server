@@ -8,8 +8,6 @@ use App\Events\Base\List\ListDeletedEvent;
 use App\Models\List\ExternalProfile;
 
 /**
- * Class ExternalProfileDeleted.
- *
  * @extends ListDeletedEvent<ExternalProfile>
  */
 class ExternalProfileDeleted extends ListDeletedEvent

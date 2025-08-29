@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class DiscordThread.
- *
  * @property Anime $anime
  * @property int $anime_id
  * @property string $thread_id
@@ -92,17 +90,11 @@ class DiscordThread extends BaseModel
         'updated' => DiscordThreadUpdated::class,
     ];
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->anime->getName();

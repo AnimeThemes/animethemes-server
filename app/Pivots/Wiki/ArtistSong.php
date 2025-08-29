@@ -11,8 +11,6 @@ use Database\Factories\Pivots\Wiki\ArtistSongFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ArtistSong.
- *
  * @property Artist $artist
  * @property int $artist_id
  * @property string|null $alias

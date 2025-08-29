@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminCreatedEvent;
 use App\Models\Admin\Announcement;
 
 /**
- * Class AnnouncementCreated.
- *
  * @extends AdminCreatedEvent<Announcement>
  */
 class AnnouncementCreated extends AdminCreatedEvent

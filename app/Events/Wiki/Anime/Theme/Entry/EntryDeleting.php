@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryDeleting.
- *
  * @extends BaseEvent<AnimeThemeEntry>
  */
 class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent

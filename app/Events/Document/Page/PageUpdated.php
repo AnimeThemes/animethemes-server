@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Document\Page;
 
 /**
- * Class PageUpdated.
- *
  * @extends WikiUpdatedEvent<Page>
  */
 class PageUpdated extends WikiUpdatedEvent

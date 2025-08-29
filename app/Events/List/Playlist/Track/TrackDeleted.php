@@ -10,8 +10,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Str;
 
 /**
- * Class TrackDeleted.
- *
  * @extends ListDeletedEvent<PlaylistTrack>
  */
 class TrackDeleted extends ListDeletedEvent

@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 
 /**
- * Class ThemeDeleted.
- *
  * @extends WikiDeletedEvent<AnimeTheme>
  */
 class ThemeDeleted extends WikiDeletedEvent

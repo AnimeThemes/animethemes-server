@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ExternalEntry.
- *
  * @property int $entry_id
  * @property int|null $anime_id
  * @property Anime|null $anime
@@ -90,17 +88,11 @@ class ExternalEntry extends BaseModel
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->anime->getName();

@@ -12,8 +12,6 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ResourceableCreated.
- *
  * @extends PivotCreatedEvent<Model&Nameable, ExternalResource>
  */
 class ResourceableCreated extends PivotCreatedEvent

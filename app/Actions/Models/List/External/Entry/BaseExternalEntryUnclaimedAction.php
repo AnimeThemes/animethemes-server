@@ -9,8 +9,6 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 
 /**
- * Class BaseExternalEntryUnclaimedAction.
- *
  * This action will create the entries through the username method.
  */
 abstract class BaseExternalEntryUnclaimedAction

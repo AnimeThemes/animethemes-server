@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Uri;
 
 /**
- * Class BackfillVideoAudioAction.
- *
  * @extends BackfillAction<Song>
  */
 class BackfillSongAction extends BackfillAction

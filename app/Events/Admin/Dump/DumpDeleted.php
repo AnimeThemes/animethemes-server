@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Admin\Dump;
 
 /**
- * Class DumpDeleted.
- *
  * @extends AdminDeletedEvent<Dump>
  */
 class DumpDeleted extends AdminDeletedEvent

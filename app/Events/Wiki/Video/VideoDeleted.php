@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Video as VideoFilament;
 use App\Models\Wiki\Video;
 
 /**
- * Class VideoDeleted.
- *
  * @extends WikiDeletedEvent<Video>
  */
 class VideoDeleted extends WikiDeletedEvent

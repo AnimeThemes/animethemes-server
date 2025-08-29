@@ -20,8 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Group.
- *
  * @property Collection<int, AnimeTheme> $animethemes
  * @property int $group_id
  * @property string $name
@@ -84,17 +82,11 @@ class Group extends BaseModel implements SoftDeletable
      */
     protected $primaryKey = Group::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->slug;

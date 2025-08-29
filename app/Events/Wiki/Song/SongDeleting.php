@@ -13,8 +13,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
- * Class SongDeleting.
- *
  * @extends BaseEvent<Song>
  */
 class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent

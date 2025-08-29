@@ -20,8 +20,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class VideoScript.
- *
  * @property int $script_id
  * @property string $link
  * @property string $path
@@ -105,17 +103,11 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
         return null;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->path;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->video->getName();

@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\ExternalResource;
 
 /**
- * Class ExternalResourceUpdated.
- *
  * @extends WikiUpdatedEvent<ExternalResource>
  */
 class ExternalResourceUpdated extends WikiUpdatedEvent

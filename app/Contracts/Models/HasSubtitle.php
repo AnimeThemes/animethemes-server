@@ -6,8 +6,5 @@ namespace App\Contracts\Models;
 
 interface HasSubtitle
 {
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string;
 }

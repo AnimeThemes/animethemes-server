@@ -22,8 +22,6 @@ class DiscordMessageAction
     }
 
     /**
-     * Make the Discord message.
-     *
      * @param  array<string, mixed>  $fields
      */
     public function makeMessage(array $fields): DiscordMessage
@@ -46,9 +44,6 @@ class DiscordMessageAction
         return $message;
     }
 
-    /**
-     * Set the Discord message.
-     */
     public function get(string $url): DiscordMessage
     {
         $message = static::getHttp()
@@ -61,9 +56,6 @@ class DiscordMessageAction
         return DiscordMessage::from(Arr::get($message, 'message'));
     }
 
-    /**
-     * Edit the Discord message.
-     */
     public function edit(DiscordMessage $message): void
     {
         static::getHttp()
@@ -73,9 +65,6 @@ class DiscordMessageAction
             ->throw();
     }
 
-    /**
-     * Send the Discord message.
-     */
     public function send(DiscordMessage $message): void
     {
         static::getHttp()

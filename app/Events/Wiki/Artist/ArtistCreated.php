@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Artist;
 
 /**
- * Class ArtistCreated.
- *
  * @extends WikiCreatedEvent<Artist>
  */
 class ArtistCreated extends WikiCreatedEvent

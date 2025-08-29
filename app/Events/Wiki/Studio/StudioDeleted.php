@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Studio as StudioFilament;
 use App\Models\Wiki\Studio;
 
 /**
- * Class StudioDeleted.
- *
  * @extends WikiDeletedEvent<Studio>
  */
 class StudioDeleted extends WikiDeletedEvent

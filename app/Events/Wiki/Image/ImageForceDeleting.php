@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class ImageForceDeleting.
- *
  * @extends BaseEvent<Image>
  */
 class ImageForceDeleting extends BaseEvent implements RemoveFromStorageEvent

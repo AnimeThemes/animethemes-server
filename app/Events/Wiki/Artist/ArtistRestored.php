@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Artist;
 
 /**
- * Class ArtistRestored.
- *
  * @extends WikiRestoredEvent<Artist>
  */
 class ArtistRestored extends WikiRestoredEvent

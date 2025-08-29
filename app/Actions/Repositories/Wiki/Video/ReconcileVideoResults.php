@@ -8,8 +8,6 @@ use App\Actions\Repositories\ReconcileResults;
 use App\Models\Wiki\Video;
 
 /**
- * Class ReconcileVideoResults.
- *
  * @extends ReconcileResults<Video>
  */
 class ReconcileVideoResults extends ReconcileResults

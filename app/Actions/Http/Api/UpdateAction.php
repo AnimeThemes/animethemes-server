@@ -7,8 +7,6 @@ namespace App\Actions\Http\Api;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class UpdateAction.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 class UpdateAction

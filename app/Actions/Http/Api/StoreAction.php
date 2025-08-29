@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class StoreAction.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 class StoreAction

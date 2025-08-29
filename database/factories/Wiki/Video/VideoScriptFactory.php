@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class VideoScriptFactory.
- *
  * @method VideoScript createOne($attributes = [])
  * @method VideoScript makeOne($attributes = [])
  *

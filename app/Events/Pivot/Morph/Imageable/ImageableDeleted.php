@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ImageableDeleted.
- *
  * @extends PivotDeletedEvent<Model&Nameable, Image>
  */
 class ImageableDeleted extends PivotDeletedEvent

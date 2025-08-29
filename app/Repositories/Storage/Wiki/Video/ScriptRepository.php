@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class ScriptRepository.
- *
  * @extends StorageRepository<VideoScript>
  */
 class ScriptRepository extends StorageRepository

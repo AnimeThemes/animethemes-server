@@ -16,8 +16,6 @@ use Database\Factories\Document\PageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Page.
- *
  * @property string $body
  * @property string $name
  * @property int $page_id
@@ -96,17 +94,11 @@ class Page extends BaseModel implements SoftDeletable
         return Page::ATTRIBUTE_SLUG;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->slug;

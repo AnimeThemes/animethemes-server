@@ -10,8 +10,6 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 
 /**
- * Class AnimeStudioDeleted.
- *
  * @extends PivotDeletedEvent<Studio, Anime>
  */
 class AnimeStudioDeleted extends PivotDeletedEvent

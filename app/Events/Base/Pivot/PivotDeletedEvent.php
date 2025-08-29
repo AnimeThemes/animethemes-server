@@ -11,8 +11,6 @@ use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class PivotDeletedEvent.
- *
  * @template TModelRelated of \Illuminate\Database\Eloquent\Model
  * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *

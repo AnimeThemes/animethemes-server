@@ -8,8 +8,6 @@ use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class AnimeSeriesFactory.
- *
  * @method AnimeSeries createOne($attributes = [])
  * @method AnimeSeries makeOne($attributes = [])
  *

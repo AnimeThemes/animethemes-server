@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class DiscordThreadDeleted.
- *
  * @extends AdminDeletedEvent<DiscordThread>
  */
 class DiscordThreadDeleted extends AdminDeletedEvent

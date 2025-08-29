@@ -12,8 +12,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class ThemeUpdated.
- *
  * @extends WikiUpdatedEvent<AnimeTheme>
  */
 class ThemeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent

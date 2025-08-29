@@ -20,8 +20,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class AnimeSynonym.
- *
  * @property Anime $anime
  * @property int $anime_id
  * @property int $synonym_id
@@ -98,17 +96,11 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->text;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->anime->getName();

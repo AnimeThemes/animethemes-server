@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Class DownloadAction.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class DownloadAction implements InteractsWithDisk

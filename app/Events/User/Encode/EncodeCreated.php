@@ -15,8 +15,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class EncodeCreated.
- *
  * @extends BaseEvent<Encode>
  */
 class EncodeCreated extends BaseEvent implements ManagesTrackEvent

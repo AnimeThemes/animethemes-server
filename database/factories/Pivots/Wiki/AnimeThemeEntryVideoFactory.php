@@ -8,8 +8,6 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class AnimeThemeEntryVideoFactory.
- *
  * @method AnimeThemeEntryVideo createOne($attributes = [])
  * @method AnimeThemeEntryVideo makeOne($attributes = [])
  *

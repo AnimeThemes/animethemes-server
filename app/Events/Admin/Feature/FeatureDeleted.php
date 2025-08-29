@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Admin\Feature;
 
 /**
- * Class FeatureDeleted.
- *
  * @extends AdminDeletedEvent<Feature>
  */
 class FeatureDeleted extends AdminDeletedEvent

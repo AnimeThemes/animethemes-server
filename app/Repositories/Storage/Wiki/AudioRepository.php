@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class AudioRepository.
- *
  * @extends StorageRepository<Audio>
  */
 class AudioRepository extends StorageRepository

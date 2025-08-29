@@ -18,8 +18,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceDeleted.
- *
  * @extends WikiDeletedEvent<Performance>
  */
 class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent

@@ -13,8 +13,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 /**
- * Class AnimeThemeEntryVideoCreated.
- *
  * @extends PivotCreatedEvent<AnimeThemeEntry, Video>
  */
 class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent

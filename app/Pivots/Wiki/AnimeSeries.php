@@ -13,8 +13,6 @@ use Database\Factories\Pivots\Wiki\AnimeSeriesFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class AnimeSeries.
- *
  * @property Anime $anime
  * @property int $anime_id
  * @property Series $series

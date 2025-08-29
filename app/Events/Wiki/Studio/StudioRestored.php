@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Studio;
 
 /**
- * Class StudioRestored.
- *
  * @extends WikiRestoredEvent<Studio>
  */
 class StudioRestored extends WikiRestoredEvent

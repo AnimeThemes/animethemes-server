@@ -10,8 +10,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioForceDeleting.
- *
  * @extends BaseEvent<Audio>
  */
 class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent

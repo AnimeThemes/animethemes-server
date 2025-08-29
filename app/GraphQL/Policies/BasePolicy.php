@@ -14,8 +14,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
- * Class BasePolicy.
- *
  * GraphQL will read any attach{model}, attachAny{model}, detach{model}, detachAny{model}
  * to make the validation for pivots. {model} must be the name of the model.
  */

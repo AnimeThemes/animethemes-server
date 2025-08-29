@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
 /**
- * Class Feature.
- *
  * @property Carbon $created_at
  * @property int $feature_id
  * @property string $name
@@ -79,17 +77,11 @@ class Feature extends BaseModel
      */
     protected $primaryKey = Feature::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->scope;

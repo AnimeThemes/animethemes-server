@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Series;
 
 /**
- * Class SeriesCreated.
- *
  * @extends WikiCreatedEvent<Series>
  */
 class SeriesCreated extends WikiCreatedEvent

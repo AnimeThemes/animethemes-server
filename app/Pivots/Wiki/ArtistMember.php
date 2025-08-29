@@ -13,8 +13,6 @@ use Database\Factories\Pivots\Wiki\ArtistMemberFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ArtistMember.
- *
  * @property Artist $artist
  * @property int $artist_id
  * @property string|null $alias

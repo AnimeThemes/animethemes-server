@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
- * Class LikeController.
- *
  * @extends BaseController<Like>
  */
 class LikeController extends BaseController

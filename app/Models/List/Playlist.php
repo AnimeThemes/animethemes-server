@@ -28,8 +28,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Playlist.
- *
  * @property string|null $description
  * @property PlaylistTrack|null $first
  * @property int $first_id
@@ -150,17 +148,11 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
         ]);
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->user === null ? $this->getName() : $this->user->getName();

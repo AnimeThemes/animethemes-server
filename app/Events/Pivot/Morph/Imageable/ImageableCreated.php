@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ImageableCreated.
- *
  * @extends PivotCreatedEvent<Model&Nameable, Image>
  */
 class ImageableCreated extends PivotCreatedEvent

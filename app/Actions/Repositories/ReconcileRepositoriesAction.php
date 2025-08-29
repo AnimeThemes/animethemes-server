@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class ReconcileRepositories.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class ReconcileRepositoriesAction

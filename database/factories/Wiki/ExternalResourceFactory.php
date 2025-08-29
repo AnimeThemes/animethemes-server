@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class ExternalResourceFactory.
- *
  * @method ExternalResource createOne($attributes = [])
  * @method ExternalResource makeOne($attributes = [])
  *

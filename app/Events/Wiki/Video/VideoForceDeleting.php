@@ -10,8 +10,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Video;
 
 /**
- * Class VideoForceDeleting.
- *
  * @extends BaseEvent<Video>
  */
 class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent

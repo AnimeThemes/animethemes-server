@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\ExternalResource;
 
 /**
- * Class ExternalResourceRestored.
- *
  * @extends WikiRestoredEvent<ExternalResource>
  */
 class ExternalResourceRestored extends WikiRestoredEvent

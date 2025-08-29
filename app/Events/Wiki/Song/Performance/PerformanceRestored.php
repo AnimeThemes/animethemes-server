@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceRestored.
- *
  * @extends WikiRestoredEvent<Performance>
  */
 class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent

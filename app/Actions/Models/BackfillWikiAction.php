@@ -32,9 +32,6 @@ abstract class BackfillWikiAction
      */
     public function __construct(protected BaseModel $model, protected array $toBackfill) {}
 
-    /**
-     * Handle the action.
-     */
     abstract public function handle(): ActionResult;
 
     /**

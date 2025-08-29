@@ -12,8 +12,6 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Arr;
 
 /**
- * Class Notification.
- *
  * @method static NotificationFactory factory(...$parameters)
  */
 class Notification extends DatabaseNotification

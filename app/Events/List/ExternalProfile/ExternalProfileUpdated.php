@@ -8,8 +8,6 @@ use App\Events\Base\List\ListUpdatedEvent;
 use App\Models\List\ExternalProfile;
 
 /**
- * Class ExternalProfileUpdated.
- *
  * @extends ListUpdatedEvent<ExternalProfile>
  */
 class ExternalProfileUpdated extends ListUpdatedEvent

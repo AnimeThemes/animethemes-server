@@ -13,8 +13,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
- * Class ThemeRestored.
- *
  * @extends WikiRestoredEvent<AnimeTheme>
  */
 class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent

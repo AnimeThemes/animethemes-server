@@ -10,8 +10,6 @@ use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class VideoRepository.
- *
  * @extends EloquentRepository<Video>
  */
 class VideoRepository extends EloquentRepository

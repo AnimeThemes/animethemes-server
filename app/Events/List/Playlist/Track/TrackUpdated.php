@@ -9,8 +9,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
- * Class TrackUpdated.
- *
  * @extends ListUpdatedEvent<PlaylistTrack>
  */
 class TrackUpdated extends ListUpdatedEvent

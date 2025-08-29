@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Series;
 
 /**
- * Class SeriesUpdated.
- *
  * @extends WikiUpdatedEvent<Series>
  */
 class SeriesUpdated extends WikiUpdatedEvent

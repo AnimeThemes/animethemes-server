@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\ExternalResource;
 
 /**
- * Class ExternalResourceCreated.
- *
  * @extends WikiCreatedEvent<ExternalResource>
  */
 class ExternalResourceCreated extends WikiCreatedEvent

@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class PageFactory.
- *
  * @method Page createOne($attributes = [])
  * @method Page makeOne($attributes = [])
  *

@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class VideoRepository.
- *
  * @extends StorageRepository<Video>
  */
 class VideoRepository extends StorageRepository

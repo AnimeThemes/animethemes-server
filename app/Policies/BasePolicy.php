@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
- * Class BasePolicy.
- *
  * Filament and API will read any attach{model}, attachAny{model}, detach{model}, detachAny{model}
  * to make the validation for pivots. {model} must be the name of the model.
  */

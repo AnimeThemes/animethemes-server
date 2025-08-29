@@ -12,8 +12,6 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ResourceableDeleted.
- *
  * @extends PivotDeletedEvent<Model&Nameable, ExternalResource>
  */
 class ResourceableDeleted extends PivotDeletedEvent

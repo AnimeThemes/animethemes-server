@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Image;
 
 /**
- * Class ImageCreated.
- *
  * @extends WikiCreatedEvent<Image>
  */
 class ImageCreated extends WikiCreatedEvent

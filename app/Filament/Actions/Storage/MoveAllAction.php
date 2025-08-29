@@ -95,8 +95,6 @@ class MoveAllAction extends BaseAction
     }
 
     /**
-     * Handle the action.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(array $data): void

@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceUpdated.
- *
  * @extends WikiUpdatedEvent<Performance>
  */
 class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent

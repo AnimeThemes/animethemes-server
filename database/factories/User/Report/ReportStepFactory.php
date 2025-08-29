@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class ReportStepFactory.
- *
  * @method ReportStep createOne($attributes = [])
  * @method ReportStep makeOne($attributes = [])
  *

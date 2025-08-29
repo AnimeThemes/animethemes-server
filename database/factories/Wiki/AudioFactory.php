@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class AudioFactory.
- *
  * @method Audio createOne($attributes = [])
  * @method Audio makeOne($attributes = [])
  *

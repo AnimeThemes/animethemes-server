@@ -14,8 +14,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
- * Class SongDeleted.
- *
  * @extends WikiDeletedEvent<Song>
  */
 class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent

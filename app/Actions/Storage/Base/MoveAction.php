@@ -12,8 +12,6 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class MoveAction.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class MoveAction implements InteractsWithDisks, StorageAction

@@ -9,8 +9,6 @@ use App\Events\Base\BaseCreatedEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class AdminCreatedEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseCreatedEvent<TModel>

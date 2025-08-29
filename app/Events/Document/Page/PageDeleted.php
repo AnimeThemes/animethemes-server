@@ -9,8 +9,6 @@ use App\Filament\Resources\Document\Page as PageFilament;
 use App\Models\Document\Page;
 
 /**
- * Class PageDeleted.
- *
  * @extends WikiDeletedEvent<Page>
  */
 class PageDeleted extends WikiDeletedEvent

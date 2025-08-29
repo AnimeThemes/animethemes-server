@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class DiscordThreadUpdated.
- *
  * @extends AdminUpdatedEvent<DiscordThread>
  */
 class DiscordThreadUpdated extends AdminUpdatedEvent

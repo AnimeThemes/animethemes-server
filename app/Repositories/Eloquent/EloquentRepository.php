@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class EloquentRepository.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @implements RepositoryInterface<TModel>

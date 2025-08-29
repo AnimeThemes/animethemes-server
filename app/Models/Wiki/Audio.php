@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Audio.
- *
  * @property int $audio_id
  * @property string $basename
  * @property string $filename
@@ -143,17 +141,11 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->basename;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->path();

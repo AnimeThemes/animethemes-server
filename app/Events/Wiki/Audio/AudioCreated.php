@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioCreated.
- *
  * @extends WikiCreatedEvent<Audio>
  */
 class AudioCreated extends WikiCreatedEvent

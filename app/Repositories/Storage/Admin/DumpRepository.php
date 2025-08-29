@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class DumpRepository.
- *
  * @extends StorageRepository<Dump>
  */
 class DumpRepository extends StorageRepository

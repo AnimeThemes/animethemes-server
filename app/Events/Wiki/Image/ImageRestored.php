@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Image;
 
 /**
- * Class ImageRestored.
- *
  * @extends WikiRestoredEvent<Image>
  */
 class ImageRestored extends WikiRestoredEvent

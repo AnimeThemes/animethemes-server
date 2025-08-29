@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminCreatedEvent;
 use App\Models\Auth\User;
 
 /**
- * Class UserCreated.
- *
  * @extends AdminCreatedEvent<User>
  */
 class UserCreated extends AdminCreatedEvent

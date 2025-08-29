@@ -13,8 +13,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Video;
 
 /**
- * Class GroupDeleted.
- *
  * @extends WikiDeletedEvent<Group>
  */
 class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent

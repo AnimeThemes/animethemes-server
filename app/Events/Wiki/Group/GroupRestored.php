@@ -12,8 +12,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Video;
 
 /**
- * Class GroupRestored.
- *
  * @extends WikiRestoredEvent<Group>
  */
 class GroupRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent

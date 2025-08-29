@@ -9,8 +9,6 @@ use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class DumpRepository.
- *
  * @extends EloquentRepository<Dump>
  */
 class DumpRepository extends EloquentRepository

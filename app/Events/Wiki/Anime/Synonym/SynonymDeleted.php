@@ -14,8 +14,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class SynonymDeleted.
- *
  * @extends WikiDeletedEvent<AnimeSynonym>
  */
 class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent

@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
 /**
- * Class BackfillAction.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class BackfillAction

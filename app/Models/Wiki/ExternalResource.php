@@ -23,8 +23,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Uri;
 
 /**
- * Class ExternalResource.
- *
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
  * @property int|null $external_id
@@ -108,17 +106,11 @@ class ExternalResource extends BaseModel implements SoftDeletable
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->link);
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return strval($this->external_id);

@@ -25,8 +25,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class Image.
- *
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
  * @property ImageFacet|null $facet
@@ -119,17 +117,11 @@ class Image extends BaseModel implements SoftDeletable
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->path;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->path;

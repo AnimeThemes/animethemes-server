@@ -10,8 +10,6 @@ use Filament\Support\Enums\Width;
 use Illuminate\Support\Collection;
 
 /**
- * Class BaseBulkAction.
- *
  * Bulk actions are present in the table to perform an action on more than one model at once.
  */
 abstract class BaseBulkAction extends BulkAction
@@ -41,8 +39,6 @@ abstract class BaseBulkAction extends BulkAction
     }
 
     /**
-     * Handle the action.
-     *
      * @param  Collection  $records
      * @param  array<string, mixed>  $data
      */

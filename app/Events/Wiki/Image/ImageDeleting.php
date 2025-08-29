@@ -8,8 +8,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Image;
 
 /**
- * Class ImageDeleting.
- *
  * @extends BaseEvent<Image>
  */
 class ImageDeleting extends BaseEvent

@@ -13,8 +13,6 @@ use Database\Factories\Pivots\Wiki\AnimeStudioFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class AnimeStudio.
- *
  * @property Anime $anime
  * @property int $anime_id
  * @property Studio $studio

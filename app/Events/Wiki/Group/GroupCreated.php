@@ -12,8 +12,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Video;
 
 /**
- * Class GroupCreated.
- *
  * @extends WikiCreatedEvent<Group>
  */
 class GroupCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent

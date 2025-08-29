@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class NotificationFactory.
- *
  * @method Notification createOne($attributes = [])
  * @method Notification makeOne($attributes = [])
  *

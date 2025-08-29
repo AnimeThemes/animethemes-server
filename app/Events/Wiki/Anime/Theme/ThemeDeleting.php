@@ -11,8 +11,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class ThemeDeleting.
- *
  * @extends BaseEvent<AnimeTheme>
  */
 class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent

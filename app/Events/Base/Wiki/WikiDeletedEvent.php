@@ -18,8 +18,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class WikiDeletedEvent.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @extends BaseDeletedEvent<TModel>

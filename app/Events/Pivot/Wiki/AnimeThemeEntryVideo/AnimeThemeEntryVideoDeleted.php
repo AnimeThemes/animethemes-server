@@ -13,8 +13,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 /**
- * Class AnimeThemeEntryAnimeThemeDeletedVideo.
- *
  * @extends PivotDeletedEvent<AnimeThemeEntry, Video>
  */
 class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent

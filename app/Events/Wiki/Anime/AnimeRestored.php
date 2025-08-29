@@ -14,8 +14,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
- * Class AnimeRestored.
- *
  * @extends WikiRestoredEvent<Anime>
  */
 class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent

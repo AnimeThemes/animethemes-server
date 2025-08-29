@@ -13,8 +13,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class SynonymUpdated.
- *
  * @extends WikiUpdatedEvent<AnimeSynonym>
  */
 class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent

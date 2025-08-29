@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class SeriesFactory.
- *
  * @method Series createOne($attributes = [])
  * @method Series makeOne($attributes = [])
  *

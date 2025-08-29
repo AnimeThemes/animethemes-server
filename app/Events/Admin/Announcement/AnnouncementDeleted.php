@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Admin\Announcement;
 
 /**
- * Class AnnouncementDeleted.
- *
  * @extends AdminDeletedEvent<Announcement>
  */
 class AnnouncementDeleted extends AdminDeletedEvent

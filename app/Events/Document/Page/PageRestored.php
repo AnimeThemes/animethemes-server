@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Document\Page;
 
 /**
- * Class PageRestored.
- *
  * @extends WikiRestoredEvent<Page>
  */
 class PageRestored extends WikiRestoredEvent

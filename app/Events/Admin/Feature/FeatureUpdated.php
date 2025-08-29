@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Admin\Feature;
 
 /**
- * Class FeatureUpdated.
- *
  * @extends AdminUpdatedEvent<Feature>
  */
 class FeatureUpdated extends AdminUpdatedEvent

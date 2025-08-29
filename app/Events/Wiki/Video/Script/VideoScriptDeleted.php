@@ -9,8 +9,6 @@ use App\Filament\Resources\Wiki\Video\Script as VideoScriptFilament;
 use App\Models\Wiki\Video\VideoScript;
 
 /**
- * Class VideoScriptDeleted.
- *
  * @extends WikiDeletedEvent<VideoScript>
  */
 class VideoScriptDeleted extends WikiDeletedEvent
