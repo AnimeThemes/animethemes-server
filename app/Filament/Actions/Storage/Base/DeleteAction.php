@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Storage\Base;
 use App\Actions\Storage\Base\DeleteAction as BaseDeleteAction;
 use App\Contracts\Actions\Storage\StorageAction as StorageActionContract;
 use App\Filament\Actions\Storage\StorageAction;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class DeleteAction extends StorageAction
@@ -20,7 +21,7 @@ abstract class DeleteAction extends StorageAction
 
         $this->color('danger');
 
-        $this->icon(__('filament-icons.actions.base.delete'));
+        $this->icon(Heroicon::Trash);
     }
 
     /**

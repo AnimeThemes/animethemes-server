@@ -25,6 +25,7 @@ use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -67,9 +68,9 @@ class ActionLog extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.action_logs');
+        return Heroicon::OutlinedRectangleStack;
     }
 
     /**

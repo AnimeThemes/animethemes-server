@@ -19,6 +19,7 @@ use App\Models\User\Report as ReportModel;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -59,9 +60,9 @@ class Report extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.reports');
+        return Heroicon::OutlinedLightBulb;
     }
 
     /**

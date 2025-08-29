@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Video\DeleteVideoAction as DeleteVideo;
 use App\Filament\BulkActions\Storage\Base\DeleteBulkAction;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
 
 class DeleteVideoBulkAction extends DeleteBulkAction
@@ -28,7 +29,7 @@ class DeleteVideoBulkAction extends DeleteBulkAction
         parent::setUp();
 
         $this->label(__('filament.actions.video.delete.name'));
-        $this->icon(__('filament-icons.actions.base.delete'));
+        $this->icon(Heroicon::Trash);
 
         $this->visible(Gate::allows('forceDeleteAny', Video::class));
     }

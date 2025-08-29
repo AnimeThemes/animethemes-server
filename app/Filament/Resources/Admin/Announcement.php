@@ -15,6 +15,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -55,9 +56,9 @@ class Announcement extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.announcements');
+        return Heroicon::OutlinedMegaphone;
     }
 
     /**

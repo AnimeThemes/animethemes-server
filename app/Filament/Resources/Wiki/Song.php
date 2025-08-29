@@ -19,6 +19,7 @@ use App\Models\Wiki\Song as SongModel;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,9 +59,9 @@ class Song extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.songs');
+        return Heroicon::OutlinedMusicalNote;
     }
 
     /**

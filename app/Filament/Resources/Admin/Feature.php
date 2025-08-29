@@ -14,6 +14,7 @@ use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Feature as FeatureModel;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -54,9 +55,9 @@ class Feature extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.features');
+        return Heroicon::OutlinedCog6Tooth;
     }
 
     /**

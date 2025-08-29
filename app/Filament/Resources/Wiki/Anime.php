@@ -31,6 +31,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -71,9 +72,9 @@ class Anime extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.anime');
+        return Heroicon::OutlinedTv;
     }
 
     /**
@@ -303,7 +304,7 @@ class Anime extends BaseResource
 
             AttachAnimeResourceAction::make('attach-anime-streaming-resource')
                 ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
-                ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
+                ->icon(Heroicon::OutlinedTv)
                 ->sites($streamingResourceSites),
         ];
     }

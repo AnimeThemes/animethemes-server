@@ -17,6 +17,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -56,7 +57,7 @@ class BackfillAnimeAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.actions.anime.backfill.name'));
-        $this->icon(__('filament-icons.actions.anime.backfill'));
+        $this->icon(Heroicon::OutlinedBars4);
 
         $this->visible(Gate::allows('create', Anime::class));
 

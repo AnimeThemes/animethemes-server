@@ -12,6 +12,7 @@ use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Video;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
@@ -35,7 +36,7 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
         $this->modalWidth(Width::Large);
 
         $this->label(__('filament.bulk_actions.discord.notification.name'));
-        $this->icon(__('filament-icons.bulk_actions.discord.notification'));
+        $this->icon(Heroicon::OutlinedBell);
 
         $this->visible(Gate::allows('create', DiscordThread::class));
     }

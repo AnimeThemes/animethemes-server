@@ -11,6 +11,7 @@ use App\Filament\Actions\Storage\StorageAction;
 use App\Filament\Components\Fields\TextInput;
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,7 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
     {
         parent::setUp();
 
-        $this->icon(__('filament-icons.actions.storage.move'));
+        $this->icon(Heroicon::OutlinedArrowLongRight);
     }
 
     /**

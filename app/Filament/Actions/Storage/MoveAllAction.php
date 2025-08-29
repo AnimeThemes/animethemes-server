@@ -17,6 +17,7 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
@@ -40,7 +41,7 @@ class MoveAllAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.actions.base.move_all'));
-        $this->icon(__('filament-icons.actions.base.move_all'));
+        $this->icon(Heroicon::OutlinedArrowLongRight);
 
         $this->visible(Gate::any('create', [Audio::class, Video::class, VideoScript::class]));
 

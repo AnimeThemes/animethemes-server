@@ -22,6 +22,7 @@ use Filament\Facades\Filament;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -62,9 +63,9 @@ class ReportStep extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.report_steps');
+        return Heroicon::OutlinedLightBulb;
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Filament\Widgets\Wiki\Artist\ArtistChart;
 use App\Filament\Widgets\Wiki\Series\SeriesChart;
 use App\Filament\Widgets\Wiki\Video\VideoChart;
 use Filament\Panel;
+use Filament\Support\Icons\Heroicon;
 
 class WikiDashboard extends BaseDashboard
 {
@@ -31,9 +32,9 @@ class WikiDashboard extends BaseDashboard
     /**
      * Get the icon for the dashboard.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.dashboards.wiki');
+        return Heroicon::ChartBar;
     }
 
     /**

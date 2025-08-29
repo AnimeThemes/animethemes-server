@@ -19,6 +19,7 @@ use Database\Factories\List\ExternalProfileFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -47,6 +48,7 @@ use Illuminate\Support\Str;
 class ExternalProfile extends BaseModel
 {
     use HasFactory;
+    use Prunable;
     use Searchable;
 
     final public const TABLE = 'external_profiles';

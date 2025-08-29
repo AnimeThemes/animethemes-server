@@ -10,6 +10,7 @@ use App\Filament\Actions\Repositories\ReconcileAction;
 use App\Filament\Components\Fields\TextInput;
 use App\Rules\Storage\StorageDirectoryExistsRule;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +23,7 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
     {
         parent::setUp();
 
-        $this->icon(__('filament-icons.table_actions.base.reconcile'));
+        $this->icon(Heroicon::OutlinedArrowPath);
     }
 
     /**

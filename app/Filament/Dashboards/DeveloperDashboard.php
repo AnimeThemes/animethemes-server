@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 // use App\Filament\Widgets\Admin\ExceptionsTableWidget;
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Filament\Support\Icons\Heroicon;
 
 class DeveloperDashboard extends BaseDashboard
 {
@@ -39,9 +40,9 @@ class DeveloperDashboard extends BaseDashboard
     /**
      * Get the icon for the dashboard.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.dashboards.dev');
+        return Heroicon::CodeBracket;
     }
 
     /**

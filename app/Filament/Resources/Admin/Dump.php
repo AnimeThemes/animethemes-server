@@ -18,6 +18,7 @@ use App\Models\Admin\Dump as DumpModel;
 use Filament\Actions\ActionGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,9 +58,9 @@ class Dump extends BaseResource
     /**
      * The icon displayed to the resource.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.dumps');
+        return Heroicon::OutlinedCircleStack;
     }
 
     /**
