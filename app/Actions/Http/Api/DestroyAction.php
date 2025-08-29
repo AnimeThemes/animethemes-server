@@ -14,8 +14,6 @@ use Illuminate\Support\Str;
 class DestroyAction
 {
     /**
-     * Destroy model.
-     *
      * @param  TModel  $model
      * @return TModel
      */

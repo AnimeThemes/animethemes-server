@@ -13,9 +13,6 @@ class ShowAction
 {
     use ConstrainsEagerLoads;
 
-    /**
-     * Show model.
-     */
     public function show(Model $model, Query $query, Schema $schema): Model
     {
         // eager load relations with constraints

@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class UpdateAction
 {
     /**
-     * Update model.
-     *
      * @param  TModel  $model
      * @param  array  $parameters
      * @return TModel

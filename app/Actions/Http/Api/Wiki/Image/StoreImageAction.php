@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Storage;
 class StoreImageAction extends StoreAction
 {
     /**
-     * Store image.
-     *
      * @param  Builder<Image>  $builder
      * @param  array  $parameters
      */

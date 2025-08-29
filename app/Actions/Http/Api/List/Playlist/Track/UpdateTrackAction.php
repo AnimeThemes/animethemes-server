@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Log;
 class UpdateTrackAction
 {
     /**
-     * Store playlist track.
-     *
      * @param  array  $parameters
      *
      * @throws Exception

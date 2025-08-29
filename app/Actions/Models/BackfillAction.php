@@ -20,8 +20,7 @@ abstract class BackfillAction
     public function __construct(protected BaseModel $model) {}
 
     /**
-     * Handle action.
-     */
+/
     abstract public function handle(): ActionResult;
 
     /**

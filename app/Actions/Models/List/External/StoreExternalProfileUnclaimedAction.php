@@ -58,7 +58,7 @@ class StoreExternalProfileUnclaimedAction
 
             /** @var ExternalProfile $profile */
             $profile = $storeAction->store($builder, [
-                ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getId(),
+                ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getUserId(),
                 ExternalProfile::ATTRIBUTE_NAME => $name,
                 ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName($visibilityLocalized)->value,

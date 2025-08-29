@@ -47,9 +47,6 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
         return $entries;
     }
 
-    /**
-     * Get the username.
-     */
     public function getUsername(): ?string
     {
         if ($this->data === null) {
@@ -59,9 +56,6 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
         return Arr::get($this->data, 'Viewer.name');
     }
 
-    /**
-     * Get the id of the external user.
-     */
     public function getUserId(): ?int
     {
         if ($this->userId !== null) {
@@ -78,8 +72,6 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     }
 
     /**
-     * Make the request to the external api.
-     *
      * @throws RequestException
      */
     protected function makeRequest(): void

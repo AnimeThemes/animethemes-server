@@ -14,15 +14,10 @@ use Illuminate\Support\Arr;
 abstract class ExternalApiAction
 {
     /**
-     * The response of the request.
-     *
      * @var array|null
      */
     public ?array $response = null;
 
-    /**
-     * Get the site to backfill.
-     */
     abstract public function getSite(): ResourceSite;
 
     /**

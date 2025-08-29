@@ -25,9 +25,6 @@ class PruneDumpAction extends PruneAction
         return Config::get(DumpConstants::DISK_QUALIFIED);
     }
 
-    /**
-     * Determine whether the file should be pruned.
-     */
     protected function shouldBePruned(string $path, Carbon $lastModified): bool
     {
         if (Str::contains($path, Dump::safeDumps())) {

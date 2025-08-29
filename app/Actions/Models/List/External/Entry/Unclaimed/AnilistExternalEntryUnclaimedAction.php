@@ -46,10 +46,7 @@ class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedActi
         return $entries;
     }
 
-    /**
-     * Get the id of the external user.
-     */
-    public function getId(): ?int
+    public function getUserId(): ?int
     {
         if ($this->data === null) {
             $this->makeRequest();
@@ -59,8 +56,6 @@ class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedActi
     }
 
     /**
-     * Make the request to the external api.
-     *
      * @throws RequestException
      */
     protected function makeRequest(): void

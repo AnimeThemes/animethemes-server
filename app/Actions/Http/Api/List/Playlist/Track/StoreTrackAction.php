@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Log;
 class StoreTrackAction
 {
     /**
-     * Store playlist track.
-     *
      * @param  array  $parameters
      *
      * @throws Exception

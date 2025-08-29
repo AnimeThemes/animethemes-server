@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 class StoreAction
 {
     /**
-     * Store model.
-     *
      * @param  Builder<TModel>  $builder
      * @param  array  $parameters
      * @return TModel

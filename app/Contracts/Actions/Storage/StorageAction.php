@@ -7,8 +7,7 @@ namespace App\Contracts\Actions\Storage;
 interface StorageAction
 {
     /**
-     * Handle action.
-     */
+/
     public function handle(): StorageResults;
 
     /**

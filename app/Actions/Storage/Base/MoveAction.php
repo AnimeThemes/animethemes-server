@@ -21,9 +21,6 @@ abstract class MoveAction implements InteractsWithDisks, StorageAction
      */
     public function __construct(protected BaseModel $model, protected readonly string $to) {}
 
-    /**
-     * Handle action.
-     */
     public function handle(): StorageResults
     {
         $results = [];

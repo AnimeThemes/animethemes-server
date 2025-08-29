@@ -32,8 +32,6 @@ class BackfillSongAction extends BackfillAction
     }
 
     /**
-     * Handle action.
-     *
      * @throws Exception
      */
     public function handle(): ActionResult

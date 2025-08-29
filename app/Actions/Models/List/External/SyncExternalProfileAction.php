@@ -24,8 +24,6 @@ class SyncExternalProfileAction
     protected Collection $resources;
 
     /**
-     * Sync the profile.
-     *
      * @throws Exception
      */
     public function handle(ExternalProfile $profile): ExternalProfile
@@ -120,8 +118,6 @@ class SyncExternalProfileAction
     }
 
     /**
-     * Get the animes by the external id.
-     *
      * @return Collection<int, int>
      */
     protected function getAnimesByExternalId(int $externalId): Collection

@@ -10,9 +10,6 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class AssignHashidsAction
 {
-    /**
-     * Assign Hashids to model.
-     */
     public function assign(HasHashids&BaseModel $model, ?string $connection = null): void
     {
         $hashids = Hashids::connection($connection);

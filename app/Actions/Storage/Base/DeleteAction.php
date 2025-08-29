@@ -21,9 +21,6 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
      */
     public function __construct(protected BaseModel $model) {}
 
-    /**
-     * Handle action.
-     */
     public function handle(): StorageResults
     {
         $results = [];

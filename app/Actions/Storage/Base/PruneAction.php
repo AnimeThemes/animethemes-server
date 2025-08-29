@@ -20,8 +20,7 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
     public function __construct(protected readonly int $hours = 72) {}
 
     /**
-     * Handle action.
-     */
+/
     public function handle(): StorageResults
     {
         $fs = Storage::disk($this->disk());

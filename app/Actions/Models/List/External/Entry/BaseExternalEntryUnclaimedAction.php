@@ -25,9 +25,6 @@ abstract class BaseExternalEntryUnclaimedAction
      */
     public function __construct(protected ExternalProfile|array $profile) {}
 
-    /**
-     * Get the username of the profile.
-     */
     public function getUsername(): string
     {
         if ($this->profile instanceof ExternalProfile) {
@@ -37,10 +34,7 @@ abstract class BaseExternalEntryUnclaimedAction
         return Arr::get($this->profile, ExternalProfile::ATTRIBUTE_NAME);
     }
 
-    /**
-     * Get the id of the external user.
-     */
-    abstract public function getId(): ?int;
+    abstract public function getUserId(): ?int;
 
     /**
      * Get the entries of the response.
@@ -50,8 +44,6 @@ abstract class BaseExternalEntryUnclaimedAction
     abstract public function getEntries(): array;
 
     /**
-     * Make the request to the external api.
-     *
      * @throws RequestException
      */
     abstract protected function makeRequest(): void;

@@ -20,9 +20,6 @@ abstract class DownloadAction implements InteractsWithDisk
      */
     public function __construct(protected readonly BaseModel $model) {}
 
-    /**
-     * Download the resource.
-     */
     public function download(): StreamedResponse
     {
         /** @var FilesystemAdapter $fs */

@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RestoreAction
 {
-    /**
-     * Restore model.
-     */
     public function restore(Model&SoftDeletable $model): Model&SoftDeletable
     {
         $model->restore();

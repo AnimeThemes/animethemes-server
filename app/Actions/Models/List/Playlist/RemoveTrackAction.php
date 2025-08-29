@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Log;
 class RemoveTrackAction
 {
     /**
-     * Remove track from playlist.
-     *
      * @throws Exception
      */
     public function remove(Playlist $playlist, PlaylistTrack $track): void

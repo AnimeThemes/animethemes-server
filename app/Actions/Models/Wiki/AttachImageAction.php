@@ -15,8 +15,6 @@ class AttachImageAction
     use CanCreateImage;
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array  $fields
      * @param  ImageFacet[]  $facets
      */
