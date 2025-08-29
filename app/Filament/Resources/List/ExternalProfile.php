@@ -38,57 +38,37 @@ class ExternalProfile extends BaseResource
      */
     protected static ?string $model = ExternalProfileModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.external_profile');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.external_profiles');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.list');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedUser;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'external-profiles';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return ExternalProfileModel::ATTRIBUTE_NAME;
     }
 
     /**
-     * Get the eloquent query for the resource.
-     *
      * @return Builder
      */
     public static function getEloquentQuery(): Builder
@@ -99,9 +79,6 @@ class ExternalProfile extends BaseResource
         return $query->with([ExternalProfileModel::RELATION_USER]);
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -130,9 +107,6 @@ class ExternalProfile extends BaseResource
             ->columns(2);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -156,9 +130,6 @@ class ExternalProfile extends BaseResource
             ->searchable();
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -188,8 +159,6 @@ class ExternalProfile extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -204,8 +173,6 @@ class ExternalProfile extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getRecordActions(): array
@@ -216,8 +183,6 @@ class ExternalProfile extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

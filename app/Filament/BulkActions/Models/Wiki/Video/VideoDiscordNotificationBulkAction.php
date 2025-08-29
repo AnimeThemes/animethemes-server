@@ -18,17 +18,11 @@ use Illuminate\Support\Facades\Gate;
 
 class VideoDiscordNotificationBulkAction extends BaseBulkAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'video-discord-notification-bulk';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

@@ -41,17 +41,11 @@ use ReflectionClass;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         $this->bootEnums();
     }
 
-    /**
-     * Register the enums to use as type.
-     */
     protected function bootEnums(): void
     {
         GraphQL::addType(new EnumType(SortDirection::class));
@@ -70,9 +64,6 @@ class GraphQLServiceProvider extends ServiceProvider
         GraphQL::addType(new EnumType(VideoSource::class));
     }
 
-    /**
-     * Register the types that were made programmatically.
-     */
     protected function bootTypes(): void
     {
         $dispatcher = app(Dispatcher::class);

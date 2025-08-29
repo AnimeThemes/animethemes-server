@@ -8,9 +8,6 @@ use Filament\Actions\Action;
 
 class MarkAsReadAction extends Action
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

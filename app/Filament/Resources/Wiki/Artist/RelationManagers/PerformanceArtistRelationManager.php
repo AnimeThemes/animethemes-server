@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
-     * Get the pivot components of the relation.
-     *
      * @return Component[]
      */
     public function getPivotComponents(): array
@@ -41,9 +39,6 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
      */
     protected static string $relationship = Artist::RELATION_PERFORMANCES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

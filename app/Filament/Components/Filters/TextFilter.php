@@ -13,8 +13,6 @@ use Illuminate\Support\Arr;
 class TextFilter extends Filter
 {
     /**
-     * Get the schema components for the filter.
-     *
      * @return Component[]
      */
     public function getSchemaComponents(): array
@@ -26,8 +24,6 @@ class TextFilter extends Filter
     }
 
     /**
-     * Apply the query used to the filter.
-     *
      * @param  Builder  $query
      * @param  array  $data
      * @return Builder

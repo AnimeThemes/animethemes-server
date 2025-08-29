@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogDatabaseBusy
 {
-    /**
-     * Handle the event.
-     */
     public function handle(DatabaseBusy $event): void
     {
         Log::info('DatabaseBusy', [

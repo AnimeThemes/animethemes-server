@@ -23,9 +23,6 @@ class ActionLogRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = ActionLog::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table($table)
@@ -33,9 +30,6 @@ class ActionLogRelationManager extends BaseRelationManager
             ->defaultPaginationPageOption(5);
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public function canCreate(): bool
     {
         return false;

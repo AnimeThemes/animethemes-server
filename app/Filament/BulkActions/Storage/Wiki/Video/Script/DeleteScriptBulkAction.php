@@ -12,17 +12,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DeleteScriptBulkAction extends DeleteBulkAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'remove-script-bulk';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

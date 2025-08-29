@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogAttempting
 {
-    /**
-     * Handle the event.
-     */
     public function handle(Attempting $event): void
     {
         Log::info('Attempting authentication', [

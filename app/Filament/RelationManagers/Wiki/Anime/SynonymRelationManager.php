@@ -19,9 +19,6 @@ abstract class SynonymRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = SynonymResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

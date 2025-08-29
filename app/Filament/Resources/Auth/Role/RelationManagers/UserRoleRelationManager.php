@@ -18,9 +18,6 @@ class UserRoleRelationManager extends UserRelationManager
      */
     protected static string $relationship = Role::RELATION_USERS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(
@@ -30,8 +27,6 @@ class UserRoleRelationManager extends UserRelationManager
     }
 
     /**
-     * Get the actions available for the relation.
-     *
      * @return array<int, \Filament\Actions\Action>
      */
     public static function getRecordActions(): array

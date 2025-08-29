@@ -41,9 +41,6 @@ abstract class StorageCommand extends BaseCommand
         return $result->hasFailed() ? 1 : 0;
     }
 
-    /**
-     * Get the underlying action.
-     */
     abstract protected function getAction(): StorageAction;
 
     /**

@@ -34,9 +34,6 @@ class ListDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting list-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpListAction
     {
         return new DumpListAction($this->options());

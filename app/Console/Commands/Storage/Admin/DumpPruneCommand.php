@@ -15,9 +15,6 @@ class DumpPruneCommand extends PruneCommand
      */
     protected $signature = 'prune:dump {--H|hours=72 : The number of hours to retain dumps}';
 
-    /**
-     * Get the underlying action.
-     */
     protected function getAction(): PruneAction
     {
         $hours = $this->option('hours');

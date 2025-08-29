@@ -18,9 +18,6 @@ class DateFilter extends Filter
     protected string $fromLabel = 'From';
     protected string $toLabel = 'To';
 
-    /**
-     * Get the label for the filters.
-     */
     public function labels(string $fromLabel, string $toLabel): static
     {
         $this->fromLabel = $fromLabel;
@@ -30,8 +27,6 @@ class DateFilter extends Filter
     }
 
     /**
-     * Get the schema components for the filter.
-     *
      * @return Component[]
      */
     public function getSchemaComponents(): array
@@ -58,8 +53,6 @@ class DateFilter extends Filter
     }
 
     /**
-     * Apply the query used to the filter.
-     *
      * @param  Builder  $query
      * @param  array  $data
      * @return Builder

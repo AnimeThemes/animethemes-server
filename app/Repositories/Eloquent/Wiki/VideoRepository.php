@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 class VideoRepository extends EloquentRepository
 {
     /**
-     * Get the underlying query builder.
-     *
      * @return Builder
      */
     protected function builder(): Builder

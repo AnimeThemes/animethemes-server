@@ -32,8 +32,6 @@ class ResourceRelationManager extends BaseRelationManager
     protected static string $relationship = 'resources';
 
     /**
-     * Get the pivot components of the relation.
-     *
      * @return Component[]
      */
     public function getPivotComponents(): array
@@ -46,8 +44,6 @@ class ResourceRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the pivot columns of the relation.
-     *
      * @return Column[]
      */
     public function getPivotColumns(): array
@@ -58,9 +54,6 @@ class ResourceRelationManager extends BaseRelationManager
         ];
     }
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(
@@ -70,9 +63,6 @@ class ResourceRelationManager extends BaseRelationManager
         );
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public function canCreate(): bool
     {
         return Auth::user()->hasRole(Role::ADMIN->value);

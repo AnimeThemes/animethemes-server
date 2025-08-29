@@ -10,9 +10,6 @@ use CyrildeWit\EloquentViewable\EloquentViewableServiceProvider;
 
 class ViewableServiceProvider extends EloquentViewableServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     */
     public function register(): void
     {
         parent::register();

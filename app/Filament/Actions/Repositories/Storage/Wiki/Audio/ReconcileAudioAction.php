@@ -15,17 +15,11 @@ class ReconcileAudioAction extends ReconcileStorageAction
 {
     use ReconcilesAudioRepositories;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'reconcile-audio';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

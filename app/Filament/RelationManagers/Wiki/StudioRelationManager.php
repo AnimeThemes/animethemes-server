@@ -19,9 +19,6 @@ abstract class StudioRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = StudioResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

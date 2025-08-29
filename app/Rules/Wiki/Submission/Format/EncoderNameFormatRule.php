@@ -15,8 +15,6 @@ use Laravel\Pennant\Feature;
 class EncoderNameFormatRule extends SubmissionRule
 {
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

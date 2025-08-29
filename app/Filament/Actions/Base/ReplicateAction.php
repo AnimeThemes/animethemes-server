@@ -15,9 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReplicateAction extends BaseReplicateAction
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

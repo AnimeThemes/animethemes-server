@@ -10,9 +10,6 @@ use Filament\Schemas\Components\Section;
 
 class TimestampSection
 {
-    /**
-     * Create a section for displaying timestamps.
-     */
     public static function make(): Section
     {
         return Section::make(__('filament.fields.base.timestamps'))

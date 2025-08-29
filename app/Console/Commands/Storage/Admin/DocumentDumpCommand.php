@@ -34,9 +34,6 @@ class DocumentDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting document-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpDocumentAction
     {
         return new DumpDocumentAction($this->options());

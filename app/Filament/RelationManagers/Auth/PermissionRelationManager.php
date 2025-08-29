@@ -19,9 +19,6 @@ abstract class PermissionRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = PermissionResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(
@@ -32,8 +29,6 @@ abstract class PermissionRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
-     *
      * @return \Filament\Actions\Action[]
      */
     public static function getHeaderActions(): array

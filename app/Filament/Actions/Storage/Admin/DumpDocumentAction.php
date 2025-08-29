@@ -9,17 +9,11 @@ use App\Actions\Storage\Admin\Dump\DumpDocumentAction as DumpDocumentDatabase;
 
 class DumpDocumentAction extends DumpAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'dump-document';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,8 +22,6 @@ class DumpDocumentAction extends DumpAction
     }
 
     /**
-     * Get the underlying action.
-     *
      * @param  array<string, mixed>  $data
      */
     protected function storageAction(array $data): DumpDatabase

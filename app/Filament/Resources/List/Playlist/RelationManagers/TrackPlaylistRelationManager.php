@@ -16,9 +16,6 @@ class TrackPlaylistRelationManager extends TrackRelationManager
      */
     protected static string $relationship = Playlist::RELATION_TRACKS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

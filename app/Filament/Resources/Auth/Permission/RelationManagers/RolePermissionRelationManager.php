@@ -16,9 +16,6 @@ class RolePermissionRelationManager extends RoleRelationManager
      */
     protected static string $relationship = Permission::RELATION_ROLES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

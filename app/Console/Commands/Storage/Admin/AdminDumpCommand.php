@@ -34,9 +34,6 @@ class AdminDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting admin-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpAdminAction
     {
         return new DumpAdminAction($this->options());

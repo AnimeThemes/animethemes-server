@@ -16,9 +16,6 @@ class ScriptVideoRelationManager extends ScriptRelationManager
      */
     protected static string $relationship = Video::RELATION_SCRIPT;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

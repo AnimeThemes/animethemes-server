@@ -35,65 +35,41 @@ class Audio extends BaseResource
      */
     protected static ?string $model = AudioModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.audio');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.audios');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedSpeakerWave;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'audios';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return AudioModel::ATTRIBUTE_BASENAME;
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema;
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -108,9 +84,6 @@ class Audio extends BaseResource
             ]);
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -139,8 +112,6 @@ class Audio extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -155,8 +126,6 @@ class Audio extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
@@ -170,8 +139,6 @@ class Audio extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\Action|ActionGroup>
      */
     public static function getRecordActions(): array
@@ -184,8 +151,6 @@ class Audio extends BaseResource
     }
 
     /**
-     * Get the bulk actions available for the resource.
-     *
      * @param  array<int, ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
      * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
@@ -199,8 +164,6 @@ class Audio extends BaseResource
     }
 
     /**
-     * Get the table actions available for the resource.
-     *
      * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
@@ -214,17 +177,12 @@ class Audio extends BaseResource
         ];
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public static function canCreate(): bool
     {
         return false;
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

@@ -34,9 +34,6 @@ class WikiDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting wiki-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpWikiAction
     {
         return new DumpWikiAction($this->options());

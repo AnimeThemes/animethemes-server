@@ -19,9 +19,6 @@ abstract class VideoRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = VideoResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(
@@ -31,9 +28,6 @@ abstract class VideoRelationManager extends BaseRelationManager
         );
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public function canCreate(): bool
     {
         return false;

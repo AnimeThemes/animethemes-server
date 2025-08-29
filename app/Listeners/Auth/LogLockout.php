@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Log;
 class LogLockout
 {
     /**
-     * Handle the event.
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function handle(Lockout $event): void

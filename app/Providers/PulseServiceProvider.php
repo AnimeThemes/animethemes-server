@@ -11,9 +11,6 @@ use Laravel\Pulse\PulseServiceProvider as BasePulseServiceProvider;
 
 class PulseServiceProvider extends BasePulseServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         parent::boot();

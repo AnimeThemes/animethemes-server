@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 abstract class StorageAction extends BaseAction
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -37,8 +34,6 @@ abstract class StorageAction extends BaseAction
     protected function afterUploaded(?Model $record, array $data): void {}
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(?Model $record, array $data): void

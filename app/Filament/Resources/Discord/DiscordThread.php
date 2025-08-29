@@ -40,57 +40,37 @@ class DiscordThread extends BaseResource
      */
     protected static ?string $model = DiscordThreadModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.discord_thread');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.discord_threads');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.discord');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedChatBubbleLeftRight;
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return DiscordThreadModel::ATTRIBUTE_NAME;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'discord-thread';
     }
 
     /**
-     * Get the eloquent query for the resource.
-     *
      * @return Builder
      */
     public static function getEloquentQuery(): Builder
@@ -101,9 +81,6 @@ class DiscordThread extends BaseResource
         return $query->with([DiscordThreadModel::RELATION_ANIME]);
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -128,9 +105,6 @@ class DiscordThread extends BaseResource
             ]);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -148,9 +122,6 @@ class DiscordThread extends BaseResource
             ->defaultSort(BaseModel::CREATED_AT, 'desc');
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -170,8 +141,6 @@ class DiscordThread extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -184,8 +153,6 @@ class DiscordThread extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
@@ -197,8 +164,6 @@ class DiscordThread extends BaseResource
     }
 
     /**
-     * Get the table actions available for the resource.
-     *
      * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
@@ -215,8 +180,6 @@ class DiscordThread extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

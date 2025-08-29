@@ -12,9 +12,6 @@ class ForceDeleteBulkAction extends BaseForceDeleteBulkAction
 {
     use HasActionLogs;
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

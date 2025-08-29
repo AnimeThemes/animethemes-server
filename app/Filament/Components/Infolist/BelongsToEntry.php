@@ -39,9 +39,6 @@ class BelongsToEntry extends TextEntry
         return $static;
     }
 
-    /**
-     * Configure the column.
-     */
     public function configure(): static
     {
         return $this
@@ -85,8 +82,6 @@ class BelongsToEntry extends TextEntry
     }
 
     /**
-     * Get the related model of the owner record.
-     *
      * @return (Model&Nameable)|null
      */
     private function getRelated(?Model $record): ?Model

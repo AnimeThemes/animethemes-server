@@ -12,9 +12,6 @@ class UpdateRelatedIndices implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    /**
-     * Handle the event.
-     */
     public function handle(UpdateRelatedIndicesEvent $event): void
     {
         $event->updateRelatedIndices();

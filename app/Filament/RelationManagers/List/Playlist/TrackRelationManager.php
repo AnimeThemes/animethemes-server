@@ -19,9 +19,6 @@ abstract class TrackRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = TrackResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

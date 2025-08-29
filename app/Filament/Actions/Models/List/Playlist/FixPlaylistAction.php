@@ -12,17 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class FixPlaylistAction extends BaseAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'fix-playlist';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

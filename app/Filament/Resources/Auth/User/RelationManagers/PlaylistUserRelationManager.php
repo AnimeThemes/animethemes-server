@@ -16,9 +16,6 @@ class PlaylistUserRelationManager extends PlaylistRelationManager
      */
     protected static string $relationship = User::RELATION_PLAYLISTS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

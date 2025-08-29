@@ -34,9 +34,6 @@ class DiscordDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting discord-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpDiscordAction
     {
         return new DumpDiscordAction($this->options());

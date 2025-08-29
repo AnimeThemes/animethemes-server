@@ -45,9 +45,6 @@ use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         $this->setupModels();
@@ -68,9 +65,6 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Set up the model configs.
-     */
     protected function setupModels(): void
     {
         Model::automaticallyEagerLoadRelationships();
@@ -131,9 +125,6 @@ class AppServiceProvider extends ServiceProvider
         ]);
     }
 
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->singleton(RecordView::class);

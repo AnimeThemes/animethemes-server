@@ -35,8 +35,6 @@ abstract class BaseRelationManager extends RelationManager
     protected static ?string $relatedResource = null;
 
     /**
-     * Get the pivot components of the relation.
-     *
      * @return Component[]
      */
     public function getPivotComponents(): array
@@ -45,8 +43,6 @@ abstract class BaseRelationManager extends RelationManager
     }
 
     /**
-     * Get the pivot columns of the relation.
-     *
      * @return Column[]
      */
     public function getPivotColumns(): array
@@ -54,9 +50,6 @@ abstract class BaseRelationManager extends RelationManager
         return [];
     }
 
-    /**
-     * The index page of the relation resource.
-     */
     public function table(Table $table): Table
     {
         $resource = static::$relatedResource;
@@ -107,8 +100,6 @@ abstract class BaseRelationManager extends RelationManager
     }
 
     /**
-     * Get the filters available for the relation.
-     *
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
@@ -117,8 +108,6 @@ abstract class BaseRelationManager extends RelationManager
     }
 
     /**
-     * Get the actions available for the relation.
-     *
      * @return Action[]
      */
     public static function getRecordActions(): array
@@ -129,8 +118,6 @@ abstract class BaseRelationManager extends RelationManager
     }
 
     /**
-     * Get the bulk actions available for the relation.
-     *
      * @param  array<int, \Filament\Actions\ActionGroup|Action>|null  $actionsIncludedInGroup
      * @return array<int, \Filament\Actions\ActionGroup|Action>
      */
@@ -146,8 +133,6 @@ abstract class BaseRelationManager extends RelationManager
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
-     *
      * @return Action[]
      */
     public static function getHeaderActions(): array
@@ -163,9 +148,6 @@ abstract class BaseRelationManager extends RelationManager
         ];
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public function canCreate(): bool
     {
         return true;

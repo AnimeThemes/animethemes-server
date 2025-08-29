@@ -8,9 +8,6 @@ use App\Contracts\Events\CascadesDeletesEvent;
 
 class CascadesDeletes
 {
-    /**
-     * Handle the event.
-     */
     public function handle(CascadesDeletesEvent $event): void
     {
         $event->cascadeDeletes();

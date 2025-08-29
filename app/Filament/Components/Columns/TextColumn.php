@@ -9,9 +9,6 @@ use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
 class TextColumn extends ColumnsTextColumn
 {
-    /**
-     * Make the column copyable.
-     */
     public function copyableWithMessage(bool $condition = true): static
     {
         return $this

@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CheckboxFilter extends Filter
 {
-    /**
-     * Initial setup for the filter.
-     */
     protected function setUp(): void
     {
         parent::setUp();

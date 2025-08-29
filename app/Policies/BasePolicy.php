@@ -22,8 +22,6 @@ abstract class BasePolicy
     use HandlesAuthorization;
 
     /**
-     * Get the model class of the policy.
-     *
      * @return class-string<Model>
      */
     protected static function getModel(): string
@@ -34,9 +32,6 @@ abstract class BasePolicy
             ->__toString();
     }
 
-    /**
-     * Perform pre-authorization checks.
-     */
     public function before(User $user, string $ability): ?bool
     {
         if ($user->can(SpecialPermission::BYPASS_AUTHORIZATION->value)) {
@@ -78,9 +73,6 @@ abstract class BasePolicy
         return ! $trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()));
     }
 
-    /**
-     * Determine whether the user can update any model.
-     */
     public function updateAny(User $user): bool
     {
         return $user->can(CrudPermission::UPDATE->format(static::getModel()));
@@ -95,9 +87,6 @@ abstract class BasePolicy
         return ! $trashed && $user->can(CrudPermission::DELETE->format(static::getModel()));
     }
 
-    /**
-     * Determine whether the user can delete any model.
-     */
     public function deleteAny(User $user): bool
     {
         return $user->can(CrudPermission::DELETE->format(static::getModel()));

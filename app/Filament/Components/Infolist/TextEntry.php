@@ -9,9 +9,6 @@ use Filament\Support\Icons\Heroicon;
 
 class TextEntry extends ComponentsTextEntry
 {
-    /**
-     * Make the entry copyable.
-     */
     public function copyableWithMessage(bool $condition = true): static
     {
         return $this

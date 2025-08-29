@@ -50,9 +50,6 @@ class Select extends ComponentsSelect
         return $this->searchable();
     }
 
-    /**
-     * Prepare the search query for Elasticsearch.
-     */
     public function escapeReservedChars(string $search): string
     {
         return preg_replace(

@@ -34,9 +34,6 @@ class ViewDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting view-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpViewAction
     {
         return new DumpViewAction($this->options());

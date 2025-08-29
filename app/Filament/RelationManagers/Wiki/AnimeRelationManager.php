@@ -19,9 +19,6 @@ abstract class AnimeRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = AnimeResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

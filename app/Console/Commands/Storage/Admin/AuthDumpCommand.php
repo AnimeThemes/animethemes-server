@@ -36,9 +36,6 @@ class AuthDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting auth-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpAuthAction
     {
         return new DumpAuthAction($this->options());

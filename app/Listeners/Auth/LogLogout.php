@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogLogout
 {
-    /**
-     * Handle the event.
-     */
     public function handle(Logout $event): void
     {
         Log::info('Logout', [

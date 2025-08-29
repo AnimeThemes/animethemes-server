@@ -39,9 +39,6 @@ class BelongsToColumn extends TextColumn
         return $static;
     }
 
-    /**
-     * Configure the column.
-     */
     public function configure(): static
     {
         parent::configure();

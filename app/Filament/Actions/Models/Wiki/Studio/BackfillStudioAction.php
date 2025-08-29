@@ -32,17 +32,11 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
     final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'backfill-studio';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -55,8 +49,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     }
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(Studio $studio, array $data): void
@@ -88,9 +80,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
         }
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $studio = $this->getRecord();

@@ -34,9 +34,6 @@ use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class FilamentPanelProvider extends PanelProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         FilamentAsset::register([

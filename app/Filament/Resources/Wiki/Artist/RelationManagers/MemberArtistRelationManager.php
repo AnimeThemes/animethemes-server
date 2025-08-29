@@ -15,8 +15,6 @@ use Filament\Tables\Table;
 class MemberArtistRelationManager extends ArtistRelationManager
 {
     /**
-     * Get the pivot components of the relation.
-     *
      * @return array<int, \Filament\Schemas\Components\Component>
      */
     public function getPivotComponents(): array
@@ -37,8 +35,6 @@ class MemberArtistRelationManager extends ArtistRelationManager
     }
 
     /**
-     * Get the pivot columns of the relation.
-     *
      * @return Column[]
      */
     public function getPivotColumns(): array
@@ -60,9 +56,6 @@ class MemberArtistRelationManager extends ArtistRelationManager
      */
     protected static string $relationship = Artist::RELATION_MEMBERS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

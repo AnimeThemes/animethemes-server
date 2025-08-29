@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class DeleteAction extends StorageAction
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

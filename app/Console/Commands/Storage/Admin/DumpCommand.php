@@ -53,8 +53,5 @@ abstract class DumpCommand extends BaseCommand
         ]);
     }
 
-    /**
-     * Get the underlying action.
-     */
     abstract protected function action(): DumpAction;
 }

@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DeleteVideoBulkAction extends DeleteBulkAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'remove-video-bulk';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

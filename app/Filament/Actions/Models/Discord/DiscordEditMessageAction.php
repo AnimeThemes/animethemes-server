@@ -24,17 +24,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DiscordEditMessageAction extends BaseAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'discord-edit-message';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -59,9 +53,6 @@ class DiscordEditMessageAction extends BaseAction
         $action->edit($message);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema

@@ -20,8 +20,6 @@ use RuntimeException;
 class ModerationRule implements ValidationRule
 {
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      *
      * @throws RuntimeException

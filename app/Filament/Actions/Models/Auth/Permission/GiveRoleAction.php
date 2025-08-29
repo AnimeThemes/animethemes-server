@@ -16,17 +16,11 @@ class GiveRoleAction extends BaseAction
 {
     final public const FIELD_ROLE = 'role';
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'permission-give-role';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -37,8 +31,6 @@ class GiveRoleAction extends BaseAction
     }
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(Permission $permission, array $data): void
@@ -48,9 +40,6 @@ class GiveRoleAction extends BaseAction
         $permission->assignRole($role);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $roles = Role::query()

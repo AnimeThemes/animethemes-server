@@ -24,9 +24,6 @@ class CreateAction extends BaseCreateAction
 {
     use HasPivotActionLogs;
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

@@ -14,8 +14,6 @@ use Laravel\Pennant\Feature;
 class VideoColorSpaceStreamRule extends SubmissionRule
 {
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

@@ -9,17 +9,11 @@ use App\Filament\Actions\Models\Wiki\AttachResourceAction;
 
 class AttachAnimeResourceAction extends AttachResourceAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'attach-anime-resource';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

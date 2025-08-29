@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class ReconcileStorageAction extends ReconcileAction implements InteractsWithDisk
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -45,9 +42,6 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
         }
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $fs = Storage::disk($this->disk());

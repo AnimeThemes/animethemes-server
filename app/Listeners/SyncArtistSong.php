@@ -8,9 +8,6 @@ use App\Contracts\Events\SyncArtistSongEvent;
 
 class SyncArtistSong
 {
-    /**
-     * Handle the event.
-     */
     public function handle(SyncArtistSongEvent $event): void
     {
         $event->syncArtistSong();

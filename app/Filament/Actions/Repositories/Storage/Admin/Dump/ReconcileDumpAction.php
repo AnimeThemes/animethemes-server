@@ -16,17 +16,11 @@ class ReconcileDumpAction extends ReconcileStorageAction
 {
     use ReconcilesDumpRepositories;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'reconcile-dump';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -36,9 +30,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
         $this->visible(Gate::allows('create', Dump::class));
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema;

@@ -19,9 +19,6 @@ abstract class ArtistRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = ArtistResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

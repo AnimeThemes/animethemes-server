@@ -22,17 +22,11 @@ use Illuminate\Validation\Rules\File as FileRule;
 
 class UploadScriptAction extends UploadAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'upload-script';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -42,9 +36,6 @@ class UploadScriptAction extends UploadAction
         $this->visible(Gate::allows('create', VideoScript::class));
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $model = $this->getRecord();

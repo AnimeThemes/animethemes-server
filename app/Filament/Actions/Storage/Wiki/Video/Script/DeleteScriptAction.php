@@ -12,17 +12,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DeleteScriptAction extends DeleteAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'delete-script';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

@@ -12,17 +12,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DeleteVideoAction extends DeleteAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'delete-video';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

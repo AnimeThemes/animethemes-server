@@ -11,9 +11,6 @@ use Filament\Support\Icons\Heroicon;
 
 abstract class DeleteBulkAction extends StorageBulkAction
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

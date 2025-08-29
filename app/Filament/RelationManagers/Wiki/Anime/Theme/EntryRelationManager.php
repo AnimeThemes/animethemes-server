@@ -19,9 +19,6 @@ abstract class EntryRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = EntryResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

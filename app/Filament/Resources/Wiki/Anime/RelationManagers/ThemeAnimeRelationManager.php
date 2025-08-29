@@ -16,9 +16,6 @@ class ThemeAnimeRelationManager extends ThemeRelationManager
      */
     protected static string $relationship = Anime::RELATION_THEMES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

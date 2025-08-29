@@ -34,9 +34,6 @@ class UserDumpCommand extends DumpCommand
      */
     protected $description = 'Produces sanitized database dump, targeting user-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpUserAction
     {
         return new DumpUserAction($this->options());

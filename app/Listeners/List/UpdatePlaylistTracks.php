@@ -8,9 +8,6 @@ use App\Contracts\Events\UpdatePlaylistTracksEvent;
 
 class UpdatePlaylistTracks
 {
-    /**
-     * Handle the event.
-     */
     public function handle(UpdatePlaylistTracksEvent $event): void
     {
         $event->updatePlaylistTracks();

@@ -16,9 +16,6 @@ class SeriesAnimeRelationManager extends SeriesRelationManager
      */
     protected static string $relationship = Anime::RELATION_SERIES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

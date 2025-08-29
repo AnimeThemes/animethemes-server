@@ -16,9 +16,6 @@ abstract class BaseBulkAction extends BulkAction
 {
     use HasActionLogs;
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

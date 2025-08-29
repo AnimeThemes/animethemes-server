@@ -16,17 +16,11 @@ class AssignHashidsAction extends BaseAction
 {
     protected ?string $connection = null;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'assign-hashids';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,9 +32,6 @@ class AssignHashidsAction extends BaseAction
         $this->action(fn (BaseModel $record) => $this->handle($record));
     }
 
-    /**
-     * Perform the action on the given models.
-     */
     public function handle(BaseModel $model): void
     {
         $action = new AssignHashids();

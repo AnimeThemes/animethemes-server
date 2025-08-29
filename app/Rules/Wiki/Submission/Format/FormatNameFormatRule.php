@@ -16,8 +16,6 @@ class FormatNameFormatRule extends SubmissionRule
     public function __construct(protected readonly string $expected) {}
 
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

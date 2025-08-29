@@ -11,9 +11,6 @@ use Laravel\Pennant\Feature;
 
 class SendDiscordNotification
 {
-    /**
-     * Handle the event.
-     */
     public function handle(DiscordMessageEvent $event): void
     {
         if (Feature::for(null)->active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS) && $event->shouldSendDiscordMessage()) {

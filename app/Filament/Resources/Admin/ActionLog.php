@@ -41,57 +41,37 @@ class ActionLog extends BaseResource
      */
     protected static ?string $model = ActionLogModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.action_log');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.action_logs');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.admin');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedRectangleStack;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'action-logs';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return ActionLogModel::ATTRIBUTE_NAME;
     }
 
     /**
-     * Get the eloquent query for the resource.
-     *
      * @return Builder
      */
     public static function getEloquentQuery(): Builder
@@ -105,9 +85,6 @@ class ActionLog extends BaseResource
         ]);
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -136,9 +113,6 @@ class ActionLog extends BaseResource
             ]);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -172,9 +146,6 @@ class ActionLog extends BaseResource
             ]);
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -227,8 +198,6 @@ class ActionLog extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
      * @return array<int, \Filament\Tables\Filters\BaseFilter>
      */
     public static function getFilters(): array
@@ -247,8 +216,6 @@ class ActionLog extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getActions(): array
@@ -259,8 +226,6 @@ class ActionLog extends BaseResource
     }
 
     /**
-     * Get the bulk actions available for the resource.
-     *
      * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
      * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      */
@@ -270,8 +235,6 @@ class ActionLog extends BaseResource
     }
 
     /**
-     * Get the table actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
@@ -279,9 +242,6 @@ class ActionLog extends BaseResource
         return [];
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public static function canCreate(): bool
     {
         return false;
@@ -323,8 +283,6 @@ class ActionLog extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, PageRegistration>
      */
     public static function getPages(): array

@@ -16,9 +16,6 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
      */
     protected static string $relationship = Artist::RELATION_GROUP_PERFORMANCES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(
@@ -30,8 +27,6 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
     }
 
     /**
-     * Get the actions available for the relation.
-     *
      * @return array<int, \Filament\Actions\Action>
      */
     public static function getRecordActions(): array
@@ -40,8 +35,6 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
     }
 
     /**
-     * Get the bulk actions available for the relation.
-     *
      * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
      * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      */

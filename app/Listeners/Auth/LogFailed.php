@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogFailed
 {
-    /**
-     * Handle the event.
-     */
     public function handle(Failed $event): void
     {
         Log::info('Authentication attempt failed', [

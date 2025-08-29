@@ -10,9 +10,7 @@ use Filament\Tables\Table;
 
 class ExceptionsTableWidget extends BaseTableWidget
 {
-    /**
-     * The index page of the resource.
-     */
+
     public function table(Table $table): Table
     {
         return Exception::table($table)

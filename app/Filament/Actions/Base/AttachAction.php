@@ -23,9 +23,6 @@ class AttachAction extends BaseAttachAction
 {
     use HasPivotActionLogs;
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

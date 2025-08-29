@@ -15,17 +15,11 @@ use Illuminate\Support\Facades\Gate;
 
 class MoveScriptAction extends MoveAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'move-script';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

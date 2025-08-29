@@ -41,17 +41,11 @@ class BackfillAnimeAction extends BaseAction
     final public const BACKFILL_STUDIOS = 'backfill_studios';
     final public const BACKFILL_SYNONYMS = 'backfill_synonyms';
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'backfill-anime';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -65,8 +59,6 @@ class BackfillAnimeAction extends BaseAction
     }
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(Anime $anime, array $data): void

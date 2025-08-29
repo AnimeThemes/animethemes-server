@@ -16,9 +16,6 @@ abstract class PruneCommand extends StorageCommand
      */
     protected $description = 'Prune stale files from storage';
 
-    /**
-     * Get the underlying action.
-     */
     abstract protected function getAction(): PruneAction;
 
     /**

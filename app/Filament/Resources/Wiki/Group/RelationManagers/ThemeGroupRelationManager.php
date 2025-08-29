@@ -16,9 +16,6 @@ class ThemeGroupRelationManager extends ThemeRelationManager
      */
     protected static string $relationship = Group::RELATION_THEMES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

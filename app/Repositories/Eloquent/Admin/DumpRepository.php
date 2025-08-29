@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 class DumpRepository extends EloquentRepository
 {
     /**
-     * Get the underlying query builder.
-     *
      * @return Builder
      */
     protected function builder(): Builder
