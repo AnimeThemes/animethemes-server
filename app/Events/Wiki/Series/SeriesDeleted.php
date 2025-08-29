@@ -49,8 +49,6 @@ class SeriesDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = SeriesFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return SeriesFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

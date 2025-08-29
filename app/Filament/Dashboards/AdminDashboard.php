@@ -12,6 +12,7 @@ use App\Filament\Widgets\List\PlaylistTrackChart;
 use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Filament\Support\Icons\Heroicon;
 
 class AdminDashboard extends BaseDashboard
 {
@@ -42,9 +43,9 @@ class AdminDashboard extends BaseDashboard
     /**
      * Get the icon for the dashboard.
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.dashboards.admin');
+        return Heroicon::ChartBarSquare;
     }
 
     /**

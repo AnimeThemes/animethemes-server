@@ -23,6 +23,7 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -38,8 +39,6 @@ class User extends BaseResource
 
     /**
      * Get the displayable singular label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
     {
@@ -48,8 +47,6 @@ class User extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPluralModelLabel(): string
     {
@@ -58,8 +55,6 @@ class User extends BaseResource
 
     /**
      * The logical group associated with the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
     {
@@ -68,12 +63,10 @@ class User extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.users');
+        return Heroicon::OutlinedUsers;
     }
 
     /**
@@ -86,8 +79,6 @@ class User extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
     {
@@ -96,8 +87,6 @@ class User extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function form(Schema $schema): Schema
     {
@@ -139,15 +128,13 @@ class User extends BaseResource
 
                 TextColumn::make(UserModel::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
-                    ->icon(__('filament-icons.fields.user.email'))
+                    ->icon(Heroicon::Envelope)
                     ->searchable(isIndividual: true),
             ]);
     }
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function infolist(Schema $schema): Schema
     {
@@ -166,7 +153,7 @@ class User extends BaseResource
 
                         TextEntry::make(UserModel::ATTRIBUTE_EMAIL)
                             ->label(__('filament.fields.user.email'))
-                            ->icon(__('filament-icons.fields.user.email')),
+                            ->icon(Heroicon::Envelope),
 
                         TextEntry::make(UserModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -181,8 +168,6 @@ class User extends BaseResource
      * Get the relationships available for the resource.
      *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRelations(): array
     {
@@ -227,8 +212,6 @@ class User extends BaseResource
      * Get the pages available for the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPages(): array
     {

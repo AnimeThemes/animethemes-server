@@ -49,8 +49,6 @@ class PageDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = PageFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return PageFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

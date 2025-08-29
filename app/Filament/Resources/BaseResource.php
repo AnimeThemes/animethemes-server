@@ -36,8 +36,6 @@ abstract class BaseResource extends Resource
 {
     /**
      * Determine if the resource can globally search.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function canGloballySearch(): bool
     {
@@ -46,21 +44,14 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the route key for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordRouteKeyName(): string
     {
-        /** @var Model $model */
-        $model = static::getModel();
-
-        return (new $model)->getKeyName();
+        return (new static::$model)->getKeyName();
     }
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
     {
@@ -69,8 +60,6 @@ abstract class BaseResource extends Resource
 
     /**
      * The index page of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
@@ -92,8 +81,6 @@ abstract class BaseResource extends Resource
      * Get the filters available for the resource.
      *
      * @return \Filament\Tables\Filters\BaseFilter[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -156,8 +143,6 @@ abstract class BaseResource extends Resource
      *
      * @param  array<int, ActionGroup|Action>|null  $actionsIncludedInGroup
      * @return array<int, ActionGroup|Action>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -176,8 +161,6 @@ abstract class BaseResource extends Resource
      * Get the table actions available for the resource.
      *
      * @return array<int, ActionGroup|Action>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {
@@ -202,8 +185,6 @@ abstract class BaseResource extends Resource
      * Get the base relationships available for all resources.
      *
      * @return array<int, \Filament\Resources\RelationManagers\RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBaseRelations(): array
     {
@@ -214,8 +195,6 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the generic slug (URI key) for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getSlug(?Panel $panel = null): string
     {

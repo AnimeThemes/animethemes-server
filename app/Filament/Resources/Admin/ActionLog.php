@@ -25,6 +25,7 @@ use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,8 +43,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the displayable singular label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
     {
@@ -52,8 +51,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPluralModelLabel(): string
     {
@@ -62,8 +59,6 @@ class ActionLog extends BaseResource
 
     /**
      * The logical group associated with the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
     {
@@ -72,12 +67,10 @@ class ActionLog extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.action_logs');
+        return Heroicon::OutlinedRectangleStack;
     }
 
     /**
@@ -90,8 +83,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
     {
@@ -116,8 +107,6 @@ class ActionLog extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function form(Schema $schema): Schema
     {
@@ -185,8 +174,6 @@ class ActionLog extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function infolist(Schema $schema): Schema
     {
@@ -243,8 +230,6 @@ class ActionLog extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array<int, \Filament\Tables\Filters\BaseFilter>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -341,8 +326,6 @@ class ActionLog extends BaseResource
      * Get the pages available for the resource.
      *
      * @return array<string, PageRegistration>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPages(): array
     {

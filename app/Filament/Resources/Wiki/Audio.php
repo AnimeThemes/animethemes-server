@@ -22,6 +22,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,8 +37,6 @@ class Audio extends BaseResource
 
     /**
      * Get the displayable singular label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
     {
@@ -46,8 +45,6 @@ class Audio extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPluralModelLabel(): string
     {
@@ -56,8 +53,6 @@ class Audio extends BaseResource
 
     /**
      * The logical group associated with the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
     {
@@ -66,12 +61,10 @@ class Audio extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.audios');
+        return Heroicon::OutlinedSpeakerWave;
     }
 
     /**
@@ -84,8 +77,6 @@ class Audio extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
     {
@@ -94,8 +85,6 @@ class Audio extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function form(Schema $schema): Schema
     {
@@ -121,8 +110,6 @@ class Audio extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function infolist(Schema $schema): Schema
     {
@@ -155,8 +142,6 @@ class Audio extends BaseResource
      * Get the relationships available for the resource.
      *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRelations(): array
     {
@@ -217,8 +202,6 @@ class Audio extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array<int, ActionGroup|\Filament\Actions\Action>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {
@@ -243,8 +226,6 @@ class Audio extends BaseResource
      * Get the pages available for the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPages(): array
     {

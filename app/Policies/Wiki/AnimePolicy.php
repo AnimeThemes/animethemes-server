@@ -14,10 +14,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
-use App\Pivots\Morph\Imageable;
-use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\AnimeSeries;
-use App\Pivots\Wiki\AnimeStudio;
 use App\Policies\BasePolicy;
 
 class AnimePolicy extends BasePolicy
@@ -47,21 +43,6 @@ class AnimePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can attach a series to the anime.
-     */
-    public function attachSeries(User $user, Anime $anime, Series $series): bool
-    {
-        $attached = AnimeSeries::query()
-            ->where(AnimeSeries::ATTRIBUTE_ANIME, $anime->getKey())
-            ->where(AnimeSeries::ATTRIBUTE_SERIES, $series->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Anime::class))
-            && $user->can(CrudPermission::CREATE->format(Series::class));
-    }
-
-    /**
      * Determine whether the user can detach any series from the anime.
      */
     public function detachAnySeries(User $user): bool
@@ -75,21 +56,6 @@ class AnimePolicy extends BasePolicy
     public function attachAnyExternalResource(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
-    }
-
-    /**
-     * Determine whether the user can attach a resource to the anime.
-     */
-    public function attachExternalResource(User $user, Anime $anime, ExternalResource $resource): bool
-    {
-        $attached = Resourceable::query()
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $anime)
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Anime::class))
-            && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
 
     /**
@@ -109,21 +75,6 @@ class AnimePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can attach an image to the anime.
-     */
-    public function attachImage(User $user, Anime $anime, Image $image): bool
-    {
-        $attached = Imageable::query()
-            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $anime)
-            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Anime::class))
-            && $user->can(CrudPermission::CREATE->format(Image::class));
-    }
-
-    /**
      * Determine whether the user can detach any image from the anime.
      */
     public function detachAnyImage(User $user): bool
@@ -137,21 +88,6 @@ class AnimePolicy extends BasePolicy
     public function attachAnyStudio(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
-    }
-
-    /**
-     * Determine whether the user can attach a studio to the anime.
-     */
-    public function attachStudio(User $user, Anime $anime, Studio $studio): bool
-    {
-        $attached = AnimeStudio::query()
-            ->where(AnimeStudio::ATTRIBUTE_ANIME, $anime->getKey())
-            ->where(AnimeStudio::ATTRIBUTE_STUDIO, $studio->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Anime::class))
-            && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**

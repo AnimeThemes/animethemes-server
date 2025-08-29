@@ -10,7 +10,6 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
-use App\Pivots\Morph\Imageable;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
@@ -113,13 +112,7 @@ class PlaylistPolicy extends BasePolicy
             return false;
         }
 
-        $attached = Imageable::query()
-            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $playlist)
-            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Playlist::class))
+        return $user->can(CrudPermission::CREATE->format(Playlist::class))
             && $user->can(CrudPermission::CREATE->format(Image::class));
     }
 

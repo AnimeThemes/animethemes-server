@@ -53,9 +53,7 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = GroupFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return GroupFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
     /**

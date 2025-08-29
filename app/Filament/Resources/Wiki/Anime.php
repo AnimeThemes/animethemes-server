@@ -31,6 +31,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -46,8 +47,6 @@ class Anime extends BaseResource
 
     /**
      * Get the displayable singular label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
     {
@@ -56,8 +55,6 @@ class Anime extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPluralModelLabel(): string
     {
@@ -66,8 +63,6 @@ class Anime extends BaseResource
 
     /**
      * The logical group associated with the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
     {
@@ -76,18 +71,14 @@ class Anime extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.anime');
+        return Heroicon::OutlinedTv;
     }
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
     {
@@ -96,8 +87,6 @@ class Anime extends BaseResource
 
     /**
      * Determine if the resource can globally search.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function canGloballySearch(): bool
     {
@@ -114,8 +103,6 @@ class Anime extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function form(Schema $schema): Schema
     {
@@ -207,8 +194,6 @@ class Anime extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function infolist(Schema $schema): Schema
     {
@@ -254,8 +239,6 @@ class Anime extends BaseResource
      * Get the relationships available for the resource.
      *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRelations(): array
     {
@@ -321,7 +304,7 @@ class Anime extends BaseResource
 
             AttachAnimeResourceAction::make('attach-anime-streaming-resource')
                 ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
-                ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
+                ->icon(Heroicon::OutlinedTv)
                 ->sites($streamingResourceSites),
         ];
     }
@@ -330,8 +313,6 @@ class Anime extends BaseResource
      * Get the pages available for the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPages(): array
     {

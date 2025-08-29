@@ -56,17 +56,4 @@ class PlaylistPolicy extends BasePolicy
 
         return $playlist->user()->is($user) && parent::delete($user, $args, $keyName);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  array  $args
-     */
-    public function restore(User $user, array $args, ?string $keyName = 'model'): bool
-    {
-        /** @var Playlist $playlist */
-        $playlist = Arr::get($args, $keyName);
-
-        return $playlist->user()->is($user) && parent::restore($user, $args, $keyName);
-    }
 }

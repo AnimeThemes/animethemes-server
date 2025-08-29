@@ -50,9 +50,7 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = MembershipFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return MembershipFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
     /**

@@ -16,6 +16,7 @@ use App\Models\Wiki\Video;
 use Exception;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -45,7 +46,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
         $this->label(__('filament.actions.video.backfill.name'));
 
-        $this->icon(__('filament-icons.actions.video.backfill'));
+        $this->icon(Heroicon::OutlinedSpeakerWave);
 
         $this->visible(Gate::allows('create', Audio::class));
 
@@ -83,8 +84,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

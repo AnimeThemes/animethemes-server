@@ -16,6 +16,7 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
 
 class DiscordSendMessageAction extends BaseAction
@@ -36,7 +37,7 @@ class DiscordSendMessageAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.table_actions.discord_thread.message.send.name'));
-        $this->icon(__('filament-icons.table_actions.discord_thread.message.send'));
+        $this->icon(Heroicon::OutlinedChatBubbleLeft);
 
         $this->visible(Gate::allows('deleteAny', DiscordThread::class));
     }

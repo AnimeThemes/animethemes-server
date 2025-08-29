@@ -11,7 +11,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\Morph\Imageable;
 use App\Policies\BasePolicy;
 
 class ImagePolicy extends BasePolicy
@@ -22,21 +21,6 @@ class ImagePolicy extends BasePolicy
     public function attachAnyArtist(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
-    }
-
-    /**
-     * Determine whether the user can attach an artist to the image.
-     */
-    public function attachArtist(User $user, Image $image, Artist $artist): bool
-    {
-        $attached = Imageable::query()
-            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
-            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $artist)
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Image::class))
-            && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -56,21 +40,6 @@ class ImagePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can attach an anime to the image.
-     */
-    public function attachAnime(User $user, Image $image, Anime $anime): bool
-    {
-        $attached = Imageable::query()
-            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
-            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $anime)
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Image::class))
-            && $user->can(CrudPermission::CREATE->format(Anime::class));
-    }
-
-    /**
      * Determine whether the user can detach any anime from the image.
      */
     public function detachAnyAnime(User $user): bool
@@ -84,21 +53,6 @@ class ImagePolicy extends BasePolicy
     public function attachAnyStudio(User $user): bool
     {
         return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
-    }
-
-    /**
-     * Determine whether the user can attach a studio to the image.
-     */
-    public function attachStudio(User $user, Image $image, Studio $studio): bool
-    {
-        $attached = Imageable::query()
-            ->where(Imageable::ATTRIBUTE_IMAGE, $image->getKey())
-            ->whereMorphedTo(Imageable::RELATION_IMAGEABLE, $studio)
-            ->exists();
-
-        return ! $attached
-            && $user->can(CrudPermission::CREATE->format(Image::class))
-            && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**

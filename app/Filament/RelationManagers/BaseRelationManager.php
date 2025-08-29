@@ -56,8 +56,6 @@ abstract class BaseRelationManager extends RelationManager
 
     /**
      * The index page of the relation resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {
@@ -112,8 +110,6 @@ abstract class BaseRelationManager extends RelationManager
      * Get the filters available for the relation.
      *
      * @return \Filament\Tables\Filters\BaseFilter[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -137,8 +133,6 @@ abstract class BaseRelationManager extends RelationManager
      *
      * @param  array<int, \Filament\Actions\ActionGroup|Action>|null  $actionsIncludedInGroup
      * @return array<int, \Filament\Actions\ActionGroup|Action>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -155,8 +149,6 @@ abstract class BaseRelationManager extends RelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return Action[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

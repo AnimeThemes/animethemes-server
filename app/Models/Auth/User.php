@@ -297,7 +297,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
             return $notifications->where(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
         }
 
-        return $notifications;
+        return $notifications->whereNot(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
     }
 
     /**

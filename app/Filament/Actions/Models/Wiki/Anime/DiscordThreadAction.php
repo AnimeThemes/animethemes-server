@@ -11,6 +11,7 @@ use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Exception;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
 
 class DiscordThreadAction extends BaseAction
@@ -31,7 +32,7 @@ class DiscordThreadAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.actions.anime.discord_thread.name'));
-        $this->icon(__('filament-icons.actions.anime.discord_thread'));
+        $this->icon(Heroicon::OutlinedChatBubbleLeftRight);
 
         $this->visible(Gate::allows('create', DiscordThread::class));
 

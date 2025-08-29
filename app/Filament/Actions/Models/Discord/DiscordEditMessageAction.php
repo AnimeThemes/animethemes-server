@@ -18,6 +18,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 
@@ -39,7 +40,7 @@ class DiscordEditMessageAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
-        $this->icon(__('filament-icons.table_actions.discord_thread.message.edit'));
+        $this->icon(Heroicon::OutlinedPencilSquare);
 
         $this->visible(Gate::allows('deleteAny', DiscordThread::class));
     }

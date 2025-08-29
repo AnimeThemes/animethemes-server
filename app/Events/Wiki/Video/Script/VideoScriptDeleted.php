@@ -49,8 +49,6 @@ class VideoScriptDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = VideoScriptFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return VideoScriptFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

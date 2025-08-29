@@ -60,9 +60,7 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = SynonymFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return SynonymFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
     /**

@@ -51,9 +51,7 @@ class EntryDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = EntryFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return EntryFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
     /**

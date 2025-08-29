@@ -56,8 +56,6 @@ class ThemeDeleted extends WikiDeletedEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = ThemeFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return ThemeFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 }

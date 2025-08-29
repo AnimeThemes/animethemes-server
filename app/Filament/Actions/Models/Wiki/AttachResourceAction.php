@@ -12,6 +12,7 @@ use App\Filament\Components\Fields\TextInput;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
@@ -32,7 +33,7 @@ abstract class AttachResourceAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.actions.models.wiki.attach_resource.name'));
-        $this->icon(__('filament-icons.actions.models.wiki.attach_resource'));
+        $this->icon(Heroicon::OutlinedQueueList);
 
         $this->visible(Gate::allows('create', ExternalResource::class));
 

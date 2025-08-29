@@ -8,6 +8,7 @@ use App\Actions\Models\List\External\SyncExternalProfileAction as SyncExternalPr
 use App\Enums\Auth\Role;
 use App\Filament\Actions\BaseAction;
 use App\Models\List\ExternalProfile;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 class SyncExternalProfileAction extends BaseAction
@@ -28,7 +29,7 @@ class SyncExternalProfileAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.actions.models.list.sync_profile.name'));
-        $this->icon(__('filament-icons.actions.models.list.sync_profile'));
+        $this->icon(Heroicon::OutlinedArrowPath);
 
         $this->visible(Auth::user()->hasRole(Role::ADMIN->value));
 

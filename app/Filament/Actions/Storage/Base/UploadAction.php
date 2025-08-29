@@ -13,6 +13,7 @@ use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManage
 use App\Rules\Storage\StorageDirectoryExistsRule;
 use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,13 +26,11 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
     {
         parent::setUp();
 
-        $this->icon(__('filament-icons.table_actions.base.upload'));
+        $this->icon(Heroicon::OutlinedArrowUpTray);
     }
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

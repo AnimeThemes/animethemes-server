@@ -70,11 +70,15 @@ class AuthorizesPivot
      */
     protected function forStore(User $user, Model $foreignModel, Model $relatedModel): bool
     {
-        $attach = Str::of('attach')
-            ->append(Str::singular(class_basename($relatedModel)))
+        $attachAny = Str::of('attachAny')
+            ->append(Str::studly(class_basename($relatedModel)))
             ->__toString();
 
-        return Gate::forUser($user)->check($attach, [$foreignModel, $relatedModel]);
+        $attach = Str::of('attach')
+            ->append(Str::studly(class_basename($relatedModel)))
+            ->__toString();
+
+        return Gate::forUser($user)->any([$attach, $attachAny], [$foreignModel, $relatedModel]);
     }
 
     /**
@@ -83,14 +87,14 @@ class AuthorizesPivot
     protected function forDestroy(User $user, Model $foreignModel, Model $relatedModel): bool
     {
         $detachAny = Str::of('detachAny')
-            ->append(Str::singular(class_basename($relatedModel)))
+            ->append(Str::studly(class_basename($relatedModel)))
             ->__toString();
 
         $detach = Str::of('detach')
-            ->append(Str::singular(class_basename($relatedModel)))
+            ->append(Str::studly(class_basename($relatedModel)))
             ->__toString();
 
-        return Gate::forUser($user)->any([$detach, $detachAny], $foreignModel);
+        return Gate::forUser($user)->any([$detach, $detachAny], [$foreignModel, $relatedModel]);
     }
 
     /**

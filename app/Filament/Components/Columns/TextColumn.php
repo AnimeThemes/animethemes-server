@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Columns;
 
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
 class TextColumn extends ColumnsTextColumn
@@ -16,6 +17,6 @@ class TextColumn extends ColumnsTextColumn
         return $this
             ->copyable($condition)
             ->copyMessage(__('filament.actions.base.copied'))
-            ->icon(__('filament-icons.actions.base.copied'));
+            ->icon(Heroicon::OutlinedClipboard);
     }
 }

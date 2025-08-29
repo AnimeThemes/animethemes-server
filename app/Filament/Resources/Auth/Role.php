@@ -25,6 +25,7 @@ use Filament\Infolists\Components\IconEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
@@ -41,8 +42,6 @@ class Role extends BaseResource
 
     /**
      * Get the displayable singular label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getModelLabel(): string
     {
@@ -51,8 +50,6 @@ class Role extends BaseResource
 
     /**
      * Get the displayable label of the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPluralModelLabel(): string
     {
@@ -61,8 +58,6 @@ class Role extends BaseResource
 
     /**
      * The logical group associated with the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getNavigationGroup(): string
     {
@@ -71,12 +66,10 @@ class Role extends BaseResource
 
     /**
      * The icon displayed to the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon(): Heroicon
     {
-        return __('filament-icons.resources.roles');
+        return Heroicon::OutlinedBriefcase;
     }
 
     /**
@@ -89,8 +82,6 @@ class Role extends BaseResource
 
     /**
      * Get the title attribute for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordTitleAttribute(): string
     {
@@ -99,8 +90,6 @@ class Role extends BaseResource
 
     /**
      * The form to the actions.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function form(Schema $schema): Schema
     {
@@ -159,8 +148,6 @@ class Role extends BaseResource
 
     /**
      * Get the infolist available for the resource.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function infolist(Schema $schema): Schema
     {
@@ -195,8 +182,6 @@ class Role extends BaseResource
      * Get the relationships available for the resource.
      *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRelations(): array
     {
@@ -212,8 +197,6 @@ class Role extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array<int, \Filament\Tables\Filters\BaseFilter>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -246,8 +229,6 @@ class Role extends BaseResource
      * Get the pages available for the resource.
      *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getPages(): array
     {

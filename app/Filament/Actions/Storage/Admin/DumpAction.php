@@ -12,6 +12,7 @@ use App\Models\Admin\Dump;
 use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ abstract class DumpAction extends BaseAction
     {
         parent::setUp();
 
-        $this->icon(__('filament-icons.table_actions.dump.dump'));
+        $this->icon(Heroicon::OutlinedCircleStack);
 
         $this->visible(Gate::allows('create', Dump::class));
     }
@@ -50,8 +51,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {
@@ -66,8 +65,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the fields available on the action for a MySql db connection.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fieldsForMySql(Schema $schema): Schema
     {
@@ -136,8 +133,6 @@ abstract class DumpAction extends BaseAction
 
     /**
      * Get the fields available on the action for a PostgreSql db connection.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fieldsForPostgreSql(Schema $schema): Schema
     {

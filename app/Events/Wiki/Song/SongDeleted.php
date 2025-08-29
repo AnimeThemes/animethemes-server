@@ -54,9 +54,7 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = SongFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return SongFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Actions\Storage\Base\PruneAction as BasePruneAction;
 use App\Filament\Actions\Storage\StorageAction;
 use App\Filament\Components\Fields\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class PruneAction extends StorageAction
@@ -19,13 +20,11 @@ abstract class PruneAction extends StorageAction
     {
         parent::setUp();
 
-        $this->icon(__('filament-icons.table_actions.base.prune'));
+        $this->icon(Heroicon::OutlinedTrash);
     }
 
     /**
      * Get the schema available on the action.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getSchema(Schema $schema): Schema
     {

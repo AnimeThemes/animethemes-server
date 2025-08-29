@@ -7,6 +7,7 @@ namespace App\Filament\BulkActions\Storage\Base;
 use App\Actions\Storage\Base\DeleteAction as BaseDeleteAction;
 use App\Filament\BulkActions\Storage\StorageBulkAction;
 use App\Models\BaseModel;
+use Filament\Support\Icons\Heroicon;
 
 abstract class DeleteBulkAction extends StorageBulkAction
 {
@@ -19,7 +20,7 @@ abstract class DeleteBulkAction extends StorageBulkAction
 
         $this->color('danger');
 
-        $this->icon(__('filament-icons.actions.base.delete'));
+        $this->icon(Heroicon::Trash);
     }
 
     /**

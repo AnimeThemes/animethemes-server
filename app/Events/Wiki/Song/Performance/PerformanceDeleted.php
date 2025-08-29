@@ -66,9 +66,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
      */
     protected function getFilamentNotificationUrl(): string
     {
-        $uriKey = PerformanceFilament::getRecordSlug();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+        return PerformanceFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
     /**
