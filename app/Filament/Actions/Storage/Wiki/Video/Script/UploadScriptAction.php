@@ -68,9 +68,6 @@ class UploadScriptAction extends UploadAction
         return new UploadScript($file, $path, $video);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED);

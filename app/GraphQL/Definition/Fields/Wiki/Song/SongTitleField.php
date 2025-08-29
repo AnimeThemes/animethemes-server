@@ -22,8 +22,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -38,8 +36,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

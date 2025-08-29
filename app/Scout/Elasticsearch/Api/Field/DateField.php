@@ -20,9 +20,6 @@ abstract class DateField extends Field implements FilterableField, SortableField
         return new DateFilter($this->getKey(), $this->getSearchField());
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort($this->getKey(), $this->getSortField());

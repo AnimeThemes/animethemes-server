@@ -6,8 +6,5 @@ namespace App\Contracts\Events;
 
 interface CascadesDeletesEvent
 {
-    /**
-     * Perform cascading deletes.
-     */
     public function cascadeDeletes(): void;
 }

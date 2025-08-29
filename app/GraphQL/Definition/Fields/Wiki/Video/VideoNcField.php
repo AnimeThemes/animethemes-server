@@ -22,8 +22,6 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -37,8 +35,6 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

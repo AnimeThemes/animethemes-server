@@ -22,8 +22,6 @@ use App\Models\Wiki\Song;
 class SongSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * Get the allowed pivots of the schema.
-     *
      * @return AllowedInclude[]
      */
     public function allowedPivots(): array
@@ -34,17 +32,12 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
         ];
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return SongResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -60,8 +53,6 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

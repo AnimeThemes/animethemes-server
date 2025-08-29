@@ -17,17 +17,12 @@ use App\Models\Wiki\Series;
 
 class SeriesSchema extends EloquentSchema implements SearchableSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return SeriesResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -45,8 +40,6 @@ class SeriesSchema extends EloquentSchema implements SearchableSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

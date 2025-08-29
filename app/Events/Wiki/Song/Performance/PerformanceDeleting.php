@@ -26,9 +26,6 @@ class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

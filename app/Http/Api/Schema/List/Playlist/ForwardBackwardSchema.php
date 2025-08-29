@@ -24,17 +24,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class ForwardBackwardSchema extends EloquentSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return TrackResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -49,8 +44,6 @@ class ForwardBackwardSchema extends EloquentSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

@@ -25,9 +25,6 @@ class ImageForceDeleting extends BaseEvent implements RemoveFromStorageEvent
         return $this->model;
     }
 
-    /**
-     * Remove the image from the bucket.
-     */
     public function removeFromStorage(): void
     {
         Storage::disk(Config::get('image.disk'))->delete($this->getModel()->path);

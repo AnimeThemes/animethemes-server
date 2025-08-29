@@ -39,9 +39,6 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
         return "Synonym '**{$this->getModel()->getName()}**' has been updated for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);

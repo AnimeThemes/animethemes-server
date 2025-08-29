@@ -39,17 +39,11 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         return $criteria !== null && $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed
     {
         return $model->getAttribute($this->alias());
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort(key: $this->alias(), qualifyColumn: QualifyColumn::NO);

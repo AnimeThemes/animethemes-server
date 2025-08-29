@@ -20,9 +20,6 @@ class VideoViewsCountField extends CountAggregateField implements DeprecatedFiel
         return 'The number of views recorded for the resource';
     }
 
-    /**
-     * The reason which the field is deprecated.
-     */
     public function deprecationReason(): string
     {
         return 'We will no longer track views. Use likesCount instead';

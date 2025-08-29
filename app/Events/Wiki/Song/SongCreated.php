@@ -32,9 +32,6 @@ class SongCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         return "Song '**{$this->getModel()->getName()}**' has been created.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

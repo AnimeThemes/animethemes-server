@@ -35,17 +35,12 @@ class ResourceableSchema extends EloquentSchema
         protected string $type,
     ) {}
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return $this->type;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -57,8 +52,6 @@ class ResourceableSchema extends EloquentSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      *
      * @noinspection PhpMissingParentCallCommonInspection

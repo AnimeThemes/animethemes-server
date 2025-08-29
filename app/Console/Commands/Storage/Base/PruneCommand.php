@@ -11,16 +11,10 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 abstract class PruneCommand extends StorageCommand
 {
-    /**
-     * The console command description.
-     */
     protected $description = 'Prune stale files from storage';
 
     abstract protected function getAction(): PruneAction;
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->options(), [

@@ -23,8 +23,6 @@ class DumpPathField extends StringField implements CreatableField, RequiredOnCre
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -38,8 +36,6 @@ class DumpPathField extends StringField implements CreatableField, RequiredOnCre
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

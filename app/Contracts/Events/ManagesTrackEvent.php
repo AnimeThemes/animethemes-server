@@ -6,8 +6,5 @@ namespace App\Contracts\Events;
 
 interface ManagesTrackEvent
 {
-    /**
-     * Manages a track in a playlist.
-     */
     public function manageTrack(): void;
 }

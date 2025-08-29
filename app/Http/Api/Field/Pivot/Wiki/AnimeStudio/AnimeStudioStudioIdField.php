@@ -17,9 +17,6 @@ class AnimeStudioStudioIdField extends Field implements SelectableField
         parent::__construct($schema, AnimeStudio::ATTRIBUTE_STUDIO);
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match studio relation.

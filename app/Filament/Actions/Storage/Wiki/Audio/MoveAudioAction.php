@@ -43,9 +43,6 @@ class MoveAudioAction extends MoveAction
         return new MoveAudio($audio, $path);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

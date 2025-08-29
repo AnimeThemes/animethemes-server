@@ -28,9 +28,6 @@ class MembershipRestored extends WikiRestoredEvent implements UpdateRelatedIndic
         return "Membership '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);

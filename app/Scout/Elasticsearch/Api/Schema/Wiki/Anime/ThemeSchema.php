@@ -41,17 +41,12 @@ class ThemeSchema extends Schema
         return new ThemeQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return ThemeResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -67,8 +62,6 @@ class ThemeSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array
@@ -85,8 +78,6 @@ class ThemeSchema extends Schema
     }
 
     /**
-     * Get the sorts of the resource.
-     *
      * @return Sort[]
      */
     public function sorts(): array

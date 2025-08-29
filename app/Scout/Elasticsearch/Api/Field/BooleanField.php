@@ -20,9 +20,6 @@ abstract class BooleanField extends Field implements FilterableField, SortableFi
         return new BooleanFilter($this->getKey(), $this->getSearchField());
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort($this->getKey(), $this->getSortField());

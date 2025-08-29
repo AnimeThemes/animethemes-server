@@ -61,9 +61,6 @@ class UploadAudioAction extends UploadAction
         return new UploadAudio($file, $path);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

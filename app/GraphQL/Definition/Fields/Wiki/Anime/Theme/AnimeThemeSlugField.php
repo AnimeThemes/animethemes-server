@@ -23,8 +23,6 @@ class AnimeThemeSlugField extends StringField implements CreatableField, Require
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -38,8 +36,6 @@ class AnimeThemeSlugField extends StringField implements CreatableField, Require
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

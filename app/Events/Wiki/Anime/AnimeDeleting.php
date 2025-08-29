@@ -27,9 +27,6 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function cascadeDeletes(): void
     {
         $anime = $this->getModel()->load([Anime::RELATION_SYNONYMS, Anime::RELATION_VIDEOS]);

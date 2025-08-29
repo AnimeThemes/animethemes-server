@@ -18,9 +18,6 @@ readonly class PruneResults implements StorageResults
      */
     public function __construct(protected string $fs, protected array $prunings = []) {}
 
-    /**
-     * Write results to log.
-     */
     public function toLog(): void
     {
         if (empty($this->prunings)) {
@@ -33,9 +30,6 @@ readonly class PruneResults implements StorageResults
         }
     }
 
-    /**
-     * Write results to console output.
-     */
     public function toConsole(Command $command): void
     {
         if (empty($this->prunings)) {
@@ -48,9 +42,6 @@ readonly class PruneResults implements StorageResults
         }
     }
 
-    /**
-     * Transform to Action Result.
-     */
     public function toActionResult(): ActionResult
     {
         if (empty($this->prunings)) {

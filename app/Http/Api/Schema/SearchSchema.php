@@ -26,17 +26,12 @@ use App\Http\Resources\SearchResource;
 
 class SearchSchema extends Schema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return SearchResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -54,8 +49,6 @@ class SearchSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      *
      * @noinspection PhpMissingParentCallCommonInspection

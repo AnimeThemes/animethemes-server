@@ -22,8 +22,6 @@ class AnimeThemeEntryVersionField extends IntField implements CreatableField, Up
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -38,8 +36,6 @@ class AnimeThemeEntryVersionField extends IntField implements CreatableField, Up
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

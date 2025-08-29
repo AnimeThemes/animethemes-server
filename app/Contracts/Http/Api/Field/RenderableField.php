@@ -11,8 +11,5 @@ interface RenderableField
 {
     public function shouldRender(Query $query): bool;
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed;
 }

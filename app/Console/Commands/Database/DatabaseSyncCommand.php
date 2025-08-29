@@ -18,19 +18,10 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class DatabaseSyncCommand extends BaseCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'db:sync';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Sync the local database with the latest dumps';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         if (app()->isProduction()) {
@@ -71,9 +62,6 @@ class DatabaseSyncCommand extends BaseCommand
         return 0;
     }
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->options(), []);

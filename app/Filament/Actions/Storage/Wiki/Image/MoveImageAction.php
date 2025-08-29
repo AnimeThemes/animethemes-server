@@ -44,9 +44,6 @@ class MoveImageAction extends MoveAction
         return new MoveImage($image, $path);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(ImageConstants::DISKS_QUALIFIED);

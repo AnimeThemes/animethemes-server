@@ -49,9 +49,6 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
         return SynonymFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $anime = $this->anime->load(Anime::RELATION_VIDEOS);

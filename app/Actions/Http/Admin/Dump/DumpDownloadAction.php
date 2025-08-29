@@ -27,9 +27,6 @@ class DumpDownloadAction extends DownloadAction
         return $this->model->path;
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(DumpConstants::DISK_QUALIFIED);

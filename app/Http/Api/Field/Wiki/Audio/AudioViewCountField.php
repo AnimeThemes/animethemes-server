@@ -22,25 +22,16 @@ class AudioViewCountField extends AggregateField
         parent::__construct($schema, Audio::RELATION_VIEW_AGGREGATE, AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
     }
 
-    /**
-     * Get the filters that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new IntFilter(key: $this->alias(), column: ViewAggregate::ATTRIBUTE_VALUE, qualifyColumn: QualifyColumn::YES);
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort(key: $this->alias(), column: 'view_aggregate_sum_value', qualifyColumn: QualifyColumn::NO);
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed
     {
         return (int) $model->getAttribute('view_aggregate_sum_value');

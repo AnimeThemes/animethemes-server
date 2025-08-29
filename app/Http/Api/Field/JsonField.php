@@ -19,17 +19,11 @@ abstract class JsonField extends Field implements RenderableField, SelectableFie
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed
     {
         return $model->getAttribute($this->getColumn());
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

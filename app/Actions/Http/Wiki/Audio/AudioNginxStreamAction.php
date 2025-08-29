@@ -16,9 +16,6 @@ class AudioNginxStreamAction extends NginxStreamAction
         parent::__construct($audio);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

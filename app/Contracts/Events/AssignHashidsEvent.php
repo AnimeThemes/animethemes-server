@@ -11,8 +11,5 @@ interface AssignHashidsEvent
 {
     public function getModel(): HasHashids&BaseModel;
 
-    /**
-     * Get the Hashids connection.
-     */
     public function getHashidsConnection(): ?string;
 }

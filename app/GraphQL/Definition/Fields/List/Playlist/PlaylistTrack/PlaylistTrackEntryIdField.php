@@ -36,8 +36,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -53,8 +51,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

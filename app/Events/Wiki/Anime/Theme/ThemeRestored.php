@@ -38,9 +38,6 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
         return "Theme '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform cascading restores.
-     */
     public function cascadeRestores(): void
     {
         $theme = $this->getModel();

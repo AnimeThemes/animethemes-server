@@ -24,9 +24,6 @@ class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEve
         return $this->model;
     }
 
-    /**
-     * Remove the image from the bucket.
-     */
     public function removeFromStorage(): void
     {
         $action = new DeleteScriptAction($this->getModel());

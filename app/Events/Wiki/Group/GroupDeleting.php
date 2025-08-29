@@ -26,9 +26,6 @@ class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

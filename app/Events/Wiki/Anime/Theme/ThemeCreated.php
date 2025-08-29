@@ -38,9 +38,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         return "Theme '**{$this->getModel()->getName()}**' has been created for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $theme = $this->getModel()->load(AnimeTheme::RELATION_VIDEOS);

@@ -29,9 +29,6 @@ class ReconcileAudioAction extends ReconcileStorageAction
         $this->visible(Gate::allows('create', Audio::class));
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

@@ -17,9 +17,6 @@ class NotificationTypeField extends Field implements SelectableField
         parent::__construct($schema, Notification::ATTRIBUTE_TYPE);
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match user notifications on query.

@@ -32,9 +32,6 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         return "Anime '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);

@@ -8,9 +8,6 @@ use App\Actions\Storage\Admin\Dump\DumpUserAction;
 
 class UserDumpCommand extends DumpCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'db:dump-user
         {--comments : Write additional information in the MySQL dump such as program version, server version and host}
         {--data-only : Dump only the data without the schema in PostgreSQL dump}
@@ -29,9 +26,6 @@ class UserDumpCommand extends DumpCommand
         {--skip-quick : Do not retrieve rows for a table from the server one row at a time in MySQL dump}
         ';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Produces sanitized database dump, targeting user-related tables for seeding purposes';
 
     protected function action(): DumpUserAction

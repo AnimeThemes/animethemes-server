@@ -21,8 +21,6 @@ class FeatureValueField extends StringField implements UpdatableField
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

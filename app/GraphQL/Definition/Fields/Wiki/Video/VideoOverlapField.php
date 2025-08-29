@@ -25,8 +25,6 @@ class VideoOverlapField extends EnumField implements CreatableField, RequiredOnC
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -39,8 +37,6 @@ class VideoOverlapField extends EnumField implements CreatableField, RequiredOnC
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

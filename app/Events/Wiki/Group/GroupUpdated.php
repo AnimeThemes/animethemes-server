@@ -32,9 +32,6 @@ class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         return "Group '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

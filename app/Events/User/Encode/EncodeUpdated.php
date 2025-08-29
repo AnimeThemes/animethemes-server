@@ -32,9 +32,6 @@ class EncodeUpdated extends BaseEvent implements ManagesTrackEvent
         return $this->model;
     }
 
-    /**
-     * Manages a track in a playlist.
-     */
     public function manageTrack(): void
     {
         if (

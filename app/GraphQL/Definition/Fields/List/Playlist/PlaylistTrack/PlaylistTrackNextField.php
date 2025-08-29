@@ -36,8 +36,6 @@ class PlaylistTrackNextField extends Field implements CreatableField, UpdatableF
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -57,8 +55,6 @@ class PlaylistTrackNextField extends Field implements CreatableField, UpdatableF
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

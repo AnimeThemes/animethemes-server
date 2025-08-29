@@ -42,9 +42,6 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
         return GroupFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

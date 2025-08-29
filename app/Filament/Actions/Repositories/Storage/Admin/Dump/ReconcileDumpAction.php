@@ -35,9 +35,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
         return $schema;
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(DumpConstants::DISK_QUALIFIED);

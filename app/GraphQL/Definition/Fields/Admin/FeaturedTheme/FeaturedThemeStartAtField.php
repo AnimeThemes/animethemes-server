@@ -26,8 +26,6 @@ class FeaturedThemeStartAtField extends DateTimeTzField implements CreatableFiel
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -47,8 +45,6 @@ class FeaturedThemeStartAtField extends DateTimeTzField implements CreatableFiel
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

@@ -13,20 +13,11 @@ class ScriptReconcileCommand extends StorageReconcileCommand
 {
     use ReconcilesScriptRepositories;
 
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'reconcile:script
                                 {--path= : The directory of scripts to reconcile. Ex: 2022/Spring/. If unspecified, all directories will be listed.}';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Perform set reconciliation between object storage and script database';
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED);

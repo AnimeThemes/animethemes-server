@@ -18,9 +18,6 @@ use League\Flysystem\StorageAttributes;
  */
 class AudioRepository extends StorageRepository
 {
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

@@ -24,8 +24,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -47,9 +45,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
         ];
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match entry relation.
@@ -57,8 +52,6 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @return array
      */
     public function getUpdateRules(Request $request): array

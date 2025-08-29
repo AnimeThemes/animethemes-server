@@ -23,8 +23,6 @@ class AnimeYearField extends IntField implements CreatableField, RequiredOnCreat
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -42,8 +40,6 @@ class AnimeYearField extends IntField implements CreatableField, RequiredOnCreat
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

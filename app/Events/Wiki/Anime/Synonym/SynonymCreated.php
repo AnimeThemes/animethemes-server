@@ -38,9 +38,6 @@ class SynonymCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEve
         return "Synonym '**{$this->getModel()->getName()}**' has been created for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);

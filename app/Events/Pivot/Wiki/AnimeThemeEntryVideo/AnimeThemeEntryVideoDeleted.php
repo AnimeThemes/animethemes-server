@@ -30,9 +30,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         return "Video '**{$foreign->getName()}**' has been detached from Entry '**{$related->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         // refresh video document
@@ -40,9 +37,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         $video->searchable();
     }
 
-    /**
-     * Update the related playlist tracks.
-     */
     public function updatePlaylistTracks(): void
     {
         $entry = $this->getRelated();

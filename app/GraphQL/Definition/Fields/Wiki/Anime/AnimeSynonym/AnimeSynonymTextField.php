@@ -23,8 +23,6 @@ class AnimeSynonymTextField extends StringField implements CreatableField, Requi
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -38,8 +36,6 @@ class AnimeSynonymTextField extends StringField implements CreatableField, Requi
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

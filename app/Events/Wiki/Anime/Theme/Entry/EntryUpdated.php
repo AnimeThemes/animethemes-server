@@ -30,9 +30,6 @@ class EntryUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         return "Entry '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

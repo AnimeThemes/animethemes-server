@@ -27,9 +27,6 @@ class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

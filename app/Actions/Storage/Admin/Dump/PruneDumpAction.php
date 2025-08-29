@@ -17,9 +17,6 @@ class PruneDumpAction extends PruneAction
 {
     use ReconcilesDumpRepositories;
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(DumpConstants::DISK_QUALIFIED);

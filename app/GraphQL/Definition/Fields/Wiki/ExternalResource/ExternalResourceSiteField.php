@@ -26,8 +26,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -42,8 +40,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

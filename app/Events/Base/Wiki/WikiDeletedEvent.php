@@ -31,9 +31,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
 
     abstract protected function getNotificationMessage(): string;
 
-    /**
-     * Determine if the notifications should be sent.
-     */
     public function shouldSendFilamentNotification(): bool
     {
         $model = $this->getModel();
@@ -45,9 +42,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
         return false;
     }
 
-    /**
-     * Get the filament notification.
-     */
     public function getFilamentNotification(): Notification
     {
         return Notification::make()
@@ -63,8 +57,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
     }
 
     /**
-     * Get the users to notify.
-     *
      * @return Collection
      */
     public function getFilamentNotificationRecipients(): Collection

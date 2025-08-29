@@ -39,9 +39,6 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
         return MembershipFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);

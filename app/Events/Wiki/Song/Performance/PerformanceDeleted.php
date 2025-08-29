@@ -55,9 +55,6 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
         return PerformanceFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

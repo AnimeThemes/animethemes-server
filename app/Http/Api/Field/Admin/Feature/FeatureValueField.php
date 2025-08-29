@@ -18,8 +18,6 @@ class FeatureValueField extends StringField implements UpdatableField
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @return array
      */
     public function getUpdateRules(Request $request): array

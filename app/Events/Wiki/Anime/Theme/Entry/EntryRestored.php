@@ -29,9 +29,6 @@ class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEve
         return "Entry '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

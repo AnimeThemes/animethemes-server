@@ -19,8 +19,6 @@ class ArtistMemberAliasField extends StringField implements CreatableField, Upda
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -33,8 +31,6 @@ class ArtistMemberAliasField extends StringField implements CreatableField, Upda
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @return array
      */
     public function getUpdateRules(Request $request): array

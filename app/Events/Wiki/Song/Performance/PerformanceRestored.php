@@ -35,9 +35,6 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
         return "Performance '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

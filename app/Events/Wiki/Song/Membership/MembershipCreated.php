@@ -28,9 +28,6 @@ class MembershipCreated extends WikiCreatedEvent implements UpdateRelatedIndices
         return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->group->getName()}**' has been created.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);

@@ -42,9 +42,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
         return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([Performance::RELATION_ARTIST]);

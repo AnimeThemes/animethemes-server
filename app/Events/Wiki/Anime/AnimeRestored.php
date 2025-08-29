@@ -33,9 +33,6 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
         return "Anime '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading restores.
-     */
     public function cascadeRestores(): void
     {
         $anime = $this->getModel();

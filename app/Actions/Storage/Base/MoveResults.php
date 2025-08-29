@@ -24,9 +24,6 @@ readonly class MoveResults implements StorageResults
         protected array $moves = []
     ) {}
 
-    /**
-     * Write results to log.
-     */
     public function toLog(): void
     {
         if (empty($this->moves)) {
@@ -39,9 +36,6 @@ readonly class MoveResults implements StorageResults
         }
     }
 
-    /**
-     * Write results to console output.
-     */
     public function toConsole(Command $command): void
     {
         if (empty($this->moves)) {
@@ -54,9 +48,6 @@ readonly class MoveResults implements StorageResults
         }
     }
 
-    /**
-     * Transform to Action Result.
-     */
     public function toActionResult(): ActionResult
     {
         if (empty($this->moves)) {

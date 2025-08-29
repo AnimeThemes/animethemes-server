@@ -31,9 +31,6 @@ class GroupCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         return "Group '**{$this->getModel()->getName()}**' has been created.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

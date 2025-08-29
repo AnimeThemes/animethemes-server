@@ -301,33 +301,21 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
         return $this->path();
     }
 
-    /**
-     * Get the path of the streamable model in the filesystem.
-     */
     public function path(): string
     {
         return $this->path;
     }
 
-    /**
-     * Get the basename of the streamable model.
-     */
     public function basename(): string
     {
         return $this->basename;
     }
 
-    /**
-     * Get the MIME type / content type of the streamable model.
-     */
     public function mimetype(): string
     {
         return $this->mimetype;
     }
 
-    /**
-     * Get the content length of the streamable model.
-     */
     public function size(): int
     {
         return $this->size;

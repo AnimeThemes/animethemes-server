@@ -43,9 +43,6 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
         return SongFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

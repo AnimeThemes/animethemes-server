@@ -29,9 +29,6 @@ class EntryCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         return "Entry '**{$this->getModel()->getName()}**' has been created.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

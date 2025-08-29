@@ -36,9 +36,6 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
         return "Performance '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

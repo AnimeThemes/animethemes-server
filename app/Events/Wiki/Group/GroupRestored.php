@@ -31,9 +31,6 @@ class GroupRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEve
         return "Group '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

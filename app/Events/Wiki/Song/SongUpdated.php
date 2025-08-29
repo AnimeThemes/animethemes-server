@@ -33,9 +33,6 @@ class SongUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         return "Song '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

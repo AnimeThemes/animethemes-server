@@ -45,8 +45,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -58,8 +56,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
     }
 
     /**
-     * Set the delete validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

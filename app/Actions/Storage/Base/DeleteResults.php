@@ -19,9 +19,6 @@ readonly class DeleteResults implements StorageResults
      */
     public function __construct(protected BaseModel $model, protected array $deletions = []) {}
 
-    /**
-     * Write results to log.
-     */
     public function toLog(): void
     {
         if (empty($this->deletions)) {
@@ -34,9 +31,6 @@ readonly class DeleteResults implements StorageResults
         }
     }
 
-    /**
-     * Write results to console output.
-     */
     public function toConsole(Command $command): void
     {
         if (empty($this->deletions)) {
@@ -49,9 +43,6 @@ readonly class DeleteResults implements StorageResults
         }
     }
 
-    /**
-     * Transform to Action Result.
-     */
     public function toActionResult(): ActionResult
     {
         if (empty($this->deletions)) {

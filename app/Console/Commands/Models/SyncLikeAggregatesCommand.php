@@ -11,19 +11,10 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class SyncLikeAggregatesCommand extends BaseCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'like:sync-aggregates';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Synchronizes likes in the aggregates table';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $action = new SyncLikeAggregatesAction();
@@ -36,9 +27,6 @@ class SyncLikeAggregatesCommand extends BaseCommand
         return $result->hasFailed() ? 1 : 0;
     }
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->options(), []);

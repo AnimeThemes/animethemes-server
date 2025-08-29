@@ -18,9 +18,6 @@ use League\Flysystem\StorageAttributes;
  */
 class VideoRepository extends StorageRepository
 {
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);

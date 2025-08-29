@@ -22,8 +22,6 @@ class AnimeThemeEntryNsfwField extends BooleanField implements CreatableField, U
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -37,8 +35,6 @@ class AnimeThemeEntryNsfwField extends BooleanField implements CreatableField, U
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

@@ -21,8 +21,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -37,8 +35,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @return array
      */
     public function getUpdateRules(Request $request): array

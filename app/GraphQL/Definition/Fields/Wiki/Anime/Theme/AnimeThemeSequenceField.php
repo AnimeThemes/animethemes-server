@@ -22,8 +22,6 @@ class AnimeThemeSequenceField extends IntField implements CreatableField, Updata
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -38,8 +36,6 @@ class AnimeThemeSequenceField extends IntField implements CreatableField, Updata
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

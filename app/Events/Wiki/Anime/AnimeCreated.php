@@ -31,9 +31,6 @@ class AnimeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         return "Anime '**{$this->getModel()->getName()}**' has been created.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);

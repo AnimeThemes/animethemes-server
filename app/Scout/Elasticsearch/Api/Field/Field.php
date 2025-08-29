@@ -24,9 +24,6 @@ abstract class Field implements FieldInterface
         return $this->schema;
     }
 
-    /**
-     * Get the field key.
-     */
     public function getKey(): string
     {
         return $this->key;

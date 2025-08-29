@@ -21,8 +21,6 @@ use Illuminate\Support\Arr;
 abstract class Schema implements SchemaInterface
 {
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array
@@ -35,8 +33,6 @@ abstract class Schema implements SchemaInterface
     }
 
     /**
-     * Get the filters of the resource.
-     *
      * @return Filter[]
      */
     public function filters(): array
@@ -49,8 +45,6 @@ abstract class Schema implements SchemaInterface
     }
 
     /**
-     * Get the sorts of the resource.
-     *
      * @return Sort[]
      */
     public function sorts(): array
@@ -74,8 +68,6 @@ abstract class Schema implements SchemaInterface
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     abstract public function allowedIncludes(): array;

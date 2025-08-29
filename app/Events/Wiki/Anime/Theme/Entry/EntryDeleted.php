@@ -40,9 +40,6 @@ class EntryDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
         return EntryFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

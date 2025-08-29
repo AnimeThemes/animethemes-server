@@ -20,8 +20,6 @@ class VideoResolutionField extends IntField implements CreatableField, Updatable
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -35,9 +33,6 @@ class VideoResolutionField extends IntField implements CreatableField, Updatable
         ];
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $tagsField = new VideoTagsField($this->schema);
@@ -47,8 +42,6 @@ class VideoResolutionField extends IntField implements CreatableField, Updatable
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @return array
      */
     public function getUpdateRules(Request $request): array

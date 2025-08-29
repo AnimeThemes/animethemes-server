@@ -24,9 +24,6 @@ class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         return $this->model;
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

@@ -38,9 +38,6 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
         return "Synonym '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);

@@ -20,8 +20,6 @@ use App\Models\Wiki\Image;
 class ImageSchema extends EloquentSchema implements InteractsWithPivots
 {
     /**
-     * Get the allowed pivots of the schema.
-     *
      * @return AllowedInclude[]
      */
     public function allowedPivots(): array
@@ -31,17 +29,12 @@ class ImageSchema extends EloquentSchema implements InteractsWithPivots
         ];
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return ImageResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -54,8 +47,6 @@ class ImageSchema extends EloquentSchema implements InteractsWithPivots
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

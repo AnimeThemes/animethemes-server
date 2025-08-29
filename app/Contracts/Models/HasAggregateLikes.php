@@ -8,15 +8,11 @@ use App\Models\Aggregate\LikeAggregate;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
- * Interface HasAggregateLikes.
- *
  * @property LikeAggregate|null $likeAggregate
  */
 interface HasAggregateLikes
 {
     /**
-     * Get the likes count of the model.
-     *
      * @return MorphOne
      */
     public function likeAggregate(): MorphOne;

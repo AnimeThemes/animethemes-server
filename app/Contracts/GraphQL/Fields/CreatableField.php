@@ -7,8 +7,6 @@ namespace App\Contracts\GraphQL\Fields;
 interface CreatableField
 {
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

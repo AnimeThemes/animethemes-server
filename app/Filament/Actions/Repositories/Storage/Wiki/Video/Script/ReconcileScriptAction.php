@@ -29,9 +29,6 @@ class ReconcileScriptAction extends ReconcileStorageAction
         $this->visible(Gate::allows('create', VideoScript::class));
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED);

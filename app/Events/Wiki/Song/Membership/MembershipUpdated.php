@@ -29,9 +29,6 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
         return "Membership '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);

@@ -23,9 +23,6 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);

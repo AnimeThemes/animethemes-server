@@ -12,19 +12,10 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class PlaylistFixCommand extends BaseCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'playlist:fix {playlistId}';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Fix playlist tracks to remove cycles';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $playlistId = $this->argument('playlistId');
@@ -41,9 +32,6 @@ class PlaylistFixCommand extends BaseCommand
         return new FixPlaylistAction()->handle($playlist, $this);
     }
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->options(), [

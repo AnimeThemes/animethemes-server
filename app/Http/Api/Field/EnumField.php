@@ -54,9 +54,6 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): ?string
     {
         $enum = $model->getAttribute($this->getColumn());
@@ -64,9 +61,6 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
         return $enum?->localize();
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
@@ -74,9 +68,6 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort($this->getKey(), $this->getColumn());
