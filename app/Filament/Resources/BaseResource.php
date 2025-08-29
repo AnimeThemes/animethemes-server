@@ -47,10 +47,7 @@ abstract class BaseResource extends Resource
      */
     public static function getRecordRouteKeyName(): string
     {
-        /** @var Model $model */
-        $model = static::getModel();
-
-        return (new $model)->getKeyName();
+        return (new static::$model)->getKeyName();
     }
 
     /**
