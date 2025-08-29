@@ -17,17 +17,12 @@ abstract class ImageTab extends BaseTab
      */
     abstract protected static function facet(): ImageFacet;
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.base.images.name', ['facet' => static::facet()->localize()]);
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */

@@ -19,33 +19,21 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
         parent::__construct($membership);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Membership
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->group->getName()}**' has been deleted.";
     }
 
-    /**
-     * Get the message for the filament notification.
-     */
     protected function getNotificationMessage(): string
     {
         return "Membership '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
-    /**
-     * Get the URL for the Filament notification.
-     */
     protected function getFilamentNotificationUrl(): string
     {
         return MembershipFilament::getUrl('view', ['record' => $this->getModel()]);

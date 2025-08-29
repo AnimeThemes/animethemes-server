@@ -22,9 +22,6 @@ class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($song);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Song
     {
         return $this->model;

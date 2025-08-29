@@ -17,9 +17,6 @@ class ImageDeleting extends BaseEvent
         parent::__construct($image);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Image
     {
         return $this->model;

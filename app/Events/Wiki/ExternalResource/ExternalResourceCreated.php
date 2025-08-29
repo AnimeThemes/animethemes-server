@@ -17,17 +17,11 @@ class ExternalResourceCreated extends WikiCreatedEvent
         parent::__construct($resource);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): ExternalResource
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Resource '**{$this->getModel()->getName()}**' has been created.";

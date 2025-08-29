@@ -25,9 +25,6 @@ class ResourceableDeleted extends PivotDeletedEvent
         parent::__construct($resourceable->resourceable, $resourceable->resource);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

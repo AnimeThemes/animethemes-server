@@ -17,17 +17,11 @@ class StudioCreated extends WikiCreatedEvent
         parent::__construct($studio);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Studio
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Studio '**{$this->getModel()->getName()}**' has been created.";

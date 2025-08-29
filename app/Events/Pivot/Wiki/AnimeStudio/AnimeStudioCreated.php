@@ -19,9 +19,6 @@ class AnimeStudioCreated extends PivotCreatedEvent
         parent::__construct($animeStudio->studio, $animeStudio->anime);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

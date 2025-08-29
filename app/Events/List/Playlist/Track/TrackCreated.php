@@ -25,27 +25,16 @@ class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
         $this->playlist = $track->playlist;
     }
 
-    /**
-     * Determine if the message should be sent.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return false;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): PlaylistTrack
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Track '**{$this->getModel()->getName()}**' has been created for Playlist '**{$this->playlist->getName()}**'.";

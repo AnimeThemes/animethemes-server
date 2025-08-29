@@ -40,9 +40,6 @@ class ImageableCreated extends PivotCreatedEvent
             : parent::getDiscordChannel();
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

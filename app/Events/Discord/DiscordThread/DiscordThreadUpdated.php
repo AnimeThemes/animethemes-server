@@ -21,17 +21,11 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
         $this->initializeEmbedFields($thread);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): DiscordThread
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Discord Thread '**{$this->getModel()->getName()}**' has been updated.";

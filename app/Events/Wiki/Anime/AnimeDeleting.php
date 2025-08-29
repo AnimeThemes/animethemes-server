@@ -22,9 +22,6 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
         parent::__construct($anime);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Anime
     {
         return $this->model;

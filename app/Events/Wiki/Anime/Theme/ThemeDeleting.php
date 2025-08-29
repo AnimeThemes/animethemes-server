@@ -20,9 +20,6 @@ class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
         parent::__construct($theme);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeTheme
     {
         return $this->model;

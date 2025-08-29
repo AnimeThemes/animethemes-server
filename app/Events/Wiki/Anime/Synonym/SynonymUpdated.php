@@ -29,17 +29,11 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
         $this->initializeEmbedFields($synonym);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeSynonym
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Synonym '**{$this->getModel()->getName()}**' has been updated for Anime '**{$this->anime->getName()}**'.";

@@ -9,9 +9,6 @@ use App\Filament\Tabs\Base\ImageTab;
 
 class AnimeSmallCoverTab extends ImageTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'anime-small-cover-tab';

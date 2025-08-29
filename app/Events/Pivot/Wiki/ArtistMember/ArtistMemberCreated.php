@@ -18,9 +18,6 @@ class ArtistMemberCreated extends PivotCreatedEvent
         parent::__construct($artistMember->artist, $artistMember->member);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

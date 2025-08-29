@@ -24,17 +24,11 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
         parent::__construct($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();

@@ -27,9 +27,6 @@ class EncodeUpdated extends BaseEvent implements ManagesTrackEvent
         parent::__construct($encode);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Encode
     {
         return $this->model;

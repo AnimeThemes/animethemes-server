@@ -21,9 +21,6 @@ class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($group);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Group
     {
         return $this->model;

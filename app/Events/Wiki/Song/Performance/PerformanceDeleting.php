@@ -21,9 +21,6 @@ class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;

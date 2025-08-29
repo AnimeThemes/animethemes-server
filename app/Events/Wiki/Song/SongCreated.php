@@ -22,17 +22,11 @@ class SongCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         parent::__construct($song);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Song
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Song '**{$this->getModel()->getName()}**' has been created.";

@@ -18,9 +18,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     final public const ATTRIBUTE_VALUE = 'value';
     final public const ATTRIBUTE_INLINE = 'inline';
 
-    /**
-     * The formatted value of the field.
-     */
     protected readonly string $formattedValue;
 
     final public function __construct(
@@ -32,8 +29,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     }
 
     /**
-     * Create a new DiscordEmbedField instance from an array.
-     *
      * @param  array<string, mixed>  $array
      */
     public static function from(array $array): static
@@ -46,8 +41,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     }
 
     /**
-     * Get the instance as an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray(bool $formatted = true): array
@@ -60,8 +53,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     }
 
     /**
-     * Convert the object into something JSON serializable.
-     *
      * @return array<string, mixed>
      */
     public function jsonSerialize(): array
@@ -69,9 +60,6 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
         return $this->toArray();
     }
 
-    /**
-     * Format embed value to circumvent exceptions caused by empty or null values.
-     */
     public static function formatEmbedFieldValue(mixed $value): string
     {
         // Use description for enums

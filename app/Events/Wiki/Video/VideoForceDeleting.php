@@ -19,9 +19,6 @@ class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent
         parent::__construct($video);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Video
     {
         return $this->model;

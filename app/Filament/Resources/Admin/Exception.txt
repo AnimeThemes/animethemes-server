@@ -73,9 +73,7 @@ class Exception extends ExceptionResource
             ->defaultSort('created_at', 'desc');
     }
 
-    /**
-     * Determine if the user can access the table.
-     */
+
     public static function canViewAny(): bool
     {
         /** @var User $user */

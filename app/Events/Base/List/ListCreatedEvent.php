@@ -15,19 +15,11 @@ use Illuminate\Support\Facades\Config;
  */
 abstract class ListCreatedEvent extends BaseCreatedEvent
 {
-    /**
-     * Get Discord channel the message will be sent to.
-     */
     public function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 
-    /**
-     * Determine if the message should be sent.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return true;

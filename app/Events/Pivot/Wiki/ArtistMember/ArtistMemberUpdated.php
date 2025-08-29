@@ -19,9 +19,6 @@ class ArtistMemberUpdated extends PivotUpdatedEvent
         $this->initializeEmbedFields($artistMember);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

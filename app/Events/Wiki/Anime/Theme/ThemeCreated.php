@@ -28,17 +28,11 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         $this->updateFirstTheme();
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeTheme
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Theme '**{$this->getModel()->getName()}**' has been created for Anime '**{$this->anime->getName()}**'.";

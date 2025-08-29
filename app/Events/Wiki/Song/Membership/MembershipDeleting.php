@@ -18,9 +18,6 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($membership);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Membership
     {
         return $this->model;

@@ -18,17 +18,11 @@ class MembershipCreated extends WikiCreatedEvent implements UpdateRelatedIndices
         parent::__construct($membership);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Membership
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->group->getName()}**' has been created.";

@@ -22,9 +22,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

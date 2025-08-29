@@ -21,17 +21,11 @@ class GroupCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         parent::__construct($group);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Group
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Group '**{$this->getModel()->getName()}**' has been created.";

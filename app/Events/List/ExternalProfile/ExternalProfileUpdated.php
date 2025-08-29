@@ -18,27 +18,16 @@ class ExternalProfileUpdated extends ListUpdatedEvent
         $this->initializeEmbedFields($profile);
     }
 
-    /**
-     * Determine if the message should be sent.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return false;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): ExternalProfile
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "External Profile '**{$this->getModel()->getName()}**' has been updated.";

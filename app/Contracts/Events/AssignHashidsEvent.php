@@ -9,9 +9,6 @@ use App\Models\BaseModel;
 
 interface AssignHashidsEvent
 {
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): HasHashids&BaseModel;
 
     /**

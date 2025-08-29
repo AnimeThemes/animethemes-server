@@ -17,17 +17,11 @@ class AnnouncementDeleted extends AdminDeletedEvent
         parent::__construct($announcement);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Announcement
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Announcement '**{$this->getModel()->getName()}**' has been deleted.";

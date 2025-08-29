@@ -21,17 +21,11 @@ class AnimeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         parent::__construct($anime);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Anime
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Anime '**{$this->getModel()->getName()}**' has been created.";

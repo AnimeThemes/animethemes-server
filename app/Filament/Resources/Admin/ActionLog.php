@@ -247,33 +247,21 @@ class ActionLog extends BaseResource
         return false;
     }
 
-    /**
-     * Determine whether the related model can be edited.
-     */
     public static function canEdit(Model $record): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the related model can be deleted.
-     */
     public static function canDelete(Model $record): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the related model can be force-deleted.
-     */
     public static function canForceDelete(Model $record): bool
     {
         return false;
     }
 
-    /**
-     * Determine if the user can access the table.
-     */
     public static function canAccess(): bool
     {
         /** @var UserModel $user */

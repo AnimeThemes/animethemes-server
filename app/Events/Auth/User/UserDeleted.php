@@ -17,17 +17,11 @@ class UserDeleted extends AdminDeletedEvent
         parent::__construct($user);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): User
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "User '**{$this->getModel()->getName()}**' has been deleted.";

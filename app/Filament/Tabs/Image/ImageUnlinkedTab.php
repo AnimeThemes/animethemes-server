@@ -11,25 +11,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ImageUnlinkedTab extends BaseTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'image-unlinked-tab';
     }
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.image.unlinked.name');
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */
@@ -44,9 +36,6 @@ class ImageUnlinkedTab extends BaseTab
             ->whereDoesntHave(Image::RELATION_PLAYLISTS);
     }
 
-    /**
-     * Get the badge for the tab.
-     */
     public function getBadge(): int
     {
         return Image::query()

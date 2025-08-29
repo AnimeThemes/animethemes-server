@@ -19,17 +19,11 @@ class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEve
         parent::__construct($entry);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeThemeEntry
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Entry '**{$this->getModel()->getName()}**' has been restored.";

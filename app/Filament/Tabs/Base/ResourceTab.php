@@ -12,22 +12,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class ResourceTab extends BaseTab
 {
-    /**
-     * The resource site.
-     */
     abstract protected static function site(): ResourceSite;
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.base.resources.name', ['site' => static::site()->localize()]);
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */

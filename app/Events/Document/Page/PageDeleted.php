@@ -18,33 +18,21 @@ class PageDeleted extends WikiDeletedEvent
         parent::__construct($page);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Page
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Page '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
-    /**
-     * Get the message for the filament notification.
-     */
     protected function getNotificationMessage(): string
     {
         return "Page '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
-    /**
-     * Get the URL for the Filament notification.
-     */
     protected function getFilamentNotificationUrl(): string
     {
         return PageFilament::getUrl('view', ['record' => $this->getModel()]);

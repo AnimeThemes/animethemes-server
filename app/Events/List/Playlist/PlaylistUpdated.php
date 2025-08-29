@@ -18,27 +18,16 @@ class PlaylistUpdated extends ListUpdatedEvent
         $this->initializeEmbedFields($playlist);
     }
 
-    /**
-     * Determine if the message should be sent.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return false;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Playlist
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Playlist '**{$this->getModel()->getName()}**' has been updated.";

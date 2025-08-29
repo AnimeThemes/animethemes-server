@@ -17,17 +17,11 @@ class ImageRestored extends WikiRestoredEvent
         parent::__construct($image);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Image
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Image '**{$this->getModel()->getName()}**' has been restored.";

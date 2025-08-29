@@ -26,17 +26,11 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
         $this->initializeEmbedFields($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Performance '**{$this->getModel()->getName()}**' has been updated.";

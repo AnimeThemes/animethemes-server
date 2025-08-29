@@ -17,17 +17,11 @@ class SeriesCreated extends WikiCreatedEvent
         parent::__construct($series);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Series
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Series '**{$this->getModel()->getName()}**' has been created.";

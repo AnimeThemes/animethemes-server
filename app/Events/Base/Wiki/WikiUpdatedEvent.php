@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Config;
  */
 abstract class WikiUpdatedEvent extends BaseUpdatedEvent
 {
-    /**
-     * Get Discord channel the message will be sent to.
-     */
     public function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);

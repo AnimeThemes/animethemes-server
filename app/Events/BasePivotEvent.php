@@ -18,9 +18,6 @@ use Illuminate\Support\Facades\Config;
  */
 abstract class BasePivotEvent implements DiscordMessageEvent
 {
-    /**
-     * The user that fired this event.
-     */
     protected ?User $authenticatedUser;
 
     /**
@@ -33,8 +30,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get the related model.
-     *
      * @return TModelRelated&Nameable
      */
     public function getRelated(): Model&Nameable
@@ -43,8 +38,6 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get the foreign model.
-     *
      * @return TModelForeign&Nameable
      */
     public function getForeign(): Model&Nameable
@@ -52,17 +45,12 @@ abstract class BasePivotEvent implements DiscordMessageEvent
         return $this->foreign;
     }
 
-    /**
-     * Get the user that fired this event.
-     */
     protected function getAuthenticatedUser(): ?User
     {
         return $this->authenticatedUser;
     }
 
     /**
-     * Get the user info for the footer.
-     *
      * @return array<string, array<string, string>>
      */
     protected function getUserFooter(): array
@@ -79,24 +67,15 @@ abstract class BasePivotEvent implements DiscordMessageEvent
         ];
     }
 
-    /**
-     * Get Discord channel the message will be sent to.
-     */
     public function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);
     }
 
-    /**
-     * Determine if the message should be sent.
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return true;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     abstract protected function getDiscordMessageDescription(): string;
 }

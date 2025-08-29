@@ -21,9 +21,6 @@ abstract class PivotDeletedEvent extends BasePivotEvent
     use Dispatchable;
     use SerializesModels;
 
-    /**
-     * Get Discord message payload.
-     */
     public function getDiscordMessage(): DiscordMessage
     {
         $embed = array_merge(

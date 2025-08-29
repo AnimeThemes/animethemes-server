@@ -26,9 +26,6 @@ class ResourceableUpdated extends PivotUpdatedEvent
         $this->initializeEmbedFields($resourceable);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

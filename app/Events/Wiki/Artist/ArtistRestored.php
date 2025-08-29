@@ -17,17 +17,11 @@ class ArtistRestored extends WikiRestoredEvent
         parent::__construct($artist);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Artist
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Artist '**{$this->getModel()->getName()}**' has been restored.";

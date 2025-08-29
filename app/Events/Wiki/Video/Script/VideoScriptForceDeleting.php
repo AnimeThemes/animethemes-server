@@ -19,9 +19,6 @@ class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEve
         parent::__construct($script);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): VideoScript
     {
         return $this->model;

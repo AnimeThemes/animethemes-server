@@ -10,25 +10,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class AnimeStudioTab extends BaseTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'anime-studio-tab';
     }
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.anime.studios.name');
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */
@@ -37,9 +29,6 @@ class AnimeStudioTab extends BaseTab
         return $query->whereDoesntHave(Anime::RELATION_STUDIOS);
     }
 
-    /**
-     * Get the badge for the tab.
-     */
     public function getBadge(): int
     {
         return Anime::query()->whereDoesntHave(Anime::RELATION_STUDIOS)->count();

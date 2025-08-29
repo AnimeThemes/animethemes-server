@@ -28,17 +28,11 @@ class SynonymCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEve
         $this->anime = $synonym->anime;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeSynonym
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Synonym '**{$this->getModel()->getName()}**' has been created for Anime '**{$this->anime->getName()}**'.";

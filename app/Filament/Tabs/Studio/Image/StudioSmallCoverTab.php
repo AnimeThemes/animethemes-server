@@ -9,9 +9,6 @@ use App\Filament\Tabs\Base\ImageTab;
 
 class StudioSmallCoverTab extends ImageTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'studio-small-cover-tab';
