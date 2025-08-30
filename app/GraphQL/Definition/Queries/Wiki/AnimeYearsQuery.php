@@ -7,14 +7,16 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
-use App\GraphQL\Policies\Wiki\AnimePolicy;
 use App\GraphQL\Support\Argument\Argument;
+use App\Models\Wiki\Anime;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AnimeYearsQuery extends BaseQuery
 {
@@ -32,7 +34,14 @@ class AnimeYearsQuery extends BaseQuery
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return new AnimePolicy()->viewAny(Auth::user(), $args);
+        $model = Arr::pull($args, 'model');
+
+        $args = collect($args)
+            ->filter(fn ($value) => $value instanceof Model)
+            ->values()
+            ->all();
+
+        return Gate::allows('viewAny', [Anime::class, $model, ...$args]);
     }
 
     /**

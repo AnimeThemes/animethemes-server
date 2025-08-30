@@ -30,7 +30,12 @@ abstract class CreateMutation extends BaseMutation
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return Gate::allows('create', [$this->model, $args]);
+        $args = collect($args)
+            ->filter(fn ($value) => $value instanceof Model)
+            ->values()
+            ->all();
+
+        return Gate::allows('create', [$this->model, ...$args]);
     }
 
     /**

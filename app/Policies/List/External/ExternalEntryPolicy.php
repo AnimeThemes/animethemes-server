@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExternalEntryPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): Response
+    public function viewAny(?User $user, $profile = null): Response
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(Role::ADMIN->value)
@@ -25,36 +25,32 @@ class ExternalEntryPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        /** @var ExternalProfile|null $profile */
-        $profile = request()->route('externalprofile');
+        /** @var ExternalProfile $profile */
+        $profile ??= request()->route('externalprofile');
 
         if ($user !== null) {
-            return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
+            return ($profile->user()->is($user) || $profile->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
                 ? Response::allow()
                 : Response::deny();
         }
 
-        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE
+        return $profile->visibility !== ExternalProfileVisibility::PRIVATE
             ? Response::allow()
             : Response::deny();
     }
 
     /**
      * @param  ExternalEntry  $entry
-     *
-     * @noinspection PhpUnusedParameterInspection
+     * @param  ExternalProfile  $profile
      */
-    public function view(?User $user, Model $entry): Response
+    public function view(?User $user, Model $entry, $profile = null): Response
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
-
-        /** @var ExternalProfile|null $profile */
-        $profile = request()->route('externalprofile');
 
         if ($user !== null) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)

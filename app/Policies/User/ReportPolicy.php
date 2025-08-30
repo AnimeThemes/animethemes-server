@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReportPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): Response
+    public function viewAny(?User $user, mixed $value = null): Response
     {
         if ($user !== null && $user->hasRole(Role::ADMIN->value)) {
             return Response::allow();

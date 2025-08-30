@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExternalProfilePolicy extends BasePolicy
 {
-    public function viewAny(?User $user): Response
+    public function viewAny(?User $user, mixed $value = null): Response
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(Role::ADMIN->value)
@@ -95,9 +95,6 @@ class ExternalProfilePolicy extends BasePolicy
             : Response::deny();
     }
 
-    /**
-     * Determine whether the user can add a entry to the profile.
-     */
     public function addExternalEntry(User $user): Response
     {
         return $user->hasRole(Role::ADMIN->value)

@@ -280,9 +280,6 @@ return [
                 // Rate limiting GraphQL to prevent abuse.
                 'throttle:graphql',
 
-                // GraphQL needs to have their own policies.
-                App\Http\Middleware\GraphQL\GraphQLPolicy::class,
-
                 // Allow client to get full database.
                 App\Http\Middleware\GraphQL\MaxCount::class,
 

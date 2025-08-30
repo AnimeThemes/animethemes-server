@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): Response
+    public function viewAny(?User $user, mixed $value = null): Response
     {
         return $user?->can(CrudPermission::VIEW->format(Notification::class))
             ? Response::allow()

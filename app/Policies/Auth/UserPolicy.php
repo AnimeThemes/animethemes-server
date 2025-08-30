@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): Response
+    public function viewAny(?User $user, mixed $value = null): Response
     {
         return $user !== null && $user->can(CrudPermission::VIEW->format(User::class))
             ? Response::allow()

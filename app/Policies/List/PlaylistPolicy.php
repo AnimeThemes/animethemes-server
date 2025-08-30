@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaylistPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): Response
+    public function viewAny(?User $user, mixed $value = null): Response
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value)
