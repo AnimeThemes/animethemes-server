@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 trait ModelHasActionLogs
 {
     /**
-     * Get the action logs for the model.
-     *
      * @return MorphMany
      */
     public function actionlogs(): MorphMany

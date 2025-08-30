@@ -14,9 +14,6 @@ use Elastic\ScoutDriverPlus\Support\Query;
 
 class SongQuery extends ElasticQuery
 {
-    /**
-     * Build Elasticsearch query.
-     */
     public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()

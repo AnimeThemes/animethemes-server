@@ -12,9 +12,6 @@ use App\Http\Api\Sort\Sort;
 
 abstract class DateField extends Field implements FilterableField, SortableField
 {
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new DateFilter($this->getKey(), $this->getSearchField());

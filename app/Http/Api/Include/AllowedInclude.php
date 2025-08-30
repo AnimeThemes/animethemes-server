@@ -11,9 +11,6 @@ readonly class AllowedInclude
 {
     final public function __construct(protected SchemaInterface $schema, protected string $path) {}
 
-    /**
-     * Get the schema.
-     */
     public function schema(): SchemaInterface
     {
         return $this->schema;

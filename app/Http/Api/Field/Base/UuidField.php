@@ -22,9 +22,6 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
         parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
     }
 
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new StringFilter($this->getKey(), $this->getColumn());

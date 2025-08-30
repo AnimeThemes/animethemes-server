@@ -9,9 +9,6 @@ use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 
 abstract class ElasticQuery
 {
-    /**
-     * Build Elasticsearch query.
-     */
     abstract public function build(Criteria $criteria): SearchParametersBuilder;
 
     /**

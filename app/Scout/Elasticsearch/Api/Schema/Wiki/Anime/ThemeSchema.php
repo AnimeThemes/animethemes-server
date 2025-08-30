@@ -21,7 +21,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\ArtistSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
-use Illuminate\Database\Eloquent\Model;
 
 class ThemeSchema extends Schema
 {
@@ -33,9 +32,6 @@ class ThemeSchema extends Schema
 
     final public const SORT_YEAR = 'anime.year';
 
-    /**
-     * The model this schema represents.
-     */
     public function query(): ThemeQuery
     {
         return new ThemeQuery();
@@ -92,9 +88,6 @@ class ThemeSchema extends Schema
         );
     }
 
-    /**
-     * Get the model of the schema.
-     */
     public function model(): AnimeTheme
     {
         return new AnimeTheme();

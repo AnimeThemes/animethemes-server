@@ -17,9 +17,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 
 class SynonymSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): SynonymQuery
     {
         return new SynonymQuery();
@@ -55,9 +52,6 @@ class SynonymSchema extends Schema
         );
     }
 
-    /**
-     * Get the model of the schema.
-     */
     public function model(): AnimeSynonym
     {
         return new AnimeSynonym();

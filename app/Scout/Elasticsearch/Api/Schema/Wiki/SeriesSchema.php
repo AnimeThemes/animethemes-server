@@ -16,9 +16,6 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class SeriesSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): SeriesQuery
     {
         return new SeriesQuery();

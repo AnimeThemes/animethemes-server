@@ -12,9 +12,6 @@ use Elastic\ScoutDriverPlus\Support\Query;
 
 class PlaylistQuery extends ElasticQuery
 {
-    /**
-     * Build Elasticsearch query.
-     */
     public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()

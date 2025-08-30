@@ -21,9 +21,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class ArtistSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): ArtistQuery
     {
         return new ArtistQuery();

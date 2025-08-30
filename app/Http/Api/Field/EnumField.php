@@ -39,9 +39,6 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
         return $this->enumClass;
     }
 
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new EnumFilter($this->getKey(), $this->enumClass, $this->getColumn());

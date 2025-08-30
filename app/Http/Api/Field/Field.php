@@ -15,9 +15,6 @@ abstract class Field implements FieldInterface
         protected readonly ?string $column = null
     ) {}
 
-    /**
-     * Get the schema.
-     */
     public function schema(): Schema
     {
         return $this->schema;

@@ -62,9 +62,6 @@ enum ResourceSite: int implements HasLabel
     case HULU = 18;
     case AMAZON_PRIME_VIDEO = 19;
 
-    /**
-     * Get domain by resource site.
-     */
     public static function getDomain(?int $value): ?string
     {
         return match ($value) {
@@ -105,9 +102,6 @@ enum ResourceSite: int implements HasLabel
         );
     }
 
-    /**
-     * Attempt to parse External ID from Site Link.
-     */
     public static function parseIdFromLink(string $link): ?string
     {
         $site = ResourceSite::valueOf($link);
@@ -126,9 +120,6 @@ enum ResourceSite: int implements HasLabel
         };
     }
 
-    /**
-     * Attempt to parse Anime Planet ID from link.
-     */
     protected static function parseAnimePlanetIdFromLink(string $link): ?string
     {
         // We only want to attempt to parse the ID for an anime resource
@@ -153,9 +144,6 @@ enum ResourceSite: int implements HasLabel
         return null;
     }
 
-    /**
-     * Attempt to parse Kitsu ID from link.
-     */
     protected static function parseKitsuIdFromLink(string $link): ?string
     {
         try {
@@ -191,8 +179,6 @@ enum ResourceSite: int implements HasLabel
     }
 
     /**
-     * Get the format rule for the model.
-     *
      * @throws RuntimeException
      */
     public function getFormatRule(Model&HasResources $model): ValidationRule
@@ -352,9 +338,6 @@ enum ResourceSite: int implements HasLabel
         return null;
     }
 
-    /**
-     * Determine whether the resource uses external id in the url.
-     */
     public function usesIdInLink(): bool
     {
         return match ($this) {
@@ -363,9 +346,6 @@ enum ResourceSite: int implements HasLabel
         };
     }
 
-    /**
-     * Get the URL capture groups of the resource site.
-     */
     public function getUrlCaptureGroups(?Model $model): string
     {
         // The first capture group refers to $type, the second to $id and $slug of the formatResourceLink method.
@@ -440,8 +420,6 @@ enum ResourceSite: int implements HasLabel
     }
 
     /**
-     * Get the pattern of the resource site by determined model.
-     *
      * @param  class-string|null  $modelClass
      */
     public function getPattern(?string $modelClass): ?string

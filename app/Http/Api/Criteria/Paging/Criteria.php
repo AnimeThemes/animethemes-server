@@ -30,9 +30,6 @@ abstract class Criteria
         return $this->resultSize;
     }
 
-    /**
-     * Get the intended pagination strategy.
-     */
     abstract public function getStrategy(): PaginationStrategy;
 
     /**

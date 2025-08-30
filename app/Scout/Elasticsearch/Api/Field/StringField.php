@@ -31,9 +31,6 @@ abstract class StringField extends Field implements FilterableField, SortableFie
         );
     }
 
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new StringFilter($this->getKey(), $this->getSearchField());

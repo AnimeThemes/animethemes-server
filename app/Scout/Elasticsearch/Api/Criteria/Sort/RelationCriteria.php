@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 class RelationCriteria extends FieldCriteria
 {
     /**
-     * Apply criteria to builder.
-     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

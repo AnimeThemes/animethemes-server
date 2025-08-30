@@ -19,8 +19,6 @@ class FieldCriteria extends Criteria
     }
 
     /**
-     * Apply criteria to builder.
-     *
      * @return array
      */
     public function sort(Sort $sort): array

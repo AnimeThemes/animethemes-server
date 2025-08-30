@@ -22,9 +22,6 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class PlaylistSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): PlaylistQuery
     {
         return new PlaylistQuery();

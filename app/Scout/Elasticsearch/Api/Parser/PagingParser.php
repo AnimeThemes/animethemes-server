@@ -13,9 +13,6 @@ use App\Scout\Elasticsearch\Api\Criteria\Paging\OffsetCriteria;
 
 class PagingParser
 {
-    /**
-     * Parse Elasticsearch paging criteria from core paging criteria.
-     */
     public static function parse(BaseCriteria $criteria): ?Criteria
     {
         if ($criteria instanceof BaseLimitCriteria) {

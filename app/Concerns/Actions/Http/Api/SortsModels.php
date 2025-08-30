@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait SortsModels
 {
-    /**
-     * Apply sorts to the query builder.
-     */
     public function sort(Builder $builder, Query $query, Schema $schema, Scope $scope = new GlobalScope()): Builder
     {
         foreach ($query->getSortCriteria() as $sortCriterion) {

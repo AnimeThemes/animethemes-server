@@ -11,8 +11,6 @@ use Illuminate\Support\Str;
 class RelationCriteria extends FieldCriteria
 {
     /**
-     * Apply criteria to builder.
-     *
      * @param  Builder  $builder
      * @return Builder
      *

@@ -13,9 +13,6 @@ use Illuminate\Support\Str;
 
 trait CanCreateStudio
 {
-    /**
-     * Get or create Studio from name (case-insensitive).
-     */
     public function getOrCreateStudio(string $name): Studio
     {
         $column = Studio::ATTRIBUTE_NAME;
@@ -35,9 +32,6 @@ trait CanCreateStudio
         return $studio;
     }
 
-    /**
-     * Ensure Studio has Resource.
-     */
     public function ensureStudioHasResource(Studio $studio, ResourceSite $site, int $id): void
     {
         $studioResource = ExternalResource::query()

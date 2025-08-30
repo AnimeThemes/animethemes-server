@@ -12,8 +12,6 @@ use Illuminate\Support\Str;
 class GraphQLPolicy
 {
     /**
-     * Handle an incoming request.
-     *
      * @param  Closure(Request): mixed  $next
      */
     public function handle(Request $request, Closure $next): mixed

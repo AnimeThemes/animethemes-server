@@ -17,9 +17,6 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BooleanField extends Field implements FilterableField, RenderableField, SelectableField, SortableField
 {
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new BooleanFilter($this->getKey(), $this->getColumn());

@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 trait Reportable
 {
     /**
-     * Get the reports made to the model.
-     *
      * @return MorphMany
      */
     public function reportsteps(): MorphMany

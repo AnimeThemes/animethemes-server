@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\App;
 trait ReconcilesDumpRepositories
 {
     /**
-     * Get source repository for action.
-     *
      * @param  array  $data
      */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
@@ -24,8 +22,6 @@ trait ReconcilesDumpRepositories
     }
 
     /**
-     * Get destination repository for action.
-     *
      * @param  array  $data
      */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
@@ -33,9 +29,6 @@ trait ReconcilesDumpRepositories
         return App::make(DumpDestinationRepository::class);
     }
 
-    /**
-     * Get the reconcile action.
-     */
     protected function reconcileAction(): ReconcileRepositoriesAction
     {
         return new ReconcileDumpRepositoriesAction();

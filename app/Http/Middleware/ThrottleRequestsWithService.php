@@ -17,8 +17,6 @@ class ThrottleRequestsWithService
     use DetectsRedis;
 
     /**
-     * Handle an incoming request.
-     *
      * @param  Closure(Request): mixed  $next
      */
     public function handle(

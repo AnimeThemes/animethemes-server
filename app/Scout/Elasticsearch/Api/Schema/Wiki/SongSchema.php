@@ -17,9 +17,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class SongSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): SongQuery
     {
         return new SongQuery();

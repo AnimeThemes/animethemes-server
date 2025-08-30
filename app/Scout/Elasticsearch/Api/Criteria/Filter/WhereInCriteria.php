@@ -21,9 +21,6 @@ class WhereInCriteria extends Criteria
         $this->not = $criteria->not();
     }
 
-    /**
-     * Apply criteria to builder.
-     */
     public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder
     {
         $filterValues = $filter->getFilterValues($this->criteria->getFilterValues());

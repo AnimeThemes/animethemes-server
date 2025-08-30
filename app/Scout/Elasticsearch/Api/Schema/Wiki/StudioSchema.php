@@ -18,9 +18,6 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class StudioSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): StudioQuery
     {
         return new StudioQuery();

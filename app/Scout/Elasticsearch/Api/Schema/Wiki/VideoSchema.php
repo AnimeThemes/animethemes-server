@@ -30,9 +30,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class VideoSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): VideoQuery
     {
         return new VideoQuery();

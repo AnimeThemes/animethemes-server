@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FiltersModels
 {
-    /**
-     * Apply filters to the query builder.
-     */
     public function filter(Builder $builder, Query $query, Schema $schema, Scope $scope): Builder
     {
         foreach ($query->getFilterCriteria() as $criteria) {
