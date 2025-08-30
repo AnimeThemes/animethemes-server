@@ -8,14 +8,14 @@ use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class AudioPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can add a video to the audio.
-     */
-    public function addVideo(User $user): bool
+    public function addVideo(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Video::class));
+        return $user->can(CrudPermission::CREATE->format(Video::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

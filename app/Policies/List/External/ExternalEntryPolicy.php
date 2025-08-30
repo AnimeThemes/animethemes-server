@@ -12,14 +12,17 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class ExternalEntryPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value);
+            return $user !== null && $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
         /** @var ExternalProfile|null $profile */
@@ -27,10 +30,14 @@ class ExternalEntryPolicy extends BasePolicy
 
         if ($user !== null) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
-                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE;
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
@@ -38,10 +45,12 @@ class ExternalEntryPolicy extends BasePolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, Model $entry): bool
+    public function view(?User $user, Model $entry): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value);
+            return $user !== null && $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
         /** @var ExternalProfile|null $profile */
@@ -49,42 +58,52 @@ class ExternalEntryPolicy extends BasePolicy
 
         if ($user !== null) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
-                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE;
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
+            return $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return false;
-    }
-
-    /**
-     * @param  ExternalEntry  $entry
-     */
-    public function update(User $user, Model $entry): bool
-    {
-        if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
-        }
-
-        return false;
+        return Response::deny();
     }
 
     /**
      * @param  ExternalEntry  $entry
      */
-    public function delete(User $user, Model $entry): bool
+    public function update(User $user, Model $entry): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
+            return $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return false;
+        return Response::deny();
+    }
+
+    /**
+     * @param  ExternalEntry  $entry
+     */
+    public function delete(User $user, Model $entry): Response
+    {
+        if (Filament::isServing()) {
+            return $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
+        }
+
+        return Response::deny();
     }
 }

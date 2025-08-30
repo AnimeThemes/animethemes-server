@@ -12,40 +12,53 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class PlaylistPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class));
+        return $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Playlist  $playlist
      */
-    public function view(?User $user, Model $playlist): bool
+    public function view(?User $user, Model $playlist): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
         if ($user !== null) {
             return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)
-                && $user->can(CrudPermission::VIEW->format(Playlist::class));
+                && $user->can(CrudPermission::VIEW->format(Playlist::class))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $playlist->visibility !== PlaylistVisibility::PRIVATE;
+        return $playlist->visibility !== PlaylistVisibility::PRIVATE
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
         return parent::create($user);
@@ -54,71 +67,74 @@ class PlaylistPolicy extends BasePolicy
     /**
      * @param  Playlist  $playlist
      */
-    public function update(User $user, Model $playlist): bool
+    public function update(User $user, Model $playlist): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return parent::update($user, $playlist) && $playlist->user()->is($user);
+        return parent::update($user, $playlist)->allowed() && $playlist->user()->is($user)
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Playlist  $playlist
      */
-    public function delete(User $user, Model $playlist): bool
+    public function delete(User $user, Model $playlist): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return parent::delete($user, $playlist) && $playlist->user()->is($user);
+        return parent::delete($user, $playlist)->allowed() && $playlist->user()->is($user)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can add a track to the playlist.
-     */
-    public function addPlaylistTrack(User $user): bool
+    public function addPlaylistTrack(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any image to the playlist.
-     */
-    public function attachAnyImage(User $user): bool
+    public function attachAnyImage(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach an image to the playlist.
-     */
-    public function attachImage(User $user, Playlist $playlist, Image $image): bool
+    public function attachImage(User $user, Playlist $playlist, Image $image): Response
     {
         if ($playlist->user()->isNot($user)) {
-            return false;
+            return Response::deny();
         }
 
         return $user->can(CrudPermission::CREATE->format(Playlist::class))
-            && $user->can(CrudPermission::CREATE->format(Image::class));
+            && $user->can(CrudPermission::CREATE->format(Image::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any image from the playlist.
-     */
-    public function detachAnyImage(User $user): bool
+    public function detachAnyImage(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach an image from the playlist.
-     */
-    public function detachImage(User $user, Playlist $playlist): bool
+    public function detachImage(User $user, Playlist $playlist): Response
     {
         return $playlist->user()->is($user)
             && $user->can(CrudPermission::DELETE->format(Playlist::class))
-            && $user->can(CrudPermission::DELETE->format(Image::class));
+            && $user->can(CrudPermission::DELETE->format(Image::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

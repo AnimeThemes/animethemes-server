@@ -10,30 +10,28 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class VideoPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can attach any entry to a video.
-     */
-    public function attachAnyAnimeThemeEntry(User $user): bool
+    public function attachAnyAnimeThemeEntry(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Video::class)) && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::CREATE->format(Video::class)) && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any entry from a video.
-     */
-    public function detachAnyAnimeThemeEntry(User $user): bool
+    public function detachAnyAnimeThemeEntry(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Video::class)) && $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::DELETE->format(Video::class)) && $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can add a track to the video.
-     */
-    public function addTrack(User $user): bool
+    public function addTrack(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 }

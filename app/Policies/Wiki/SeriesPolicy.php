@@ -9,22 +9,21 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class SeriesPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can attach any anime to the series.
-     */
-    public function attachAnyAnime(User $user): bool
+    public function attachAnyAnime(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Series::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
+        return $user->can(CrudPermission::CREATE->format(Series::class)) && $user->can(CrudPermission::CREATE->format(Anime::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any anime from the series.
-     */
-    public function detachAnyAnime(User $user): bool
+    public function detachAnyAnime(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Series::class)) && $user->can(CrudPermission::DELETE->format(Anime::class));
+        return $user->can(CrudPermission::DELETE->format(Series::class)) && $user->can(CrudPermission::DELETE->format(Anime::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

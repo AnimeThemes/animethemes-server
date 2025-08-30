@@ -8,14 +8,14 @@ use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class GroupPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can add a theme to the group.
-     */
-    public function addAnimeTheme(User $user): bool
+    public function addAnimeTheme(User $user): Response
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

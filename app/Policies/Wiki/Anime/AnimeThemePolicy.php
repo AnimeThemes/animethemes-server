@@ -8,14 +8,14 @@ use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class AnimeThemePolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can add a entry to the theme.
-     */
-    public function addAnyAnimeThemeEntry(User $user): bool
+    public function addAnyAnimeThemeEntry(User $user): Response
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

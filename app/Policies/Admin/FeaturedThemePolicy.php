@@ -9,6 +9,7 @@ use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 
@@ -17,12 +18,16 @@ class FeaturedThemePolicy extends BasePolicy
     /**
      * @param  FeaturedTheme  $featuredtheme
      */
-    public function view(?User $user, Model $featuredtheme): bool
+    public function view(?User $user, Model $featuredtheme): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));
+            return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $featuredtheme->start_at->isBefore(Date::now());
+        return $featuredtheme->start_at->isBefore(Date::now())
+            ? Response::allow()
+            : Response::deny();
     }
 }
