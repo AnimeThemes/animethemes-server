@@ -11,8 +11,6 @@ use Illuminate\Queue\SerializesModels;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class PivotCreatedEvent.
- *
  * @template TModelRelated of \Illuminate\Database\Eloquent\Model
  * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *
@@ -23,9 +21,6 @@ abstract class PivotCreatedEvent extends BasePivotEvent
     use Dispatchable;
     use SerializesModels;
 
-    /**
-     * Get Discord message payload.
-     */
     public function getDiscordMessage(): DiscordMessage
     {
         $embed = array_merge(

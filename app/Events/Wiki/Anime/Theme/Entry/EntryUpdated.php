@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryUpdated.
- *
  * @extends WikiUpdatedEvent<AnimeThemeEntry>
  */
 class EntryUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
@@ -22,25 +20,16 @@ class EntryUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($entry);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeThemeEntry
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Entry '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

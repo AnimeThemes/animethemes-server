@@ -12,8 +12,6 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ResourceableUpdated.
- *
  * @extends PivotUpdatedEvent<Model&Nameable, ExternalResource>
  */
 class ResourceableUpdated extends PivotUpdatedEvent
@@ -28,9 +26,6 @@ class ResourceableUpdated extends PivotUpdatedEvent
         $this->initializeEmbedFields($resourceable);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

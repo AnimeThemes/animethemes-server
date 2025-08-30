@@ -16,9 +16,6 @@ class SeriesPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('seriesPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of series resources given fields.';

@@ -16,9 +16,6 @@ class ExternalEntryExternalProfileRelationManager extends ExternalEntryRelationM
      */
     protected static string $relationship = ExternalProfile::RELATION_EXTERNAL_ENTRIES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

@@ -12,9 +12,6 @@ class ManagesTrack implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    /**
-     * Handle the event.
-     */
     public function handle(ManagesTrackEvent $event): void
     {
         $event->manageTrack();

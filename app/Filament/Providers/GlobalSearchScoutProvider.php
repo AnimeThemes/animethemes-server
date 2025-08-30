@@ -16,9 +16,6 @@ use Laravel\Scout\Builder as ScoutBuilder;
 
 class GlobalSearchScoutProvider implements GlobalSearchProvider
 {
-    /**
-     * Get the results for the global search.
-     */
     public function getResults(string $query): ?GlobalSearchResults
     {
         $builder = GlobalSearchResults::make();
@@ -64,9 +61,6 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
         return $builder;
     }
 
-    /**
-     * Prepare the search query for Elasticsearch.
-     */
     public function escapeReservedChars(string $search): string
     {
         return preg_replace(

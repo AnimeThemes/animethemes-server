@@ -12,8 +12,6 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ResourceableDeleted.
- *
  * @extends PivotDeletedEvent<Model&Nameable, ExternalResource>
  */
 class ResourceableDeleted extends PivotDeletedEvent
@@ -27,9 +25,6 @@ class ResourceableDeleted extends PivotDeletedEvent
         parent::__construct($resourceable->resourceable, $resourceable->resource);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

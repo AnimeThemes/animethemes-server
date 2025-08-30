@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Http;
 
 class LivechartAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
-    /**
-     * Get the site to backfill.
-     */
     public function getSite(): ResourceSite
     {
         return ResourceSite::LIVECHART;

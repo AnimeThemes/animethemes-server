@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ImageableUpdated.
- *
  * @extends PivotUpdatedEvent<Model&Nameable, Image>
  */
 class ImageableUpdated extends PivotUpdatedEvent
@@ -43,9 +41,6 @@ class ImageableUpdated extends PivotUpdatedEvent
             : parent::getDiscordChannel();
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

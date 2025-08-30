@@ -30,8 +30,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): ExternalResourceCollection
@@ -44,8 +42,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<ExternalResource>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): ExternalResourceResource
@@ -56,8 +52,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, ExternalResource $resource, ShowAction $action): ExternalResourceResource
@@ -70,8 +64,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, ExternalResource $resource, UpdateAction $action): ExternalResourceResource
@@ -82,8 +74,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(ExternalResource $resource, DestroyAction $action): ExternalResourceResource
@@ -94,8 +84,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(ExternalResource $resource, RestoreAction $action): ExternalResourceResource
@@ -106,8 +94,6 @@ class ExternalResourceController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(ExternalResource $resource, ForceDeleteAction $action): JsonResponse

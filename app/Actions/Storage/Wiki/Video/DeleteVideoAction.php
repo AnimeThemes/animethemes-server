@@ -10,8 +10,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class DeleteVideoAction.
- *
  * @extends DeleteAction<Video>
  */
 class DeleteVideoAction extends DeleteAction

@@ -16,17 +16,12 @@ class PerformanceAliasField extends StringField implements CreatableField, Updat
         parent::__construct(Performance::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The alias the artist is using for this performance';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class PerformanceAliasField extends StringField implements CreatableField, Updat
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

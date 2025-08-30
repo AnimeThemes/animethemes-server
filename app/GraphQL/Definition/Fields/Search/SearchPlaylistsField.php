@@ -17,9 +17,6 @@ class SearchPlaylistsField extends Field implements DisplayableField
         parent::__construct('playlists', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The playlist results of the search';
@@ -33,9 +30,6 @@ class SearchPlaylistsField extends Field implements DisplayableField
         return Type::listOf(Type::nonNull(GraphQL::type(new PlaylistType()->getName())));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

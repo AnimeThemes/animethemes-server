@@ -26,9 +26,6 @@ class SyncExternalProfileJob implements ShouldQueue
         $this->onQueue("sync-external-profile-{$profile->site->name}");
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         if (Feature::for(null)->active(AllowExternalProfileManagement::class)) {
@@ -39,8 +36,6 @@ class SyncExternalProfileJob implements ShouldQueue
     }
 
     /**
-     * Get the middleware the job should pass through.
-     *
      * @return array
      */
     public function middleware(): array

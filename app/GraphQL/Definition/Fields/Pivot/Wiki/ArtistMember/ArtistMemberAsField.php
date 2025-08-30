@@ -16,17 +16,12 @@ class ArtistMemberAsField extends StringField implements CreatableField, Updatab
         parent::__construct(ArtistMember::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to distinguish member by character';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class ArtistMemberAsField extends StringField implements CreatableField, Updatab
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

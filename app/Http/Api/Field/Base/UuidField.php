@@ -22,17 +22,11 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
         parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
     }
 
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new StringFilter($this->getKey(), $this->getColumn());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
@@ -40,17 +34,11 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed
     {
         return $model->getAttribute($this->getColumn());
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // We can only exclude ID fields for top-level models that are not including related resources.

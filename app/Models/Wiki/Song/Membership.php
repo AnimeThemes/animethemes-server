@@ -21,8 +21,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Membership.
- *
  * @property int $membership_id
  * @property string|null $alias
  * @property string|null $as
@@ -93,17 +91,11 @@ class Membership extends BaseModel implements SoftDeletable
      */
     protected $primaryKey = Membership::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return "Member {$this->member->getName()} of Group {$this->group->getName()}";

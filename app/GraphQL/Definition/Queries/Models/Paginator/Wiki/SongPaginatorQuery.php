@@ -14,9 +14,6 @@ class SongPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('songPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of song resources given fields.';

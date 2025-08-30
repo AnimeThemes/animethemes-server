@@ -16,17 +16,12 @@ class MeEmailField extends StringField
         parent::__construct(User::ATTRIBUTE_EMAIL, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The email of the user';
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -34,9 +29,6 @@ class MeEmailField extends StringField
         return [];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::NONE;

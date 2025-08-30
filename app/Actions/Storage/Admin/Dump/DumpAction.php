@@ -35,8 +35,6 @@ abstract class DumpAction
     public function __construct(protected readonly array $options = []) {}
 
     /**
-     * Handle action.
-     *
      * @throws Exception
      */
     public function handle(): ActionResult

@@ -24,8 +24,6 @@ class PlaylistForwardController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  ForwardBackwardIndexRequest  $request
      * @param  IndexAction  $action
      */

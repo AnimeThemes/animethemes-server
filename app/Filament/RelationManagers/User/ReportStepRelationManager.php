@@ -19,9 +19,6 @@ abstract class ReportStepRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = ReportStepResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

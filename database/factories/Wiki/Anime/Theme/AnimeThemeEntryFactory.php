@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class AnimeThemeEntryFactory.
- *
  * @method AnimeThemeEntry createOne($attributes = [])
  * @method AnimeThemeEntry makeOne($attributes = [])
  *

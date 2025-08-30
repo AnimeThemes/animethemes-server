@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class MoveAction extends StorageAction implements InteractsWithDisk
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,9 +24,6 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
         $this->icon(Heroicon::OutlinedArrowLongRight);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $defaultPath = $this->defaultPath();

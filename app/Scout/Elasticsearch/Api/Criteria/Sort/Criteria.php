@@ -12,8 +12,6 @@ abstract class Criteria
     public function __construct(protected readonly BaseCriteria $criteria) {}
 
     /**
-     * Apply criteria to builder.
-     *
      * @return array
      */
     abstract public function sort(Sort $sort): array;

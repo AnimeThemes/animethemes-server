@@ -15,9 +15,6 @@ abstract class UploadAction implements InteractsWithDisks, StorageAction
 {
     public function __construct(protected readonly UploadedFile $file, protected readonly string $path) {}
 
-    /**
-     * Handle action.
-     */
     public function handle(): StorageResults
     {
         $results = [];

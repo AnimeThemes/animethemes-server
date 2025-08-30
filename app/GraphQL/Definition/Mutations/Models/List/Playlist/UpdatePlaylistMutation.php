@@ -18,9 +18,6 @@ class UpdatePlaylistMutation extends UpdateMutation
         parent::__construct(Playlist::class);
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Update playlist';
@@ -35,8 +32,6 @@ class UpdatePlaylistMutation extends UpdateMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

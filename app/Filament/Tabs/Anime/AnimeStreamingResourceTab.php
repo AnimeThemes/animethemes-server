@@ -12,17 +12,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class AnimeStreamingResourceTab extends BaseTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'anime-streaming-resource-tab';
     }
 
     /**
-     * The resources site.
-     *
      * @return ResourceSite[]
      */
     protected static function sites(): array
@@ -37,17 +32,12 @@ class AnimeStreamingResourceTab extends BaseTab
         ];
     }
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.anime.streaming_resources.name');
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */

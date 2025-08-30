@@ -13,8 +13,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 /**
- * Class AnimeThemeEntryAnimeThemeDeletedVideo.
- *
  * @extends PivotDeletedEvent<AnimeThemeEntry, Video>
  */
 class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent
@@ -24,9 +22,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();
@@ -35,9 +30,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         return "Video '**{$foreign->getName()}**' has been detached from Entry '**{$related->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         // refresh video document
@@ -45,9 +37,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         $video->searchable();
     }
 
-    /**
-     * Update the related playlist tracks.
-     */
     public function updatePlaylistTracks(): void
     {
         $entry = $this->getRelated();

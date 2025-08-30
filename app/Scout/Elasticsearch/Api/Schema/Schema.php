@@ -21,14 +21,9 @@ use RuntimeException;
 
 abstract class Schema implements SchemaInterface
 {
-    /**
-     * The model this schema represents.
-     */
     abstract public function query(): ElasticQuery;
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array
@@ -41,8 +36,6 @@ abstract class Schema implements SchemaInterface
     }
 
     /**
-     * Get the filters of the resource.
-     *
      * @return Filter[]
      */
     public function filters(): array
@@ -54,8 +47,6 @@ abstract class Schema implements SchemaInterface
     }
 
     /**
-     * Get the sorts of the resource.
-     *
      * @return Sort[]
      */
     public function sorts(): array
@@ -109,8 +100,6 @@ abstract class Schema implements SchemaInterface
     }
 
     /**
-     * Resolve the schema by path.
-     *
      * @throws RuntimeException
      */
     protected function resolve(string $path): Schema
@@ -137,9 +126,6 @@ abstract class Schema implements SchemaInterface
         return new $schema;
     }
 
-    /**
-     * Resolve the owner model of the schema.
-     */
     public function model(): Model
     {
         $modelClass = Str::of(get_class($this))

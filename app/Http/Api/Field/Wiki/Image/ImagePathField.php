@@ -16,9 +16,6 @@ class ImagePathField extends StringField
         parent::__construct($schema, Image::ATTRIBUTE_PATH);
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

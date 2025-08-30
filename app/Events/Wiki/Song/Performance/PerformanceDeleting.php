@@ -12,8 +12,6 @@ use App\Models\Wiki\Song\Performance;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class PerformanceDeleting.
- *
  * @extends BaseEvent<Performance>
  */
 class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
@@ -23,17 +21,11 @@ class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

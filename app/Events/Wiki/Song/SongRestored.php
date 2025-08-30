@@ -13,8 +13,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
- * Class SongRestored.
- *
  * @extends WikiRestoredEvent<Song>
  */
 class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
@@ -24,25 +22,16 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
         parent::__construct($song);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Song
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Song '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

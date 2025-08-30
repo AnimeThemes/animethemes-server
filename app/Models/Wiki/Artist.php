@@ -33,8 +33,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 
 /**
- * Class Artist.
- *
  * @property int $artist_id
  * @property Collection<int, Artist> $groups
  * @property Collection<int, Image> $images
@@ -147,17 +145,11 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
         return Artist::ATTRIBUTE_SLUG;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->slug;

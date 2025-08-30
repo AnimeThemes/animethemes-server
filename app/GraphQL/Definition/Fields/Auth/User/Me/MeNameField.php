@@ -16,17 +16,12 @@ class MeNameField extends StringField
         parent::__construct(User::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The username of authenticated user';
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -34,9 +29,6 @@ class MeNameField extends StringField
         return [];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::NONE;

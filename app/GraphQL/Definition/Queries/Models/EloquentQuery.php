@@ -15,8 +15,6 @@ use RuntimeException;
 abstract class EloquentQuery extends BaseQuery
 {
     /**
-     * Get the attributes of the type.
-     *
      * @return array<string, mixed>
      */
     public function attributes(): array

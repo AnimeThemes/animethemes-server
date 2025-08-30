@@ -21,9 +21,6 @@ use Illuminate\Validation\Rule;
 
 abstract class DumpAction extends BaseAction
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -34,8 +31,6 @@ abstract class DumpAction extends BaseAction
     }
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      *
      * @throws Exception
@@ -49,9 +44,6 @@ abstract class DumpAction extends BaseAction
         $result->toLog();
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $connection = DB::connection();
@@ -63,9 +55,6 @@ abstract class DumpAction extends BaseAction
         };
     }
 
-    /**
-     * Get the fields available on the action for a MySql db connection.
-     */
     public function fieldsForMySql(Schema $schema): Schema
     {
         return $schema
@@ -131,9 +120,6 @@ abstract class DumpAction extends BaseAction
             ]);
     }
 
-    /**
-     * Get the fields available on the action for a PostgreSql db connection.
-     */
     public function fieldsForPostgreSql(Schema $schema): Schema
     {
         return $schema
@@ -149,8 +135,6 @@ abstract class DumpAction extends BaseAction
     }
 
     /**
-     * Get the underlying action.
-     *
      * @param  array<string, mixed>  $data
      */
     abstract protected function storageAction(array $data): DumpDatabase;

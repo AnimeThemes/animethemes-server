@@ -22,9 +22,6 @@ use App\Models\List\ExternalProfile;
 
 class ExternalProfileType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents a user profile on the external site like MAL.';

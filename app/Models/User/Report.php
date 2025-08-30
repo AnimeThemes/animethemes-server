@@ -18,8 +18,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * Class Report.
- *
  * @property Carbon|null $finished_at
  * @property User|null $moderator
  * @property int|null $moderator_id
@@ -86,17 +84,11 @@ class Report extends BaseModel
      */
     protected $primaryKey = Report::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         if ($user = $this->user) {

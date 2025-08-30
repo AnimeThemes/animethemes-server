@@ -7,8 +7,6 @@ namespace App\Contracts\GraphQL\Fields;
 interface UpdatableField
 {
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

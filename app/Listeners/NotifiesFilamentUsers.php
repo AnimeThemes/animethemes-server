@@ -12,9 +12,6 @@ class NotifiesFilamentUsers implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    /**
-     * Handle the event.
-     */
     public function handle(FilamentNotificationEvent $event): void
     {
         if ($event->shouldSendFilamentNotification()) {

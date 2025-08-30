@@ -8,8 +8,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class TrackFactory.
- *
  * @method PlaylistTrack createOne($attributes = [])
  * @method PlaylistTrack makeOne($attributes = [])
  *

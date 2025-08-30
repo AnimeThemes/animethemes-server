@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Document\Page;
 
 /**
- * Class PageUpdated.
- *
  * @extends WikiUpdatedEvent<Page>
  */
 class PageUpdated extends WikiUpdatedEvent
@@ -20,17 +18,11 @@ class PageUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($page);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Page
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Page '**{$this->getModel()->getName()}**' has been updated.";

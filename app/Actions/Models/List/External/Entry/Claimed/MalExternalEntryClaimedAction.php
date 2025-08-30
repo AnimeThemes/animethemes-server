@@ -58,9 +58,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
         return $entries;
     }
 
-    /**
-     * Get the username.
-     */
     public function getUsername(): ?string
     {
         if ($this->userData === null) {
@@ -70,9 +67,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
         return Arr::get($this->userData, 'name');
     }
 
-    /**
-     * Get the id of the external user.
-     */
     public function getUserId(): ?int
     {
         if ($this->data === null) {
@@ -83,8 +77,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     }
 
     /**
-     * Make the request to the user endpoint of the external api.
-     *
      * @throws RequestException
      */
     protected function makeUserRequest(): void
@@ -102,8 +94,6 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     }
 
     /**
-     * Make the request to the external api.
-     *
      * @throws RequestException
      */
     protected function makeRequest(): void

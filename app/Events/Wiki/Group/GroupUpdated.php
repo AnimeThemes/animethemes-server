@@ -12,8 +12,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Video;
 
 /**
- * Class GroupUpdated.
- *
  * @extends WikiUpdatedEvent<Group>
  */
 class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
@@ -24,25 +22,16 @@ class GroupUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($group);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Group
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Group '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

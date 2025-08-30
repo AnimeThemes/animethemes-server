@@ -14,9 +14,6 @@ class AudioPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('audioPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of audio resources given fields.';

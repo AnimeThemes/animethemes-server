@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
- * Class LikeController.
- *
  * @extends BaseController<Like>
  */
 class LikeController extends BaseController
@@ -25,8 +23,6 @@ class LikeController extends BaseController
     final public const ATTRIBUTE_VIDEO = 'video';
 
     /**
-     * Store a newly created resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      *
@@ -55,8 +51,6 @@ class LikeController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  null  $root
      * @param  array<string, mixed>  $args
      *

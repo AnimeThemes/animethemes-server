@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioCreated.
- *
  * @extends WikiCreatedEvent<Audio>
  */
 class AudioCreated extends WikiCreatedEvent
@@ -19,17 +17,11 @@ class AudioCreated extends WikiCreatedEvent
         parent::__construct($audio);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Audio
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Audio '**{$this->getModel()->getName()}**' has been created.";

@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class ResponseStreamAction extends StreamAction
 {
-    /**
-     * Stream the resource.
-     */
     public function stream(string $disposition = 'inline'): StreamedResponse
     {
         $response = new StreamedResponse();

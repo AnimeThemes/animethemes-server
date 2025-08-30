@@ -16,17 +16,12 @@ class ImageableDepthField extends IntField implements CreatableField, UpdatableF
         parent::__construct(Imageable::ATTRIBUTE_DEPTH);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to sort the images';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class ImageableDepthField extends IntField implements CreatableField, UpdatableF
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

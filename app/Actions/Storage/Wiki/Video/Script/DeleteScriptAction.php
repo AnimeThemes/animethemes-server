@@ -11,8 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class DeleteScriptAction.
- *
  * @extends DeleteAction<VideoScript>
  */
 class DeleteScriptAction extends DeleteAction

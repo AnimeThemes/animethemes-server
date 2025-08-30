@@ -19,9 +19,6 @@ abstract class SongRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = SongResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

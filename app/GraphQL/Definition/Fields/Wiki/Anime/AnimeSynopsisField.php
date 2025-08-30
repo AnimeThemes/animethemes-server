@@ -16,17 +16,12 @@ class AnimeSynopsisField extends StringField implements CreatableField, Updatabl
         parent::__construct(Anime::ATTRIBUTE_SYNOPSIS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The brief summary of the anime';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class AnimeSynopsisField extends StringField implements CreatableField, Updatabl
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

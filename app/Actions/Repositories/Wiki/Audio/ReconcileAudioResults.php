@@ -8,8 +8,6 @@ use App\Actions\Repositories\ReconcileResults;
 use App\Models\Wiki\Audio;
 
 /**
- * Class ReconcileAudioResults.
- *
  * @extends ReconcileResults<Audio>
  */
 class ReconcileAudioResults extends ReconcileResults

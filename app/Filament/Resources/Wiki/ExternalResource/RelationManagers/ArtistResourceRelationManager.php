@@ -22,8 +22,6 @@ class ArtistResourceRelationManager extends ArtistRelationManager
     protected static string $relationship = ExternalResource::RELATION_ARTISTS;
 
     /**
-     * Get the pivot components of the relation.
-     *
      * @return Component[]
      */
     public function getPivotComponents(): array
@@ -36,8 +34,6 @@ class ArtistResourceRelationManager extends ArtistRelationManager
     }
 
     /**
-     * Get the pivot columns of the relation.
-     *
      * @return Column[]
      */
     public function getPivotColumns(): array
@@ -48,9 +44,6 @@ class ArtistResourceRelationManager extends ArtistRelationManager
         ];
     }
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

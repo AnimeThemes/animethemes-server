@@ -15,8 +15,6 @@ class ExternalProfileSiteRateLimited
     use DetectsRedis;
 
     /**
-     * Process the queued job.
-     *
      * @throws LimiterTimeoutException
      */
     public function handle(mixed $job, callable $next): void

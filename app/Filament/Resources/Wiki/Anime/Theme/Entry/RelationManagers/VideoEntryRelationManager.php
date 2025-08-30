@@ -16,9 +16,6 @@ class VideoEntryRelationManager extends VideoRelationManager
      */
     protected static string $relationship = AnimeThemeEntry::RELATION_VIDEOS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

@@ -32,65 +32,41 @@ class Song extends BaseResource
      */
     protected static ?string $model = SongModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.song');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.songs');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedMusicalNote;
     }
 
-    /**
-     * Determine if the resource can globally search.
-     */
     public static function canGloballySearch(): bool
     {
         return true;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'songs';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return SongModel::ATTRIBUTE_TITLE;
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -103,9 +79,6 @@ class Song extends BaseResource
             ]);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -120,9 +93,6 @@ class Song extends BaseResource
             ->searchable();
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -143,8 +113,6 @@ class Song extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -161,8 +129,6 @@ class Song extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getRecordActions(): array
@@ -173,8 +139,6 @@ class Song extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

@@ -7,8 +7,6 @@ namespace App\Contracts\GraphQL\Fields;
 interface DeletableField
 {
     /**
-     * Set the delete validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

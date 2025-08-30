@@ -10,8 +10,6 @@ use Illuminate\Support\Arr;
 trait SearchModels
 {
     /**
-     * Search models.
-     *
      * @param  array<string, mixed>  $args
      */
     public function search(Builder $builder, array $args): Builder

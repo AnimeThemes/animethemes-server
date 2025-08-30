@@ -15,9 +15,6 @@ class PlaylistTrackIdField extends StringField implements BindableField
         parent::__construct(PlaylistTrack::ATTRIBUTE_HASHID, 'id', false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary key of the resource';

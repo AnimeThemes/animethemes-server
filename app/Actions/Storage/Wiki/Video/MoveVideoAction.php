@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
 /**
- * Class MoveVideoAction.
- *
  * @extends MoveAction<Video>
  */
 class MoveVideoAction extends MoveAction

@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class ResourceableFactory.
- *
  * @method Resourceable createOne($attributes = [])
  * @method Resourceable makeOne($attributes = [])
  *

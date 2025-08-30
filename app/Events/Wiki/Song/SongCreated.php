@@ -13,8 +13,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
- * Class SongCreated.
- *
  * @extends WikiCreatedEvent<Song>
  */
 class SongCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
@@ -24,25 +22,16 @@ class SongCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
         parent::__construct($song);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Song
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Song '**{$this->getModel()->getName()}**' has been created.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

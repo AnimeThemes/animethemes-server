@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
- * Class ReportStep.
- *
  * @property ReportActionType|null $action
  * @property Model|null $actionable
  * @property string $actionable_type
@@ -96,17 +94,11 @@ class ReportStep extends BaseModel
      */
     protected $primaryKey = ReportStep::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return strval($this->getKey());

@@ -15,8 +15,6 @@ readonly class StorageFileDirectoryExistsRule implements ValidationRule
     public function __construct(protected Filesystem $fs) {}
 
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

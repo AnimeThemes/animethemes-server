@@ -22,17 +22,12 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
         return Type::boolean();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -42,9 +37,6 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
         ];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::ROOT;

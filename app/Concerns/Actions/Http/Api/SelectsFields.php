@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait SelectsFields
 {
-    /**
-     * Selects fields for the query builder.
-     */
     public function select(Builder $builder, Query $query, Schema $schema): Builder
     {
         $selectedFields = collect($schema->fields())

@@ -10,15 +10,11 @@ use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class VideoRepository.
- *
  * @extends EloquentRepository<Video>
  */
 class VideoRepository extends EloquentRepository
 {
     /**
-     * Get the underlying query builder.
-     *
      * @return Builder
      */
     protected function builder(): Builder

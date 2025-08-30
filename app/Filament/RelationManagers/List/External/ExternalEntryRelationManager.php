@@ -19,9 +19,6 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = ExternalEntryResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

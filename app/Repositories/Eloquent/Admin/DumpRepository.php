@@ -9,15 +9,11 @@ use App\Repositories\Eloquent\EloquentRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class DumpRepository.
- *
  * @extends EloquentRepository<Dump>
  */
 class DumpRepository extends EloquentRepository
 {
     /**
-     * Get the underlying query builder.
-     *
      * @return Builder
      */
     protected function builder(): Builder

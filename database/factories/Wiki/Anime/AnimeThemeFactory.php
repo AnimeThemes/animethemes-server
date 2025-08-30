@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class AnimeThemeFactory.
- *
  * @method AnimeTheme createOne($attributes = [])
  * @method AnimeTheme makeOne($attributes = [])
  *

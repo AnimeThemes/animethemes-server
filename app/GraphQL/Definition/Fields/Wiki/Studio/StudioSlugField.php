@@ -20,9 +20,6 @@ class StudioSlugField extends StringField implements BindableField, CreatableFie
         parent::__construct(Studio::ATTRIBUTE_SLUG, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL slug & route key of the resource';
@@ -37,8 +34,6 @@ class StudioSlugField extends StringField implements BindableField, CreatableFie
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -53,8 +48,6 @@ class StudioSlugField extends StringField implements BindableField, CreatableFie
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

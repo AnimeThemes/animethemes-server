@@ -16,8 +16,6 @@ use Illuminate\Support\Str;
 class DestroyTrackAction
 {
     /**
-     * Destroy playlist track.
-     *
      * @throws Exception
      */
     public function destroy(Playlist $playlist, PlaylistTrack $track): string

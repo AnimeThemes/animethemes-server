@@ -19,17 +19,13 @@ use Filament\Tables\Table;
 
 class Exception extends ExceptionResource
 {
-    /**
-     * The logical group associated with the resource.
-     */
+
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.admin');
     }
 
-    /**
-     * The index page of the resource.
-     */
+
     public static function table(Table $table): Table
     {
         return $table
@@ -77,9 +73,7 @@ class Exception extends ExceptionResource
             ->defaultSort('created_at', 'desc');
     }
 
-    /**
-     * Determine if the user can access the table.
-     */
+
     public static function canViewAny(): bool
     {
         /** @var User $user */
@@ -89,8 +83,7 @@ class Exception extends ExceptionResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
+
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

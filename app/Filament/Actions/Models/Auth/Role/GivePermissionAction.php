@@ -16,17 +16,11 @@ class GivePermissionAction extends BaseAction
 {
     final public const FIELD_PERMISSION = 'permission';
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'role-give-permission';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -48,9 +42,6 @@ class GivePermissionAction extends BaseAction
         $role->givePermissionTo($permission);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $permissions = Permission::query()

@@ -21,9 +21,6 @@ use App\Models\List\External\ExternalEntry;
 
 class ExternalEntryType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents an anime entry on the external profile.\n\nFor example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.";

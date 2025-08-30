@@ -17,25 +17,17 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class SongSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): SongQuery
     {
         return new SongQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return SongResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -49,8 +41,6 @@ class SongSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

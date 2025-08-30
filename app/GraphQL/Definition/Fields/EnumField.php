@@ -28,9 +28,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
         parent::__construct($column, $name, $nullable);
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;
@@ -44,17 +41,12 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
         return GraphQL::type(class_basename($this->enum));
     }
 
-    /**
-     * Resolve the field.
-     */
     public function resolve(mixed $root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, $this->column)?->name;
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -66,9 +58,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
         ];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::ROOT;

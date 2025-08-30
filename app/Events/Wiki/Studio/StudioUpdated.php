@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Studio;
 
 /**
- * Class StudioUpdated.
- *
  * @extends WikiUpdatedEvent<Studio>
  */
 class StudioUpdated extends WikiUpdatedEvent
@@ -20,17 +18,11 @@ class StudioUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($studio);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Studio
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Studio '**{$this->getModel()->getName()}**' has been updated.";

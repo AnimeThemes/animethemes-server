@@ -15,17 +15,11 @@ class ReconcileAudioAction extends ReconcileStorageAction
 {
     use ReconcilesAudioRepositories;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'reconcile-audio';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,9 +29,6 @@ class ReconcileAudioAction extends ReconcileStorageAction
         $this->visible(Gate::allows('create', Audio::class));
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

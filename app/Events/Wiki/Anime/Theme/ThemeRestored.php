@@ -13,8 +13,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
- * Class ThemeRestored.
- *
  * @extends WikiRestoredEvent<AnimeTheme>
  */
 class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
@@ -30,25 +28,16 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
         $this->anime = $theme->anime;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeTheme
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Theme '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform cascading restores.
-     */
     public function cascadeRestores(): void
     {
         $theme = $this->getModel();

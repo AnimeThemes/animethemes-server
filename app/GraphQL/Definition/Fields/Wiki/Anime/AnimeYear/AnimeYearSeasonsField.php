@@ -19,9 +19,6 @@ class AnimeYearSeasonsField extends Field implements DisplayableField
         parent::__construct(self::FIELD);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The available seasons of the year';
@@ -37,9 +34,6 @@ class AnimeYearSeasonsField extends Field implements DisplayableField
         return Type::listOf(Type::nonNull($type));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

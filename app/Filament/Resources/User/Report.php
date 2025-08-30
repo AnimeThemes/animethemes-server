@@ -33,57 +33,37 @@ class Report extends BaseResource
      */
     protected static ?string $model = ReportModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.report');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.reports');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.user');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedLightBulb;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'reports';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return ReportModel::ATTRIBUTE_ID;
     }
 
     /**
-     * Get the eloquent query for the resource.
-     *
      * @return Builder
      */
     public static function getEloquentQuery(): Builder
@@ -97,17 +77,11 @@ class Report extends BaseResource
         ]);
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema;
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -131,9 +105,6 @@ class Report extends BaseResource
             ]);
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -168,8 +139,6 @@ class Report extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -182,8 +151,6 @@ class Report extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

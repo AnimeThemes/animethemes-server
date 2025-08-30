@@ -28,8 +28,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Song.
- *
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Artist> $artists
  * @property Collection<int, Performance> $performances
@@ -98,9 +96,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
      */
     protected $primaryKey = Song::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         if (empty($this->title)) {
@@ -110,9 +105,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
         return $this->title;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->animethemes()->count() !== 0 && $this->animethemes->first()->anime !== null

@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceUpdated.
- *
  * @extends WikiUpdatedEvent<Performance>
  */
 class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
@@ -28,25 +26,16 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
         $this->initializeEmbedFields($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Performance '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

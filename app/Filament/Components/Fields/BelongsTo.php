@@ -22,9 +22,6 @@ class BelongsTo extends ComponentsSelect
     protected bool $showCreateOption = false;
     protected bool $withSubtitle = true;
 
-    /**
-     * This should reload after every method.
-     */
     protected function reload(): void
     {
         if ($resource = $this->resource) {
@@ -64,9 +61,6 @@ class BelongsTo extends ComponentsSelect
         return $this;
     }
 
-    /**
-     * Determine if the create option is available. The resource is required for this.
-     */
     public function showCreateOption(bool $condition = true): static
     {
         $this->showCreateOption = $condition;
@@ -75,9 +69,6 @@ class BelongsTo extends ComponentsSelect
         return $this;
     }
 
-    /**
-     * Determine if the subtitle should be shown.
-     */
     public function withSubtitle(bool $condition = true): static
     {
         $this->withSubtitle = $condition;
@@ -86,8 +77,6 @@ class BelongsTo extends ComponentsSelect
     }
 
     /**
-     * Make the field searchable and use laravel scout if available.
-     *
      * @param  class-string<Model>  $model
      */
     protected function tryScout(string $model): static
@@ -122,8 +111,6 @@ class BelongsTo extends ComponentsSelect
     }
 
     /**
-     * Use the blade to make the results.
-     *
      * @param  Model|User|Nameable|HasSubtitle  $model
      */
     public static function getSearchLabelWithBlade($model, bool $withSubtitle = true): string
@@ -135,9 +122,6 @@ class BelongsTo extends ComponentsSelect
             ->render();
     }
 
-    /**
-     * Prepare the search query for Elasticsearch.
-     */
     public function escapeReservedChars(string $search): string
     {
         return preg_replace(

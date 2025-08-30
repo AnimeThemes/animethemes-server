@@ -15,17 +15,11 @@ class ReconcileVideoAction extends ReconcileStorageAction
 {
     use ReconcilesVideoRepositories;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'reconcile-video';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,9 +29,6 @@ class ReconcileVideoAction extends ReconcileStorageAction
         $this->visible(Gate::allows('create', Video::class));
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);

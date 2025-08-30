@@ -30,8 +30,6 @@ class ArtistSongController extends PivotController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): ArtistSongCollection
@@ -44,8 +42,6 @@ class ArtistSongController extends PivotController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<ArtistSong>  $action
      */
     public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): ArtistSongResource
@@ -64,8 +60,6 @@ class ArtistSongController extends PivotController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): ArtistSongResource
@@ -83,8 +77,6 @@ class ArtistSongController extends PivotController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): ArtistSongResource
@@ -102,8 +94,6 @@ class ArtistSongController extends PivotController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Artist $artist, Song $song, DestroyAction $action): JsonResponse

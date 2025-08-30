@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminCreatedEvent;
 use App\Models\Admin\Dump;
 
 /**
- * Class DumpCreated.
- *
  * @extends AdminCreatedEvent<Dump>
  */
 class DumpCreated extends AdminCreatedEvent
@@ -19,17 +17,11 @@ class DumpCreated extends AdminCreatedEvent
         parent::__construct($dump);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Dump
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Dump '**{$this->getModel()->getName()}**' has been created.";

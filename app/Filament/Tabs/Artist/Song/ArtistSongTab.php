@@ -10,25 +10,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ArtistSongTab extends BaseTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'artist-song-lens';
     }
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.artist.songs.name');
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */
@@ -37,9 +29,6 @@ class ArtistSongTab extends BaseTab
         return $query->whereDoesntHave(Artist::RELATION_SONGS);
     }
 
-    /**
-     * Get the badge for the tab.
-     */
     public function getBadge(): int
     {
         return Artist::query()->whereDoesntHave(Artist::RELATION_SONGS)->count();

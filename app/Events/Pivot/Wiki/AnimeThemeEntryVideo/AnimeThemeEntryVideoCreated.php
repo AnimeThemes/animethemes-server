@@ -13,8 +13,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 /**
- * Class AnimeThemeEntryVideoCreated.
- *
  * @extends PivotCreatedEvent<AnimeThemeEntry, Video>
  */
 class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent
@@ -24,9 +22,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();
@@ -35,9 +30,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
         return "Video '**{$foreign->getName()}**' has been attached to Entry '**{$related->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         // refresh video document
@@ -45,9 +37,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
         $video->searchable();
     }
 
-    /**
-     * Update the related playlist tracks.
-     */
     public function updatePlaylistTracks(): void
     {
         $entry = $this->getRelated();

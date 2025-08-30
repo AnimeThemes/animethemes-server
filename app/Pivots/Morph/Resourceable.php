@@ -22,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class Resourceable.
- *
  * @property Model&HasResources&Nameable $resourceable
  * @property string $resourceable_type
  * @property int $resourceable_id

@@ -49,9 +49,6 @@ abstract class BaseListResources extends ListRecords
         return $query;
     }
 
-    /**
-     * Prepare the search query for Elasticsearch.
-     */
     public function escapeReservedChars(string $search): string
     {
         return preg_replace(

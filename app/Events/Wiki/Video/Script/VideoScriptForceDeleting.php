@@ -10,8 +10,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Video\VideoScript;
 
 /**
- * Class VideoScriptForceDeleting.
- *
  * @extends BaseEvent<VideoScript>
  */
 class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEvent
@@ -21,17 +19,11 @@ class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEve
         parent::__construct($script);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): VideoScript
     {
         return $this->model;
     }
 
-    /**
-     * Remove the image from the bucket.
-     */
     public function removeFromStorage(): void
     {
         $action = new DeleteScriptAction($this->getModel());

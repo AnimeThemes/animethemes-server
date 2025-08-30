@@ -17,17 +17,12 @@ class AnimeSynonymTextField extends StringField implements CreatableField, Requi
         parent::__construct(AnimeSynonym::ATTRIBUTE_TEXT, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The alternate title or common abbreviations';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class AnimeSynonymTextField extends StringField implements CreatableField, Requi
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

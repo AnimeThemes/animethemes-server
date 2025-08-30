@@ -14,9 +14,6 @@ class UserNameField extends StringField
         parent::__construct(User::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The username of the resource';

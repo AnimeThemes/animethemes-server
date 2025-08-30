@@ -15,8 +15,6 @@ use Illuminate\Support\Arr;
 class ExternalEntryPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     *
      * @param  array  $args
      */
     public function viewAny(?User $user, array $args = []): bool
@@ -33,8 +31,6 @@ class ExternalEntryPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  array  $args
      */
     public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
@@ -51,8 +47,6 @@ class ExternalEntryPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can create models.
-     *
      * @param  array  $args
      */
     public function create(User $user, array $args = []): bool
@@ -61,8 +55,6 @@ class ExternalEntryPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  array  $args
      */
     public function update(User $user, array $args, ?string $keyName = 'model'): bool
@@ -71,8 +63,6 @@ class ExternalEntryPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  array  $args
      */
     public function delete(User $user, array $args, ?string $keyName = 'model'): bool

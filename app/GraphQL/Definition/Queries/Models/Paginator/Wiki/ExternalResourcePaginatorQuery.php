@@ -14,9 +14,6 @@ class ExternalResourcePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('externalresourcePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of resources given fields.';

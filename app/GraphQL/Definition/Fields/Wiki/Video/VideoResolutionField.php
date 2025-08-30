@@ -15,17 +15,12 @@ class VideoResolutionField extends IntField implements UpdatableField
         parent::__construct(Video::ATTRIBUTE_RESOLUTION);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The frame height of the file in storage';
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

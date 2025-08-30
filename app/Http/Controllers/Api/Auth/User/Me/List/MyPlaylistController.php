@@ -25,8 +25,6 @@ class MyPlaylistController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection

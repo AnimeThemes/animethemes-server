@@ -9,8 +9,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Song\Membership;
 
 /**
- * Class MembershipDeleting.
- *
  * @extends BaseEvent<Membership>
  */
 class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
@@ -20,17 +18,11 @@ class MembershipDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($membership);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Membership
     {
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $membership = $this->getModel()->load([Membership::RELATION_GROUP, Membership::RELATION_MEMBER]);

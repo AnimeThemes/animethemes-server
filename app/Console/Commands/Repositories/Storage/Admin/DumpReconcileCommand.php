@@ -13,19 +13,10 @@ class DumpReconcileCommand extends StorageReconcileCommand
 {
     use ReconcilesDumpRepositories;
 
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'reconcile:dump';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Perform set reconciliation between object storage and dump database';
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(DumpConstants::DISK_QUALIFIED);

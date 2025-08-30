@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class ArtistFactory.
- *
  * @method Artist createOne($attributes = [])
  * @method Artist makeOne($attributes = [])
  *

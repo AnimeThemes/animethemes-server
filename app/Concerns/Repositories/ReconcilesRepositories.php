@@ -13,8 +13,6 @@ use Exception;
 trait ReconcilesRepositories
 {
     /**
-     * Reconcile repositories.
-     *
      * @param  array  $data
      *
      * @throws Exception
@@ -44,21 +42,14 @@ trait ReconcilesRepositories
         return $action->reconcileRepositories($sourceRepository, $destinationRepository);
     }
 
-    /**
-     * Get the reconcile action.
-     */
     abstract protected function reconcileAction(): ReconcileRepositoriesAction;
 
     /**
-     * Get source repository.
-     *
      * @param  array  $data
      */
     abstract protected function getSourceRepository(array $data = []): ?RepositoryInterface;
 
     /**
-     * Get destination repository.
-     *
      * @param  array  $data
      */
     abstract protected function getDestinationRepository(array $data = []): ?RepositoryInterface;

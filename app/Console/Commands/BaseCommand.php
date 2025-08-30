@@ -19,14 +19,9 @@ abstract class BaseCommand extends Command implements Isolatable
     protected $isolated = true;
 
     /**
-     * Execute the console command.
-     *
      * @throws ValidationException
      */
     abstract public function handle(): int;
 
-    /**
-     * Get the validator for options.
-     */
     abstract protected function validator(): Validator;
 }

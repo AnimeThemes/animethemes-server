@@ -15,8 +15,6 @@ readonly class ResourceSiteMatchesLinkRule implements ValidationRule
     public function __construct(protected string $link) {}
 
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

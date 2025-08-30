@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * Class ArtistMemberFactory.
- *
  * @method ArtistMember createOne($attributes = [])
  * @method ArtistMember makeOne($attributes = [])
  *

@@ -16,17 +16,12 @@ class MeEmailVerifiedAtField extends DateTimeTzField
         parent::__construct(User::ATTRIBUTE_EMAIL_VERIFIED_AT, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The date the user verified their email';
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -34,9 +29,6 @@ class MeEmailVerifiedAtField extends DateTimeTzField
         return [];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::NONE;

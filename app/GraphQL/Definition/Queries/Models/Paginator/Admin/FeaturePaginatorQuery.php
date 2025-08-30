@@ -17,9 +17,6 @@ class FeaturePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('featurePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of feature resources given fields.';

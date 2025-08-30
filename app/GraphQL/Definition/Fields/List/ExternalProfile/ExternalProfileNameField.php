@@ -14,9 +14,6 @@ class ExternalProfileNameField extends StringField
         parent::__construct(ExternalProfile::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The title of the profile';

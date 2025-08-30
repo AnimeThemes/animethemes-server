@@ -23,8 +23,6 @@ class TrackBackwardController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ForwardBackwardIndexRequest  $request
      * @param  IndexAction  $action
      *

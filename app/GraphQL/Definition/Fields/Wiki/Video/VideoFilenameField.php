@@ -14,9 +14,6 @@ class VideoFilenameField extends StringField
         parent::__construct(Video::ATTRIBUTE_FILENAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The filename of the file in storage';

@@ -31,57 +31,36 @@ class Dump extends BaseResource
      */
     protected static ?string $model = DumpModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.dump');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.dumps');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.admin');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedCircleStack;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'dumps';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return DumpModel::ATTRIBUTE_PATH;
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -95,9 +74,6 @@ class Dump extends BaseResource
             ->columns(1);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -113,9 +89,6 @@ class Dump extends BaseResource
             ]);
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -136,8 +109,6 @@ class Dump extends BaseResource
     }
 
     /**
-     * Get the table actions available for the resource.
-     *
      * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
@@ -156,8 +127,6 @@ class Dump extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

@@ -13,8 +13,6 @@ abstract class ReconcileAction extends BaseAction
     use ReconcilesRepositories;
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      *
      * @throws Exception

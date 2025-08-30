@@ -13,8 +13,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
 /**
- * Class SongDeleting.
- *
  * @extends BaseEvent<Song>
  */
 class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
@@ -24,17 +22,11 @@ class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($song);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Song
     {
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);

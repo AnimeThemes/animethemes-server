@@ -26,9 +26,6 @@ class SendDiscordNotificationJob implements ShouldQueue
 
     public function __construct(protected readonly DiscordMessageEvent $event) {}
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         if (Feature::for(null)->active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS)) {
@@ -38,8 +35,6 @@ class SendDiscordNotificationJob implements ShouldQueue
     }
 
     /**
-     * Get the middleware the job should pass through.
-     *
      * @return array
      */
     public function middleware(): array

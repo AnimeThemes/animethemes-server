@@ -13,8 +13,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Support\Facades\Event;
 
 /**
- * Class AnimeDeleting.
- *
  * @extends BaseEvent<Anime>
  */
 class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
@@ -24,17 +22,11 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
         parent::__construct($anime);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Anime
     {
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function cascadeDeletes(): void
     {
         $anime = $this->getModel()->load([Anime::RELATION_SYNONYMS, Anime::RELATION_VIDEOS]);

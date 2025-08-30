@@ -28,8 +28,6 @@ class AnnouncementController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): AnnouncementCollection
@@ -43,8 +41,6 @@ class AnnouncementController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Announcement>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): AnnouncementResource
@@ -55,8 +51,6 @@ class AnnouncementController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): AnnouncementResource
@@ -69,8 +63,6 @@ class AnnouncementController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): AnnouncementResource
@@ -81,8 +73,6 @@ class AnnouncementController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Announcement $announcement, DestroyAction $action): JsonResponse

@@ -20,8 +20,6 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -35,8 +33,6 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @return array
      */
     public function getUpdateRules(Request $request): array

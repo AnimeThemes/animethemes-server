@@ -15,9 +15,6 @@ class AnimeReportMutation extends UpdateReportMutation
         parent::__construct('reportUpdateAnime');
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Report information about an anime page.';
@@ -32,8 +29,6 @@ class AnimeReportMutation extends UpdateReportMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

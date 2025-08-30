@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasPivotActionLogs
 {
-    /**
-     * Create the pivot action log.
-     */
     public function pivotActionLog(string $actionName, BaseRelationManager $livewire, Model $record, ?Action $action = null): void
     {
         $ownerRecord = $livewire->getOwnerRecord();
@@ -40,9 +37,6 @@ trait HasPivotActionLogs
         }
     }
 
-    /**
-     * Create the associate action log.
-     */
     public function associateActionLog(string $actionName, BaseRelationManager $livewire, Model $record, Action $action): void
     {
         $ownerRecord = $livewire->getOwnerRecord();

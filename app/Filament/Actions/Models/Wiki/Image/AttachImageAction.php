@@ -23,17 +23,11 @@ class AttachImageAction extends BaseAction
         ImageFacet::LARGE_COVER,
     ];
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'attach-image';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -70,9 +64,6 @@ class AttachImageAction extends BaseAction
         $action->handle($model, $data, $this->facets);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $components = [];

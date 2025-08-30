@@ -15,9 +15,6 @@ class ExternalProfileVisibilityField extends EnumField
         parent::__construct(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The state of who can see the profile';

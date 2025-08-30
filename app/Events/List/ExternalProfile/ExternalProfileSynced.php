@@ -15,9 +15,6 @@ class ExternalProfileSynced implements NotifiesUsersEvent
 
     public function __construct(protected ExternalProfile $profile) {}
 
-    /**
-     * Notify the users.
-     */
     public function notify(): void
     {
         $profile = $this->profile;

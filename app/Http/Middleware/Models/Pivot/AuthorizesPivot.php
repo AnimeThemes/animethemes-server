@@ -14,8 +14,6 @@ use Illuminate\Support\Str;
 class AuthorizesPivot
 {
     /**
-     * Handle an incoming request.
-     *
      * @param  Closure(Request): mixed  $next
      * @param  class-string  $foreignClass
      * @param  class-string  $relatedClass

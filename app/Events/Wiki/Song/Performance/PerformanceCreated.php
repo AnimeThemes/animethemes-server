@@ -15,8 +15,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceCreated.
- *
  * @extends WikiCreatedEvent<Performance>
  */
 class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
@@ -26,17 +24,11 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
         parent::__construct($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();
@@ -50,9 +42,6 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
         return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([Performance::RELATION_ARTIST]);

@@ -15,9 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExternalProfilePolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(?User $user): bool
     {
         if (Filament::isServing()) {
@@ -28,8 +25,6 @@ class ExternalProfilePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  ExternalProfile  $profile
      */
     public function view(?User $user, Model $profile): bool
@@ -46,9 +41,6 @@ class ExternalProfilePolicy extends BasePolicy
         return $profile->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         if (Filament::isServing()) {
@@ -59,8 +51,6 @@ class ExternalProfilePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  ExternalProfile  $profile
      */
     public function update(User $user, Model $profile): bool
@@ -73,8 +63,6 @@ class ExternalProfilePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  ExternalProfile  $profile
      */
     public function delete(User $user, Model $profile): bool

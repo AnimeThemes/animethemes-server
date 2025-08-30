@@ -13,9 +13,6 @@ class LimitCriteria extends Criteria
 {
     final public const PARAM = 'limit';
 
-    /**
-     * Get the intended pagination strategy.
-     */
     public function getStrategy(): PaginationStrategy
     {
         return PaginationStrategy::LIMIT;

@@ -16,9 +16,6 @@ class StepReportRelationManager extends ReportStepRelationManager
      */
     protected static string $relationship = Report::RELATION_STEPS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

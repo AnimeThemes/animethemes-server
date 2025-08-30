@@ -25,17 +25,11 @@ use Illuminate\Support\Facades\Storage;
 
 class MoveAllAction extends BaseAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'move-all';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -48,9 +42,6 @@ class MoveAllAction extends BaseAction
         $this->action(fn (array $data) => $this->handle($data));
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): ?Schema
     {
         $videoPath = $this->videoDefaultPath();
@@ -95,8 +86,6 @@ class MoveAllAction extends BaseAction
     }
 
     /**
-     * Handle the action.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(array $data): void

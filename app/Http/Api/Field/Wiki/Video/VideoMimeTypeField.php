@@ -19,8 +19,6 @@ class VideoMimeTypeField extends StringField implements CreatableField
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array

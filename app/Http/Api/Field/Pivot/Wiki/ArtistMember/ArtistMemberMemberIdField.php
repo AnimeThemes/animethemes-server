@@ -17,9 +17,6 @@ class ArtistMemberMemberIdField extends Field implements SelectableField
         parent::__construct($schema, ArtistMember::ATTRIBUTE_MEMBER);
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match member relation.

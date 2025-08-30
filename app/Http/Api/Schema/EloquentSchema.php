@@ -43,9 +43,6 @@ abstract class EloquentSchema extends Schema
         return new $collectionClass($resource, $query);
     }
 
-    /**
-     * Resolve the owner model of the schema.
-     */
     public function model(): Model
     {
         $modelClass = Str::of(get_class($this))
@@ -99,8 +96,6 @@ abstract class EloquentSchema extends Schema
     }
 
     /**
-     * Resolve the schema by path.
-     *
      * @throws RuntimeException
      */
     protected function resolve(string $path): Schema

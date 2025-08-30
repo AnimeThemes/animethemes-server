@@ -10,9 +10,6 @@ use Illuminate\Auth\Events\Verified;
 
 class AssignDefaultRolesToVerifiedUser
 {
-    /**
-     * Handle the event.
-     */
     public function handle(Verified $event): void
     {
         /** @var User $user */

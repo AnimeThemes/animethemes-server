@@ -20,9 +20,6 @@ class PlaylistTrackPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('playlisttrackPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of tracks for the playlist.';

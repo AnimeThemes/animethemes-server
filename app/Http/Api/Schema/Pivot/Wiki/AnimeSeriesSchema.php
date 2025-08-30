@@ -18,17 +18,12 @@ use App\Pivots\Wiki\AnimeSeries;
 
 class AnimeSeriesSchema extends EloquentSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return AnimeSeriesResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -40,8 +35,6 @@ class AnimeSeriesSchema extends EloquentSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      *
      * @noinspection PhpMissingParentCallCommonInspection

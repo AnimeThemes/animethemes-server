@@ -17,17 +17,12 @@ use App\Models\Admin\Feature;
 
 class FeatureSchema extends EloquentSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return FeatureResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -36,8 +31,6 @@ class FeatureSchema extends EloquentSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      *
      * @noinspection PhpMissingParentCallCommonInspection

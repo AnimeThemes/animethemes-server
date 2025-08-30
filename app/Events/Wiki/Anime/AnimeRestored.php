@@ -14,8 +14,6 @@ use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
- * Class AnimeRestored.
- *
  * @extends WikiRestoredEvent<Anime>
  */
 class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
@@ -25,25 +23,16 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
         parent::__construct($anime);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Anime
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Anime '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading restores.
-     */
     public function cascadeRestores(): void
     {
         $anime = $this->getModel();

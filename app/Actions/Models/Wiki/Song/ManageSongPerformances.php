@@ -21,9 +21,6 @@ class ManageSongPerformances
     protected array $groups = [];
     protected array $performances = [];
 
-    /**
-     * Add the song of the performances.
-     */
     public function forSong(Song|int $song): static
     {
         $this->song = $song instanceof Song ? $song->getKey() : $song;
@@ -31,9 +28,6 @@ class ManageSongPerformances
         return $this;
     }
 
-    /**
-     * Add a single artist to the song performance.
-     */
     public function addSingleArtist(int $artist, ?string $alias = null, ?string $as = null): static
     {
         $this->performances[] = [
@@ -46,9 +40,6 @@ class ManageSongPerformances
         return $this;
     }
 
-    /**
-     * Add a group data to the performance.
-     */
     public function addGroupData(int $group, ?string $alias = null, ?string $as = null): static
     {
         $this->groups[$group] = [
@@ -59,9 +50,6 @@ class ManageSongPerformances
         return $this;
     }
 
-    /**
-     * Add a membership to the song.
-     */
     public function addMembership(int $group, int $member, ?string $alias = null, ?string $as = null): static
     {
         $this->performances[] = [
@@ -79,9 +67,6 @@ class ManageSongPerformances
         return $this;
     }
 
-    /**
-     * Commit the performances to the song.
-     */
     public function commit(): static
     {
         try {

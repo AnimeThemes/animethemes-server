@@ -17,9 +17,6 @@ class SearchSeriesField extends Field implements DisplayableField
         parent::__construct('series', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The series results of the search';
@@ -33,9 +30,6 @@ class SearchSeriesField extends Field implements DisplayableField
         return Type::listOf(Type::nonNull(GraphQL::type(new SeriesType()->getName())));
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

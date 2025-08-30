@@ -9,15 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
- * Class DestroyAction.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 class DestroyAction
 {
     /**
-     * Destroy model.
-     *
      * @param  TModel  $model
      * @return TModel
      */

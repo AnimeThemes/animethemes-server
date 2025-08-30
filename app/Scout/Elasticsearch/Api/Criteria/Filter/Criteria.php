@@ -13,8 +13,5 @@ abstract class Criteria
 {
     public function __construct(protected readonly BaseCriteria $criteria) {}
 
-    /**
-     * Apply criteria to builder.
-     */
     abstract public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder;
 }

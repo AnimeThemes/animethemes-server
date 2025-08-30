@@ -19,9 +19,6 @@ use App\Pivots\Wiki\ArtistMember;
 
 class ArtistMemberType extends PivotType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the association of an artist and a group/unit.';

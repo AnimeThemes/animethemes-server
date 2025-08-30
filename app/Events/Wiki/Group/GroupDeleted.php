@@ -13,8 +13,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Video;
 
 /**
- * Class GroupDeleted.
- *
  * @extends WikiDeletedEvent<Group>
  */
 class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
@@ -24,41 +22,26 @@ class GroupDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
         parent::__construct($group);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Group
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Group '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
-    /**
-     * Get the message for the filament notification.
-     */
     protected function getNotificationMessage(): string
     {
         return "Group '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
-    /**
-     * Get the URL for the Filament notification.
-     */
     protected function getFilamentNotificationUrl(): string
     {
         return GroupFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

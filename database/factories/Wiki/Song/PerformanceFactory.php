@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceFactory.
- *
  * @method Performance createOne($attributes = [])
  * @method Performance makeOne($attributes = [])
  *

@@ -8,9 +8,6 @@ use App\Actions\Storage\Admin\Dump\DumpAdminAction;
 
 class AdminDumpCommand extends DumpCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'db:dump-admin
         {--comments : Write additional information in the MySQL dump such as program version, server version and host}
         {--data-only : Dump only the data without the schema in PostgreSQL dump}
@@ -29,14 +26,8 @@ class AdminDumpCommand extends DumpCommand
         {--skip-quick : Do not retrieve rows for a table from the server one row at a time in MySQL dump}
         ';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Produces sanitized database dump, targeting admin-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpAdminAction
     {
         return new DumpAdminAction($this->options());

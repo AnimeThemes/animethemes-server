@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes as BaseSoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * Trait SoftDeletes.
- *
  * @property Carbon $deleted_at
  */
 trait SoftDeletes
@@ -23,9 +21,6 @@ trait SoftDeletes
 
     public const ATTRIBUTE_DELETED_AT = ModelConstants::ATTRIBUTE_DELETED_AT;
 
-    /**
-     * Restore a soft-deleted model instance.
-     */
     public function restore(): ?bool
     {
         // If the restoring event does not return false, we will proceed with this
@@ -51,8 +46,6 @@ trait SoftDeletes
     }
 
     /**
-     * Get the prunable model query.
-     *
      * @return Builder
      */
     public function prunable(): Builder

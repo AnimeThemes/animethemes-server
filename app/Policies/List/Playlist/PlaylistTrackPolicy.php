@@ -16,9 +16,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaylistTrackPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(?User $user): bool
     {
         if (Filament::isServing()) {
@@ -37,8 +34,6 @@ class PlaylistTrackPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  PlaylistTrack  $track
      *
      * @noinspection PhpUnusedParameterInspection
@@ -59,9 +54,6 @@ class PlaylistTrackPolicy extends BasePolicy
         return $playlist?->visibility !== PlaylistVisibility::PRIVATE;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         if (Filament::isServing()) {
@@ -75,8 +67,6 @@ class PlaylistTrackPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  PlaylistTrack  $track
      */
     public function update(User $user, Model $track): bool
@@ -92,8 +82,6 @@ class PlaylistTrackPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  PlaylistTrack  $track
      */
     public function delete(User $user, Model $track): bool

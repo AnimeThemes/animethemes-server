@@ -34,8 +34,6 @@ class AnimeYearsController extends BaseController
     use SortsModels;
 
     /**
-     * Apply the builder to the animeyears query.
-     *
      * @param  array<string, mixed>  $args
      */
     public function index(null $root, array $args, $context, ResolveInfo $resolveInfo): mixed

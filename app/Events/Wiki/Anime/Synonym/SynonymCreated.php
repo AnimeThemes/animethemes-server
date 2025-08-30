@@ -13,8 +13,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class SynonymCreated.
- *
  * @extends WikiCreatedEvent<AnimeSynonym>
  */
 class SynonymCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
@@ -30,25 +28,16 @@ class SynonymCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEve
         $this->anime = $synonym->anime;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeSynonym
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Synonym '**{$this->getModel()->getName()}**' has been created for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);

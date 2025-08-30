@@ -13,9 +13,6 @@ class IdUnbindableField extends IntField
         parent::__construct($column, 'id', false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary key of the resource';

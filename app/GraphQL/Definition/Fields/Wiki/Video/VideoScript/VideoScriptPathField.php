@@ -14,9 +14,6 @@ class VideoScriptPathField extends StringField
         parent::__construct(VideoScript::ATTRIBUTE_PATH, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The path of the file in storage';

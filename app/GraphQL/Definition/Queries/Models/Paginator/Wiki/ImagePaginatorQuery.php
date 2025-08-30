@@ -14,9 +14,6 @@ class ImagePaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('imagePaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of images resources given fields.';

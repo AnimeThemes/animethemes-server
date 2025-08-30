@@ -21,9 +21,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
         parent::__construct('video');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The id of the video to like';
@@ -48,8 +45,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -61,8 +56,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
     }
 
     /**
-     * Set the delete validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

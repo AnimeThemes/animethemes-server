@@ -20,9 +20,6 @@ use App\Models\Auth\Role;
 
 class RoleType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents an assignable label for users that provides a configured group of permissions.';

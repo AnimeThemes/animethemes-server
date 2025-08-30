@@ -14,8 +14,6 @@ use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
 
 /**
- * Class ExternalToken.
- *
  * @property int $token_id
  * @property int $profile_id
  * @property string|null $access_token
@@ -84,17 +82,11 @@ class ExternalToken extends BaseModel
      */
     protected $primaryKey = ExternalToken::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->externalprofile->getName();

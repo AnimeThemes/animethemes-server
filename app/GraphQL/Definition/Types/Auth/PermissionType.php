@@ -15,9 +15,6 @@ use App\Models\Auth\Permission;
 
 class PermissionType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.';

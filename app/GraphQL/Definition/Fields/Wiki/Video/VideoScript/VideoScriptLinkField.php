@@ -14,9 +14,6 @@ class VideoScriptLinkField extends StringField
         parent::__construct(VideoScript::ATTRIBUTE_LINK, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The URL to download the file from storage';

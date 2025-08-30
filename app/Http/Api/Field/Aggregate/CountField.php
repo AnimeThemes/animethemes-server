@@ -18,9 +18,6 @@ abstract class CountField extends AggregateField
         parent::__construct($schema, $relation, AggregateFunction::COUNT, '*');
     }
 
-    /**
-     * Get the filters that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new IntFilter(key: $this->alias(), qualifyColumn: QualifyColumn::NO, clause: Clause::HAVING);

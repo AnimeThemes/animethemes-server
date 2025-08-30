@@ -9,8 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 
 /**
- * Class ArtistMemberUpdated.
- *
  * @extends PivotUpdatedEvent<Artist, Artist>
  */
 class ArtistMemberUpdated extends PivotUpdatedEvent
@@ -21,9 +19,6 @@ class ArtistMemberUpdated extends PivotUpdatedEvent
         $this->initializeEmbedFields($artistMember);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

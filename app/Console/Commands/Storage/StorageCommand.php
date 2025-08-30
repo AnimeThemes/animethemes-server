@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 abstract class StorageCommand extends BaseCommand
 {
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $validator = $this->validator();
@@ -41,13 +38,7 @@ abstract class StorageCommand extends BaseCommand
         return $result->hasFailed() ? 1 : 0;
     }
 
-    /**
-     * Get the underlying action.
-     */
     abstract protected function getAction(): StorageAction;
 
-    /**
-     * Get the validator for options.
-     */
     abstract protected function validator(): Validator;
 }

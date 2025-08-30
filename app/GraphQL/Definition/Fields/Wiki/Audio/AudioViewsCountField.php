@@ -15,17 +15,11 @@ class AudioViewsCountField extends CountAggregateField implements DeprecatedFiel
         parent::__construct(Audio::RELATION_VIEW_AGGREGATE, 'viewsCount');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The number of views recorded for the resource';
     }
 
-    /**
-     * The reason which the field is deprecated.
-     */
     public function deprecationReason(): string
     {
         return 'We will no longer track views.';

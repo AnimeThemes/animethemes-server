@@ -16,9 +16,6 @@ class EntryThemeRelationManager extends EntryRelationManager
      */
     protected static string $relationship = AnimeTheme::RELATION_ENTRIES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

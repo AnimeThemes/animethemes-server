@@ -13,15 +13,10 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class ScriptRepository.
- *
  * @extends StorageRepository<VideoScript>
  */
 class ScriptRepository extends StorageRepository
 {
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED);

@@ -16,33 +16,21 @@ abstract class Field implements FieldInterface
         protected readonly ?string $sortField = null
     ) {}
 
-    /**
-     * Get the schema.
-     */
     public function schema(): Schema
     {
         return $this->schema;
     }
 
-    /**
-     * Get the field key.
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * Get the search field.
-     */
     public function getSearchField(): ?string
     {
         return $this->searchField ?? $this->key;
     }
 
-    /**
-     * Get the sort field.
-     */
     public function getSortField(): ?string
     {
         return $this->sortField ?? $this->getSearchField();

@@ -30,8 +30,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): PerformanceCollection
@@ -46,8 +44,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Performance>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): PerformanceResource
@@ -58,8 +54,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Performance $performance, ShowAction $action): PerformanceResource
@@ -72,8 +66,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Performance $performance, UpdateAction $action): PerformanceResource
@@ -84,8 +76,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Performance $performance, DestroyAction $action): PerformanceResource
@@ -96,8 +86,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Performance $performance, RestoreAction $action): PerformanceResource
@@ -108,8 +96,6 @@ class PerformanceController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Performance $performance, ForceDeleteAction $action): JsonResponse

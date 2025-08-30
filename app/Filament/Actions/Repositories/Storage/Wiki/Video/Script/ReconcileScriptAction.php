@@ -15,17 +15,11 @@ class ReconcileScriptAction extends ReconcileStorageAction
 {
     use ReconcilesScriptRepositories;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'reconcile-script';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,9 +29,6 @@ class ReconcileScriptAction extends ReconcileStorageAction
         $this->visible(Gate::allows('create', VideoScript::class));
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED);

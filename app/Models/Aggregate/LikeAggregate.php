@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Class LikeAggregate.
- *
  * @property Likeable $likeable
  * @property string $likeable_type
  * @property int $likeable_id

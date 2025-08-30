@@ -21,25 +21,17 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class ArtistSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): ArtistQuery
     {
         return new ArtistQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return ArtistResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -57,8 +49,6 @@ class ArtistSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

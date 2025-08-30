@@ -8,8 +8,6 @@ use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class AnimeStudioFactory.
- *
  * @method AnimeStudio createOne($attributes = [])
  * @method AnimeStudio makeOne($attributes = [])
  *

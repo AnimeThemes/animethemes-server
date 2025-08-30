@@ -17,9 +17,6 @@ use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
 use Filament\Actions\ActionGroup;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
-use Filament\Resources\Pages\Page;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Schema;
@@ -36,57 +33,36 @@ class Script extends BaseResource
      */
     protected static ?string $model = ScriptModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.video_script');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.video_scripts');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedDocumentText;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'video-scripts';
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return ScriptModel::ATTRIBUTE_PATH;
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -98,9 +74,6 @@ class Script extends BaseResource
             ->columns(1);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -114,9 +87,6 @@ class Script extends BaseResource
             ]);
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -126,8 +96,6 @@ class Script extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -140,8 +108,6 @@ class Script extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\Action|ActionGroup>
      */
     public static function getRecordActions(): array
@@ -154,8 +120,6 @@ class Script extends BaseResource
     }
 
     /**
-     * Get the bulk actions available for the resource.
-     *
      * @param  array<int, ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
      * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
@@ -169,8 +133,6 @@ class Script extends BaseResource
     }
 
     /**
-     * Get the table actions available for the resource.
-     *
      * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
@@ -184,17 +146,12 @@ class Script extends BaseResource
         ];
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public static function canCreate(): bool
     {
         return false;
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, PageRegistration>
      */
     public static function getPages(): array

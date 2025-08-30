@@ -22,8 +22,6 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @return array
      */
     public function getCreationRules(Request $request): array
@@ -35,9 +33,6 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
         ];
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match anime relation.

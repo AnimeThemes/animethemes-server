@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class PlaylistFactory.
- *
  * @method Playlist createOne($attributes = [])
  * @method Playlist makeOne($attributes = [])
  *

@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class ExternalProfileFactory.
- *
  * @method ExternalProfile createOne($attributes = [])
  * @method ExternalProfile makeOne($attributes = [])
  *

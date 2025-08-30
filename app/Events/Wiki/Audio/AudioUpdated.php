@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioUpdated.
- *
  * @extends WikiUpdatedEvent<Audio>
  */
 class AudioUpdated extends WikiUpdatedEvent
@@ -20,17 +18,11 @@ class AudioUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($audio);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Audio
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Audio '**{$this->getModel()->getName()}**' has been updated.";

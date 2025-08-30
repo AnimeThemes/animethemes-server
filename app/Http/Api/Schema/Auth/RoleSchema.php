@@ -20,17 +20,12 @@ use App\Models\Auth\Role;
 
 class RoleSchema extends EloquentSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return RoleResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -41,8 +36,6 @@ class RoleSchema extends EloquentSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      *
      * @noinspection PhpMissingParentCallCommonInspection

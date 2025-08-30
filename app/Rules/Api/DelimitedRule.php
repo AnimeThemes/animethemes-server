@@ -13,15 +13,11 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 readonly class DelimitedRule implements ValidationRule
 {
     /**
-     * Create a new rule instance.
-     *
      * @param  string|array|ValidationRule  $rule
      */
     public function __construct(protected string|array|ValidationRule $rule) {}
 
     /**
-     * Run the validation rule.
-     *
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

@@ -9,9 +9,6 @@ use App\Contracts\Events\AssignHashidsEvent;
 
 class AssignHashids
 {
-    /**
-     * Handle the event.
-     */
     public function handle(AssignHashidsEvent $event): void
     {
         $action = new AssignHashidsAction();

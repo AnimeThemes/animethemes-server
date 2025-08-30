@@ -20,9 +20,6 @@ use App\Models\Wiki\Series;
 
 class SeriesType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents a collection of related anime.\n\nFor example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.";

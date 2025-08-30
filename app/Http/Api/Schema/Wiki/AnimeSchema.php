@@ -28,8 +28,6 @@ use App\Models\Wiki\Anime;
 class AnimeSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * Get the allowed pivots of the schema.
-     *
      * @return AllowedInclude[]
      */
     public function allowedPivots(): array
@@ -39,17 +37,12 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
         ];
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return AnimeResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -85,8 +78,6 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

@@ -20,17 +20,12 @@ use App\Models\Wiki\Song\Performance;
 
 class PerformanceSchema extends EloquentSchema implements SearchableSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return PerformanceResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -41,8 +36,6 @@ class PerformanceSchema extends EloquentSchema implements SearchableSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

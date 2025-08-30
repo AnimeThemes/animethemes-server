@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryDeleting.
- *
  * @extends BaseEvent<AnimeThemeEntry>
  */
 class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
@@ -21,17 +19,11 @@ class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         parent::__construct($entry);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeThemeEntry
     {
         return $this->model;
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

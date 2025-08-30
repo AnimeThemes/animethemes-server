@@ -16,9 +16,6 @@ class ThemeSongRelationManager extends ThemeRelationManager
      */
     protected static string $relationship = SongModel::RELATION_ANIMETHEMES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

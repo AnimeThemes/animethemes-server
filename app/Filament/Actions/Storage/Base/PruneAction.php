@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class PruneAction extends StorageAction
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -23,9 +20,6 @@ abstract class PruneAction extends StorageAction
         $this->icon(Heroicon::OutlinedTrash);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema

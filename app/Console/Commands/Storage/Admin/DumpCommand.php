@@ -15,8 +15,6 @@ use Illuminate\Validation\Rule;
 abstract class DumpCommand extends BaseCommand
 {
     /**
-     * Execute the console command.
-     *
      * @throws Exception
      */
     public function handle(): int
@@ -42,9 +40,6 @@ abstract class DumpCommand extends BaseCommand
         return $result->hasFailed() ? 1 : 0;
     }
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->options(), [
@@ -53,8 +48,5 @@ abstract class DumpCommand extends BaseCommand
         ]);
     }
 
-    /**
-     * Get the underlying action.
-     */
     abstract protected function action(): DumpAction;
 }

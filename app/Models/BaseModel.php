@@ -15,8 +15,6 @@ use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * Class BaseModel.
- *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */

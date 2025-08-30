@@ -16,17 +16,12 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
         parent::__construct(Video::ATTRIBUTE_NC, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Is the video creditless?';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

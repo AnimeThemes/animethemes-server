@@ -23,9 +23,6 @@ use App\Models\Wiki\Studio;
 
 class StudioType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents a company that produces anime.\n\nFor example, Shaft is the studio that produced the anime Bakemonogatari.";

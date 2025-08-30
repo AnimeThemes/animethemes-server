@@ -18,9 +18,6 @@ use InvalidArgumentException;
 
 trait SortsModels
 {
-    /**
-     * Apply sorts to the query builder.
-     */
     public function sort(Builder $builder, array $args, BaseType|BaseUnion $type): Builder
     {
         $sorts = Arr::get($args, SortArgument::ARGUMENT);

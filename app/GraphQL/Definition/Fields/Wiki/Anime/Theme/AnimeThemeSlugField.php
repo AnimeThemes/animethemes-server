@@ -17,17 +17,12 @@ class AnimeThemeSlugField extends StringField implements CreatableField, Require
         parent::__construct(AnimeTheme::ATTRIBUTE_SLUG);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The slug that represents the anime theme.';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class AnimeThemeSlugField extends StringField implements CreatableField, Require
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

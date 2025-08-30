@@ -22,8 +22,6 @@ use Illuminate\Support\Str;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 /**
- * Class PlaylistTrack.
- *
  * @property int $entry_id
  * @property AnimeThemeEntry $animethemeentry
  * @property PlaylistTrack|null $next
@@ -130,17 +128,11 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         $subtitle = Str::of("($this->hashid) ");

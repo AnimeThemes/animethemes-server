@@ -18,8 +18,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceDeleted.
- *
  * @extends WikiDeletedEvent<Performance>
  */
 class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
@@ -29,17 +27,11 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
         parent::__construct($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();
@@ -53,25 +45,16 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
         return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->getName()}**'.";
     }
 
-    /**
-     * Get the message for the filament notification.
-     */
     protected function getNotificationMessage(): string
     {
         return "Performance '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
     }
 
-    /**
-     * Get the URL for the Filament notification.
-     */
     protected function getFilamentNotificationUrl(): string
     {
         return PerformanceFilament::getUrl('view', ['record' => $this->getModel()]);
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

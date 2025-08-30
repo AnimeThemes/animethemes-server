@@ -16,17 +16,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DiscordThreadAction extends BaseAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'discord-thread';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -47,9 +41,6 @@ class DiscordThreadAction extends BaseAction
         });
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema

@@ -29,9 +29,6 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
         parent::__construct('findAnimeByExternalSite', false, true);
     }
 
-    /**
-     * The description of the query.
-     */
     public function description(): string
     {
         return 'Filter anime by its external id on given site.';

@@ -61,17 +61,11 @@ use Illuminate\Validation\Rules\File as FileRule;
 
 class UploadVideoAction extends UploadAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'upload-video';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -81,9 +75,6 @@ class UploadVideoAction extends UploadAction
         $this->visible(Gate::allows('create', Video::class));
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema
@@ -258,9 +249,6 @@ class UploadVideoAction extends UploadAction
         }
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);

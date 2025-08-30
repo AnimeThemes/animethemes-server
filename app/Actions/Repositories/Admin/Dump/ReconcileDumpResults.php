@@ -8,8 +8,6 @@ use App\Actions\Repositories\ReconcileResults;
 use App\Models\Admin\Dump;
 
 /**
- * Class ReconcileDumpResults.
- *
  * @extends ReconcileResults<Dump>
  */
 class ReconcileDumpResults extends ReconcileResults

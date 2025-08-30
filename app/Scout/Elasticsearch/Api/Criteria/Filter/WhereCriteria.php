@@ -22,9 +22,6 @@ class WhereCriteria extends Criteria
         parent::__construct($criteria);
     }
 
-    /**
-     * Apply criteria to builder.
-     */
     public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder
     {
         $clause = $this->getElasticsearchClause($filter);

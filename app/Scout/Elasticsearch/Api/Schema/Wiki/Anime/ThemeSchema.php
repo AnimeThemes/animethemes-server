@@ -21,7 +21,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\ArtistSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
-use Illuminate\Database\Eloquent\Model;
 
 class ThemeSchema extends Schema
 {
@@ -33,25 +32,17 @@ class ThemeSchema extends Schema
 
     final public const SORT_YEAR = 'anime.year';
 
-    /**
-     * The model this schema represents.
-     */
     public function query(): ThemeQuery
     {
         return new ThemeQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return ThemeResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -67,8 +58,6 @@ class ThemeSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array
@@ -85,8 +74,6 @@ class ThemeSchema extends Schema
     }
 
     /**
-     * Get the sorts of the resource.
-     *
      * @return Sort[]
      */
     public function sorts(): array
@@ -101,9 +88,6 @@ class ThemeSchema extends Schema
         );
     }
 
-    /**
-     * Get the model of the schema.
-     */
     public function model(): AnimeTheme
     {
         return new AnimeTheme();

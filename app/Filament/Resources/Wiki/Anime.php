@@ -45,65 +45,41 @@ class Anime extends BaseResource
      */
     protected static ?string $model = AnimeModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedTv;
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return AnimeModel::ATTRIBUTE_NAME;
     }
 
-    /**
-     * Determine if the resource can globally search.
-     */
     public static function canGloballySearch(): bool
     {
         return true;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'anime';
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -156,9 +132,6 @@ class Anime extends BaseResource
             ->columns(2);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -192,9 +165,6 @@ class Anime extends BaseResource
             ->searchable();
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -236,8 +206,6 @@ class Anime extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -257,8 +225,6 @@ class Anime extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
@@ -280,8 +246,6 @@ class Anime extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getRecordActions(): array
@@ -310,8 +274,6 @@ class Anime extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

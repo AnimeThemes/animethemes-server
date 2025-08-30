@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Http;
 
 class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
-    /**
-     * Get the site to backfill.
-     */
     public function getSite(): ResourceSite
     {
         return ResourceSite::MAL;

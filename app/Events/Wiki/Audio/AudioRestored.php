@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioRestored.
- *
  * @extends WikiRestoredEvent<Audio>
  */
 class AudioRestored extends WikiRestoredEvent
@@ -19,17 +17,11 @@ class AudioRestored extends WikiRestoredEvent
         parent::__construct($audio);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Audio
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Audio '**{$this->getModel()->getName()}**' has been restored.";

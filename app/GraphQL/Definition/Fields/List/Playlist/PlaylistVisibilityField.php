@@ -19,17 +19,12 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Requi
         parent::__construct(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The state of who can see the playlist';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -42,8 +37,6 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Requi
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

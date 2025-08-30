@@ -14,17 +14,12 @@ abstract class Criteria
 {
     public function __construct(protected readonly BaseCriteria $criteria) {}
 
-    /**
-     * Get the intended pagination strategy.
-     */
     public function getStrategy(): PaginationStrategy
     {
         return $this->criteria->getStrategy();
     }
 
     /**
-     * Paginate the search query.
-     *
      * @return Collection|Paginator
      */
     abstract public function paginate(SearchParametersBuilder $builder): Collection|Paginator;

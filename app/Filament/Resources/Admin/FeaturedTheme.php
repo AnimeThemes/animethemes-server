@@ -41,49 +41,32 @@ class FeaturedTheme extends BaseResource
      */
     protected static ?string $model = FeaturedThemeModel::class;
 
-    /**
-     * Get the displayable singular label of the resource.
-     */
     public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.featured_theme');
     }
 
-    /**
-     * Get the displayable label of the resource.
-     */
     public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.featured_themes');
     }
 
-    /**
-     * The logical group associated with the resource.
-     */
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.admin');
     }
 
-    /**
-     * The icon displayed to the resource.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::OutlinedCalendarDays;
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     public static function getRecordSlug(): string
     {
         return 'featured-themes';
     }
 
     /**
-     * Get the eloquent query for the resource.
-     *
      * @return Builder
      */
     public static function getEloquentQuery(): Builder
@@ -99,9 +82,6 @@ class FeaturedTheme extends BaseResource
         ]);
     }
 
-    /**
-     * The form to the actions.
-     */
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -170,9 +150,6 @@ class FeaturedTheme extends BaseResource
             ->columns(1);
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return parent::table($table)
@@ -196,9 +173,6 @@ class FeaturedTheme extends BaseResource
             ]);
     }
 
-    /**
-     * Get the infolist available for the resource.
-     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -229,8 +203,6 @@ class FeaturedTheme extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -243,8 +215,6 @@ class FeaturedTheme extends BaseResource
     }
 
     /**
-     * Get the pages available for the resource.
-     *
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */
     public static function getPages(): array

@@ -9,17 +9,11 @@ use App\Filament\Tabs\Base\ResourceTab;
 
 class SongAmazonMusicResourceTab extends ResourceTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'song-amazon-music-resource-tab';
     }
 
-    /**
-     * The resource site.
-     */
     protected static function site(): ResourceSite
     {
         return ResourceSite::AMAZON_MUSIC;

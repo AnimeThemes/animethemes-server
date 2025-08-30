@@ -30,8 +30,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): StudioCollection
@@ -46,8 +44,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Studio>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): StudioResource
@@ -58,8 +54,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Studio $studio, ShowAction $action): StudioResource
@@ -72,8 +66,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): StudioResource
@@ -84,8 +76,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Studio $studio, DestroyAction $action): StudioResource
@@ -96,8 +86,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Studio $studio, RestoreAction $action): StudioResource
@@ -108,8 +96,6 @@ class StudioController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  Studio  $studio
      * @param  ForceDeleteAction  $action
      * @return JsonResponse

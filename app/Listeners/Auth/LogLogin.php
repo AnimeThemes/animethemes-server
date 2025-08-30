@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogLogin
 {
-    /**
-     * Handle the event.
-     */
     public function handle(Login $event): void
     {
         Log::info('Login', [

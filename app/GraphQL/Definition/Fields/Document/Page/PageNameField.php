@@ -17,17 +17,12 @@ class PageNameField extends StringField implements CreatableField, RequiredOnCre
         parent::__construct(Page::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary title of the page';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class PageNameField extends StringField implements CreatableField, RequiredOnCre
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

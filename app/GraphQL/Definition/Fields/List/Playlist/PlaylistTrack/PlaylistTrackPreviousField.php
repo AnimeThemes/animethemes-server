@@ -22,9 +22,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
         parent::__construct(PlaylistTrack::RELATION_PREVIOUS, nullable: true);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The previous track of the current track';
@@ -39,8 +36,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -60,8 +55,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

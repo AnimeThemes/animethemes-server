@@ -13,33 +13,22 @@ use Filament\Support\Icons\Heroicon;
 
 class WikiDashboard extends BaseDashboard
 {
-    /**
-     * Get the slug used to the dashboard route path.
-     */
     public static function getSlug(?Panel $panel = null): string
     {
         return 'wiki';
     }
 
-    /**
-     * Get the displayed label for the dashboard.
-     */
     public static function getNavigationLabel(): string
     {
         return __('filament.dashboards.label.wiki');
     }
 
-    /**
-     * Get the icon for the dashboard.
-     */
     public static function getNavigationIcon(): Heroicon
     {
         return Heroicon::ChartBar;
     }
 
     /**
-     * Get the widgets available for the dashboard.
-     *
      * @return class-string[]
      */
     public function getWidgets(): array

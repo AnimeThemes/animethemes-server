@@ -17,17 +17,12 @@ class ArtistNameField extends StringField implements CreatableField, RequiredOnC
         parent::__construct(Artist::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary title of the artist';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class ArtistNameField extends StringField implements CreatableField, RequiredOnC
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

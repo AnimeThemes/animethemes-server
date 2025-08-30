@@ -13,8 +13,6 @@ use Rebing\GraphQL\Support\Type as RebingType;
 abstract class BaseType extends RebingType
 {
     /**
-     * Get the attributes of the type.
-     *
      * @return array<string, mixed>
      */
     public function attributes(): array
@@ -37,9 +35,6 @@ abstract class BaseType extends RebingType
             ->__toString();
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return '';

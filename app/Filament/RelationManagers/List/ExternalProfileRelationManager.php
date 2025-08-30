@@ -19,9 +19,6 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
      */
     protected static ?string $relatedResource = ExternalProfileResource::class;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

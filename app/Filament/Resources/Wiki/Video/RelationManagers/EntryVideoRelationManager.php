@@ -16,9 +16,6 @@ class EntryVideoRelationManager extends EntryRelationManager
      */
     protected static string $relationship = Video::RELATION_ANIMETHEMEENTRIES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

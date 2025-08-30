@@ -6,9 +6,6 @@ namespace App\Filament\Components\Fields;
 
 class Slug extends TextInput
 {
-    /**
-     * Initial setup for the field.
-     */
     protected function setUp(): void
     {
         parent::setUp();

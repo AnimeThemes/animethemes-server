@@ -11,8 +11,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class ThemeDeleting.
- *
  * @extends BaseEvent<AnimeTheme>
  */
 class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
@@ -22,17 +20,11 @@ class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
         parent::__construct($theme);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeTheme
     {
         return $this->model;
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function cascadeDeletes(): void
     {
         $theme = $this->getModel()->load(AnimeTheme::RELATION_VIDEOS);

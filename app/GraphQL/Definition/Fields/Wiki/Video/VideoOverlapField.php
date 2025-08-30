@@ -19,17 +19,12 @@ class VideoOverlapField extends EnumField implements CreatableField, RequiredOnC
         parent::__construct(Video::ATTRIBUTE_OVERLAP, VideoOverlap::class);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The degree to which the sequence and episode content overlap';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -42,8 +37,6 @@ class VideoOverlapField extends EnumField implements CreatableField, RequiredOnC
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

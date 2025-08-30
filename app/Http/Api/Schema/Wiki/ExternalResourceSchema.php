@@ -19,8 +19,6 @@ use App\Models\Wiki\ExternalResource;
 class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivots
 {
     /**
-     * Get the allowed pivots of the schema.
-     *
      * @return AllowedInclude[]
      */
     public function allowedPivots(): array
@@ -33,17 +31,12 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
         ];
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return ExternalResourceResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -57,8 +50,6 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

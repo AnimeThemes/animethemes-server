@@ -13,8 +13,6 @@ use Database\Factories\Pivots\Wiki\AnimeThemeEntryVideoFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class AnimeThemeEntryVideo.
- *
  * @property AnimeThemeEntry $animethemeentry
  * @property int $entry_id
  * @property Video $video

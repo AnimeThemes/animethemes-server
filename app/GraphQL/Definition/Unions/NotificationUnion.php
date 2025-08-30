@@ -22,9 +22,6 @@ class NotificationUnion extends BaseUnion
         return 'Notification';
     }
 
-    /**
-     * The description of the union type.
-     */
     public function description(): string
     {
         return 'Represents the notification types.';

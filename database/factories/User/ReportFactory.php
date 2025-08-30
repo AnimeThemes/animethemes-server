@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * Class ReportFactory.
- *
  * @method Report createOne($attributes = [])
  * @method Report makeOne($attributes = [])
  *

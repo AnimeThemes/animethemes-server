@@ -28,25 +28,17 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class AnimeSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): AnimeQuery
     {
         return new AnimeQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return AnimeResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -69,8 +61,6 @@ class AnimeSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

@@ -15,8 +15,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class EncodeUpdated.
- *
  * @extends BaseEvent<Encode>
  */
 class EncodeUpdated extends BaseEvent implements ManagesTrackEvent
@@ -29,17 +27,11 @@ class EncodeUpdated extends BaseEvent implements ManagesTrackEvent
         parent::__construct($encode);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Encode
     {
         return $this->model;
     }
 
-    /**
-     * Manages a track in a playlist.
-     */
     public function manageTrack(): void
     {
         if (

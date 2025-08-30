@@ -21,9 +21,6 @@ class ExternalEntryAnimeIdField extends Field implements CreatableField, Selecta
         parent::__construct($schema, ExternalEntry::ATTRIBUTE_ANIME);
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match profile relation.

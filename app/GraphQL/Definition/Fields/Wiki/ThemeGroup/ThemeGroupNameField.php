@@ -17,17 +17,12 @@ class ThemeGroupNameField extends StringField implements CreatableField, Require
         parent::__construct(Group::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The name of the group';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class ThemeGroupNameField extends StringField implements CreatableField, Require
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

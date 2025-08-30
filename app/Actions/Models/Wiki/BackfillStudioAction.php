@@ -24,9 +24,6 @@ class BackfillStudioAction extends BackfillWikiAction
         parent::__construct($studio, $toBackfill);
     }
 
-    /**
-     * Handle the action.
-     */
     public function handle(): ActionResult
     {
         foreach ($this->getExternalApiActions() as $api) {
@@ -72,9 +69,6 @@ class BackfillStudioAction extends BackfillWikiAction
         ];
     }
 
-    /**
-     * Get the model for the action.
-     */
     protected function getModel(): Studio
     {
         return $this->studio;

@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class UploadAction extends StorageAction implements InteractsWithDisk
 {
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,9 +26,6 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
         $this->icon(Heroicon::OutlinedArrowUpTray);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $fs = Storage::disk($this->disk());

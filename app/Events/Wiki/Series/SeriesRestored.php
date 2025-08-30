@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Series;
 
 /**
- * Class SeriesRestored.
- *
  * @extends WikiRestoredEvent<Series>
  */
 class SeriesRestored extends WikiRestoredEvent
@@ -19,17 +17,11 @@ class SeriesRestored extends WikiRestoredEvent
         parent::__construct($series);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Series
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Series '**{$this->getModel()->getName()}**' has been restored.";

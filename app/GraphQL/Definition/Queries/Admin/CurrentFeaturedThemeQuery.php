@@ -19,9 +19,6 @@ class CurrentFeaturedThemeQuery extends BaseQuery
         parent::__construct('currentfeaturedtheme', true, false);
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns the first featured theme where the current date is between start_at and end_at dates.';

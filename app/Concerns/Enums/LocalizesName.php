@@ -10,9 +10,6 @@ use Illuminate\Support\Str;
 
 trait LocalizesName
 {
-    /**
-     * Localize the enum.
-     */
     public function localize(?string $locale = null): ?string
     {
         return $this->getLocalizedName($locale)
@@ -41,9 +38,6 @@ trait LocalizesName
         return null;
     }
 
-    /**
-     * Get a pretty-printed version of the enum value.
-     */
     protected function getPrettyName(): string
     {
         return Str::of($this->name)
@@ -52,9 +46,6 @@ trait LocalizesName
             ->__toString();
     }
 
-    /**
-     * Get the default localization key.
-     */
     protected function getLocalizationKey(): string
     {
         return Str::of('enums.')
@@ -81,9 +72,6 @@ trait LocalizesName
         return $selectArray;
     }
 
-    /**
-     * Make a new instance from the localized name.
-     */
     public static function fromLocalizedName(string $localizedName, ?string $locale = null): ?static
     {
         return Arr::first(

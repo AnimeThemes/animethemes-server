@@ -10,8 +10,6 @@ use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
 
 /**
- * Class AnimeSeriesCreated.
- *
  * @extends PivotCreatedEvent<Series, Anime>
  */
 class AnimeSeriesCreated extends PivotCreatedEvent
@@ -21,9 +19,6 @@ class AnimeSeriesCreated extends PivotCreatedEvent
         parent::__construct($animeSeries->series, $animeSeries->anime);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

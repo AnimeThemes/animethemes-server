@@ -17,17 +17,12 @@ use App\Models\Wiki\Group;
 
 class GroupSchema extends EloquentSchema implements SearchableSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return GroupResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -40,8 +35,6 @@ class GroupSchema extends EloquentSchema implements SearchableSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

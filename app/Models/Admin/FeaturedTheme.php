@@ -19,8 +19,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /**
- * Class FeaturedTheme.
- *
  * @property Carbon|null $end_at
  * @property AnimeThemeEntry|null $animethemeentry
  * @property int $entry_id
@@ -109,9 +107,6 @@ class FeaturedTheme extends BaseModel
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return Str::of($this->start_at->format(AllowedDateFormat::YMD->value))
@@ -120,9 +115,6 @@ class FeaturedTheme extends BaseModel
             ->__toString();
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->animethemeentry === null ? $this->getName() : $this->animethemeentry->getName();

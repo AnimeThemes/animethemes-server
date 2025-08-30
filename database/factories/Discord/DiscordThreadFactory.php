@@ -8,8 +8,6 @@ use App\Models\Discord\DiscordThread;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class DiscordThreadFactory.
- *
  * @method DiscordThread createOne($attributes = [])
  * @method DiscordThread makeOne($attributes = [])
  *

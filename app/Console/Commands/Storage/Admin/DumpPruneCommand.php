@@ -10,14 +10,8 @@ use App\Console\Commands\Storage\Base\PruneCommand;
 
 class DumpPruneCommand extends PruneCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'prune:dump {--H|hours=72 : The number of hours to retain dumps}';
 
-    /**
-     * Get the underlying action.
-     */
     protected function getAction(): PruneAction
     {
         $hours = $this->option('hours');

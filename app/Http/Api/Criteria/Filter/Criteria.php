@@ -96,8 +96,6 @@ abstract class Criteria
     }
 
     /**
-     * Apply criteria to builder.
-     *
      * @param  Builder  $builder
      * @return Builder
      */

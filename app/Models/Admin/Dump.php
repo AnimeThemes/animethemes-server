@@ -17,8 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Dump.
- *
  * @property int $dump_id
  * @property string $path
  *
@@ -99,17 +97,11 @@ class Dump extends BaseModel
         return null;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->path;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->getName();

@@ -21,17 +21,11 @@ class UploadImageAction extends BaseAction
 
     protected array $facets = [];
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'upload-image';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -67,9 +61,6 @@ class UploadImageAction extends BaseAction
         $this->createImageFromFile($image, $facet);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         $options = [];

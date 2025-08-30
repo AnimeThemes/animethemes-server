@@ -19,9 +19,6 @@ trait HasActionLogs
     protected ?Model $parentRecordLog = null;
     protected ?Model $pivot = null;
 
-    /**
-     * Create a batch id for the action.
-     */
     public function createBatchId(): string
     {
         $this->batchId = Str::orderedUuid()->__toString();
@@ -29,9 +26,6 @@ trait HasActionLogs
         return $this->batchId;
     }
 
-    /**
-     * Create an action log.
-     */
     public function createActionLog(Action $action, Model $record, ?bool $shouldCreateNewBatchId = true): void
     {
         if ($shouldCreateNewBatchId) {
@@ -49,9 +43,6 @@ trait HasActionLogs
         $this->actionLog = $actionLog;
     }
 
-    /**
-     * Update the log for pivot actions.
-     */
     public function updateLog(Model $relatedModel, Model $pivot): void
     {
         $this->actionLog->update([
@@ -62,9 +53,6 @@ trait HasActionLogs
         ]);
     }
 
-    /**
-     * Mark the action as failed.
-     */
     public function failedLog(Throwable|string|null $exception): void
     {
         $this->actionLog->failed($exception);
@@ -76,9 +64,6 @@ trait HasActionLogs
         }
     }
 
-    /**
-     * Mark the action as finished if not failed.
-     */
     public function finishedLog(): void
     {
         if ($actionLog = $this->actionLog) {
@@ -93,17 +78,11 @@ trait HasActionLogs
         }
     }
 
-    /**
-     * Mark batch action as finished where not failed.
-     */
     public function batchFinishedLog(): void
     {
         $this->actionLog->batchFinished();
     }
 
-    /**
-     * Check if the action is failed.
-     */
     public function isFailedLog(): bool
     {
         return $this->actionLog->isFailed();

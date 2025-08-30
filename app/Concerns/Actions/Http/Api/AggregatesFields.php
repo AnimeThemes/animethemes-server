@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 trait AggregatesFields
 {
-    /**
-     * Select aggregate fields for the query builder.
-     */
     public function withAggregates(Builder $builder, Query $query, Schema $schema): Builder
     {
         collect($schema->fields())
@@ -25,9 +22,6 @@ trait AggregatesFields
         return $builder;
     }
 
-    /**
-     * Load aggregate fields for the model.
-     */
     public function loadAggregates(Model $model, Query $query, Schema $schema): Model
     {
         collect($schema->fields())

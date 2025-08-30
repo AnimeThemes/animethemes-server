@@ -32,17 +32,11 @@ abstract class Field
         return $this->name ?? Str::camel($this->column);
     }
 
-    /**
-     * Get the column of the field.
-     */
     public function getColumn(): string
     {
         return $this->column;
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return '';
@@ -100,9 +94,6 @@ abstract class Field
      */
     abstract public function baseType(): Type|BaseType;
 
-    /**
-     * Resolve the field.
-     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, $this->column);

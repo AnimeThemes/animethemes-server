@@ -12,8 +12,6 @@ trait AggregatesLike
     final public const RELATION_LIKE_AGGREGATE = 'likeAggregate';
 
     /**
-     * Get the likes count of the model.
-     *
      * @return MorphOne<LikeAggregate, $this>
      */
     public function likeAggregate(): MorphOne

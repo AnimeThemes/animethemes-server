@@ -6,8 +6,5 @@ namespace App\Contracts\Events;
 
 interface NotifiesUsersEvent
 {
-    /**
-     * Notify the users.
-     */
     public function notify(): void;
 }

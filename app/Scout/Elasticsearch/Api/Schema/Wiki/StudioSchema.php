@@ -18,25 +18,17 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class StudioSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): StudioQuery
     {
         return new StudioQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return StudioResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -49,8 +41,6 @@ class StudioSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

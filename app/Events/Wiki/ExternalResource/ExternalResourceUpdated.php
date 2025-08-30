@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\ExternalResource;
 
 /**
- * Class ExternalResourceUpdated.
- *
  * @extends WikiUpdatedEvent<ExternalResource>
  */
 class ExternalResourceUpdated extends WikiUpdatedEvent
@@ -20,17 +18,11 @@ class ExternalResourceUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($resource);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): ExternalResource
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Resource '**{$this->getModel()->getName()}**' has been updated.";

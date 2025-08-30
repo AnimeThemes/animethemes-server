@@ -25,9 +25,6 @@ abstract class AttachResourceAction extends BaseAction
      */
     protected array $sites = [];
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

@@ -30,8 +30,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): PageCollection
@@ -44,8 +42,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Page>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): PageResource
@@ -56,8 +52,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Page $page, ShowAction $action): PageResource
@@ -70,8 +64,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Page $page, UpdateAction $action): PageResource
@@ -82,8 +74,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Page $page, DestroyAction $action): PageResource
@@ -94,8 +84,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Page $page, RestoreAction $action): PageResource
@@ -106,8 +94,6 @@ class PageController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Page $page, ForceDeleteAction $action): JsonResponse

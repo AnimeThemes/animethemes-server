@@ -21,9 +21,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
         parent::__construct('playlist');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The hashid of the playlist to like';
@@ -48,8 +45,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -61,8 +56,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     }
 
     /**
-     * Set the delete validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

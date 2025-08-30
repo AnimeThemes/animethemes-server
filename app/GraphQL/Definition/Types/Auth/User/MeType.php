@@ -26,9 +26,6 @@ use App\Models\Auth\User;
 
 class MeType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the currently authenticated user.';

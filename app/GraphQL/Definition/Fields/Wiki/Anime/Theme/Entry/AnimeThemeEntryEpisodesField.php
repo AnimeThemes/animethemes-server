@@ -16,17 +16,12 @@ class AnimeThemeEntryEpisodesField extends StringField implements CreatableField
         parent::__construct(AnimeThemeEntry::ATTRIBUTE_EPISODES);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The episodes that the theme is used for';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class AnimeThemeEntryEpisodesField extends StringField implements CreatableField
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

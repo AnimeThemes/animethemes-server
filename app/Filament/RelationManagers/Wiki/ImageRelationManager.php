@@ -26,9 +26,6 @@ class ImageRelationManager extends BaseRelationManager
      */
     protected static string $relationship = 'images';
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(
@@ -53,9 +50,6 @@ class ImageRelationManager extends BaseRelationManager
         ];
     }
 
-    /**
-     * Determine whether the related model can be created.
-     */
     public function canCreate(): bool
     {
         return false;

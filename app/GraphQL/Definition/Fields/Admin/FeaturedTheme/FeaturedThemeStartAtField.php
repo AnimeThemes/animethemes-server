@@ -20,17 +20,12 @@ class FeaturedThemeStartAtField extends DateTimeTzField implements CreatableFiel
         parent::__construct(FeaturedTheme::ATTRIBUTE_START_AT, 'startAt', nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The start date of the resource';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -50,8 +45,6 @@ class FeaturedThemeStartAtField extends DateTimeTzField implements CreatableFiel
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

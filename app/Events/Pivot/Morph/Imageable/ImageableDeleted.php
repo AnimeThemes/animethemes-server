@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ImageableDeleted.
- *
  * @extends PivotDeletedEvent<Model&Nameable, Image>
  */
 class ImageableDeleted extends PivotDeletedEvent
@@ -42,9 +40,6 @@ class ImageableDeleted extends PivotDeletedEvent
             : parent::getDiscordChannel();
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

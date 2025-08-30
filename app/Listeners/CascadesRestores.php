@@ -8,9 +8,6 @@ use App\Contracts\Events\CascadesRestoresEvent;
 
 class CascadesRestores
 {
-    /**
-     * Handle the event.
-     */
     public function handle(CascadesRestoresEvent $event): void
     {
         $event->cascadeRestores();

@@ -10,8 +10,6 @@ use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role as BaseRole;
 
 /**
- * Class Role.
- *
  * @property string $color
  * @property bool $default
  * @property Carbon $created_at
@@ -50,9 +48,6 @@ class Role extends BaseRole implements Nameable
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;

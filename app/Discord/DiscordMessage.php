@@ -23,8 +23,6 @@ class DiscordMessage implements Arrayable
     protected array $images = [];
 
     /**
-     * Create a new DiscordMessage instance from an array.
-     *
      * @param  array<string, mixed>  $array
      */
     public static function from(array $array): DiscordMessage
@@ -37,33 +35,22 @@ class DiscordMessage implements Arrayable
             ->setImages(Arr::get($array, 'files') ?? Arr::get($array, self::ATTRIBUTE_IMAGES) ?? []);
     }
 
-    /**
-     * Get the channelId of the message.
-     */
     public function getChannelId(): string
     {
         return $this->channelId;
     }
 
-    /**
-     * Get the id of the message.
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * Get the content of the message.
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
     /**
-     * Get the embeds of the message.
-     *
      * @return DiscordEmbed[]
      */
     public function getEmbeds(): array
@@ -72,8 +59,6 @@ class DiscordMessage implements Arrayable
     }
 
     /**
-     * Get the images of the message.
-     *
      * @return string[]
      */
     public function getImages(): array
@@ -81,9 +66,6 @@ class DiscordMessage implements Arrayable
         return $this->images;
     }
 
-    /**
-     * Set the content of the message.
-     */
     public function setContent(string $content): static
     {
         $this->content = $content;
@@ -92,8 +74,6 @@ class DiscordMessage implements Arrayable
     }
 
     /**
-     * Set the embeds of the message.
-     *
      * @param  DiscordEmbed[]  $embeds
      */
     public function setEmbeds(array $embeds): static
@@ -104,8 +84,6 @@ class DiscordMessage implements Arrayable
     }
 
     /**
-     * Set the images of the message.
-     *
      * @param  string[]  $images
      */
     public function setImages(array $images): static
@@ -115,9 +93,6 @@ class DiscordMessage implements Arrayable
         return $this;
     }
 
-    /**
-     * Set the channelId of the message.
-     */
     public function setChannelId(string $channelId): static
     {
         $this->channelId = $channelId;
@@ -125,9 +100,6 @@ class DiscordMessage implements Arrayable
         return $this;
     }
 
-    /**
-     * Set the id of the message.
-     */
     public function setId(string $id = '0'): static
     {
         $this->id = $id;
@@ -136,8 +108,6 @@ class DiscordMessage implements Arrayable
     }
 
     /**
-     * Convert the constructor to an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray(): array

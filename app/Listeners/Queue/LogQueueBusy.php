@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogQueueBusy
 {
-    /**
-     * Handle the event.
-     */
     public function handle(QueueBusy $event): void
     {
         Log::info('QueueBusy', [

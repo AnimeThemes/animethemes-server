@@ -18,9 +18,6 @@ class CreatePlaylistMutation extends CreateMutation
         parent::__construct(Playlist::class);
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Create playlist';
@@ -35,8 +32,6 @@ class CreatePlaylistMutation extends CreateMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

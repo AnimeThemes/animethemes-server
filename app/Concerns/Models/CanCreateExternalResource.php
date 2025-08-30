@@ -16,9 +16,6 @@ trait CanCreateExternalResource
 {
     use HasLabel;
 
-    /**
-     * Get or Create Resource from response.
-     */
     public function createResource(Uri $uri, ResourceSite $site, (BaseModel&HasResources)|null $model = null): ExternalResource
     {
         $url = $uri->withScheme('https')->__toString();
@@ -61,9 +58,6 @@ trait CanCreateExternalResource
         return $resource;
     }
 
-    /**
-     * Try attach the resource.
-     */
     protected function attachResource(ExternalResource $resource, (BaseModel&HasResources)|null $model): void
     {
         if ($model !== null) {

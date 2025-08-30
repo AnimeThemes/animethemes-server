@@ -17,17 +17,12 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
         parent::__construct(Playlist::ATTRIBUTE_DESCRIPTION);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The description of the playlist';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -42,8 +37,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

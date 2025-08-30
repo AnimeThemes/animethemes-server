@@ -9,9 +9,6 @@ use App\GraphQL\Definition\Fields\Response\MessageResponseField;
 
 class MessageResponseType extends BaseType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents a response containing a message.';

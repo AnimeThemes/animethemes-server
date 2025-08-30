@@ -14,8 +14,6 @@ use Illuminate\Support\Arr;
 class PlaylistPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  array  $args
      */
     public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool
@@ -32,8 +30,6 @@ class PlaylistPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  array  $args
      */
     public function update(User $user, array $args, ?string $keyName = 'model'): bool
@@ -45,8 +41,6 @@ class PlaylistPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  array  $args
      */
     public function delete(User $user, array $args, ?string $keyName = 'model'): bool

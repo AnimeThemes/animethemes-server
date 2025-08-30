@@ -23,9 +23,6 @@ class LikeMutation extends BaseMutation
         parent::__construct('like');
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Like a model';
@@ -44,8 +41,6 @@ class LikeMutation extends BaseMutation
     }
 
     /**
-     * Get the rules for the create mutation.
-     *
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
@@ -76,8 +71,6 @@ class LikeMutation extends BaseMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

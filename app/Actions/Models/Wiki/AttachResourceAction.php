@@ -15,8 +15,6 @@ class AttachResourceAction
     use CanCreateExternalResource;
 
     /**
-     * Handle the action.
-     *
      * @param  array  $fields
      * @param  ResourceSite[]  $sites
      */

@@ -30,8 +30,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): SeriesCollection
@@ -46,8 +44,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Series>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): SeriesResource
@@ -58,8 +54,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Series $series, ShowAction $action): SeriesResource
@@ -72,8 +66,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Series $series, UpdateAction $action): SeriesResource
@@ -84,8 +76,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Series $series, DestroyAction $action): SeriesResource
@@ -96,8 +86,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Series $series, RestoreAction $action): SeriesResource
@@ -108,8 +96,6 @@ class SeriesController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Series $series, ForceDeleteAction $action): JsonResponse

@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Http;
 
 class AnilistAnimeExternalApiAction extends ExternalApiAction implements BackfillImages, BackfillResources, BackfillSynonyms
 {
-    /**
-     * Get the site to backfill.
-     */
     public function getSite(): ResourceSite
     {
         return ResourceSite::ANILIST;

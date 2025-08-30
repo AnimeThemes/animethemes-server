@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class ImageForceDeleting.
- *
  * @extends BaseEvent<Image>
  */
 class ImageForceDeleting extends BaseEvent implements RemoveFromStorageEvent
@@ -22,17 +20,11 @@ class ImageForceDeleting extends BaseEvent implements RemoveFromStorageEvent
         parent::__construct($image);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Image
     {
         return $this->model;
     }
 
-    /**
-     * Remove the image from the bucket.
-     */
     public function removeFromStorage(): void
     {
         Storage::disk(Config::get('image.disk'))->delete($this->getModel()->path);

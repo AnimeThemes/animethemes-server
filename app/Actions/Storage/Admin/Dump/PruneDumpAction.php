@@ -17,17 +17,11 @@ class PruneDumpAction extends PruneAction
 {
     use ReconcilesDumpRepositories;
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(DumpConstants::DISK_QUALIFIED);
     }
 
-    /**
-     * Determine whether the file should be pruned.
-     */
     protected function shouldBePruned(string $path, Carbon $lastModified): bool
     {
         if (Str::contains($path, Dump::safeDumps())) {

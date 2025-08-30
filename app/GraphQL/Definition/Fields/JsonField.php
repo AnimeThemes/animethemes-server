@@ -8,9 +8,6 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 
 abstract class JsonField extends Field implements DisplayableField
 {
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

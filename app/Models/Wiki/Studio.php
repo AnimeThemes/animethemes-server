@@ -26,8 +26,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Studio.
- *
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Image> $images
  * @property string $name
@@ -101,17 +99,11 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
         return Studio::ATTRIBUTE_SLUG;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->slug;

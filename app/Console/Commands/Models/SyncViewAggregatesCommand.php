@@ -11,19 +11,10 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class SyncViewAggregatesCommand extends BaseCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'view:sync-aggregates';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Synchronizes views in the aggregates table';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $action = new SyncViewAggregatesAction();
@@ -36,9 +27,6 @@ class SyncViewAggregatesCommand extends BaseCommand
         return $result->hasFailed() ? 1 : 0;
     }
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->options(), []);

@@ -14,9 +14,6 @@ class RoleDefaultField extends StringField
         parent::__construct(Role::ATTRIBUTE_DEFAULT, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Is the role assigned on account verification?';

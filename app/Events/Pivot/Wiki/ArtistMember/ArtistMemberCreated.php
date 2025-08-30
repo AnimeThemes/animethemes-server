@@ -9,8 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 
 /**
- * Class ArtistMemberCreated.
- *
  * @extends PivotCreatedEvent<Artist, Artist>
  */
 class ArtistMemberCreated extends PivotCreatedEvent
@@ -20,9 +18,6 @@ class ArtistMemberCreated extends PivotCreatedEvent
         parent::__construct($artistMember->artist, $artistMember->member);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

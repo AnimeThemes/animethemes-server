@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReportPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(?User $user): bool
     {
         if ($user !== null && $user->hasRole(Role::ADMIN->value)) {
@@ -26,8 +23,6 @@ class ReportPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  Report  $report
      */
     public function view(?User $user, Model $report): bool
@@ -42,8 +37,6 @@ class ReportPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param  Report  $report
      */
     public function update(User $user, Model $report): bool
@@ -56,8 +49,6 @@ class ReportPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param  Report  $report
      */
     public function delete(User $user, Model $report): bool

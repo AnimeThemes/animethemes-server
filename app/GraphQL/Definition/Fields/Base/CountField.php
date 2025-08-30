@@ -28,17 +28,11 @@ class CountField extends Field implements DisplayableField
         return Type::int();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;
     }
 
-    /**
-     * Resolve the field.
-     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return $root->{$this->relation}->count();

@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 /**
- * Class Encode.
- *
  * @property EncodeType $type
  * @property User $user
  * @property int $user_id
@@ -90,9 +88,6 @@ class Encode extends BaseModel
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return Str::of($this->user->getName())
@@ -101,9 +96,6 @@ class Encode extends BaseModel
             ->__toString();
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return '';

@@ -12,17 +12,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DeleteAudioBulkAction extends DeleteBulkAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'remove-audio-bulk';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

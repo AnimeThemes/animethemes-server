@@ -16,17 +16,12 @@ class VideoUncenField extends BooleanField implements CreatableField, UpdatableF
         parent::__construct(Video::ATTRIBUTE_UNCEN, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Is the video an uncensored version of a censored sequence?';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class VideoUncenField extends BooleanField implements CreatableField, UpdatableF
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

@@ -11,25 +11,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class VideoScriptTab extends BaseTab
 {
-    /**
-     * Get the slug for the tab.
-     */
     public static function getSlug(): string
     {
         return 'video-script-tab';
     }
 
-    /**
-     * Get the displayable name of the tab.
-     */
     public function getLabel(): string
     {
         return __('filament.tabs.video.script.name');
     }
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */

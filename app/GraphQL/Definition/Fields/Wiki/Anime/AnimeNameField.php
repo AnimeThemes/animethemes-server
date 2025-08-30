@@ -17,17 +17,12 @@ class AnimeNameField extends StringField implements CreatableField, RequiredOnCr
         parent::__construct(Anime::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The primary title of the anime';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class AnimeNameField extends StringField implements CreatableField, RequiredOnCr
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

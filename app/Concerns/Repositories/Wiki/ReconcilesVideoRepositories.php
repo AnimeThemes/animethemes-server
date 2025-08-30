@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\App;
 trait ReconcilesVideoRepositories
 {
     /**
-     * Get source repository for action.
-     *
      * @param  array  $data
      */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
@@ -24,8 +22,6 @@ trait ReconcilesVideoRepositories
     }
 
     /**
-     * Get destination repository for action.
-     *
      * @param  array  $data
      */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
@@ -33,9 +29,6 @@ trait ReconcilesVideoRepositories
         return App::make(VideoDestinationRepository::class);
     }
 
-    /**
-     * Get the reconcile action.
-     */
     protected function reconcileAction(): ReconcileRepositoriesAction
     {
         return new ReconcileVideoRepositoriesAction();

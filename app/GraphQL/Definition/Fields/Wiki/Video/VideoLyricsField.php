@@ -16,17 +16,12 @@ class VideoLyricsField extends BooleanField implements CreatableField, Updatable
         parent::__construct(Video::ATTRIBUTE_LYRICS, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Does the video include subtitles of song lyrics?';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class VideoLyricsField extends BooleanField implements CreatableField, Updatable
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

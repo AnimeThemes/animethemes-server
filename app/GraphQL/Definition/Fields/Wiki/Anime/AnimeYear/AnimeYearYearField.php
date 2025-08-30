@@ -18,9 +18,6 @@ class AnimeYearYearField extends Field implements DisplayableField
         parent::__construct(self::FIELD, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The year of the AnimeYear type';
@@ -34,9 +31,6 @@ class AnimeYearYearField extends Field implements DisplayableField
         return Type::int();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

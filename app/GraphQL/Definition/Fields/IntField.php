@@ -26,17 +26,12 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
         return Type::int();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -50,9 +45,6 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
         ];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::ROOT;

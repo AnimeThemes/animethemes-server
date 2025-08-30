@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Date;
 class FeaturedThemePolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  FeaturedTheme  $featuredtheme
      */
     public function view(?User $user, Model $featuredtheme): bool

@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class PerformanceRestored.
- *
  * @extends WikiRestoredEvent<Performance>
  */
 class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
@@ -27,25 +25,16 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
         parent::__construct($performance);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Performance
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Performance '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform cascading deletes.
-     */
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

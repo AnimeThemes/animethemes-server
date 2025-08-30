@@ -10,8 +10,6 @@ use App\Models\Admin\Dump;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class DumpDownloadAction.
- *
  * @extends DownloadAction<Dump>
  */
 class DumpDownloadAction extends DownloadAction
@@ -29,9 +27,6 @@ class DumpDownloadAction extends DownloadAction
         return $this->model->path;
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(DumpConstants::DISK_QUALIFIED);

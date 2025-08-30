@@ -14,9 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class MalStudioExternalApiAction extends ExternalApiAction implements BackfillImages
 {
-    /**
-     * Get the site to backfill.
-     */
     public function getSite(): ResourceSite
     {
         return ResourceSite::MAL;

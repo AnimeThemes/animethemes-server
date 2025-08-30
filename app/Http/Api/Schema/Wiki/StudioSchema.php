@@ -19,8 +19,6 @@ use App\Models\Wiki\Studio;
 class StudioSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * Get the allowed pivots of the schema.
-     *
      * @return AllowedInclude[]
      */
     public function allowedPivots(): array
@@ -30,17 +28,12 @@ class StudioSchema extends EloquentSchema implements InteractsWithPivots, Search
         ];
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return StudioResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -59,8 +52,6 @@ class StudioSchema extends EloquentSchema implements InteractsWithPivots, Search
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

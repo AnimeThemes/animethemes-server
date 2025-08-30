@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\DB;
 class SyncLikeAggregatesAction
 {
     /**
-     * Handles the action.
-     *
      * @throws Exception
      */
     public function handle(): ActionResult

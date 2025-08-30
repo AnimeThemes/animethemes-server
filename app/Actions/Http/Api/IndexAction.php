@@ -58,9 +58,6 @@ class IndexAction
             : $builder->get();
     }
 
-    /**
-     * Search models.
-     */
     public function search(
         Query $query,
         Schema $schema,
@@ -78,9 +75,6 @@ class IndexAction
         throw new RuntimeException("Can't search for term '$term' with driver '$driver' and type '{$schema->type()}'");
     }
 
-    /**
-     * Get the search instance.
-     */
     protected function getSearch(): ?Search
     {
         return match (Config::get('scout.driver')) {

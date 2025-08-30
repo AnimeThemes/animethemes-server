@@ -22,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
- * Class Performance.
- *
  * @property int $performance_id
  * @property string|null $alias
  * @property string|null $as
@@ -96,17 +94,11 @@ class Performance extends BaseModel implements SoftDeletable
      */
     protected $primaryKey = Performance::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->song->getName();

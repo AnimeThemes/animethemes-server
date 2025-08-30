@@ -21,9 +21,6 @@ use App\Models\Wiki\Song\Membership;
 
 class MembershipType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents the link between an artist and a group related to the song credits.\n\nFor example, Sayuri Date is a member of Liella and has performed using the membership.";

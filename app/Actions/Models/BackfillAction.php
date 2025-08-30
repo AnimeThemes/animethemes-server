@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
 /**
- * Class BackfillAction.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class BackfillAction
@@ -21,9 +19,6 @@ abstract class BackfillAction
      */
     public function __construct(protected BaseModel $model) {}
 
-    /**
-     * Handle action.
-     */
     abstract public function handle(): ActionResult;
 
     /**

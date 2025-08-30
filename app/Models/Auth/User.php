@@ -45,8 +45,6 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * Class User.
- *
  * @property Carbon $created_at
  * @property string $email
  * @property Carbon|null $email_verified_at
@@ -161,17 +159,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return strval($this->getKey());

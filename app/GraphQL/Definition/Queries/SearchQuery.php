@@ -42,9 +42,6 @@ class SearchQuery extends BaseQuery
         parent::__construct('search', false, false);
     }
 
-    /**
-     * The description of the query.
-     */
     public function description(): string
     {
         return 'Returns a listing of resources that match a given search term.';

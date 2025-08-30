@@ -16,17 +16,12 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
         parent::__construct(Performance::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The character the artist is performing as';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

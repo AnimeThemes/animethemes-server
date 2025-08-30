@@ -31,17 +31,11 @@ use Illuminate\Validation\Rules\File as FileRule;
 
 class UploadAudioAction extends UploadAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'upload-audio';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -67,9 +61,6 @@ class UploadAudioAction extends UploadAction
         return new UploadAudio($file, $path);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

@@ -14,15 +14,10 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class VideoRepository.
- *
  * @extends StorageRepository<Video>
  */
 class VideoRepository extends StorageRepository
 {
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);

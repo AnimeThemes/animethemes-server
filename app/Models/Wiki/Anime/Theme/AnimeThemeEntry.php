@@ -40,8 +40,6 @@ use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
 
 /**
- * Class AnimeThemeEntry.
- *
  * @property Anime $anime
  * @property AnimeTheme $animetheme
  * @property int $entry_id
@@ -176,9 +174,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
         return $array;
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         $theme = is_null($this->animetheme)
@@ -198,9 +193,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
             ->__toString();
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return "{$this->anime->getName()} {$this->animetheme->getName()}";

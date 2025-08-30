@@ -15,17 +15,11 @@ use Illuminate\Support\Arr;
 
 class LoadMembersAction extends Action
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'load-members';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

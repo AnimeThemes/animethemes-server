@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogCurrentDeviceLogout
 {
-    /**
-     * Handle the event.
-     */
     public function handle(CurrentDeviceLogout $event): void
     {
         Log::info('Current Device Logout', [

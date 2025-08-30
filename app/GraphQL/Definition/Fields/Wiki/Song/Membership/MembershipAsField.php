@@ -16,17 +16,12 @@ class MembershipAsField extends StringField implements CreatableField, Updatable
         parent::__construct(Membership::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The character the artist is performing as';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class MembershipAsField extends StringField implements CreatableField, Updatable
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

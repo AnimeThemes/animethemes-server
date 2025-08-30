@@ -16,17 +16,11 @@ use Illuminate\Support\Facades\Gate;
 
 class MoveImageAction extends MoveAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'move-image';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -50,9 +44,6 @@ class MoveImageAction extends MoveAction
         return new MoveImage($image, $path);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(ImageConstants::DISKS_QUALIFIED);

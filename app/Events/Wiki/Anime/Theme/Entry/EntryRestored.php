@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class EntryRestored.
- *
  * @extends WikiRestoredEvent<AnimeThemeEntry>
  */
 class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
@@ -21,25 +19,16 @@ class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEve
         parent::__construct($entry);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeThemeEntry
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Entry '**{$this->getModel()->getName()}**' has been restored.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

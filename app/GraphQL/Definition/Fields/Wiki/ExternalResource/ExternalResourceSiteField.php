@@ -20,17 +20,12 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
         parent::__construct(ExternalResource::ATTRIBUTE_SITE, ResourceSite::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The external site that the resource belongs to';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -45,8 +40,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

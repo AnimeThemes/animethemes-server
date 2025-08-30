@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 trait FormatsPermission
 {
     /**
-     * Format permission name for model.
-     *
      * @param  class-string<Model>  $modelClass
      */
     public function format(string $modelClass): string

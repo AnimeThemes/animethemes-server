@@ -16,9 +16,6 @@ class VideoResponseStreamAction extends ResponseStreamAction
         parent::__construct($video);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);

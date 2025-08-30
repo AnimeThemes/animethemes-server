@@ -12,8 +12,6 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class DeleteAction.
- *
  * @template TModel of \App\Models\BaseModel
  */
 abstract class DeleteAction implements InteractsWithDisks, StorageAction
@@ -23,9 +21,6 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
      */
     public function __construct(protected BaseModel $model) {}
 
-    /**
-     * Handle action.
-     */
     public function handle(): StorageResults
     {
         $results = [];

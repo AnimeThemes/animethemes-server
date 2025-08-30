@@ -8,9 +8,6 @@ use App\Actions\Storage\Admin\Dump\DumpAuthAction;
 
 class AuthDumpCommand extends DumpCommand
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'db:dump-auth
         {--comments : Write additional information in the MySQL dump such as program version, server version and host}
         {--data-only : Dump only the data without the schema in PostgreSQL dump}
@@ -29,16 +26,8 @@ class AuthDumpCommand extends DumpCommand
         {--skip-quick : Do not retrieve rows for a table from the server one row at a time in MySQL dump}
         ';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Produces sanitized database dump, targeting auth-related tables for seeding purposes';
 
-    /**
-     * Get the underlying action.
-     */
     protected function action(): DumpAuthAction
     {
         return new DumpAuthAction($this->options());

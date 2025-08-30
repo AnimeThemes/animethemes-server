@@ -16,9 +16,6 @@ class VideoAudioRelationManager extends VideoRelationManager
      */
     protected static string $relationship = Audio::RELATION_VIDEOS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

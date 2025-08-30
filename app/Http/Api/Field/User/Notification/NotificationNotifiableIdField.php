@@ -17,9 +17,6 @@ class NotificationNotifiableIdField extends Field implements SelectableField
         parent::__construct($schema, Notification::ATTRIBUTE_NOTIFIABLE_ID);
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to filter the user notifications on query.

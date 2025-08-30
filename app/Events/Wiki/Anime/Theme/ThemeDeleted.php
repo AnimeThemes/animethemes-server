@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 
 /**
- * Class ThemeDeleted.
- *
  * @extends WikiDeletedEvent<AnimeTheme>
  */
 class ThemeDeleted extends WikiDeletedEvent
@@ -27,33 +25,21 @@ class ThemeDeleted extends WikiDeletedEvent
         $this->anime = $theme->anime;
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeTheme
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Theme '**{$this->getModel()->getName()}**' has been deleted for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Get the message for the filament notification.
-     */
     protected function getNotificationMessage(): string
     {
         return "Theme '{$this->getModel()->getName()}' has been deleted for Anime '{$this->anime->getName()}'. It will be automatically pruned in one week. Please review.";
     }
 
-    /**
-     * Get the URL for the Filament notification.
-     */
     protected function getFilamentNotificationUrl(): string
     {
         return ThemeFilament::getUrl('view', ['record' => $this->getModel()]);

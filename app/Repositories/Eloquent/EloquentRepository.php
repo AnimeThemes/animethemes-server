@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class EloquentRepository.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @implements RepositoryInterface<TModel>
@@ -19,8 +17,6 @@ use Illuminate\Support\Collection;
 abstract class EloquentRepository implements RepositoryInterface
 {
     /**
-     * The underlying query builder.
-     *
      * @var Builder
      */
     protected Builder $query;
@@ -31,8 +27,6 @@ abstract class EloquentRepository implements RepositoryInterface
     }
 
     /**
-     * Get models from the repository.
-     *
      * @param  array  $columns
      * @return Collection
      */
@@ -41,25 +35,17 @@ abstract class EloquentRepository implements RepositoryInterface
         return $this->query->get($columns);
     }
 
-    /**
-     * Save model to the repository.
-     */
     public function save(Model $model): bool
     {
         return $model->save();
     }
 
-    /**
-     * Delete model from the repository.
-     */
     public function delete(Model $model): bool
     {
         return $model->delete();
     }
 
     /**
-     * Update model in the repository.
-     *
      * @param  array  $attributes
      */
     public function update(Model $model, array $attributes): bool
@@ -68,8 +54,6 @@ abstract class EloquentRepository implements RepositoryInterface
     }
 
     /**
-     * Get the underlying query builder.
-     *
      * @return Builder
      */
     abstract protected function builder(): Builder;

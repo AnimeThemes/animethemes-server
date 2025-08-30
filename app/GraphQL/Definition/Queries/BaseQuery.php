@@ -30,8 +30,6 @@ abstract class BaseQuery extends Query
     ) {}
 
     /**
-     * Get the attributes of the query.
-     *
      * @return array<string, mixed>
      */
     public function attributes(): array
@@ -43,17 +41,11 @@ abstract class BaseQuery extends Query
         ];
     }
 
-    /**
-     * Get the name of the query.
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * The description of the type.
-     */
     abstract public function description(): string;
 
     /**

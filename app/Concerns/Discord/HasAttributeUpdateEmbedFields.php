@@ -25,8 +25,6 @@ trait HasAttributeUpdateEmbedFields
     }
 
     /**
-     * Get changed attributes.
-     *
      * @return Collection
      */
     protected function getChangedAttributes(Model $model): Collection
@@ -37,9 +35,6 @@ trait HasAttributeUpdateEmbedFields
             ->keys();
     }
 
-    /**
-     * Get model attribute value.
-     */
     protected function getAttributeValue(Model $model, mixed $attribute): mixed
     {
         // Hide field from embed by obscuring the values
@@ -51,8 +46,6 @@ trait HasAttributeUpdateEmbedFields
     }
 
     /**
-     * Add Embed Fields.
-     *
      * @param  Collection  $changedAttributes
      */
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes): void

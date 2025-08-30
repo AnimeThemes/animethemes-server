@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
- * Class Audio.
- *
  * @property int $audio_id
  * @property string $basename
  * @property string $filename
@@ -143,49 +141,31 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
         ];
     }
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return $this->basename;
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->path();
     }
 
-    /**
-     * Get the path of the streamable model in the filesystem.
-     */
     public function path(): string
     {
         return $this->path;
     }
 
-    /**
-     * Get the basename of the streamable model.
-     */
     public function basename(): string
     {
         return $this->basename;
     }
 
-    /**
-     * Get the MIME type / content type of the streamable model.
-     */
     public function mimetype(): string
     {
         return $this->mimetype;
     }
 
-    /**
-     * Get the content length of the streamable model.
-     */
     public function size(): int
     {
         return $this->size;

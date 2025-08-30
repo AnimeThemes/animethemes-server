@@ -26,17 +26,12 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
         return Type::float();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -50,9 +45,6 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
         ];
     }
 
-    /**
-     * The sort type of the field.
-     */
     public function sortType(): SortType
     {
         return SortType::ROOT;

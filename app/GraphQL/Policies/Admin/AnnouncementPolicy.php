@@ -12,8 +12,6 @@ use Illuminate\Support\Arr;
 class AnnouncementPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  array  $args
      */
     public function view(?User $user, array $args = [], ?string $keyName = 'model'): bool

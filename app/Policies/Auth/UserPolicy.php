@@ -12,17 +12,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(?User $user): bool
     {
         return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
     }
 
     /**
-     * Determine whether the user can view the model.
-     *Model.
+Model.
      */
     public function view(?User $user, Model $userModel): bool
     {

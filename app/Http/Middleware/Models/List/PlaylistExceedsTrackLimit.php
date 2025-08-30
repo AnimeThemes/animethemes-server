@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Config;
 class PlaylistExceedsTrackLimit
 {
     /**
-     * Handle an incoming request.
-     *
      * @param  Closure(Request): mixed  $next
      */
     public function handle(Request $request, Closure $next): mixed

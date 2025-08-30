@@ -14,15 +14,10 @@ use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class AudioRepository.
- *
  * @extends StorageRepository<Audio>
  */
 class AudioRepository extends StorageRepository
 {
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);

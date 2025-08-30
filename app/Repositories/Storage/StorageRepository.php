@@ -16,8 +16,6 @@ use League\Flysystem\FilesystemReader;
 use League\Flysystem\StorageAttributes;
 
 /**
- * Class StorageRepository.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @implements RepositoryInterface<TModel>

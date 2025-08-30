@@ -16,17 +16,12 @@ class ResourceableAsField extends StringField implements CreatableField, Updatab
         parent::__construct(Resourceable::ATTRIBUTE_AS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to distinguish resources that map to the same resourceable';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class ResourceableAsField extends StringField implements CreatableField, Updatab
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

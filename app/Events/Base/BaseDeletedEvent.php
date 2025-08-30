@@ -11,8 +11,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class BaseDeletedEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseEvent<TModel>
@@ -21,11 +19,6 @@ abstract class BaseDeletedEvent extends BaseEvent implements DiscordMessageEvent
 {
     use Dispatchable;
 
-    /**
-     * Get Discord message payload.
-     *
-     * @return DiscordMessage
-     */
     public function getDiscordMessage(): DiscordMessage
     {
         $embed = array_merge(
@@ -39,16 +32,10 @@ abstract class BaseDeletedEvent extends BaseEvent implements DiscordMessageEvent
         return DiscordMessage::create('', $embed);
     }
 
-    /**
-     * Determine if the message should be sent.
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return true;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     abstract protected function getDiscordMessageDescription(): string;
 }

@@ -12,9 +12,6 @@ class NotifiesUsers implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    /**
-     * Handle the event.
-     */
     public function handle(NotifiesUsersEvent $event): void
     {
         $event->notify();

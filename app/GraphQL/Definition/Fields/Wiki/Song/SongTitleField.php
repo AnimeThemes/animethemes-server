@@ -16,17 +16,12 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
         parent::__construct(Song::ATTRIBUTE_TITLE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The name of the composition';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

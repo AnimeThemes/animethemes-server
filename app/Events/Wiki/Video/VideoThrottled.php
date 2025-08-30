@@ -20,9 +20,6 @@ class VideoThrottled implements DiscordMessageEvent
 
     public function __construct(protected Video $video, protected string $user) {}
 
-    /**
-     * Get Discord message payload.
-     */
     public function getDiscordMessage(): DiscordMessage
     {
         return DiscordMessage::create('', [
@@ -31,17 +28,11 @@ class VideoThrottled implements DiscordMessageEvent
         ]);
     }
 
-    /**
-     * Get Discord channel the message will be sent to.
-     */
     public function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 
-    /**
-     * Determine if the message should be sent.
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return true;

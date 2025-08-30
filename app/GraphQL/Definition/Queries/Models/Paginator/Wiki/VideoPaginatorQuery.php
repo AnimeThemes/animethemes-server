@@ -14,9 +14,6 @@ class VideoPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('videoPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of video resources given fields.';

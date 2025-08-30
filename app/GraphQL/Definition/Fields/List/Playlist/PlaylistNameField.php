@@ -18,17 +18,12 @@ class PlaylistNameField extends StringField implements CreatableField, RequiredO
         parent::__construct(Playlist::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The title of the playlist';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -43,8 +38,6 @@ class PlaylistNameField extends StringField implements CreatableField, RequiredO
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

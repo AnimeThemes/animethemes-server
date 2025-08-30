@@ -15,9 +15,6 @@ use Elastic\ScoutDriverPlus\Support\Query;
 
 class VideoQuery extends ElasticQuery
 {
-    /**
-     * Build Elasticsearch query.
-     */
     public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()

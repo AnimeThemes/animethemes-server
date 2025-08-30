@@ -26,9 +26,6 @@ class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumen
         parent::__construct(self::FIELD);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Object that references the season year queried';
@@ -42,9 +39,6 @@ class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumen
         return new AnimeYearSeasonType();
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool
     {
         return true;

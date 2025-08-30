@@ -26,8 +26,6 @@ class MyController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, ShowAction $action): MyResource

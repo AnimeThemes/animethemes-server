@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogPasswordReset
 {
-    /**
-     * Handle the event.
-     */
     public function handle(PasswordReset $event): void
     {
         Log::info('Password Reset', [

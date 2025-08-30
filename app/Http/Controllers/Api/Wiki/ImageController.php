@@ -30,8 +30,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): ImageCollection
@@ -44,8 +42,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreImageAction  $action
      */
     public function store(StoreRequest $request, StoreImageAction $action): ImageResource
@@ -56,8 +52,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Image $image, ShowAction $action): ImageResource
@@ -70,8 +64,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Image $image, UpdateAction $action): ImageResource
@@ -82,8 +74,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Image $image, DestroyAction $action): ImageResource
@@ -94,8 +84,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Image $image, RestoreAction $action): ImageResource
@@ -106,8 +94,6 @@ class ImageController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Image $image, ForceDeleteAction $action): JsonResponse

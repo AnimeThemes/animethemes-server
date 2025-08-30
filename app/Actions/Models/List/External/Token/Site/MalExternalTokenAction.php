@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class MalExternalTokenAction.
- */
 class MalExternalTokenAction extends BaseExternalTokenAction
 {
     /**

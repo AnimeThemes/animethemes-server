@@ -10,8 +10,6 @@ use App\Events\BaseEvent;
 use App\Models\Wiki\Audio;
 
 /**
- * Class AudioForceDeleting.
- *
  * @extends BaseEvent<Audio>
  */
 class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent
@@ -21,9 +19,6 @@ class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent
         parent::__construct($audio);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Audio
     {
         return $this->model;

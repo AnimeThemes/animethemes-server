@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class ReconcileDumpRepositories.
- *
  * @extends ReconcileRepositoriesAction<Dump>
  */
 class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction

@@ -16,9 +16,6 @@ class PermissionUserRelationManager extends PermissionRelationManager
      */
     protected static string $relationship = User::RELATION_PERMISSIONS;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

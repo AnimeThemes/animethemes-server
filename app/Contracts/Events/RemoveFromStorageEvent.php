@@ -6,8 +6,5 @@ namespace App\Contracts\Events;
 
 interface RemoveFromStorageEvent
 {
-    /**
-     * Remove the image from the bucket.
-     */
     public function removeFromStorage(): void;
 }

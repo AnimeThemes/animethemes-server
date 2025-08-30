@@ -18,30 +18,19 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class WikiDeletedEvent.
- *
  * @template TModel of \App\Models\BaseModel
  *
  * @extends BaseDeletedEvent<TModel>
  */
 abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNotificationEvent
 {
-    /**
-     * Get Discord channel the message will be sent to.
-     */
     public function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);
     }
 
-    /**
-     * Get the message for the filament notification.
-     */
     abstract protected function getNotificationMessage(): string;
 
-    /**
-     * Determine if the notifications should be sent.
-     */
     public function shouldSendFilamentNotification(): bool
     {
         $model = $this->getModel();
@@ -53,9 +42,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
         return false;
     }
 
-    /**
-     * Get the filament notification.
-     */
     public function getFilamentNotification(): Notification
     {
         return Notification::make()
@@ -71,8 +57,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
     }
 
     /**
-     * Get the users to notify.
-     *
      * @return Collection
      */
     public function getFilamentNotificationRecipients(): Collection

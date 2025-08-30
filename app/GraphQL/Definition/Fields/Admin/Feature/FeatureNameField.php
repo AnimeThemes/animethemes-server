@@ -14,9 +14,6 @@ class FeatureNameField extends StringField
         parent::__construct(Feature::ATTRIBUTE_NAME, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The title of the resource';

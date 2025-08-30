@@ -19,29 +19,20 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
-use Illuminate\Database\Eloquent\Model;
 
 class EntrySchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): EntryQuery
     {
         return new EntryQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return EntryResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -54,8 +45,6 @@ class EntrySchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array
@@ -73,11 +62,6 @@ class EntrySchema extends Schema
         );
     }
 
-    /**
-     * Get the model of the schema.
-     *
-     * @return AnimeThemeEntry
-     */
     public function model(): AnimeThemeEntry
     {
         return new AnimeThemeEntry();

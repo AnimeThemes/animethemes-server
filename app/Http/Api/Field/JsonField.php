@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class JsonField extends Field implements RenderableField, SelectableField
 {
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
@@ -22,17 +19,11 @@ abstract class JsonField extends Field implements RenderableField, SelectableFie
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed
     {
         return $model->getAttribute($this->getColumn());
     }
 
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());

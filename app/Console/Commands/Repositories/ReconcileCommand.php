@@ -14,8 +14,6 @@ abstract class ReconcileCommand extends BaseCommand
     use ReconcilesRepositories;
 
     /**
-     * Execute the console command.
-     *
      * @throws Exception
      */
     public function handle(): int
@@ -37,8 +35,5 @@ abstract class ReconcileCommand extends BaseCommand
         return $result->hasFailed() ? 1 : 0;
     }
 
-    /**
-     * Get the validator for options.
-     */
     abstract protected function validator(): Validator;
 }

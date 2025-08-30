@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class NginxStreamAction extends StreamAction
 {
-    /**
-     * Stream the resource.
-     */
     public function stream(string $disposition = 'inline'): Response
     {
         /** @var FilesystemAdapter $fs */

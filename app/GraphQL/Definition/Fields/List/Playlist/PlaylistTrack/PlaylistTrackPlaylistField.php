@@ -24,9 +24,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
         parent::__construct(self::FIELD, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The playlist of the track';
@@ -51,8 +48,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -64,8 +59,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

@@ -22,25 +22,17 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class PlaylistSchema extends Schema
 {
-    /**
-     * The model this schema represents.
-     */
     public function query(): PlaylistQuery
     {
         return new PlaylistQuery();
     }
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return PlaylistResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -55,8 +47,6 @@ class PlaylistSchema extends Schema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

@@ -26,9 +26,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 
 class AnimeThemeType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents an OP or ED sequence for an anime.\n\nFor example, the anime Bakemonogatari has five OP anime themes and one ED anime theme.";

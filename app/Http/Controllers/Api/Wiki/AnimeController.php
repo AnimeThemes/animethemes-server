@@ -30,8 +30,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): AnimeCollection
@@ -46,8 +44,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Anime>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): AnimeResource
@@ -58,8 +54,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Anime $anime, ShowAction $action): AnimeResource
@@ -72,8 +66,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): AnimeResource
@@ -84,8 +76,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Anime $anime, DestroyAction $action): AnimeResource
@@ -96,8 +86,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Anime $anime, RestoreAction $action): AnimeResource
@@ -108,8 +96,6 @@ class AnimeController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Anime $anime, ForceDeleteAction $action): JsonResponse

@@ -36,17 +36,12 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
 
     final public const SORT_YEAR = 'anime.year';
 
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return ThemeResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -66,8 +61,6 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array
@@ -87,8 +80,6 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
     }
 
     /**
-     * Get the sorts of the resource.
-     *
      * @return Sort[]
      */
     public function sorts(): array

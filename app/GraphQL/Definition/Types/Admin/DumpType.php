@@ -15,9 +15,6 @@ use App\Models\Admin\Dump;
 
 class DumpType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents a database dump of selected tables at a given point in time.\n\nFor example, the animethemes-db-dump-wiki-1663559663946.sql dump represents the database dump of wiki tables performed at 2022-09-19.";

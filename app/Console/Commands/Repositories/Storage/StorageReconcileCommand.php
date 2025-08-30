@@ -34,9 +34,6 @@ abstract class StorageReconcileCommand extends ReconcileCommand implements Inter
         }
     }
 
-    /**
-     * Get the validator for options.
-     */
     protected function validator(): Validator
     {
         $fs = Storage::disk($this->disk());

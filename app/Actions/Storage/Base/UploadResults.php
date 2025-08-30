@@ -18,9 +18,6 @@ readonly class UploadResults implements StorageResults
      */
     public function __construct(protected array $uploads = []) {}
 
-    /**
-     * Write results to log.
-     */
     public function toLog(): void
     {
         if (empty($this->uploads)) {
@@ -33,9 +30,6 @@ readonly class UploadResults implements StorageResults
         }
     }
 
-    /**
-     * Write results to console output.
-     */
     public function toConsole(Command $command): void
     {
         if (empty($this->uploads)) {
@@ -48,9 +42,6 @@ readonly class UploadResults implements StorageResults
         }
     }
 
-    /**
-     * Transform to Action Result.
-     */
     public function toActionResult(): ActionResult
     {
         if (empty($this->uploads)) {

@@ -6,9 +6,6 @@ namespace App\Concerns;
 
 trait DetectsRedis
 {
-    /**
-     * Determine if the application uses any Redis services.
-     */
     protected function appUsesRedis(): bool
     {
         // We assume here that if the cache, session, broadcasting or queue is powered by Redis,

@@ -19,9 +19,6 @@ use App\Pivots\Morph\Imageable;
 
 class ImageableType extends PivotType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents the association between a imageable object and an image.';

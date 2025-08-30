@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Announcement.
- *
  * @property int $announcement_id
  * @property string $content
  * @property bool $public
@@ -82,17 +80,11 @@ class Announcement extends BaseModel
      */
     protected $primaryKey = Announcement::ATTRIBUTE_ID;
 
-    /**
-     * Get name.
-     */
     public function getName(): string
     {
         return strval($this->getKey());
     }
 
-    /**
-     * Get subtitle.
-     */
     public function getSubtitle(): string
     {
         return $this->getName();

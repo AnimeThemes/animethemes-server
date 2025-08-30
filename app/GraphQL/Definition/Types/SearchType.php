@@ -16,9 +16,6 @@ use App\GraphQL\Definition\Fields\Search\SearchVideosField;
 
 class SearchType extends BaseType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of resources that match a given search term.';

@@ -11,8 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class MoveImageAction.
- *
  * @extends MoveAction<Image>
  */
 class MoveImageAction extends MoveAction

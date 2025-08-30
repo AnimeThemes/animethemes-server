@@ -12,8 +12,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class AnimeUpdated.
- *
  * @extends WikiUpdatedEvent<Anime>
  */
 class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
@@ -24,25 +22,16 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($anime);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Anime
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Anime '**{$this->getModel()->getName()}**' has been updated.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);

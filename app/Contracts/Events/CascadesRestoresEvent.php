@@ -6,8 +6,5 @@ namespace App\Contracts\Events;
 
 interface CascadesRestoresEvent
 {
-    /**
-     * Perform cascading restores.
-     */
     public function cascadeRestores(): void;
 }

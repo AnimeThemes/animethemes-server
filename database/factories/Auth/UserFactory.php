@@ -15,8 +15,6 @@ use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
 
 /**
- * Class UserFactory.
- *
  * @method User createOne($attributes = [])
  * @method User makeOne($attributes = [])
  *

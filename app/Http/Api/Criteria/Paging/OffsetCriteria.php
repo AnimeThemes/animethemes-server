@@ -19,9 +19,6 @@ class OffsetCriteria extends Criteria
 
     final public const NUMBER_PARAM = 'number';
 
-    /**
-     * Get the intended pagination strategy.
-     */
     public function getStrategy(): PaginationStrategy
     {
         return PaginationStrategy::OFFSET;

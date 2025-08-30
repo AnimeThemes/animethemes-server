@@ -14,9 +14,6 @@ class RemoveFromStorage implements ShouldQueue
     use Dispatchable;
     use InteractsWithQueue;
 
-    /**
-     * Handle the event.
-     */
     public function handle(RemoveFromStorageEvent $event): void
     {
         $event->removeFromStorage();

@@ -9,8 +9,6 @@ use App\Events\Base\List\ListCreatedEvent;
 use App\Models\List\Playlist;
 
 /**
- * Class PlaylistCreated.
- *
  * @extends ListCreatedEvent<Playlist>
  */
 class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
@@ -20,17 +18,11 @@ class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
         parent::__construct($playlist);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): Playlist
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Playlist '**{$this->getModel()->getName()}**' has been created.";

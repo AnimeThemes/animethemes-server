@@ -32,9 +32,6 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         parent::__construct($schema, $this->alias());
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
@@ -42,17 +39,11 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         return $criteria !== null && $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): mixed
     {
         return $model->getAttribute($this->alias());
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort(key: $this->alias(), qualifyColumn: QualifyColumn::NO);

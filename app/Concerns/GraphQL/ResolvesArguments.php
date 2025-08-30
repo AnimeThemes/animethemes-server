@@ -105,8 +105,6 @@ trait ResolvesArguments
     }
 
     /**
-     * Resolve the bind arguments.
-     *
      * @param  Field[]  $fields
      * @return BindableArgument[]
      */

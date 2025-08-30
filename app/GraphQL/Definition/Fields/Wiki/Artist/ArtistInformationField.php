@@ -16,17 +16,12 @@ class ArtistInformationField extends StringField implements CreatableField, Upda
         parent::__construct(Artist::ATTRIBUTE_INFORMATION);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The brief information of the resource';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class ArtistInformationField extends StringField implements CreatableField, Upda
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

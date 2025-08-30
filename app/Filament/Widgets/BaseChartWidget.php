@@ -29,9 +29,6 @@ class BaseChartWidget extends ApexChartWidget
         });
     }
 
-    /**
-     * Translate the dates.
-     */
     protected function translateDate(string $date): string
     {
         $month = intval(explode('-', $date)[1]);

@@ -16,17 +16,12 @@ class AnimeThemeSequenceField extends IntField implements CreatableField, Updata
         parent::__construct(AnimeTheme::ATTRIBUTE_SEQUENCE);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The numeric ordering of the theme';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class AnimeThemeSequenceField extends IntField implements CreatableField, Updata
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

@@ -32,9 +32,6 @@ use App\Models\Wiki\Anime;
 
 class AnimeType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents a production with at least one opening or ending sequence.\n\nFor example, Bakemonogatari is an anime production with five opening sequences and one ending sequence.";

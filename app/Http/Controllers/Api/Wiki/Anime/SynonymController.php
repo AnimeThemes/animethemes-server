@@ -30,8 +30,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): SynonymCollection
@@ -46,8 +44,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<AnimeSynonym>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): SynonymResource
@@ -58,8 +54,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): SynonymResource
@@ -72,8 +66,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): SynonymResource
@@ -84,8 +76,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(AnimeSynonym $animesynonym, DestroyAction $action): SynonymResource
@@ -96,8 +86,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(AnimeSynonym $animesynonym, RestoreAction $action): SynonymResource
@@ -108,8 +96,6 @@ class SynonymController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(AnimeSynonym $animesynonym, ForceDeleteAction $action): JsonResponse

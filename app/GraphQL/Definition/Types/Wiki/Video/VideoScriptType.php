@@ -19,9 +19,6 @@ use App\Models\Wiki\Video\VideoScript;
 
 class VideoScriptType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents an encoding script used to produce a video.\n\nFor example, the 2009/Summer/Bakemonogatari-OP1.txt video script represents the encoding script of the Bakemonogatari-OP1.webm video.";

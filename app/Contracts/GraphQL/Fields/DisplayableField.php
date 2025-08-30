@@ -6,8 +6,5 @@ namespace App\Contracts\GraphQL\Fields;
 
 interface DisplayableField
 {
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function canBeDisplayed(): bool;
 }

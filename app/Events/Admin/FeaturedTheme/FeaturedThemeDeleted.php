@@ -8,8 +8,6 @@ use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Admin\FeaturedTheme;
 
 /**
- * Class FeaturedThemeDeleted.
- *
  * @extends AdminDeletedEvent<FeaturedTheme>
  */
 class FeaturedThemeDeleted extends AdminDeletedEvent
@@ -19,17 +17,11 @@ class FeaturedThemeDeleted extends AdminDeletedEvent
         parent::__construct($featuredTheme);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): FeaturedTheme
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Featured Theme '**{$this->getModel()->getName()}**' has been deleted.";

@@ -19,17 +19,12 @@ class AnimeSynonymTypeField extends EnumField implements CreatableField, Require
         parent::__construct(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::class);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The type of the synonym';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -42,8 +37,6 @@ class AnimeSynonymTypeField extends EnumField implements CreatableField, Require
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

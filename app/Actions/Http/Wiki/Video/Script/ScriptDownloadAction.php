@@ -10,8 +10,6 @@ use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ScriptDownloadAction.
- *
  * @extends DownloadAction<VideoScript>
  */
 class ScriptDownloadAction extends DownloadAction
@@ -29,9 +27,6 @@ class ScriptDownloadAction extends DownloadAction
         return $this->model->path;
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED);

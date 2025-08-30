@@ -15,9 +15,6 @@ class DumpPaginatorQuery extends EloquentPaginatorQuery
         parent::__construct('dumpPaginator');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a listing of dump resources given fields.';

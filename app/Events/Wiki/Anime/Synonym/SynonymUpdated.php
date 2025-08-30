@@ -13,8 +13,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 
 /**
- * Class SynonymUpdated.
- *
  * @extends WikiUpdatedEvent<AnimeSynonym>
  */
 class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
@@ -31,25 +29,16 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
         $this->initializeEmbedFields($synonym);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): AnimeSynonym
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Synonym '**{$this->getModel()->getName()}**' has been updated for Anime '**{$this->anime->getName()}**'.";
     }
 
-    /**
-     * Perform updates on related indices.
-     */
     public function updateRelatedIndices(): void
     {
         $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);

@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Http;
 
 class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStudios
 {
-    /**
-     * Get the site to backfill.
-     */
     public function getSite(): ResourceSite
     {
         return ResourceSite::MAL;

@@ -20,9 +20,6 @@ use App\Models\Admin\FeaturedTheme;
 
 class FeaturedThemeType extends EloquentType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Represents a video to be featured on the homepage of the site for a specified amount of time.';

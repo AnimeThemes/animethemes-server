@@ -16,17 +16,11 @@ class NotificationTypeField extends EnumField
         parent::__construct(Notification::ATTRIBUTE_TYPE, NotificationType::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The type of the notification';
     }
 
-    /**
-     * Resolve the field.
-     */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return NotificationType::resolveType($root)->name;

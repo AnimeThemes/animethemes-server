@@ -9,8 +9,6 @@ use App\Http\Api\Include\AllowedInclude;
 interface InteractsWithPivots
 {
     /**
-     * Get the allowed pivots of the schema.
-     *
      * @return AllowedInclude[]
      */
     public function allowedPivots(): array;

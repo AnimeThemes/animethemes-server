@@ -14,9 +14,6 @@ class StudioQuery extends EloquentSingularQuery
         parent::__construct('studio');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a studio resource.';

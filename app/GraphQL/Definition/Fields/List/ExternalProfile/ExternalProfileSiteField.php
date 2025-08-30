@@ -15,9 +15,6 @@ class ExternalProfileSiteField extends EnumField
         parent::__construct(ExternalProfile::ATTRIBUTE_SITE, ExternalProfileSite::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The site the profile belongs to';

@@ -18,9 +18,6 @@ class VideoTagsField extends Field implements RenderableField
         parent::__construct($schema, Video::ATTRIBUTE_TAGS);
     }
 
-    /**
-     * Determine if the field should be displayed to the user.
-     */
     public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
@@ -28,9 +25,6 @@ class VideoTagsField extends Field implements RenderableField
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * Get the value to display to the user.
-     */
     public function render(Model $model): string
     {
         $tags = $model->getAttribute($this->getColumn());

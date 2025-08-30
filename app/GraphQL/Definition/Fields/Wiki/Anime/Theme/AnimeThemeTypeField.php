@@ -23,17 +23,12 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
         parent::__construct(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The type of the sequence';
     }
 
     /**
-     * The filters of the field.
-     *
      * @return Filter[]
      */
     public function getFilters(): array
@@ -46,8 +41,6 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -60,8 +53,6 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

@@ -12,8 +12,5 @@ abstract class StreamAction implements InteractsWithDisk
 {
     public function __construct(protected readonly Streamable $streamable) {}
 
-    /**
-     * Stream the resource.
-     */
     abstract public function stream(string $disposition = 'inline'): Response;
 }

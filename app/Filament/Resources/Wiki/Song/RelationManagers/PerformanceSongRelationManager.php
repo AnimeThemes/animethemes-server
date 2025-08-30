@@ -22,9 +22,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     protected static string $relationship = Song::RELATION_PERFORMANCES;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

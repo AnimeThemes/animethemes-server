@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Support\Carbon;
 
 /**
- * Class BaseMorphPivot.
- *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */

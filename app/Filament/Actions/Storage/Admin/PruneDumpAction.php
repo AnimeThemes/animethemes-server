@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\Gate;
 
 class PruneDumpAction extends PruneAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'prune-dump';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

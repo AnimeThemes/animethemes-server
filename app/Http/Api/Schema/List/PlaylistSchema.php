@@ -33,17 +33,12 @@ use App\Models\List\Playlist;
 
 class PlaylistSchema extends EloquentSchema implements SearchableSchema
 {
-    /**
-     * Get the type of the resource.
-     */
     public function type(): string
     {
         return PlaylistResource::$wrap;
     }
 
     /**
-     * Get the allowed includes.
-     *
      * @return AllowedInclude[]
      */
     public function allowedIncludes(): array
@@ -67,8 +62,6 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
     }
 
     /**
-     * Get the direct fields of the resource.
-     *
      * @return Field[]
      */
     public function fields(): array

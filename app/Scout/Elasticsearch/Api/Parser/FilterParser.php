@@ -13,9 +13,6 @@ use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereInCriteria;
 
 class FilterParser
 {
-    /**
-     * Parse Elasticsearch filter criteria from core filter criteria.
-     */
     public static function parse(BaseCriteria $criteria): ?Criteria
     {
         if ($criteria instanceof BaseWhereCriteria) {

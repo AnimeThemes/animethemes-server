@@ -29,17 +29,11 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'backfill-audio';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -54,8 +48,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     }
 
     /**
-     * Perform the action on the given models.
-     *
      * @param  array<string, mixed>  $data
      */
     public function handle(Video $video, array $data): void
@@ -82,9 +74,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
         }
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema

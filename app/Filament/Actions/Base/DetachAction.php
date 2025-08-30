@@ -20,9 +20,6 @@ class DetachAction extends BaseDetachAction
 {
     use HasPivotActionLogs;
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

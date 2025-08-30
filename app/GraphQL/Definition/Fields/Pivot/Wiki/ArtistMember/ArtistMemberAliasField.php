@@ -16,17 +16,12 @@ class ArtistMemberAliasField extends StringField implements CreatableField, Upda
         parent::__construct(ArtistMember::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'Used to distinguish member by alias';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class ArtistMemberAliasField extends StringField implements CreatableField, Upda
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

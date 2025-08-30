@@ -21,17 +21,11 @@ use Illuminate\Support\Facades\Gate;
 
 class DiscordSendMessageAction extends BaseAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'discord-send-message';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -56,9 +50,6 @@ class DiscordSendMessageAction extends BaseAction
         $action->send($message);
     }
 
-    /**
-     * Get the schema available on the action.
-     */
     public function getSchema(Schema $schema): Schema
     {
         return $schema

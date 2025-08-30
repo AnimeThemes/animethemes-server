@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
 /**
- * Class MoveAudioAction.
- *
  * @extends MoveAction<Audio>
  */
 class MoveAudioAction extends MoveAction

@@ -14,9 +14,6 @@ class CreatedAtField extends DateTimeTzField
         parent::__construct(BaseModel::ATTRIBUTE_CREATED_AT);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The date that the resource was created';

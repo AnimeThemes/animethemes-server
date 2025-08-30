@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class LogOtherDeviceLogout
 {
-    /**
-     * Handle the event.
-     */
     public function handle(OtherDeviceLogout $event): void
     {
         Log::info('Other Device Logout', [

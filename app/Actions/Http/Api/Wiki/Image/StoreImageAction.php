@@ -15,15 +15,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class StoreImageAction.
- *
  * @extends StoreAction<Image>
  */
 class StoreImageAction extends StoreAction
 {
     /**
-     * Store image.
-     *
      * @param  Builder<Image>  $builder
      * @param  array  $parameters
      */

@@ -13,9 +13,6 @@ class DetachBulkAction extends BaseDetachBulkAction
 {
     use HasActionLogs;
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();

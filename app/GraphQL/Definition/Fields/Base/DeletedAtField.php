@@ -14,9 +14,6 @@ class DeletedAtField extends DateTimeTzField
         parent::__construct(ModelConstants::ATTRIBUTE_DELETED_AT);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The date that the resource was deleted';

@@ -10,14 +10,9 @@ use Illuminate\Support\Facades\Cache;
 
 abstract class BaseTab extends Tab
 {
-    /**
-     * Get the slug for the tab.
-     */
     abstract public static function getSlug(): string;
 
     /**
-     * The query used to refine the models for the tab.
-     *
      * @param  Builder  $query
      * @return Builder
      */
@@ -28,9 +23,6 @@ abstract class BaseTab extends Tab
         });
     }
 
-    /**
-     * Get the badge for the tab.
-     */
     public function count(): mixed
     {
         $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], function () {
@@ -42,9 +34,6 @@ abstract class BaseTab extends Tab
         return $count;
     }
 
-    /**
-     * Determine if the tab should be hidden.
-     */
     public function shouldBeHidden(): bool
     {
         if (is_int($count = $this->count())) {

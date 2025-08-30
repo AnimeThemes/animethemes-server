@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Contracts\Models;
 
 /**
- * Interface HasHashids.
- *
  * @property string $hashid
  */
 interface HasHashids

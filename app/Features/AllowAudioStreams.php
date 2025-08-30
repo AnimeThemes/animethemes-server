@@ -10,9 +10,6 @@ use Laravel\Pennant\Feature;
 
 class AllowAudioStreams
 {
-    /**
-     * Resolve feature for scope.
-     */
     public function resolve(?User $user): bool
     {
         if (! empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))) {

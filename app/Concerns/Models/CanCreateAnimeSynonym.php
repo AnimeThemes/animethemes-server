@@ -12,9 +12,6 @@ use Illuminate\Support\Str;
 
 trait CanCreateAnimeSynonym
 {
-    /**
-     * Create Anime Synonym for the Anime.
-     */
     public function createAnimeSynonym(?string $text, int $type, Anime $anime): void
     {
         if (

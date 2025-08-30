@@ -20,8 +20,6 @@ class OffsetCriteria extends Criteria
     }
 
     /**
-     * Paginate the search query.
-     *
      * @return Collection|Paginator
      */
     public function paginate(SearchParametersBuilder $builder): Collection|Paginator

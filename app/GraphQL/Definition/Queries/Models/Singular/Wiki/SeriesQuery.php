@@ -14,9 +14,6 @@ class SeriesQuery extends EloquentSingularQuery
         parent::__construct('series');
     }
 
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'Returns a series resource.';

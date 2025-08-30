@@ -16,17 +16,12 @@ class MembershipAliasField extends StringField implements CreatableField, Updata
         parent::__construct(Membership::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The alias the artist is using for this membership';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -40,8 +35,6 @@ class MembershipAliasField extends StringField implements CreatableField, Updata
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

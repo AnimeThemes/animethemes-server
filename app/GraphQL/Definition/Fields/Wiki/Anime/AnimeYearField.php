@@ -17,17 +17,12 @@ class AnimeYearField extends IntField implements CreatableField, RequiredOnCreat
         parent::__construct(Anime::ATTRIBUTE_YEAR);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The premiere year of the anime';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -45,8 +40,6 @@ class AnimeYearField extends IntField implements CreatableField, RequiredOnCreat
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

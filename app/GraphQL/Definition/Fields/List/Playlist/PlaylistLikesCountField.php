@@ -14,9 +14,6 @@ class PlaylistLikesCountField extends CountAggregateField
         parent::__construct(Playlist::RELATION_LIKE_AGGREGATE, 'likesCount');
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The number of likes recorded for the resource';

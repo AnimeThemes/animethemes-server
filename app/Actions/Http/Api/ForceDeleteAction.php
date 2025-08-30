@@ -9,9 +9,6 @@ use Illuminate\Support\Str;
 
 class ForceDeleteAction
 {
-    /**
-     * Force delete model.
-     */
     public function forceDelete(BaseModel $model): string
     {
         $message = Str::of(Str::headline(class_basename($model)))

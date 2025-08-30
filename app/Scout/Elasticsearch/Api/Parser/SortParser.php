@@ -13,9 +13,6 @@ use App\Scout\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
 
 class SortParser
 {
-    /**
-     * Parse Elasticsearch sort criteria from core sort criteria.
-     */
     public static function parse(BaseCriteria $criteria): ?Criteria
     {
         if ($criteria instanceof BaseRelationCriteria) {

@@ -17,17 +17,12 @@ class AnnouncementContentField extends StringField implements CreatableField, Re
         parent::__construct(Announcement::ATTRIBUTE_CONTENT, nullable: false);
     }
 
-    /**
-     * The description of the field.
-     */
     public function description(): string
     {
         return 'The announcement text';
     }
 
     /**
-     * Set the creation validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */
@@ -41,8 +36,6 @@ class AnnouncementContentField extends StringField implements CreatableField, Re
     }
 
     /**
-     * Set the update validation rules for the field.
-     *
      * @param  array<string, mixed>  $args
      * @return array
      */

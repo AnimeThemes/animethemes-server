@@ -9,27 +9,17 @@ use App\Events\Base\BaseRestoredEvent;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class AdminRestoredEvent.
- *
  * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseRestoredEvent<TModel>
  */
 abstract class AdminRestoredEvent extends BaseRestoredEvent
 {
-    /**
-     * Get Discord channel the message will be sent to.
-     */
     public function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 
-    /**
-     * Determine if the message should be sent.
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
     public function shouldSendDiscordMessage(): bool
     {
         return true;

@@ -16,8 +16,6 @@ use Illuminate\Support\Str;
 class DumpPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view the model.
-     *
      * @param  Dump  $dump
      */
     public function view(?User $user, Model $dump): bool

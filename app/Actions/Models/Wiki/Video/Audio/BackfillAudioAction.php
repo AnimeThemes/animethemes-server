@@ -33,8 +33,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Class BackfillVideoAudioAction.
- *
  * @extends BackfillAction<Video>
  */
 class BackfillAudioAction extends BackfillAction
@@ -49,8 +47,6 @@ class BackfillAudioAction extends BackfillAction
     }
 
     /**
-     * Handle action.
-     *
      * @throws Exception
      */
     public function handle(): ActionResult
@@ -108,25 +104,16 @@ class BackfillAudioAction extends BackfillAction
         return $this->getModel()->audio();
     }
 
-    /**
-     * Determine if the source video should be derived.
-     */
     protected function deriveSourceVideo(): bool
     {
         return $this->deriveSourceVideo === DeriveSourceVideo::YES;
     }
 
-    /**
-     * Determine if audio should be overwritten.
-     */
     protected function overwriteAudio(): bool
     {
         return $this->overwriteAudio === OverwriteAudio::YES;
     }
 
-    /**
-     * Determine if the new audio should replace a related one.
-     */
     protected function replaceRelatedAudio(): bool
     {
         return $this->replaceRelatedAudio === ReplaceRelatedAudio::YES;
@@ -190,9 +177,6 @@ class BackfillAudioAction extends BackfillAction
         return $audio;
     }
 
-    /**
-     * Get the source video for the given video.
-     */
     protected function getSourceVideo(string $operation = '>'): ?Video
     {
         $source = null;
@@ -213,8 +197,6 @@ class BackfillAudioAction extends BackfillAction
     }
 
     /**
-     * Get the adjacent videos for sourcing.
-     *
      * @return Collection<int, Video>
      */
     protected function getAdjacentVideos(): Collection
@@ -290,9 +272,6 @@ class BackfillAudioAction extends BackfillAction
         return null;
     }
 
-    /**
-     * Attach Audio to model.
-     */
     protected function attachAudio(Audio $audio): void
     {
         if ($this->relation()->isNot($audio)) {

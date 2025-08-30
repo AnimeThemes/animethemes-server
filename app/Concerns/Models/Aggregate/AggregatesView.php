@@ -12,8 +12,6 @@ trait AggregatesView
     final public const RELATION_VIEW_AGGREGATE = 'viewAggregate';
 
     /**
-     * Get the views count of the model.
-     *
      * @return MorphOne<ViewAggregate, $this>
      */
     public function viewAggregate(): MorphOne

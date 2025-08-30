@@ -20,9 +20,6 @@ use App\Models\Wiki\Group;
 
 class ThemeGroupType extends EloquentType implements ReportableType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return "Represents the group that accompanies a Theme.\n\nFor example, English Version is the group for english dubbed Theme.";

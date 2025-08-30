@@ -42,41 +42,27 @@ class DiscordEmbed implements Arrayable
             ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::from($fields)));
     }
 
-    /**
-     * Get the type of the embed.
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * Get the title of the embed.
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * Get the description of the embed.
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * Get the color of the embed.
-     */
     public function getColor(): int
     {
         return $this->color;
     }
 
     /**
-     * Get the thumbnail of the embed.
-     *
      * @return array
      */
     public function getThumbnail(): array
@@ -85,8 +71,6 @@ class DiscordEmbed implements Arrayable
     }
 
     /**
-     * Get the image of the embed.
-     *
      * @return array
      */
     public function getImage(): array
@@ -95,8 +79,6 @@ class DiscordEmbed implements Arrayable
     }
 
     /**
-     * Get the fields of the embed.
-     *
      * @return DiscordEmbedField[]
      */
     public function getFields(): array
@@ -104,9 +86,6 @@ class DiscordEmbed implements Arrayable
         return $this->fields;
     }
 
-    /**
-     * Set the type of the embed.
-     */
     public function setType(string $type): static
     {
         $this->type = $type;
@@ -114,9 +93,6 @@ class DiscordEmbed implements Arrayable
         return $this;
     }
 
-    /**
-     * Set the title of the embed.
-     */
     public function setTitle(string $title): static
     {
         $this->title = $title;
@@ -124,9 +100,6 @@ class DiscordEmbed implements Arrayable
         return $this;
     }
 
-    /**
-     * Set the description of the embed.
-     */
     public function setDescription(string $description): static
     {
         $this->description = $description;
@@ -134,9 +107,6 @@ class DiscordEmbed implements Arrayable
         return $this;
     }
 
-    /**
-     * Set the color of the embed.
-     */
     public function setColor(int|string $color): static
     {
         $this->color = is_string($color) ? hexdec($color) : $color;
@@ -144,9 +114,6 @@ class DiscordEmbed implements Arrayable
         return $this;
     }
 
-    /**
-     * Set the thumbnail of the embed.
-     */
     public function setThumbnail(array $thumbnail): static
     {
         $this->thumbnail = $thumbnail;
@@ -155,8 +122,6 @@ class DiscordEmbed implements Arrayable
     }
 
     /**
-     * Set the image of the embed.
-     *
      * @param  array  $image
      */
     public function setImage(array $image): static
@@ -167,8 +132,6 @@ class DiscordEmbed implements Arrayable
     }
 
     /**
-     * Set the fields of the embed.
-     *
      * @param  DiscordEmbedField[]  $fields
      */
     public function setFields(array $fields): static
@@ -179,8 +142,6 @@ class DiscordEmbed implements Arrayable
     }
 
     /**
-     * Convert the embed to an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray(): array

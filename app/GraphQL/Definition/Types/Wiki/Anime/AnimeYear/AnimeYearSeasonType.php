@@ -12,9 +12,6 @@ use App\GraphQL\Definition\Types\BaseType;
 
 class AnimeYearSeasonType extends BaseType
 {
-    /**
-     * The description of the type.
-     */
     public function description(): string
     {
         return 'The anime year season type.';

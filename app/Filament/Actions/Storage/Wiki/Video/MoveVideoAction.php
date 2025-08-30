@@ -15,17 +15,11 @@ use Illuminate\Support\Facades\Gate;
 
 class MoveVideoAction extends MoveAction
 {
-    /**
-     * The default name of the action.
-     */
     public static function getDefaultName(): ?string
     {
         return 'move-video';
     }
 
-    /**
-     * Initial setup for the action.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -49,9 +43,6 @@ class MoveVideoAction extends MoveAction
         return new MoveVideo($video, $path);
     }
 
-    /**
-     * The name of the disk.
-     */
     public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);

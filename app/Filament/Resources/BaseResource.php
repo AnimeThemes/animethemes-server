@@ -34,33 +34,21 @@ use Illuminate\Support\Facades\Gate;
 
 abstract class BaseResource extends Resource
 {
-    /**
-     * Determine if the resource can globally search.
-     */
     public static function canGloballySearch(): bool
     {
         return false;
     }
 
-    /**
-     * Get the route key for the resource.
-     */
     public static function getRecordRouteKeyName(): string
     {
         return (new static::$model)->getKeyName();
     }
 
-    /**
-     * Get the title attribute for the resource.
-     */
     public static function getRecordTitleAttribute(): string
     {
         return (new static::$model)->getKeyName();
     }
 
-    /**
-     * The index page of the resource.
-     */
     public static function table(Table $table): Table
     {
         return $table
@@ -78,8 +66,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
@@ -101,8 +87,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
      * @return array<int, Action|ActionGroup>
      */
     public static function getActions(): array
@@ -129,8 +113,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the record actions exclusive to the resource.
-     *
      * @return Action[]
      */
     public static function getRecordActions(): array
@@ -139,8 +121,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the bulk actions available for the resource.
-     *
      * @param  array<int, ActionGroup|Action>|null  $actionsIncludedInGroup
      * @return array<int, ActionGroup|Action>
      */
@@ -158,8 +138,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the table actions available for the resource.
-     *
      * @return array<int, ActionGroup|Action>
      */
     public static function getTableActions(): array
@@ -168,8 +146,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the eloquent query for the resource.
-     *
      * @return Builder
      */
     public static function getEloquentQuery(): Builder
@@ -182,8 +158,6 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the base relationships available for all resources.
-     *
      * @return array<int, \Filament\Resources\RelationManagers\RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getBaseRelations(): array
@@ -193,16 +167,10 @@ abstract class BaseResource extends Resource
         ];
     }
 
-    /**
-     * Get the generic slug (URI key) for the resource.
-     */
     public static function getSlug(?Panel $panel = null): string
     {
         return 'resources/'.static::getRecordSlug();
     }
 
-    /**
-     * Get the slug (URI key) for the resource.
-     */
     abstract public static function getRecordSlug(): string;
 }

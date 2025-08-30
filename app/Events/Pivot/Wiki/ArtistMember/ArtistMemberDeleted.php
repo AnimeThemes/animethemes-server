@@ -9,8 +9,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 
 /**
- * Class ArtistMemberDeleted.
- *
  * @extends PivotDeletedEvent<Artist, Artist>
  */
 class ArtistMemberDeleted extends PivotDeletedEvent
@@ -20,9 +18,6 @@ class ArtistMemberDeleted extends PivotDeletedEvent
         parent::__construct($artistMember->artist, $artistMember->member);
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         $foreign = $this->getForeign();

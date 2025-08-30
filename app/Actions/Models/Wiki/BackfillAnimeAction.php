@@ -40,9 +40,6 @@ class BackfillAnimeAction extends BackfillWikiAction
         parent::__construct($anime, $toBackfill);
     }
 
-    /**
-     * Handle the action.
-     */
     public function handle(): ActionResult
     {
         try {
@@ -165,9 +162,6 @@ class BackfillAnimeAction extends BackfillWikiAction
         }
     }
 
-    /**
-     * Get the model for the action.
-     */
     protected function getModel(): Anime
     {
         return $this->anime;

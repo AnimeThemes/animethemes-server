@@ -39,9 +39,6 @@ class SyncExternalProfileMutation extends BaseMutation
         parent::__construct('SyncExternalProfile');
     }
 
-    /**
-     * The description of the mutation.
-     */
     public function description(): string
     {
         return 'Sync an external profile';
@@ -60,8 +57,6 @@ class SyncExternalProfileMutation extends BaseMutation
     }
 
     /**
-     * Get the rules for the create mutation.
-     *
      * @param  array<string, mixed>  $args
      * @return array<string, array>
      */
@@ -92,8 +87,6 @@ class SyncExternalProfileMutation extends BaseMutation
     }
 
     /**
-     * Resolve the mutation.
-     *
      * @param  array<string, mixed>  $args
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

@@ -16,9 +16,6 @@ class AnimeStudioRelationManager extends AnimeRelationManager
      */
     protected static string $relationship = Studio::RELATION_ANIME;
 
-    /**
-     * The index page of the resource.
-     */
     public function table(Table $table): Table
     {
         return parent::table(

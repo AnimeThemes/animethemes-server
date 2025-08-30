@@ -25,17 +25,11 @@ abstract class EnumField extends Field implements FilterableField, SortableField
         parent::__construct($schema, $key, $column);
     }
 
-    /**
-     * Get the filter that can be applied to the field.
-     */
     public function getFilter(): Filter
     {
         return new EnumFilter($this->getKey(), $this->enumClass, $this->getSearchField());
     }
 
-    /**
-     * Get the sort that can be applied to the field.
-     */
     public function getSort(): Sort
     {
         return new Sort($this->getKey(), $this->getSortField());

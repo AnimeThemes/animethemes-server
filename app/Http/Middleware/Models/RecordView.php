@@ -23,8 +23,6 @@ class RecordView
     public $model = null;
 
     /**
-     * Handle an incoming request.
-     *
      * @param  Closure(Request): mixed  $next
      */
     public function handle(Request $request, Closure $next, string $modelKey): mixed

@@ -11,8 +11,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
- * Class PivotUpdatedEvent.
- *
  * @template TModelRelated of \Illuminate\Database\Eloquent\Model
  * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *
@@ -23,9 +21,6 @@ abstract class PivotUpdatedEvent extends BasePivotEvent
     use Dispatchable;
     use HasAttributeUpdateEmbedFields;
 
-    /**
-     * Get Discord message payload.
-     */
     public function getDiscordMessage(): DiscordMessage
     {
         $embed = array_merge(

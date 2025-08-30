@@ -30,8 +30,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
      * @param  IndexAction  $action
      */
     public function index(IndexRequest $request, IndexAction $action): AudioCollection
@@ -44,8 +42,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
      * @param  StoreAction<Audio>  $action
      */
     public function store(StoreRequest $request, StoreAction $action): AudioResource
@@ -56,8 +52,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  ShowAction  $action
      */
     public function show(ShowRequest $request, Audio $audio, ShowAction $action): AudioResource
@@ -70,8 +64,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Update the specified resource.
-     *
      * @param  UpdateAction  $action
      */
     public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): AudioResource
@@ -82,8 +74,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Remove the specified resource.
-     *
      * @param  DestroyAction  $action
      */
     public function destroy(Audio $audio, DestroyAction $action): AudioResource
@@ -94,8 +84,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Restore the specified resource.
-     *
      * @param  RestoreAction  $action
      */
     public function restore(Audio $audio, RestoreAction $action): AudioResource
@@ -106,8 +94,6 @@ class AudioController extends BaseController
     }
 
     /**
-     * Hard-delete the specified resource.
-     *
      * @param  ForceDeleteAction  $action
      */
     public function forceDelete(Audio $audio, ForceDeleteAction $action): JsonResponse

@@ -8,8 +8,6 @@ use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\ExternalResource;
 
 /**
- * Class ExternalResourceRestored.
- *
  * @extends WikiRestoredEvent<ExternalResource>
  */
 class ExternalResourceRestored extends WikiRestoredEvent
@@ -19,17 +17,11 @@ class ExternalResourceRestored extends WikiRestoredEvent
         parent::__construct($resource);
     }
 
-    /**
-     * Get the model that has fired this event.
-     */
     public function getModel(): ExternalResource
     {
         return $this->model;
     }
 
-    /**
-     * Get the description for the Discord message payload.
-     */
     protected function getDiscordMessageDescription(): string
     {
         return "Resource '**{$this->getModel()->getName()}**' has been restored.";

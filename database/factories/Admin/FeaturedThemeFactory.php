@@ -9,8 +9,6 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * Class FeaturedThemeFactory.
- *
  * @method FeaturedTheme createOne($attributes = [])
  * @method FeaturedTheme makeOne($attributes = [])
  *
