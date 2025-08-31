@@ -25,17 +25,17 @@ class ExternalEntryPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        /** @var ExternalProfile $profile */
+        /** @var ExternalProfile|null $profile */
         $profile ??= request()->route('externalprofile');
 
         if ($user !== null) {
-            return ($profile->user()->is($user) || $profile->visibility !== ExternalProfileVisibility::PRIVATE)
-                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
+                && $user?->can(CrudPermission::VIEW->format(ExternalEntry::class))
                 ? Response::allow()
                 : Response::deny();
         }
 
-        return $profile->visibility !== ExternalProfileVisibility::PRIVATE
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE
             ? Response::allow()
             : Response::deny();
     }

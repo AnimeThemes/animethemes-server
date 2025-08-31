@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Policies\User;
+namespace App\Policies\User\Report;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
@@ -13,7 +13,7 @@ use Filament\Facades\Filament;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
-class ReportPolicy extends BasePolicy
+class ReportStepPolicy extends BasePolicy
 {
     public function viewAny(?User $user, mixed $value = null): Response
     {

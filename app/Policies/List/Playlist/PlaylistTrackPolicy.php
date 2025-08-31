@@ -25,17 +25,17 @@ class PlaylistTrackPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        /** @var Playlist $playlist */
+        /** @var Playlist|null $playlist */
         $playlist ??= request()->route('playlist');
 
         if ($user !== null) {
-            return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)
+            return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
                 ? Response::allow()
                 : Response::deny();
         }
 
-        return $playlist->visibility !== PlaylistVisibility::PRIVATE
+        return $playlist?->visibility !== PlaylistVisibility::PRIVATE
             ? Response::allow()
             : Response::deny();
     }
