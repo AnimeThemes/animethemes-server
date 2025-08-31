@@ -19,7 +19,9 @@ class RestoreBulkAction extends BaseRestoreBulkAction
 
         $this->label(__('filament.bulk_actions.base.restore'));
 
-        $this->visible(fn (string $model) => Gate::allows('restoreAny', $model));
+        $this->authorize(true);
+
+        $this->before(fn (string $model) => Gate::authorize('restoreAny', $model));
 
         $this->after(function (RestoreBulkAction $action, Collection $records) {
             foreach ($records as $record) {

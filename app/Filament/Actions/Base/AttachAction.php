@@ -37,11 +37,11 @@ class AttachAction extends BaseAttachAction
             $gate = Gate::getPolicyFor($ownerRecord);
 
             $ability = Str::of('attachAny')
-                ->append(Str::singular(class_basename($livewire->getTable()->getModel())))
+                ->append(Str::studly(class_basename($livewire->getTable()->getModel())))
                 ->__toString();
 
             return is_object($gate) & method_exists($gate, $ability)
-                ? Gate::forUser(Auth::user())->check($ability, $ownerRecord)
+                ? Gate::forUser(Auth::user())->check($ability, $ownerRecord::class)
                 : true;
         });
 

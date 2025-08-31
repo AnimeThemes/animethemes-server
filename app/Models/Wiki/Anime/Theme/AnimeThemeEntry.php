@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
 
@@ -168,8 +169,8 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
 
         $array['theme'] = $theme->toSearchableArray();
 
-        // Overwrite version with readable format "V{#}"
-        $array['version'] = Str::of(empty($this->version) ? '1' : $this->version)->prepend('V')->__toString();
+        // Overwrite version with readable format "v{#}"
+        $array['version'] = Str::of(empty($this->version) ? '1' : $this->version)->prepend('v')->__toString();
 
         return $array;
     }
@@ -187,9 +188,9 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
         return Str::of($this->anime->name)
             ->append(' ')
             ->append($theme->type->localize())
-            ->append($theme->type === ThemeType::IN ? '' : strval($theme->sequence ?? 1))
-            ->append(empty($this->version) ? '' : "v$this->version")
-            ->append($theme->group !== null ? '-'.$theme->group->slug : '')
+            ->when($theme->type !== ThemeType::IN, fn (Stringable $str) => $str->append(strval($theme->sequence ?? 1)))
+            ->when(filled($this->version), fn (Stringable $str) => $str->append('v'.$this->version))
+            ->when($theme->group !== null, fn (Stringable $str) => $str->append('-'.$theme->group->slug))
             ->__toString();
     }
 

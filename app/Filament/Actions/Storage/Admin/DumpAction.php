@@ -28,6 +28,8 @@ abstract class DumpAction extends BaseAction
         $this->icon(Heroicon::OutlinedCircleStack);
 
         $this->visible(Gate::allows('create', Dump::class));
+
+        $this->action(fn (array $data) => $this->handle($data));
     }
 
     /**

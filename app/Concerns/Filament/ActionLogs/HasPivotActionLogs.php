@@ -20,18 +20,11 @@ trait HasPivotActionLogs
         $relation = $livewire->getRelationship();
 
         if ($relation instanceof BelongsToMany) {
-            $pivotClass = $relation->getPivotClass();
-
-            $pivot = $pivotClass::query()
-                ->where($relation->getForeignPivotKeyName(), $ownerRecord->getKey())
-                ->where($relation->getRelatedPivotKeyName(), $record->getKey())
-                ->first();
-
             ActionLog::modelPivot(
                 $actionName,
                 $ownerRecord,
                 $record,
-                $pivot ?? $record,
+                $record->getRelationValue($relation->getPivotAccessor()) ?? $record,
                 $action,
             );
         }

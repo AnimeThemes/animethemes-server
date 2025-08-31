@@ -128,9 +128,11 @@ abstract class BaseResource extends Resource
     {
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make(),
-                ForceDeleteBulkAction::make(),
-                RestoreBulkAction::make(),
+                ...(Gate::allows('deleteAny', static::$model) ? [DeleteBulkAction::make()] : []),
+
+                ...(Gate::allows('forceDeleteAny', static::$model) ? [ForceDeleteBulkAction::make()] : []),
+
+                ...(Gate::allows('restoreAny', static::$model) ? [RestoreBulkAction::make()] : []),
 
                 ...$actionsIncludedInGroup,
             ]),

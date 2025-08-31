@@ -6,12 +6,16 @@ namespace App\Filament\RelationManagers;
 
 use App\Filament\Actions\Base\AttachAction;
 use App\Filament\Actions\Base\CreateAction;
+use App\Filament\BulkActions\Base\DeleteBulkAction;
 use App\Filament\BulkActions\Base\DetachBulkAction;
+use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
+use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use DateTime;
 use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
@@ -20,6 +24,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 
 abstract class BaseRelationManager extends RelationManager
 {
@@ -126,9 +131,15 @@ abstract class BaseRelationManager extends RelationManager
         $relatedResource = static::$relatedResource;
 
         return [
-            ...($relatedResource ? $relatedResource::getBulkActions() : []),
+            BulkActionGroup::make([
+                DetachBulkAction::make(),
 
-            DetachBulkAction::make(),
+                ...(Gate::allows('deleteAny', $relatedResource::getModel()) ? [DeleteBulkAction::make()] : []),
+
+                ...(Gate::allows('forceDeleteAny', $relatedResource::getModel()) ? [ForceDeleteBulkAction::make()] : []),
+
+                ...(Gate::allows('restoreAny', $relatedResource::getModel()) ? [RestoreBulkAction::make()] : []),
+            ]),
         ];
     }
 
