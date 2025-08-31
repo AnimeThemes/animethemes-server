@@ -30,7 +30,7 @@ class ExternalEntryPolicy extends BasePolicy
 
         if ($user !== null) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
-                && $user?->can(CrudPermission::VIEW->format(ExternalEntry::class))
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
                 ? Response::allow()
                 : Response::deny();
         }

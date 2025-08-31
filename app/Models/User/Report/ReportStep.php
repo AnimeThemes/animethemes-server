@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property array|null $fields
  * @property Carbon|null $finished_at
  * @property class-string<Model>|null $pivot
+ * @property Report $report
  * @property ApprovableStatus $status
  * @property Model|null $target
  * @property string|null $target_type
