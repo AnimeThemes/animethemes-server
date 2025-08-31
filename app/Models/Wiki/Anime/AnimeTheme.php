@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 
 /**
  * @property Anime $anime
@@ -83,7 +84,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
         parent::boot();
 
         if (! Context::get('serving-graphql')) {
-            static::addGlobalScope(new WithoutInsertSongScope);
+            //    static::addGlobalScope(new WithoutInsertSongScope);
         }
     }
 
@@ -177,15 +178,10 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     public function getName(): string
     {
-        $name = Str::of($this->type->localize());
-
-        if ($this->type === ThemeType::IN && $this->song !== null) {
-            $name = $name->append(" \"{$this->song->getName()}\" ");
-        }
-
-        return $name
-            ->append($this->type === ThemeType::IN ? '' : strval($this->sequence ?? 1))
-            ->append($this->group !== null ? '-'.$this->group->slug : '')
+        return Str::of($this->type->localize())
+            ->when($this->type === ThemeType::IN && $this->song !== null, fn (Stringable $str) => $str->append(" \"{$this->song->getName()}\" "))
+            ->when($this->type !== ThemeType::IN, fn (Stringable $str) => $str->append(strval($this->sequence ?? 1)))
+            ->when($this->group !== null, fn (Stringable $str) => $str->append('-'.$this->group->slug))
             ->trim()
             ->__toString();
     }

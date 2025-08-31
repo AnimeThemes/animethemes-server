@@ -126,6 +126,11 @@ class Dump extends BaseResource
         ];
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     /**
      * @return array<string, \Filament\Resources\Pages\PageRegistration>
      */

@@ -4,48 +4,33 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use Filament\Actions\Action;
-use Filament\Actions\Concerns\CanCustomizeProcess;
+use Filament\Actions\ForceDeleteAction as BaseForceDeleteAction;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
-class ForceDeleteAction extends Action
+class ForceDeleteAction extends BaseForceDeleteAction
 {
-    use CanCustomizeProcess;
-
-    public static function getDefaultName(): ?string
-    {
-        return 'forceDelete';
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->label(__('filament.actions.base.forcedelete'));
-        $this->modalHeading(fn (): string => __('filament-actions::force-delete.single.modal.heading', ['label' => $this->getRecordTitle()]));
-        $this->modalSubmitActionLabel(__('filament-actions::force-delete.single.modal.actions.delete.label'));
 
         $this->defaultColor('danger');
 
-        $this->tableIcon(Heroicon::Trash);
-        $this->groupedIcon(Heroicon::Trash);
-        $this->modalIcon(Heroicon::OutlinedTrash);
+        $this->icon(Heroicon::Trash);
 
         $this->requiresConfirmation();
 
-        $this->action(function (): void {
-            $result = $this->process(static fn (Model $record): ?bool => $record->forceDelete());
+        $this->visible(fn (string $model) => $model::isSoftDeletable());
 
-            if (! $result) {
-                $this->failure();
+        $this->using(function (Model $record) {
+            Gate::authorize('forceDelete', $record);
 
-                return;
-            }
-
-            $this->success();
+            return $record->forceDelete();
         });
 
-        $this->visible(fn (string $model) => $model::isSoftDeletable());
+        $this->authorize(true);
     }
 }

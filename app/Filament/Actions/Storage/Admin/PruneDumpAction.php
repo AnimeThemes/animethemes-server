@@ -24,7 +24,7 @@ class PruneDumpAction extends PruneAction
 
         $this->label(__('filament.actions.dump.prune.name'));
 
-        $this->visible(Gate::allows('forceDeleteAny', Dump::class));
+        $this->visible(Gate::allows('deleteAny', Dump::class));
     }
 
     /**
