@@ -35,11 +35,15 @@ class DetachAction extends BaseDetachAction
                 return false;
             }
 
+            return true;
+        });
+
+        $this->beforeFormFilled(function ($livewire) {
             $ownerRecord = $livewire->getOwnerRecord();
 
             $gate = Gate::getPolicyFor($ownerRecord);
 
-            $model = Str::singular(class_basename($livewire->getTable()->getModel()));
+            $model = Str::studly(class_basename($livewire->getTable()->getModel()));
 
             $detachAny = Str::of('detachAny')
                 ->append($model)
@@ -49,10 +53,15 @@ class DetachAction extends BaseDetachAction
                 ->append($model)
                 ->__toString();
 
-            return is_object($gate) & method_exists($gate, $detachAny)
-                ? Gate::forUser(Auth::user())->any([$detachAny, $detach], [$ownerRecord, $this->getRecord()])
-                : true;
+            abort_unless(
+                is_object($gate) & method_exists($gate, $detachAny)
+                    ? Gate::forUser(Auth::user())->any([$detachAny, $detach], [$ownerRecord::class, $this->getRecord()])
+                    : true,
+                403
+            );
         });
+
+        $this->authorize(true);
 
         $this->after(function (BaseRelationManager $livewire, Model $record) {
             $relationship = $livewire->getRelationship();
