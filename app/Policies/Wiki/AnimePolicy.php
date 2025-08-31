@@ -15,94 +15,84 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class AnimePolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can associate any synonym to the anime.
-     */
-    public function addAnyAnimeSynonym(User $user): bool
+    public function addAnyAnimeSynonym(User $user): Response
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeSynonym::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeSynonym::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can associate any theme to the anime.
-     */
-    public function addAnyAnimeTheme(User $user): bool
+    public function addAnyAnimeTheme(User $user): Response
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any series to the anime.
-     */
-    public function attachAnySeries(User $user): bool
+    public function attachAnySeries(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Series::class));
+        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Series::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any series from the anime.
-     */
-    public function detachAnySeries(User $user): bool
+    public function detachAnySeries(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Series::class));
+        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Series::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any resource to the anime.
-     */
-    public function attachAnyExternalResource(User $user): bool
+    public function attachAnyExternalResource(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any resource from the anime.
-     */
-    public function detachAnyExternalResource(User $user): bool
+    public function detachAnyExternalResource(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class));
+        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any image to the anime.
-     */
-    public function attachAnyImage(User $user): bool
+    public function attachAnyImage(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Image::class));
+        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Image::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any image from the anime.
-     */
-    public function detachAnyImage(User $user): bool
+    public function detachAnyImage(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Image::class));
+        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Image::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any studio to the anime.
-     */
-    public function attachAnyStudio(User $user): bool
+    public function attachAnyStudio(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
+        return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Studio::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any studio from the anime.
-     */
-    public function detachAnyStudio(User $user): bool
+    public function detachAnyStudio(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Studio::class));
+        return $user->can(CrudPermission::DELETE->format(Anime::class)) && $user->can(CrudPermission::DELETE->format(Studio::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can add an entry to the anime.
-     */
-    public function addEntry(User $user): bool
+    public function addEntry(User $user): Response
     {
-        return $user->hasRole(Role::ADMIN->value);
+        return $user->hasRole(Role::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 }

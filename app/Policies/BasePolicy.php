@@ -10,6 +10,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -32,87 +33,109 @@ abstract class BasePolicy
             ->__toString();
     }
 
-    public function before(User $user, string $ability): ?bool
+    public function before(User $user, string $ability): ?Response
     {
         if ($user->can(SpecialPermission::BYPASS_AUTHORIZATION->value)) {
-            return true;
+            return Response::allow();
         }
 
         return null;
     }
 
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
+            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return true;
+        return Response::allow();
     }
 
-    public function view(?User $user, Model $model): bool
+    public function view(?User $user, Model $model): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
+            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return true;
+        return Response::allow();
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(static::getModel()));
+        return $user->can(CrudPermission::CREATE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function update(User $user, Model $model): bool
-    {
-        $trashed = method_exists($model, 'trashed')
-            ? $model->trashed()
-            : false;
-
-        return ! $trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()));
-    }
-
-    public function updateAny(User $user): bool
-    {
-        return $user->can(CrudPermission::UPDATE->format(static::getModel()));
-    }
-
-    public function delete(User $user, Model $model): bool
+    public function update(User $user, Model $model): Response
     {
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()
             : false;
 
-        return ! $trashed && $user->can(CrudPermission::DELETE->format(static::getModel()));
+        return ! $trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function deleteAny(User $user): bool
+    public function updateAny(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(static::getModel()));
+        return $user->can(CrudPermission::UPDATE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function forceDelete(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()));
-    }
-
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()));
-    }
-
-    public function restore(User $user, Model $model): bool
+    public function delete(User $user, Model $model): Response
     {
         $trashed = method_exists($model, 'trashed')
             ? $model->trashed()
             : false;
 
-        return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
+        return ! $trashed && $user->can(CrudPermission::DELETE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function restoreAny(User $user): bool
+    public function deleteAny(User $user): Response
     {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
+        return $user->can(CrudPermission::DELETE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function forceDelete(User $user): Response
+    {
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function forceDeleteAny(User $user): Response
+    {
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function restore(User $user, Model $model): Response
+    {
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function restoreAny(User $user): Response
+    {
+        return $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()))
+            ? Response::allow()
+            : Response::deny();
     }
 }

@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Models\Singular;
 
 use App\GraphQL\Definition\Queries\Models\EloquentQuery;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Support\Argument\Argument;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -19,25 +18,17 @@ use RuntimeException;
 
 abstract class EloquentSingularQuery extends EloquentQuery
 {
-    public function __construct(
-        protected string $name,
-    ) {
-        $this->middleware = array_merge(
-            $this->middleware,
-            [
-                ResolveBindableArgs::class,
-            ],
-        );
-
-        parent::__construct($name, nullable: true, isList: false);
-    }
-
-    /**
-     * Authorize the query.
-     */
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return Gate::allows('view', [$this->model(), $args]);
+        $model = Arr::pull($args, 'model');
+
+        $args = collect($args)
+            ->filter(fn ($value) => $value instanceof Model)
+            ->prepend($model)
+            ->values()
+            ->all();
+
+        return Gate::allows('view', $args);
     }
 
     /**

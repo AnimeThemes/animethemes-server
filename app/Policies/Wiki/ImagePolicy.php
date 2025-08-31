@@ -12,78 +12,70 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class ImagePolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can attach any artist to the image.
-     */
-    public function attachAnyArtist(User $user): bool
+    public function attachAnyArtist(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
+        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Artist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any artist from the image.
-     */
-    public function detachAnyArtist(User $user): bool
+    public function detachAnyArtist(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Artist::class));
+        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Artist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any anime to the image.
-     */
-    public function attachAnyAnime(User $user): bool
+    public function attachAnyAnime(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
+        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Anime::class))
+        ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any anime from the image.
-     */
-    public function detachAnyAnime(User $user): bool
+    public function detachAnyAnime(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Anime::class));
+        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Anime::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any studio to the image.
-     */
-    public function attachAnyStudio(User $user): bool
+    public function attachAnyStudio(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
+        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Studio::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any studio from the image.
-     */
-    public function detachAnyStudio(User $user): bool
+    public function detachAnyStudio(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Studio::class));
+        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Studio::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any playlist to the image.
-     */
-    public function attachAnyPlaylist(User $user): bool
+    public function attachAnyPlaylist(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a playlist to the image.
-     */
-    public function attachPlaylist(User $user): bool
+    public function attachPlaylist(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any playlist from the image.
-     */
-    public function detachAnyPlaylist(User $user): bool
+    public function detachAnyPlaylist(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 }

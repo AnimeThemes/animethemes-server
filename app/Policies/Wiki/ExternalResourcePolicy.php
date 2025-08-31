@@ -12,70 +12,63 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class ExternalResourcePolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can attach any anime to the resource.
-     */
-    public function attachAnyAnime(User $user): bool
+    public function attachAnyAnime(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Anime::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any anime from the resource.
-     */
-    public function detachAnyAnime(User $user): bool
+    public function detachAnyAnime(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Anime::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Anime::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any artist to the resource.
-     */
-    public function attachAnyArtist(User $user): bool
+    public function attachAnyArtist(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Artist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any artist from the resource.
-     */
-    public function detachAnyArtist(User $user): bool
+    public function detachAnyArtist(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Artist::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Artist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any song to the resource.
-     */
-    public function attachAnySong(User $user): bool
+    public function attachAnySong(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Song::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Song::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any song from the resource.
-     */
-    public function detachAnySong(User $user): bool
+    public function detachAnySong(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Song::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Song::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any studio to the resource.
-     */
-    public function attachAnyStudio(User $user): bool
+    public function attachAnyStudio(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Studio::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any studio from the resource.
-     */
-    public function detachAnyStudio(User $user): bool
+    public function detachAnyStudio(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Studio::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Studio::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

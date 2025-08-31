@@ -9,108 +9,95 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class PermissionPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user, mixed $value = null): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Permission  $permission
      */
-    public function view(?User $user, Model $permission): bool
+    public function view(?User $user, Model $permission): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Permission  $permission
      */
-    public function update(User $user, Model $permission): bool
+    public function update(User $user, Model $permission): Response
     {
-        return $user->can(CrudPermission::UPDATE->format(Permission::class));
+        return $user->can(CrudPermission::UPDATE->format(Permission::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Permission  $permission
      */
-    public function delete(User $user, Model $permission): bool
+    public function delete(User $user, Model $permission): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Permission::class));
+        return $user->can(CrudPermission::DELETE->format(Permission::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Permission  $permission
      */
-    public function restore(User $user, Model $permission): bool
+    public function restore(User $user, Model $permission): Response
     {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(Permission::class));
+        return $user->can(ExtendedCrudPermission::RESTORE->format(Permission::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any role to the permission.
-     */
-    public function attachAnyRole(): bool
+    public function attachAnyRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a role to the permission.
-     */
-    public function attachRole(): bool
+    public function attachRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any role from the permission.
-     */
-    public function detachAnyRole(): bool
+    public function detachAnyRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a role from the permission.
-     */
-    public function detachRole(): bool
+    public function detachRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any user to the permission.
-     */
-    public function attachAnyUser(): bool
+    public function attachAnyUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a user to the permission.
-     */
-    public function attachUser(): bool
+    public function attachUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any user from the permission.
-     */
-    public function detachAnyUser(): bool
+    public function detachAnyUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a user from the permission.
-     */
-    public function detachUser(): bool
+    public function detachUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 }

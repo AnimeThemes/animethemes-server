@@ -11,40 +11,53 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class ExternalProfilePolicy extends BasePolicy
 {
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user, mixed $value = null): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value);
+            return $user !== null && $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $user === null || $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
+        return $user === null || $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  ExternalProfile  $profile
      */
-    public function view(?User $user, Model $profile): bool
+    public function view(?User $user, Model $profile): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value);
+            return $user !== null && $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
         if ($user !== null) {
             return ($profile->user()->is($user) || $profile->visibility !== ExternalProfileVisibility::PRIVATE)
-                && $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
+                && $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $profile->visibility !== ExternalProfileVisibility::PRIVATE;
+        return $profile->visibility !== ExternalProfileVisibility::PRIVATE
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
+            return $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
         return parent::create($user);
@@ -53,32 +66,39 @@ class ExternalProfilePolicy extends BasePolicy
     /**
      * @param  ExternalProfile  $profile
      */
-    public function update(User $user, Model $profile): bool
+    public function update(User $user, Model $profile): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
+            return $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $profile->user()->is($user) && parent::update($user, $profile);
+        return $profile->user()->is($user) && parent::update($user, $profile)->allowed()
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  ExternalProfile  $profile
      */
-    public function delete(User $user, Model $profile): bool
+    public function delete(User $user, Model $profile): Response
     {
         if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
+            return $user->hasRole(Role::ADMIN->value)
+                ? Response::allow()
+                : Response::deny();
         }
 
-        return $profile->user()->is($user) && parent::delete($user, $profile);
+        return $profile->user()->is($user) && parent::delete($user, $profile)->allowed()
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can add a entry to the profile.
-     */
-    public function addExternalEntry(User $user): bool
+    public function addExternalEntry(User $user): Response
     {
-        return $user->hasRole(Role::ADMIN->value);
+        return $user->hasRole(Role::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 }

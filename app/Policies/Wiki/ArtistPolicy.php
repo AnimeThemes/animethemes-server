@@ -11,70 +11,63 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 
 class ArtistPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can attach any song to the artist.
-     */
-    public function attachAnySong(User $user): bool
+    public function attachAnySong(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(Song::class));
+        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(Song::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any song from the artist.
-     */
-    public function detachAnySong(User $user): bool
+    public function detachAnySong(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(Song::class));
+        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(Song::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any resource to the artist.
-     */
-    public function attachAnyExternalResource(User $user): bool
+    public function attachAnyExternalResource(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a resource from the artist.
-     */
-    public function detachAnyExternalResource(User $user): bool
+    public function detachAnyExternalResource(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class));
+        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any group/member to the artist.
-     */
-    public function attachAnyArtist(User $user): bool
+    public function attachAnyArtist(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Artist::class));
+        return $user->can(CrudPermission::CREATE->format(Artist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any group/member from the artist.
-     */
-    public function detachAnyArtist(User $user): bool
+    public function detachAnyArtist(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Artist::class));
+        return $user->can(CrudPermission::DELETE->format(Artist::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any image to the artist.
-     */
-    public function attachAnyImage(User $user): bool
+    public function attachAnyImage(User $user): Response
     {
-        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(Image::class));
+        return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(Image::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any image from the artist.
-     */
-    public function detachAnyImage(User $user): bool
+    public function detachAnyImage(User $user): Response
     {
-        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(Image::class));
+        return $user->can(CrudPermission::DELETE->format(Artist::class)) && $user->can(CrudPermission::DELETE->format(Image::class))
+            ? Response::allow()
+            : Response::deny();
     }
 }

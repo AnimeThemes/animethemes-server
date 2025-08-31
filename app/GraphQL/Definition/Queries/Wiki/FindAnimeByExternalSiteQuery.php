@@ -8,14 +8,14 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\GraphQL\Controllers\Wiki\Anime\FindAnimeByExternalSiteController;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
-use App\GraphQL\Policies\Wiki\AnimePolicy;
 use App\GraphQL\Support\Argument\Argument;
+use App\Models\Wiki\Anime;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class FindAnimeByExternalSiteQuery extends BaseQuery
@@ -36,7 +36,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return new AnimePolicy()->viewAny(Auth::user(), $args);
+        return Gate::allows('viewAny', Anime::class);
     }
 
     /**

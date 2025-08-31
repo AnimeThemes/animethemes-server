@@ -8,84 +8,65 @@ use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class RolePolicy extends BasePolicy
 {
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user, mixed $value = null): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
      * @param  Role  $role
      */
-    public function view(?User $user, Model $role): bool
+    public function view(?User $user, Model $role): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any permission to the role.
-     */
-    public function attachAnyPermission(): bool
+    public function attachAnyPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a permission to the role.
-     */
-    public function attachPermission(): bool
+    public function attachPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any permission from the role.
-     */
-    public function detachAnyPermission(): bool
+    public function detachAnyPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a permission from the role.
-     */
-    public function detachPermission(): bool
+    public function detachPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any user to the role.
-     */
-    public function attachAnyUser(): bool
+    public function attachAnyUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a user to the role.
-     */
-    public function attachUser(): bool
+    public function attachUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any user from the role.
-     */
-    public function detachAnyUser(): bool
+    public function detachAnyUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a user from the role.
-     */
-    public function detachUser(): bool
+    public function detachUser(): Response
     {
-        return false;
+        return Response::deny();
     }
 }

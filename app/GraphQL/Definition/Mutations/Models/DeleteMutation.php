@@ -27,7 +27,15 @@ abstract class DeleteMutation extends BaseMutation
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return Gate::allows('delete', [$this->model, $args]);
+        $model = Arr::pull($args, 'model');
+
+        $args = collect($args)
+            ->filter(fn ($value) => $value instanceof Model)
+            ->prepend($model)
+            ->values()
+            ->all();
+
+        return Gate::allows('delete', $args);
     }
 
     /**

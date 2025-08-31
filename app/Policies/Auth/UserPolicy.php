@@ -8,92 +8,72 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
 class UserPolicy extends BasePolicy
 {
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user, mixed $value = null): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
     /**
-Model.
+     * @param  User  $userModel
      */
-    public function view(?User $user, Model $userModel): bool
+    public function view(?User $user, Model $userModel): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class))
+            ? Response::allow()
+            : Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any role to the user.
-     */
-    public function attachAnyRole(): bool
+    public function attachAnyRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a role to the user.
-     */
-    public function attachRole(): bool
+    public function attachRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any role from the user.
-     */
-    public function detachAnyRole(): bool
+    public function detachAnyRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a role from the user.
-     */
-    public function detachRole(): bool
+    public function detachRole(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach any permission to the user.
-     */
-    public function attachAnyPermission(): bool
+    public function attachAnyPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can attach a permission to the user.
-     */
-    public function attachPermission(): bool
+    public function attachPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach any permission from the user.
-     */
-    public function detachAnyPermission(): bool
+    public function detachAnyPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can detach a permission from the user.
-     */
-    public function detachPermission(): bool
+    public function detachPermission(): Response
     {
-        return false;
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can add a playlist to the user.
-     */
-    public function addPlaylist(User $user): bool
+    public function addPlaylist(User $user): Response
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 }

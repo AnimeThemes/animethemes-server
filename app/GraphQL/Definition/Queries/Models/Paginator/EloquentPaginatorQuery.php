@@ -15,6 +15,7 @@ use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\SelectFields;
@@ -40,12 +41,14 @@ abstract class EloquentPaginatorQuery extends EloquentQuery
         }
     }
 
-    /**
-     * Authorize the query.
-     */
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return Gate::allows('viewAny', $this->model());
+        $args = collect($args)
+            ->filter(fn ($value) => $value instanceof Model)
+            ->values()
+            ->all();
+
+        return Gate::allows('viewAny', [$this->model(), ...$args]);
     }
 
     /**
