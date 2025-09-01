@@ -16,7 +16,7 @@ class FirstArgument extends Argument
         $this->required();
 
         // Default count set to unlimited for relations for everyone
-        // and set to config value for paginator queries.
+        // and set to config value for pagination queries.
         $this->withDefaultValue(
             $isRelation
             ? Config::get('graphql.pagination_values.relation.default_count')

@@ -8,6 +8,6 @@ enum PaginationType
 {
     case NONE;
     case SIMPLE;
-    case PAGINATOR;
+    case PAGINATION;
     case CONNECTION;
 }
