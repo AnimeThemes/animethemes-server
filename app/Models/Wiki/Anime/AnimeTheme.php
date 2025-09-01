@@ -84,7 +84,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
         parent::boot();
 
         if (! Context::get('serving-graphql')) {
-            //    static::addGlobalScope(new WithoutInsertSongScope);
+            static::addGlobalScope(new WithoutInsertSongScope);
         }
     }
 
