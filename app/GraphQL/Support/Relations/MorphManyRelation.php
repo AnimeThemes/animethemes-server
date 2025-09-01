@@ -15,7 +15,7 @@ class MorphManyRelation extends Relation
      */
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::paginate($this->rebingType->getName()));
+        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->rebingType->getName()))));
     }
 
     /**
@@ -23,6 +23,6 @@ class MorphManyRelation extends Relation
      */
     public function paginationType(): PaginationType
     {
-        return PaginationType::PAGINATION;
+        return PaginationType::SIMPLE;
     }
 }

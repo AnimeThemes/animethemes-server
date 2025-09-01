@@ -141,7 +141,6 @@ abstract class Relation
         $first = Arr::get($args, 'first');
         $page = Arr::get($args, 'page');
 
-        // TODO: Paginate the builder instead collection.
         return new LengthAwarePaginator(
             $collection->forPage($page, $first),
             $collection->count(),
