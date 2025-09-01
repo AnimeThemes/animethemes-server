@@ -167,9 +167,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
         Video::ATTRIBUTE_TAGS,
     ];
 
-    /**
-     * The link of the video.
-     */
     public function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
@@ -322,21 +319,17 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     }
 
     /**
-     * Get the related entries.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<AnimeThemeEntry, $this, AnimeThemeEntryVideo>
      */
     public function animethemeentries(): BelongsToMany
     {
-        return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, Video::ATTRIBUTE_ID, AnimeThemeEntry::ATTRIBUTE_ID)
+        return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
             ->using(AnimeThemeEntryVideo::class)
             ->as(AnimeThemeEntryVideoResource::$wrap)
             ->withTimestamps();
     }
 
     /**
-     * Gets the audio that the video uses.
-     *
      * @return BelongsTo<Audio, $this>
      */
     public function audio(): BelongsTo
@@ -345,8 +338,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     }
 
     /**
-     * Get the script that the video owns.
-     *
      * @return HasOne<VideoScript, $this>
      */
     public function videoscript(): HasOne
@@ -355,8 +346,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     }
 
     /**
-     * Get the tracks that use this video.
-     *
      * @return HasMany<PlaylistTrack, $this>
      */
     public function tracks(): HasMany
@@ -366,8 +355,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     }
 
     /**
-     * Get the encodes of the video.
-     *
      * @return HasMany<Encode, $this>
      */
     public function encodes(): HasMany

@@ -45,8 +45,6 @@ class LikeAggregate extends Model
     public $timestamps = false;
 
     /**
-     * Get the likeable of the aggregate.
-     *
      * @return MorphTo
      */
     public function likeable(): MorphTo

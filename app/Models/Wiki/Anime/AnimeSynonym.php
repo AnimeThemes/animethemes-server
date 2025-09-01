@@ -107,8 +107,6 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Gets the anime that owns the synonym.
-     *
      * @return BelongsTo<Anime, $this>
      */
     public function anime(): BelongsTo

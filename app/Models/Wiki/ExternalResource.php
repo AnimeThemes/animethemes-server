@@ -117,9 +117,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the anime that reference this resource.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Anime, $this, Resourceable, 'animeresource'>
      */
     public function anime(): MorphToMany
     {
@@ -131,9 +129,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the entry that reference this resource.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<AnimeThemeEntry, $this, Resourceable, 'entryresource'>
      */
     public function animethemeentries(): MorphToMany
     {
@@ -145,9 +141,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the artists that reference this resource.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Artist, $this, Resourceable, 'artistresource'>
      */
     public function artists(): MorphToMany
     {
@@ -159,9 +153,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the songs that reference this resource.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Song, $this, Resourceable, 'songresource'>
      */
     public function songs(): MorphToMany
     {
@@ -173,9 +165,7 @@ class ExternalResource extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the studios that reference this resource.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Studio, $this, Resourceable, 'studioresource'>
      */
     public function studios(): MorphToMany
     {

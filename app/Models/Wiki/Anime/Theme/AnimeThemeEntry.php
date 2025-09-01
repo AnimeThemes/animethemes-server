@@ -200,8 +200,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     }
 
     /**
-     * Get the theme that owns the entry.
-     *
      * @return BelongsTo<AnimeTheme, $this>
      */
     public function animetheme(): BelongsTo
@@ -210,17 +208,15 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     }
 
     /**
-     * Get the videos linked in the theme entry.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Video, $this, AnimeThemeEntryVideo>
      */
     public function videos(): BelongsToMany
     {
         return $this->belongsToMany(
             Video::class,
             AnimeThemeEntryVideo::class,
-            AnimeThemeEntry::ATTRIBUTE_ID,
-            Video::ATTRIBUTE_ID
+            AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,
+            AnimeThemeEntryVideo::ATTRIBUTE_VIDEO
         )
             ->using(AnimeThemeEntryVideo::class)
             ->as(AnimeThemeEntryVideoResource::$wrap)
@@ -228,9 +224,7 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     }
 
     /**
-     * Get the resources for the entry through the resourceable morph pivot.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<ExternalResource, $this, Resourceable, 'entryresource'>
      */
     public function resources(): MorphToMany
     {

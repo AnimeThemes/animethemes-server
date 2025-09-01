@@ -107,9 +107,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
         Audio::ATTRIBUTE_LINK,
     ];
 
-    /**
-     * The link of the audio.
-     */
     public function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
@@ -172,8 +169,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     }
 
     /**
-     * Get the videos that use this audio.
-     *
      * @return HasMany<Video, $this>
      */
     public function videos(): HasMany

@@ -45,8 +45,6 @@ class ViewAggregate extends Model
     public $timestamps = false;
 
     /**
-     * Get the viewable of the aggregate.
-     *
      * @return MorphTo
      */
     public function viewable(): MorphTo

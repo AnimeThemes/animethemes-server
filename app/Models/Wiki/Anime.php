@@ -191,8 +191,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the synonyms for the anime.
-     *
      * @return HasMany<AnimeSynonym, $this>
      */
     public function animesynonyms(): HasMany
@@ -201,8 +199,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the discord thread that the anime owns.
-     *
      * @return HasOne<DiscordThread, $this>
      */
     public function discordthread(): HasOne
@@ -211,21 +207,17 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the series the anime is included in.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Series, $this, AnimeSeries>
      */
     public function series(): BelongsToMany
     {
-        return $this->belongsToMany(Series::class, AnimeSeries::TABLE, Anime::ATTRIBUTE_ID, Series::ATTRIBUTE_ID)
+        return $this->belongsToMany(Series::class, AnimeSeries::TABLE, AnimeSeries::ATTRIBUTE_ANIME, AnimeSeries::ATTRIBUTE_SERIES)
             ->using(AnimeSeries::class)
             ->as(AnimeSeriesResource::$wrap)
             ->withTimestamps();
     }
 
     /**
-     * Get the themes for the anime.
-     *
      * @return HasMany<AnimeTheme, $this>
      */
     public function animethemes(): HasMany
@@ -234,9 +226,7 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the resources for the anime through the resourceable morph pivot.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<ExternalResource, $this, Resourceable, 'animeresource'>
      */
     public function resources(): MorphToMany
     {
@@ -248,9 +238,7 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the images for the anime.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Image, $this, Imageable, 'animeimage'>
      */
     public function images(): MorphToMany
     {
@@ -261,21 +249,17 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the studios that produced the anime.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Studio, $this, AnimeStudio>
      */
     public function studios(): BelongsToMany
     {
-        return $this->belongsToMany(Studio::class, AnimeStudio::TABLE, Anime::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
+        return $this->belongsToMany(Studio::class, AnimeStudio::TABLE, AnimeStudio::ATTRIBUTE_ANIME, AnimeStudio::ATTRIBUTE_STUDIO)
             ->using(AnimeStudio::class)
             ->as(AnimeStudioResource::$wrap)
             ->withTimestamps();
     }
 
     /**
-     * Get the entries for the anime.
-     *
      * @return HasMany<ExternalEntry, $this>
      */
     public function externalentries(): HasMany

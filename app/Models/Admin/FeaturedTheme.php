@@ -131,8 +131,6 @@ class FeaturedTheme extends BaseModel
     }
 
     /**
-     * Get the entry for the featured video.
-     *
      * @return BelongsTo<AnimeThemeEntry, $this>
      */
     public function animethemeentry(): BelongsTo
@@ -141,8 +139,6 @@ class FeaturedTheme extends BaseModel
     }
 
     /**
-     * Get the video to feature.
-     *
      * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo

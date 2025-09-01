@@ -29,6 +29,7 @@ parameters:
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
         - '#::mapWithKeys\(\) expects*non-empty-array<int\|string, string> given.#'
         - '#Access to an undefined property App\\Models\\Wiki\\Artist::\$pivot.#'
+        - "#BelongsToMany<.*,\\s*'pivot'> but returns .*BelongsToMany<.*,\\s*string>.#"
         - '#Call to method assertActionMounted\(\) on an unknown class static.#'
         -
             message: '#Call to an undefined method PHPUnit\\Framework\\TestCase::.*\(\)#'

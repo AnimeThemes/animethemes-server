@@ -104,17 +104,12 @@ class Performance extends BaseModel implements SoftDeletable
         return $this->song->getName();
     }
 
-    /**
-     * Determine if the performance is a membership.
-     */
     public function isMembership(): bool
     {
         return $this->artist_type === Relation::getMorphAlias(Membership::class);
     }
 
     /**
-     * Get the song that owns the performance.
-     *
      * @return BelongsTo<Song, $this>
      */
     public function song(): BelongsTo
@@ -123,8 +118,6 @@ class Performance extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the artist that owns the performance.
-     *
      * @return MorphTo
      */
     public function artist(): MorphTo

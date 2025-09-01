@@ -102,8 +102,6 @@ class Encode extends BaseModel
     }
 
     /**
-     * Gets the user that owns the encode.
-     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -112,8 +110,6 @@ class Encode extends BaseModel
     }
 
     /**
-     * Gets the video that owns the encode.
-     *
      * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo

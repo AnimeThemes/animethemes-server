@@ -152,29 +152,17 @@ class ReportStep extends BaseModel
         return $newFields;
     }
 
-    /**
-     * Get the actionable.
-     *
-     * @return MorphTo
-     */
     public function actionable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * Get the target of the action.
-     *
-     * @return MorphTo
-     */
     public function target(): MorphTo
     {
         return $this->morphTo();
     }
 
     /**
-     * Get the report the step belongs to.
-     *
      * @return BelongsTo<Report, $this>
      */
     public function report(): BelongsTo

@@ -163,8 +163,6 @@ class ActionLog extends Model implements Nameable
     }
 
     /**
-     * Get the actionable.
-     *
      * @return MorphTo
      */
     public function actionable(): MorphTo
@@ -184,8 +182,6 @@ class ActionLog extends Model implements Nameable
     }
 
     /**
-     * Get the user that initiated the action.
-     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
