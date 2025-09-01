@@ -148,8 +148,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * Get the entry of the track.
-     *
      * @return BelongsTo<AnimeThemeEntry, $this>
      */
     public function animethemeentry(): BelongsTo
@@ -158,8 +156,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * Get the playlist the track belongs to.
-     *
      * @return BelongsTo<Playlist, $this>
      */
     public function playlist(): BelongsTo
@@ -168,8 +164,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * Get the previous track.
-     *
      * @return BelongsTo<PlaylistTrack, $this>
      */
     public function previous(): BelongsTo
@@ -178,8 +172,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * Get the next track.
-     *
      * @return BelongsTo<PlaylistTrack, $this>
      */
     public function next(): BelongsTo
@@ -188,8 +180,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     }
 
     /**
-     * Get the video of the track.
-     *
      * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo

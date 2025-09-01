@@ -101,8 +101,6 @@ class DiscordThread extends BaseModel
     }
 
     /**
-     * Gets the anime that the thread uses.
-     *
      * @return BelongsTo<Anime, $this>
      */
     public function anime(): BelongsTo

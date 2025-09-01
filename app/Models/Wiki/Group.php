@@ -93,8 +93,6 @@ class Group extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the themes for the group.
-     *
      * @return HasMany<AnimeTheme, $this>
      */
     public function animethemes(): HasMany

@@ -178,9 +178,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
             || $this->hasAnyPermission(SpecialPermission::BYPASS_AUTHORIZATION->value);
     }
 
-    /**
-     * Get the filament avatar.
-     */
     public function getFilamentAvatarUrl(): string
     {
         $hash = md5(Str::lower(Str::trim($this->email)));
@@ -189,8 +186,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     }
 
     /**
-     * Get the playlists that belong to the user.
-     *
      * @return HasMany<Playlist, $this>
      */
     public function playlists(): HasMany
@@ -199,8 +194,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     }
 
     /**
-     * Get the playlists that belong to the user.
-     *
      * @return HasMany<ExternalProfile, $this>
      */
     public function externalprofiles(): HasMany
@@ -277,8 +270,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     }
 
     /**
-     * Get the entity's notifications.
-     *
      * @return MorphMany<Notification, $this>
      */
     public function notifications(): MorphMany

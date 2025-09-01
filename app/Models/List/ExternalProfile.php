@@ -169,25 +169,18 @@ class ExternalProfile extends BaseModel
         return (bool) $this->user_id;
     }
 
-    /**
-     * Determine if the profile can be synced.
-     */
     public function canBeSynced(): bool
     {
         return ! $this->synced_at || $this->synced_at->addHours(3)->isPast();
     }
 
-    /**
-     * Dispatch the sync external profile job.
-     */
     public function dispatchSyncJob(): void
     {
         SyncExternalProfileJob::dispatch($this);
     }
 
     /**
-     * Get the client URL for the profile.
-     * https://animethemes.moe/external/{mal|anilist}/{profile_name}.
+     * Format: https://animethemes.moe/external/{mal|anilist}/{profile_name}.
      */
     public function getClientUrl(): string
     {
@@ -200,8 +193,6 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the entries for the profile.
-     *
      * @return HasMany<ExternalEntry, $this>
      */
     public function externalentries(): HasMany
@@ -210,8 +201,6 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the user that owns the profile.
-     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -220,8 +209,6 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the external token that the external profile owns.
-     *
      * @return HasOne<ExternalToken, $this>
      */
     public function externaltoken(): HasOne

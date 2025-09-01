@@ -127,9 +127,6 @@ class Image extends BaseModel implements SoftDeletable
         return $this->path;
     }
 
-    /**
-     * The link of the image model.
-     */
     public function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute(Image::ATTRIBUTE_PATH) && $this->exists) {
@@ -143,9 +140,7 @@ class Image extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the anime that use this image.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Anime, $this, Imageable, 'animeimage'>
      */
     public function anime(): MorphToMany
     {
@@ -156,9 +151,7 @@ class Image extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the artists that use this image.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Artist, $this, Imageable, 'artistimage'>
      */
     public function artists(): MorphToMany
     {
@@ -170,9 +163,7 @@ class Image extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the studios that use this image.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Studio, $this, Imageable, 'studioimage'>
      */
     public function studios(): MorphToMany
     {
@@ -183,9 +174,7 @@ class Image extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the playlists that use this image.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Playlist, $this, Imageable, 'playlistimage'>
      */
     public function playlists(): MorphToMany
     {

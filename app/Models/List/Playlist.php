@@ -167,8 +167,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Get the user that owns the playlist.
-     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -177,8 +175,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Get the first track of the playlist.
-     *
      * @return BelongsTo<PlaylistTrack, $this>
      */
     public function first(): BelongsTo
@@ -187,8 +183,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Get the last track of the playlist.
-     *
      * @return BelongsTo<PlaylistTrack, $this>
      */
     public function last(): BelongsTo
@@ -197,9 +191,7 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Get the images for the playlist.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Image, $this, Imageable, 'playlistimage'>
      */
     public function images(): MorphToMany
     {
@@ -210,8 +202,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Get the tracks that comprise the playlist.
-     *
      * @return HasMany<PlaylistTrack, $this>
      */
     public function tracks(): HasMany

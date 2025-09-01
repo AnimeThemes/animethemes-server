@@ -123,8 +123,6 @@ class Report extends BaseModel
     }
 
     /**
-     * Get the steps of the report.
-     *
      * @return HasMany<ReportStep, $this>
      */
     public function steps(): HasMany

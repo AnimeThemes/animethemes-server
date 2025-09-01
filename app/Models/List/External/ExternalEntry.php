@@ -113,8 +113,6 @@ class ExternalEntry extends BaseModel
     }
 
     /**
-     * Get the anime that owns the user external entry.
-     *
      * @return BelongsTo<Anime, $this>
      */
     public function anime(): BelongsTo
@@ -123,8 +121,6 @@ class ExternalEntry extends BaseModel
     }
 
     /**
-     * Get the user profile that owns the user profile.
-     *
      * @return BelongsTo<ExternalProfile, $this>
      */
     public function externalprofile(): BelongsTo

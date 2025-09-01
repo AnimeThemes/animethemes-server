@@ -90,9 +90,6 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
         VideoScript::ATTRIBUTE_LINK,
     ];
 
-    /**
-     * The link of the video script.
-     */
     public function getLinkAttribute(): ?string
     {
         // Necessary for 'make' factories.
@@ -114,8 +111,6 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
     }
 
     /**
-     * Get the video that owns the script.
-     *
      * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo

@@ -110,22 +110,18 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the anime that the studio produced.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Anime, $this, AnimeStudio>
      */
     public function anime(): BelongsToMany
     {
-        return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, Studio::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
+        return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, AnimeStudio::ATTRIBUTE_STUDIO, AnimeStudio::ATTRIBUTE_ANIME)
             ->using(AnimeStudio::class)
             ->as(AnimeStudioResource::$wrap)
             ->withTimestamps();
     }
 
     /**
-     * Get the resources for the studio through the resourceable morph pivot.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<ExternalResource, $this, Resourceable, 'studioresource'>
      */
     public function resources(): MorphToMany
     {
@@ -137,9 +133,7 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the images for the studio.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Image, $this, Imageable, 'studioimage'>
      */
     public function images(): MorphToMany
     {

@@ -102,8 +102,6 @@ class Membership extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the group that owns the membership.
-     *
      * @return BelongsTo<Artist, $this>
      */
     public function group(): BelongsTo
@@ -112,8 +110,6 @@ class Membership extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the member that owns the membership.
-     *
      * @return BelongsTo<Artist, $this>
      */
     public function member(): BelongsTo
@@ -122,9 +118,7 @@ class Membership extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the performances of the membership.
-     *
-     * @return MorphMany
+     * @return MorphMany<Performance, $this>
      */
     public function performances(): MorphMany
     {

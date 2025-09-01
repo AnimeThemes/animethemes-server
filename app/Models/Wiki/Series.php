@@ -130,13 +130,11 @@ class Series extends BaseModel implements SoftDeletable
     }
 
     /**
-     * Get the anime included in the series.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Anime, $this, AnimeSeries>
      */
     public function anime(): BelongsToMany
     {
-        return $this->belongsToMany(Anime::class, AnimeSeries::TABLE, Series::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
+        return $this->belongsToMany(Anime::class, AnimeSeries::TABLE, AnimeSeries::ATTRIBUTE_SERIES, AnimeSeries::ATTRIBUTE_ANIME)
             ->using(AnimeSeries::class)
             ->as(AnimeSeriesResource::$wrap)
             ->withTimestamps();

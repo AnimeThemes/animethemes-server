@@ -74,8 +74,6 @@ class Like extends BaseModel
     }
 
     /**
-     * Gets the user that owns the like.
-     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -83,11 +81,6 @@ class Like extends BaseModel
         return $this->belongsTo(User::class, Like::ATTRIBUTE_USER);
     }
 
-    /**
-     * Gets the video that owns the like.
-     *
-     * @return MorphTo
-     */
     public function likeable(): MorphTo
     {
         return $this->morphTo();

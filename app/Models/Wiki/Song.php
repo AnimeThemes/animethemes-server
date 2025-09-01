@@ -113,8 +113,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     }
 
     /**
-     * Get the anime themes that use this song.
-     *
      * @return HasMany<AnimeTheme, $this>
      */
     public function animethemes(): HasMany
@@ -123,13 +121,11 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     }
 
     /**
-     * Get the artists included in the performance.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Artist, $this, ArtistSong>
      */
     public function artists(): BelongsToMany
     {
-        return $this->belongsToMany(Artist::class, ArtistSong::TABLE, Song::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
+        return $this->belongsToMany(Artist::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_SONG, ArtistSong::ATTRIBUTE_ARTIST)
             ->using(ArtistSong::class)
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongResource::$wrap)
@@ -137,8 +133,6 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     }
 
     /**
-     * Get the performances of the song.
-     *
      * @return HasMany<Performance, $this>
      */
     public function performances(): HasMany
@@ -147,9 +141,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     }
 
     /**
-     * Get the resources for the song through the resourceable morph pivot.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<ExternalResource, $this, Resourceable, 'songresource'>
      */
     public function resources(): MorphToMany
     {

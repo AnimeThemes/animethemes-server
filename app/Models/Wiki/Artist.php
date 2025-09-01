@@ -27,6 +27,7 @@ use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -156,13 +157,11 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the songs the artist has performed in.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Song, $this, ArtistSong>
      */
     public function songs(): BelongsToMany
     {
-        return $this->belongsToMany(Song::class, ArtistSong::TABLE, Artist::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
+        return $this->belongsToMany(Song::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_ARTIST, ArtistSong::ATTRIBUTE_SONG)
             ->using(ArtistSong::class)
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongResource::$wrap)
@@ -170,9 +169,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the performances of the artist.
-     *
-     * @return MorphMany
+     * @return MorphMany<Performance, $this>
      */
     public function performances(): MorphMany
     {
@@ -190,15 +187,16 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
             ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class));
     }
 
-    public function memberships()
+    /**
+     * @return HasMany<Membership, $this>
+     */
+    public function memberships(): HasMany
     {
         return $this->hasMany(Membership::class, Membership::ATTRIBUTE_MEMBER);
     }
 
     /**
-     * Get the resources for the artist through the resourceable morph pivot.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<ExternalResource, $this, Resourceable, 'artistresource'>
      */
     public function resources(): MorphToMany
     {
@@ -210,13 +208,11 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the members that comprise this group.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Artist, $this, ArtistMember>
      */
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(Artist::class, ArtistMember::TABLE, Artist::ATTRIBUTE_ID, 'member_id')
+        return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER)
             ->using(ArtistMember::class)
             ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
             ->as(ArtistMemberResource::$wrap)
@@ -224,13 +220,11 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the groups the artist has performed in.
-     *
-     * @return BelongsToMany
+     * @return BelongsToMany<Artist, $this, ArtistMember>
      */
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Artist::class, ArtistMember::TABLE, 'member_id', Artist::ATTRIBUTE_ID)
+        return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_MEMBER, ArtistMember::ATTRIBUTE_ARTIST)
             ->using(ArtistMember::class)
             ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
             ->as(ArtistMemberResource::$wrap)
@@ -238,9 +232,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * Get the images for the artist.
-     *
-     * @return MorphToMany
+     * @return MorphToMany<Image, $this, Imageable, 'artistimage'>
      */
     public function images(): MorphToMany
     {

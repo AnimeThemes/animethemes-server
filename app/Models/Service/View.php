@@ -35,8 +35,6 @@ class View extends BaseView
     }
 
     /**
-     * Get the user related to the view.
-     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
