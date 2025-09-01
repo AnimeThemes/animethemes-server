@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support;
 
-use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
+use App\GraphQL\Definition\Types\Base\PaginationInfoType;
 use App\GraphQL\Definition\Types\Pivot\PivotType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
@@ -43,7 +43,7 @@ class EdgeConnectionType extends RebingType
     {
         return [
             'pageInfo' => [
-                'type' => Type::nonNull(GraphQL::type(new PaginatorInfoType()->getName())),
+                'type' => Type::nonNull(GraphQL::type(new PaginationInfoType()->getName())),
                 'description' => 'Pagination information about the list of edges.',
                 'resolve' => fn ($paginator) => $paginator,
             ],

@@ -10,30 +10,30 @@ use App\GraphQL\Definition\Mutations\Models\List\Playlist\Track\UpdatePlaylistTr
 use App\GraphQL\Definition\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
 use App\GraphQL\Definition\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Definition\Queries\Auth\MeQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Admin\AnnouncementPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Admin\DumpPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Admin\FeaturedThemePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Admin\FeaturePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Document\PagePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\List\ExternalProfilePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\List\Playlist\PlaylistTrackPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\List\PlaylistPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeSynonymPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\AnimeThemePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Anime\Theme\AnimeThemeEntryPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AnimePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ArtistPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AudioPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ExternalResourcePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ImagePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SeriesPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\MembershipPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Song\PerformancePaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\SongPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\StudioPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\ThemeGroupPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\Video\VideoScriptPaginatorQuery;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\VideoPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Admin\AnnouncementPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Admin\DumpPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Admin\FeaturedThemePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Admin\FeaturePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Document\PagePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\List\ExternalProfilePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\List\Playlist\PlaylistTrackPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\List\PlaylistPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\Anime\AnimeSynonymPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\Anime\AnimeThemePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\Anime\Theme\AnimeThemeEntryPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\AnimePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\ArtistPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\AudioPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\ExternalResourcePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\ImagePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\SeriesPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\Song\MembershipPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\Song\PerformancePaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\SongPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\StudioPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\ThemeGroupPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\Video\VideoScriptPaginationQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\VideoPaginationQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\Document\PageQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\List\Playlist\PlaylistTrackQuery;
 use App\GraphQL\Definition\Queries\Models\Singular\List\PlaylistQuery;
@@ -52,14 +52,13 @@ use App\GraphQL\Definition\Types\Auth\PermissionType;
 use App\GraphQL\Definition\Types\Auth\RoleType;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
 use App\GraphQL\Definition\Types\Auth\UserType;
-use App\GraphQL\Definition\Types\Base\PaginatorInfoType;
+use App\GraphQL\Definition\Types\Base\PaginationInfoType;
 use App\GraphQL\Definition\Types\Document\PageType;
 use App\GraphQL\Definition\Types\List\External\ExternalEntryType;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\MessageResponseType;
-use App\GraphQL\Definition\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Definition\Types\SearchType;
 use App\GraphQL\Definition\Types\User\Notification\ExternalProfileSyncedNotificationType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
@@ -154,10 +153,10 @@ return [
         'default' => [
             'query' => [
                 // Admin
-                AnnouncementPaginatorQuery::class,
-                DumpPaginatorQuery::class,
-                FeaturePaginatorQuery::class,
-                FeaturedThemePaginatorQuery::class,
+                AnnouncementPaginationQuery::class,
+                DumpPaginationQuery::class,
+                FeaturePaginationQuery::class,
+                FeaturedThemePaginationQuery::class,
                 CurrentFeaturedThemeQuery::class,
 
                 // Auth
@@ -165,36 +164,36 @@ return [
 
                 // Document
                 PageQuery::class,
-                PagePaginatorQuery::class,
+                PagePaginationQuery::class,
 
                 // List
-                ExternalProfilePaginatorQuery::class,
+                ExternalProfilePaginationQuery::class,
                 PlaylistQuery::class,
                 PlaylistTrackQuery::class,
-                PlaylistPaginatorQuery::class,
-                PlaylistTrackPaginatorQuery::class,
+                PlaylistPaginationQuery::class,
+                PlaylistTrackPaginationQuery::class,
 
                 // Wiki
                 AnimeQuery::class,
-                AnimePaginatorQuery::class,
-                AnimeSynonymPaginatorQuery::class,
-                AnimeThemePaginatorQuery::class,
-                AnimeThemeEntryPaginatorQuery::class,
+                AnimePaginationQuery::class,
+                AnimeSynonymPaginationQuery::class,
+                AnimeThemePaginationQuery::class,
+                AnimeThemeEntryPaginationQuery::class,
                 ArtistQuery::class,
-                ArtistPaginatorQuery::class,
-                AudioPaginatorQuery::class,
-                ExternalResourcePaginatorQuery::class,
-                ImagePaginatorQuery::class,
-                MembershipPaginatorQuery::class,
-                PerformancePaginatorQuery::class,
+                ArtistPaginationQuery::class,
+                AudioPaginationQuery::class,
+                ExternalResourcePaginationQuery::class,
+                ImagePaginationQuery::class,
+                MembershipPaginationQuery::class,
+                PerformancePaginationQuery::class,
                 SeriesQuery::class,
-                SeriesPaginatorQuery::class,
-                SongPaginatorQuery::class,
+                SeriesPaginationQuery::class,
+                SongPaginationQuery::class,
                 StudioQuery::class,
-                StudioPaginatorQuery::class,
-                ThemeGroupPaginatorQuery::class,
-                VideoPaginatorQuery::class,
-                VideoScriptPaginatorQuery::class,
+                StudioPaginationQuery::class,
+                ThemeGroupPaginationQuery::class,
+                VideoPaginationQuery::class,
+                VideoScriptPaginationQuery::class,
 
                 // Others
                 AnimeYearsQuery::class,
@@ -298,8 +297,8 @@ return [
     // The global types available to all schemas.
     // You can then access it from the facade like this: GraphQL::type('user')
     'types' => [
-        // Paginator
-        PaginatorInfoType::class,
+        // Pagination
+        PaginationInfoType::class,
         // ExampleType::class,
         // ExampleRelationType::class,
         // \Rebing\GraphQL\Support\UploadType::class,
@@ -348,7 +347,7 @@ return [
      * You can define your own pagination type.
      * Reference \Rebing\GraphQL\Support\PaginationType::class
      */
-    'pagination_type' => App\GraphQL\Definition\Types\Base\PaginatorType::class,
+    'pagination_type' => App\GraphQL\Definition\Types\Base\PaginationType::class,
 
     /*
      * You can define your own simple pagination type.

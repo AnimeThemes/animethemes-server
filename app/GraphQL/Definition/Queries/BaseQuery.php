@@ -7,7 +7,7 @@ namespace App\GraphQL\Definition\Queries;
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
-use App\GraphQL\Definition\Queries\Models\Paginator\EloquentPaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\FirstArgument;
@@ -59,7 +59,7 @@ abstract class BaseQuery extends Query
 
         $baseType = $this->baseRebingType();
 
-        if ($this instanceof EloquentPaginatorQuery) {
+        if ($this instanceof EloquentPaginationQuery) {
             $arguments[] = new FirstArgument();
             $arguments[] = new PageArgument();
         }
@@ -68,7 +68,7 @@ abstract class BaseQuery extends Query
             $arguments[] = $this->resolveFilterArguments($baseType->fieldClasses());
         }
 
-        if ($baseType instanceof BaseType && $this instanceof EloquentPaginatorQuery) {
+        if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery) {
             $arguments[] = $this->resolveSortArguments($baseType);
         }
 

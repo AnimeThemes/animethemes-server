@@ -23,6 +23,6 @@ class HasManyRelation extends Relation
      */
     public function paginationType(): PaginationType
     {
-        return PaginationType::PAGINATOR;
+        return PaginationType::PAGINATION;
     }
 }

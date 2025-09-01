@@ -8,7 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\HasArgumentsField;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Queries\Models\Paginator\Wiki\AnimePaginatorQuery;
+use App\GraphQL\Definition\Queries\Models\Pagination\Wiki\AnimePaginationQuery;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -59,7 +59,7 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasAr
      */
     public function arguments(): array
     {
-        return new AnimePaginatorQuery()->arguments();
+        return new AnimePaginationQuery()->arguments();
     }
 
     /**
