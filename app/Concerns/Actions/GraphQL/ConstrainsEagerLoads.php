@@ -122,6 +122,7 @@ trait ConstrainsEagerLoads
         $this->sort($query, $args, $type);
 
         $child = Arr::get($selection, 'selectionSet.data.data.selectionSet')
+            ?? Arr::get($selection, 'selectionSet.nodes.nodes.selectionSet')
             ?? Arr::get($selection, 'selectionSet', []);
 
         $this->processEagerLoadForType($query, $child, $type);

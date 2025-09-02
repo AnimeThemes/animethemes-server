@@ -62,18 +62,16 @@ class Imageable extends BaseMorphPivot
     protected $table = Imageable::TABLE;
 
     /**
-     * Get the composite primary key for the pivot.
+     * The attributes that are mass assignable.
      *
-     * @return string[]
+     * @var list<string>
      */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            Imageable::ATTRIBUTE_IMAGE,
-            Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
-            Imageable::ATTRIBUTE_IMAGEABLE_ID,
-        ];
-    }
+    protected $fillable = [
+        Imageable::ATTRIBUTE_DEPTH,
+        Imageable::ATTRIBUTE_IMAGE,
+        Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
+        Imageable::ATTRIBUTE_IMAGEABLE_ID,
+    ];
 
     /**
      * The event map for the model.
@@ -89,16 +87,30 @@ class Imageable extends BaseMorphPivot
     ];
 
     /**
-     * The attributes that are mass assignable.
+     * Get the composite primary key for the pivot.
      *
-     * @var list<string>
+     * @return string[]
      */
-    protected $fillable = [
-        Imageable::ATTRIBUTE_DEPTH,
-        Imageable::ATTRIBUTE_IMAGE,
-        Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
-        Imageable::ATTRIBUTE_IMAGEABLE_ID,
-    ];
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            Imageable::ATTRIBUTE_IMAGE,
+            Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
+            Imageable::ATTRIBUTE_IMAGEABLE_ID,
+        ];
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Imageable::ATTRIBUTE_DEPTH => 'int',
+        ];
+    }
 
     /**
      * Gets the image that owns the imageable.
