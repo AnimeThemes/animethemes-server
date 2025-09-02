@@ -64,18 +64,16 @@ class Resourceable extends BaseMorphPivot
     protected $table = Resourceable::TABLE;
 
     /**
-     * Get the composite primary key for the pivot.
+     * The attributes that are mass assignable.
      *
-     * @return string[]
+     * @var list<string>
      */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            Resourceable::ATTRIBUTE_RESOURCE,
-            Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
-            Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
-        ];
-    }
+    protected $fillable = [
+        Resourceable::ATTRIBUTE_AS,
+        Resourceable::ATTRIBUTE_RESOURCE,
+        Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
+        Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
+    ];
 
     /**
      * The event map for the model.
@@ -91,16 +89,18 @@ class Resourceable extends BaseMorphPivot
     ];
 
     /**
-     * The attributes that are mass assignable.
+     * Get the composite primary key for the pivot.
      *
-     * @var list<string>
+     * @return string[]
      */
-    protected $fillable = [
-        Resourceable::ATTRIBUTE_AS,
-        Resourceable::ATTRIBUTE_RESOURCE,
-        Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
-        Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
-    ];
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            Resourceable::ATTRIBUTE_RESOURCE,
+            Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
+            Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
+        ];
+    }
 
     /**
      * Gets the resource that owns the resourceable.
