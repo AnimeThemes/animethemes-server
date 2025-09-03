@@ -21,6 +21,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use App\Scopes\WithoutInsertSongScope;
+use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\ThemeQuery;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -160,6 +161,11 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
         }
 
         return $array;
+    }
+
+    public function getElasticQuery(): string
+    {
+        return ThemeQuery::class;
     }
 
     /**

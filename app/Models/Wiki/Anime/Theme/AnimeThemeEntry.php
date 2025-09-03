@@ -27,6 +27,7 @@ use App\Models\Wiki\Video;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Scopes\WithoutInsertSongScope;
+use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -173,6 +174,11 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
         $array['version'] = Str::of(empty($this->version) ? '1' : $this->version)->prepend('v')->__toString();
 
         return $array;
+    }
+
+    public function getElasticQuery(): string
+    {
+        return EntryQuery::class;
     }
 
     public function getName(): string
