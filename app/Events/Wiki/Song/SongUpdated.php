@@ -8,7 +8,6 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiUpdatedEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
@@ -35,9 +34,7 @@ class SongUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
 
     public function updateRelatedIndices(): void
     {
-        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
-
-        $song->artists->each(fn (Artist $artist) => $artist->searchable());
+        $song = $this->getModel()->load([Song::RELATION_VIDEOS]);
 
         $song->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();

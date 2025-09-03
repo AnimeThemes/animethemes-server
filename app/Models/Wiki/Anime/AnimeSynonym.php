@@ -44,6 +44,7 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
     final public const ATTRIBUTE_TYPE = 'type';
 
     final public const RELATION_ANIME = 'anime';
+    final public const RELATION_SERIES = 'anime.series';
     final public const RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
 
     /**

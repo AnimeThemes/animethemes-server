@@ -8,7 +8,6 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
@@ -34,11 +33,7 @@ class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEven
 
     public function updateRelatedIndices(): void
     {
-        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
-
-        // refresh artist documents by detaching song
-        $artists = $song->artists;
-        $artists->each(fn (Artist $artist) => $artist->searchable());
+        $song = $this->getModel()->load([Song::RELATION_VIDEOS]);
 
         $song->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();

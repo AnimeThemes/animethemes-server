@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Series;
 use App\Models\Wiki\Video;
 
 /**
@@ -40,9 +41,13 @@ class SynonymRestored extends WikiRestoredEvent implements UpdateRelatedIndicesE
 
     public function updateRelatedIndices(): void
     {
-        $synonym = $this->getModel()->load(AnimeSynonym::RELATION_VIDEOS);
+        $synonym = $this->getModel()->load([
+            AnimeSynonym::RELATION_SERIES,
+            AnimeSynonym::RELATION_VIDEOS,
+        ]);
 
         $synonym->anime->searchable();
+        $synonym->anime->series->each(fn (Series $series) => $series->searchable());
         $synonym->anime->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();
             $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {

@@ -1148,8 +1148,8 @@ return [
             ],
         ],
         'artist' => [
-            'songs' => [
-                'name' => 'Without Songs',
+            'performance' => [
+                'name' => 'Without Performances',
             ],
         ],
         'audio' => [
@@ -1168,8 +1168,8 @@ return [
             ],
         ],
         'song' => [
-            'artist' => [
-                'name' => 'Without Artists',
+            'performance' => [
+                'name' => 'Without Performances',
             ],
         ],
         'studio' => [

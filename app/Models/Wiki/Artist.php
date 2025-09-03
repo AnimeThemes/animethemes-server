@@ -66,10 +66,12 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     final public const RELATION_ANIMETHEMES = 'songs.animethemes';
     final public const RELATION_GROUPS = 'groups';
     final public const RELATION_GROUP_PERFORMANCES = 'groupperformances';
+    final public const RELATION_GROUPMEMBERSHIPS_PERFORMANCES = 'groupmemberships.performances';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_MEMBERS = 'members';
     final public const RELATION_MEMBERSHIPS = 'memberships';
-    final public const RELATION_MEMBERSHIPS_PERFORMANCES_SOGNS = 'memberships.performances.song';
+    final public const RELATION_MEMBERSHIPS_PERFORMANCES = 'memberships.performances';
+    final public const RELATION_MEMBERSHIPS_PERFORMANCES_SONGS = 'memberships.performances.song';
     final public const RELATION_PERFORMANCES = 'performances';
     final public const RELATION_PERFORMANCES_SONGS = 'performances.song';
     final public const RELATION_RESOURCES = 'resources';
@@ -125,7 +127,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     {
         return $query->with([
             Artist::RELATION_PERFORMANCES_SONGS,
-            Artist::RELATION_MEMBERSHIPS_PERFORMANCES_SOGNS,
+            Artist::RELATION_MEMBERSHIPS_PERFORMANCES_SONGS,
         ]);
     }
 
@@ -205,6 +207,8 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
+     * The memberships of the member.
+     *
      * @return HasMany<Membership, $this>
      */
     public function memberships(): HasMany
@@ -213,15 +217,13 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     }
 
     /**
-     * @return MorphToMany<ExternalResource, $this, Resourceable, 'artistresource'>
+     * The memberships of the group.
+     *
+     * @return HasMany<Membership, $this>
      */
-    public function resources(): MorphToMany
+    public function groupmemberships(): HasMany
     {
-        return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
-            ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
-            ->as('artistresource')
-            ->withTimestamps();
+        return $this->hasMany(Membership::class, Membership::ATTRIBUTE_ARTIST);
     }
 
     /**
@@ -245,6 +247,18 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
             ->using(ArtistMember::class)
             ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
             ->as(ArtistMemberResource::$wrap)
+            ->withTimestamps();
+    }
+
+    /**
+     * @return MorphToMany<ExternalResource, $this, Resourceable, 'artistresource'>
+     */
+    public function resources(): MorphToMany
+    {
+        return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
+            ->using(Resourceable::class)
+            ->withPivot(Resourceable::ATTRIBUTE_AS)
+            ->as('artistresource')
             ->withTimestamps();
     }
 
