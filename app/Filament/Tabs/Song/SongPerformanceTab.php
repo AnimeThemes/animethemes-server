@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Artist\Song;
+namespace App\Filament\Tabs\Song;
 
 use App\Filament\Tabs\BaseTab;
-use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Builder;
 
-class ArtistSongTab extends BaseTab
+class SongPerformanceTab extends BaseTab
 {
     public static function getSlug(): string
     {
-        return 'artist-song-lens';
+        return 'song-performance-tab';
     }
 
     public function getLabel(): string
     {
-        return __('filament.tabs.artist.songs.name');
+        return __('filament.tabs.song.performance.name');
     }
 
     /**
@@ -26,11 +26,11 @@ class ArtistSongTab extends BaseTab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Artist::RELATION_SONGS);
+        return $query->whereDoesntHave(Song::RELATION_PERFORMANCES);
     }
 
     public function getBadge(): int
     {
-        return Artist::query()->whereDoesntHave(Artist::RELATION_SONGS)->count();
+        return Song::query()->whereDoesntHave(Song::RELATION_PERFORMANCES)->count();
     }
 }

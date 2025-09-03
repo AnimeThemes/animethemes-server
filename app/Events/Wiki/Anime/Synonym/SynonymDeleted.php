@@ -11,6 +11,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Series;
 use App\Models\Wiki\Video;
 
 /**
@@ -51,9 +52,13 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     public function updateRelatedIndices(): void
     {
-        $anime = $this->anime->load(Anime::RELATION_VIDEOS);
+        $anime = $this->anime->load([
+            Anime::RELATION_SERIES,
+            Anime::RELATION_VIDEOS,
+        ]);
 
         $anime->searchable();
+        $anime->series->each(fn (Series $series) => $series->searchable());
         $anime->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();
             $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {

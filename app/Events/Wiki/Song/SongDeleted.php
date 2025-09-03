@@ -9,7 +9,6 @@ use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Song as SongFilament;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 
@@ -45,10 +44,7 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 
     public function updateRelatedIndices(): void
     {
-        $song = $this->getModel()->load([Song::RELATION_ARTISTS, Song::RELATION_VIDEOS]);
-
-        $artists = $song->artists;
-        $artists->each(fn (Artist $artist) => $artist->searchable());
+        $song = $this->getModel()->load([Song::RELATION_VIDEOS]);
 
         $song->animethemes->each(function (AnimeTheme $theme) {
             $theme->searchable();
