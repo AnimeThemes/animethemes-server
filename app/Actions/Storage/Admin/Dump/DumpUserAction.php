@@ -6,7 +6,6 @@ namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Models\Aggregate\LikeAggregate;
-use App\Models\User\Encode;
 use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Report;
@@ -29,7 +28,6 @@ class DumpUserAction extends DumpAction
     protected function allowedTables(): array
     {
         return [
-            Encode::TABLE,
             Like::TABLE,
             LikeAggregate::TABLE,
             Notification::TABLE,
