@@ -26,7 +26,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\User\Encode;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -352,13 +351,5 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     {
         return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_VIDEO)
             ->whereRelation(PlaylistTrack::RELATION_PLAYLIST, Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
-    }
-
-    /**
-     * @return HasMany<Encode, $this>
-     */
-    public function encodes(): HasMany
-    {
-        return $this->hasMany(Encode::class, Encode::ATTRIBUTE_VIDEO);
     }
 }

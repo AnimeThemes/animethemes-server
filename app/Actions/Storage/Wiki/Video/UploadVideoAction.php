@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Wiki\Video;
 
+use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
+use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Actions\Storage\Base\UploadAction;
 use App\Actions\Storage\Wiki\UploadedFileAction;
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
-use App\Enums\Models\User\EncodeType;
+use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
-use App\Models\User\Encode;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use BackedEnum;
@@ -60,7 +63,7 @@ class UploadVideoAction extends UploadAction
 
             $this->uploadScript($video);
 
-            $this->markEncode($video);
+            $this->addToPlaylist($video);
 
             DB::commit();
 
@@ -146,21 +149,30 @@ class UploadVideoAction extends UploadAction
     }
 
     /**
-     * Mark the encoder for the video.
+     * Add the track to the user that encoded the video.
      */
-    protected function markEncode(Video $video): void
+    protected function addToPlaylist(Video $video): void
     {
         if ($encoder = $this->encoder) {
-            // Mark any existing encodes as old if the video is being replaced.
-            Encode::query()
-                ->whereBelongsTo($video, Encode::RELATION_VIDEO)
-                ->where(Encode::ATTRIBUTE_TYPE, EncodeType::CURRENT->value)
-                ->update([Encode::ATTRIBUTE_TYPE => EncodeType::OLD->value]);
+            $playlist = Playlist::query()->firstOrCreate([
+                Playlist::ATTRIBUTE_NAME => 'Encodes',
+                Playlist::ATTRIBUTE_USER => $encoder->getKey(),
+            ], [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
+                Playlist::ATTRIBUTE_DESCRIPTION => 'Auto-generated playlist for encodes.',
+            ]);
 
-            Encode::query()->create([
-                Encode::ATTRIBUTE_TYPE => EncodeType::CURRENT->value,
-                Encode::ATTRIBUTE_USER => $encoder->getKey(),
-                Encode::ATTRIBUTE_VIDEO => $video->getKey(),
+            $track = $playlist->tracks()->getQuery()
+                ->where(PlaylistTrack::ATTRIBUTE_VIDEO, $video->getKey())
+                ->first();
+
+            if ($track instanceof PlaylistTrack) {
+                new RemoveTrackAction()->remove($playlist, $track);
+            }
+
+            new StoreTrackAction()->store($playlist, PlaylistTrack::query(), [
+                PlaylistTrack::ATTRIBUTE_ENTRY => $video->animethemeentries->first()->getKey(),
+                PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
             ]);
         }
     }
