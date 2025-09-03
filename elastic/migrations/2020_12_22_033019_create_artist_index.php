@@ -37,34 +37,15 @@ final class CreateArtistIndex implements MigrationInterface
                     ],
                 ],
             ]);
-            $mapping->nested('songs', [
+            $mapping->nested('performances', [
                 'properties' => [
-                    'created_at' => [
-                        'type' => 'date',
-                    ],
-                    'pivot' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'artist_id' => [
-                                'type' => 'long',
-                            ],
-                            'as' => [
-                                'type' => 'text',
-                            ],
-                            'song_id' => [
-                                'type' => 'long',
-                            ],
-                        ],
-                    ],
-                    'song_id' => [
-                        'type' => 'long',
-                    ],
-                    'title' => [
-                        'type' => 'text',
-                    ],
-                    'updated_at' => [
-                        'type' => 'date',
-                    ],
+                    'performance_id' => ['type' => 'long'],
+                    'created_at' => ['type' => 'date'],
+                    'updated_at' => ['type' => 'date'],
+                    'alias' => ['type' => 'text'],
+                    'as' => ['type' => 'text'],
+                    'membership_alias' => ['type' => 'text'],
+                    'membership_as' => ['type' => 'text'],
                 ],
             ]);
             $mapping->date('updated_at');

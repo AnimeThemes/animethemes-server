@@ -41,6 +41,7 @@ use Illuminate\Support\Collection;
  * @property Collection<int, Artist> $members
  * @property Collection<int, Membership> $memberships
  * @property string $name
+ * @property Collection<int, Performance> $performances
  * @property Collection<int, ExternalResource> $resources
  * @property string $slug
  * @property Collection<int, Song> $songs
@@ -68,7 +69,9 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_MEMBERS = 'members';
     final public const RELATION_MEMBERSHIPS = 'memberships';
+    final public const RELATION_MEMBERSHIPS_PERFORMANCES_SOGNS = 'memberships.performances.song';
     final public const RELATION_PERFORMANCES = 'performances';
+    final public const RELATION_PERFORMANCES_SONGS = 'performances.song';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONGS = 'songs';
     final public const RELATION_THEME_GROUPS = 'songs.animethemes.group';
@@ -120,7 +123,10 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(Artist::RELATION_SONGS);
+        return $query->with([
+            Artist::RELATION_PERFORMANCES_SONGS,
+            Artist::RELATION_MEMBERSHIPS_PERFORMANCES_SOGNS,
+        ]);
     }
 
     /**
@@ -131,7 +137,18 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['songs'] = $this->songs->toArray();
+
+        $directPerformances = $this->performances->map(fn (Performance $performance) => $performance->toArray());
+
+        $membershipPerformances = $this->memberships->flatMap(
+            fn (Membership $membership) => $membership->performances->map(fn (Performance $performance) => array_merge(
+                $performance->toArray(),
+                ['membership_alias' => $membership->alias],
+                ['membership_as' => $membership->as],
+            ))
+        );
+
+        $array['performances'] = $directPerformances->concat($membershipPerformances)->all();
 
         return $array;
     }
