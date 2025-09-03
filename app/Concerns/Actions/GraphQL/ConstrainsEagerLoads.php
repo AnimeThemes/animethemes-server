@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
-use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Unions\BaseUnion;
+use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Relations\Relation;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;

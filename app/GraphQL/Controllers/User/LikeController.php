@@ -6,8 +6,8 @@ namespace App\GraphQL\Controllers\User;
 
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Mutations\Models\User\LikeMutation;
-use App\GraphQL\Definition\Mutations\Models\User\UnlikeMutation;
+use App\GraphQL\Schema\Mutations\Models\User\LikeMutation;
+use App\GraphQL\Schema\Mutations\Models\User\UnlikeMutation;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\Wiki\Video;

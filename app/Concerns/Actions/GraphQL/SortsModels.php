@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Concerns\Actions\GraphQL;
 
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Unions\BaseUnion;
+use App\GraphQL\Schema\Enums\SortableColumns;
+use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Sort\RandomSort;
 use App\GraphQL\Support\Sort\Sort;
-use App\GraphQL\Support\SortableColumns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

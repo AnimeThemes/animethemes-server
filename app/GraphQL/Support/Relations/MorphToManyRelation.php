@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Relations;
 
 use App\Enums\GraphQL\PaginationType;
-use App\GraphQL\Definition\Types\EloquentType;
-use App\GraphQL\Support\EdgeConnectionType;
-use App\GraphQL\Support\EdgeType;
+use App\GraphQL\Schema\Types\EdgeConnectionType;
+use App\GraphQL\Schema\Types\EdgeType;
+use App\GraphQL\Schema\Types\EloquentType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 

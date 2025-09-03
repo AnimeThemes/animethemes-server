@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Schema\Fields\Base;
+
+use App\GraphQL\Schema\Fields\DateTimeTzField;
+use App\Models\BaseModel;
+
+class CreatedAtField extends DateTimeTzField
+{
+    public function __construct()
+    {
+        parent::__construct(BaseModel::ATTRIBUTE_CREATED_AT);
+    }
+
+    public function description(): string
+    {
+        return 'The date that the resource was created';
+    }
+}

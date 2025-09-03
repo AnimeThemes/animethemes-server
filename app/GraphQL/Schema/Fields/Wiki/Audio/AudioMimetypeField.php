@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Schema\Fields\Wiki\Audio;
+
+use App\GraphQL\Schema\Fields\StringField;
+use App\Models\Wiki\Audio;
+
+class AudioMimetypeField extends StringField
+{
+    public function __construct()
+    {
+        parent::__construct(Audio::ATTRIBUTE_MIMETYPE, nullable: false);
+    }
+
+    public function description(): string
+    {
+        return 'The media type of the file in storage';
+    }
+}

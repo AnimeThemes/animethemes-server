@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Middleware;
 
 use App\Contracts\GraphQL\Fields\BindableField;
-use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Types\EloquentType;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Arr;

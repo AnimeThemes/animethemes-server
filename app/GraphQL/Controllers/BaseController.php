@@ -7,7 +7,7 @@ namespace App\GraphQL\Controllers;
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
-use App\GraphQL\Definition\Mutations\BaseMutation;
+use App\GraphQL\Schema\Mutations\BaseMutation;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;

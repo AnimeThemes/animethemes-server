@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Controllers\List;
 
 use App\GraphQL\Controllers\BaseController;
-use App\GraphQL\Definition\Mutations\Models\List\Playlist\CreatePlaylistMutation;
-use App\GraphQL\Definition\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
+use App\GraphQL\Schema\Mutations\Models\List\Playlist\CreatePlaylistMutation;
+use App\GraphQL\Schema\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
