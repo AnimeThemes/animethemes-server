@@ -94,7 +94,7 @@ abstract class ElasticQuery
     /**
      * @throws RuntimeException
      */
-    public static function getForModel(Model $model): static
+    public static function getForModel(Model $model): ElasticQuery
     {
         $query = method_exists($model, 'getElasticQuery')
             ? $model->getElasticQuery()
