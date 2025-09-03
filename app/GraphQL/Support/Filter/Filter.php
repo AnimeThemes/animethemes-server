@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Filter;
 
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use Illuminate\Database\Eloquent\Builder;
 

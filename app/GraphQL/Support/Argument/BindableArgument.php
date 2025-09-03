@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Argument;
 
 use App\Contracts\GraphQL\Fields\BindableField;
-use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Schema\Fields\Field;
 
 class BindableArgument extends Argument
 {

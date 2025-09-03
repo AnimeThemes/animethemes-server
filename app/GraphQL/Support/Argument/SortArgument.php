@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Argument;
 
-use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Support\SortableColumns;
+use App\GraphQL\Schema\Enums\SortableColumns;
+use App\GraphQL\Schema\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
