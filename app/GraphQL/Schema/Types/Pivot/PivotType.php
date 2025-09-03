@@ -18,7 +18,7 @@ abstract class PivotType extends EloquentType
     public function model(): string
     {
         return Str::of(class_basename($this))
-            ->replace('GraphQL\\Definition\\Types\\Pivot', 'Pivots')
+            ->replace('GraphQL\\Schema\\Types\\Pivot', 'Pivots')
             ->remove('Type')
             ->__toString();
     }
