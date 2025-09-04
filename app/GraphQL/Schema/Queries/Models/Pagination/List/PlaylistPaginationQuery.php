@@ -47,9 +47,6 @@ class PlaylistPaginationQuery extends EloquentPaginationQuery
         ];
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         $builder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);

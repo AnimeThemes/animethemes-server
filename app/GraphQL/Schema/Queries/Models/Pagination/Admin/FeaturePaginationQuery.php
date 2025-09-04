@@ -30,9 +30,6 @@ class FeaturePaginationQuery extends EloquentPaginationQuery
         return new FeatureType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         return $builder->where(Feature::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE);

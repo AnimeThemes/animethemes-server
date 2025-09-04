@@ -36,9 +36,6 @@ class ExternalProfilePaginationQuery extends EloquentPaginationQuery
         return new ExternalProfileType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         $builder->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);

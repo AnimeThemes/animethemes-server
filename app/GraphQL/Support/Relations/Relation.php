@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Relations;
 
 use App\Concerns\Actions\GraphQL\FiltersModels;
-use App\Concerns\Actions\GraphQL\SortsModels;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Schema\Types\BaseType;
@@ -24,7 +23,6 @@ abstract class Relation
 {
     use FiltersModels;
     use ResolvesArguments;
-    use SortsModels;
 
     protected ?string $field = null;
     protected ?bool $nullable = true;

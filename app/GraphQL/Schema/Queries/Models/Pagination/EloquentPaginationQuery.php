@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination;
 
-use App\Concerns\Actions\GraphQL\PaginatesModels;
-use App\Concerns\Actions\GraphQL\SearchModels;
-use App\Concerns\Actions\GraphQL\SortsModels;
+use App\Actions\GraphQL\IndexAction;
 use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Queries\Models\EloquentQuery;
 use App\GraphQL\Schema\Types\BaseType;
@@ -18,15 +16,10 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\SelectFields;
 use RuntimeException;
 
 abstract class EloquentPaginationQuery extends EloquentQuery
 {
-    use PaginatesModels;
-    use SearchModels;
-    use SortsModels;
-
     protected static bool $typesLoaded = false;
 
     public function __construct(protected string $name)
@@ -56,22 +49,13 @@ abstract class EloquentPaginationQuery extends EloquentQuery
      *
      * @return Paginator
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, SelectFields $selectField)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, IndexAction $action)
     {
-        $model = $this->model();
-        $builder = $model::query();
+        $builder = $this->model()::query();
 
         $this->query($builder, $args);
 
-        $this->search($builder, $args);
-
-        $this->filter($builder, $args, $this->baseRebingType());
-
-        $this->sort($builder, $args, $this->baseRebingType());
-
-        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
-
-        return $this->paginate($builder, $args);
+        return $action->index($builder, $args, $this->baseRebingType(), $resolveInfo);
     }
 
     /**

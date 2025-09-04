@@ -74,9 +74,6 @@ abstract class EloquentQuery extends BaseQuery
         return false;
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         return $builder;

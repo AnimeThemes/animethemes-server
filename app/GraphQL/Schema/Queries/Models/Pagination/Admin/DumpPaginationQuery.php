@@ -28,9 +28,6 @@ class DumpPaginationQuery extends EloquentPaginationQuery
         return new DumpType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         /** @phpstan-ignore-next-line */

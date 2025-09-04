@@ -30,9 +30,6 @@ class PlaylistTrackQuery extends EloquentSingularQuery
         return new PlaylistTrackType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         $playlist = Arr::get($args, 'playlist');
