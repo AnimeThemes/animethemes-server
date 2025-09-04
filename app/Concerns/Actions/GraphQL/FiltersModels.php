@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
+use App\Enums\GraphQL\TrashedFilter;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
+use App\GraphQL\Support\Argument\TrashedArgument;
 use App\GraphQL\Support\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -18,6 +20,18 @@ trait FiltersModels
         if ($type instanceof BaseUnion) {
             return $builder;
         }
+
+        $trashed = Arr::get($args, TrashedArgument::ARGUMENT);
+
+        match ($trashed) {
+            /** @phpstan-ignore-next-line */
+            TrashedFilter::WITH => $builder->withTrashed(),
+            /** @phpstan-ignore-next-line */
+            TrashedFilter::WITHOUT => $builder->withoutTrashed(),
+            /** @phpstan-ignore-next-line */
+            TrashedFilter::ONLY => $builder->onlyTrashed(),
+            default => null,
+        };
 
         $resolvers = Filter::getValueWithResolvers($type);
 
