@@ -8,9 +8,11 @@ use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Support\Argument\TrashedArgument;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use RuntimeException;
 
 abstract class EloquentQuery extends BaseQuery
@@ -61,17 +63,19 @@ abstract class EloquentQuery extends BaseQuery
     }
 
     /**
-     * Determine if the return model is trashable.
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
      */
-    protected function isTrashable(): bool
+    public function arguments(): array
     {
-        $baseType = $this->baseRebingType();
+        $arguments = parent::arguments();
 
-        if ($baseType instanceof EloquentType) {
-            return in_array(new DeletedAtField(), $baseType->fieldClasses());
+        if (in_array(new DeletedAtField(), $this->baseRebingType()->fieldClasses())) {
+            $arguments[] = new TrashedArgument();
         }
 
-        return false;
+        return Arr::flatten($arguments);
     }
 
     protected function query(Builder $builder, array $args): Builder
