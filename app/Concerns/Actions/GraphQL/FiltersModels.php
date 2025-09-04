@@ -24,8 +24,11 @@ trait FiltersModels
         $trashed = Arr::get($args, TrashedArgument::ARGUMENT);
 
         match ($trashed) {
+            /** @phpstan-ignore-next-line */
             TrashedFilter::WITH => $builder->withTrashed(),
+            /** @phpstan-ignore-next-line */
             TrashedFilter::WITHOUT => $builder->withoutTrashed(),
+            /** @phpstan-ignore-next-line */
             TrashedFilter::ONLY => $builder->onlyTrashed(),
             default => null,
         };

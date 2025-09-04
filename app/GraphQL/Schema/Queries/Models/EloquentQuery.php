@@ -8,6 +8,7 @@ use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\TrashedArgument;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
