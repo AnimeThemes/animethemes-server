@@ -31,9 +31,6 @@ class FeaturedThemePaginationQuery extends EloquentPaginationQuery
         return new FeaturedThemeType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         return $builder->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)

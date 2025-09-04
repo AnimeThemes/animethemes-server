@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Singular;
 
+use App\Actions\GraphQL\ShowAction;
 use App\GraphQL\Schema\Queries\Models\EloquentQuery;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
@@ -67,20 +68,17 @@ abstract class EloquentSingularQuery extends EloquentQuery
      *
      * @return Model
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, ShowAction $action)
     {
         /** @var Model $model */
         $model = Arr::get($args, 'model');
 
-        $builder = $this->query($this->model()::query(), $args);
+        $builder = $this->model()::query();
 
-        $this->filter($builder, $args, $this->baseRebingType());
+        $this->query($builder, $args);
 
         $builder->whereKey($model->getKey());
 
-        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
-
-        return $builder
-            ->firstOrFail();
+        return $action->show($builder, $args, $this->baseRebingType(), $resolveInfo);
     }
 }

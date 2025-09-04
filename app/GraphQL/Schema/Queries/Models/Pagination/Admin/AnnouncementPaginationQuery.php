@@ -28,9 +28,6 @@ class AnnouncementPaginationQuery extends EloquentPaginationQuery
         return new AnnouncementType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         /** @phpstan-ignore-next-line */

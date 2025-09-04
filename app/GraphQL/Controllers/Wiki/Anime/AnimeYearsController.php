@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\Wiki\Anime;
 
-use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
-use App\Concerns\Actions\GraphQL\FiltersModels;
-use App\Concerns\Actions\GraphQL\PaginatesModels;
-use App\Concerns\Actions\GraphQL\SortsModels;
+use App\Actions\GraphQL\IndexAction;
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
@@ -28,11 +25,6 @@ use Illuminate\Support\Arr;
  */
 class AnimeYearsController extends BaseController
 {
-    use ConstrainsEagerLoads;
-    use FiltersModels;
-    use PaginatesModels;
-    use SortsModels;
-
     /**
      * @param  array<string, mixed>  $args
      */
@@ -111,12 +103,8 @@ class AnimeYearsController extends BaseController
             ->when($season !== null, fn (Builder $query) => $query->where(Anime::ATTRIBUTE_SEASON, $season->value))
             ->where(Anime::ATTRIBUTE_YEAR, $year);
 
-        $this->filter($builder, $args, new AnimeType());
+        $action = new IndexAction();
 
-        $this->sort($builder, $args, new AnimeType());
-
-        $this->constrainEagerLoads($builder, $resolveInfo, new AnimeType());
-
-        return $this->paginate($builder, $args);
+        return $action->index($builder, $args, new AnimeType(), $resolveInfo);
     }
 }

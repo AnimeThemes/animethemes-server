@@ -47,9 +47,6 @@ class PlaylistTrackPaginationQuery extends EloquentPaginationQuery
         return new PlaylistTrackType();
     }
 
-    /**
-     * Manage the query.
-     */
     protected function query(Builder $builder, array $args): Builder
     {
         /** @var Playlist $playlist */
