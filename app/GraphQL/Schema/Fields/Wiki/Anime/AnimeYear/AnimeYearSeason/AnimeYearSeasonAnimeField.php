@@ -31,17 +31,11 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasAr
         return 'The animes of the season year filtered';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): AnimeType
     {
         return new AnimeType();
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
         return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));

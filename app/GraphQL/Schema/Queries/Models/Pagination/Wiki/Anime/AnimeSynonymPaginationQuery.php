@@ -22,7 +22,7 @@ class AnimeSynonymPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): AnimeSynonymType
+    public function baseType(): AnimeSynonymType
     {
         return new AnimeSynonymType();
     }

@@ -42,7 +42,7 @@ class PlaylistTrackPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): PlaylistTrackType
+    public function baseType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
     }

@@ -22,9 +22,6 @@ class SearchPlaylistsField extends Field implements DisplayableField
         return 'The playlist results of the search';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::listOf(Type::nonNull(GraphQL::type(new PlaylistType()->getName())));

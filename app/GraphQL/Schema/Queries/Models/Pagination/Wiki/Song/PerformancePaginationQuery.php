@@ -22,7 +22,7 @@ class PerformancePaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): PerformanceType
+    public function baseType(): PerformanceType
     {
         return new PerformanceType();
     }

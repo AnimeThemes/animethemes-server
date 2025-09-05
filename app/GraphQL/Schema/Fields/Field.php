@@ -42,9 +42,6 @@ abstract class Field
         return '';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
         $baseType = $this->baseType();
@@ -71,8 +68,6 @@ abstract class Field
     }
 
     /**
-     * The args for the field.
-     *
      * @return array<string, array<string, mixed>>
      */
     public function args(): array
@@ -89,9 +84,6 @@ abstract class Field
             ->toArray();
     }
 
-    /**
-     * The type returned by the field.
-     */
     abstract public function baseType(): Type|BaseType;
 
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

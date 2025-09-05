@@ -22,7 +22,7 @@ class AnimeThemeEntryPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): AnimeThemeEntryType
+    public function baseType(): AnimeThemeEntryType
     {
         return new AnimeThemeEntryType();
     }

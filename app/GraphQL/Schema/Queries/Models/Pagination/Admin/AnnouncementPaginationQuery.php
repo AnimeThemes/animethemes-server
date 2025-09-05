@@ -23,7 +23,7 @@ class AnnouncementPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): AnnouncementType
+    public function baseType(): AnnouncementType
     {
         return new AnnouncementType();
     }

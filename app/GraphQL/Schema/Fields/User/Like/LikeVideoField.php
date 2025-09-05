@@ -26,9 +26,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
         return 'The id of the video to like';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::int();

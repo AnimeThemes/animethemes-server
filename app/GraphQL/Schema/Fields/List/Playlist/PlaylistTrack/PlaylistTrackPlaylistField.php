@@ -29,9 +29,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
         return 'The playlist of the track';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

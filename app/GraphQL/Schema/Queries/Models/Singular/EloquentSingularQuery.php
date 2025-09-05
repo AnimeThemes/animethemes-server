@@ -40,7 +40,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
     public function arguments(): array
     {
         $arguments = [];
-        $baseType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
@@ -54,13 +54,13 @@ abstract class EloquentSingularQuery extends EloquentQuery
      */
     public function type(): Type
     {
-        $rebingType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
-        if (! $rebingType instanceof BaseType) {
-            throw new RuntimeException("baseRebingType not defined for query {$this->getName()}");
+        if (! $baseType instanceof BaseType) {
+            throw new RuntimeException("baseType not defined for query {$this->getName()}");
         }
 
-        return Type::nonNull(GraphQL::type($this->baseRebingType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
     }
 
     /**
@@ -79,6 +79,6 @@ abstract class EloquentSingularQuery extends EloquentQuery
 
         $builder->whereKey($model->getKey());
 
-        return $action->show($builder, $args, $this->baseRebingType(), $resolveInfo);
+        return $action->show($builder, $args, $this->baseType(), $resolveInfo);
     }
 }

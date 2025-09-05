@@ -22,9 +22,6 @@ class SearchSongsField extends Field implements DisplayableField
         return 'The song results of the search';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::listOf(Type::nonNull(GraphQL::type(new SongType()->getName())));

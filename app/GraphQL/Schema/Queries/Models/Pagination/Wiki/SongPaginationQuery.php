@@ -22,7 +22,7 @@ class SongPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): SongType
+    public function baseType(): SongType
     {
         return new SongType();
     }

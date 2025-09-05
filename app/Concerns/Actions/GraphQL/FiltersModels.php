@@ -45,7 +45,7 @@ trait FiltersModels
             /** @var Filter $filter */
             $filter = Arr::get($valueResolver, 'filter');
 
-            $filter->apply($builder, $value);
+            $filter->filter($builder, $value);
         }
 
         return $builder;

@@ -59,7 +59,7 @@ class AnimeYearsQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): AnimeYearType
+    public function baseType(): AnimeYearType
     {
         return new AnimeYearType();
     }

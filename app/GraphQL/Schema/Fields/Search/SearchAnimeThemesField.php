@@ -22,9 +22,6 @@ class SearchAnimeThemesField extends Field implements DisplayableField
         return 'The theme results of the search';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::listOf(Type::nonNull(GraphQL::type(new AnimeThemeType()->getName())));

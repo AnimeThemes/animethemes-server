@@ -20,7 +20,7 @@ abstract class BaseType extends RebingType
         return [
             'name' => $this->getName(),
             'description' => $this->description(),
-            'rebingType' => $this,
+            'baseType' => $this,
         ];
     }
 

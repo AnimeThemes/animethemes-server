@@ -29,14 +29,11 @@ class DeletePlaylistMutation extends DeleteMutation
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): PlaylistType
+    public function baseType(): PlaylistType
     {
         return new PlaylistType();
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
         return Type::nonNull(GraphQL::type(new MessageResponseType()->getName()));

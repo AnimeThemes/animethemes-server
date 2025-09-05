@@ -23,9 +23,6 @@ class AnimeYearYearField extends Field implements DisplayableField
         return 'The year of the AnimeYear type';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::int();

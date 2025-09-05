@@ -22,7 +22,7 @@ class MembershipPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): MembershipType
+    public function baseType(): MembershipType
     {
         return new MembershipType();
     }

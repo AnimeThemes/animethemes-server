@@ -10,19 +10,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 class InFilter extends Filter
 {
-    /**
-     * Get the argument to apply the filter.
-     */
     public function argument(): Argument
     {
         return new Argument($this->field->getName().'_in', Type::listOf(Type::nonNull($this->field->baseType())))
             ->withDefaultValue($this->defaultValue);
     }
 
-    /**
-     * Apply the filter to the builder.
-     */
-    public function apply(Builder $builder, mixed $value): Builder
+    public function filter(Builder $builder, mixed $value): Builder
     {
         return $builder->whereIn(
             $this->field->getColumn(),

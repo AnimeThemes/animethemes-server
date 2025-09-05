@@ -37,7 +37,7 @@ class MeQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): MeType
+    public function baseType(): MeType
     {
         return new MeType();
     }
@@ -51,7 +51,7 @@ class MeQuery extends BaseQuery
     {
         $builder = User::query()->whereKey(Auth::id());
 
-        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
+        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseType());
 
         return $builder->firstOrFail();
     }

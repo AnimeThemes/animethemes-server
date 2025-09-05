@@ -14,9 +14,6 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 
-/**
- * Clas BaseMutation.
- */
 abstract class BaseMutation extends Mutation
 {
     use ResolvesArguments;
@@ -33,8 +30,6 @@ abstract class BaseMutation extends Mutation
     }
 
     /**
-     * Get the attributes of the mutation.
-     *
      * @return array<string, mixed>
      */
     public function attributes(): array
@@ -42,7 +37,7 @@ abstract class BaseMutation extends Mutation
         return [
             'name' => $this->getName(),
             'description' => $this->description(),
-            'rebingType' => $this->baseRebingType(),
+            'baseType' => $this->baseType(),
         ];
     }
 
@@ -61,15 +56,15 @@ abstract class BaseMutation extends Mutation
     /**
      * Convert the rebing type to a GraphQL type.
      */
-    public function baseType(): Type
+    public function toType(): Type
     {
-        return GraphQL::type($this->baseRebingType()->getName());
+        return GraphQL::type($this->baseType()->getName());
     }
 
     /**
      * The base return type of the mutation.
      */
-    public function baseRebingType(): BaseType|BaseUnion|null
+    public function baseType(): BaseType|BaseUnion|null
     {
         return null;
     }

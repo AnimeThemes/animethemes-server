@@ -61,7 +61,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): AnimeType
+    public function baseType(): AnimeType
     {
         return new AnimeType();
     }

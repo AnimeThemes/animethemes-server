@@ -22,7 +22,7 @@ class VideoScriptPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): VideoScriptType
+    public function baseType(): VideoScriptType
     {
         return new VideoScriptType();
     }

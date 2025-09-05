@@ -14,9 +14,6 @@ use GraphQL\Type\Definition\Type;
 
 abstract class BooleanField extends Field implements DisplayableField, FilterableField, SortableField
 {
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::boolean();

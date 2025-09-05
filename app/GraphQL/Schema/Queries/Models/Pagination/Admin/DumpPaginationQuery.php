@@ -23,7 +23,7 @@ class DumpPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): DumpType
+    public function baseType(): DumpType
     {
         return new DumpType();
     }

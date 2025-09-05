@@ -37,7 +37,7 @@ class CurrentFeaturedThemeQuery extends BaseQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): FeaturedThemeType
+    public function baseType(): FeaturedThemeType
     {
         return new FeaturedThemeType();
     }
@@ -57,7 +57,7 @@ class CurrentFeaturedThemeQuery extends BaseQuery
             FeaturedTheme::ATTRIBUTE_END_AT,
         ]);
 
-        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseRebingType());
+        $this->constrainEagerLoads($builder, $resolveInfo, $this->baseType());
 
         return $builder->first();
     }

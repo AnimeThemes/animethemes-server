@@ -38,9 +38,6 @@ class BelongsToManyRelation extends Relation
         return $this->edgeType;
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
         return GraphQL::type($this->edgeConnectionType->getName());

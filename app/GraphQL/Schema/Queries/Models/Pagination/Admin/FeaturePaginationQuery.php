@@ -25,7 +25,7 @@ class FeaturePaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): FeatureType
+    public function baseType(): FeatureType
     {
         return new FeatureType();
     }

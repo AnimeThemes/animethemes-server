@@ -31,9 +31,6 @@ class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumen
         return 'Object that references the season year queried';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): AnimeYearSeasonType
     {
         return new AnimeYearSeasonType();

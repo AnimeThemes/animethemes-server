@@ -26,7 +26,7 @@ class UpdatePlaylistMutation extends UpdateMutation
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): PlaylistType
+    public function baseType(): PlaylistType
     {
         return new PlaylistType();
     }

@@ -26,7 +26,7 @@ class FeaturedThemePaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): FeaturedThemeType
+    public function baseType(): FeaturedThemeType
     {
         return new FeaturedThemeType();
     }

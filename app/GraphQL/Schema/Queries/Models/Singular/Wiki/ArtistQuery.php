@@ -22,7 +22,7 @@ class ArtistQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): ArtistType
+    public function baseType(): ArtistType
     {
         return new ArtistType();
     }

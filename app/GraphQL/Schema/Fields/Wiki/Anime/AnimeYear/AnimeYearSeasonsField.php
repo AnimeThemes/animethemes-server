@@ -24,9 +24,6 @@ class AnimeYearSeasonsField extends Field implements DisplayableField
         return 'The available seasons of the year';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         $type = GraphQL::type(new AnimeYearSeasonsType()->getName());

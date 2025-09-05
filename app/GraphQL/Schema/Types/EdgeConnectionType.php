@@ -45,7 +45,7 @@ class EdgeConnectionType extends RebingType
             'pageInfo' => [
                 'type' => Type::nonNull(GraphQL::type(new PaginationInfoType()->getName())),
                 'description' => 'Pagination information about the list of edges.',
-                'resolve' => fn ($paginator) => $paginator,
+                'resolve' => fn (LengthAwarePaginator $paginator) => $paginator,
             ],
             'edges' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),

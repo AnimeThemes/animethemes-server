@@ -15,9 +15,6 @@ class MessageResponseField extends Field implements DisplayableField
         parent::__construct('message', nullable: false);
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

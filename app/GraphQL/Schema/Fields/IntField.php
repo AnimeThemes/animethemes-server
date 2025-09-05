@@ -18,9 +18,6 @@ use GraphQL\Type\Definition\Type;
 
 abstract class IntField extends Field implements DisplayableField, FilterableField, SortableField
 {
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::int();

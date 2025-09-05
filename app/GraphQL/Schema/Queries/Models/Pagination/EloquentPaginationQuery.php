@@ -55,7 +55,7 @@ abstract class EloquentPaginationQuery extends EloquentQuery
 
         $this->query($builder, $args);
 
-        return $action->index($builder, $args, $this->baseRebingType(), $resolveInfo);
+        return $action->index($builder, $args, $this->baseType(), $resolveInfo);
     }
 
     /**
@@ -63,12 +63,12 @@ abstract class EloquentPaginationQuery extends EloquentQuery
      */
     public function type(): Type
     {
-        $rebingType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
-        if (! $rebingType instanceof BaseType) {
-            throw new RuntimeException("baseRebingType not defined for query {$this->getName()}");
+        if (! $baseType instanceof BaseType) {
+            throw new RuntimeException("baseType not defined for query {$this->getName()}");
         }
 
-        return Type::nonNull(GraphQL::paginate($this->baseRebingType()->getName()));
+        return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));
     }
 }

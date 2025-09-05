@@ -24,7 +24,7 @@ class StudioPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): StudioType
+    public function baseType(): StudioType
     {
         return new StudioType();
     }
