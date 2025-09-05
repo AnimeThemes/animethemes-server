@@ -28,7 +28,6 @@
         "babenkoivan/elastic-migrations": "^3.4.1",
         "babenkoivan/elastic-scout-driver-plus": "^4.8",
         "bepsvpt/secure-headers": "^7.5",
-        "cyrildewit/eloquent-viewable": "^7.0.6",
         "fakerphp/faker": "^1.24.1",
         "filament/filament": "^4.0.4",
         "flowframe/laravel-trend": ">=0.4",

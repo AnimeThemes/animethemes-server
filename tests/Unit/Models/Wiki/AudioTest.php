@@ -6,9 +6,7 @@ use App\Constants\Config\AudioConstants;
 use App\Events\Wiki\Audio\AudioForceDeleting;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
-use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
@@ -39,16 +37,6 @@ test('videos', function () {
     $this->assertInstanceOf(HasMany::class, $audio->videos());
     $this->assertEquals($videoCount, $audio->videos()->count());
     $this->assertInstanceOf(Video::class, $audio->videos()->first());
-});
-
-test('views', function () {
-    $audio = Audio::factory()->createOne();
-
-    views($audio)->record();
-
-    $this->assertInstanceOf(MorphMany::class, $audio->views());
-    $this->assertEquals(1, $audio->views()->count());
-    $this->assertInstanceOf(View::class, $audio->views()->first());
 });
 
 test('audio storage deletion', function () {

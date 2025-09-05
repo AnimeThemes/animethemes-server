@@ -15,4 +15,4 @@ $isAudioStreamingAllowed = Str::of(EnsureFeaturesAreActive::class)
 
 Route::get('/{audio}', [AudioController::class, 'show'])
     ->name('audio.show')
-    ->middleware([$isAudioStreamingAllowed, 'record_view:audio']);
+    ->middleware([$isAudioStreamingAllowed]);

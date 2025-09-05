@@ -16,8 +16,6 @@ use App\Events\Wiki\Audio\AudioForceDeleting;
 use App\Events\Wiki\Audio\AudioRestored;
 use App\Events\Wiki\Audio\AudioUpdated;
 use App\Models\BaseModel;
-use CyrildeWit\EloquentViewable\Contracts\Viewable;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,11 +33,10 @@ use Illuminate\Support\Collection;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Streamable, Viewable
+class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Streamable
 {
     use AggregatesView;
     use HasFactory;
-    use InteractsWithViews;
     use Reportable;
     use SoftDeletes;
 
@@ -54,7 +51,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     final public const ATTRIBUTE_SIZE = 'size';
 
     final public const RELATION_VIDEOS = 'videos';
-    final public const RELATION_VIEWS = 'views';
 
     /**
      * The attributes that are mass assignable.

@@ -43,10 +43,10 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                     }
 
                     return new GlobalSearchResult(
-                        title: $resource::getGlobalSearchResultTitle($record),
-                        url: $url,
-                        details: $resource::getGlobalSearchResultDetails($record),
-                        actions: $resource::getGlobalSearchResultActions($record),
+                        $resource::getGlobalSearchResultTitle($record),
+                        $url,
+                        $resource::getGlobalSearchResultDetails($record),
+                        $resource::getGlobalSearchResultActions($record),
                     );
                 })
                 ->filter();

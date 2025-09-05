@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Http\Middleware\Models\RecordView;
 use App\Models\Document\Page;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -123,10 +122,5 @@ class AppServiceProvider extends ServiceProvider
             'artistmember' => ArtistMember::class,
             'artistsong' => ArtistSong::class,
         ]);
-    }
-
-    public function register(): void
-    {
-        $this->app->singleton(RecordView::class);
     }
 }

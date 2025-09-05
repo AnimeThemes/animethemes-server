@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models\Aggregate;
 
-use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * @property Viewable $viewable
+ * @property Model $viewable
  * @property string $viewable_type
  * @property int $viewable_id
  * @property int $value

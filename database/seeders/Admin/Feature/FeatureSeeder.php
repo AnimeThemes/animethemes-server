@@ -31,7 +31,6 @@ class FeatureSeeder extends Seeder
         Feature::deactivate(AllowVideoStreams::class);
 
         Feature::deactivate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
         Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
         Feature::activate(FeatureConstants::ENABLED_ONLY_ON_LOCALHOST);
         Feature::deactivate(FeatureConstants::IGNORE_ALL_FILE_VALIDATIONS);

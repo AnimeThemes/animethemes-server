@@ -11,12 +11,9 @@ use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\BindableArgument;
-use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Filter\Filter;
-use Illuminate\Support\Arr;
 
 trait ResolvesArguments
 {
@@ -56,16 +53,6 @@ trait ResolvesArguments
             )
             ->flatten()
             ->toArray();
-    }
-
-    /**
-     * Resolve the fields into arguments that are used for sorting.
-     *
-     * @return SortArgument[]
-     */
-    protected function resolveSortArguments(BaseType $type): array
-    {
-        return Arr::wrap(new SortArgument($type));
     }
 
     /**

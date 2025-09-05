@@ -16,12 +16,10 @@ use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
@@ -69,16 +67,6 @@ test('has subtitle', function () {
     $video = Video::factory()->createOne();
 
     $this->assertIsString($video->getSubtitle());
-});
-
-test('views', function () {
-    $video = Video::factory()->createOne();
-
-    views($video)->record();
-
-    $this->assertInstanceOf(MorphMany::class, $video->views());
-    $this->assertEquals(1, $video->views()->count());
-    $this->assertInstanceOf(View::class, $video->views()->first());
 });
 
 test('appends tags', function () {

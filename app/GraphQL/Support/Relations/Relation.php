@@ -13,6 +13,7 @@ use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\FirstArgument;
 use App\GraphQL\Support\Argument\PageArgument;
+use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Argument\TrashedArgument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
@@ -94,7 +95,7 @@ abstract class Relation
             $arguments[] = new PageArgument();
 
             if ($type instanceof BaseType) {
-                $arguments[] = $this->resolveSortArguments($this->baseType);
+                $arguments[] = new SortArgument($type);
             }
         }
 
