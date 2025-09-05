@@ -8,8 +8,6 @@ class FeatureConstants
 {
     final public const ALLOW_DISCORD_NOTIFICATIONS = 'allow_discord_notifications';
 
-    final public const ALLOW_VIEW_RECORDING = 'allow_view_recording';
-
     final public const AUDIO_BITRATE_RESTRICTION = 'audio_bitrate_restriction';
 
     final public const ENABLED_ONLY_ON_LOCALHOST = 'enabled_only_on_localhost';

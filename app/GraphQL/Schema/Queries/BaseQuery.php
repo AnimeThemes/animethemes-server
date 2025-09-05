@@ -12,6 +12,7 @@ use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\FirstArgument;
 use App\GraphQL\Support\Argument\PageArgument;
+use App\GraphQL\Support\Argument\SortArgument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -69,7 +70,7 @@ abstract class BaseQuery extends Query
         }
 
         if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery) {
-            $arguments[] = $this->resolveSortArguments($baseType);
+            $arguments[] = new SortArgument($baseType);
         }
 
         return Arr::flatten($arguments);

@@ -15,4 +15,4 @@ $isVideoStreamingAllowed = Str::of(EnsureFeaturesAreActive::class)
 
 Route::get('/{video}', [VideoController::class, 'show'])
     ->name('video.show')
-    ->middleware([$isVideoStreamingAllowed, 'record_view:video', 'throttle:video']);
+    ->middleware([$isVideoStreamingAllowed, 'throttle:video']);

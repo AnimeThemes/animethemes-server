@@ -9,6 +9,7 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 abstract class Filter
 {
@@ -17,7 +18,7 @@ abstract class Filter
         protected mixed $defaultValue = null,
     ) {}
 
-    public static function getValueWithResolvers(BaseType $baseType)
+    public static function getValueWithResolvers(BaseType $baseType): Collection
     {
         return collect($baseType->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof FilterableField)

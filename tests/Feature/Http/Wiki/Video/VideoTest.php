@@ -50,19 +50,6 @@ test('cannot stream soft deleted video', function () {
     $response->assertNotFound();
 });
 
-test('view recording not allowed', function () {
-    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-    Feature::activate(AllowVideoStreams::class);
-    Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
-
-    $video = Video::factory()->createOne();
-
-    get(route('video.show', ['video' => $video]));
-
-    $this->assertEquals(0, $video->views()->count());
-});
-
 test('video streaming permitted for bypass', function () {
     Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -81,34 +68,6 @@ test('video streaming permitted for bypass', function () {
     $response = get(route('video.show', ['video' => $video]));
 
     $response->assertSuccessful();
-});
-
-test('view recording is allowed', function () {
-    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-    Feature::activate(AllowVideoStreams::class);
-    Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
-
-    $video = Video::factory()->createOne();
-
-    get(route('video.show', ['video' => $video]));
-
-    $this->assertEquals(1, $video->views()->count());
-});
-
-test('view recording cooldown', function () {
-    Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-    Feature::activate(AllowVideoStreams::class);
-    Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
-
-    $video = Video::factory()->createOne();
-
-    Collection::times(fake()->randomDigitNotNull(), function () use ($video) {
-        get(route('video.show', ['video' => $video]));
-    });
-
-    $this->assertEquals(1, $video->views()->count());
 });
 
 test('invalid streaming method error', function () {

@@ -8,7 +8,6 @@ use App\Http\Middleware\Api\SetAcceptJsonHeader;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Auth\RedirectIfAuthenticated;
 use App\Http\Middleware\LogRequest;
-use App\Http\Middleware\Models\RecordView;
 use App\Http\Middleware\ThrottleRequestsWithService;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustHosts;
@@ -106,7 +105,6 @@ class Kernel extends HttpKernel
         'can' => Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
         'password.confirm' => RequirePassword::class,
-        'record_view' => RecordView::class,
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequestsWithService::class,
         'verified' => EnsureEmailIsVerified::class,

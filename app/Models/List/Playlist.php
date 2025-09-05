@@ -65,7 +65,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     final public const RELATION_LAST = 'last';
     final public const RELATION_TRACKS = 'tracks';
     final public const RELATION_USER = 'user';
-    final public const RELATION_VIEWS = 'views';
 
     /**
      * Is auditing disabled?

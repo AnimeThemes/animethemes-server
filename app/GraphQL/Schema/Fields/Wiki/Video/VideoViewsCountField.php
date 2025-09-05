@@ -22,6 +22,6 @@ class VideoViewsCountField extends CountAggregateField implements DeprecatedFiel
 
     public function deprecationReason(): string
     {
-        return 'We will no longer track views. Use likesCount instead';
+        return 'We are no longer tracking views. Use likesCount instead';
     }
 }

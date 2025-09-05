@@ -22,6 +22,6 @@ class AudioViewsCountField extends CountAggregateField implements DeprecatedFiel
 
     public function deprecationReason(): string
     {
-        return 'We will no longer track views.';
+        return 'We are no longer tracking views.';
     }
 }

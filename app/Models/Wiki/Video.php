@@ -29,8 +29,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use CyrildeWit\EloquentViewable\Contracts\Viewable;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\VideoFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,13 +63,12 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, Likeable, SoftDeletable, Streamable, Viewable
+class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, Likeable, SoftDeletable, Streamable
 {
     use AggregatesLike;
     use AggregatesView;
     use HasFactory;
     use InteractsWithLikes;
-    use InteractsWithViews;
     use Reportable;
     use Searchable;
     use SoftDeletes;
@@ -104,7 +101,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     final public const RELATION_SCRIPT = 'videoscript';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';
     final public const RELATION_TRACKS = 'tracks';
-    final public const RELATION_VIEWS = 'views';
 
     /**
      * The attributes that are mass assignable.
