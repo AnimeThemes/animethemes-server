@@ -22,7 +22,7 @@ class ThemeGroupPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): ThemeGroupType
+    public function baseType(): ThemeGroupType
     {
         return new ThemeGroupType();
     }

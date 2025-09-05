@@ -22,9 +22,6 @@ class NodeField extends Field implements DisplayableField
         parent::__construct('node', nullable: false);
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         $type = Str::of(class_basename($this->nodeType))

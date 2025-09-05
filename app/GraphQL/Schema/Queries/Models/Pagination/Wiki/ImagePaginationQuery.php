@@ -22,7 +22,7 @@ class ImagePaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): ImageType
+    public function baseType(): ImageType
     {
         return new ImageType();
     }

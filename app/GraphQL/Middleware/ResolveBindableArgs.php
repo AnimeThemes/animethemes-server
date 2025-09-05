@@ -19,15 +19,15 @@ class ResolveBindableArgs extends Middleware
      */
     public function handle($root, array $args, $context, ResolveInfo $resolveInfo, Closure $next)
     {
-        $rebingType = $resolveInfo->fieldDefinition->config['rebingType']
+        $baseType = $resolveInfo->fieldDefinition->config['baseType']
             /** @phpstan-ignore-next-line */
-            ?? $resolveInfo->fieldDefinition->config['type']->getWrappedType()->config['rebingType'];
+            ?? $resolveInfo->fieldDefinition->config['type']->getWrappedType()->config['baseType'];
 
-        if (! $rebingType instanceof EloquentType) {
+        if (! $baseType instanceof EloquentType) {
             return $next($root, $args, $context, $resolveInfo);
         }
 
-        $bindableFields = collect($rebingType->fieldClasses())
+        $bindableFields = collect($baseType->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof BindableField && Arr::has($args, $field->getName()))
             ->all();
 
@@ -36,7 +36,7 @@ class ResolveBindableArgs extends Middleware
             $resolver = $field->bindResolver($args);
 
             if ($resolver === null) {
-                $args['model'] = $rebingType->model()::query()
+                $args['model'] = $baseType->model()::query()
                     ->where($field->getColumn(), Arr::get($args, $field->getName()))
                     ->firstOrFail();
 

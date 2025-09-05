@@ -17,14 +17,9 @@ abstract class Filter
         protected mixed $defaultValue = null,
     ) {}
 
-    /**
-     * Get the argument to apply the filter.
-     */
-    abstract public function argument(): Argument;
-
-    public static function getValueWithResolvers(BaseType $rebingType)
+    public static function getValueWithResolvers(BaseType $baseType)
     {
-        return collect($rebingType->fieldClasses())
+        return collect($baseType->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof FilterableField)
             ->flatMap(function (Field&FilterableField $field) {
                 return collect($field->getFilters())
@@ -36,8 +31,7 @@ abstract class Filter
             });
     }
 
-    /**
-     * Apply the filter to the builder.
-     */
-    abstract public function apply(Builder $builder, mixed $value): Builder;
+    abstract public function argument(): Argument;
+
+    abstract public function filter(Builder $builder, mixed $value): Builder;
 }

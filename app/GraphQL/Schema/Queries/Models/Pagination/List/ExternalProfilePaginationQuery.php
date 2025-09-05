@@ -31,7 +31,7 @@ class ExternalProfilePaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): ExternalProfileType
+    public function baseType(): ExternalProfileType
     {
         return new ExternalProfileType();
     }

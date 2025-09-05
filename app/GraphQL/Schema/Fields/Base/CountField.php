@@ -20,9 +20,6 @@ class CountField extends Field implements DisplayableField
         parent::__construct($column, $name, $nullable);
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::int();

@@ -21,9 +21,6 @@ class DumpLinkField extends Field implements DisplayableField
         return 'The URL to download the file from storage';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

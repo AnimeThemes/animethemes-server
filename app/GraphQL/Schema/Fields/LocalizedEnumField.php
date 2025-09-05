@@ -22,9 +22,6 @@ class LocalizedEnumField extends Field implements DisplayableField
         return "The formatted string value of the {$this->field->getName()} field";
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

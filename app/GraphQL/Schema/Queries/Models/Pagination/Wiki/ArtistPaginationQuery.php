@@ -24,7 +24,7 @@ class ArtistPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): ArtistType
+    public function baseType(): ArtistType
     {
         return new ArtistType();
     }

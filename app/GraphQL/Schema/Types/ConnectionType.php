@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as RebingType;
 
-class EdgeConnectionType extends RebingType
+class ConnectionType extends RebingType
 {
     protected ?PivotType $pivotType;
 
@@ -45,7 +45,7 @@ class EdgeConnectionType extends RebingType
             'pageInfo' => [
                 'type' => Type::nonNull(GraphQL::type(new PaginationInfoType()->getName())),
                 'description' => 'Pagination information about the list of edges.',
-                'resolve' => fn ($paginator) => $paginator,
+                'resolve' => fn (LengthAwarePaginator $paginator) => $paginator,
             ],
             'edges' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),
@@ -61,12 +61,13 @@ class EdgeConnectionType extends RebingType
     }
 
     /**
-     * Get the name of the edge connection.
-     * Template: {edgeType}Connection.
+     * Get the name of the connection.
+     * Template: {edgeType - Edge}Connection.
      */
     public function getName(): string
     {
         return Str::of($this->edgeType->getName())
+            ->remove('Edge')
             ->append('Connection')
             ->__toString();
     }

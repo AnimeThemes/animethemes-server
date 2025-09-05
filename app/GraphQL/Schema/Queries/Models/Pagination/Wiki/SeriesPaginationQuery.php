@@ -24,7 +24,7 @@ class SeriesPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): SeriesType
+    public function baseType(): SeriesType
     {
         return new SeriesType();
     }

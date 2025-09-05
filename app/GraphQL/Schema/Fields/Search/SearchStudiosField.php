@@ -22,9 +22,6 @@ class SearchStudiosField extends Field implements DisplayableField
         return 'The studio results of the search';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::listOf(Type::nonNull(GraphQL::type(new StudioType()->getName())));

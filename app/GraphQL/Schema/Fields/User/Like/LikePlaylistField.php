@@ -26,9 +26,6 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
         return 'The hashid of the playlist to like';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

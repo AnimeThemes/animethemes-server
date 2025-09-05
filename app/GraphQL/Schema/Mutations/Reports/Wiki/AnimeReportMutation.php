@@ -23,7 +23,7 @@ class AnimeReportMutation extends UpdateReportMutation
     /**
      * The base return type of the mutation.
      */
-    public function baseRebingType(): AnimeType
+    public function baseType(): AnimeType
     {
         return new AnimeType();
     }

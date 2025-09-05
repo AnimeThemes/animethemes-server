@@ -25,12 +25,9 @@ abstract class BaseReportMutation extends BaseMutation
         return $arguments;
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
-        return Type::nonNull($this->baseRebingType());
+        return Type::nonNull($this->baseType());
     }
 
     /**

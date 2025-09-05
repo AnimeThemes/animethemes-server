@@ -15,7 +15,7 @@ abstract class UpdateReportMutation extends BaseReportMutation
     public function rootInput(): string
     {
         return Str::of('Update')
-            ->append($this->baseRebingType()->getName())
+            ->append($this->baseType()->getName())
             ->append('Input')
             ->__toString();
     }

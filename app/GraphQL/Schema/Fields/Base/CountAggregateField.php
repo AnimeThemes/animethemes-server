@@ -23,9 +23,6 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
         parent::__construct($column, $name, $nullable);
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::int();

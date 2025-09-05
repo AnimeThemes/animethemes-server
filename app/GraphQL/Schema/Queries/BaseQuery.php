@@ -37,7 +37,7 @@ abstract class BaseQuery extends Query
         return [
             'name' => $this->getName(),
             'description' => $this->description(),
-            'rebingType' => $this->baseRebingType(),
+            'baseType' => $this->baseType(),
         ];
     }
 
@@ -57,7 +57,7 @@ abstract class BaseQuery extends Query
     {
         $arguments = [];
 
-        $baseType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
         if ($this instanceof EloquentPaginationQuery) {
             $arguments[] = new FirstArgument();
@@ -78,36 +78,33 @@ abstract class BaseQuery extends Query
     /**
      * Convert the rebing type to a GraphQL type.
      */
-    public function baseType(): Type
+    public function toType(): Type
     {
-        return GraphQL::type($this->baseRebingType()->getName());
+        return GraphQL::type($this->baseType()->getName());
     }
 
     /**
      * The base return rebing type of the query.
      */
-    public function baseRebingType(): ?BaseType
+    public function baseType(): ?BaseType
     {
         return null;
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
         if (! $this->nullable) {
             if ($this->isList) {
-                return Type::nonNull(Type::listOf(Type::nonNull($this->baseType())));
+                return Type::nonNull(Type::listOf(Type::nonNull($this->toType())));
             }
 
-            return Type::nonNull($this->baseType());
+            return Type::nonNull($this->toType());
         }
 
         if ($this->isList) {
-            return Type::listOf(Type::nonNull($this->baseType()));
+            return Type::listOf(Type::nonNull($this->toType()));
         }
 
-        return $this->baseType();
+        return $this->toType();
     }
 }

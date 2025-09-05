@@ -22,7 +22,7 @@ class AudioPaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): AudioType
+    public function baseType(): AudioType
     {
         return new AudioType();
     }

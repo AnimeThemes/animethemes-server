@@ -22,7 +22,7 @@ class StudioQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): StudioType
+    public function baseType(): StudioType
     {
         return new StudioType();
     }

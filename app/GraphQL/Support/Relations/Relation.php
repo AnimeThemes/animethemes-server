@@ -31,10 +31,10 @@ abstract class Relation
     protected Type $type;
 
     public function __construct(
-        protected BaseType|BaseUnion $rebingType,
+        protected BaseType|BaseUnion $baseType,
         protected string $relationName,
     ) {
-        $this->type = GraphQL::type($rebingType->getName());
+        $this->type = GraphQL::type($baseType->getName());
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class Relation
     {
         $arguments = [];
 
-        $type = $this->rebingType;
+        $type = $this->baseType;
 
         if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType) {
             $arguments[] = $this->resolveFilterArguments($type->fieldClasses());
@@ -94,7 +94,7 @@ abstract class Relation
             $arguments[] = new PageArgument();
 
             if ($type instanceof BaseType) {
-                $arguments[] = $this->resolveSortArguments($this->rebingType);
+                $arguments[] = $this->resolveSortArguments($this->baseType);
             }
         }
 
@@ -106,8 +106,6 @@ abstract class Relation
     }
 
     /**
-     * The args for the field.
-     *
      * @return array<string, array<string, mixed>>
      */
     public function args(): array
@@ -124,12 +122,9 @@ abstract class Relation
             ->toArray();
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function getBaseType(): BaseType|BaseUnion
     {
-        return $this->rebingType;
+        return $this->baseType;
     }
 
     /**
@@ -153,9 +148,6 @@ abstract class Relation
         );
     }
 
-    /**
-     * The type returned by the field.
-     */
     abstract public function type(): Type;
 
     /**

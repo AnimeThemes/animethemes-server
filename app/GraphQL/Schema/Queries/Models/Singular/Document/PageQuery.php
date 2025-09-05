@@ -22,7 +22,7 @@ class PageQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): PageType
+    public function baseType(): PageType
     {
         return new PageType();
     }

@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MorphToRelation extends Relation
 {
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
         if (! $this->nullable) {

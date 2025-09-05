@@ -47,7 +47,7 @@ abstract class DeleteMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
             $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
@@ -56,11 +56,8 @@ abstract class DeleteMutation extends BaseMutation
         return Arr::flatten($arguments);
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
-        return Type::nonNull($this->baseType());
+        return Type::nonNull($this->toType());
     }
 }

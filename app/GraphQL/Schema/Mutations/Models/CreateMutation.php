@@ -47,7 +47,7 @@ abstract class CreateMutation extends BaseMutation
     {
         $arguments = [];
 
-        $baseType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
             $bindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
@@ -65,7 +65,7 @@ abstract class CreateMutation extends BaseMutation
      */
     public function rulesForValidation(array $args = []): array
     {
-        $baseType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
@@ -77,11 +77,8 @@ abstract class CreateMutation extends BaseMutation
         return [];
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
-        return Type::nonNull($this->baseType());
+        return Type::nonNull($this->toType());
     }
 }

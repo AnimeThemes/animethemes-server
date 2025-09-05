@@ -54,7 +54,7 @@ abstract class EloquentQuery extends BaseQuery
      */
     public function model(): string
     {
-        $baseType = $this->baseRebingType();
+        $baseType = $this->baseType();
 
         if ($baseType instanceof EloquentType) {
             return $baseType->model();
@@ -72,7 +72,7 @@ abstract class EloquentQuery extends BaseQuery
     {
         $arguments = parent::arguments();
 
-        if (in_array(new DeletedAtField(), $this->baseRebingType()->fieldClasses())) {
+        if (in_array(new DeletedAtField(), $this->baseType()->fieldClasses())) {
             $arguments[] = new TrashedArgument();
         }
 

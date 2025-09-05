@@ -20,9 +20,6 @@ class ExistsField extends Field implements DisplayableField
         parent::__construct($relation.'Exists', $name, $nullable);
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::boolean();

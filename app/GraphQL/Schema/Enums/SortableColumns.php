@@ -38,52 +38,29 @@ class SortableColumns extends EnumType
         return [
             'name' => $this->type->getName().self::SUFFIX,
             'values' => $this->getValues(),
+            'resolvers' => $this->getValuesWithResolver(),
         ];
     }
 
     /**
-     * Get the resolvers for every value.
-     *
-     * @return array<string, array>
-     */
-    public function getValuesWithResolver(): array
-    {
-        return $this->getSortableFields()
-            ->mapWithKeys(function (Field&SortableField $field) {
-                return [
-                    Str::of($field->getName())->snake()->upper()->__toString() => [
-                        self::RESOLVER_COLUMN => $field->getColumn(),
-                        self::RESOLVER_SORT_TYPE => $field->sortType(),
-                        self::RESOLVER_RELATION => method_exists($field, 'relation') ? $field->{'relation'}() : null,
-                    ],
-                ];
-            })
-            ->merge(
-                $this->getRelations($this->type)
-                    ->flatMap(function (Collection $collection, $relation) {
-                        return $collection->flatMap(fn (Field $field) => [
-                            Str::upper($relation).'_'.Str::of($field->getName())->snake()->upper()->__toString() => [
-                                self::RESOLVER_COLUMN => $field->getColumn(),
-                                self::RESOLVER_SORT_TYPE => SortType::RELATION,
-                                self::RESOLVER_RELATION => $relation,
-                            ],
-                        ]);
-                    })
-            )
-            /** @phpstan-ignore-next-line */
-            ->push([RandomSort::CASE => []])
-            ->toArray();
-    }
-
-    /**
-     * Get the sortable fields.
-     *
      * @return Collection<int, Field&SortableField>
      */
     private function getSortableFields(): Collection
     {
         return collect($this->type->fieldClasses())
             ->filter(fn (Field $field) => $field instanceof SortableField);
+    }
+
+    private function getRelations(BaseType $type): Collection
+    {
+        return collect($type->relations())
+            ->filter(fn (Relation $relation) => $relation instanceof BelongsToRelation && $relation->getBaseType() instanceof BaseType)
+            ->mapWithKeys(
+                fn (Relation $relation) => [
+                    $relation->getName() => collect($relation->getBaseType()->fieldClasses())
+                        ->filter(fn (Field $field) => $field instanceof SortableField),
+                ],
+            );
     }
 
     /**
@@ -111,15 +88,37 @@ class SortableColumns extends EnumType
             ->toArray();
     }
 
-    private function getRelations(BaseType $type): Collection
+    /**
+     * Get the resolvers for every value.
+     *
+     * @return array<string, array>
+     */
+    private function getValuesWithResolver(): array
     {
-        return collect($type->relations())
-            ->filter(fn (Relation $relation) => $relation instanceof BelongsToRelation && $relation->getBaseType() instanceof BaseType)
-            ->mapWithKeys(
-                fn (Relation $relation) => [
-                    $relation->getName() => collect($relation->getBaseType()->fieldClasses())
-                        ->filter(fn (Field $field) => $field instanceof SortableField),
-                ],
-            );
+        return $this->getSortableFields()
+            ->mapWithKeys(function (Field&SortableField $field) {
+                return [
+                    Str::of($field->getName())->snake()->upper()->__toString() => [
+                        self::RESOLVER_COLUMN => $field->getColumn(),
+                        self::RESOLVER_SORT_TYPE => $field->sortType(),
+                        self::RESOLVER_RELATION => method_exists($field, 'relation') ? $field->{'relation'}() : null,
+                    ],
+                ];
+            })
+            ->merge(
+                $this->getRelations($this->type)
+                    ->flatMap(function (Collection $collection, $relation) {
+                        return $collection->flatMap(fn (Field $field) => [
+                            Str::upper($relation).'_'.Str::of($field->getName())->snake()->upper()->__toString() => [
+                                self::RESOLVER_COLUMN => $field->getColumn(),
+                                self::RESOLVER_SORT_TYPE => SortType::RELATION,
+                                self::RESOLVER_RELATION => $relation,
+                            ],
+                        ]);
+                    })
+            )
+            /** @phpstan-ignore-next-line */
+            ->push([RandomSort::CASE => []])
+            ->toArray();
     }
 }

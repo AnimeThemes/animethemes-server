@@ -33,9 +33,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
         return true;
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return GraphQL::type(class_basename($this->enum));

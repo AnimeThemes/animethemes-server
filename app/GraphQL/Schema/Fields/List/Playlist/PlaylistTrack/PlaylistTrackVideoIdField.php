@@ -27,9 +27,6 @@ class PlaylistTrackVideoIdField extends Field implements CreatableField, Require
         return 'The video id of the track';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::int();

@@ -20,9 +20,6 @@ class AudioLinkField extends Field
         return 'The URL to stream the file from storage';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

@@ -26,7 +26,7 @@ trait SortsModels
             return $builder;
         }
 
-        $resolvers = new SortableColumns($type)->getValuesWithResolver();
+        $resolvers = Arr::get(new SortableColumns($type)->getAttributes(), 'resolvers');
 
         $this->applySort($builder, $sorts, $resolvers);
 

@@ -22,7 +22,7 @@ class ExternalResourcePaginationQuery extends EloquentPaginationQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): ExternalResourceType
+    public function baseType(): ExternalResourceType
     {
         return new ExternalResourceType();
     }

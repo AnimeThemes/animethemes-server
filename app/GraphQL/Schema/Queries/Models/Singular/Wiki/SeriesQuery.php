@@ -22,7 +22,7 @@ class SeriesQuery extends EloquentSingularQuery
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): SeriesType
+    public function baseType(): SeriesType
     {
         return new SeriesType();
     }

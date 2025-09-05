@@ -10,12 +10,9 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class HasManyRelation extends Relation
 {
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
-        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->rebingType->getName()))));
+        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->baseType->getName()))));
     }
 
     /**

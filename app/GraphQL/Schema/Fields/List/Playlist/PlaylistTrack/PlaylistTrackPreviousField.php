@@ -27,9 +27,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
         return 'The previous track of the current track';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::string();

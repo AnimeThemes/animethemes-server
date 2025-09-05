@@ -73,17 +73,14 @@ class SyncExternalProfileMutation extends BaseMutation
     /**
      * The base return type of the mutation.
      */
-    public function baseType(): Type
+    public function toType(): Type
     {
         return Type::string();
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function type(): Type
     {
-        return Type::nonNull($this->baseType());
+        return Type::nonNull($this->toType());
     }
 
     /**

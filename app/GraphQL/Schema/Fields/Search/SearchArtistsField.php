@@ -22,9 +22,6 @@ class SearchArtistsField extends Field implements DisplayableField
         return 'The artist results of the search';
     }
 
-    /**
-     * The type returned by the field.
-     */
     public function baseType(): Type
     {
         return Type::listOf(Type::nonNull(GraphQL::type(new ArtistType()->getName())));

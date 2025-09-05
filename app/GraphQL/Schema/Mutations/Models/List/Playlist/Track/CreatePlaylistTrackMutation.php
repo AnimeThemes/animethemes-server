@@ -26,7 +26,7 @@ class CreatePlaylistTrackMutation extends CreateMutation
     /**
      * The base return type of the query.
      */
-    public function baseRebingType(): PlaylistTrackType
+    public function baseType(): PlaylistTrackType
     {
         return new PlaylistTrackType();
     }
