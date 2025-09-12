@@ -467,7 +467,6 @@ return [
     'dashboards' => [
         'label' => [
             'admin' => 'Admin',
-            'dev' => 'Developer',
             'wiki' => 'Wiki',
         ],
     ],
