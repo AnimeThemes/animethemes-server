@@ -32,14 +32,24 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();
+
         $song = $performance->song;
         $artist = $performance->artist;
 
+        $artistName = $performance->alias ?? $artist->getName();
+        $artistName = filled($performance->as) ? "{$performance->as} (CV: {$artistName})" : $artistName;
+
         if ($this->getModel()->isMembership()) {
-            return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->member->getName()}**' as member of '**{$artist->group->getName()}**'.";
+            $groupName = $artistName;
+            $membership = $artist;
+
+            $memberName = $membership->alias ?? $membership->member->getName();
+            $memberName = filled($membership->as) ? "{$membership->as} (CV: {$memberName})" : $memberName;
+
+            return "Song '**{$song->getName()}**' has been attached to Member '**{$memberName}**' of '**{$groupName}**'.";
         }
 
-        return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.";
+        return "Song '**{$song->getName()}**' has been attached to Artist '**{$artistName}**'.";
     }
 
     public function updateRelatedIndices(): void

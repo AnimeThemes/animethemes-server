@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Document;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
@@ -39,9 +40,9 @@ class Page extends BaseResource
         return __('filament.resources.label.pages');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.document');
+        return NavigationGroup::DOCUMENT;
     }
 
     public static function getNavigationIcon(): Heroicon

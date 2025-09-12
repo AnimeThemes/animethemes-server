@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -51,9 +52,9 @@ class FeaturedTheme extends BaseResource
         return __('filament.resources.label.featured_themes');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.admin');
+        return NavigationGroup::ADMIN;
     }
 
     public static function getNavigationIcon(): Heroicon

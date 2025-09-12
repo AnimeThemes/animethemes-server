@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\Models\Wiki\Image\UploadImageAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -49,9 +50,9 @@ class Image extends BaseResource
         return __('filament.resources.label.images');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.wiki');
+        return NavigationGroup::CONTENT;
     }
 
     public static function getNavigationIcon(): Heroicon

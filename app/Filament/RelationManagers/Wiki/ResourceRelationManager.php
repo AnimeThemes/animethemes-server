@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
-use App\Enums\Auth\Role;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\BaseRelationManager;
@@ -15,7 +14,6 @@ use App\Pivots\Morph\Resourceable;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 
 class ResourceRelationManager extends BaseRelationManager
 {
@@ -61,10 +59,5 @@ class ResourceRelationManager extends BaseRelationManager
                 ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
                 ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    public function canCreate(): bool
-    {
-        return Auth::user()->hasRole(Role::ADMIN->value);
     }
 }

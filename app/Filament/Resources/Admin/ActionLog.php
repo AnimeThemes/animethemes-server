@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Enums\Auth\Role;
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Actions\Base\ViewAction;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -51,9 +52,9 @@ class ActionLog extends BaseResource
         return __('filament.resources.label.action_logs');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.admin');
+        return NavigationGroup::ADMIN;
     }
 
     public static function getNavigationIcon(): Heroicon

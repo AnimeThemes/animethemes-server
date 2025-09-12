@@ -8,7 +8,6 @@ use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\Admin\ActionLog;
-use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use Filament\Actions\AttachAction as BaseAttachAction;
 use Filament\Facades\Filament;
@@ -84,6 +83,6 @@ class AttachAction extends BaseAttachAction
      */
     private function shouldShowCreateOption(string $model): bool
     {
-        return ! ($model === Image::class || $model === ExternalResource::class);
+        return ! ($model === Image::class);
     }
 }

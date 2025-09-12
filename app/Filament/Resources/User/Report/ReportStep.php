@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\User\Report;
 
 use App\Contracts\Models\Nameable;
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\User\ApprovableStatus;
 use App\Enums\Models\User\ReportActionType;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -46,9 +47,9 @@ class ReportStep extends BaseResource
         return __('filament.resources.label.report_steps');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.user');
+        return NavigationGroup::USER;
     }
 
     public static function getNavigationIcon(): Heroicon

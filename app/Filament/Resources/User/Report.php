@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\User;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\User\ApprovableStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -43,9 +44,9 @@ class Report extends BaseResource
         return __('filament.resources.label.reports');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.user');
+        return NavigationGroup::USER;
     }
 
     public static function getNavigationIcon(): Heroicon

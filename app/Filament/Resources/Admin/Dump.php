@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Repositories\Storage\Admin\Dump\ReconcileDumpAction;
 use App\Filament\Actions\Storage\Admin\DumpDocumentAction;
 use App\Filament\Actions\Storage\Admin\DumpWikiAction;
@@ -41,9 +42,9 @@ class Dump extends BaseResource
         return __('filament.resources.label.dumps');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.admin');
+        return NavigationGroup::ADMIN;
     }
 
     public static function getNavigationIcon(): Heroicon

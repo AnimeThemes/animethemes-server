@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -51,9 +52,9 @@ class Performance extends BaseResource
         return __('filament.resources.label.performances');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.wiki');
+        return NavigationGroup::CONTENT;
     }
 
     public static function getNavigationIcon(): Heroicon

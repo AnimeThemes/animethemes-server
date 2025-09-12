@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -71,9 +72,9 @@ class Theme extends BaseResource
         return __('filament.resources.label.anime_themes');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.wiki');
+        return NavigationGroup::CONTENT;
     }
 
     public static function getNavigationIcon(): Heroicon

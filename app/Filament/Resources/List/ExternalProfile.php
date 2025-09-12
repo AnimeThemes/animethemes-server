@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Filament\Actions\Models\List\External\SyncExternalProfileAction;
@@ -48,9 +49,9 @@ class ExternalProfile extends BaseResource
         return __('filament.resources.label.external_profiles');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.list');
+        return NavigationGroup::LIST;
     }
 
     public static function getNavigationIcon(): Heroicon

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
@@ -43,9 +44,9 @@ class Script extends BaseResource
         return __('filament.resources.label.video_scripts');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.wiki');
+        return NavigationGroup::CONTENT;
     }
 
     public static function getNavigationIcon(): Heroicon

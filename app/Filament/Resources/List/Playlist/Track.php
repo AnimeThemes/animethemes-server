@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\Playlist;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Models\List\AssignHashidsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -54,9 +55,9 @@ class Track extends BaseResource
         return __('filament.resources.label.playlist_tracks');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.list');
+        return NavigationGroup::LIST;
     }
 
     public static function getNavigationIcon(): Heroicon
