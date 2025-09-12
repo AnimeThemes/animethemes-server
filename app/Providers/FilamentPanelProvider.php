@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Awcodes\Recently\RecentlyPlugin;
@@ -103,6 +104,7 @@ class FilamentPanelProvider extends PanelProvider
                 FilamentApexChartsPlugin::make(),
                 RecentlyPlugin::make()->rounded(),
             ])
+            ->navigationGroups(NavigationGroup::class)
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

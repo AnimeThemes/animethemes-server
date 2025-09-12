@@ -961,15 +961,6 @@ return [
         ],
     ],
     'resources' => [
-        'group' => [
-            'admin' => 'Admin',
-            'auth' => 'Auth',
-            'discord' => 'Discord',
-            'document' => 'Document',
-            'list' => 'List',
-            'user' => 'User',
-            'wiki' => 'Wiki',
-        ],
         'label' => [
             'action_logs' => 'Action Logs',
             'anime_synonyms' => 'Anime Synonyms',

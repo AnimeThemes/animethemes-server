@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Discord;
 
 use App\Actions\Discord\DiscordThreadAction;
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Models\Discord\DiscordEditMessageAction;
 use App\Filament\Actions\Models\Discord\DiscordSendMessageAction;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -50,9 +51,9 @@ class DiscordThread extends BaseResource
         return __('filament.resources.label.discord_threads');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.discord');
+        return NavigationGroup::DISCORD;
     }
 
     public static function getNavigationIcon(): Heroicon

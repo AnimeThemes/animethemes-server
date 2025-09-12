@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -55,9 +56,9 @@ class Anime extends BaseResource
         return __('filament.resources.label.anime');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.wiki');
+        return NavigationGroup::CONTENT;
     }
 
     public static function getNavigationIcon(): Heroicon

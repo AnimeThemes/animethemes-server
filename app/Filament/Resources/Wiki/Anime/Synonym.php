@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -49,9 +50,9 @@ class Synonym extends BaseResource
         return __('filament.resources.label.anime_synonyms');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.wiki');
+        return NavigationGroup::CONTENT;
     }
 
     public static function getNavigationIcon(): Heroicon

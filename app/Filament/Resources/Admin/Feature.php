@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Constants\FeatureConstants;
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
@@ -38,9 +39,9 @@ class Feature extends BaseResource
         return __('filament.resources.label.features');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.admin');
+        return NavigationGroup::ADMIN;
     }
 
     public static function getNavigationIcon(): Heroicon

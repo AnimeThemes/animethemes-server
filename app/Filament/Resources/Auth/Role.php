@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Models\Auth\Role\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\Role\RevokePermissionAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -50,9 +51,9 @@ class Role extends BaseResource
         return __('filament.resources.label.roles');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.auth');
+        return NavigationGroup::AUTH;
     }
 
     public static function getNavigationIcon(): Heroicon

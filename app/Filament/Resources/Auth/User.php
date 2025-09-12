@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
+use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Models\Auth\User\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
@@ -47,9 +48,9 @@ class User extends BaseResource
         return __('filament.resources.label.users');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): NavigationGroup
     {
-        return __('filament.resources.group.auth');
+        return NavigationGroup::AUTH;
     }
 
     public static function getNavigationIcon(): Heroicon
