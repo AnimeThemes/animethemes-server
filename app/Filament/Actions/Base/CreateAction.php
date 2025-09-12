@@ -6,7 +6,6 @@ namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Base\BaseManageResources;
 use App\Models\Admin\ActionLog;
@@ -58,10 +57,6 @@ class CreateAction extends BaseCreateAction
         $this->visible(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, string $model) {
             if ($livewire instanceof BaseListResources || $livewire instanceof BaseManageResources) {
                 return $livewire->getResource()::canCreate() && Gate::allows('create', $model);
-            }
-
-            if ($livewire instanceof ResourceRelationManager) {
-                return $livewire->canCreate();
             }
 
             if (! $livewire->canCreate()) {
