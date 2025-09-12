@@ -35,14 +35,24 @@ class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();
+
         $song = $performance->song;
         $artist = $performance->artist;
 
-        if ($performance->isMembership()) {
-            return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->member->getName()}**' via Group '**{$artist->group->getName()}**'.";
+        $artistName = $performance->alias ?? $artist->getName();
+        $artistName = filled($performance->as) ? "{$performance->as} (CV: {$artistName})" : $artistName;
+
+        if ($this->getModel()->isMembership()) {
+            $groupName = $artistName;
+            $membership = $artist;
+
+            $memberName = $membership->alias ?? $membership->member->getName();
+            $memberName = filled($membership->as) ? "{$membership->as} (CV: {$memberName})" : $memberName;
+
+            return "Song '**{$song->getName()}**' has been detached from Member '**{$memberName}**' of '**{$groupName}**'.";
         }
 
-        return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->getName()}**'.";
+        return "Song '**{$song->getName()}**' has been detached from Artist '**{$artistName}**'.";
     }
 
     protected function getNotificationMessage(): string
