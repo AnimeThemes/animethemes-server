@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\GraphQL\Handler;
 
 use Error as PhpError;
@@ -23,14 +25,14 @@ class ErrorHandler
             if ($error instanceof ValidationError ||
                 $error instanceof AuthorizationError ||
                 $error instanceof GraphQLError ||
-                !(
+                ! (
                     $error instanceof Exception ||
                     $error instanceof PhpError
                 )) {
                 continue;
             }
 
-            if (!$error instanceof Exception) {
+            if (! $error instanceof Exception) {
                 $error = new Exception(
                     $error->getMessage(),
                     $error->getCode(),
