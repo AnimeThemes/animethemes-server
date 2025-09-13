@@ -98,7 +98,7 @@ return [
      *
      * The default handler will pass exceptions to laravel Error Handling mechanism
      */
-    'errors_handler' => [Rebing\GraphQL\GraphQL::class, 'handleErrors'],
+    'errors_handler' => [App\GraphQL\Handler\ErrorHandler::class, 'handleErrors'],
 
     /*
      * Options to limit the query complexity and depth. See the doc
