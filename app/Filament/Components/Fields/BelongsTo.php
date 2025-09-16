@@ -8,44 +8,18 @@ use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
-use App\Models\Admin\ActionLog;
 use App\Models\Auth\User;
-use Filament\Forms\Components\Select as ComponentsSelect;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-class BelongsTo extends ComponentsSelect
+class BelongsTo extends Select
 {
+    /** @var class-string<Model>|null */
+    protected ?string $modelResource = null;
     protected string $relation;
     protected ?BaseResource $resource = null;
-    protected bool $showCreateOption = false;
     protected bool $withSubtitle = true;
-
-    protected function reload(): void
-    {
-        if ($resource = $this->resource) {
-            $model = $resource->getModel();
-            $this->label($resource->getModelLabel());
-
-            if (filled($this->relation)) {
-                $this->relationship($this->relation, $resource->getRecordTitleAttribute());
-            }
-
-            $this->tryScout($model);
-
-            if ($this->showCreateOption) {
-                $this->createOptionForm(fn (Schema $schema) => $resource::form($schema)->getComponents())
-                    ->createOptionUsing(function (array $data) use ($model) {
-                        $created = $model::query()->create($data);
-
-                        ActionLog::modelCreated($created);
-
-                        return $created->getKey();
-                    });
-            }
-        }
-    }
 
     /**
      * Set the filament resource for the relation. Relation should be set if BelongsToThrough.
@@ -55,16 +29,24 @@ class BelongsTo extends ComponentsSelect
     public function resource(string $resource, ?string $relation = ''): static
     {
         $this->resource = new $resource;
+        $this->modelResource = $this->resource->getModel();
         $this->relation = $relation;
-        $this->reload();
+
+        $this->label($this->resource->getModelLabel());
+
+        if (filled($this->relation)) {
+            $this->relationship($this->relation, $this->resource->getRecordTitleAttribute());
+        }
+
+        $this->tryScout($this->modelResource);
 
         return $this;
     }
 
-    public function showCreateOption(bool $condition = true): static
+    public function showCreateOption(): static
     {
-        $this->showCreateOption = $condition;
-        $this->reload();
+        $this->createOptionForm(fn (Schema $schema) => $this->resource::form($schema)->getComponents())
+            ->createOptionUsing(fn (array $data) => $this->resource->getModel()::query()->create($data)->getKey());
 
         return $this;
     }
@@ -120,20 +102,5 @@ class BelongsTo extends ComponentsSelect
             ->with('subtitle', $withSubtitle ? $model->getSubtitle() : null)
             ->with('image', $model instanceof User ? $model->getFilamentAvatarUrl() : null)
             ->render();
-    }
-
-    public function escapeReservedChars(string $search): string
-    {
-        return preg_replace(
-            [
-                '_[<>]+_',
-                '_[-+=!(){}[\]^"~*?:\\/\\\\]|&(?=&)|\|(?=\|)_',
-            ],
-            [
-                '',
-                '\\\\$0',
-            ],
-            $search
-        );
     }
 }

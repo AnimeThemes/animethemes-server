@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Filters;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Fields\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Filters\Filter;
@@ -30,8 +31,9 @@ class TextFilter extends Filter
      */
     public function applyToBaseQuery(Builder $query, array $data = []): Builder
     {
-        return Arr::get($data, $this->getName()) !== null
-            ? $query->where($this->getName(), Arr::get($data, $this->getName()))
-            : $query;
+        return $query->when(
+            filled($text = Arr::get($data, $this->getName())),
+            fn (Builder $builder) => $builder->where($this->getName(), ComparisonOperator::LIKE->value, "%$text%")
+        );
     }
 }

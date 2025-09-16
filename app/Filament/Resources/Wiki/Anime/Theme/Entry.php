@@ -297,6 +297,9 @@ class Entry extends BaseResource
             CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
                 ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
 
+            TextFilter::make(EntryModel::ATTRIBUTE_NOTES)
+                ->label(__('filament.fields.anime_theme_entry.notes.name')),
+
             Filter::make(ThemeType::IN->localize())
                 ->label(__('filament.filters.anime_theme.without_in'))
                 ->query(fn (Builder $query) => $query->whereDoesntHaveRelation(AnimeThemeEntry::RELATION_THEME, ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
