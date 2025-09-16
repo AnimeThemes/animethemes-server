@@ -46,7 +46,7 @@ class BelongsTo extends Select
     public function showCreateOption(): static
     {
         $this->createOptionForm(fn (Schema $schema) => $this->resource::form($schema)->getComponents())
-            ->createOptionUsing(fn (array $data) => $this->modelResource::query()->create($data)->getKey());
+            ->createOptionUsing(fn (array $data) => $this->resource->getModel()::query()->create($data)->getKey());
 
         return $this;
     }
