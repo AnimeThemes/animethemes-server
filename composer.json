@@ -64,8 +64,7 @@
         "mockery/mockery": "^1.6.12",
         "pestphp/pest": "^4.1.0",
         "pestphp/pest-plugin-laravel": "^4.0",
-        "predis/predis": "^2.4.0",
-        "spatie/laravel-ignition": "^2.9.1"
+        "predis/predis": "^2.4.0"
     },
     "config": {
         "optimize-autoloader": true,
