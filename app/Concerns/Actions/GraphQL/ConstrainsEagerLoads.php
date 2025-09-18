@@ -7,6 +7,7 @@ namespace App\Concerns\Actions\GraphQL;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Support\ResolveInfo as CustomResolveInfo;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -23,6 +24,10 @@ trait ConstrainsEagerLoads
      */
     protected function constrainEagerLoads(Builder $query, ResolveInfo|array $resolveInfo, BaseType $type): void
     {
+        if ($resolveInfo instanceof ResolveInfo) {
+            $resolveInfo = new CustomResolveInfo($resolveInfo);
+        }
+
         $fields = $resolveInfo instanceof ResolveInfo
             ? Arr::get($resolveInfo->getFieldSelectionWithAliases(100), 'data.data.selectionSet') ?? $resolveInfo->getFieldSelectionWithAliases(100)
             : $resolveInfo;
