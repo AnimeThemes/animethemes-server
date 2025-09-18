@@ -40,7 +40,7 @@ class BelongsToManyRelation extends Relation
 
     public function type(): Type
     {
-        return GraphQL::type($this->connectionType->getName());
+        return Type::nonNull(GraphQL::type($this->connectionType->getName()));
     }
 
     /**
