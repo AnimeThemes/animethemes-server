@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support;
 
-use GraphQL\Type\Definition\ResolveInfo as BaseResolveInfo;
 use GraphQL\Error\Error;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Executor\Values;
@@ -14,6 +13,7 @@ use GraphQL\Language\AST\InlineFragmentNode;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Type\Definition\HasFieldsType;
 use GraphQL\Type\Definition\NamedType;
+use GraphQL\Type\Definition\ResolveInfo as BaseResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
@@ -58,11 +58,11 @@ class ResolveInfo extends BaseResolveInfo
     }
 
     /**
+     * @return array<string>
+     *
      * @throws \Exception
      * @throws Error
      * @throws InvariantViolation
-     *
-     * @return array<string>
      */
     protected function foldSelectionWithAlias(SelectionSetNode $selectionSet, int $descend, Type $parentType): array
     {
