@@ -52,6 +52,7 @@
         "spatie/db-dumper": "^3.8.0",
         "spatie/laravel-permission": "^6.21.0",
         "staudenmeir/belongs-to-through": "^2.17",
+        "staudenmeir/eloquent-has-many-deep": "1.21.1",
         "staudenmeir/laravel-adjacency-list": "^1.25.2",
         "symfony/http-client": "^6.4.25",
         "symfony/mailgun-mailer": "^6.4.24",

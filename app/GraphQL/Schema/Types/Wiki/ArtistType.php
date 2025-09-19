@@ -45,6 +45,7 @@ class ArtistType extends EloquentType implements ReportableType
             new BelongsToManyRelation($this, ArtistType::class, Artist::RELATION_MEMBERS, ArtistMemberType::class),
             new MorphToManyRelation($this, ImageType::class, Artist::RELATION_IMAGES, ImageableType::class),
             new MorphToManyRelation($this, ExternalResourceType::class, Artist::RELATION_RESOURCES, ResourceableType::class),
+            new HasManyRelation(new MembershipType(), Artist::RELATION_GROUPSHIPS),
             new HasManyRelation(new MembershipType(), Artist::RELATION_MEMBERSHIPS),
             new MorphManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),
         ];

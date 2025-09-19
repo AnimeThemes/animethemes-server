@@ -19,7 +19,7 @@ class NotInFilter extends Filter
     public function filter(Builder $builder, mixed $value): Builder
     {
         return $builder->whereNotIn(
-            $this->field->getColumn(),
+            $builder->qualifyColumn($this->field->getColumn()),
             $value,
         );
     }

@@ -135,6 +135,7 @@ class Performance extends BaseResource
 
                 TextColumn::make('alias')
                     ->label(__('filament.fields.membership.alias.name'))
+                    ->hiddenOn(GroupPerformanceArtistRelationManager::class)
                     ->state(function ($record) {
                         if ($record->artist instanceof Membership) {
                             return $record->artist->alias;
@@ -145,6 +146,7 @@ class Performance extends BaseResource
 
                 TextColumn::make('as')
                     ->label(__('filament.fields.membership.as.name'))
+                    ->hiddenOn(GroupPerformanceArtistRelationManager::class)
                     ->state(function ($record) {
                         if ($record->artist instanceof Membership) {
                             return $record->artist->as;

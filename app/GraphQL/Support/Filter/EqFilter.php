@@ -19,7 +19,7 @@ class EqFilter extends Filter
     public function filter(Builder $builder, mixed $value): Builder
     {
         return $builder->where(
-            $this->field->getColumn(),
+            $builder->qualifyColumn($this->field->getColumn()),
             ComparisonOperator::EQ->value,
             $value,
         );

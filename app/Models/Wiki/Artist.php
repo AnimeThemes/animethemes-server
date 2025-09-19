@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int $artist_id
@@ -51,6 +53,7 @@ use Illuminate\Support\Collection;
 class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
 {
     use HasFactory;
+    use HasRelationships;
     use Reportable;
     use Searchable;
     use SoftDeletes;
@@ -65,8 +68,9 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     final public const RELATION_ANIME = 'songs.animethemes.anime';
     final public const RELATION_ANIMETHEMES = 'songs.animethemes';
     final public const RELATION_GROUPS = 'groups';
+    final public const RELATION_GROUPSHIPS = 'groupships';
     final public const RELATION_GROUP_PERFORMANCES = 'groupperformances';
-    final public const RELATION_GROUPMEMBERSHIPS_PERFORMANCES = 'groupmemberships.performances';
+    final public const RELATION_GROUPSHIPS_PERFORMANCES = 'groupships.performances';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_MEMBERS = 'members';
     final public const RELATION_MEMBERSHIPS = 'memberships';
@@ -177,6 +181,8 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * @return BelongsToMany<Song, $this, ArtistSong>
+     *
+     * @deprecated
      */
     public function songs(): BelongsToMany
     {
@@ -195,15 +201,29 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
         return $this->morphMany(Performance::class, Performance::RELATION_ARTIST);
     }
 
-    public function groupperformances()
+    /**
+     * Relation for filament.
+     * Groups performances of the memberships of this group.
+     *
+     * @return HasManyDeep
+     */
+    public function groupperformances(): HasManyDeep
     {
-        return $this->hasManyThrough(
+        $sub = Performance::query()
+            ->selectRaw('MAX(performance_id) as performance_id')
+            ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class))
+            ->groupBy(Performance::ATTRIBUTE_SONG);
+
+        return $this->hasManyDeep(
             Performance::class,
-            Membership::class,
-            'member_id',
-            'artist_id'
-        )->select(['memberships.as', 'memberships.alias'])
-            ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class));
+            [Membership::class],
+            [Membership::ATTRIBUTE_ARTIST, [Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID]],
+            [Artist::ATTRIBUTE_ID, Membership::ATTRIBUTE_ID]
+        )
+            ->joinSub($sub, 'latest_performance', function ($join) {
+                $join->on(new Performance()->qualifyColumn(Performance::ATTRIBUTE_ID), '=', 'latest_performance.performance_id');
+            })
+            ->where(new Performance()->qualifyColumn(Performance::ATTRIBUTE_ARTIST_TYPE), Relation::getMorphAlias(Membership::class));
     }
 
     /**
@@ -221,7 +241,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
      *
      * @return HasMany<Membership, $this>
      */
-    public function groupmemberships(): HasMany
+    public function groupships(): HasMany
     {
         return $this->hasMany(Membership::class, Membership::ATTRIBUTE_ARTIST);
     }
