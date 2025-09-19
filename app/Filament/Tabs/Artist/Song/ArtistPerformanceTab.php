@@ -29,7 +29,7 @@ class ArtistPerformanceTab extends BaseTab
         return $query
             ->whereDoesntHave(Artist::RELATION_PERFORMANCES)
             ->whereDoesntHave(Artist::RELATION_MEMBERSHIPS_PERFORMANCES)
-            ->whereDoesntHave(Artist::RELATION_GROUPMEMBERSHIPS_PERFORMANCES);
+            ->whereDoesntHave(Artist::RELATION_GROUPSHIPS_PERFORMANCES);
     }
 
     public function getBadge(): int
@@ -37,7 +37,7 @@ class ArtistPerformanceTab extends BaseTab
         return Artist::query()
             ->whereDoesntHave(Artist::RELATION_PERFORMANCES)
             ->whereDoesntHave(Artist::RELATION_MEMBERSHIPS_PERFORMANCES)
-            ->whereDoesntHave(Artist::RELATION_GROUPMEMBERSHIPS_PERFORMANCES)
+            ->whereDoesntHave(Artist::RELATION_GROUPSHIPS_PERFORMANCES)
             ->count();
     }
 }

@@ -19,7 +19,7 @@ class LikeFilter extends Filter
     public function filter(Builder $builder, mixed $value): Builder
     {
         return $builder->where(
-            $this->field->getColumn(),
+            $builder->qualifyColumn($this->field->getColumn()),
             ComparisonOperator::LIKE->value,
             $value,
         );

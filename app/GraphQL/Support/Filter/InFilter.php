@@ -19,7 +19,7 @@ class InFilter extends Filter
     public function filter(Builder $builder, mixed $value): Builder
     {
         return $builder->whereIn(
-            $this->field->getColumn(),
+            $builder->qualifyColumn($this->field->getColumn()),
             $value,
         );
     }
