@@ -106,7 +106,7 @@ return [
      * for details. Disabled by default.
      */
     'security' => [
-        'query_max_complexity' => 250,
+        'query_max_complexity' => 0,
         'query_max_depth' => 13,
         'disable_introspection' => false,
     ],

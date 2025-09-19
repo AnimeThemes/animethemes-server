@@ -20,6 +20,8 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\GraphQL\Schema\Enums\EnumType;
+use GraphQL\Validator\DocumentValidator;
+use GraphQL\Validator\Rules\QueryComplexity as BaseQueryComplexity;
 use Illuminate\Support\ServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
@@ -27,6 +29,17 @@ class GraphQLServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        # Query Complexity rule on demand
+        DocumentValidator::addRule(
+            new class(250) extends BaseQueryComplexity
+            {
+                protected function isEnabled(): bool
+                {
+                    return request()->ip() !== '127.0.0.1';
+                }
+            }
+        );
+
         $this->bootEnums();
     }
 
