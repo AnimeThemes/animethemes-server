@@ -78,13 +78,7 @@ trait SortsModels
                     throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with relation sort type.");
                 }
 
-                $builder->withAggregate([
-                    "$relation as {$relation}_{$column}" => function ($query) use ($direction, $column) {
-                        $query->orderBy($column, $direction);
-                    },
-                ], $column);
-
-                $builder->orderBy("{$relation}_{$column}", $direction);
+                $builder->withCount($relation)->orderBy("{$relation}_count", $direction);
             }
         }
 

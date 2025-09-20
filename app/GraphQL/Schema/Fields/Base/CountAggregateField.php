@@ -39,7 +39,7 @@ class CountAggregateField extends Field implements DisplayableField, SortableFie
     }
 
     /**
-     * The sort type of the field.
+     * The relation to sort the type.
      */
     public function relation(): ?string
     {

@@ -15,10 +15,10 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
-use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
+use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -82,6 +83,7 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
     final public const RELATION_THEME = 'animetheme';
     final public const RELATION_THEME_GROUP = 'animetheme.group';
+    final public const RELATION_TRACKS = 'tracks';
     final public const RELATION_VIDEOS = 'videos';
 
     /**
@@ -239,6 +241,14 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
             ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('entryresource')
             ->withTimestamps();
+    }
+
+    /**
+     * @return HasMany<PlaylistTrack, $this>
+     */
+    public function tracks(): HasMany
+    {
+        return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_ENTRY);
     }
 
     /**

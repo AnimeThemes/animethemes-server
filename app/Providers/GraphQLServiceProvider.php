@@ -29,7 +29,7 @@ class GraphQLServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        # Query Complexity rule on demand
+        // Query Complexity rule on demand
         DocumentValidator::addRule(
             new class(250) extends BaseQueryComplexity
             {
