@@ -14,6 +14,7 @@ use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryEpisodesFiel
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNotesField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNsfwField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntrySpoilerField;
+use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryTracksCountField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryVersionField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
@@ -63,6 +64,7 @@ class AnimeThemeEntryType extends EloquentType implements ReportableType
             new AnimeThemeEntryNsfwField(),
             new AnimeThemeEntrySpoilerField(),
             new AnimeThemeEntryVersionField(),
+            new AnimeThemeEntryTracksCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
