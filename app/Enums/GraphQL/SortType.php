@@ -10,4 +10,5 @@ enum SortType: int
     case ROOT = 1;
     case AGGREGATE = 2;
     case RELATION = 3;
+    case COUNT_RELATION = 4;
 }

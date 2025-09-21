@@ -34,7 +34,7 @@ class CountField extends Field implements DisplayableField, SortableField
 
     public function sortType(): SortType
     {
-        return SortType::RELATION;
+        return SortType::COUNT_RELATION;
     }
 
     /**

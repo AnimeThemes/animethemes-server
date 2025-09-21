@@ -75,6 +75,20 @@ trait SortsModels
 
             if ($sortType === SortType::RELATION) {
                 if ($relation === null) {
+                    throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type.");
+                }
+
+                $builder->withAggregate([
+                    "$relation as {$relation}_$column" => function ($query) use ($column, $direction) {
+                        $query->orderBy($column, $direction);
+                    },
+                ], $column);
+
+                $builder->orderBy("{$relation}_$column", $direction);
+            }
+
+            if ($sortType === SortType::COUNT_RELATION) {
+                if ($relation === null) {
                     throw new InvalidArgumentException("The 'relation' argument is required for the {$column} column with relation sort type.");
                 }
 
