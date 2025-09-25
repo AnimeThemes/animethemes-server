@@ -52,7 +52,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
             new Argument(self::ATTRIBUTE_SITE, GraphQL::type(class_basename(ResourceSite::class)))
                 ->required(),
 
-            new Argument(self::ATTRIBUTE_ID, Type::int()),
+            new Argument(self::ATTRIBUTE_ID, Type::listOf(Type::nonNull(Type::int()))),
 
             new Argument(self::ATTRIBUTE_LINK, Type::string()),
         ];
@@ -81,11 +81,15 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
             throw new ClientValidationException('At least "id" or "link" is required.');
         }
 
+        if (count($externalId) > 100) {
+            throw new ClientValidationException('The "Id" parameter cannot contain more than 100 integer values.');
+        }
+
         $builder->whereRelation(Anime::RELATION_RESOURCES, function (Builder $query) use ($site, $externalId, $link) {
             $query->where(ExternalResource::ATTRIBUTE_SITE, $site);
 
-            if (is_int($externalId)) {
-                $query->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $externalId);
+            if (is_array($externalId)) {
+                $query->whereIn(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $externalId);
             }
 
             if (is_string($link)) {
