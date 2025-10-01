@@ -27,9 +27,6 @@ class DumpController extends BaseController
         parent::__construct(Dump::class, 'dump');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): DumpCollection
     {
         $query = new Query($request->validated());
@@ -50,9 +47,6 @@ class DumpController extends BaseController
         return new DumpResource($dump, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Dump $dump, ShowAction $action): DumpResource
     {
         $query = new Query($request->validated());
@@ -62,9 +56,6 @@ class DumpController extends BaseController
         return new DumpResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Dump $dump, UpdateAction $action): DumpResource
     {
         $updated = $action->update($dump, $request->validated());
@@ -72,9 +63,6 @@ class DumpController extends BaseController
         return new DumpResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Dump $dump, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($dump);

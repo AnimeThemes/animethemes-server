@@ -23,12 +23,8 @@ class UserExceedsExternalProfileLimit
         /** @var User|null $user */
         $user = $request->user('sanctum');
 
-        if (
-            intval($user?->externalprofiles()?->count()) >= $profileLimit
-            && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))
-        ) {
-            abort(403, "User cannot have more than '$profileLimit' external profiles.");
-        }
+        abort_if(intval($user?->externalprofiles()?->count()) >= $profileLimit
+        && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)), 403, "User cannot have more than '$profileLimit' external profiles.");
 
         return $next($request);
     }

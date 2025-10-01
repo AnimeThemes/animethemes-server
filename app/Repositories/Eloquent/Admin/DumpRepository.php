@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class DumpRepository extends EloquentRepository
 {
-    /**
-     * @return Builder
-     */
     protected function builder(): Builder
     {
         return Dump::query();

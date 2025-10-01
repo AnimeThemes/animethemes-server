@@ -9,13 +9,13 @@ use Illuminate\Support\Arr;
 
 class DiscordEmbed implements Arrayable
 {
-    final public const ATTRIBUTE_TYPE = 'type';
-    final public const ATTRIBUTE_TITLE = 'title';
-    final public const ATTRIBUTE_DESCRIPTION = 'description';
-    final public const ATTRIBUTE_COLOR = 'color';
-    final public const ATTRIBUTE_THUMBNAIL = 'thumbnail';
-    final public const ATTRIBUTE_IMAGE = 'image';
-    final public const ATTRIBUTE_FIELDS = 'fields';
+    final public const string ATTRIBUTE_TYPE = 'type';
+    final public const string ATTRIBUTE_TITLE = 'title';
+    final public const string ATTRIBUTE_DESCRIPTION = 'description';
+    final public const string ATTRIBUTE_COLOR = 'color';
+    final public const string ATTRIBUTE_THUMBNAIL = 'thumbnail';
+    final public const string ATTRIBUTE_IMAGE = 'image';
+    final public const string ATTRIBUTE_FIELDS = 'fields';
 
     protected string $type = 'rich';
     protected string $title = '';
@@ -39,7 +39,7 @@ class DiscordEmbed implements Arrayable
             ->setColor(Arr::get($array, self::ATTRIBUTE_COLOR) ?? 0)
             ->setThumbnail(Arr::get($array, self::ATTRIBUTE_THUMBNAIL) ?? [])
             ->setImage(Arr::get($array, self::ATTRIBUTE_IMAGE) ?? [])
-            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::from($fields)));
+            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields): DiscordEmbedField => DiscordEmbedField::from($fields)));
     }
 
     public function getType(): string
@@ -62,17 +62,11 @@ class DiscordEmbed implements Arrayable
         return $this->color;
     }
 
-    /**
-     * @return array
-     */
     public function getThumbnail(): array
     {
         return $this->thumbnail;
     }
 
-    /**
-     * @return array
-     */
     public function getImage(): array
     {
         return $this->image;
@@ -121,9 +115,6 @@ class DiscordEmbed implements Arrayable
         return $this;
     }
 
-    /**
-     * @param  array  $image
-     */
     public function setImage(array $image): static
     {
         $this->image = $image;
@@ -153,7 +144,7 @@ class DiscordEmbed implements Arrayable
             'color' => $this->getColor(),
             'thumbnail' => $this->getThumbnail(),
             'image' => $this->getImage(),
-            'fields' => Arr::map($this->getFields(), fn (DiscordEmbedField $field) => $field->toArray(false)),
+            'fields' => Arr::map($this->getFields(), fn (DiscordEmbedField $field): array => $field->toArray(false)),
         ];
     }
 }

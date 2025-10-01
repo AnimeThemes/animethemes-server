@@ -86,7 +86,7 @@ class ExternalResource extends BaseResource
                     ->live()
                     ->uri()
                     ->partiallyRenderComponentsAfterStateUpdated([ExternalResourceModel::ATTRIBUTE_SITE, ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID])
-                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                    ->afterStateUpdated(function (Set $set, ?string $state): void {
                         if ($state !== null) {
                             $set(ExternalResourceModel::ATTRIBUTE_SITE, ResourceSite::valueOf($state) ?? ResourceSite::OFFICIAL_SITE);
                             $set(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID, ResourceSite::parseIdFromLink($state));
@@ -110,7 +110,7 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
-                    ->formatStateUsing(fn (ResourceSite $state) => $state->localize()),
+                    ->formatStateUsing(fn (ResourceSite $state): ?string => $state->localize()),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
@@ -130,7 +130,7 @@ class ExternalResource extends BaseResource
                     ->schema([
                         TextEntry::make(ExternalResourceModel::ATTRIBUTE_SITE)
                             ->label(__('filament.fields.external_resource.site.name'))
-                            ->formatStateUsing(fn (ResourceSite $state) => $state->localize()),
+                            ->formatStateUsing(fn (ResourceSite $state): ?string => $state->localize()),
 
                         TextEntry::make(ExternalResourceModel::ATTRIBUTE_LINK)
                             ->label(__('filament.fields.external_resource.link.name'))

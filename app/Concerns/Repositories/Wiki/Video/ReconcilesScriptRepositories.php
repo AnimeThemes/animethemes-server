@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\App;
 
 trait ReconcilesScriptRepositories
 {
-    /**
-     * @param  array  $data
-     */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(ScriptSourceRepository::class);
     }
 
-    /**
-     * @param  array  $data
-     */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(ScriptDestinationRepository::class);

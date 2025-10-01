@@ -35,27 +35,27 @@ class ReportStep extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'report_step';
+    final public const string TABLE = 'report_step';
 
-    final public const ATTRIBUTE_ID = 'step_id';
+    final public const string ATTRIBUTE_ID = 'step_id';
 
-    final public const ATTRIBUTE_ACTION = 'action';
-    final public const ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
-    final public const ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
+    final public const string ATTRIBUTE_ACTION = 'action';
+    final public const string ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
+    final public const string ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
 
-    final public const ATTRIBUTE_TARGET_TYPE = 'target_type';
-    final public const ATTRIBUTE_TARGET_ID = 'target_id';
+    final public const string ATTRIBUTE_TARGET_TYPE = 'target_type';
+    final public const string ATTRIBUTE_TARGET_ID = 'target_id';
 
-    final public const ATTRIBUTE_PIVOT = 'pivot';
+    final public const string ATTRIBUTE_PIVOT = 'pivot';
 
-    final public const ATTRIBUTE_REPORT = 'report_id';
-    final public const ATTRIBUTE_FIELDS = 'fields';
-    final public const ATTRIBUTE_FINISHED_AT = 'finished_at';
-    final public const ATTRIBUTE_STATUS = 'status';
+    final public const string ATTRIBUTE_REPORT = 'report_id';
+    final public const string ATTRIBUTE_FIELDS = 'fields';
+    final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
+    final public const string ATTRIBUTE_STATUS = 'status';
 
-    final public const RELATION_ACTIONABLE = 'actionable';
-    final public const RELATION_TARGET = 'target';
-    final public const RELATION_REPORT = 'report';
+    final public const string RELATION_ACTIONABLE = 'actionable';
+    final public const string RELATION_TARGET = 'target';
+    final public const string RELATION_REPORT = 'report';
 
     /**
      * Is auditing disabled?
@@ -123,9 +123,6 @@ class ReportStep extends BaseModel
     /**
      * Format the fields to display in the admin panel
      * TODO: Double check if this action can be refactored.
-     *
-     * @param  array|null  $fields
-     * @return array
      */
     public function formatFields(?array $fields = null): array
     {
@@ -141,7 +138,7 @@ class ReportStep extends BaseModel
                 ? $actionable->castAttribute($column, $value)
                 : $value;
 
-            if (is_object($casted) && enum_exists(get_class($casted))) {
+            if (is_object($casted) && enum_exists($casted::class)) {
                 $newFields[$column] = $casted->localize();
                 continue;
             }

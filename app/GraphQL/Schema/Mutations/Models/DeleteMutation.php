@@ -30,7 +30,7 @@ abstract class DeleteMutation extends BaseMutation
         $model = Arr::pull($args, 'model');
 
         $args = collect($args)
-            ->filter(fn ($value) => $value instanceof Model)
+            ->filter(fn ($value): bool => $value instanceof Model)
             ->prepend($model)
             ->values()
             ->all();

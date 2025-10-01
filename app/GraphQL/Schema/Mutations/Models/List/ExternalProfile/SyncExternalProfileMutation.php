@@ -65,8 +65,8 @@ class SyncExternalProfileMutation extends BaseMutation
         $type = new ExternalProfileType();
 
         return collect($type->fieldClasses())
-            ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->mapWithKeys(fn (Field&BindableField $field) => [$field->getColumn() => ['required']])
+            ->filter(fn (Field $field): bool => $field instanceof BindableField)
+            ->mapWithKeys(fn (Field&BindableField $field): array => [$field->getColumn() => ['required']])
             ->toArray();
     }
 

@@ -19,8 +19,6 @@ class IndexRequest extends ReadRequest
 {
     /**
      * Get the filter validation rules.
-     *
-     * @return array
      */
     protected function getFilterRules(): array
     {
@@ -45,7 +43,7 @@ class IndexRequest extends ReadRequest
             $types = array_merge($types, $relationSchemaFormattedFilters);
 
             $param = Str::of(FilterParser::param())->append('.')->append($relationSchema->type())->__toString();
-            $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
+            $rules += $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
         }
 
         return $rules + $this->restrictAllowedTypes(FilterParser::param(), array_unique($types));
@@ -53,8 +51,6 @@ class IndexRequest extends ReadRequest
 
     /**
      * Get the paging validation rules.
-     *
-     * @return array
      */
     protected function getPagingRules(): array
     {
@@ -63,8 +59,6 @@ class IndexRequest extends ReadRequest
 
     /**
      * Get the search validation rules.
-     *
-     * @return array
      */
     protected function getSearchRules(): array
     {
@@ -79,8 +73,6 @@ class IndexRequest extends ReadRequest
 
     /**
      * Get the sort validation rules.
-     *
-     * @return array
      */
     protected function getSortRules(): array
     {
@@ -93,7 +85,7 @@ class IndexRequest extends ReadRequest
             $relationSchema = $allowedInclude->schema();
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
-            $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
+            $rules += $this->restrictAllowedSortValues($param, $relationSchema);
         }
 
         return $rules;
@@ -154,7 +146,7 @@ class IndexRequest extends ReadRequest
         $validator->sometimes(
             SortParser::param(),
             Arr::get($rules, SortParser::param()),
-            fn (Fluent $fluent) => Arr::has($fluent->toArray(), SortParser::param()) && ! is_array($fluent->get(SortParser::param()))
+            fn (Fluent $fluent): bool => Arr::has($fluent->toArray(), SortParser::param()) && ! is_array($fluent->get(SortParser::param()))
         );
 
         $validator->sometimes(
@@ -164,7 +156,7 @@ class IndexRequest extends ReadRequest
                 'required',
                 Str::of('array:')->append(implode(',', $types))->__toString(),
             ],
-            fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
+            fn (Fluent $fluent): bool => is_array($fluent->get(SortParser::param()))
         );
     }
 }

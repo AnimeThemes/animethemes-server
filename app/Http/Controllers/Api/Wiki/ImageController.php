@@ -29,9 +29,6 @@ class ImageController extends BaseController
         parent::__construct(Image::class, 'image');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ImageCollection
     {
         $query = new Query($request->validated());
@@ -41,9 +38,6 @@ class ImageController extends BaseController
         return new ImageCollection($images, $query);
     }
 
-    /**
-     * @param  StoreImageAction  $action
-     */
     public function store(StoreRequest $request, StoreImageAction $action): ImageResource
     {
         $image = $action->store(Image::query(), $request->validated());
@@ -51,9 +45,6 @@ class ImageController extends BaseController
         return new ImageResource($image, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Image $image, ShowAction $action): ImageResource
     {
         $query = new Query($request->validated());
@@ -63,9 +54,6 @@ class ImageController extends BaseController
         return new ImageResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Image $image, UpdateAction $action): ImageResource
     {
         $updated = $action->update($image, $request->validated());
@@ -73,9 +61,6 @@ class ImageController extends BaseController
         return new ImageResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Image $image, DestroyAction $action): ImageResource
     {
         $deleted = $action->destroy($image);
@@ -83,9 +68,6 @@ class ImageController extends BaseController
         return new ImageResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Image $image, RestoreAction $action): ImageResource
     {
         $restored = $action->restore($image);
@@ -93,9 +75,6 @@ class ImageController extends BaseController
         return new ImageResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Image $image, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($image);

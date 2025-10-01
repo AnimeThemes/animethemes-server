@@ -27,12 +27,12 @@ class Feature extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'features';
+    final public const string TABLE = 'features';
 
-    final public const ATTRIBUTE_ID = 'feature_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SCOPE = 'scope';
-    final public const ATTRIBUTE_VALUE = 'value';
+    final public const string ATTRIBUTE_ID = 'feature_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SCOPE = 'scope';
+    final public const string ATTRIBUTE_VALUE = 'value';
 
     /**
      * Is auditing disabled?

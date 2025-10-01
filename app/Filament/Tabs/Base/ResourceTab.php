@@ -19,13 +19,9 @@ abstract class ResourceTab extends BaseTab
         return __('filament.tabs.base.resources.name', ['site' => static::site()->localize()]);
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(HasResources::RESOURCES_RELATION, function (Builder $resourceQuery) {
+        return $query->whereDoesntHave(HasResources::RESOURCES_RELATION, function (Builder $resourceQuery): void {
             $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         });
     }

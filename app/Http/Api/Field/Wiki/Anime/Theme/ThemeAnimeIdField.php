@@ -21,9 +21,6 @@ class ThemeAnimeIdField extends Field implements CreatableField, SelectableField
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_ANIME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

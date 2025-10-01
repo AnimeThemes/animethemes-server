@@ -35,9 +35,9 @@ class AnimeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
     {
         $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);
 
-        $anime->animethemes->each(function (AnimeTheme $theme) {
+        $anime->animethemes->each(function (AnimeTheme $theme): void {
             $theme->searchable();
-            $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+            $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
                 $entry->searchable();
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });

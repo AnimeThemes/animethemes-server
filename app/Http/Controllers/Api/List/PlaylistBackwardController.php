@@ -23,15 +23,11 @@ class PlaylistBackwardController extends BaseController
         parent::__construct(PlaylistTrack::class, 'track,playlist');
     }
 
-    /**
-     * @param  ForwardBackwardIndexRequest  $request
-     * @param  IndexAction  $action
-     */
     public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
         $query = new Query($request->validated());
 
-        $constraint = function (Builder $query) use ($playlist) {
+        $constraint = function (Builder $query) use ($playlist): void {
             $query->where(PlaylistTrack::ATTRIBUTE_ID, $playlist->last_id);
         };
 

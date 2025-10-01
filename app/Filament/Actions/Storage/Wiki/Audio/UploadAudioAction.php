@@ -68,8 +68,6 @@ class UploadAudioAction extends UploadAction
 
     /**
      * Get the file validation rules.
-     *
-     * @return array
      */
     protected function fileRules(): array
     {

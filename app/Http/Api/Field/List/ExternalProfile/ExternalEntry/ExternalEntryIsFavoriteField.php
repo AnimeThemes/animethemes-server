@@ -18,9 +18,6 @@ class ExternalEntryIsFavoriteField extends BooleanField implements CreatableFiel
         parent::__construct($schema, ExternalEntry::ATTRIBUTE_IS_FAVORITE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class ExternalEntryIsFavoriteField extends BooleanField implements CreatableFiel
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

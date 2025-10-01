@@ -14,7 +14,6 @@ class SyncExternalProfileController extends BaseController
     /**
      * Start a new sync job.
      *
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function store($root, array $args): array
@@ -22,9 +21,7 @@ class SyncExternalProfileController extends BaseController
         /** @var ExternalProfile $profile */
         $profile = Arr::pull($args, self::MODEL);
 
-        if (! $profile->canBeSynced()) {
-            throw new ClientForbiddenException('This external profile cannot be synced at the moment.');
-        }
+        throw_unless($profile->canBeSynced(), new ClientForbiddenException('This external profile cannot be synced at the moment.'));
 
         $profile->dispatchSyncJob();
 

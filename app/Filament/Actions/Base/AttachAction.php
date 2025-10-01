@@ -39,12 +39,12 @@ class AttachAction extends BaseAttachAction
                 ->append(Str::studly(class_basename($livewire->getTable()->getModel())))
                 ->__toString();
 
-            return is_object($gate) & method_exists($gate, $ability)
+            return (is_object($gate) & method_exists($gate, $ability)) !== 0
                 ? Gate::forUser(Auth::user())->check($ability, $ownerRecord::class)
                 : true;
         });
 
-        $this->recordSelect(function (BaseRelationManager $livewire) {
+        $this->recordSelect(function (BaseRelationManager $livewire): Select {
             $model = $livewire->getTable()->getModel();
             $title = $livewire->getTable()->getRecordTitle(new $model);
 
@@ -54,7 +54,7 @@ class AttachAction extends BaseAttachAction
                 ->required();
 
             if ($this->shouldShowCreateOption($model)) {
-                $select = $select
+                return $select
                     ->createOptionForm(fn (Schema $schema) => Filament::getModelResource($model)::form($schema)->getComponents())
                     ->createOptionUsing(function (array $data) use ($model) {
                         $created = $model::query()->create($data);
@@ -83,6 +83,6 @@ class AttachAction extends BaseAttachAction
      */
     private function shouldShowCreateOption(string $model): bool
     {
-        return ! ($model === Image::class);
+        return $model !== Image::class;
     }
 }

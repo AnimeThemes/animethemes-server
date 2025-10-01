@@ -37,7 +37,6 @@ trait ValidatesParameters
      * Restrict the allowed values for the parameter.
      *
      * @param  Arrayable<int, string>|array<int, string>|string  $values
-     * @param  array  $customRules
      * @return array<string, array>
      */
     protected function restrictAllowedValues(string $param, Arrayable|array|string $values, array $customRules = []): array
@@ -73,7 +72,6 @@ trait ValidatesParameters
     /**
      * Optional parameter.
      *
-     * @param  array  $customRules
      * @return array<string, array>
      */
     protected function optional(string $param, array $customRules = []): array
@@ -89,7 +87,6 @@ trait ValidatesParameters
     /**
      * Require the parameter.
      *
-     * @param  array  $customRules
      * @return array<string, array>
      */
     protected function require(string $param, array $customRules = []): array

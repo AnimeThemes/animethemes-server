@@ -17,7 +17,7 @@ class TrackHashidsSeeder extends Seeder
     public function run(): void
     {
         PlaylistTrack::query()
-            ->chunkById(100, fn (Collection $tracks) => $tracks->each(function (PlaylistTrack $track) {
+            ->chunkById(100, fn (Collection $tracks) => $tracks->each(function (PlaylistTrack $track): void {
                 $action = new AssignHashidsAction();
 
                 $action->assign($track, 'playlists');

@@ -29,8 +29,6 @@ class LocalizedEnumField extends Field implements DisplayableField
 
     /**
      * Resolve the field.
-     *
-     * @param  mixed  $root
      */
     public function resolve(mixed $root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {

@@ -20,7 +20,7 @@ class PaginationInfoType extends BaseType
             'count' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
                 'description' => 'Number of items in the current page.',
-                'resolve' => fn (LengthAwarePaginator $data) => $data->count(),
+                'resolve' => fn (LengthAwarePaginator $data): int => $data->count(),
                 'selectable' => false,
             ],
             'total' => [

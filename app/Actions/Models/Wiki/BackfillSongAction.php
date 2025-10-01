@@ -51,7 +51,7 @@ class BackfillSongAction extends BackfillAction
                 $label = $matches[2][$key];
                 $resourceSite = $this->getMappingFromExternalSite($label);
 
-                if (! $resourceSite) {
+                if (! $resourceSite instanceof ResourceSite) {
                     Log::info("Skipping {$label} for Song {$this->getModel()->getName()}");
                     continue;
                 }
@@ -95,8 +95,6 @@ class BackfillSongAction extends BackfillAction
 
     /**
      * Get the relation to resources.
-     *
-     * @return BelongsToMany
      */
     protected function relation(): BelongsToMany
     {

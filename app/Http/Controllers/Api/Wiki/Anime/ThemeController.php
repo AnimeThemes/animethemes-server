@@ -29,9 +29,6 @@ class ThemeController extends BaseController
         parent::__construct(AnimeTheme::class, 'animetheme');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ThemeCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class ThemeController extends BaseController
         return new ThemeResource($theme, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): ThemeResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class ThemeController extends BaseController
         return new ThemeResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): ThemeResource
     {
         $updated = $action->update($animetheme, $request->validated());
@@ -75,9 +66,6 @@ class ThemeController extends BaseController
         return new ThemeResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(AnimeTheme $animetheme, DestroyAction $action): ThemeResource
     {
         $deleted = $action->destroy($animetheme);
@@ -85,9 +73,6 @@ class ThemeController extends BaseController
         return new ThemeResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(AnimeTheme $animetheme, RestoreAction $action): ThemeResource
     {
         $restored = $action->restore($animetheme);
@@ -95,9 +80,6 @@ class ThemeController extends BaseController
         return new ThemeResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(AnimeTheme $animetheme, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($animetheme);

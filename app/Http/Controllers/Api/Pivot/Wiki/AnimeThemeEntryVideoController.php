@@ -27,9 +27,6 @@ class AnimeThemeEntryVideoController extends PivotController
         parent::__construct(AnimeThemeEntry::class, 'animethemeentry', Video::class, 'video');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): AnimeThemeEntryVideoCollection
     {
         $query = new Query($request->validated());
@@ -57,9 +54,6 @@ class AnimeThemeEntryVideoController extends PivotController
         return new AnimeThemeEntryVideoResource($entryVideo, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, Video $video, ShowAction $action): AnimeThemeEntryVideoResource
     {
         $entryVideo = AnimeThemeEntryVideo::query()
@@ -74,9 +68,6 @@ class AnimeThemeEntryVideoController extends PivotController
         return new AnimeThemeEntryVideoResource($show, $query);
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(AnimeThemeEntry $animethemeentry, Video $video, DestroyAction $action): JsonResponse
     {
         $entryVideo = AnimeThemeEntryVideo::query()

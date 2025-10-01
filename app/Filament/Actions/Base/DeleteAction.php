@@ -26,7 +26,7 @@ class DeleteAction extends BaseDeleteAction
 
         $this->requiresConfirmation();
 
-        $this->using(function (Model $record) {
+        $this->using(function (Model $record): bool {
             Gate::authorize('delete', $record);
 
             $result = $record instanceof PlaylistTrack
@@ -36,7 +36,7 @@ class DeleteAction extends BaseDeleteAction
             return (bool) $result;
         });
 
-        $this->after(fn (Model $record) => ActionLog::modelDeleted($record));
+        $this->after(fn (Model $record): ActionLog => ActionLog::modelDeleted($record));
 
         $this->authorize(true);
     }

@@ -39,7 +39,7 @@ class SearchQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('search', false, false);
+        parent::__construct('search', false);
     }
 
     public function description(): string
@@ -74,7 +74,7 @@ class SearchQuery extends BaseQuery
     /**
      * @return array<string, array>
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): array
     {
         $result = [];
         $fields = $resolveInfo->getFieldSelection();

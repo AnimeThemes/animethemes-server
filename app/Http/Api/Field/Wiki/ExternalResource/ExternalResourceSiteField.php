@@ -21,9 +21,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
         parent::__construct($schema, ExternalResource::ATTRIBUTE_SITE, ResourceSite::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -34,9 +31,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

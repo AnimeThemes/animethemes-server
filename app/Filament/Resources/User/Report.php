@@ -64,9 +64,6 @@ class Report extends BaseResource
         return ReportModel::ATTRIBUTE_ID;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -92,7 +89,7 @@ class Report extends BaseResource
 
                 TextColumn::make(ReportModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.report.status'))
-                    ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
+                    ->formatStateUsing(fn (ApprovableStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 BelongsToColumn::make(ReportModel::RELATION_USER, UserResource::class),
@@ -117,7 +114,7 @@ class Report extends BaseResource
 
                         TextEntry::make(ReportModel::ATTRIBUTE_STATUS)
                             ->label(__('filament.fields.report.status'))
-                            ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
+                            ->formatStateUsing(fn (ApprovableStatus $state): ?string => $state->localize())
                             ->badge(),
 
                         BelongsToEntry::make(ReportModel::RELATION_USER, UserResource::class),

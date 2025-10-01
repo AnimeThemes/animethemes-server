@@ -22,9 +22,6 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
         parent::__construct($schema, VideoScript::ATTRIBUTE_VIDEO);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -41,9 +38,6 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

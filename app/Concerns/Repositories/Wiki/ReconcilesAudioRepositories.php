@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\App;
 
 trait ReconcilesAudioRepositories
 {
-    /**
-     * @param  array  $data
-     */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(AudioSourceRepository::class);
     }
 
-    /**
-     * @param  array  $data
-     */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(AudioDestinationRepository::class);

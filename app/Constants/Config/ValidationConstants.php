@@ -6,5 +6,5 @@ namespace App\Constants\Config;
 
 class ValidationConstants
 {
-    final public const MODERATION_SERVICE_QUALIFIED = 'validation.moderation_service';
+    final public const string MODERATION_SERVICE_QUALIFIED = 'validation.moderation_service';
 }

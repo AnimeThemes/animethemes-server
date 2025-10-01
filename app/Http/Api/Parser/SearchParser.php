@@ -20,7 +20,6 @@ class SearchParser extends Parser
     /**
      * Parse search from parameters.
      *
-     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array

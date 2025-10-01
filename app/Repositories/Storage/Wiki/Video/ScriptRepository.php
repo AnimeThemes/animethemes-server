@@ -29,7 +29,7 @@ class ScriptRepository extends StorageRepository
      */
     protected function filterCallback(): Closure
     {
-        return fn (StorageAttributes $file) => $file->isFile() && File::extension($file->path()) === 'txt';
+        return fn (StorageAttributes $file): bool => $file->isFile() && File::extension($file->path()) === 'txt';
     }
 
     /**
@@ -39,7 +39,7 @@ class ScriptRepository extends StorageRepository
      */
     protected function mapCallback(): Closure
     {
-        return fn (StorageAttributes $file) => new VideoScript([
+        return fn (StorageAttributes $file): VideoScript => new VideoScript([
             VideoScript::ATTRIBUTE_PATH => $file->path(),
         ]);
     }

@@ -19,9 +19,6 @@ class PerformanceArtistIdField extends Field implements CreatableField, Selectab
         parent::__construct($schema, Performance::ATTRIBUTE_ARTIST_ID);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

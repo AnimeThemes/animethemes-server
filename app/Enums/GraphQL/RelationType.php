@@ -21,7 +21,7 @@ enum RelationType
      */
     public function getDirective(array $parameters): array
     {
-        $parameters = array_filter($parameters, fn ($value) => filled($value));
+        $parameters = array_filter($parameters, fn ($value): bool => filled($value));
 
         return match ($this) {
             RelationType::BELONGS_TO => [

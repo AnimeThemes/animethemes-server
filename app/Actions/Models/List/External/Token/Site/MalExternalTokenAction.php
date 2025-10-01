@@ -21,7 +21,6 @@ class MalExternalTokenAction extends BaseExternalTokenAction
     /**
      * Use the authorization code to get the tokens and store them.
      *
-     * @param  array  $parameters
      *
      * @throws Exception
      */
@@ -48,9 +47,7 @@ class MalExternalTokenAction extends BaseExternalTokenAction
             $token = Arr::get($response, 'access_token');
             $refreshToken = Arr::get($response, 'refresh_token');
 
-            if ($token === null) {
-                throw new Error('Failed to get token');
-            }
+            throw_if($token === null, new Error('Failed to get token'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
 

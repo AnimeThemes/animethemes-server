@@ -21,10 +21,6 @@ class ImageUnlinkedTab extends BaseTab
         return __('filament.tabs.image.unlinked.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query

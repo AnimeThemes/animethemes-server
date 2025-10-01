@@ -20,9 +20,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
         parent::__construct($schema, FeaturedTheme::ATTRIBUTE_END_AT);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
@@ -38,9 +35,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');

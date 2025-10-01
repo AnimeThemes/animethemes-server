@@ -19,17 +19,17 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Like extends BaseModel
 {
-    final public const TABLE = 'likes';
+    final public const string TABLE = 'likes';
 
-    final public const ATTRIBUTE_ID = 'like_id';
-    final public const ATTRIBUTE_USER = 'user_id';
+    final public const string ATTRIBUTE_ID = 'like_id';
+    final public const string ATTRIBUTE_USER = 'user_id';
 
-    final public const ATTRIBUTE_LIKEABLE = 'likeable';
-    final public const ATTRIBUTE_LIKEABLE_TYPE = 'likeable_type';
-    final public const ATTRIBUTE_LIKEABLE_ID = 'likeable_id';
+    final public const string ATTRIBUTE_LIKEABLE = 'likeable';
+    final public const string ATTRIBUTE_LIKEABLE_TYPE = 'likeable_type';
+    final public const string ATTRIBUTE_LIKEABLE_ID = 'likeable_id';
 
-    final public const RELATION_USER = 'user';
-    final public const RELATION_LIKEABLE = 'likeable';
+    final public const string RELATION_USER = 'user';
+    final public const string RELATION_LIKEABLE = 'likeable';
 
     /**
      * Is auditing disabled?

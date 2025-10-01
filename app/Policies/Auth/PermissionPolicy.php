@@ -16,7 +16,7 @@ class PermissionPolicy extends BasePolicy
 {
     public function viewAny(?User $user, mixed $value = null): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class))
+        return $user instanceof User && $user->can(CrudPermission::VIEW->format(Permission::class))
             ? Response::allow()
             : Response::deny();
     }
@@ -26,7 +26,7 @@ class PermissionPolicy extends BasePolicy
      */
     public function view(?User $user, Model $permission): Response
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class))
+        return $user instanceof User && $user->can(CrudPermission::VIEW->format(Permission::class))
             ? Response::allow()
             : Response::deny();
     }

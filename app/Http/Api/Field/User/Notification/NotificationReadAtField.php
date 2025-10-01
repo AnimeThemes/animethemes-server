@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\User\Notification;
 
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\DateField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -25,6 +26,6 @@ class NotificationReadAtField extends DateField
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 }

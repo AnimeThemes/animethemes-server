@@ -71,9 +71,6 @@ class DiscordThread extends BaseResource
         return 'discord-thread';
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -90,10 +87,10 @@ class DiscordThread extends BaseResource
                     ->label(__('filament.fields.discord_thread.id.name'))
                     ->helperText(__('filament.fields.discord_thread.id.help'))
                     ->disabledOn(['edit'])
-                    ->formatStateUsing(fn ($state) => strval($state))
+                    ->formatStateUsing(fn ($state): string => strval($state))
                     ->required()
                     ->live()
-                    ->afterStateUpdated(fn (Set $set, string $state) => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get(new DiscordThreadAction()->get($state), 'thread.name'))),
+                    ->afterStateUpdated(fn (Set $set, string $state): mixed => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get(new DiscordThreadAction()->get($state), 'thread.name'))),
 
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))

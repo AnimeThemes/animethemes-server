@@ -25,9 +25,6 @@ class ExternalEntryController extends BaseController
         $this->middleware(EnabledOnlyOnLocalhost::class);
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, ExternalProfile $externalprofile, IndexAction $action): ExternalEntryCollection
     {
         $query = new Query($request->validated());
@@ -39,9 +36,6 @@ class ExternalEntryController extends BaseController
         return new ExternalEntryCollection($resources, $query);
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, ShowAction $action): ExternalEntryResource
     {
         $query = new Query($request->validated());

@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 
 class RevokeRoleAction extends BaseAction
 {
-    final public const FIELD_ROLE = 'role';
+    final public const string FIELD_ROLE = 'role';
 
     public static function getDefaultName(): ?string
     {

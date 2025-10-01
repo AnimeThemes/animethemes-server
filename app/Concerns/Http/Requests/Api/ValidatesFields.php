@@ -23,7 +23,7 @@ trait ValidatesFields
     {
         return $this->restrictAllowedValues(
             Str::of(FieldParser::param())->append('.')->append($schema->type())->__toString(),
-            Arr::map($schema->fields(), fn (FieldInterface $field) => $field->getKey())
+            Arr::map($schema->fields(), fn (FieldInterface $field): string => $field->getKey())
         );
     }
 }

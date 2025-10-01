@@ -19,9 +19,6 @@ class SeriesSlugField extends StringField implements CreatableField, UpdatableFi
         parent::__construct($schema, Series::ATTRIBUTE_SLUG);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class SeriesSlugField extends StringField implements CreatableField, UpdatableFi
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

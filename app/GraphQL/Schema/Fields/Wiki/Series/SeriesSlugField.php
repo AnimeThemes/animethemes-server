@@ -35,7 +35,6 @@ class SeriesSlugField extends StringField implements BindableField, CreatableFie
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -49,7 +48,6 @@ class SeriesSlugField extends StringField implements BindableField, CreatableFie
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

@@ -29,9 +29,6 @@ class ExternalResourceController extends BaseController
         parent::__construct(ExternalResource::class, 'resource');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ExternalResourceCollection
     {
         $query = new Query($request->validated());
@@ -51,9 +48,6 @@ class ExternalResourceController extends BaseController
         return new ExternalResourceResource($externalResource, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, ExternalResource $resource, ShowAction $action): ExternalResourceResource
     {
         $query = new Query($request->validated());
@@ -63,9 +57,6 @@ class ExternalResourceController extends BaseController
         return new ExternalResourceResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, ExternalResource $resource, UpdateAction $action): ExternalResourceResource
     {
         $updated = $action->update($resource, $request->validated());
@@ -73,9 +64,6 @@ class ExternalResourceController extends BaseController
         return new ExternalResourceResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(ExternalResource $resource, DestroyAction $action): ExternalResourceResource
     {
         $deleted = $action->destroy($resource);
@@ -83,9 +71,6 @@ class ExternalResourceController extends BaseController
         return new ExternalResourceResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(ExternalResource $resource, RestoreAction $action): ExternalResourceResource
     {
         $restored = $action->restore($resource);
@@ -93,9 +78,6 @@ class ExternalResourceController extends BaseController
         return new ExternalResourceResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(ExternalResource $resource, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($resource);

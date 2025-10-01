@@ -21,12 +21,11 @@ class ExternalProfileCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (ExternalProfile $profile) => new ExternalProfileResource($profile, $this->query))->all();
+        return $this->collection->map(fn (ExternalProfile $profile): ExternalProfileResource => new ExternalProfileResource($profile, $this->query))->all();
     }
 }

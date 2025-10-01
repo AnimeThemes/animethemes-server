@@ -12,8 +12,6 @@ class UpdateRequest extends WriteRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -22,7 +20,7 @@ class UpdateRequest extends WriteRequest
         foreach ($this->schema()->fields() as $field) {
             $column = $field->getColumn();
             if ($field instanceof UpdatableField) {
-                $rules = $rules + [$column => $field->getUpdateRules($this)];
+                $rules += [$column => $field->getUpdateRules($this)];
             }
         }
 
@@ -40,7 +38,7 @@ class UpdateRequest extends WriteRequest
     {
         return Arr::where(
             $this->schema()->fields(),
-            fn (Field $field) => $field instanceof UpdatableField
+            fn (Field $field): bool => $field instanceof UpdatableField
         );
     }
 }

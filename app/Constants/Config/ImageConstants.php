@@ -6,5 +6,5 @@ namespace App\Constants\Config;
 
 class ImageConstants
 {
-    final public const DISKS_QUALIFIED = 'image.disk';
+    final public const string DISKS_QUALIFIED = 'image.disk';
 }

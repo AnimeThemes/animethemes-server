@@ -22,13 +22,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeSeries extends BasePivot
 {
-    final public const TABLE = 'anime_series';
+    final public const string TABLE = 'anime_series';
 
-    final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_SERIES = 'series_id';
+    final public const string ATTRIBUTE_ANIME = 'anime_id';
+    final public const string ATTRIBUTE_SERIES = 'series_id';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_SERIES = 'series';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_SERIES = 'series';
 
     /**
      * The table associated with the model.

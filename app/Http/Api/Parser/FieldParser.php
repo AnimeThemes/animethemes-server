@@ -20,8 +20,6 @@ class FieldParser extends Parser
 
     /**
      * Parse sparse fieldsets from parameters.
-     *
-     * @param  array  $parameters
      */
     public static function parse(array $parameters): array
     {

@@ -11,7 +11,7 @@ use App\Models\Wiki\Anime;
 
 class AnimeYearSeasonSeasonField extends EnumField implements DisplayableField
 {
-    final public const FIELD = Anime::ATTRIBUTE_SEASON;
+    final public const string FIELD = Anime::ATTRIBUTE_SEASON;
 
     public function __construct()
     {

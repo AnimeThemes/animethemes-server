@@ -20,7 +20,7 @@ class FeaturePolicy extends BasePolicy
     public function view(?User $user, Model $feature): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class))
+            return $user instanceof User && $user->can(CrudPermission::VIEW->format(Feature::class))
                 ? Response::allow()
                 : Response::deny();
         }

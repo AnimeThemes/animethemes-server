@@ -50,21 +50,21 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     use InteractsWithLikes;
     use Searchable;
 
-    final public const TABLE = 'playlists';
+    final public const string TABLE = 'playlists';
 
-    final public const ATTRIBUTE_DESCRIPTION = 'description';
-    final public const ATTRIBUTE_FIRST = 'first_id';
-    final public const ATTRIBUTE_ID = 'playlist_id';
-    final public const ATTRIBUTE_LAST = 'last_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_USER = 'user_id';
-    final public const ATTRIBUTE_VISIBILITY = 'visibility';
+    final public const string ATTRIBUTE_DESCRIPTION = 'description';
+    final public const string ATTRIBUTE_FIRST = 'first_id';
+    final public const string ATTRIBUTE_ID = 'playlist_id';
+    final public const string ATTRIBUTE_LAST = 'last_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_USER = 'user_id';
+    final public const string ATTRIBUTE_VISIBILITY = 'visibility';
 
-    final public const RELATION_FIRST = 'first';
-    final public const RELATION_IMAGES = 'images';
-    final public const RELATION_LAST = 'last';
-    final public const RELATION_TRACKS = 'tracks';
-    final public const RELATION_USER = 'user';
+    final public const string RELATION_FIRST = 'first';
+    final public const string RELATION_IMAGES = 'images';
+    final public const string RELATION_LAST = 'last';
+    final public const string RELATION_TRACKS = 'tracks';
+    final public const string RELATION_USER = 'user';
 
     /**
      * Is auditing disabled?
@@ -136,8 +136,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
 
     /**
      * Get the numbers used to encode the model's hashids.
-     *
-     * @return array
      */
     public function hashids(): array
     {

@@ -22,7 +22,7 @@ abstract class BaseBulkAction extends BulkAction
 
         $this->requiresConfirmation();
 
-        $this->before(function (BaseBulkAction $action, Collection $records) {
+        $this->before(function (BaseBulkAction $action, Collection $records): void {
             foreach ($records as $record) {
                 $this->createActionLog($action, $record, false);
             }
@@ -36,7 +36,6 @@ abstract class BaseBulkAction extends BulkAction
     }
 
     /**
-     * @param  Collection  $records
      * @param  array<string, mixed>  $data
      */
     abstract public function handle(Collection $records, array $data): void;

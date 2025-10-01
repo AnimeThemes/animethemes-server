@@ -12,22 +12,14 @@ abstract class BaseTab extends Tab
 {
     abstract public static function getSlug(): string;
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
-        return Cache::flexible("filament_query_{$this->getSlug()}", [15, 60], function () use ($query) {
-            return $this->modifyQuery($query);
-        });
+        return Cache::flexible("filament_query_{$this->getSlug()}", [15, 60], fn (): Builder => $this->modifyQuery($query));
     }
 
     public function count(): mixed
     {
-        $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], function () {
-            return $this->getBadge();
-        });
+        $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], fn (): string|int|float|null => $this->getBadge());
 
         $this->badge($count);
 

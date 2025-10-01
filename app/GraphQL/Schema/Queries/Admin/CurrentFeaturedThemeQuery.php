@@ -16,7 +16,7 @@ class CurrentFeaturedThemeQuery extends BaseQuery
 {
     public function __construct()
     {
-        parent::__construct('currentfeaturedtheme', true, false);
+        parent::__construct('currentfeaturedtheme');
     }
 
     public function description(): string

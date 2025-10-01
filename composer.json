@@ -60,12 +60,14 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16.0",
+        "driftingly/rector-laravel": "^2.0",
         "laravel/pint": "^1.25.1",
         "laravel/sail": "^1.46.0",
         "mockery/mockery": "^1.6.12",
         "pestphp/pest": "^4.1.0",
         "pestphp/pest-plugin-laravel": "^4.0",
-        "predis/predis": "^2.4.0"
+        "predis/predis": "^2.4.0",
+        "rector/rector": "^2.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -112,9 +114,18 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan clear",
+            "composer bump"
         ],
-        "lint": "pint",
+        "lint": [
+            "rector",
+            "pint"
+        ],
+        "test:lint": [
+            "pint --test",
+            "rector --dry-run"
+        ],
         "test:types": "./vendor/bin/phpstan analyse --memory-limit=-1"
     }
 }

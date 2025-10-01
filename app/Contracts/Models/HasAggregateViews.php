@@ -12,8 +12,5 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  */
 interface HasAggregateViews
 {
-    /**
-     * @return MorphOne
-     */
     public function viewAggregate(): MorphOne;
 }

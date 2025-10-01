@@ -37,14 +37,10 @@ class AnimeStreamingResourceTab extends BaseTab
         return __('filament.tabs.anime.streaming_resources.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
-            $resourceQuery->where(function (Builder $query) {
+        return $query->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery): void {
+            $resourceQuery->where(function (Builder $query): void {
                 foreach (static::sites() as $site) {
                     $query->orWhere(ExternalResource::ATTRIBUTE_SITE, $site->value);
                 }

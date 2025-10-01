@@ -29,7 +29,7 @@ class DumpRepository extends StorageRepository
      */
     protected function filterCallback(): Closure
     {
-        return fn (StorageAttributes $file) => $file->isFile() && File::extension($file->path()) === 'sql';
+        return fn (StorageAttributes $file): bool => $file->isFile() && File::extension($file->path()) === 'sql';
     }
 
     /**
@@ -39,7 +39,7 @@ class DumpRepository extends StorageRepository
      */
     protected function mapCallback(): Closure
     {
-        return fn (StorageAttributes $file) => new Dump([
+        return fn (StorageAttributes $file): Dump => new Dump([
             Dump::ATTRIBUTE_PATH => $file->path(),
         ]);
     }

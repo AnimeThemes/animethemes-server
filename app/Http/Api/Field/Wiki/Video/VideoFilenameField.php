@@ -17,9 +17,6 @@ class VideoFilenameField extends StringField implements CreatableField
         parent::__construct($schema, Video::ATTRIBUTE_FILENAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

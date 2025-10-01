@@ -57,15 +57,13 @@ trait ConstrainsEagerLoads
 
             $relationType = $relation->getBaseType();
 
-            $eagerLoadRelations[$path] = function (RelationLaravel $relationLaravel) use ($relationSelection, $relationArgs, $relationType) {
+            $eagerLoadRelations[$path] = function (RelationLaravel $relationLaravel) use ($relationSelection, $relationArgs, $relationType): void {
                 if ($relationLaravel instanceof MorphTo) {
                     $this->processMorphToRelation($relationSelection, $relationType, $relationLaravel);
+                } elseif ($relationType instanceof BaseUnion) {
+                    $this->processUnion($relationSelection, $relationLaravel, $relationType);
                 } else {
-                    if ($relationType instanceof BaseUnion) {
-                        $this->processUnion($relationSelection, $relationLaravel, $relationType);
-                    } else {
-                        $this->processGenericRelation($relationLaravel, $relationArgs, $relationSelection, $relationType);
-                    }
+                    $this->processGenericRelation($relationLaravel, $relationArgs, $relationSelection, $relationType);
                 }
             };
         }
@@ -87,7 +85,7 @@ trait ConstrainsEagerLoads
         foreach ($types as $type) {
             $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet");
 
-            $morphConstrains[$type->model()] = function (Builder $query) use ($typeSelection, $type) {
+            $morphConstrains[$type->model()] = function (Builder $query) use ($typeSelection, $type): void {
                 $this->processEagerLoadForType($query, $typeSelection, $type);
             };
         }
@@ -98,7 +96,7 @@ trait ConstrainsEagerLoads
     /**
      * Process a union relation by applying the eager loads for each type in the union.
      */
-    private function processUnion(array $selection, RelationLaravel $relation, BaseUnion $union)
+    private function processUnion(array $selection, RelationLaravel $relation, BaseUnion $union): void
     {
         $query = $relation->getQuery();
 
@@ -118,7 +116,7 @@ trait ConstrainsEagerLoads
     /**
      * Process a generic relation by applying filters, sorting and eager loads.
      */
-    private function processGenericRelation(RelationLaravel $relation, array $args, array $selection, BaseType $type)
+    private function processGenericRelation(RelationLaravel $relation, array $args, array $selection, BaseType $type): void
     {
         $query = $relation->getQuery();
 

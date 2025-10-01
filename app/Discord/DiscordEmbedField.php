@@ -13,10 +13,10 @@ use JsonSerializable;
 
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
-    final public const DEFAULT_FIELD_VALUE = '-';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_VALUE = 'value';
-    final public const ATTRIBUTE_INLINE = 'inline';
+    final public const string DEFAULT_FIELD_VALUE = '-';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_VALUE = 'value';
+    final public const string ATTRIBUTE_INLINE = 'inline';
 
     protected readonly string $formattedValue;
 
@@ -63,7 +63,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
     public static function formatEmbedFieldValue(mixed $value): string
     {
         // Use description for enums
-        if (is_object($value) && enum_exists(get_class($value))) {
+        if (is_object($value) && enum_exists($value::class)) {
             return $value->localize();
         }
 

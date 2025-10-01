@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Log;
 class StoreTrackAction
 {
     /**
-     * @param  array  $parameters
-     *
      * @throws Exception
      */
     public function store(Playlist $playlist, Builder $builder, array $parameters): PlaylistTrack
@@ -31,7 +29,7 @@ class StoreTrackAction
         $previousHashid = Arr::pull($trackParameters, PlaylistTrack::RELATION_PREVIOUS);
         $nextHashid = Arr::pull($trackParameters, PlaylistTrack::RELATION_NEXT);
 
-        $trackParameters = $trackParameters + [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()];
+        $trackParameters += [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()];
 
         try {
             DB::beginTransaction();

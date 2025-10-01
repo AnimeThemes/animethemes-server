@@ -10,6 +10,7 @@ use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Field\AggregateFunction;
 use App\Enums\Http\Api\QualifyColumn;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -36,7 +37,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria !== null && $criteria->isAllowedField($this->getKey());
+        return $criteria instanceof Criteria && $criteria->isAllowedField($this->getKey());
     }
 
     public function render(Model $model): mixed
@@ -56,7 +57,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
     {
         // Select aggregate if explicitly included in sparse fieldsets
         $fieldCriteria = $query->getFieldCriteria($this->schema->type());
-        if ($fieldCriteria !== null && $fieldCriteria->isAllowedField($this->getKey())) {
+        if ($fieldCriteria instanceof Criteria && $fieldCriteria->isAllowedField($this->getKey())) {
             return true;
         }
 
@@ -72,13 +73,8 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
         // Select aggregate if sorting on the aggregate value
         $sort = $this->getSort();
-        foreach ($query->getSortCriteria() as $sortCriterion) {
-            if ($sortCriterion->shouldSort($sort, $scope)) {
-                return true;
-            }
-        }
 
-        return false;
+        return array_any($query->getSortCriteria(), fn ($sortCriterion) => $sortCriterion->shouldSort($sort, $scope));
     }
 
     /**
@@ -89,8 +85,8 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         $constrainedRelation = [];
 
         $relationSchema = $this->schema->relation($this->relation);
-        $constrainedRelation[$this->relation] = function (Builder $relationBuilder) use ($query, $relationSchema) {
-            if ($relationSchema !== null) {
+        $constrainedRelation[$this->relation] = function (Builder $relationBuilder) use ($query, $relationSchema): void {
+            if ($relationSchema instanceof Schema) {
                 // TODO: distinguish scope from type
                 $scope = ScopeParser::parse($this->relation);
                 $this->filter($relationBuilder, $query, $relationSchema, $scope);
@@ -102,17 +98,14 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     /**
      * Eager load the aggregate value for the query builder.
-     *
-     * @param  Builder  $builder
-     * @return Builder
      */
     public function with(Query $query, Builder $builder): Builder
     {
         $constrainedRelation = [];
 
         $relationSchema = $this->schema->relation($this->relation);
-        $constrainedRelation[$this->relation] = function (Builder $relationBuilder) use ($query, $relationSchema) {
-            if ($relationSchema !== null) {
+        $constrainedRelation[$this->relation] = function (Builder $relationBuilder) use ($query, $relationSchema): void {
+            if ($relationSchema instanceof Schema) {
                 // TODO: distinguish scope from type
                 $scope = ScopeParser::parse($this->relation);
                 $this->filter($relationBuilder, $query, $relationSchema, $scope);

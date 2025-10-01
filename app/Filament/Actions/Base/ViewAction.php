@@ -26,7 +26,7 @@ class ViewAction extends BaseViewAction
 
         $this->iconSize(IconSize::Medium);
 
-        $this->hidden(fn (BaseManageResources|BaseListResources|BaseViewResource|BaseRelationManager $livewire) => $livewire instanceof BaseViewResource);
+        $this->hidden(fn (BaseManageResources|BaseListResources|BaseViewResource|BaseRelationManager $livewire): bool => $livewire instanceof BaseViewResource);
 
         $this->authorize(true);
     }

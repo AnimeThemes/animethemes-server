@@ -11,14 +11,11 @@ class BooleanFilter extends Filter
 {
     /**
      * Convert filter values to booleans.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            fn (string $filterValue) => filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+            fn (string $filterValue): ?bool => filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             $filterValues
         );
     }
@@ -27,24 +24,19 @@ class BooleanFilter extends Filter
      * Get only filter values that are valid boolean options.
      * Accepted for true: "1", "true", "on" and "yes".
      * Accepted for false: "0", "false", "off" and "no.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                fn (string $filterValue) => filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null
+                fn (string $filterValue): bool => filter_var($filterValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null
             )
         );
     }
 
     /**
      * Determine if both true and false have been specified.
-     *
-     * @param  array  $filterValues
      */
     public function isAllFilterValues(array $filterValues): bool
     {
@@ -53,8 +45,6 @@ class BooleanFilter extends Filter
 
     /**
      * Get the validation rules for the filter.
-     *
-     * @return array
      */
     public function getRules(): array
     {

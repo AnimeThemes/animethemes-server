@@ -41,9 +41,6 @@ class PlaylistController extends BaseController
         $this->middleware(UserExceedsPlaylistLimit::class)->only(['store', 'restore']);
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
     {
         $query = new Query($request->validated());
@@ -72,9 +69,6 @@ class PlaylistController extends BaseController
         return new PlaylistResource($playlist, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Playlist $playlist, ShowAction $action): PlaylistResource
     {
         $query = new Query($request->validated());
@@ -84,9 +78,6 @@ class PlaylistController extends BaseController
         return new PlaylistResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Playlist $playlist, UpdateAction $action): PlaylistResource
     {
         $updated = $action->update($playlist, $request->validated());
@@ -94,9 +85,6 @@ class PlaylistController extends BaseController
         return new PlaylistResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Playlist $playlist, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($playlist);

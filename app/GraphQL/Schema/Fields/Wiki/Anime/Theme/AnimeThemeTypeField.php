@@ -42,7 +42,6 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -54,7 +53,6 @@ class AnimeThemeTypeField extends EnumField implements CreatableField, RequiredO
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

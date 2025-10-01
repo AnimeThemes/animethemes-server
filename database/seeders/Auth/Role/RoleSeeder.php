@@ -37,7 +37,7 @@ class RoleSeeder extends Seeder
     {
         $permissions = Arr::map(
             $abilities,
-            fn (CrudPermission|ExtendedCrudPermission $ability) => Permission::findByName($ability->format($resource))
+            fn (CrudPermission|ExtendedCrudPermission $ability): \Spatie\Permission\Contracts\Permission => Permission::findByName($ability->format($resource))
         );
 
         $role->givePermissionTo($permissions);
@@ -46,12 +46,11 @@ class RoleSeeder extends Seeder
     /**
      * Configure role with abilities.
      *
-     * @param  Role  $role
      * @param  string[]  $abilities
      */
     protected function configureAbilities(Role $role, array $abilities): void
     {
-        $permissions = Arr::map($abilities, fn (string $ability) => Permission::findByName($ability));
+        $permissions = Arr::map($abilities, fn (string $ability): \Spatie\Permission\Contracts\Permission => Permission::findByName($ability));
 
         $role->givePermissionTo($permissions);
     }

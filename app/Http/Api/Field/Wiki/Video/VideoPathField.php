@@ -17,9 +17,6 @@ class VideoPathField extends StringField implements CreatableField
         parent::__construct($schema, Video::ATTRIBUTE_PATH);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

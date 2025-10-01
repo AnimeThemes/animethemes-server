@@ -52,7 +52,7 @@ class PlaylistFactory extends Factory
     public function tracks(int $count): static
     {
         return $this->afterCreating(
-            function (Playlist $playlist) use ($count) {
+            function (Playlist $playlist) use ($count): void {
                 $tracks = [];
 
                 foreach (range(1, $count) as $index) {
@@ -101,10 +101,11 @@ class PlaylistFactory extends Factory
     public function tracksForIds(array $videoIds): static
     {
         return $this->afterCreating(
-            function (Playlist $playlist) use ($videoIds) {
+            function (Playlist $playlist) use ($videoIds): void {
                 $tracks = [];
+                $counter = count($videoIds);
 
-                for ($index = 0; $index < count($videoIds); $index++) {
+                for ($index = 0; $index < $counter; $index++) {
                     $videoId = $videoIds[$index];
 
                     /** @var PlaylistTrack|null $last */

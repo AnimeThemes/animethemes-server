@@ -15,8 +15,8 @@ trait SelectsFields
     public function select(Builder $builder, Query $query, Schema $schema): Builder
     {
         $selectedFields = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($query, $schema))
-            ->map(fn (Field $field) => $field->getColumn());
+            ->filter(fn (Field $field): bool => $field instanceof SelectableField && $field->shouldSelect($query, $schema))
+            ->map(fn (Field $field): ?string => $field->getColumn());
 
         $builder->select($builder->qualifyColumns($selectedFields->all()));
 

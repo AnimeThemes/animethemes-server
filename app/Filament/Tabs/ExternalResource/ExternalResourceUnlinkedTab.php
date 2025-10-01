@@ -20,10 +20,6 @@ class ExternalResourceUnlinkedTab extends BaseTab
         return __('filament.tabs.external_resource.unlinked.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query

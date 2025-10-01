@@ -18,8 +18,6 @@ abstract class BaseRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     abstract public function rules(): array;
 
@@ -40,9 +38,7 @@ abstract class BaseRequest extends FormRequest
 
         $controller = $this->route()->getController();
 
-        if (! $controller instanceof InteractsWithSchema) {
-            throw new RuntimeException("Cannot resolve schema for controller '{$this->route()->getControllerClass()}'");
-        }
+        throw_unless($controller instanceof InteractsWithSchema, new RuntimeException("Cannot resolve schema for controller '{$this->route()->getControllerClass()}'"));
 
         $this->schema = $controller->schema();
     }

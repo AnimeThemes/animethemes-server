@@ -42,8 +42,8 @@ class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
     {
         $theme = $this->getModel();
 
-        $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry) {
-            AnimeThemeEntry::withoutEvents(function () use ($entry) {
+        $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry): void {
+            AnimeThemeEntry::withoutEvents(function () use ($entry): void {
                 $entry->restore();
                 $entry->searchable();
                 $entry->videos->each(fn (Video $video) => $video->searchable());

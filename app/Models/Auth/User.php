@@ -73,26 +73,26 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
-    final public const TABLE = 'users';
+    final public const string TABLE = 'users';
 
-    final public const ATTRIBUTE_EMAIL = 'email';
-    final public const ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
-    final public const ATTRIBUTE_ID = 'id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_PASSWORD = 'password';
-    final public const ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
-    final public const ATTRIBUTE_TWO_FACTOR_CONFIRMED_AT = 'two_factor_confirmed_at';
-    final public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
-    final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
+    final public const string ATTRIBUTE_EMAIL = 'email';
+    final public const string ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
+    final public const string ATTRIBUTE_ID = 'id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_PASSWORD = 'password';
+    final public const string ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
+    final public const string ATTRIBUTE_TWO_FACTOR_CONFIRMED_AT = 'two_factor_confirmed_at';
+    final public const string ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
+    final public const string ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
-    final public const RELATION_EXTERNAL_PROFILES = 'externalprofiles';
-    final public const RELATION_MANAGED_REPORTS = 'managedreports';
-    final public const RELATION_NOTIFICATIONS = 'notifications';
-    final public const RELATION_PERMISSIONS = 'permissions';
-    final public const RELATION_PLAYLISTS = 'playlists';
-    final public const RELATION_REPORTS = 'reports';
-    final public const RELATION_ROLES = 'roles';
-    final public const RELATION_ROLES_PERMISSIONS = 'roles.permissions';
+    final public const string RELATION_EXTERNAL_PROFILES = 'externalprofiles';
+    final public const string RELATION_MANAGED_REPORTS = 'managedreports';
+    final public const string RELATION_NOTIFICATIONS = 'notifications';
+    final public const string RELATION_PERMISSIONS = 'permissions';
+    final public const string RELATION_PLAYLISTS = 'playlists';
+    final public const string RELATION_REPORTS = 'reports';
+    final public const string RELATION_ROLES = 'roles';
+    final public const string RELATION_ROLES_PERMISSIONS = 'roles.permissions';
 
     /**
      * The attributes that are mass assignable.
@@ -174,8 +174,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return ($this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value))
-            || $this->hasAnyPermission(SpecialPermission::BYPASS_AUTHORIZATION->value);
+        if ($this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value)) {
+            return true;
+        }
+
+        return $this->hasAnyPermission(SpecialPermission::BYPASS_AUTHORIZATION->value);
     }
 
     public function getFilamentAvatarUrl(): string
@@ -241,8 +244,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Get the submissions that the user made.
-     *
-     * @return HasMany
      */
     public function reports(): HasMany
     {
@@ -251,8 +252,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Get the reports that the admin managed.
-     *
-     * @return HasMany
      */
     public function managedreports(): HasMany
     {
@@ -285,8 +284,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
 
     /**
      * Get the prunable model query.
-     *
-     * @return Builder
      */
     public function prunable(): Builder
     {

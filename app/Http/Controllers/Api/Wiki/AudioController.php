@@ -29,9 +29,6 @@ class AudioController extends BaseController
         parent::__construct(Audio::class, 'audio');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): AudioCollection
     {
         $query = new Query($request->validated());
@@ -51,9 +48,6 @@ class AudioController extends BaseController
         return new AudioResource($audio, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Audio $audio, ShowAction $action): AudioResource
     {
         $query = new Query($request->validated());
@@ -63,9 +57,6 @@ class AudioController extends BaseController
         return new AudioResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): AudioResource
     {
         $updated = $action->update($audio, $request->validated());
@@ -73,9 +64,6 @@ class AudioController extends BaseController
         return new AudioResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Audio $audio, DestroyAction $action): AudioResource
     {
         $deleted = $action->destroy($audio);
@@ -83,9 +71,6 @@ class AudioController extends BaseController
         return new AudioResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Audio $audio, RestoreAction $action): AudioResource
     {
         $restored = $action->restore($audio);
@@ -93,9 +78,6 @@ class AudioController extends BaseController
         return new AudioResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Audio $audio, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($audio);

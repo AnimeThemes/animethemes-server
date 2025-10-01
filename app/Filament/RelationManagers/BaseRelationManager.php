@@ -67,8 +67,8 @@ abstract class BaseRelationManager extends RelationManager
 
                 TextColumn::make('pivot.created_at')
                     ->label(__('filament.fields.base.attached_at'))
-                    ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
-                    ->state(function (Model $record) {
+                    ->hidden(fn ($livewire): bool => ! ($livewire->getRelationship() instanceof BelongsToMany))
+                    ->state(function (Model $record): string {
                         $pivot = current($record->getRelations());
 
                         $createdAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_CREATED_AT);
@@ -81,8 +81,8 @@ abstract class BaseRelationManager extends RelationManager
 
                 TextColumn::make('pivot.updated_at')
                     ->label(__('filament.fields.base.updated_at'))
-                    ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
-                    ->state(function (Model $record) {
+                    ->hidden(fn ($livewire): bool => ! ($livewire->getRelationship() instanceof BelongsToMany))
+                    ->state(function (Model $record): string {
                         $pivot = current($record->getRelations());
                         $updatedAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT);
                         if (! $updatedAtField) {

@@ -68,7 +68,7 @@ abstract class BaseType extends RebingType
     public function fields(): array
     {
         $relations = collect($this->relations())
-            ->mapWithKeys(fn (Relation $relation) => [
+            ->mapWithKeys(fn (Relation $relation): array => [
                 $relation->getName() => [
                     'type' => $relation->type(),
                     'args' => $relation->args(),
@@ -77,7 +77,7 @@ abstract class BaseType extends RebingType
             ]);
 
         $fields = collect($this->fieldClasses())
-            ->mapWithKeys(fn (Field $field) => [
+            ->mapWithKeys(fn (Field $field): array => [
                 $field->getName() => [
                     'type' => $field->type(),
                     'description' => $field->description(),

@@ -27,7 +27,7 @@ abstract class BasePolicy
      */
     protected static function getModel(): string
     {
-        return Str::of(get_called_class())
+        return Str::of(static::class)
             ->replace('Policies', 'Models')
             ->remove('Policy')
             ->__toString();
@@ -45,7 +45,7 @@ abstract class BasePolicy
     public function viewAny(?User $user): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            return $user instanceof User && $user->can(CrudPermission::VIEW->format(static::getModel()))
                 ? Response::allow()
                 : Response::deny();
         }
@@ -56,7 +56,7 @@ abstract class BasePolicy
     public function view(?User $user, Model $model): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            return $user instanceof User && $user->can(CrudPermission::VIEW->format(static::getModel()))
                 ? Response::allow()
                 : Response::deny();
         }

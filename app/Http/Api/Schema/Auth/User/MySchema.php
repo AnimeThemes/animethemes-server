@@ -62,8 +62,6 @@ class MySchema extends EloquentSchema
 
     /**
      * Resolve the owner model of the schema.
-     *
-     * @return Model
      */
     public function model(): Model
     {

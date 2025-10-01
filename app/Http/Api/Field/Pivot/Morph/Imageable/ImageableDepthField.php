@@ -18,9 +18,6 @@ class ImageableDepthField extends IntField implements CreatableField, UpdatableF
         parent::__construct($schema, Imageable::ATTRIBUTE_DEPTH);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class ImageableDepthField extends IntField implements CreatableField, UpdatableF
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

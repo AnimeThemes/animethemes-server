@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 
 class LimitCriteria extends Criteria
 {
-    final public const PARAM = 'limit';
+    final public const string PARAM = 'limit';
 
     public function getStrategy(): PaginationStrategy
     {
@@ -20,9 +20,6 @@ class LimitCriteria extends Criteria
 
     /**
      * Paginate the query.
-     *
-     * @param  Builder  $builder
-     * @return Collection|Paginator
      */
     public function paginate(Builder $builder): Collection|Paginator
     {

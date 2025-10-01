@@ -107,14 +107,12 @@ class SyncExternalProfileAction
     protected function cacheResources(ExternalProfileSite $profileSite): void
     {
         // External resources are only added by mods so it doesn't change too often.
-        $this->resources = Cache::flexible("resources_{$profileSite->name}", [60, 300], function () use ($profileSite) {
-            return ExternalResource::query()
-                ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
-                ->with([ExternalResource::RELATION_ANIME => fn ($query) => $query->select([Anime::TABLE.'.'.Anime::ATTRIBUTE_ID])])
-                ->whereHas(ExternalResource::RELATION_ANIME)
-                ->get()
-                ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime->map(fn (Anime $anime) => $anime->getKey())]);
-        });
+        $this->resources = Cache::flexible("resources_{$profileSite->name}", [60, 300], fn () => ExternalResource::query()
+            ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
+            ->with([ExternalResource::RELATION_ANIME => fn ($query) => $query->select([Anime::TABLE.'.'.Anime::ATTRIBUTE_ID])])
+            ->whereHas(ExternalResource::RELATION_ANIME)
+            ->get()
+            ->mapWithKeys(fn (ExternalResource $resource): array => [$resource->external_id => $resource->anime->map(fn (Anime $anime) => $anime->getKey())]));
     }
 
     /**

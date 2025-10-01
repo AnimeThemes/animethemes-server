@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
@@ -44,7 +45,6 @@ class SearchResource extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -54,7 +54,7 @@ class SearchResource extends JsonResource
         $result = [];
 
         $criteria = $this->query->getFieldCriteria(static::$wrap);
-        if ($criteria === null) {
+        if (! $criteria instanceof Criteria) {
             return $result;
         }
 

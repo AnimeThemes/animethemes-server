@@ -22,7 +22,6 @@ class StoreExternalProfileUnclaimedAction
     /**
      * Get the first record or store an external profile and its entries given determined username.
      *
-     * @param  array  $profileParameters
      *
      * @throws Exception
      */
@@ -43,9 +42,7 @@ class StoreExternalProfileUnclaimedAction
                 ->first();
 
             if ($findProfile instanceof ExternalProfile) {
-                if ($findProfile->isClaimed()) {
-                    throw new Exception("The external profile '{$findProfile->getName()}' is already claimed.");
-                }
+                throw_if($findProfile->isClaimed(), new Exception("The external profile '{$findProfile->getName()}' is already claimed."));
 
                 DB::rollBack();
 
@@ -79,7 +76,6 @@ class StoreExternalProfileUnclaimedAction
     /**
      * Get the mapping for the entries class.
      *
-     * @param  ExternalProfile|array  $profile
      *
      * @throws RuntimeException
      */

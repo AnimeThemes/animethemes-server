@@ -37,10 +37,8 @@ trait CanCreateExternalResource
 
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
-            ->where(function (Builder $query) use ($url) {
-                return $query->where(ExternalResource::ATTRIBUTE_LINK, $url)
-                    ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url.'/');
-            })
+            ->where(fn (Builder $query) => $query->where(ExternalResource::ATTRIBUTE_LINK, $url)
+                ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url.'/'))
             ->first();
 
         if ($resource === null) {

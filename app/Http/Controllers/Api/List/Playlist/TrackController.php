@@ -41,9 +41,6 @@ class TrackController extends BaseController
         $this->middleware(PlaylistExceedsTrackLimit::class)->only(['store', 'restore']);
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
         $query = new Query($request->validated());
@@ -56,8 +53,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * @param  StoreTrackAction  $action
-     *
      * @throws Exception
      */
     public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): TrackResource
@@ -68,8 +63,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * @param  ShowAction  $action
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function show(ShowRequest $request, Playlist $playlist, PlaylistTrack $track, ShowAction $action): TrackResource
@@ -82,8 +75,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * @param  UpdateTrackAction  $action
-     *
      * @throws Exception
      */
     public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): TrackResource
@@ -94,8 +85,6 @@ class TrackController extends BaseController
     }
 
     /**
-     * @param  DestroyTrackAction  $action
-     *
      * @throws Exception
      */
     public function destroy(Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse

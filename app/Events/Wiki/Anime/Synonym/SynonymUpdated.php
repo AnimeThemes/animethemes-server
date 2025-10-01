@@ -49,9 +49,9 @@ class SynonymUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEve
 
         $synonym->anime->searchable();
         $synonym->anime->series->each(fn (Series $series) => $series->searchable());
-        $synonym->anime->animethemes->each(function (AnimeTheme $theme) {
+        $synonym->anime->animethemes->each(function (AnimeTheme $theme): void {
             $theme->searchable();
-            $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+            $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
                 $entry->searchable();
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });

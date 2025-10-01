@@ -15,9 +15,6 @@ class ListPlaylists extends BaseListResources
 
     /**
      * Using Laravel Scout to search.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {

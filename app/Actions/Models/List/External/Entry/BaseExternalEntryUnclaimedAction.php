@@ -20,9 +20,6 @@ abstract class BaseExternalEntryUnclaimedAction
      */
     protected ?array $data = null;
 
-    /**
-     * @param  ExternalProfile|array  $profile
-     */
     public function __construct(protected ExternalProfile|array $profile) {}
 
     public function getUsername(): string

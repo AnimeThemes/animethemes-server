@@ -73,34 +73,34 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'videos';
+    final public const string TABLE = 'videos';
 
-    final public const ATTRIBUTE_AUDIO = 'audio_id';
-    final public const ATTRIBUTE_BASENAME = 'basename';
-    final public const ATTRIBUTE_FILENAME = 'filename';
-    final public const ATTRIBUTE_ID = 'video_id';
-    final public const ATTRIBUTE_LINK = 'link';
-    final public const ATTRIBUTE_LYRICS = 'lyrics';
-    final public const ATTRIBUTE_MIMETYPE = 'mimetype';
-    final public const ATTRIBUTE_NC = 'nc';
-    final public const ATTRIBUTE_OVERLAP = 'overlap';
-    final public const ATTRIBUTE_PATH = 'path';
-    final public const ATTRIBUTE_RESOLUTION = 'resolution';
-    final public const ATTRIBUTE_SIZE = 'size';
-    final public const ATTRIBUTE_SOURCE = 'source';
-    final public const ATTRIBUTE_SUBBED = 'subbed';
-    final public const ATTRIBUTE_TAGS = 'tags';
-    final public const ATTRIBUTE_UNCEN = 'uncen';
+    final public const string ATTRIBUTE_AUDIO = 'audio_id';
+    final public const string ATTRIBUTE_BASENAME = 'basename';
+    final public const string ATTRIBUTE_FILENAME = 'filename';
+    final public const string ATTRIBUTE_ID = 'video_id';
+    final public const string ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_LYRICS = 'lyrics';
+    final public const string ATTRIBUTE_MIMETYPE = 'mimetype';
+    final public const string ATTRIBUTE_NC = 'nc';
+    final public const string ATTRIBUTE_OVERLAP = 'overlap';
+    final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_RESOLUTION = 'resolution';
+    final public const string ATTRIBUTE_SIZE = 'size';
+    final public const string ATTRIBUTE_SOURCE = 'source';
+    final public const string ATTRIBUTE_SUBBED = 'subbed';
+    final public const string ATTRIBUTE_TAGS = 'tags';
+    final public const string ATTRIBUTE_UNCEN = 'uncen';
 
-    final public const RELATION_ANIME = 'animethemeentries.animetheme.anime';
-    final public const RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
-    final public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
-    final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
-    final public const RELATION_GROUP = 'animethemeentries.animetheme.group';
-    final public const RELATION_AUDIO = 'audio';
-    final public const RELATION_SCRIPT = 'videoscript';
-    final public const RELATION_SONG = 'animethemeentries.animetheme.song';
-    final public const RELATION_TRACKS = 'tracks';
+    final public const string RELATION_ANIME = 'animethemeentries.animetheme.anime';
+    final public const string RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
+    final public const string RELATION_ANIMETHEME = 'animethemeentries.animetheme';
+    final public const string RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+    final public const string RELATION_GROUP = 'animethemeentries.animetheme.group';
+    final public const string RELATION_AUDIO = 'audio';
+    final public const string RELATION_SCRIPT = 'videoscript';
+    final public const string RELATION_SONG = 'animethemeentries.animetheme.song';
+    final public const string RELATION_TRACKS = 'tracks';
 
     /**
      * The attributes that are mass assignable.
@@ -162,7 +162,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
         Video::ATTRIBUTE_TAGS,
     ];
 
-    public function getLinkAttribute(): ?string
+    protected function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
             return route('video.show', $this);
@@ -176,7 +176,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
      *
      * @return string[]
      */
-    public function getTagsAttribute(): array
+    protected function getTagsAttribute(): array
     {
         $tags = [];
 
@@ -227,9 +227,6 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -249,7 +246,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
         $array = $this->toArray();
 
         $array['entries'] = $this->animethemeentries->map(
-            fn (AnimeThemeEntry $entry) => $entry->toSearchableArray()
+            fn (AnimeThemeEntry $entry): array => $entry->toSearchableArray()
         )->toArray();
 
         return $array;

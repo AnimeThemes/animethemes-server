@@ -43,7 +43,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -54,7 +53,6 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getDeleteRules(array $args): array
     {

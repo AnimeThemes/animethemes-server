@@ -28,21 +28,16 @@ class SyncExternalProfileController extends Controller
 
     /**
      * Display the current progress status of the sync.
-     *
-     * @param  ExternalProfile  $externalprofile
      */
-    public function show(ShowRequest $request, ExternalProfile $externalprofile)
+    public function show(ShowRequest $request, ExternalProfile $externalprofile): void
     {
         // TODO
     }
 
     /**
      * Start a new sync job.
-     *
-     * @param  ExternalProfile  $externalProfile
-     * @return JsonResponse
      */
-    public function store(ExternalProfile $externalProfile)
+    public function store(ExternalProfile $externalProfile): JsonResponse
     {
         if (! $externalProfile->canBeSynced()) {
             return new JsonResponse([

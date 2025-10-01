@@ -8,8 +8,6 @@ interface InteractsWithDisks
 {
     /**
      * The list of disk names.
-     *
-     * @return array
      */
     public function disks(): array;
 }

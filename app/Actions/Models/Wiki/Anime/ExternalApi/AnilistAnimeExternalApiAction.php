@@ -105,8 +105,6 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
 
     /**
      * Get the available sites to backfill.
-     *
-     * @return array
      */
     public function getResourcesMapping(): array
     {

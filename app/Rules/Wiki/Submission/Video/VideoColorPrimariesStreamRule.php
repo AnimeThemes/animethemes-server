@@ -24,10 +24,10 @@ class VideoColorPrimariesStreamRule extends SubmissionRule
 
         $video = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'video'
         );
 
-        if (! in_array(Arr::get($video, 'color_primaries'), explode(',', Feature::for(null)->value(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM)))) {
+        if (! in_array(Arr::get($video, 'color_primaries'), explode(',', (string) Feature::for(null)->value(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM)))) {
             $fail(__('validation.submission.video_color_primaries'));
         }
     }

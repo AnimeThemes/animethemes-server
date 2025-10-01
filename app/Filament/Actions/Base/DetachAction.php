@@ -26,19 +26,15 @@ class DetachAction extends BaseDetachAction
 
         $this->label(__('filament.actions.base.detach'));
 
-        $this->visible(function (BaseManageResources|BaseViewResource|BaseListResources|BaseRelationManager $livewire) {
+        $this->visible(function (BaseManageResources|BaseViewResource|BaseListResources|BaseRelationManager $livewire): bool {
             if (! ($livewire instanceof BaseRelationManager)) {
                 return false;
             }
 
-            if (! ($livewire->getRelationship() instanceof BelongsToMany)) {
-                return false;
-            }
-
-            return true;
+            return $livewire->getRelationship() instanceof BelongsToMany;
         });
 
-        $this->before(function ($livewire) {
+        $this->before(function ($livewire): void {
             $ownerRecord = $livewire->getOwnerRecord();
 
             $model = Str::studly(class_basename($livewire->getTable()->getModel()));
@@ -59,7 +55,7 @@ class DetachAction extends BaseDetachAction
 
         $this->authorize(true);
 
-        $this->after(function (BaseRelationManager $livewire, Model $record) {
+        $this->after(function (BaseRelationManager $livewire, Model $record): void {
             $relationship = $livewire->getRelationship();
 
             if ($relationship instanceof BelongsToMany) {

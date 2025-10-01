@@ -36,14 +36,14 @@ class Series extends BaseModel implements SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'series';
+    final public const string TABLE = 'series';
 
-    final public const ATTRIBUTE_ID = 'series_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_ID = 'series_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SLUG = 'slug';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_ANIME_SYNONYMS = 'anime.animesynonyms';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_ANIME_SYNONYMS = 'anime.animesynonyms';
 
     /**
      * The attributes that are mass assignable.
@@ -85,9 +85,6 @@ class Series extends BaseModel implements SoftDeletable
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -96,14 +93,12 @@ class Series extends BaseModel implements SoftDeletable
 
     /**
      * Get the indexable data array for the model.
-     *
-     * @return array
      */
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
         $array['anime'] = $this->anime->map(
-            fn (Anime $anime) => $anime->toSearchableArray()
+            fn (Anime $anime): array => $anime->toSearchableArray()
         )->toArray();
 
         return $array;

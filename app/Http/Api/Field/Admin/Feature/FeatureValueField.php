@@ -17,9 +17,6 @@ class FeatureValueField extends StringField implements UpdatableField
         parent::__construct($schema, Feature::ATTRIBUTE_VALUE);
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

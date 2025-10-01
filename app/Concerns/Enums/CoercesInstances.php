@@ -34,13 +34,13 @@ trait CoercesInstances
 
         $enum = Arr::first(
             static::cases(),
-            fn (self $enum) => $enum->value === $enumNameOrValue
+            fn (self $enum): bool => $enum->value === $enumNameOrValue
         );
 
         if (is_string($enumNameOrValue) && $enum === null) {
-            $enum = Arr::first(
+            return Arr::first(
                 static::cases(),
-                fn (self $enum) => Str::lower($enum->name) === $enumNameOrValue
+                fn (self $enum): bool => Str::lower($enum->name) === $enumNameOrValue
             );
         }
 

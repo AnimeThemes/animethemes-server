@@ -20,9 +20,6 @@ class ThemeTypeField extends EnumField implements CreatableField, UpdatableField
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class ThemeTypeField extends EnumField implements CreatableField, UpdatableField
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

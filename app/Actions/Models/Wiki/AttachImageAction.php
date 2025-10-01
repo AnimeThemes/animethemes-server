@@ -15,7 +15,6 @@ class AttachImageAction
     use CanCreateImage;
 
     /**
-     * @param  array  $fields
      * @param  ImageFacet[]  $facets
      */
     public function handle(BaseModel&HasImages $model, array $fields, array $facets): void

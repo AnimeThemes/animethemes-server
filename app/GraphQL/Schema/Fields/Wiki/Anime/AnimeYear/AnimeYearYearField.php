@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\Type;
 
 class AnimeYearYearField extends Field implements DisplayableField
 {
-    final public const FIELD = Anime::ATTRIBUTE_YEAR;
+    final public const string FIELD = Anime::ATTRIBUTE_YEAR;
 
     public function __construct()
     {

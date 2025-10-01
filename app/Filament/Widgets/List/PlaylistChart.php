@@ -41,11 +41,11 @@ class PlaylistChart extends BaseChartWidget
             'series' => [
                 [
                     'name' => $this->getHeading(),
-                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $data->map(fn (TrendValue $value): mixed => $value->aggregate),
                 ],
             ],
             'xaxis' => [
-                'categories' => $data->map(fn (TrendValue $value) => $this->translateDate($value->date)),
+                'categories' => $data->map(fn (TrendValue $value): string => $this->translateDate($value->date)),
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',

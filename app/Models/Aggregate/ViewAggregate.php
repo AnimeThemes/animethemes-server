@@ -15,12 +15,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class ViewAggregate extends Model
 {
-    final public const TABLE = 'view_aggregates';
+    final public const string TABLE = 'view_aggregates';
 
-    final public const ATTRIBUTE_VIEWABLE = 'viewable';
-    final public const ATTRIBUTE_VIEWABLE_TYPE = 'viewable_type';
-    final public const ATTRIBUTE_VIEWABLE_ID = 'viewable_id';
-    final public const ATTRIBUTE_VALUE = 'value';
+    final public const string ATTRIBUTE_VIEWABLE = 'viewable';
+    final public const string ATTRIBUTE_VIEWABLE_TYPE = 'viewable_type';
+    final public const string ATTRIBUTE_VIEWABLE_ID = 'viewable_id';
+    final public const string ATTRIBUTE_VALUE = 'value';
 
     /**
      * The table associated with the model.
@@ -43,9 +43,6 @@ class ViewAggregate extends Model
      */
     public $timestamps = false;
 
-    /**
-     * @return MorphTo
-     */
     public function viewable(): MorphTo
     {
         return $this->morphTo();

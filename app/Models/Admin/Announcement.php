@@ -25,11 +25,11 @@ class Announcement extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'announcements';
+    final public const string TABLE = 'announcements';
 
-    final public const ATTRIBUTE_CONTENT = 'content';
-    final public const ATTRIBUTE_ID = 'announcement_id';
-    final public const ATTRIBUTE_PUBLIC = 'public';
+    final public const string ATTRIBUTE_CONTENT = 'content';
+    final public const string ATTRIBUTE_ID = 'announcement_id';
+    final public const string ATTRIBUTE_PUBLIC = 'public';
 
     /**
      * The attributes that are mass assignable.
@@ -92,11 +92,9 @@ class Announcement extends BaseModel
 
     /**
      * Scope a query to only include public announcements.
-     *
-     * @param  Builder  $query
      */
     #[Scope]
-    public function public(Builder $query): void
+    protected function public(Builder $query): void
     {
         $query->where(Announcement::ATTRIBUTE_PUBLIC, true);
     }

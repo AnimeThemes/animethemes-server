@@ -22,10 +22,12 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
 
         foreach (Filament::getResources() as $resource) {
             /** @var class-string<BaseResource> $resource */
-            if (! $resource::canGloballySearch() || ! in_array(Searchable::class, class_uses_recursive($resource::getModel()))) {
+            if (! $resource::canGloballySearch()) {
                 continue;
             }
-
+            if (! in_array(Searchable::class, class_uses_recursive($resource::getModel()))) {
+                continue;
+            }
             $query = $this->escapeReservedChars($query);
 
             /** @var ScoutBuilder $scoutBuilder */

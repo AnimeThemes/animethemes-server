@@ -66,14 +66,11 @@ trait HasActionLogs
 
     public function finishedLog(): void
     {
-        if ($actionLog = $this->actionLog) {
-            if (! $this->isFailedLog()) {
-                $actionLog->finished();
-
-                // Filament notifications
-                if ($this instanceof Action) {
-                    $this->success();
-                }
+        if (($actionLog = $this->actionLog) && ! $this->isFailedLog()) {
+            $actionLog->finished();
+            // Filament notifications
+            if ($this instanceof Action) {
+                $this->success();
             }
         }
     }

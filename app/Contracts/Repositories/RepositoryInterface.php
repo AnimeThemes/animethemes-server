@@ -14,7 +14,6 @@ interface RepositoryInterface
 {
     /**
      * @param  string[]  $columns
-     * @return Collection
      */
     public function get(array $columns = ['*']): Collection;
 
@@ -22,9 +21,6 @@ interface RepositoryInterface
 
     public function delete(Model $model): bool;
 
-    /**
-     * @param  array  $attributes
-     */
     public function update(Model $model, array $attributes): bool;
 
     public function handleFilter(string $filter, mixed $value = null): void;

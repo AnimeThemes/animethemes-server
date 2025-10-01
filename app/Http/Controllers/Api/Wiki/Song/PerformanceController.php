@@ -29,9 +29,6 @@ class PerformanceController extends BaseController
         parent::__construct(Performance::class, 'performance');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): PerformanceCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class PerformanceController extends BaseController
         return new PerformanceResource($performance, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Performance $performance, ShowAction $action): PerformanceResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class PerformanceController extends BaseController
         return new PerformanceResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Performance $performance, UpdateAction $action): PerformanceResource
     {
         $updated = $action->update($performance, $request->validated());
@@ -75,9 +66,6 @@ class PerformanceController extends BaseController
         return new PerformanceResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Performance $performance, DestroyAction $action): PerformanceResource
     {
         $deleted = $action->destroy($performance);
@@ -85,9 +73,6 @@ class PerformanceController extends BaseController
         return new PerformanceResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Performance $performance, RestoreAction $action): PerformanceResource
     {
         $restored = $action->restore($performance);
@@ -95,9 +80,6 @@ class PerformanceController extends BaseController
         return new PerformanceResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Performance $performance, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($performance);

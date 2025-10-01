@@ -39,7 +39,7 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([
-            Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
+            Performance::RELATION_ARTIST => function (MorphTo $morphTo): void {
                 $morphTo->morphWith([
                     Artist::class => [],
                     Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
@@ -72,7 +72,7 @@ class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent
             default => throw new Exception('Invalid artist type.'),
         };
 
-        ArtistSong::withoutEvents(function () use ($artist, $song, $performance) {
+        ArtistSong::withoutEvents(function () use ($artist, $song, $performance): void {
             ArtistSong::query()->where([
                 ArtistSong::ATTRIBUTE_ARTIST => $artist->getKey(),
                 ArtistSong::ATTRIBUTE_SONG => $song->getKey(),

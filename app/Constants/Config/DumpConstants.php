@@ -6,9 +6,9 @@ namespace App\Constants\Config;
 
 class DumpConstants
 {
-    final public const DISK_QUALIFIED = 'dump.disk';
+    final public const string DISK_QUALIFIED = 'dump.disk';
 
-    final public const PATH_QUALIFIED = 'dump.path';
+    final public const string PATH_QUALIFIED = 'dump.path';
 
-    final public const URL_QUALIFIED = 'dump.url';
+    final public const string URL_QUALIFIED = 'dump.url';
 }

@@ -21,12 +21,11 @@ class AudioCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Audio $audio) => new AudioResource($audio, $this->query))->all();
+        return $this->collection->map(fn (Audio $audio): AudioResource => new AudioResource($audio, $this->query))->all();
     }
 }

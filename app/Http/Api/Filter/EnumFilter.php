@@ -19,9 +19,6 @@ class EnumFilter extends Filter
 
     /**
      * Convert filter values to enum values from key.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function convertFilterValues(array $filterValues): array
     {
@@ -33,24 +30,19 @@ class EnumFilter extends Filter
 
     /**
      * Get only filter values that are valid enum options.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                fn (string $filterValue) => $this->enumClass::fromLocalizedName($filterValue) !== null
+                fn (string $filterValue): bool => $this->enumClass::fromLocalizedName($filterValue) !== null
             )
         );
     }
 
     /**
      * Determine if all enum options have been specified.
-     *
-     * @param  array  $filterValues
      */
     public function isAllFilterValues(array $filterValues): bool
     {
@@ -59,8 +51,6 @@ class EnumFilter extends Filter
 
     /**
      * Get the validation rules for the filter.
-     *
-     * @return array
      */
     public function getRules(): array
     {

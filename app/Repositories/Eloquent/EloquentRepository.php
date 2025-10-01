@@ -16,9 +16,6 @@ use Illuminate\Support\Collection;
  */
 abstract class EloquentRepository implements RepositoryInterface
 {
-    /**
-     * @var Builder
-     */
     protected Builder $query;
 
     public function __construct()
@@ -26,10 +23,6 @@ abstract class EloquentRepository implements RepositoryInterface
         $this->query = $this->builder();
     }
 
-    /**
-     * @param  array  $columns
-     * @return Collection
-     */
     public function get(array $columns = ['*']): Collection
     {
         return $this->query->get($columns);
@@ -45,16 +38,10 @@ abstract class EloquentRepository implements RepositoryInterface
         return $model->delete();
     }
 
-    /**
-     * @param  array  $attributes
-     */
     public function update(Model $model, array $attributes): bool
     {
         return $model->update($attributes);
     }
 
-    /**
-     * @return Builder
-     */
     abstract protected function builder(): Builder;
 }

@@ -24,13 +24,13 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
 
 class ThemeSchema extends Schema
 {
-    final public const SORT_SEASON = 'anime.season';
+    final public const string SORT_SEASON = 'anime.season';
 
-    final public const SORT_TITLE = 'song.title';
+    final public const string SORT_TITLE = 'song.title';
 
-    final public const SORT_TITLE_FIELD = 'song.title_keyword';
+    final public const string SORT_TITLE_FIELD = 'song.title_keyword';
 
-    final public const SORT_YEAR = 'anime.year';
+    final public const string SORT_YEAR = 'anime.year';
 
     public function query(): ThemeQuery
     {

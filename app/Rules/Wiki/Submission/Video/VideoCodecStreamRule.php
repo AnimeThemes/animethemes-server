@@ -24,7 +24,7 @@ class VideoCodecStreamRule extends SubmissionRule
 
         $video = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'video'
         );
 
         if (Arr::get($video, 'codec_name') !== Feature::for(null)->value(FeatureConstants::VIDEO_CODEC_STREAM)) {

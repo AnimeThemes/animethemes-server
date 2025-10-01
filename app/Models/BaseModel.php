@@ -33,9 +33,6 @@ abstract class BaseModel extends Model implements Auditable, HasSubtitle, Nameab
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
-    /**
-     * @param  array  $attributes
-     */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

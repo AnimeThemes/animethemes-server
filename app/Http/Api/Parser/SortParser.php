@@ -28,7 +28,6 @@ class SortParser extends Parser
     /**
      * Parse sorts from parameters.
      *
-     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array

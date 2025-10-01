@@ -11,9 +11,6 @@ use Illuminate\Support\Str;
 class RelationCriteria extends FieldCriteria
 {
     /**
-     * @param  Builder  $builder
-     * @return Builder
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function sort(Builder $builder, Sort $sort): Builder

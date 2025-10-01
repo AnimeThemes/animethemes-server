@@ -86,6 +86,9 @@ use App\GraphQL\Schema\Unions\LikedUnion;
 use App\GraphQL\Schema\Unions\NotificationUnion;
 use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\GraphQL\Schema\Unions\ResourceableUnion;
+use App\Http\Middleware\GraphQL\LogGraphQLRequest;
+use App\Http\Middleware\GraphQL\MaxCount;
+use App\Http\Middleware\GraphQL\SetServingGraphQL;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 
 class DefaultSchema implements ConfigConvertible
@@ -217,16 +220,16 @@ class DefaultSchema implements ConfigConvertible
             // Laravel HTTP middleware
             'middleware' => [
                 // Set the serving context to graphql.
-                \App\Http\Middleware\GraphQL\SetServingGraphQL::class,
+                SetServingGraphQL::class,
 
                 // Rate limiting GraphQL to prevent abuse.
                 'throttle:graphql',
 
                 // Allow client to get full database.
-                \App\Http\Middleware\GraphQL\MaxCount::class,
+                MaxCount::class,
 
                 // Logs GraphQL Requests.
-                \App\Http\Middleware\GraphQL\LogGraphQLRequest::class,
+                LogGraphQLRequest::class,
             ],
             // Which HTTP methods to support; must be given in UPPERCASE!
             'method' => ['POST'],

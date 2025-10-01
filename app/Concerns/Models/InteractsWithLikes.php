@@ -29,9 +29,6 @@ trait InteractsWithLikes
             ->delete();
     }
 
-    /**
-     * @return MorphMany
-     */
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, Like::RELATION_LIKEABLE);

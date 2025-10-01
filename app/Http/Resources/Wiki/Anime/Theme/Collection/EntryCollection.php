@@ -21,12 +21,11 @@ class EntryCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (AnimeThemeEntry $entry) => new EntryResource($entry, $this->query))->all();
+        return $this->collection->map(fn (AnimeThemeEntry $entry): EntryResource => new EntryResource($entry, $this->query))->all();
     }
 }

@@ -29,7 +29,7 @@ class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedActi
         }
 
         $favorites = Arr::map(Arr::get($this->data, 'User.favourites.anime.nodes'), fn ($value) => $value['id']);
-        $lists = Arr::where(Arr::get($this->data, 'MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
+        $lists = Arr::where(Arr::get($this->data, 'MediaListCollection.lists'), fn ($value): bool => $value['isCustomList'] === false);
 
         foreach ($lists as $list) {
             foreach (Arr::get($list, 'entries') as $entry) {

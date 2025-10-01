@@ -20,7 +20,7 @@ readonly class UploadResults implements StorageResults
 
     public function toLog(): void
     {
-        if (empty($this->uploads)) {
+        if ($this->uploads === []) {
             Log::error('No uploads were attempted.');
         }
         foreach ($this->uploads as $fs => $result) {
@@ -32,7 +32,7 @@ readonly class UploadResults implements StorageResults
 
     public function toConsole(Command $command): void
     {
-        if (empty($this->uploads)) {
+        if ($this->uploads === []) {
             $command->error('No uploads were attempted.');
         }
         foreach ($this->uploads as $fs => $result) {
@@ -44,7 +44,7 @@ readonly class UploadResults implements StorageResults
 
     public function toActionResult(): ActionResult
     {
-        if (empty($this->uploads)) {
+        if ($this->uploads === []) {
             return new ActionResult(
                 ActionStatus::FAILED,
                 'No uploads were attempted. Please check that disks are configured.'
@@ -53,7 +53,7 @@ readonly class UploadResults implements StorageResults
 
         /** @var Collection $failed */
         /** @var Collection $passed */
-        [$failed, $passed] = collect($this->uploads)->partition(fn (string|false $result, string $fs) => $result === false);
+        [$failed, $passed] = collect($this->uploads)->partition(fn (string|false $result, string $fs): bool => $result === false);
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(

@@ -21,14 +21,13 @@ class FeatureCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (Feature $feature) => new FeatureResource($feature, $this->query)
+            fn (Feature $feature): FeatureResource => new FeatureResource($feature, $this->query)
         )->all();
     }
 }

@@ -50,14 +50,14 @@ class AppServiceProvider extends ServiceProvider
 
         DB::prohibitDestructiveCommands(app()->isProduction());
 
-        EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => new Response(status: 403));
+        EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features): Response => new Response(status: 403));
 
-        ParallelTesting::setUpTestDatabase(function (string $database, int $token) {
+        ParallelTesting::setUpTestDatabase(function (string $database, int $token): void {
             Artisan::call('db:seed', ['--class' => PermissionSeeder::class]);
             Artisan::call('db:seed', ['--class' => AdminSeeder::class]);
         });
 
-        DB::listen(function (QueryExecuted $query) {
+        DB::listen(function (QueryExecuted $query): void {
             if (app()->isLocal()) {
                 Log::debug($query->sql);
             }
@@ -70,8 +70,8 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading();
 
-        Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation) {
-            $class = get_class($model);
+        Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation): void {
+            $class = $model::class;
 
             Log::error("Attempted to lazy load '$relation' on model '$class'.", [
                 'method' => request()->method(),
@@ -83,8 +83,8 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventsAccessingMissingAttributes();
 
-        Model::handleMissingAttributeViolationUsing(function (Model $model, string $key) {
-            $class = get_class($model);
+        Model::handleMissingAttributeViolationUsing(function (Model $model, string $key): void {
+            $class = $model::class;
 
             Log::error("Attribute '$key' does not exist or was not retrieved for model '$class'", [
                 'method' => request()->method(),

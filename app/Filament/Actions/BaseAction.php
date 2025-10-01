@@ -30,7 +30,7 @@ abstract class BaseAction extends Action
 
         $this->modal();
 
-        $this->before(function (BaseAction $action, mixed $livewire) {
+        $this->before(function (BaseAction $action, mixed $livewire): void {
             if ($livewire instanceof BaseRelationManager) {
                 $this->createActionLog($action, $livewire->getOwnerRecord());
                 $livewire->dispatch('updateAllRelationManager');
@@ -39,7 +39,7 @@ abstract class BaseAction extends Action
             }
         });
 
-        $this->after(function (mixed $livewire, BaseAction $action) {
+        $this->after(function (mixed $livewire, BaseAction $action): void {
             if ($action instanceof ShouldQueue) {
                 return;
             }

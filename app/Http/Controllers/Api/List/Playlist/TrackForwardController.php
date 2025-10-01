@@ -23,9 +23,6 @@ class TrackForwardController extends BaseController
     }
 
     /**
-     * @param  ForwardBackwardIndexRequest  $request
-     * @param  IndexAction  $action
-     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, ForwardPlaylistTrack $track, IndexAction $action): TrackCollection

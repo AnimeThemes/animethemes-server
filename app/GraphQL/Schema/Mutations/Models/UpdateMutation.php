@@ -32,7 +32,7 @@ abstract class UpdateMutation extends BaseMutation
         $model = Arr::pull($args, 'model');
 
         $args = collect($args)
-            ->filter(fn ($value) => $value instanceof Model)
+            ->filter(fn ($value): bool => $value instanceof Model)
             ->prepend($model)
             ->values()
             ->all();
@@ -69,8 +69,8 @@ abstract class UpdateMutation extends BaseMutation
 
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
-                ->filter(fn (Field $field) => $field instanceof UpdatableField)
-                ->mapWithKeys(fn (Field&UpdatableField $field) => [$field->getColumn() => $field->getUpdateRules($args)])
+                ->filter(fn (Field $field): bool => $field instanceof UpdatableField)
+                ->mapWithKeys(fn (Field&UpdatableField $field): array => [$field->getColumn() => $field->getUpdateRules($args)])
                 ->toArray();
         }
 

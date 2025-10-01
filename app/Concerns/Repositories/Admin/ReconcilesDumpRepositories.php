@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\App;
 
 trait ReconcilesDumpRepositories
 {
-    /**
-     * @param  array  $data
-     */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(DumpSourceRepository::class);
     }
 
-    /**
-     * @param  array  $data
-     */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(DumpDestinationRepository::class);

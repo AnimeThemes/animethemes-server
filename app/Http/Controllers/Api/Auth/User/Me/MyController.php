@@ -25,9 +25,6 @@ class MyController extends BaseController
         $this->middleware(Authenticate::using('sanctum'));
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, ShowAction $action): MyResource
     {
         $query = new Query($request->validated());

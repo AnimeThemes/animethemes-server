@@ -18,7 +18,6 @@ class SearchRequest extends ReadRequest
     /**
      * Get the field validation rules.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -31,12 +30,12 @@ class SearchRequest extends ReadRequest
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $resourceSchema = $allowedInclude->schema();
             $types[] = $resourceSchema->type();
-            $rules = $rules + $this->restrictAllowedFieldValues($resourceSchema);
+            $rules += $this->restrictAllowedFieldValues($resourceSchema);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
                 $types[] = $resourceRelationSchema->type();
-                $rules = $rules + $this->restrictAllowedFieldValues($resourceRelationSchema);
+                $rules += $this->restrictAllowedFieldValues($resourceRelationSchema);
             }
         }
 
@@ -45,8 +44,6 @@ class SearchRequest extends ReadRequest
 
     /**
      * Get the filter validation rules.
-     *
-     * @return array
      */
     protected function getFilterRules(): array
     {
@@ -62,7 +59,7 @@ class SearchRequest extends ReadRequest
             $types = array_merge($types, $resourceSchemaFormattedFilters);
 
             $param = Str::of(FilterParser::param())->append('.')->append($resourceSchema->type())->__toString();
-            $rules = $rules + $this->restrictAllowedTypes($param, $resourceSchemaFormattedFilters);
+            $rules += $this->restrictAllowedTypes($param, $resourceSchemaFormattedFilters);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
@@ -72,7 +69,7 @@ class SearchRequest extends ReadRequest
                 $types = array_merge($types, $relationSchemaFormattedFilters);
 
                 $param = Str::of(FilterParser::param())->append('.')->append($resourceRelationSchema->type())->__toString();
-                $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
+                $rules += $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
             }
         }
 
@@ -82,7 +79,6 @@ class SearchRequest extends ReadRequest
     /**
      * Get include validation rules.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -103,7 +99,7 @@ class SearchRequest extends ReadRequest
 
                 $param = Str::of(IncludeParser::param())->append('.')->append($resourceSchema->type())->__toString();
 
-                $rules = $rules + $this->restrictAllowedIncludeValues($param, $resourceSchema);
+                $rules += $this->restrictAllowedIncludeValues($param, $resourceSchema);
             }
         }
 
@@ -112,8 +108,6 @@ class SearchRequest extends ReadRequest
 
     /**
      * Get the paging validation rules.
-     *
-     * @return array
      */
     protected function getPagingRules(): array
     {
@@ -122,8 +116,6 @@ class SearchRequest extends ReadRequest
 
     /**
      * Get the search validation rules.
-     *
-     * @return array
      */
     protected function getSearchRules(): array
     {
@@ -132,8 +124,6 @@ class SearchRequest extends ReadRequest
 
     /**
      * Get the sort validation rules.
-     *
-     * @return array
      */
     protected function getSortRules(): array
     {
@@ -149,7 +139,7 @@ class SearchRequest extends ReadRequest
 
             $param = Str::of(SortParser::param())->append('.')->append($resourceSchema->type())->__toString();
 
-            $rules = $rules + $this->restrictAllowedSortValues($param, $resourceSchema);
+            $rules += $this->restrictAllowedSortValues($param, $resourceSchema);
 
             foreach ($resourceSchema->allowedIncludes() as $resourceAllowedIncludePath) {
                 $resourceRelationSchema = $resourceAllowedIncludePath->schema();
@@ -158,7 +148,7 @@ class SearchRequest extends ReadRequest
 
                 $param = Str::of(SortParser::param())->append('.')->append($resourceRelationSchema->type())->__toString();
 
-                $rules = $rules + $this->restrictAllowedSortValues($param, $resourceRelationSchema);
+                $rules += $this->restrictAllowedSortValues($param, $resourceRelationSchema);
             }
         }
 

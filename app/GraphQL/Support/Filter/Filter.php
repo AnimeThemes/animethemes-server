@@ -21,15 +21,13 @@ abstract class Filter
     public static function getValueWithResolvers(BaseType $baseType): Collection
     {
         return collect($baseType->fieldClasses())
-            ->filter(fn (Field $field) => $field instanceof FilterableField)
-            ->flatMap(function (Field&FilterableField $field) {
-                return collect($field->getFilters())
-                    ->mapWithKeys(fn (Filter $filter) => [
-                        $filter->argument()->name => [
-                            'filter' => $filter,
-                        ],
-                    ]);
-            });
+            ->filter(fn (Field $field): bool => $field instanceof FilterableField)
+            ->flatMap(fn (Field&FilterableField $field) => collect($field->getFilters())
+                ->mapWithKeys(fn (Filter $filter): array => [
+                    $filter->argument()->name => [
+                        'filter' => $filter,
+                    ],
+                ]));
     }
 
     abstract public function argument(): Argument;

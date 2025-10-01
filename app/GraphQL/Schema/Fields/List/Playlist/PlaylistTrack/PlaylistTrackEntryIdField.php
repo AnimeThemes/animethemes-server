@@ -34,7 +34,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -49,7 +48,6 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

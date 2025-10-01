@@ -20,9 +20,6 @@ class ExternalProfileVisibilityField extends EnumField implements CreatableField
         parent::__construct($schema, ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class ExternalProfileVisibilityField extends EnumField implements CreatableField
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

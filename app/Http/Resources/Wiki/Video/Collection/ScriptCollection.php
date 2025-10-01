@@ -21,12 +21,11 @@ class ScriptCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (VideoScript $script) => new ScriptResource($script, $this->query))->all();
+        return $this->collection->map(fn (VideoScript $script): ScriptResource => new ScriptResource($script, $this->query))->all();
     }
 }

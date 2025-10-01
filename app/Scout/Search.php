@@ -19,8 +19,6 @@ abstract class Search
 
     /**
      * Perform the search.
-     *
-     * @return Collection|Paginator
      */
     abstract public function search(
         Query $query,

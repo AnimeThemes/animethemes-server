@@ -10,8 +10,6 @@ trait HasColorOrEmoji
 {
     /**
      * Get the enum as an array formatted for a select, but styled.
-     *
-     * @return array
      */
     public static function asSelectArrayStyled(?bool $hasColor = true, ?bool $hasEmoji = true, ?string $locale = null): array
     {

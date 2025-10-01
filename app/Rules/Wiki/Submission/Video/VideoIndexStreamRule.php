@@ -24,7 +24,7 @@ class VideoIndexStreamRule extends SubmissionRule
 
         $stream = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video' && Arr::get($stream, 'index') === 0
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'video' && Arr::get($stream, 'index') === 0
         );
 
         if ($stream === null) {

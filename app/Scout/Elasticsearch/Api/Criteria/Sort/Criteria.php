@@ -11,8 +11,5 @@ abstract class Criteria
 {
     public function __construct(protected readonly BaseCriteria $criteria) {}
 
-    /**
-     * @return array
-     */
     abstract public function sort(Sort $sort): array;
 }

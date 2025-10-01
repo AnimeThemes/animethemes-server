@@ -24,7 +24,7 @@ class AudioCodecStreamRule extends SubmissionRule
 
         $audio = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio'
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'audio'
         );
 
         if (Arr::get($audio, 'codec_name') !== 'opus') {

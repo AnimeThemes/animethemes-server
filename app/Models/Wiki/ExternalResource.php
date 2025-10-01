@@ -40,18 +40,18 @@ class ExternalResource extends BaseModel implements SoftDeletable
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'resources';
+    final public const string TABLE = 'resources';
 
-    final public const ATTRIBUTE_EXTERNAL_ID = 'external_id';
-    final public const ATTRIBUTE_ID = 'resource_id';
-    final public const ATTRIBUTE_LINK = 'link';
-    final public const ATTRIBUTE_SITE = 'site';
+    final public const string ATTRIBUTE_EXTERNAL_ID = 'external_id';
+    final public const string ATTRIBUTE_ID = 'resource_id';
+    final public const string ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_SITE = 'site';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
-    final public const RELATION_ARTISTS = 'artists';
-    final public const RELATION_SONGS = 'songs';
-    final public const RELATION_STUDIOS = 'studios';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+    final public const string RELATION_ARTISTS = 'artists';
+    final public const string RELATION_SONGS = 'songs';
+    final public const string RELATION_STUDIOS = 'studios';
 
     /**
      * The attributes that are mass assignable.

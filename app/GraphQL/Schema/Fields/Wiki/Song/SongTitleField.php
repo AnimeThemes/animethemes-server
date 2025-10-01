@@ -23,7 +23,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -37,7 +36,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

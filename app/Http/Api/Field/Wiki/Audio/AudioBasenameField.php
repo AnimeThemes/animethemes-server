@@ -18,9 +18,6 @@ class AudioBasenameField extends StringField implements CreatableField
         parent::__construct($schema, Audio::ATTRIBUTE_BASENAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -33,8 +30,11 @@ class AudioBasenameField extends StringField implements CreatableField
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $linkField = new AudioLinkField($this->schema);
-
         // The link field is dependent on this field to build the route.
-        return parent::shouldSelect($query, $schema) || $linkField->shouldRender($query);
+        if (parent::shouldSelect($query, $schema)) {
+            return true;
+        }
+
+        return $linkField->shouldRender($query);
     }
 }

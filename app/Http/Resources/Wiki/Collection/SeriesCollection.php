@@ -21,12 +21,11 @@ class SeriesCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Series $series) => new SeriesResource($series, $this->query))->all();
+        return $this->collection->map(fn (Series $series): SeriesResource => new SeriesResource($series, $this->query))->all();
     }
 }

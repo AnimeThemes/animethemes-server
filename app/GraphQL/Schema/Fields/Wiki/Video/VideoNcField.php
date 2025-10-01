@@ -23,7 +23,6 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -36,7 +35,6 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

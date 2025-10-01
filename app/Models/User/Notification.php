@@ -18,22 +18,22 @@ class Notification extends DatabaseNotification
 {
     use HasFactory;
 
-    final public const TABLE = 'notifications';
+    final public const string TABLE = 'notifications';
 
-    final public const ATTRIBUTE_ID = 'id';
-    final public const ATTRIBUTE_TYPE = 'type';
-    final public const ATTRIBUTE_NOTIFIABLE_TYPE = 'notifiable_type';
-    final public const ATTRIBUTE_NOTIFIABLE_ID = 'notifiable_id';
-    final public const ATTRIBUTE_DATA = 'data';
-    final public const ATTRIBUTE_READ_AT = 'read_at';
+    final public const string ATTRIBUTE_ID = 'id';
+    final public const string ATTRIBUTE_TYPE = 'type';
+    final public const string ATTRIBUTE_NOTIFIABLE_TYPE = 'notifiable_type';
+    final public const string ATTRIBUTE_NOTIFIABLE_ID = 'notifiable_id';
+    final public const string ATTRIBUTE_DATA = 'data';
+    final public const string ATTRIBUTE_READ_AT = 'read_at';
 
-    final public const RELATION_PROFILE = 'profile';
-    final public const RELATION_NOTIFIABLE = 'notifiable';
+    final public const string RELATION_PROFILE = 'profile';
+    final public const string RELATION_NOTIFIABLE = 'notifiable';
 
     /**
      * Virtual attribute to use in relations.
      */
-    public function getProfileIdAttribute(): ?int
+    protected function getProfileIdAttribute(): ?int
     {
         return Arr::get($this->getAttribute(self::ATTRIBUTE_DATA), 'profileId');
     }

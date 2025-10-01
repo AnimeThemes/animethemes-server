@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 
 class RevokePermissionAction extends BaseAction
 {
-    final public const FIELD_PERMISSION = 'permission';
+    final public const string FIELD_PERMISSION = 'permission';
 
     public static function getDefaultName(): ?string
     {

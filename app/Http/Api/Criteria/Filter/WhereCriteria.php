@@ -39,13 +39,13 @@ class WhereCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
                 $logicalOperator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set comparison operator
-            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) !== null) {
+            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) instanceof ComparisonOperator) {
                 $comparisonOperator = ComparisonOperator::unstrictCoerce($filterPart);
                 continue;
             }
@@ -65,10 +65,6 @@ class WhereCriteria extends Criteria
         );
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
         $column = $filter->shouldQualifyColumn()

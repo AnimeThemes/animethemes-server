@@ -39,16 +39,8 @@ abstract class Criteria
         }
 
         // Don't apply sort if scope does not match
-        if (! $this->getScope()->isWithinScope($scope)) {
-            return false;
-        }
-
-        return true;
+        return $this->getScope()->isWithinScope($scope);
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     abstract public function sort(Builder $builder, Sort $sort): Builder;
 }

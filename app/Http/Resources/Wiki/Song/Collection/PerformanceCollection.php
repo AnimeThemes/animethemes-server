@@ -21,12 +21,11 @@ class PerformanceCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Performance $performance) => new PerformanceResource($performance, $this->query))->all();
+        return $this->collection->map(fn (Performance $performance): PerformanceResource => new PerformanceResource($performance, $this->query))->all();
     }
 }

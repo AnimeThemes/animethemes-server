@@ -34,7 +34,7 @@ class ReconcileScriptRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
-        return fn (VideoScript $first, VideoScript $second) => [$first->path] <=> [$second->path];
+        return fn (VideoScript $first, VideoScript $second): int => [$first->path] <=> [$second->path];
     }
 
     /**
@@ -52,13 +52,11 @@ class ReconcileScriptRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForUpdate(): Closure
     {
-        return fn () => 0;
+        return fn (): int => 0;
     }
 
     /**
      * Get source model that has been updated for destination model.
-     *
-     * @param  Collection  $sourceModels
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
@@ -67,10 +65,6 @@ class ReconcileScriptRepositoriesAction extends ReconcileRepositoriesAction
 
     /**
      * Get reconciliation results.
-     *
-     * @param  Collection  $created
-     * @param  Collection  $deleted
-     * @param  Collection  $updated
      */
     protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
     {

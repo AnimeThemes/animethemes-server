@@ -45,7 +45,7 @@ class BelongsTo extends Select
 
     public function showCreateOption(): static
     {
-        $this->createOptionForm(fn (Schema $schema) => $this->resource::form($schema)->getComponents())
+        $this->createOptionForm(fn (Schema $schema): array => $this->resource::form($schema)->getComponents())
             ->createOptionUsing(fn (array $data) => $this->resource->getModel()::query()->create($data)->getKey());
 
         return $this;
@@ -65,7 +65,7 @@ class BelongsTo extends Select
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state) => is_null($state) ? '' : static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
+        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
 
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
@@ -76,20 +76,18 @@ class BelongsTo extends Select
                     return $model::search($search)
                         ->take(25)
                         ->get()
-                        ->mapWithKeys(fn (Model $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
+                        ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                         ->toArray();
                 });
         }
 
         return $this
-            ->getSearchResultsUsing(function (string $search) use ($model) {
-                return $model::query()
-                    ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
-                    ->take(25)
-                    ->get()
-                    ->mapWithKeys(fn ($model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
-                    ->toArray();
-            });
+            ->getSearchResultsUsing(fn (string $search) => $model::query()
+                ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
+                ->take(25)
+                ->get()
+                ->mapWithKeys(fn ($model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
+                ->toArray());
     }
 
     /**

@@ -38,19 +38,19 @@ class Performance extends BaseModel implements SoftDeletable
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'performances';
+    final public const string TABLE = 'performances';
 
-    final public const ATTRIBUTE_ID = 'performance_id';
-    final public const ATTRIBUTE_SONG = 'song_id';
-    final public const ATTRIBUTE_ARTIST_TYPE = 'artist_type';
-    final public const ATTRIBUTE_ARTIST_ID = 'artist_id';
-    final public const ATTRIBUTE_ARTIST = 'artist';
-    final public const ATTRIBUTE_ALIAS = 'alias';
-    final public const ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_ID = 'performance_id';
+    final public const string ATTRIBUTE_SONG = 'song_id';
+    final public const string ATTRIBUTE_ARTIST_TYPE = 'artist_type';
+    final public const string ATTRIBUTE_ARTIST_ID = 'artist_id';
+    final public const string ATTRIBUTE_ARTIST = 'artist';
+    final public const string ATTRIBUTE_ALIAS = 'alias';
+    final public const string ATTRIBUTE_AS = 'as';
 
-    final public const RELATION_ARTIST = 'artist';
-    final public const RELATION_MEMBERSHIP = self::RELATION_ARTIST;
-    final public const RELATION_SONG = 'song';
+    final public const string RELATION_ARTIST = 'artist';
+    final public const string RELATION_MEMBERSHIP = self::RELATION_ARTIST;
+    final public const string RELATION_SONG = 'song';
 
     /**
      * The attributes that are mass assignable.
@@ -117,9 +117,6 @@ class Performance extends BaseModel implements SoftDeletable
         return $this->belongsTo(Song::class, Song::ATTRIBUTE_ID);
     }
 
-    /**
-     * @return MorphTo
-     */
     public function artist(): MorphTo
     {
         return $this->morphTo();
@@ -127,8 +124,6 @@ class Performance extends BaseModel implements SoftDeletable
 
     /**
      * Alias of artist().
-     *
-     * @return MorphTo
      */
     public function membership(): MorphTo
     {

@@ -18,9 +18,6 @@ class ExternalEntryScoreField extends FloatField implements CreatableField, Upda
         parent::__construct($schema, ExternalEntry::ATTRIBUTE_SCORE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class ExternalEntryScoreField extends FloatField implements CreatableField, Upda
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

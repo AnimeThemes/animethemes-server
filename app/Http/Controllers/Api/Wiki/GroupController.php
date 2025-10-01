@@ -29,9 +29,6 @@ class GroupController extends BaseController
         parent::__construct(Group::class, 'group');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): GroupCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class GroupController extends BaseController
         return new GroupResource($group, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Group $group, ShowAction $action): GroupResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class GroupController extends BaseController
         return new GroupResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Group $group, UpdateAction $action): GroupResource
     {
         $updated = $action->update($group, $request->validated());
@@ -75,9 +66,6 @@ class GroupController extends BaseController
         return new GroupResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Group $group, DestroyAction $action): GroupResource
     {
         $deleted = $action->destroy($group);
@@ -85,9 +73,6 @@ class GroupController extends BaseController
         return new GroupResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Group $group, RestoreAction $action): GroupResource
     {
         $restored = $action->restore($group);
@@ -95,9 +80,6 @@ class GroupController extends BaseController
         return new GroupResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Group $group, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($group);

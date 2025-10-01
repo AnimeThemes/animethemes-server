@@ -20,7 +20,7 @@ readonly class PruneResults implements StorageResults
 
     public function toLog(): void
     {
-        if (empty($this->prunings)) {
+        if ($this->prunings === []) {
             Log::error('No prunings were attempted.');
         }
         foreach ($this->prunings as $path => $result) {
@@ -32,7 +32,7 @@ readonly class PruneResults implements StorageResults
 
     public function toConsole(Command $command): void
     {
-        if (empty($this->prunings)) {
+        if ($this->prunings === []) {
             $command->error('No prunings were attempted.');
         }
         foreach ($this->prunings as $path => $result) {
@@ -44,7 +44,7 @@ readonly class PruneResults implements StorageResults
 
     public function toActionResult(): ActionResult
     {
-        if (empty($this->prunings)) {
+        if ($this->prunings === []) {
             return new ActionResult(
                 ActionStatus::FAILED,
                 'No prunings were attempted.'
@@ -53,7 +53,7 @@ readonly class PruneResults implements StorageResults
 
         /** @var Collection $passed */
         /** @var Collection $failed */
-        [$passed, $failed] = collect($this->prunings)->partition(fn (bool $result, string $path) => $result);
+        [$passed, $failed] = collect($this->prunings)->partition(fn (bool $result, string $path): bool => $result);
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(

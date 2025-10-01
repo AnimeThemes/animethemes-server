@@ -23,9 +23,6 @@ class FeaturedThemeVideoIdField extends Field implements CreatableField, Selecta
         parent::__construct($schema, FeaturedTheme::ATTRIBUTE_VIDEO);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         $entryId = $this->resolveEntryId($request);
@@ -51,9 +48,6 @@ class FeaturedThemeVideoIdField extends Field implements CreatableField, Selecta
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         $entryId = $this->resolveEntryId($request);

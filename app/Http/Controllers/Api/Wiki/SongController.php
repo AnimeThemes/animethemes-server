@@ -29,9 +29,6 @@ class SongController extends BaseController
         parent::__construct(Song::class, 'song');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): SongCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class SongController extends BaseController
         return new SongResource($song, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Song $song, ShowAction $action): SongResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class SongController extends BaseController
         return new SongResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Song $song, UpdateAction $action): SongResource
     {
         $updated = $action->update($song, $request->validated());
@@ -75,9 +66,6 @@ class SongController extends BaseController
         return new SongResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Song $song, DestroyAction $action): SongResource
     {
         $deleted = $action->destroy($song);
@@ -85,9 +73,6 @@ class SongController extends BaseController
         return new SongResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Song $song, RestoreAction $action): SongResource
     {
         $restored = $action->restore($song);
@@ -95,9 +80,6 @@ class SongController extends BaseController
         return new SongResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Song $song, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($song);

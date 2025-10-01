@@ -29,12 +29,12 @@ class Page extends BaseModel implements SoftDeletable
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'pages';
+    final public const string TABLE = 'pages';
 
-    final public const ATTRIBUTE_BODY = 'body';
-    final public const ATTRIBUTE_ID = 'page_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_BODY = 'body';
+    final public const string ATTRIBUTE_ID = 'page_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SLUG = 'slug';
 
     /**
      * The attributes that are mass assignable.

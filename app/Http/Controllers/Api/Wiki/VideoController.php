@@ -29,9 +29,6 @@ class VideoController extends BaseController
         parent::__construct(Video::class, 'video');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): VideoCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class VideoController extends BaseController
         return new VideoResource($video, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Video $video, ShowAction $action): VideoResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class VideoController extends BaseController
         return new VideoResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Video $video, UpdateAction $action): VideoResource
     {
         $updated = $action->update($video, $request->validated());
@@ -75,9 +66,6 @@ class VideoController extends BaseController
         return new VideoResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Video $video, DestroyAction $action): VideoResource
     {
         $deleted = $action->destroy($video);
@@ -85,9 +73,6 @@ class VideoController extends BaseController
         return new VideoResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Video $video, RestoreAction $action): VideoResource
     {
         $restored = $action->restore($video);
@@ -95,9 +80,6 @@ class VideoController extends BaseController
         return new VideoResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Video $video, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($video);

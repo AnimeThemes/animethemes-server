@@ -27,7 +27,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
         Validator::make($input, [
             'current_password' => ['required', 'string'],
             User::ATTRIBUTE_PASSWORD => Password::required(),
-        ])->after(function (IlluminateValidator $validator) use ($user, $input) {
+        ])->after(function (IlluminateValidator $validator) use ($user, $input): void {
             if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
                 $validator->errors()
                     ->add('current_password', __('The provided password does not match your current password.'));

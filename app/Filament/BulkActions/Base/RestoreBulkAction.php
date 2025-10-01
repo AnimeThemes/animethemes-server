@@ -23,7 +23,7 @@ class RestoreBulkAction extends BaseRestoreBulkAction
 
         $this->before(fn (string $model) => Gate::authorize('restoreAny', $model));
 
-        $this->after(function (RestoreBulkAction $action, Collection $records) {
+        $this->after(function (RestoreBulkAction $action, Collection $records): void {
             foreach ($records as $record) {
                 $this->createActionLog($action, $record);
                 $this->finishedLog();

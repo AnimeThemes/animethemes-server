@@ -26,7 +26,7 @@ class AudioIndexStreamRule extends SubmissionRule
 
         $stream = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio' && Arr::get($stream, 'index') === $this->expected
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'audio' && Arr::get($stream, 'index') === $this->expected
         );
 
         if ($stream === null) {

@@ -23,11 +23,11 @@ class RateLimited
                 ->allow(1)
                 ->every(3)
                 ->then(
-                    function () use ($job, $next) {
+                    function () use ($job, $next): void {
                         // Lock obtained...
                         $next($job);
                     },
-                    function () use ($job) {
+                    function () use ($job): void {
                         // Could not obtain lock...
                         $job->release(5);
                     }

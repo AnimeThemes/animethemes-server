@@ -13,7 +13,6 @@ class ForwardBackwardIndexRequest extends IndexRequest
     /**
      * Get the filter validation rules.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -25,7 +24,6 @@ class ForwardBackwardIndexRequest extends IndexRequest
     /**
      * Get the sort validation rules.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

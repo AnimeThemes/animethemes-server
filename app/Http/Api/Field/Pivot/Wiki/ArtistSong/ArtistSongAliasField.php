@@ -18,9 +18,6 @@ class ArtistSongAliasField extends StringField implements CreatableField, Updata
         parent::__construct($schema, ArtistSong::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class ArtistSongAliasField extends StringField implements CreatableField, Updata
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

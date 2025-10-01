@@ -38,17 +38,17 @@ class Membership extends BaseModel implements SoftDeletable
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'memberships';
+    final public const string TABLE = 'memberships';
 
-    final public const ATTRIBUTE_ID = 'membership_id';
-    final public const ATTRIBUTE_ARTIST = 'artist_id';
-    final public const ATTRIBUTE_ALIAS = 'alias';
-    final public const ATTRIBUTE_AS = 'as';
-    final public const ATTRIBUTE_MEMBER = 'member_id';
+    final public const string ATTRIBUTE_ID = 'membership_id';
+    final public const string ATTRIBUTE_ARTIST = 'artist_id';
+    final public const string ATTRIBUTE_ALIAS = 'alias';
+    final public const string ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_MEMBER = 'member_id';
 
-    final public const RELATION_GROUP = 'group';
-    final public const RELATION_MEMBER = 'member';
-    final public const RELATION_PERFORMANCES = 'performances';
+    final public const string RELATION_GROUP = 'group';
+    final public const string RELATION_MEMBER = 'member';
+    final public const string RELATION_PERFORMANCES = 'performances';
 
     /**
      * The attributes that are mass assignable.

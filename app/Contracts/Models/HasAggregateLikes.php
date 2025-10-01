@@ -12,8 +12,5 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  */
 interface HasAggregateLikes
 {
-    /**
-     * @return MorphOne
-     */
     public function likeAggregate(): MorphOne;
 }

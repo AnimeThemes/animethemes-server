@@ -18,10 +18,7 @@ class EnabledOnlyOnLocalhost
     {
         if (Feature::for(null)->active(FeatureConstants::ENABLED_ONLY_ON_LOCALHOST)) {
             $ip = $request->ip();
-
-            if ($ip !== '127.0.0.1') {
-                abort(403, 'Route only available for localhost');
-            }
+            abort_if($ip !== '127.0.0.1', 403, 'Route only available for localhost');
         }
 
         return $next($request);

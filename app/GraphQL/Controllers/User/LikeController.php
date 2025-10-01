@@ -19,11 +19,10 @@ use Illuminate\Support\Arr;
  */
 class LikeController extends BaseController
 {
-    final public const ATTRIBUTE_PLAYLIST = 'playlist';
-    final public const ATTRIBUTE_VIDEO = 'video';
+    final public const string ATTRIBUTE_PLAYLIST = 'playlist';
+    final public const string ATTRIBUTE_VIDEO = 'video';
 
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      *
      * @throws ClientValidationException
@@ -51,7 +50,6 @@ class LikeController extends BaseController
     }
 
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      *
      * @throws ClientValidationException

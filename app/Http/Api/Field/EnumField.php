@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\SortableField;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
@@ -48,7 +49,7 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 
     public function render(Model $model): ?string
@@ -62,7 +63,7 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 
     public function getSort(): Sort

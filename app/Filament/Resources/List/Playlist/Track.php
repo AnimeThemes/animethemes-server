@@ -26,6 +26,7 @@ use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Closure;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
@@ -75,9 +76,6 @@ class Track extends BaseResource
         return TrackModel::ATTRIBUTE_HASHID;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -104,45 +102,39 @@ class Track extends BaseResource
                     ->resource(Entry::class)
                     ->live(true)
                     ->rules([
-                        fn (Get $get) => function () use ($get) {
-                            return [
-                                Rule::when(
-                                    ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
-                                    [
-                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(TrackModel::RELATION_VIDEO)),
-                                    ]
-                                ),
-                            ];
-                        },
+                        fn (Get $get): Closure => (fn (): array => [
+                            Rule::when(
+                                ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
+                                [
+                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(TrackModel::RELATION_VIDEO)),
+                                ]
+                            ),
+                        ]),
                     ]),
 
                 Select::make(TrackModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(TrackModel::RELATION_VIDEO, VideoModel::ATTRIBUTE_FILENAME)
                     ->rules([
-                        fn (Get $get) => function () use ($get) {
-                            return [
-                                Rule::when(
-                                    ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
-                                    [
-                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(TrackModel::RELATION_ENTRY)),
-                                    ]
-                                ),
-                            ];
-                        },
+                        fn (Get $get): Closure => (fn (): array => [
+                            Rule::when(
+                                ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
+                                [
+                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(TrackModel::RELATION_ENTRY)),
+                                ]
+                            ),
+                        ]),
                     ])
-                    ->options(function (Get $get) {
-                        return VideoModel::query()
-                            ->whereHas(VideoModel::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
-                                /** @phpstan-ignore-next-line */
-                                $query->where(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, $get(TrackModel::ATTRIBUTE_ENTRY));
-                            })
-                            ->get()
-                            ->mapWithKeys(fn (VideoModel $video) => [$video->getKey() => $video->getName()])
-                            ->toArray();
-                    }),
+                    ->options(fn (Get $get) => VideoModel::query()
+                        ->whereHas(VideoModel::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get): void {
+                            /** @phpstan-ignore-next-line */
+                            $query->where(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, $get(TrackModel::ATTRIBUTE_ENTRY));
+                        })
+                        ->get()
+                        ->mapWithKeys(fn (VideoModel $video): array => [$video->getKey() => $video->getName()])
+                        ->toArray()),
 
                 TextInput::make(TrackModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist_track.hashid.name'))

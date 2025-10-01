@@ -13,9 +13,6 @@ abstract class Parser
 
     /**
      * Parse parameters to collection.
-     *
-     * @param  array  $parameters
-     * @return array
      */
     abstract public static function parse(array $parameters): array;
 }

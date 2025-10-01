@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Auth;
 class PlaylistController extends BaseController
 {
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function store($root, array $args): Playlist
@@ -29,13 +28,10 @@ class PlaylistController extends BaseController
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
-        $stored = $this->storeAction->store(Playlist::query(), $parameters);
-
-        return $stored;
+        return $this->storeAction->store(Playlist::query(), $parameters);
     }
 
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function update($root, array $args): Playlist
@@ -45,13 +41,10 @@ class PlaylistController extends BaseController
 
         $validated = $this->validated($args, UpdatePlaylistMutation::class);
 
-        $updated = $this->updateAction->update($playlist, $validated);
-
-        return $updated;
+        return $this->updateAction->update($playlist, $validated);
     }
 
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function destroy($root, array $args): array

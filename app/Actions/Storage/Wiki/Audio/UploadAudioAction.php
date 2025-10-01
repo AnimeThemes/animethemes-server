@@ -43,18 +43,13 @@ class UploadAudioAction extends UploadAction
             Audio::ATTRIBUTE_SIZE => $this->file->getSize(),
         ];
 
-        return Audio::updateOrCreate(
-            [
-                Audio::ATTRIBUTE_BASENAME => $this->file->getClientOriginalName(),
-            ],
-            $attributes
-        );
+        return Audio::query()->updateOrCreate([
+            Audio::ATTRIBUTE_BASENAME => $this->file->getClientOriginalName(),
+        ], $attributes);
     }
 
     /**
      * The list of disk names.
-     *
-     * @return array
      */
     public function disks(): array
     {

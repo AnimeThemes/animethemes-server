@@ -21,12 +21,11 @@ class AnimeCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Anime $anime) => new AnimeResource($anime, $this->query))->all();
+        return $this->collection->map(fn (Anime $anime): AnimeResource => new AnimeResource($anime, $this->query))->all();
     }
 }

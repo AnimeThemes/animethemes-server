@@ -21,9 +21,6 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
         parent::__construct($schema, Video::ATTRIBUTE_SOURCE, VideoSource::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -36,14 +33,14 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $tagsField = new VideoTagsField($this->schema);
-
         // The tags attribute is dependent on this field.
-        return parent::shouldSelect($query, $schema) || $tagsField->shouldRender($query);
+        if (parent::shouldSelect($query, $schema)) {
+            return true;
+        }
+
+        return $tagsField->shouldRender($query);
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

@@ -45,8 +45,6 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 
     /**
      * Get submission streams.
-     *
-     * @return array
      */
     protected function streams(): array
     {
@@ -55,8 +53,6 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 
     /**
      * Get submission format.
-     *
-     * @return array
      */
     protected function format(): array
     {
@@ -65,8 +61,6 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 
     /**
      * Get submission chapters.
-     *
-     * @return array
      */
     protected function chapters(): array
     {
@@ -76,8 +70,6 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
     /**
      * For WebMs, tags will be contained in the format object.
      * For Audios, tags will be contained in the stream object.
-     *
-     * @return array
      */
     protected function tags(): array
     {
@@ -86,8 +78,6 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 
     /**
      * Get the submission loudness stats.
-     *
-     * @return array
      */
     protected function loudness(): array
     {

@@ -29,16 +29,16 @@ class ExternalToken extends BaseModel
     use HasFactory;
     use TraitsBelongsToThrough;
 
-    final public const TABLE = 'external_tokens';
+    final public const string TABLE = 'external_tokens';
 
-    final public const ATTRIBUTE_ID = 'token_id';
-    final public const ATTRIBUTE_PROFILE = 'profile_id';
-    final public const ATTRIBUTE_ACCESS_TOKEN = 'access_token';
-    final public const ATTRIBUTE_REFRESH_TOKEN = 'refresh_token';
+    final public const string ATTRIBUTE_ID = 'token_id';
+    final public const string ATTRIBUTE_PROFILE = 'profile_id';
+    final public const string ATTRIBUTE_ACCESS_TOKEN = 'access_token';
+    final public const string ATTRIBUTE_REFRESH_TOKEN = 'refresh_token';
 
-    final public const RELATION_PROFILE = 'externalprofile';
-    final public const RELATION_USER = 'externalprofile.user';
-    final public const RELATION_USER_SHALLOW = 'user';
+    final public const string RELATION_PROFILE = 'externalprofile';
+    final public const string RELATION_USER = 'externalprofile.user';
+    final public const string RELATION_USER_SHALLOW = 'user';
 
     /**
      * Is auditing disabled?
@@ -102,8 +102,6 @@ class ExternalToken extends BaseModel
 
     /**
      * Get the user that owns the external token through the external profile.
-     *
-     * @return BelongsToThrough
      */
     public function user(): BelongsToThrough
     {

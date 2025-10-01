@@ -45,7 +45,7 @@ abstract class DumpAction
             $connection = DB::connection();
 
             $dumper = $this->getDumper($connection);
-            if ($dumper === null) {
+            if (! $dumper instanceof DbDumper) {
                 return new ActionResult(
                     ActionStatus::FAILED,
                     "Unrecognized connection '{$connection->getName()}'"
@@ -110,9 +110,7 @@ abstract class DumpAction
      */
     protected function prepareSqliteDumper(Connection $connection): Sqlite
     {
-        if (version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '<')) {
-            throw new RuntimeException('DB connection does not support includeTables option');
-        }
+        throw_if(version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '<'), new RuntimeException('DB connection does not support includeTables option'));
 
         $dumper = Sqlite::create();
 
@@ -266,8 +264,6 @@ abstract class DumpAction
 
     /**
      * The list of tables to include in the dump.
-     *
-     * @return array
      */
     abstract protected function allowedTables(): array;
 }

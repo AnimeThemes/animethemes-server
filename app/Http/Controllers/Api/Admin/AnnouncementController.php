@@ -27,9 +27,6 @@ class AnnouncementController extends BaseController
         parent::__construct(Announcement::class, 'announcement');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): AnnouncementCollection
     {
         $query = new Query($request->validated());
@@ -50,9 +47,6 @@ class AnnouncementController extends BaseController
         return new AnnouncementResource($announcement, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): AnnouncementResource
     {
         $query = new Query($request->validated());
@@ -62,9 +56,6 @@ class AnnouncementController extends BaseController
         return new AnnouncementResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): AnnouncementResource
     {
         $updated = $action->update($announcement, $request->validated());
@@ -72,9 +63,6 @@ class AnnouncementController extends BaseController
         return new AnnouncementResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Announcement $announcement, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($announcement);

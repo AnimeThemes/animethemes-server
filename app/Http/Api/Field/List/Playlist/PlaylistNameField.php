@@ -19,9 +19,6 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
         parent::__construct($schema, Playlist::ATTRIBUTE_NAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

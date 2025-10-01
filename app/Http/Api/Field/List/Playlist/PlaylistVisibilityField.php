@@ -20,9 +20,6 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Updat
         parent::__construct($schema, Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Updat
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

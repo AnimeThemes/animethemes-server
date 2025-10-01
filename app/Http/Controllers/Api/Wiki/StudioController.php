@@ -29,9 +29,6 @@ class StudioController extends BaseController
         parent::__construct(Studio::class, 'studio');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): StudioCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class StudioController extends BaseController
         return new StudioResource($studio, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Studio $studio, ShowAction $action): StudioResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class StudioController extends BaseController
         return new StudioResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): StudioResource
     {
         $updated = $action->update($studio, $request->validated());
@@ -75,9 +66,6 @@ class StudioController extends BaseController
         return new StudioResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Studio $studio, DestroyAction $action): StudioResource
     {
         $deleted = $action->destroy($studio);
@@ -85,9 +73,6 @@ class StudioController extends BaseController
         return new StudioResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Studio $studio, RestoreAction $action): StudioResource
     {
         $restored = $action->restore($studio);
@@ -95,11 +80,6 @@ class StudioController extends BaseController
         return new StudioResource($restored, new Query());
     }
 
-    /**
-     * @param  Studio  $studio
-     * @param  ForceDeleteAction  $action
-     * @return JsonResponse
-     */
     public function forceDelete(Studio $studio, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($studio);

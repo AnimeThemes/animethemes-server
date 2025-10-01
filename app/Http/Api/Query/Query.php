@@ -64,9 +64,6 @@ class Query
      */
     protected array $pagingCriteria;
 
-    /**
-     * @param  array  $parameters
-     */
     public function __construct(array $parameters = [])
     {
         $this->fieldCriteria = FieldParser::parse($parameters);
@@ -82,7 +79,7 @@ class Query
      */
     public function getFieldCriteria(string $type): ?FieldCriteria
     {
-        return Arr::first($this->fieldCriteria, fn (FieldCriteria $criteria) => $criteria->getType() === $type);
+        return Arr::first($this->fieldCriteria, fn (FieldCriteria $criteria): bool => $criteria->getType() === $type);
     }
 
     /**
@@ -93,7 +90,7 @@ class Query
         return $this->getResourceIncludeCriteria($type) ??
             Arr::first(
                 $this->includeCriteria,
-                fn (IncludeCriteria $criteria) => get_class($criteria) === IncludeCriteria::class
+                fn (IncludeCriteria $criteria): bool => $criteria::class === IncludeCriteria::class
             );
     }
 
@@ -104,7 +101,7 @@ class Query
     {
         return Arr::first(
             $this->includeCriteria,
-            fn (IncludeCriteria $criteria) => $criteria instanceof ResourceCriteria && $criteria->getType() === $type
+            fn (IncludeCriteria $criteria): bool => $criteria instanceof ResourceCriteria && $criteria->getType() === $type
         );
     }
 
@@ -133,7 +130,7 @@ class Query
      */
     public function hasSearchCriteria(): bool
     {
-        return ! empty($this->searchCriteria);
+        return $this->searchCriteria !== [];
     }
 
     /**
@@ -152,7 +149,7 @@ class Query
     {
         return Arr::first(
             $this->pagingCriteria,
-            fn (PagingCriteria $criteria) => $strategy === $criteria->getStrategy()
+            fn (PagingCriteria $criteria): bool => $strategy === $criteria->getStrategy()
         );
     }
 }

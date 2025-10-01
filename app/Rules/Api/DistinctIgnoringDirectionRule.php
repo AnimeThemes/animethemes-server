@@ -20,7 +20,7 @@ class DistinctIgnoringDirectionRule implements ValidationRule
 
         $duplicateValues = $values->duplicates(function (mixed $sort) {
             /** @phpstan-ignore-next-line */
-            if (is_string($sort) && Str::startsWith($sort, '-')) {
+            if (Str::startsWith($sort, '-')) {
                 return Str::replaceFirst('-', '', $sort);
             }
 

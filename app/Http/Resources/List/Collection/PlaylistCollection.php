@@ -21,12 +21,11 @@ class PlaylistCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Playlist $playlist) => new PlaylistResource($playlist, $this->query))->all();
+        return $this->collection->map(fn (Playlist $playlist): PlaylistResource => new PlaylistResource($playlist, $this->query))->all();
     }
 }

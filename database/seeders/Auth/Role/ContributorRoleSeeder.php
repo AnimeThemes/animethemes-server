@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\Role;
@@ -48,11 +47,6 @@ class ContributorRoleSeeder extends RoleSeeder
 
         /** @var Role $role */
         $role = Role::findOrCreate($roleEnum->value);
-
-        $extendedCrudPermissions = array_merge(
-            CrudPermission::cases(),
-            ExtendedCrudPermission::cases(),
-        );
 
         // Discord Resources
         $this->configureResource($role, DiscordThread::class, [CrudPermission::VIEW]);

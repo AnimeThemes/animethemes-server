@@ -20,7 +20,6 @@ use Illuminate\Support\Arr;
 class PlaylistTrackController extends BaseController
 {
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function store($root, array $args): PlaylistTrack
@@ -32,13 +31,10 @@ class PlaylistTrackController extends BaseController
 
         $action = new StoreTrackAction();
 
-        $stored = $action->store($playlist, PlaylistTrack::query(), $validated);
-
-        return $stored;
+        return $action->store($playlist, PlaylistTrack::query(), $validated);
     }
 
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function update($root, array $args): PlaylistTrack
@@ -50,13 +46,10 @@ class PlaylistTrackController extends BaseController
 
         $action = new UpdateTrackAction();
 
-        $updated = $action->update($track->playlist, $track, $validated);
-
-        return $updated;
+        return $action->update($track->playlist, $track, $validated);
     }
 
     /**
-     * @param  null  $root
      * @param  array<string, mixed>  $args
      */
     public function destroy($root, array $args): array

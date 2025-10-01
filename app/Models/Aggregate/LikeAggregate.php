@@ -16,12 +16,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class LikeAggregate extends Model
 {
-    final public const TABLE = 'like_aggregates';
+    final public const string TABLE = 'like_aggregates';
 
-    final public const ATTRIBUTE_LIKEABLE = 'likeable';
-    final public const ATTRIBUTE_LIKEABLE_TYPE = 'likeable_type';
-    final public const ATTRIBUTE_LIKEABLE_ID = 'likeable_id';
-    final public const ATTRIBUTE_VALUE = 'value';
+    final public const string ATTRIBUTE_LIKEABLE = 'likeable';
+    final public const string ATTRIBUTE_LIKEABLE_TYPE = 'likeable_type';
+    final public const string ATTRIBUTE_LIKEABLE_ID = 'likeable_id';
+    final public const string ATTRIBUTE_VALUE = 'value';
 
     /**
      * The table associated with the model.
@@ -44,9 +44,6 @@ class LikeAggregate extends Model
      */
     public $timestamps = false;
 
-    /**
-     * @return MorphTo
-     */
     public function likeable(): MorphTo
     {
         return $this->morphTo();

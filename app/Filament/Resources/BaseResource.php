@@ -52,7 +52,7 @@ abstract class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort(fn (Table $table) => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table) => $table->hasSearch() ? null : 'desc')
+            ->defaultSort(fn (Table $table): ?string => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table): ?string => $table->hasSearch() ? null : 'desc')
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
             ->recordActions(static::getActions())
@@ -147,9 +147,6 @@ abstract class BaseResource extends Resource
         return [];
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

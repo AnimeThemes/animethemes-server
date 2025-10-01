@@ -14,7 +14,6 @@ class StoreAction
 {
     /**
      * @param  Builder<TModel>  $builder
-     * @param  array  $parameters
      * @return TModel
      */
     public function store(Builder $builder, array $parameters): Model

@@ -21,7 +21,7 @@ class HasCriteria extends Criteria
         filter as filterModels;
     }
 
-    final public const PARAM_VALUE = 'has';
+    final public const string PARAM_VALUE = 'has';
 
     final public function __construct(
         Predicate $predicate,
@@ -56,7 +56,7 @@ class HasCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
                 $logicalOperator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
@@ -71,7 +71,7 @@ class HasCriteria extends Criteria
             }
 
             // Set comparison operator
-            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) !== null) {
+            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) instanceof ComparisonOperator) {
                 $comparisonOperator = ComparisonOperator::unstrictCoerce($filterPart);
                 continue;
             }
@@ -92,10 +92,6 @@ class HasCriteria extends Criteria
         );
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
         $filterValues = $filter->getFilterValues($this->getFilterValues());
@@ -109,8 +105,8 @@ class HasCriteria extends Criteria
                 $this->getComparisonOperator()?->value,
                 $this->count,
                 $this->getLogicalOperator()->value,
-                function (Builder $relationBuilder) use ($scope, $query, $relationSchema) {
-                    if ($relationSchema !== null) {
+                function (Builder $relationBuilder) use ($scope, $query, $relationSchema): void {
+                    if ($relationSchema instanceof Schema) {
                         $this->filterModels($relationBuilder, $query, $relationSchema, $scope);
                     }
                 }

@@ -17,12 +17,10 @@ class DumpListAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
-    final public const FILENAME_PREFIX = 'animethemes-db-dump-list-';
+    final public const string FILENAME_PREFIX = 'animethemes-db-dump-list-';
 
     /**
      * The list of tables to include in the dump.
-     *
-     * @return array
      */
     protected function allowedTables(): array
     {

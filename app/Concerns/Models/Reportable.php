@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Reportable
 {
-    /**
-     * @return MorphMany
-     */
     public function reportsteps(): MorphMany
     {
         return $this->morphMany(ReportStep::class, ReportStep::RELATION_ACTIONABLE);

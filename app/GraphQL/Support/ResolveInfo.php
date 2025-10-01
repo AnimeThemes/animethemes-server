@@ -10,6 +10,7 @@ use GraphQL\Executor\Values;
 use GraphQL\Language\AST\FieldNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
+use GraphQL\Language\AST\NamedTypeNode;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Type\Definition\HasFieldsType;
 use GraphQL\Type\Definition\NamedType;
@@ -103,7 +104,7 @@ class ResolveInfo extends BaseResolveInfo
                 }
 
                 $nestedSelectionSet = $selection->selectionSet;
-                if ($nestedSelectionSet === null) {
+                if (! $nestedSelectionSet instanceof SelectionSetNode) {
                     continue;
                 }
 
@@ -129,9 +130,9 @@ class ResolveInfo extends BaseResolveInfo
                 );
             } elseif ($selection instanceof InlineFragmentNode) {
                 $typeCondition = $selection->typeCondition;
-                $fieldType = $typeCondition === null
-                    ? $parentType
-                    : $this->schema->getType($typeCondition->name->value);
+                $fieldType = $typeCondition instanceof NamedTypeNode
+                    ? $this->schema->getType($typeCondition->name->value)
+                    : $parentType;
                 assert($fieldType instanceof Type, 'ensured by query validation');
 
                 if ($parentType instanceof UnionType) {

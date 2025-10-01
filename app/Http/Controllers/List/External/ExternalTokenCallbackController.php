@@ -32,8 +32,6 @@ class ExternalTokenCallbackController extends Controller
 
     /**
      * This is the redirect URL which is set in the external provider.
-     *
-     * @return RedirectResponse|JsonResponse
      */
     public function index(Request $request): RedirectResponse|JsonResponse
     {

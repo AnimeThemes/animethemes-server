@@ -25,16 +25,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistMember extends BasePivot
 {
-    final public const TABLE = 'artist_member';
+    final public const string TABLE = 'artist_member';
 
-    final public const ATTRIBUTE_ALIAS = 'alias';
-    final public const ATTRIBUTE_AS = 'as';
-    final public const ATTRIBUTE_ARTIST = 'artist_id';
-    final public const ATTRIBUTE_MEMBER = 'member_id';
-    final public const ATTRIBUTE_NOTES = 'notes';
+    final public const string ATTRIBUTE_ALIAS = 'alias';
+    final public const string ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_ARTIST = 'artist_id';
+    final public const string ATTRIBUTE_MEMBER = 'member_id';
+    final public const string ATTRIBUTE_NOTES = 'notes';
 
-    final public const RELATION_ARTIST = 'artist';
-    final public const RELATION_MEMBER = 'member';
+    final public const string RELATION_ARTIST = 'artist';
+    final public const string RELATION_MEMBER = 'member';
 
     /**
      * The attributes that are mass assignable.

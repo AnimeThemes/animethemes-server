@@ -28,18 +28,18 @@ class ExternalEntry extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'external_entries';
+    final public const string TABLE = 'external_entries';
 
-    final public const ATTRIBUTE_ID = 'entry_id';
-    final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_PROFILE = 'profile_id';
-    final public const ATTRIBUTE_IS_FAVORITE = 'is_favorite';
-    final public const ATTRIBUTE_SCORE = 'score';
-    final public const ATTRIBUTE_WATCH_STATUS = 'watch_status';
+    final public const string ATTRIBUTE_ID = 'entry_id';
+    final public const string ATTRIBUTE_ANIME = 'anime_id';
+    final public const string ATTRIBUTE_PROFILE = 'profile_id';
+    final public const string ATTRIBUTE_IS_FAVORITE = 'is_favorite';
+    final public const string ATTRIBUTE_SCORE = 'score';
+    final public const string ATTRIBUTE_WATCH_STATUS = 'watch_status';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_PROFILE = 'externalprofile';
-    final public const RELATION_USER = 'externalprofile.user';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_PROFILE = 'externalprofile';
+    final public const string RELATION_USER = 'externalprofile.user';
 
     /**
      * Is auditing disabled?

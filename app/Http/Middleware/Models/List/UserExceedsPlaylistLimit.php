@@ -23,12 +23,8 @@ class UserExceedsPlaylistLimit
         /** @var User|null $user */
         $user = $request->user('sanctum');
 
-        if (
-            intval($user?->playlists()?->count()) >= $playlistLimit
-            && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))
-        ) {
-            abort(403, "User cannot have more than '$playlistLimit' playlists.");
-        }
+        abort_if(intval($user?->playlists()?->count()) >= $playlistLimit
+        && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)), 403, "User cannot have more than '$playlistLimit' playlists.");
 
         return $next($request);
     }

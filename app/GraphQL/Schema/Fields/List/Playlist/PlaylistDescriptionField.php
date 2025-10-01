@@ -24,7 +24,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -38,7 +37,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

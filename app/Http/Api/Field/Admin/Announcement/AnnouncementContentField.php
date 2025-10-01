@@ -18,9 +18,6 @@ class AnnouncementContentField extends StringField implements CreatableField, Up
         parent::__construct($schema, Announcement::ATTRIBUTE_CONTENT);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class AnnouncementContentField extends StringField implements CreatableField, Up
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

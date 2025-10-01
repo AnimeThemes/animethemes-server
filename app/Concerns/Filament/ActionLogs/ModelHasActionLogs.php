@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait ModelHasActionLogs
 {
-    /**
-     * @return MorphMany
-     */
     public function actionlogs(): MorphMany
     {
         return $this->morphMany(ActionLog::class, 'actionable');

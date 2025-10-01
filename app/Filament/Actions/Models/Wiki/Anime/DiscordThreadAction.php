@@ -32,7 +32,7 @@ class DiscordThreadAction extends BaseAction
 
         $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 
-        $this->action(function (Anime $record, array $data) {
+        $this->action(function (Anime $record, array $data): void {
             $action = new DiscordThreadActionAction()->handle($record, $data);
 
             if ($action instanceof Exception) {

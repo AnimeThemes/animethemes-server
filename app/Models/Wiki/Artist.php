@@ -23,6 +23,7 @@ use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\ArtistFactory;
+use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,29 +59,29 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'artists';
+    final public const string TABLE = 'artists';
 
-    final public const ATTRIBUTE_ID = 'artist_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SLUG = 'slug';
-    final public const ATTRIBUTE_INFORMATION = 'information';
+    final public const string ATTRIBUTE_ID = 'artist_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_INFORMATION = 'information';
 
-    final public const RELATION_ANIME = 'songs.animethemes.anime';
-    final public const RELATION_ANIMETHEMES = 'songs.animethemes';
-    final public const RELATION_GROUPS = 'groups';
-    final public const RELATION_GROUPSHIPS = 'groupships';
-    final public const RELATION_GROUP_PERFORMANCES = 'groupperformances';
-    final public const RELATION_GROUPSHIPS_PERFORMANCES = 'groupships.performances';
-    final public const RELATION_IMAGES = 'images';
-    final public const RELATION_MEMBERS = 'members';
-    final public const RELATION_MEMBERSHIPS = 'memberships';
-    final public const RELATION_MEMBERSHIPS_PERFORMANCES = 'memberships.performances';
-    final public const RELATION_MEMBERSHIPS_PERFORMANCES_SONGS = 'memberships.performances.song';
-    final public const RELATION_PERFORMANCES = 'performances';
-    final public const RELATION_PERFORMANCES_SONGS = 'performances.song';
-    final public const RELATION_RESOURCES = 'resources';
-    final public const RELATION_SONGS = 'songs';
-    final public const RELATION_THEME_GROUPS = 'songs.animethemes.group';
+    final public const string RELATION_ANIME = 'songs.animethemes.anime';
+    final public const string RELATION_ANIMETHEMES = 'songs.animethemes';
+    final public const string RELATION_GROUPS = 'groups';
+    final public const string RELATION_GROUPSHIPS = 'groupships';
+    final public const string RELATION_GROUP_PERFORMANCES = 'groupperformances';
+    final public const string RELATION_GROUPSHIPS_PERFORMANCES = 'groupships.performances';
+    final public const string RELATION_IMAGES = 'images';
+    final public const string RELATION_MEMBERS = 'members';
+    final public const string RELATION_MEMBERSHIPS = 'memberships';
+    final public const string RELATION_MEMBERSHIPS_PERFORMANCES = 'memberships.performances';
+    final public const string RELATION_MEMBERSHIPS_PERFORMANCES_SONGS = 'memberships.performances.song';
+    final public const string RELATION_PERFORMANCES = 'performances';
+    final public const string RELATION_PERFORMANCES_SONGS = 'performances.song';
+    final public const string RELATION_RESOURCES = 'resources';
+    final public const string RELATION_SONGS = 'songs';
+    final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
 
     /**
      * The attributes that are mass assignable.
@@ -123,9 +124,6 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -137,8 +135,6 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * Get the indexable data array for the model.
-     *
-     * @return array
      */
     public function toSearchableArray(): array
     {
@@ -147,7 +143,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
         $directPerformances = $this->performances->map(fn (Performance $performance) => $performance->toArray());
 
         $membershipPerformances = $this->memberships->flatMap(
-            fn (Membership $membership) => $membership->performances->map(fn (Performance $performance) => array_merge(
+            fn (Membership $membership) => $membership->performances->map(fn (Performance $performance): array => array_merge(
                 $performance->toArray(),
                 ['membership_alias' => $membership->alias],
                 ['membership_as' => $membership->as],
@@ -181,9 +177,8 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * @return BelongsToMany<Song, $this, ArtistSong>
-     *
-     * @deprecated
      */
+    #[Deprecated]
     public function songs(): BelongsToMany
     {
         return $this->belongsToMany(Song::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_ARTIST, ArtistSong::ATTRIBUTE_SONG)
@@ -204,8 +199,6 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     /**
      * Relation for filament.
      * Groups performances of the memberships of this group.
-     *
-     * @return HasManyDeep
      */
     public function groupperformances(): HasManyDeep
     {
@@ -220,7 +213,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
             [Membership::ATTRIBUTE_ARTIST, [Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID]],
             [Artist::ATTRIBUTE_ID, Membership::ATTRIBUTE_ID]
         )
-            ->joinSub($sub, 'latest_performance', function ($join) {
+            ->joinSub($sub, 'latest_performance', function ($join): void {
                 $join->on(new Performance()->qualifyColumn(Performance::ATTRIBUTE_ID), '=', 'latest_performance.performance_id');
             })
             ->where(new Performance()->qualifyColumn(Performance::ATTRIBUTE_ARTIST_TYPE), Relation::getMorphAlias(Membership::class));

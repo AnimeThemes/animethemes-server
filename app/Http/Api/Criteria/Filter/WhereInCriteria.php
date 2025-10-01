@@ -48,13 +48,13 @@ class WhereInCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set Not
-            if (empty($field) && UnaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+            if (empty($field) && UnaryLogicalOperator::unstrictCoerce($filterPart) instanceof UnaryLogicalOperator) {
                 $not = true;
                 continue;
             }
 
             // Set operator
-            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
                 $operator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
@@ -75,10 +75,6 @@ class WhereInCriteria extends Criteria
         );
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
         $column = $filter->shouldQualifyColumn()

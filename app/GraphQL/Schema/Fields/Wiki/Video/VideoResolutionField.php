@@ -22,7 +22,6 @@ class VideoResolutionField extends IntField implements UpdatableField
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

@@ -18,9 +18,6 @@ class AnimeNameField extends StringField implements CreatableField, UpdatableFie
         parent::__construct($schema, Anime::ATTRIBUTE_NAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class AnimeNameField extends StringField implements CreatableField, UpdatableFie
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

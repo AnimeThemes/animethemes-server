@@ -13,9 +13,6 @@ class ScriptController extends Controller
 {
     /**
      * Download dump.
-     *
-     * @param  VideoScript  $videoscript
-     * @return StreamedResponse
      */
     public function show(VideoScript $videoscript): StreamedResponse
     {

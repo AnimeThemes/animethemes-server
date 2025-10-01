@@ -21,12 +21,11 @@ class TrackCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (PlaylistTrack $track) => new TrackResource($track, $this->query))->all();
+        return $this->collection->map(fn (PlaylistTrack $track): TrackResource => new TrackResource($track, $this->query))->all();
     }
 }

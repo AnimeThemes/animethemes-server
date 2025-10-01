@@ -49,7 +49,7 @@ trait LocalizesName
     protected function getLocalizationKey(): string
     {
         return Str::of('enums.')
-            ->append(get_class($this))
+            ->append($this::class)
             ->append('.')
             ->append($this->name)
             ->__toString();
@@ -57,8 +57,6 @@ trait LocalizesName
 
     /**
      * Get the enum as an array formatted for a select.
-     *
-     * @return array
      */
     public static function asSelectArray(?string $locale = null): array
     {
@@ -76,7 +74,7 @@ trait LocalizesName
     {
         return Arr::first(
             static::cases(),
-            fn (self $enum) => Str::lower($enum->localize($locale)) === Str::lower($localizedName)
+            fn (self $enum): bool => Str::lower($enum->localize($locale)) === Str::lower($localizedName)
         );
     }
 }

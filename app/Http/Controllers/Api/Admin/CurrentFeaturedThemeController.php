@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Date;
 
 class CurrentFeaturedThemeController extends Controller implements InteractsWithSchema
 {
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, ShowAction $action): FeaturedThemeResource
     {
         $query = new Query($request->validated());

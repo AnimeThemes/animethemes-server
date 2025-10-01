@@ -35,19 +35,19 @@ class Report extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'reports';
+    final public const string TABLE = 'reports';
 
-    final public const ATTRIBUTE_ID = 'report_id';
-    final public const ATTRIBUTE_FINISHED_AT = 'finished_at';
-    final public const ATTRIBUTE_MODERATOR = 'moderator_id';
-    final public const ATTRIBUTE_MOD_NOTES = 'mod_notes';
-    final public const ATTRIBUTE_NOTES = 'notes';
-    final public const ATTRIBUTE_STATUS = 'status';
-    final public const ATTRIBUTE_USER = 'user_id';
+    final public const string ATTRIBUTE_ID = 'report_id';
+    final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
+    final public const string ATTRIBUTE_MODERATOR = 'moderator_id';
+    final public const string ATTRIBUTE_MOD_NOTES = 'mod_notes';
+    final public const string ATTRIBUTE_NOTES = 'notes';
+    final public const string ATTRIBUTE_STATUS = 'status';
+    final public const string ATTRIBUTE_USER = 'user_id';
 
-    final public const RELATION_MODERATOR = 'moderator';
-    final public const RELATION_STEPS = 'steps';
-    final public const RELATION_USER = 'user';
+    final public const string RELATION_MODERATOR = 'moderator';
+    final public const string RELATION_STEPS = 'steps';
+    final public const string RELATION_USER = 'user';
 
     /**
      * Is auditing disabled?
@@ -113,11 +113,9 @@ class Report extends BaseModel
 
     /**
      * Scope a query to only include pending reports.
-     *
-     * @param  Builder  $query
      */
     #[Scope]
-    public function pending(Builder $query): void
+    protected function pending(Builder $query): void
     {
         $query->where(Report::ATTRIBUTE_STATUS, ApprovableStatus::PENDING->value);
     }

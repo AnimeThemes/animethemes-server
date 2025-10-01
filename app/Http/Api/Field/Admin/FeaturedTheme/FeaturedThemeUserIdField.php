@@ -22,9 +22,6 @@ class FeaturedThemeUserIdField extends Field implements CreatableField, Selectab
         parent::__construct($schema, FeaturedTheme::ATTRIBUTE_USER);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -41,9 +38,6 @@ class FeaturedThemeUserIdField extends Field implements CreatableField, Selectab
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

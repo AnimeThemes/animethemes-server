@@ -26,7 +26,7 @@ class VideoBitrateRestrictionFormatRule extends SubmissionRule
 
         $video = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'video'
         );
 
         $bitrate = intval(Arr::get($format, 'bit_rate'));

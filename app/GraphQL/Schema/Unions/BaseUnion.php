@@ -52,8 +52,8 @@ abstract class BaseUnion extends UnionType
     public function resolveType($value): Type
     {
         $baseType = collect($this->baseTypes())
-            ->filter(fn (BaseType $type) => $type instanceof EloquentType)
-            ->first(fn (EloquentType $type) => $type->model() === $value::class);
+            ->filter(fn (BaseType $type): bool => $type instanceof EloquentType)
+            ->first(fn (EloquentType $type): bool => $type->model() === $value::class);
 
         return GraphQL::type($baseType->getName());
     }

@@ -34,9 +34,6 @@ abstract class Criteria
 
     /**
      * Paginate the query.
-     *
-     * @param  Builder  $builder
-     * @return Collection|Paginator
      */
     abstract public function paginate(Builder $builder): Collection|Paginator;
 }

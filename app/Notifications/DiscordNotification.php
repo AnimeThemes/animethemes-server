@@ -21,7 +21,6 @@ class DiscordNotification extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @return array
      *
      * @noinspection PhpUnusedParameterInspection
      */

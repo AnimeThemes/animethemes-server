@@ -22,15 +22,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ArtistSong extends BasePivot
 {
-    final public const TABLE = 'artist_song';
+    final public const string TABLE = 'artist_song';
 
-    final public const ATTRIBUTE_AS = 'as';
-    final public const ATTRIBUTE_ALIAS = 'alias';
-    final public const ATTRIBUTE_ARTIST = 'artist_id';
-    final public const ATTRIBUTE_SONG = 'song_id';
+    final public const string ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_ALIAS = 'alias';
+    final public const string ATTRIBUTE_ARTIST = 'artist_id';
+    final public const string ATTRIBUTE_SONG = 'song_id';
 
-    final public const RELATION_ARTIST = 'artist';
-    final public const RELATION_SONG = 'song';
+    final public const string RELATION_ARTIST = 'artist';
+    final public const string RELATION_SONG = 'song';
 
     /**
      * The table associated with the model.

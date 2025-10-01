@@ -43,9 +43,6 @@ class ExternalProfileController extends BaseController
         $this->middleware(UserExceedsExternalProfileLimit::class)->only(['store', 'restore']);
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection
     {
         $query = new Query($request->validated());
@@ -64,9 +61,6 @@ class ExternalProfileController extends BaseController
         return new ExternalProfileCollection($externalprofiles, $query);
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, ExternalProfile $externalprofile, ShowAction $action): ExternalProfileResource
     {
         $query = new Query($request->validated());
@@ -91,9 +85,6 @@ class ExternalProfileController extends BaseController
         return new ExternalProfileResource($profile, new Query());
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, ExternalProfile $externalprofile, UpdateAction $action): ExternalProfileResource
     {
         $updated = $action->update($externalprofile, $request->validated());
@@ -101,9 +92,6 @@ class ExternalProfileController extends BaseController
         return new ExternalProfileResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(ExternalProfile $externalprofile, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($externalprofile);

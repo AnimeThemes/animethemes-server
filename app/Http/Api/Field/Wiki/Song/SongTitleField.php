@@ -18,9 +18,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
         parent::__construct($schema, Song::ATTRIBUTE_TITLE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

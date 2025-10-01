@@ -37,19 +37,19 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
     {
         $anime = $this->getModel();
 
-        $anime->animesynonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeSynonym $synonym) {
-            AnimeSynonym::withoutEvents(function () use ($synonym) {
+        $anime->animesynonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeSynonym $synonym): void {
+            AnimeSynonym::withoutEvents(function () use ($synonym): void {
                 $synonym->restore();
                 $synonym->searchable();
             });
         });
 
-        $anime->animethemes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeTheme $theme) {
-            AnimeTheme::withoutEvents(function () use ($theme) {
+        $anime->animethemes()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeTheme $theme): void {
+            AnimeTheme::withoutEvents(function () use ($theme): void {
                 $theme->restore();
                 $theme->searchable();
-                $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry) {
-                    AnimeThemeEntry::withoutEvents(function () use ($entry) {
+                $theme->animethemeentries()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeThemeEntry $entry): void {
+                    AnimeThemeEntry::withoutEvents(function () use ($entry): void {
                         $entry->restore();
                         $entry->searchable();
                         $entry->videos->each(fn (Video $video) => $video->searchable());

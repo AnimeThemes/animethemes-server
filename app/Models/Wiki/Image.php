@@ -44,17 +44,17 @@ class Image extends BaseModel implements SoftDeletable
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'images';
+    final public const string TABLE = 'images';
 
-    final public const ATTRIBUTE_FACET = 'facet';
-    final public const ATTRIBUTE_ID = 'image_id';
-    final public const ATTRIBUTE_PATH = 'path';
-    final public const ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_FACET = 'facet';
+    final public const string ATTRIBUTE_ID = 'image_id';
+    final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_LINK = 'link';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_ARTISTS = 'artists';
-    final public const RELATION_PLAYLISTS = 'playlists';
-    final public const RELATION_STUDIOS = 'studios';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_ARTISTS = 'artists';
+    final public const string RELATION_PLAYLISTS = 'playlists';
+    final public const string RELATION_STUDIOS = 'studios';
 
     /**
      * The attributes that are mass assignable.
@@ -127,7 +127,7 @@ class Image extends BaseModel implements SoftDeletable
         return $this->path;
     }
 
-    public function getLinkAttribute(): ?string
+    protected function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute(Image::ATTRIBUTE_PATH) && $this->exists) {
             /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */

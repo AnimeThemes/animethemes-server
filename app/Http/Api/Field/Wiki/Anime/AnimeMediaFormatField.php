@@ -20,9 +20,6 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Updatab
         parent::__construct($schema, Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Updatab
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

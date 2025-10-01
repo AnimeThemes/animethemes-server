@@ -20,9 +20,6 @@ class AnimeSeasonField extends EnumField implements CreatableField, UpdatableFie
         parent::__construct($schema, Anime::ATTRIBUTE_SEASON, AnimeSeason::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class AnimeSeasonField extends EnumField implements CreatableField, UpdatableFie
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

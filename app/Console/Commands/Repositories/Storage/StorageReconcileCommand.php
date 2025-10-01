@@ -17,8 +17,6 @@ abstract class StorageReconcileCommand extends ReconcileCommand implements Inter
 {
     /**
      * Apply filters to repositories before reconciliation.
-     *
-     * @param  array  $data
      */
     protected function handleFilters(
         RepositoryInterface $sourceRepository,

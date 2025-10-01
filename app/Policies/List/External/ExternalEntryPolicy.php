@@ -20,7 +20,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function viewAny(?User $user, $profile = null): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value)
+            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
@@ -28,7 +28,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile ??= request()->route('externalprofile');
 
-        if ($user !== null) {
+        if ($user instanceof User) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
                 ? Response::allow()
@@ -47,12 +47,12 @@ class ExternalEntryPolicy extends BasePolicy
     public function view(?User $user, Model $entry, $profile = null): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value)
+            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
 
-        if ($user !== null) {
+        if ($user instanceof User) {
             return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
                 ? Response::allow()

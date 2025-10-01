@@ -21,10 +21,6 @@ class VideoAudioTab extends BaseTab
         return __('filament.tabs.video.audio.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query

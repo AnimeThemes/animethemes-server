@@ -66,7 +66,7 @@ class DiscordEditMessageAction extends BaseAction
                     ->hintAction(
                         Action::make('load')
                             ->label(__('filament.table_actions.discord_thread.message.url.action'))
-                            ->action(function (Set $set, string $state, TextInput $component) {
+                            ->action(function (Set $set, string $state, TextInput $component): void {
                                 if (! preg_match($component->getRegexPattern(), $state)) {
                                     $component
                                         ->hint(__('filament.table_actions.discord_thread.message.url.validation'))

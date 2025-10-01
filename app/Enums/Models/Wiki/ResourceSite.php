@@ -98,7 +98,7 @@ enum ResourceSite: int implements HasLabel
 
         return Arr::first(
             ResourceSite::cases(),
-            fn (ResourceSite $site) => $parsedHost === ResourceSite::getDomain($site->value)
+            fn (ResourceSite $site): bool => $parsedHost === ResourceSite::getDomain($site->value)
         );
     }
 

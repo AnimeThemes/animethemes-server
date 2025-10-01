@@ -35,7 +35,7 @@ abstract class Input extends InputType
     public function fields(): array
     {
         return collect($this->fieldClasses())
-            ->mapWithKeys(fn (InputField $field) => [
+            ->mapWithKeys(fn (InputField $field): array => [
                 $field->getName() => [
                     'name' => $field->getName(),
                     'type' => $field->getType(),

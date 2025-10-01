@@ -51,8 +51,8 @@ class UserFactory extends Factory
     public function withPermissions(string ...$abilities): static
     {
         return $this->afterCreating(
-            function (User $user) use ($abilities) {
-                $permissions = Arr::map($abilities, fn (string $ability) => Permission::findOrCreate($ability));
+            function (User $user) use ($abilities): void {
+                $permissions = Arr::map($abilities, fn (string $ability): \Spatie\Permission\Contracts\Permission => Permission::findOrCreate($ability));
 
                 App::make(PermissionRegistrar::class)->forgetCachedPermissions();
 
@@ -67,7 +67,7 @@ class UserFactory extends Factory
     public function withAdmin(): static
     {
         return $this->afterCreating(
-            function (User $user) {
+            function (User $user): void {
                 $admin = Role::findOrCreate('Admin');
 
                 $user->assignRole($admin);

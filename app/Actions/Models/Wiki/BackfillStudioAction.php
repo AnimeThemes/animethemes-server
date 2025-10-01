@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Log;
 
 class BackfillStudioAction extends BackfillWikiAction
 {
-    /**
-     * @param  array  $toBackfill
-     */
     public function __construct(protected Studio $studio, protected array $toBackfill)
     {
         parent::__construct($studio, $toBackfill);

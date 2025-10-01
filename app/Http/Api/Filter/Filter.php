@@ -55,9 +55,6 @@ abstract class Filter
 
     /**
      * Get sanitized filter values.
-     *
-     * @param  array  $attemptedFilterValues
-     * @return array
      */
     public function getFilterValues(array $attemptedFilterValues): array
     {
@@ -72,9 +69,6 @@ abstract class Filter
 
     /**
      * Get unique filter values.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function getUniqueFilterValues(array $filterValues): array
     {
@@ -83,32 +77,22 @@ abstract class Filter
 
     /**
      * Convert filter values if needed. By default, no conversion is needed.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     abstract protected function convertFilterValues(array $filterValues): array;
 
     /**
      * Get only filter values that are valid. By default, all values are valid.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     abstract protected function getValidFilterValues(array $filterValues): array;
 
     /**
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
-     *
-     * @param  array  $filterValues
      */
     abstract public function isAllFilterValues(array $filterValues): bool;
 
     /**
      * Get the validation rules for the filter.
-     *
-     * @return array
      */
     abstract public function getRules(): array;
 
@@ -128,7 +112,7 @@ abstract class Filter
     ): string {
         $formattedFilter = Str::of($this->getKey());
 
-        if ($comparisonOperator !== null) {
+        if ($comparisonOperator instanceof ComparisonOperator) {
             $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
                 ->append(Str::lower($comparisonOperator->name));
         }

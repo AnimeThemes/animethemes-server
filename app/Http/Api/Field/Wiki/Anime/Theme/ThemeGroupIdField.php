@@ -22,9 +22,6 @@ class ThemeGroupIdField extends Field implements CreatableField, SelectableField
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_GROUP);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -35,9 +32,6 @@ class ThemeGroupIdField extends Field implements CreatableField, SelectableField
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

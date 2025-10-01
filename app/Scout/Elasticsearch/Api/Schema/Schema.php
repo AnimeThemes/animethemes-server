@@ -41,8 +41,8 @@ abstract class Schema implements SchemaInterface
     public function filters(): array
     {
         return collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof FilterableField)
-            ->map(fn (FilterableField $field) => $field->getFilter())
+            ->filter(fn (Field $field): bool => $field instanceof FilterableField)
+            ->map(fn (FilterableField $field): Filter => $field->getFilter())
             ->all();
     }
 
@@ -52,8 +52,8 @@ abstract class Schema implements SchemaInterface
     public function sorts(): array
     {
         return collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
+            ->filter(fn (Field $field): bool => $field instanceof SortableField)
+            ->map(fn (SortableField $field): Sort => $field->getSort())
             ->all();
     }
 
@@ -108,7 +108,7 @@ abstract class Schema implements SchemaInterface
 
         foreach (explode('.', $path) as $path) {
             if (! method_exists($model, $path)) {
-                $classBasename = get_class($model);
+                $classBasename = $model::class;
                 throw new RuntimeException("Relation '$path' does not exist on model '$classBasename'.");
             }
             $model = $model->$path()->getRelated();
@@ -118,7 +118,7 @@ abstract class Schema implements SchemaInterface
             return $model->schema();
         }
 
-        $schema = Str::of(get_class($model))
+        $schema = Str::of($model::class)
             ->replace('Models', 'Scout\\Elasticsearch\\Api\\Schema')
             ->append('Schema')
             ->__toString();
@@ -128,7 +128,7 @@ abstract class Schema implements SchemaInterface
 
     public function model(): Model
     {
-        $modelClass = Str::of(get_class($this))
+        $modelClass = Str::of(static::class)
             ->replace('Scout\\Elasticsearch\\Api\\Schema', 'Models')
             ->remove('Schema')
             ->__toString();

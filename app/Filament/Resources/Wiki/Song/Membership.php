@@ -64,9 +64,6 @@ class Membership extends BaseResource
         return 'memberships';
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();

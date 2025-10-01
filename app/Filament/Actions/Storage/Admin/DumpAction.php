@@ -50,7 +50,7 @@ abstract class DumpAction extends BaseAction
     {
         $connection = DB::connection();
 
-        return match (get_class($connection)) {
+        return match ($connection::class) {
             MySqlConnection::class => $this->fieldsForMySql($schema),
             PostgresConnection::class => $this->fieldsForPostgreSql($schema),
             default => $schema,

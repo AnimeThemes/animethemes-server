@@ -19,9 +19,6 @@ class MembershipArtistIdField extends Field implements CreatableField, Selectabl
         parent::__construct($schema, Membership::ATTRIBUTE_ARTIST);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

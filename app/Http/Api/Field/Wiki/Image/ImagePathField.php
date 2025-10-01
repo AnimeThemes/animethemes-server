@@ -19,8 +19,11 @@ class ImagePathField extends StringField
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
-
         // The link field is dependent on this field to build the url.
-        return parent::shouldSelect($query, $schema) || $criteria->isAllowedField(Image::ATTRIBUTE_LINK);
+        if (parent::shouldSelect($query, $schema)) {
+            return true;
+        }
+
+        return $criteria->isAllowedField(Image::ATTRIBUTE_LINK);
     }
 }

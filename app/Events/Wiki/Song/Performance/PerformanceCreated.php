@@ -82,7 +82,7 @@ class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent
             default => throw new Exception('Invalid artist type.'),
         };
 
-        ArtistSong::withoutEvents(function () use ($artist, $song, $performance) {
+        ArtistSong::withoutEvents(function () use ($artist, $song, $performance): void {
             $artist->songs()->syncWithPivotValues([$song->getKey()], [
                 ArtistSong::ATTRIBUTE_ALIAS => $performance->alias,
                 ArtistSong::ATTRIBUTE_AS => $performance->as,

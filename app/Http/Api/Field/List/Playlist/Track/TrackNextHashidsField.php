@@ -23,9 +23,6 @@ class TrackNextHashidsField extends Field implements CreatableField, UpdatableFi
         parent::__construct($schema, PlaylistTrack::RELATION_NEXT);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         /** @var Playlist|null $playlist */
@@ -52,9 +49,6 @@ class TrackNextHashidsField extends Field implements CreatableField, UpdatableFi
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         /** @var Playlist|null $playlist */

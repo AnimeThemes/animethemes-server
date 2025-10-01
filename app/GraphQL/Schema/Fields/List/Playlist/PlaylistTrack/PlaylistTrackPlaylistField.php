@@ -17,7 +17,7 @@ use Illuminate\Support\Arr;
 
 class PlaylistTrackPlaylistField extends Field implements BindableField, CreatableField, RequiredOnCreation, RequiredOnUpdate, UpdatableField
 {
-    final public const FIELD = PlaylistTrack::RELATION_PLAYLIST;
+    final public const string FIELD = PlaylistTrack::RELATION_PLAYLIST;
 
     public function __construct()
     {
@@ -46,7 +46,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -57,7 +56,6 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

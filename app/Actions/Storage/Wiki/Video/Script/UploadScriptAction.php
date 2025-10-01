@@ -47,22 +47,17 @@ class UploadScriptAction extends UploadAction
             VideoScript::ATTRIBUTE_PATH => $path,
         ];
 
-        if ($this->video !== null) {
+        if ($this->video instanceof Video) {
             $attributes[VideoScript::ATTRIBUTE_VIDEO] = $this->video->getKey();
         }
 
-        return VideoScript::updateOrCreate(
-            [
-                VideoScript::ATTRIBUTE_PATH => $path,
-            ],
-            $attributes
-        );
+        return VideoScript::query()->updateOrCreate([
+            VideoScript::ATTRIBUTE_PATH => $path,
+        ], $attributes);
     }
 
     /**
      * The list of disk names.
-     *
-     * @return array
      */
     public function disks(): array
     {

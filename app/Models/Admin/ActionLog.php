@@ -43,31 +43,31 @@ use Throwable;
  */
 class ActionLog extends Model implements Nameable
 {
-    final public const TABLE = 'action_logs';
+    final public const string TABLE = 'action_logs';
 
-    final public const ATTRIBUTE_ID = 'id';
-    final public const ATTRIBUTE_BATCH_ID = 'batch_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_USER = 'user_id';
+    final public const string ATTRIBUTE_ID = 'id';
+    final public const string ATTRIBUTE_BATCH_ID = 'batch_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_USER = 'user_id';
 
-    final public const ATTRIBUTE_ACTIONABLE = 'actionable';
-    final public const ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
-    final public const ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
+    final public const string ATTRIBUTE_ACTIONABLE = 'actionable';
+    final public const string ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
+    final public const string ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
 
-    final public const ATTRIBUTE_TARGET = 'target';
-    final public const ATTRIBUTE_TARGET_TYPE = 'target_type';
-    final public const ATTRIBUTE_TARGET_ID = 'target_id';
+    final public const string ATTRIBUTE_TARGET = 'target';
+    final public const string ATTRIBUTE_TARGET_TYPE = 'target_type';
+    final public const string ATTRIBUTE_TARGET_ID = 'target_id';
 
-    final public const ATTRIBUTE_MODEL_TYPE = 'model_type';
-    final public const ATTRIBUTE_MODEL_ID = 'model_id';
+    final public const string ATTRIBUTE_MODEL_TYPE = 'model_type';
+    final public const string ATTRIBUTE_MODEL_ID = 'model_id';
 
-    final public const ATTRIBUTE_FIELDS = 'fields';
-    final public const ATTRIBUTE_STATUS = 'status';
-    final public const ATTRIBUTE_EXCEPTION = 'exception';
-    final public const ATTRIBUTE_FINISHED_AT = 'finished_at';
+    final public const string ATTRIBUTE_FIELDS = 'fields';
+    final public const string ATTRIBUTE_STATUS = 'status';
+    final public const string ATTRIBUTE_EXCEPTION = 'exception';
+    final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
 
-    final public const RELATION_USER = 'user';
-    final public const RELATION_TARGET = 'target';
+    final public const string RELATION_USER = 'user';
+    final public const string RELATION_TARGET = 'target';
 
     /**
      * The attributes that are mass assignable.
@@ -111,13 +111,13 @@ class ActionLog extends Model implements Nameable
     {
         parent::boot();
 
-        static::creating(function (ActionLog $actionLog) {
+        static::creating(function (ActionLog $actionLog): void {
             if ($actionLog->status === ActionLogStatus::RUNNING) {
                 Session::put('currentActionLog', $actionLog->batch_id);
             }
         });
 
-        static::updating(function (ActionLog $actionLog) {
+        static::updating(function (ActionLog $actionLog): void {
             if ($actionLog->status === ActionLogStatus::FINISHED || $actionLog->status === ActionLogStatus::FAILED) {
                 Session::forget('currentActionLog');
             }
@@ -162,9 +162,6 @@ class ActionLog extends Model implements Nameable
             ->__toString();
     }
 
-    /**
-     * @return MorphTo
-     */
     public function actionable(): MorphTo
     {
         return $this->morphTo();
@@ -172,8 +169,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Get the target of the action for user interface linking.
-     *
-     * @return MorphTo|BaseModel
      */
     public function target(): MorphTo|BaseModel
     {
@@ -421,9 +416,6 @@ class ActionLog extends Model implements Nameable
 
     /**
      * Format the fields to store.
-     *
-     * @param  array  $fields
-     * @return array
      */
     protected static function getFields(array $fields, ?Model $model = null): array
     {
@@ -431,7 +423,7 @@ class ActionLog extends Model implements Nameable
             ->forget(Model::CREATED_AT)
             ->forget(Model::UPDATED_AT)
             ->forget(ModelConstants::ATTRIBUTE_DELETED_AT)
-            ->map(function ($value, $key) use ($model) {
+            ->map(function ($value, $key) use ($model): string {
                 if ($model instanceof Model) {
                     if (in_array($key, $model->getHidden())) {
                         return DiscordEmbedField::DEFAULT_FIELD_VALUE;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Wiki\Video\Script;
 
+use App\Http\Api\Criteria\Include\Criteria;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -20,11 +21,13 @@ class ScriptIdField extends IdField
     {
         $includeCriteria = $query->getIncludeCriteria($this->schema->type());
         $linkField = new ScriptLinkField($this->schema);
-        if (
-            $this->schema->type() === $schema->type()
-            && ($includeCriteria === null || $includeCriteria->getPaths()->isEmpty())
-        ) {
-            return parent::shouldSelect($query, $schema) || $linkField->shouldRender($query);
+        if ($this->schema->type() === $schema->type()
+        && (! $includeCriteria instanceof Criteria || $includeCriteria->getPaths()->isEmpty())) {
+            if (parent::shouldSelect($query, $schema)) {
+                return true;
+            }
+
+            return $linkField->shouldRender($query);
         }
 
         return true;

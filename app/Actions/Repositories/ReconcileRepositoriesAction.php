@@ -70,9 +70,6 @@ abstract class ReconcileRepositoriesAction
      * Create models that exist in source but not in destination.
      *
      * @param  RepositoryInterface<TModel>  $destination
-     * @param  Collection  $sourceModels
-     * @param  Collection  $destinationModels
-     * @return Collection
      */
     protected function createModelsFromSource(
         RepositoryInterface $destination,
@@ -81,16 +78,13 @@ abstract class ReconcileRepositoriesAction
     ): Collection {
         $createModels = $sourceModels->diffUsing($destinationModels, $this->diffCallbackForCreateDelete());
 
-        return $createModels->each(fn (Model $createModel) => $destination->save($createModel));
+        return $createModels->each(fn (Model $createModel): bool => $destination->save($createModel));
     }
 
     /**
      * Delete models that exist in destination but not in source.
      *
      * @param  RepositoryInterface<TModel>  $destination
-     * @param  Collection  $sourceModels
-     * @param  Collection  $destinationModels
-     * @return Collection
      */
     protected function deleteModelsFromDestination(
         RepositoryInterface $destination,
@@ -99,7 +93,7 @@ abstract class ReconcileRepositoriesAction
     ): Collection {
         $deleteModels = $destinationModels->diffUsing($sourceModels, $this->diffCallbackForCreateDelete());
 
-        return $deleteModels->each(fn (Model $deleteModel) => $destination->delete($deleteModel));
+        return $deleteModels->each(fn (Model $deleteModel): bool => $destination->delete($deleteModel));
     }
 
     /**
@@ -116,8 +110,6 @@ abstract class ReconcileRepositoriesAction
 
     /**
      * Get source model that has been updated for destination model.
-     *
-     * @param  Collection  $sourceModels
      */
     abstract protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model;
 
@@ -125,9 +117,6 @@ abstract class ReconcileRepositoriesAction
      * Update destination models that have changed in source.
      *
      * @param  RepositoryInterface<TModel>  $destination
-     * @param  Collection  $sourceModels
-     * @param  Collection  $destinationModels
-     * @return Collection
      */
     protected function updateDestinationModels(
         RepositoryInterface $destination,
@@ -136,9 +125,9 @@ abstract class ReconcileRepositoriesAction
     ): Collection {
         $updatedModels = $destinationModels->diffUsing($sourceModels, $this->diffCallbackForUpdate());
 
-        return $updatedModels->each(function (Model $updatedModel) use ($sourceModels, $destination) {
+        return $updatedModels->each(function (Model $updatedModel) use ($sourceModels, $destination): void {
             $sourceModel = $this->resolveUpdatedModel($sourceModels, $updatedModel);
-            if ($sourceModel !== null) {
+            if ($sourceModel instanceof Model) {
                 $destination->update($updatedModel, $sourceModel->toArray());
             }
         });
@@ -146,10 +135,6 @@ abstract class ReconcileRepositoriesAction
 
     /**
      * Get reconciliation results.
-     *
-     * @param  Collection  $created
-     * @param  Collection  $deleted
-     * @param  Collection  $updated
      */
     abstract protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults;
 }

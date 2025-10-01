@@ -29,9 +29,6 @@ class PageController extends BaseController
         parent::__construct(Page::class, 'page');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): PageCollection
     {
         $query = new Query($request->validated());
@@ -51,9 +48,6 @@ class PageController extends BaseController
         return new PageResource($page, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Page $page, ShowAction $action): PageResource
     {
         $query = new Query($request->validated());
@@ -63,9 +57,6 @@ class PageController extends BaseController
         return new PageResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Page $page, UpdateAction $action): PageResource
     {
         $updated = $action->update($page, $request->validated());
@@ -73,9 +64,6 @@ class PageController extends BaseController
         return new PageResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Page $page, DestroyAction $action): PageResource
     {
         $deleted = $action->destroy($page);
@@ -83,9 +71,6 @@ class PageController extends BaseController
         return new PageResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Page $page, RestoreAction $action): PageResource
     {
         $restored = $action->restore($page);
@@ -93,9 +78,6 @@ class PageController extends BaseController
         return new PageResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Page $page, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($page);

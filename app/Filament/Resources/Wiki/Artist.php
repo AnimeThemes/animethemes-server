@@ -137,21 +137,21 @@ class Artist extends BaseResource
                         TextEntry::make(ArtistModel::ATTRIBUTE_INFORMATION)
                             ->label(__('filament.fields.artist.information.name'))
                             ->markdown()
-                            ->hidden(fn ($livewire) => $livewire instanceof ViewTheme)
+                            ->hidden(fn ($livewire): bool => $livewire instanceof ViewTheme)
                             ->columnSpanFull(),
 
-                        TextEntry::make('artistsong'.'.'.ArtistSong::ATTRIBUTE_AS)
+                        TextEntry::make('artistsong.'.ArtistSong::ATTRIBUTE_AS)
                             ->label(__('filament.fields.artist.songs.as.name'))
-                            ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
+                            ->visible(fn (TextEntry $component): bool => $component->getLivewire() instanceof ViewTheme),
 
-                        TextEntry::make('artistsong'.'.'.ArtistSong::ATTRIBUTE_ALIAS)
+                        TextEntry::make('artistsong.'.ArtistSong::ATTRIBUTE_ALIAS)
                             ->label(__('filament.fields.artist.songs.alias.name'))
-                            ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
+                            ->visible(fn (TextEntry $component): bool => $component->getLivewire() instanceof ViewTheme),
                     ])
                     ->columns(3),
 
                 TimestampSection::make()
-                    ->visible(fn (Section $component) => $component->getLivewire() instanceof ViewArtist),
+                    ->visible(fn (Section $component): bool => $component->getLivewire() instanceof ViewArtist),
             ]);
     }
 

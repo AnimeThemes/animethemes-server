@@ -63,7 +63,7 @@ class BackfillAudioAction extends BackfillAction
 
             $audio = $this->getAudio();
 
-            if ($audio !== null) {
+            if ($audio instanceof Audio) {
                 $this->attachAudio($audio);
             }
 
@@ -136,7 +136,7 @@ class BackfillAudioAction extends BackfillAction
         }
 
         // It's possible that the video is not attached to any themes, exit early.
-        if ($sourceVideo === null) {
+        if (! $sourceVideo instanceof Video) {
             Log::error('Could not derive source video');
 
             return null;

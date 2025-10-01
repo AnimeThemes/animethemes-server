@@ -99,9 +99,6 @@ class Entry extends BaseResource
         return 'anime-theme-entries';
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -130,13 +127,11 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->required()
                     ->visibleOn([ListEntries::class, ViewEntry::class])
-                    ->options(function (Get $get) {
-                        return ThemeModel::query()
-                            ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_ANIME))
-                            ->get()
-                            ->mapWithKeys(fn (ThemeModel $theme) => [$theme->getKey() => $theme->getName()])
-                            ->toArray();
-                    }),
+                    ->options(fn (Get $get) => ThemeModel::query()
+                        ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_ANIME))
+                        ->get()
+                        ->mapWithKeys(fn (ThemeModel $theme): array => [$theme->getKey() => $theme->getName()])
+                        ->toArray()),
 
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
@@ -170,7 +165,7 @@ class Entry extends BaseResource
                     ->maxLength(255)
                     ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
                     ->uri()
-                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, ?Uri $state) {
+                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, ?Uri $state): void {
                         $fields = [
                             ResourceSite::YOUTUBE->name => $state,
                         ];
@@ -210,14 +205,14 @@ class Entry extends BaseResource
                 TextColumn::make(EntryModel::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->limit(50)
-                    ->tooltip(fn (TextColumn $column) => $column->getState()),
+                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
 
                 BelongsToColumn::make(EntryModel::RELATION_SONG_SHALLOW, SongResource::class)
                     ->hiddenOn(EntryThemeRelationManager::class)
-                    ->searchable(true, function (Builder $query, string $search) {
+                    ->searchable(true, function (Builder $query, string $search): void {
                         $songs = Song::search($search)->take(25)->keys();
 
-                        $query->whereHas(EntryModel::RELATION_SONG, function (Builder $query) use ($songs) {
+                        $query->whereHas(EntryModel::RELATION_SONG, function (Builder $query) use ($songs): void {
                             $query->whereIn(Song::ATTRIBUTE_ID, $songs);
                         });
                     }, true),

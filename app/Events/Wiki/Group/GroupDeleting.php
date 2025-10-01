@@ -31,13 +31,13 @@ class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);
 
         if ($group->isForceDeleting()) {
-            $group->animethemes->each(function (AnimeTheme $theme) {
-                AnimeTheme::withoutEvents(function () use ($theme) {
+            $group->animethemes->each(function (AnimeTheme $theme): void {
+                AnimeTheme::withoutEvents(function () use ($theme): void {
                     $theme->group()->dissociate();
                     $theme->save();
                 });
                 $theme->searchable();
-                $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+                $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
                     $entry->searchable();
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });

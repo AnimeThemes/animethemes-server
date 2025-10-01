@@ -12,7 +12,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class SortArgument extends Argument
 {
-    final public const ARGUMENT = 'sort';
+    final public const string ARGUMENT = 'sort';
 
     public function __construct(protected BaseType $type)
     {

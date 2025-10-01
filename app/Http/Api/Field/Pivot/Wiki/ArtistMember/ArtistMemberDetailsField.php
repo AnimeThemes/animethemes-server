@@ -18,9 +18,6 @@ class ArtistMemberDetailsField extends StringField implements CreatableField, Up
         parent::__construct($schema, ArtistMember::ATTRIBUTE_NOTES);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class ArtistMemberDetailsField extends StringField implements CreatableField, Up
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

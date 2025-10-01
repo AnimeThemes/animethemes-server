@@ -12,7 +12,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class AnimeYearSeasonsField extends Field implements DisplayableField
 {
-    final public const FIELD = 'seasons';
+    final public const string FIELD = 'seasons';
 
     public function __construct()
     {

@@ -20,9 +20,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
         parent::__construct($schema, ExternalResource::ATTRIBUTE_LINK);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -34,9 +31,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [
@@ -51,8 +45,6 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
 
     /**
      * Resolve site field from request.
-     *
-     * @return ResourceSite|null
      */
     protected function resolveSite(Request $request): ?ResourceSite
     {

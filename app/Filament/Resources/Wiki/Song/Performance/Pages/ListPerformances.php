@@ -25,7 +25,7 @@ class ListPerformances extends BaseListResources
     {
         return [
             CreateAction::make()
-                ->action(function (array $data) {
+                ->action(function (array $data): void {
                     $performances = Arr::get($data, Song::RELATION_PERFORMANCES);
                     PerformanceSongRelationManager::saveArtists(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG), $performances);
                 }),

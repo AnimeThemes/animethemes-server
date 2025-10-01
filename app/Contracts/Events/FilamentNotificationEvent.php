@@ -13,8 +13,5 @@ interface FilamentNotificationEvent
 
     public function getFilamentNotification(): Notification;
 
-    /**
-     * @return Collection
-     */
     public function getFilamentNotificationRecipients(): Collection;
 }

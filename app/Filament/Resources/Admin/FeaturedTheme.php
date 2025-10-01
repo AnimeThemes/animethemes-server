@@ -21,6 +21,7 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -67,9 +68,6 @@ class FeaturedTheme extends BaseResource
         return 'featured-themes';
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -106,16 +104,14 @@ class FeaturedTheme extends BaseResource
                     ->live(true)
                     ->required()
                     ->rules([
-                        fn (Get $get) => function () use ($get) {
-                            return [
-                                Rule::when(
-                                    ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
-                                    [
-                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedThemeModel::RELATION_VIDEO)),
-                                    ]
-                                )];
-                        },
+                        fn (Get $get): Closure => (fn (): array => [
+                            Rule::when(
+                                ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                [
+                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedThemeModel::RELATION_VIDEO)),
+                                ]
+                            )]),
                     ]),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
@@ -123,26 +119,22 @@ class FeaturedTheme extends BaseResource
                     ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
                     ->required()
                     ->rules([
-                        fn (Get $get) => function () use ($get) {
-                            return [
-                                Rule::when(
-                                    ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
-                                    [
-                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedThemeModel::RELATION_ENTRY)),
-                                    ]
-                                )];
-                        },
+                        fn (Get $get): Closure => (fn (): array => [
+                            Rule::when(
+                                ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                [
+                                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedThemeModel::RELATION_ENTRY)),
+                                ]
+                            )]),
                     ])
-                    ->options(function (Get $get) {
-                        return Video::query()
-                            ->whereRelation(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
-                                $query->whereKey($get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
-                            })
-                            ->get()
-                            ->mapWithKeys(fn (Video $video) => [$video->getKey() => $video->getName()])
-                            ->toArray();
-                    }),
+                    ->options(fn (Get $get) => Video::query()
+                        ->whereRelation(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get): void {
+                            $query->whereKey($get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
+                        })
+                        ->get()
+                        ->mapWithKeys(fn (Video $video): array => [$video->getKey() => $video->getName()])
+                        ->toArray()),
 
                 BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->resource(UserResource::class)

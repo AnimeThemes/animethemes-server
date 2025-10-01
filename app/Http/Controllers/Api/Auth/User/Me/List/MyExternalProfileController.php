@@ -24,9 +24,6 @@ class MyExternalProfileController extends BaseController
         parent::__construct(ExternalProfile::class, 'externalprofile');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection
     {
         $query = new Query($request->validated());

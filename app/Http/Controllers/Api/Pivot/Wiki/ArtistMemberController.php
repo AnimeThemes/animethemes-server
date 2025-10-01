@@ -28,9 +28,6 @@ class ArtistMemberController extends PivotController
         parent::__construct(Artist::class, 'artist', Artist::class, 'member');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ArtistMemberCollection
     {
         $query = new Query($request->validated());
@@ -58,9 +55,6 @@ class ArtistMemberController extends PivotController
         return new ArtistMemberResource($artistMember, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Artist $artist, Artist $member, ShowAction $action): ArtistMemberResource
     {
         $artistMember = ArtistMember::query()
@@ -75,9 +69,6 @@ class ArtistMemberController extends PivotController
         return new ArtistMemberResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Artist $artist, Artist $member, UpdateAction $action): ArtistMemberResource
     {
         $artistMember = ArtistMember::query()
@@ -92,9 +83,6 @@ class ArtistMemberController extends PivotController
         return new ArtistMemberResource($updated, $query);
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Artist $artist, Artist $member, DestroyAction $action): JsonResponse
     {
         $artistMember = ArtistMember::query()

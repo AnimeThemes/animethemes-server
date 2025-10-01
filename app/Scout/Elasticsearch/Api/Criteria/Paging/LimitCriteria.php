@@ -16,9 +16,6 @@ class LimitCriteria extends Criteria
         parent::__construct($criteria);
     }
 
-    /**
-     * @return Collection|Paginator
-     */
     public function paginate(SearchParametersBuilder $builder): Collection|Paginator
     {
         return $builder
