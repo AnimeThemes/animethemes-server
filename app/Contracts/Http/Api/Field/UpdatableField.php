@@ -8,8 +8,5 @@ use Illuminate\Http\Request;
 
 interface UpdatableField
 {
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array;
 }

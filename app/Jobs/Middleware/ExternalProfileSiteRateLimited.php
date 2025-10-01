@@ -27,11 +27,11 @@ class ExternalProfileSiteRateLimited
                 ->allow(Arr::get($definition, 'allow'))
                 ->every(Arr::get($definition, 'every'))
                 ->then(
-                    function () use ($job, $next) {
+                    function () use ($job, $next): void {
                         // Lock obtained...
                         $next($job);
                     },
-                    function () use ($job) {
+                    function () use ($job): void {
                         // Could not obtain lock...
                         $job->release(5);
                     }

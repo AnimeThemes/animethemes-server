@@ -20,15 +20,17 @@ class ErrorHandler
         foreach ($errors as $error) {
             // Try to unwrap exception
             $error = $error->getPrevious() ?: $error;
-
             // Don't report certain GraphQL errors
-            if ($error instanceof ValidationError ||
-                $error instanceof AuthorizationError ||
-                $error instanceof GraphQLError ||
-                ! (
-                    $error instanceof Exception ||
-                    $error instanceof PhpError
-                )) {
+            if ($error instanceof ValidationError) {
+                continue;
+            }
+            if ($error instanceof AuthorizationError) {
+                continue;
+            }
+            if ($error instanceof GraphQLError) {
+                continue;
+            }
+            if (! $error instanceof Exception && ! $error instanceof PhpError) {
                 continue;
             }
 

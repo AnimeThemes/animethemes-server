@@ -29,9 +29,6 @@ class EntryController extends BaseController
         parent::__construct(AnimeThemeEntry::class, 'animethemeentry');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): EntryCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class EntryController extends BaseController
         return new EntryResource($entry, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, ShowAction $action): EntryResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class EntryController extends BaseController
         return new EntryResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, AnimeThemeEntry $animethemeentry, UpdateAction $action): EntryResource
     {
         $updated = $action->update($animethemeentry, $request->validated());
@@ -75,9 +66,6 @@ class EntryController extends BaseController
         return new EntryResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(AnimeThemeEntry $animethemeentry, DestroyAction $action): EntryResource
     {
         $deleted = $action->destroy($animethemeentry);
@@ -85,9 +73,6 @@ class EntryController extends BaseController
         return new EntryResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(AnimeThemeEntry $animethemeentry, RestoreAction $action): EntryResource
     {
         $restored = $action->restore($animethemeentry);
@@ -95,9 +80,6 @@ class EntryController extends BaseController
         return new EntryResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(AnimeThemeEntry $animethemeentry, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($animethemeentry);

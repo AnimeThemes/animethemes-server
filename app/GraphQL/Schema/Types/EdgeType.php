@@ -37,16 +37,14 @@ class EdgeType extends RebingType
     {
         return collect($this->getPivotType()?->fieldClasses() ?? [])
             ->prepend(new NodeField($this->nodeType))
-            ->flatMap(function (Field $field) {
-                return [
-                    $field->getName() => [
-                        'type' => $field->baseType(),
-                        'description' => $field->description(),
-                        'alias' => $field->getColumn(),
-                        'resolve' => $field->resolve(...),
-                    ],
-                ];
-            })
+            ->flatMap(fn (Field $field): array => [
+                $field->getName() => [
+                    'type' => $field->baseType(),
+                    'description' => $field->description(),
+                    'alias' => $field->getColumn(),
+                    'resolve' => $field->resolve(...),
+                ],
+            ])
             ->toArray();
     }
 

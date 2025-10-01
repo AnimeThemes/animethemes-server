@@ -17,9 +17,6 @@ class AudioFilenameField extends StringField implements CreatableField
         parent::__construct($schema, Audio::ATTRIBUTE_FILENAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

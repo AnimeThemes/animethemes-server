@@ -19,9 +19,6 @@ class ExternalProfileSiteField extends EnumField implements CreatableField
         parent::__construct($schema, ExternalProfile::ATTRIBUTE_SITE, ExternalProfileSite::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

@@ -25,7 +25,6 @@ class StoreExternalProfileClaimedAction
     /**
      * Get the first record or store external profile given determined external token.
      *
-     * @param  array  $parameters
      *
      * @throws Exception
      */
@@ -38,9 +37,7 @@ class StoreExternalProfileClaimedAction
 
             $userId = $action->getUserId();
 
-            $profile = $this->firstForUserIdOrCreate($userId, $site, $action, $parameters);
-
-            return $profile;
+            return $this->firstForUserIdOrCreate($userId, $site, $action, $parameters);
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
@@ -50,8 +47,6 @@ class StoreExternalProfileClaimedAction
 
     /**
      * Get the first record or create the profile for a userId and site.
-     *
-     * @param  array  $parameters
      */
     protected function firstForUserIdOrCreate(int $userId, ExternalProfileSite $site, BaseExternalEntryClaimedAction $action, array $parameters): ExternalProfile
     {

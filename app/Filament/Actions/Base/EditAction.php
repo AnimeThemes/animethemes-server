@@ -28,29 +28,27 @@ class EditAction extends BaseEditAction
     {
         parent::setUp();
 
-        $this->label(fn () => '');
+        $this->label(fn (): string => '');
 
         $this->icon(Heroicon::PencilSquare);
         $this->iconSize(IconSize::Medium);
 
-        $this->schema(fn (Schema $schema, BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire) => [
+        $this->schema(fn (Schema $schema, BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire): array => [
             ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
 
-        $this->after(function (BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire, Model $record, EditAction $action) {
+        $this->after(function (BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire, Model $record, EditAction $action): void {
             if ($livewire instanceof BaseListResources || $livewire instanceof BaseViewResource) {
                 ActionLog::modelUpdated($record);
             }
 
-            if ($livewire instanceof BaseRelationManager) {
-                if ($livewire->getRelationship() instanceof BelongsToMany) {
-                    $this->pivotActionLog('Update Attached', $livewire, $record, $action);
-                }
+            if ($livewire instanceof BaseRelationManager && $livewire->getRelationship() instanceof BelongsToMany) {
+                $this->pivotActionLog('Update Attached', $livewire, $record, $action);
             }
         });
 
-        $this->beforeFormFilled(function (Model $record) {
+        $this->beforeFormFilled(function (Model $record): void {
             Gate::authorize('update', $record);
         });
 

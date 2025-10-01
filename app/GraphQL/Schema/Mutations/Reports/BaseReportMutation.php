@@ -17,12 +17,10 @@ abstract class BaseReportMutation extends BaseMutation
      */
     public function arguments(): array
     {
-        $arguments = [
+        return [
             new Argument('input', $this->rootInput())
                 ->required(),
         ];
-
-        return $arguments;
     }
 
     public function type(): Type

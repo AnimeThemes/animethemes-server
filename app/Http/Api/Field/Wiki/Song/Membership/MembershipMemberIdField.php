@@ -19,9 +19,6 @@ class MembershipMemberIdField extends Field implements CreatableField, Selectabl
         parent::__construct($schema, Membership::ATTRIBUTE_MEMBER);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

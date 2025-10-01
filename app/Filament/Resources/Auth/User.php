@@ -95,7 +95,7 @@ class User extends BaseResource
 
                 ImageColumn::make('avatar')
                     ->label(__('filament.fields.user.avatar'))
-                    ->defaultImageUrl(fn (UserModel $model) => $model->getFilamentAvatarUrl())
+                    ->defaultImageUrl(fn (UserModel $model): string => $model->getFilamentAvatarUrl())
                     ->circular(),
 
                 TextColumn::make(UserModel::ATTRIBUTE_NAME)
@@ -118,7 +118,7 @@ class User extends BaseResource
                     ->schema([
                         ImageEntry::make('avatar')
                             ->label(__('filament.fields.user.avatar'))
-                            ->defaultImageUrl(fn (UserModel $model) => $model->getFilamentAvatarUrl())
+                            ->defaultImageUrl(fn (UserModel $model): string => $model->getFilamentAvatarUrl())
                             ->circular(),
 
                         TextEntry::make(UserModel::ATTRIBUTE_NAME)

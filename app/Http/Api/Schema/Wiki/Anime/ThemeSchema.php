@@ -30,11 +30,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ThemeSchema extends EloquentSchema implements SearchableSchema
 {
-    final public const SORT_SEASON = 'anime.season';
+    final public const string SORT_SEASON = 'anime.season';
 
-    final public const SORT_TITLE = 'song.title';
+    final public const string SORT_TITLE = 'song.title';
 
-    final public const SORT_YEAR = 'anime.year';
+    final public const string SORT_YEAR = 'anime.year';
 
     public function type(): string
     {
@@ -96,8 +96,6 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
 
     /**
      * Resolve the owner model of the schema.
-     *
-     * @return Model
      */
     public function model(): Model
     {

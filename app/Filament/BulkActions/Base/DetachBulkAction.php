@@ -23,7 +23,7 @@ class DetachBulkAction extends BaseDetachBulkAction
 
         $this->before(fn (string $model) => Gate::authorize('forceDeleteAny', $model));
 
-        $this->after(function (DetachBulkAction $action, Collection $records) {
+        $this->after(function (DetachBulkAction $action, Collection $records): void {
             foreach ($records as $record) {
                 $this->createActionLog($action, $record);
                 $this->finishedLog();

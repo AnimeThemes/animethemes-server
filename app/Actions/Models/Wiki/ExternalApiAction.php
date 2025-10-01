@@ -13,17 +13,12 @@ use Illuminate\Support\Arr;
 
 abstract class ExternalApiAction
 {
-    /**
-     * @var array|null
-     */
     public ?array $response = null;
 
     abstract public function getSite(): ResourceSite;
 
     /**
      * Set the response after the request.
-     *
-     * @param  BelongsToMany  $resources
      */
     abstract public function handle(BelongsToMany $resources): static;
 

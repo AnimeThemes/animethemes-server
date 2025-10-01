@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -22,9 +23,6 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
         parent::__construct($schema, Page::ATTRIBUTE_BODY);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -38,7 +36,7 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria !== null && $criteria->isAllowedField($this->getKey());
+        return $criteria instanceof Criteria && $criteria->isAllowedField($this->getKey());
     }
 
     public function render(Model $model): mixed
@@ -50,12 +48,9 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria !== null && $criteria->isAllowedField($this->getKey());
+        return $criteria instanceof Criteria && $criteria->isAllowedField($this->getKey());
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

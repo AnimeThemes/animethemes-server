@@ -20,9 +20,6 @@ class ExternalEntryWatchStatusField extends EnumField implements CreatableField,
         parent::__construct($schema, ExternalEntry::ATTRIBUTE_WATCH_STATUS, ExternalEntryWatchStatus::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

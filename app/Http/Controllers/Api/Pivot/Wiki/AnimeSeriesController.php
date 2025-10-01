@@ -27,9 +27,6 @@ class AnimeSeriesController extends PivotController
         parent::__construct(Anime::class, 'anime', Series::class, 'series');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): AnimeSeriesCollection
     {
         $query = new Query($request->validated());
@@ -57,9 +54,6 @@ class AnimeSeriesController extends PivotController
         return new AnimeSeriesResource($animeSeries, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Anime $anime, Series $series, ShowAction $action): AnimeSeriesResource
     {
         $animeSeries = AnimeSeries::query()
@@ -74,9 +68,6 @@ class AnimeSeriesController extends PivotController
         return new AnimeSeriesResource($show, $query);
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Anime $anime, Series $series, DestroyAction $action): JsonResponse
     {
         $animeSeries = AnimeSeries::query()

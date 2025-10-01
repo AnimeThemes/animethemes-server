@@ -23,7 +23,6 @@ class ExternalTokenCallbackAction
     /**
      * We should store the token and the profile.
      *
-     * @param  array  $parameters
      *
      * @throws Exception
      */

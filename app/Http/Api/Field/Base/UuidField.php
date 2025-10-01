@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Base;
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\StringFilter;
@@ -31,7 +32,7 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 
     public function render(Model $model): mixed
@@ -45,11 +46,11 @@ class UuidField extends Field implements FilterableField, RenderableField, Selec
         $includeCriteria = $query->getIncludeCriteria($this->schema->type());
         if (
             $this->schema->type() === $schema->type()
-            && ($includeCriteria === null || $includeCriteria->getPaths()->isEmpty())
+            && (! $includeCriteria instanceof \App\Http\Api\Criteria\Include\Criteria || $includeCriteria->getPaths()->isEmpty())
         ) {
             $criteria = $query->getFieldCriteria($this->schema->type());
 
-            return $criteria === null || $criteria->isAllowedField($this->getKey());
+            return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
         }
 
         return true;

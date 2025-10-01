@@ -35,9 +35,6 @@ class SyncExternalProfileJob implements ShouldQueue
         }
     }
 
-    /**
-     * @return array
-     */
     public function middleware(): array
     {
         return [new ExternalProfileSiteRateLimited()];

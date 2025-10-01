@@ -38,8 +38,6 @@ class UploadScriptAction extends UploadAction
 
     public function getSchema(Schema $schema): Schema
     {
-        $model = $this->getRecord();
-
         return $schema
             ->components([
                 ...parent::getSchema($schema)->getComponents(),
@@ -75,8 +73,6 @@ class UploadScriptAction extends UploadAction
 
     /**
      * Get the file validation rules.
-     *
-     * @return array
      */
     protected function fileRules(): array
     {

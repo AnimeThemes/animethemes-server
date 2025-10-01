@@ -27,7 +27,6 @@ class FeaturedThemeEndAtField extends DateTimeTzField implements CreatableField,
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -46,7 +45,6 @@ class FeaturedThemeEndAtField extends DateTimeTzField implements CreatableField,
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

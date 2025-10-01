@@ -46,31 +46,31 @@ class FilamentPanelProvider extends PanelProvider
     {
         parent::register();
 
-        ActionGroup::configureUsing(function (ActionGroup $actionGroup) {
+        ActionGroup::configureUsing(function (ActionGroup $actionGroup): void {
             $actionGroup->dropdownPlacement('bottom-end');
         });
 
-        Column::configureUsing(function (Column $column) {
+        Column::configureUsing(function (Column $column): void {
             $column->placeholder('-');
             $column->sortable();
             $column->toggleable();
         });
 
-        Entry::configureUsing(function (Entry $entry) {
+        Entry::configureUsing(function (Entry $entry): void {
             $entry->placeholder('-');
         });
 
-        Section::configureUsing(function (Section $section) {
+        Section::configureUsing(function (Section $section): void {
             $section->columnSpanFull();
         });
 
-        Table::configureUsing(function (Table $table) {
+        Table::configureUsing(function (Table $table): void {
             $table->deferFilters(false);
             $table->deferColumnManager(false);
             $table->reorderableColumns();
         });
 
-        TextInput::configureUsing(function (TextInput $textInput) {
+        TextInput::configureUsing(function (TextInput $textInput): void {
             $textInput->trim();
         });
     }

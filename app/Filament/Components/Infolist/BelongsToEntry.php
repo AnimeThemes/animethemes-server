@@ -23,13 +23,9 @@ class BelongsToEntry extends TextEntry
      */
     public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
-        if (! is_string($resource)) {
-            throw new InvalidArgumentException('The resource must be specified.');
-        }
+        throw_unless(is_string($resource), new InvalidArgumentException('The resource must be specified.'));
 
-        if (! (($resource = new $resource) instanceof BaseResource)) {
-            throw new InvalidArgumentException('The resource must instanceof a BaseResource.');
-        }
+        throw_unless(($resource = new $resource) instanceof BaseResource, new InvalidArgumentException('The resource must instanceof a BaseResource.'));
 
         $static = app(static::class, ['name' => $relation]);
         $static->resource = $resource;
@@ -46,10 +42,10 @@ class BelongsToEntry extends TextEntry
             ->weight(FontWeight::SemiBold)
             ->color('related-link')
             ->placeholder('-')
-            ->url(function (BaseModel|Model $record) {
+            ->url(function (BaseModel|Model $record): ?string {
                 $related = $this->getRelated($record);
 
-                if ($related === null) {
+                if (! $related instanceof Model) {
                     return null;
                 }
 
@@ -58,20 +54,18 @@ class BelongsToEntry extends TextEntry
             ->formatStateUsing(function (Model $record) {
                 $related = $this->getRelated($record);
 
-                if ($related === null) {
+                if (! $related instanceof Model) {
                     return null;
                 }
 
-                $name = $this->shouldUseModelName
+                return $this->shouldUseModelName
                     ? $related->getName()
                     : $this->resource->getRecordTitle($related);
-
-                return $name;
             })
             ->tooltip(function (Model $record) {
                 $related = $this->getRelated($record);
 
-                if ($related === null) {
+                if (! $related instanceof Model) {
                     return null;
                 }
 

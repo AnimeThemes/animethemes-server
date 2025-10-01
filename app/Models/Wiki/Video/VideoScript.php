@@ -33,14 +33,14 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
     use HasFactory;
     use SoftDeletes;
 
-    final public const TABLE = 'video_scripts';
+    final public const string TABLE = 'video_scripts';
 
-    final public const ATTRIBUTE_ID = 'script_id';
-    final public const ATTRIBUTE_LINK = 'link';
-    final public const ATTRIBUTE_PATH = 'path';
-    final public const ATTRIBUTE_VIDEO = 'video_id';
+    final public const string ATTRIBUTE_ID = 'script_id';
+    final public const string ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_VIDEO = 'video_id';
 
-    final public const RELATION_VIDEO = 'video';
+    final public const string RELATION_VIDEO = 'video';
 
     /**
      * The attributes that are mass assignable.
@@ -90,7 +90,7 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
         VideoScript::ATTRIBUTE_LINK,
     ];
 
-    public function getLinkAttribute(): ?string
+    protected function getLinkAttribute(): ?string
     {
         // Necessary for 'make' factories.
         if ($this->hasAttribute(VideoScript::ATTRIBUTE_ID)) {

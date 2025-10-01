@@ -28,7 +28,7 @@ class ResolveBindableArgs extends Middleware
         }
 
         $bindableFields = collect($baseType->fieldClasses())
-            ->filter(fn (Field $field) => $field instanceof BindableField && Arr::has($args, $field->getName()))
+            ->filter(fn (Field $field): bool => $field instanceof BindableField && Arr::has($args, $field->getName()))
             ->all();
 
         /** @var Field&BindableField $field */

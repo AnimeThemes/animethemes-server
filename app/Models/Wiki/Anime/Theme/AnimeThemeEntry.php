@@ -65,26 +65,26 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
     use SoftDeletes;
     use ZnckBelongsToThrough;
 
-    final public const TABLE = 'anime_theme_entries';
+    final public const string TABLE = 'anime_theme_entries';
 
-    final public const ATTRIBUTE_EPISODES = 'episodes';
-    final public const ATTRIBUTE_ID = 'entry_id';
-    final public const ATTRIBUTE_NOTES = 'notes';
-    final public const ATTRIBUTE_NSFW = 'nsfw';
-    final public const ATTRIBUTE_SPOILER = 'spoiler';
-    final public const ATTRIBUTE_THEME = 'theme_id';
-    final public const ATTRIBUTE_VERSION = 'version';
+    final public const string ATTRIBUTE_EPISODES = 'episodes';
+    final public const string ATTRIBUTE_ID = 'entry_id';
+    final public const string ATTRIBUTE_NOTES = 'notes';
+    final public const string ATTRIBUTE_NSFW = 'nsfw';
+    final public const string ATTRIBUTE_SPOILER = 'spoiler';
+    final public const string ATTRIBUTE_THEME = 'theme_id';
+    final public const string ATTRIBUTE_VERSION = 'version';
 
-    final public const RELATION_ANIME = 'animetheme.anime';
-    final public const RELATION_ANIME_SHALLOW = 'anime';
-    final public const RELATION_RESOURCES = 'resources';
-    final public const RELATION_SONG = 'animetheme.song';
-    final public const RELATION_SONG_SHALLOW = 'song';
-    final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
-    final public const RELATION_THEME = 'animetheme';
-    final public const RELATION_THEME_GROUP = 'animetheme.group';
-    final public const RELATION_TRACKS = 'tracks';
-    final public const RELATION_VIDEOS = 'videos';
+    final public const string RELATION_ANIME = 'animetheme.anime';
+    final public const string RELATION_ANIME_SHALLOW = 'anime';
+    final public const string RELATION_RESOURCES = 'resources';
+    final public const string RELATION_SONG = 'animetheme.song';
+    final public const string RELATION_SONG_SHALLOW = 'song';
+    final public const string RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
+    final public const string RELATION_THEME = 'animetheme';
+    final public const string RELATION_THEME_GROUP = 'animetheme.group';
+    final public const string RELATION_TRACKS = 'tracks';
+    final public const string RELATION_VIDEOS = 'videos';
 
     /**
      * The attributes that are mass assignable.
@@ -145,9 +145,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -159,8 +156,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
 
     /**
      * Get the indexable data array for the model.
-     *
-     * @return array
      */
     public function toSearchableArray(): array
     {
@@ -253,8 +248,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
 
     /**
      * Get the song that owns the entry through the theme.
-     *
-     * @return BelongsToThrough
      */
     public function song(): BelongsToThrough
     {
@@ -272,8 +265,6 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
 
     /**
      * Get the anime that owns the entry through the theme.
-     *
-     * @return BelongsToThrough
      */
     public function anime(): BelongsToThrough
     {

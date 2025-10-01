@@ -27,6 +27,6 @@ class SyncExternalProfileAction extends BaseAction
 
         $this->visible(Auth::user()->hasRole(Role::ADMIN->value));
 
-        $this->action(fn (ExternalProfile $record, SyncExternalProfile $sync) => $sync->handle($record));
+        $this->action(fn (ExternalProfile $record, SyncExternalProfile $sync): ExternalProfile => $sync->handle($record));
     }
 }

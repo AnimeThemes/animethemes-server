@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\List\Playlist\Track;
 
 use App\Contracts\Http\Api\Field\SelectableField;
+use App\Http\Api\Criteria\Include\Criteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -23,11 +24,11 @@ class TrackIdField extends Field implements SelectableField
         $includeCriteria = $query->getIncludeCriteria($this->schema->type());
         if (
             $this->schema->type() === $schema->type()
-            && ($includeCriteria === null || $includeCriteria->getPaths()->isEmpty())
+            && (! $includeCriteria instanceof Criteria || $includeCriteria->getPaths()->isEmpty())
         ) {
             $criteria = $query->getFieldCriteria($this->schema->type());
 
-            return $criteria === null || $criteria->isAllowedField($this->getKey());
+            return ! $criteria instanceof \App\Http\Api\Criteria\Field\Criteria || $criteria->isAllowedField($this->getKey());
         }
 
         return true;

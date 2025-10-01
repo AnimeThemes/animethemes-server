@@ -15,9 +15,9 @@ use Illuminate\Support\Str;
 
 class OffsetCriteria extends Criteria
 {
-    final public const SIZE_PARAM = 'size';
+    final public const string SIZE_PARAM = 'size';
 
-    final public const NUMBER_PARAM = 'number';
+    final public const string NUMBER_PARAM = 'number';
 
     public function getStrategy(): PaginationStrategy
     {
@@ -26,9 +26,6 @@ class OffsetCriteria extends Criteria
 
     /**
      * Paginate the query.
-     *
-     * @param  Builder  $builder
-     * @return Collection|Paginator
      */
     public function paginate(Builder $builder): Collection|Paginator
     {

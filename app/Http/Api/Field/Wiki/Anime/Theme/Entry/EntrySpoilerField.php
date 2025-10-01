@@ -18,9 +18,6 @@ class EntrySpoilerField extends BooleanField implements CreatableField, Updatabl
         parent::__construct($schema, AnimeThemeEntry::ATTRIBUTE_SPOILER);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class EntrySpoilerField extends BooleanField implements CreatableField, Updatabl
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

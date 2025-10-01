@@ -23,13 +23,9 @@ class BelongsToColumn extends TextColumn
      */
     public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
-        if (! is_string($resource)) {
-            throw new InvalidArgumentException('The resource must be specified.');
-        }
+        throw_unless(is_string($resource), new InvalidArgumentException('The resource must be specified.'));
 
-        if (! (($resource = new $resource) instanceof BaseResource)) {
-            throw new InvalidArgumentException('The resource must instanceof a BaseResource.');
-        }
+        throw_unless(($resource = new $resource) instanceof BaseResource, new InvalidArgumentException('The resource must instanceof a BaseResource.'));
 
         $static = app(static::class, ['name' => $relation]);
         $static->resource = $resource;
@@ -47,10 +43,10 @@ class BelongsToColumn extends TextColumn
             ->label($this->resource->getModelLabel())
             ->weight(FontWeight::SemiBold)
             ->color('related-link')
-            ->url(function (Model $record) {
+            ->url(function (Model $record): ?string {
                 $related = $this->getRelated($record);
 
-                if ($related === null) {
+                if (! $related instanceof Model) {
                     return null;
                 }
 
@@ -59,7 +55,7 @@ class BelongsToColumn extends TextColumn
             ->formatStateUsing(function (Model $record) {
                 $related = $this->getRelated($record);
 
-                if ($related === null) {
+                if (! $related instanceof Model) {
                     return null;
                 }
 
@@ -72,7 +68,7 @@ class BelongsToColumn extends TextColumn
             ->tooltip(function (Model $record) {
                 $related = $this->getRelated($record);
 
-                if ($related === null) {
+                if (! $related instanceof Model) {
                     return null;
                 }
 

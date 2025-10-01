@@ -20,10 +20,6 @@ class ArtistPerformanceTab extends BaseTab
         return __('filament.tabs.artist.performance.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query

@@ -18,9 +18,6 @@ class AnimeYearField extends IntField implements CreatableField, UpdatableField
         parent::__construct($schema, Anime::ATTRIBUTE_YEAR);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         $nextYear = intval(date('Y')) + 1;
@@ -34,9 +31,6 @@ class AnimeYearField extends IntField implements CreatableField, UpdatableField
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         $nextYear = intval(date('Y')) + 1;

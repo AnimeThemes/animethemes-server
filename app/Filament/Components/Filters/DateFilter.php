@@ -52,11 +52,6 @@ class DateFilter extends Filter
         ];
     }
 
-    /**
-     * @param  Builder  $query
-     * @param  array  $data
-     * @return Builder
-     */
     public function applyToBaseQuery(Builder $query, array $data = []): Builder
     {
         return $query

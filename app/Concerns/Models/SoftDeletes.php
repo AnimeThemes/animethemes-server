@@ -45,9 +45,6 @@ trait SoftDeletes
         return $result;
     }
 
-    /**
-     * @return Builder
-     */
     public function prunable(): Builder
     {
         return static::onlyTrashed()->where(

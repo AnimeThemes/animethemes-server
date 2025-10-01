@@ -20,9 +20,6 @@ class ImageFacetField extends EnumField implements CreatableField, UpdatableFiel
         parent::__construct($schema, Image::ATTRIBUTE_FACET, ImageFacet::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class ImageFacetField extends EnumField implements CreatableField, UpdatableFiel
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

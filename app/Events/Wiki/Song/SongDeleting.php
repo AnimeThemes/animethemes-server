@@ -32,13 +32,13 @@ class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 
         if ($song->isForceDeleting()) {
             // refresh theme documents by dissociating song
-            $song->animethemes->each(function (AnimeTheme $theme) {
-                AnimeTheme::withoutEvents(function () use ($theme) {
+            $song->animethemes->each(function (AnimeTheme $theme): void {
+                AnimeTheme::withoutEvents(function () use ($theme): void {
                     $theme->song()->dissociate();
                     $theme->save();
                 });
                 $theme->searchable();
-                $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+                $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
                     $entry->searchable();
                     $entry->videos->each(fn (Video $video) => $video->searchable());
                 });

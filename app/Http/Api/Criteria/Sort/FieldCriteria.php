@@ -24,10 +24,6 @@ class FieldCriteria extends Criteria
         return $this->direction;
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     public function sort(Builder $builder, Sort $sort): Builder
     {
         $column = $sort->shouldQualifyColumn()

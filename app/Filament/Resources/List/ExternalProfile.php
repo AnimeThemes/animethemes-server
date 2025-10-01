@@ -69,9 +69,6 @@ class ExternalProfile extends BaseResource
         return ExternalProfileModel::ATTRIBUTE_NAME;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -119,11 +116,11 @@ class ExternalProfile extends BaseResource
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_profile.site.name'))
-                    ->formatStateUsing(fn (ExternalProfileSite $state) => $state->localize()),
+                    ->formatStateUsing(fn (ExternalProfileSite $state): ?string => $state->localize()),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.external_profile.visibility.name'))
-                    ->formatStateUsing(fn (ExternalProfileVisibility $state) => $state->localize()),
+                    ->formatStateUsing(fn (ExternalProfileVisibility $state): ?string => $state->localize()),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
@@ -144,11 +141,11 @@ class ExternalProfile extends BaseResource
 
                         TextEntry::make(ExternalProfileModel::ATTRIBUTE_SITE)
                             ->label(__('filament.fields.external_profile.site.name'))
-                            ->formatStateUsing(fn (ExternalProfileSite $state) => $state->localize()),
+                            ->formatStateUsing(fn (ExternalProfileSite $state): ?string => $state->localize()),
 
                         TextEntry::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
                             ->label(__('filament.fields.external_profile.visibility.name'))
-                            ->formatStateUsing(fn (ExternalProfileVisibility $state) => $state->localize()),
+                            ->formatStateUsing(fn (ExternalProfileVisibility $state): ?string => $state->localize()),
 
                         TextEntry::make(ExternalProfileModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

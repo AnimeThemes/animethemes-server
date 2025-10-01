@@ -37,7 +37,7 @@ class UploadImageAction extends BaseAction
             ImageFacet::DOCUMENT,
         ]);
 
-        $this->visible(function ($livewire) {
+        $this->visible(function ($livewire): bool {
             if (Auth::user()->cannot('create', Image::class)) {
                 return false;
             }

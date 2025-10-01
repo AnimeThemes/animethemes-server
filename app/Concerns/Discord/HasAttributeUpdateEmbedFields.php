@@ -24,9 +24,6 @@ trait HasAttributeUpdateEmbedFields
         $this->addEmbedFields($original, $model, $changedAttributes);
     }
 
-    /**
-     * @return Collection
-     */
     protected function getChangedAttributes(Model $model): Collection
     {
         return collect($model->getChanges())
@@ -45,9 +42,6 @@ trait HasAttributeUpdateEmbedFields
         return $model->getAttribute($attribute);
     }
 
-    /**
-     * @param  Collection  $changedAttributes
-     */
     protected function addEmbedFields(Model $original, Model $changed, Collection $changedAttributes): void
     {
         foreach ($changedAttributes as $attribute) {

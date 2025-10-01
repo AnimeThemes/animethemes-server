@@ -18,9 +18,6 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
         parent::__construct($schema, ExternalResource::ATTRIBUTE_EXTERNAL_ID);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

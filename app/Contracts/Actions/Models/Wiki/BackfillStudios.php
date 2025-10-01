@@ -8,8 +8,6 @@ interface BackfillStudios
 {
     /**
      * Get the mapped studios.
-     *
-     * @return array
      */
     public function getStudios(): array;
 }

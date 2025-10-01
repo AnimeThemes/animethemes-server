@@ -26,7 +26,6 @@ class ThemeGroupSlugField extends StringField implements CreatableField, Require
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -41,7 +40,6 @@ class ThemeGroupSlugField extends StringField implements CreatableField, Require
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

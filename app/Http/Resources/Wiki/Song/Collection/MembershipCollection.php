@@ -21,12 +21,11 @@ class MembershipCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Membership $membership) => new MembershipResource($membership, $this->query))->all();
+        return $this->collection->map(fn (Membership $membership): MembershipResource => new MembershipResource($membership, $this->query))->all();
     }
 }

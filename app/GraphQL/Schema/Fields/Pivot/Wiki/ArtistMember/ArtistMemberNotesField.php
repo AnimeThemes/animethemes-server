@@ -23,7 +23,6 @@ class ArtistMemberNotesField extends StringField implements CreatableField, Upda
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -36,7 +35,6 @@ class ArtistMemberNotesField extends StringField implements CreatableField, Upda
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

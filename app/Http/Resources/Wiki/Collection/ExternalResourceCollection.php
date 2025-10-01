@@ -21,14 +21,13 @@ class ExternalResourceCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (ExternalResource $resource) => new ExternalResourceResource($resource, $this->query)
+            fn (ExternalResource $resource): ExternalResourceResource => new ExternalResourceResource($resource, $this->query)
         )->all();
     }
 }

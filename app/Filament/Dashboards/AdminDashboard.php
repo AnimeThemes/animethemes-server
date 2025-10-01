@@ -23,7 +23,7 @@ class AdminDashboard extends BaseDashboard
 
     public static function canAccess(): bool
     {
-        return User::find(Filament::auth()->id())->hasRole(RoleEnum::ADMIN->value);
+        return User::query()->find(Filament::auth()->id())->hasRole(RoleEnum::ADMIN->value);
     }
 
     public static function getNavigationLabel(): string

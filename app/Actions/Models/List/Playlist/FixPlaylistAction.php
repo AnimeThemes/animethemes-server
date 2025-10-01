@@ -19,7 +19,7 @@ class FixPlaylistAction
         $this->sendMessage("Fetching tracks for playlist ID: {$playlist->getKey()}...", $context, 'info');
 
         /** @var Collection<int, PlaylistTrack> $tracks */
-        $tracks = PlaylistTrack::where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+        $tracks = PlaylistTrack::query()->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
             ->orderBy(PlaylistTrack::ATTRIBUTE_ID)
             ->get()
             ->keyBy(PlaylistTrack::ATTRIBUTE_ID);
@@ -55,13 +55,11 @@ class FixPlaylistAction
         }
 
         // Check if we have traversed all tracks; if not, some tracks are broken
-        if (count($orderedTracks) != count($tracks)) {
+        if (count($orderedTracks) !== count($tracks)) {
             $this->sendMessage('Detected broken tracks, attempting to add them to the end of the list...', $context, 'warn');
 
             // Find all tracks that were not visited (potentially broken)
-            $remainingTracks = $tracks->filter(function ($track) use ($visitedTracks) {
-                return ! isset($visitedTracks[$track->track_id]);
-            });
+            $remainingTracks = $tracks->reject(fn ($track): bool => isset($visitedTracks[$track->track_id]));
 
             // Add remaining tracks to the end, preserving the existing order as much as possible
             foreach ($remainingTracks as $remainingTrack) {
@@ -71,7 +69,7 @@ class FixPlaylistAction
 
         // Update the previous_id and next_id for all tracks in the correct order
         $this->sendMessage('Updating track links (previous_id and next_id)...', $context, 'info');
-        DB::transaction(function () use ($orderedTracks, $tracks, $playlist, $context) {
+        DB::transaction(function () use ($orderedTracks, $tracks, $playlist, $context): void {
             $previous_id = null;
 
             foreach ($orderedTracks as $index => $track_id) {

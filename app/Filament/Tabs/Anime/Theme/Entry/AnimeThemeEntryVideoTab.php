@@ -20,10 +20,6 @@ class AnimeThemeEntryVideoTab extends BaseTab
         return __('filament.tabs.anime.theme.entry.video.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query->whereDoesntHave(AnimeThemeEntry::RELATION_VIDEOS);

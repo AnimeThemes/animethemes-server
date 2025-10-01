@@ -19,9 +19,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
         parent::__construct($schema, Playlist::ATTRIBUTE_DESCRIPTION);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

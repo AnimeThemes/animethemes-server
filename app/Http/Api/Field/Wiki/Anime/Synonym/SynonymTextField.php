@@ -18,9 +18,6 @@ class SynonymTextField extends StringField implements CreatableField, UpdatableF
         parent::__construct($schema, AnimeSynonym::ATTRIBUTE_TEXT);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class SynonymTextField extends StringField implements CreatableField, UpdatableF
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

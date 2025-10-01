@@ -27,7 +27,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -41,7 +40,6 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

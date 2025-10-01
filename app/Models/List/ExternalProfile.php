@@ -49,20 +49,20 @@ class ExternalProfile extends BaseModel
     use Prunable;
     use Searchable;
 
-    final public const TABLE = 'external_profiles';
+    final public const string TABLE = 'external_profiles';
 
-    final public const ATTRIBUTE_ID = 'profile_id';
-    final public const ATTRIBUTE_EXTERNAL_USER_ID = 'external_user_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SITE = 'site';
-    final public const ATTRIBUTE_VISIBILITY = 'visibility';
-    final public const ATTRIBUTE_USER = 'user_id';
-    final public const ATTRIBUTE_SYNCED_AT = 'synced_at';
+    final public const string ATTRIBUTE_ID = 'profile_id';
+    final public const string ATTRIBUTE_EXTERNAL_USER_ID = 'external_user_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SITE = 'site';
+    final public const string ATTRIBUTE_VISIBILITY = 'visibility';
+    final public const string ATTRIBUTE_USER = 'user_id';
+    final public const string ATTRIBUTE_SYNCED_AT = 'synced_at';
 
-    final public const RELATION_ANIMES = 'externalentries.anime';
-    final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
-    final public const RELATION_EXTERNAL_TOKEN = 'externaltoken';
-    final public const RELATION_USER = 'user';
+    final public const string RELATION_ANIMES = 'externalentries.anime';
+    final public const string RELATION_EXTERNAL_ENTRIES = 'externalentries';
+    final public const string RELATION_EXTERNAL_TOKEN = 'externaltoken';
+    final public const string RELATION_USER = 'user';
 
     /**
      * Is auditing disabled?
@@ -137,8 +137,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Only get the attributes as an array to prevent recursive toArray() calls.
-     *
-     * @return array
      */
     public function toSearchableArray(): array
     {
@@ -218,8 +216,6 @@ class ExternalProfile extends BaseModel
 
     /**
      * Get the prunable model query.
-     *
-     * @return Builder
      */
     public function prunable(): Builder
     {

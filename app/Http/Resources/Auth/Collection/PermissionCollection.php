@@ -21,12 +21,11 @@ class PermissionCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Permission $permission) => new PermissionResource($permission, $this->query))->all();
+        return $this->collection->map(fn (Permission $permission): PermissionResource => new PermissionResource($permission, $this->query))->all();
     }
 }

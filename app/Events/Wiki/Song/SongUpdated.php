@@ -36,9 +36,9 @@ class SongUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
     {
         $song = $this->getModel()->load([Song::RELATION_VIDEOS]);
 
-        $song->animethemes->each(function (AnimeTheme $theme) {
+        $song->animethemes->each(function (AnimeTheme $theme): void {
             $theme->searchable();
-            $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+            $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
                 $entry->searchable();
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });

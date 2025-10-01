@@ -29,9 +29,6 @@ class SynonymController extends BaseController
         parent::__construct(AnimeSynonym::class, 'animesynonym');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): SynonymCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class SynonymController extends BaseController
         return new SynonymResource($synonym, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): SynonymResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class SynonymController extends BaseController
         return new SynonymResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): SynonymResource
     {
         $updated = $action->update($animesynonym, $request->validated());
@@ -75,9 +66,6 @@ class SynonymController extends BaseController
         return new SynonymResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(AnimeSynonym $animesynonym, DestroyAction $action): SynonymResource
     {
         $deleted = $action->destroy($animesynonym);
@@ -85,9 +73,6 @@ class SynonymController extends BaseController
         return new SynonymResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(AnimeSynonym $animesynonym, RestoreAction $action): SynonymResource
     {
         $restored = $action->restore($animesynonym);
@@ -95,9 +80,6 @@ class SynonymController extends BaseController
         return new SynonymResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(AnimeSynonym $animesynonym, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($animesynonym);

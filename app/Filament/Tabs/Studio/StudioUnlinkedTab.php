@@ -20,10 +20,6 @@ class StudioUnlinkedTab extends BaseTab
         return __('filament.tabs.studio.unlinked.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query->whereDoesntHave(Studio::RELATION_ANIME);

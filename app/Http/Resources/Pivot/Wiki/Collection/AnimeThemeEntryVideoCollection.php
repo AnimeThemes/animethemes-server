@@ -21,12 +21,11 @@ class AnimeThemeEntryVideoCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (AnimeThemeEntryVideo $entryVideo) => new AnimeThemeEntryVideoResource($entryVideo, $this->query))->all();
+        return $this->collection->map(fn (AnimeThemeEntryVideo $entryVideo): AnimeThemeEntryVideoResource => new AnimeThemeEntryVideoResource($entryVideo, $this->query))->all();
     }
 }

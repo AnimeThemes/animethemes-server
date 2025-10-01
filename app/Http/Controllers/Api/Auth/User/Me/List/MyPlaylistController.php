@@ -24,9 +24,6 @@ class MyPlaylistController extends BaseController
         parent::__construct(Playlist::class, 'playlist');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
     {
         $query = new Query($request->validated());

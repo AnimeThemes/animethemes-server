@@ -29,9 +29,6 @@ class MembershipController extends BaseController
         parent::__construct(Membership::class, 'membership');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): MembershipCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class MembershipController extends BaseController
         return new MembershipResource($membership, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Membership $membership, ShowAction $action): MembershipResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class MembershipController extends BaseController
         return new MembershipResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Membership $membership, UpdateAction $action): MembershipResource
     {
         $updated = $action->update($membership, $request->validated());
@@ -75,9 +66,6 @@ class MembershipController extends BaseController
         return new MembershipResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Membership $membership, DestroyAction $action): MembershipResource
     {
         $deleted = $action->destroy($membership);
@@ -85,9 +73,6 @@ class MembershipController extends BaseController
         return new MembershipResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Membership $membership, RestoreAction $action): MembershipResource
     {
         $restored = $action->restore($membership);
@@ -95,9 +80,6 @@ class MembershipController extends BaseController
         return new MembershipResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Membership $membership, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($membership);

@@ -25,6 +25,6 @@ class FixPlaylistAction extends BaseAction
 
         $this->visible(Auth::user()->hasRole(Role::ADMIN->value));
 
-        $this->action(fn (Playlist $record, FixPlaylist $fix) => $fix->handle($record));
+        $this->action(fn (Playlist $record, FixPlaylist $fix): int => $fix->handle($record));
     }
 }

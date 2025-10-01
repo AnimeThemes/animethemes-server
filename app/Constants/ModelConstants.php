@@ -6,5 +6,5 @@ namespace App\Constants;
 
 class ModelConstants
 {
-    final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
+    final public const string ATTRIBUTE_DELETED_AT = 'deleted_at';
 }

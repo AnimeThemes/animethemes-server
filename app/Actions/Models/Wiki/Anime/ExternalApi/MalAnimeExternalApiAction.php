@@ -47,8 +47,6 @@ class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStu
 
     /**
      * Get the mapped studios.
-     *
-     * @return array
      */
     public function getStudios(): array
     {

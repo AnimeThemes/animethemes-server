@@ -10,30 +10,24 @@ class FloatFilter extends Filter
 {
     /**
      * Convert filter values to floats.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            fn (string $filterValue) => filter_var($filterValue, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE),
+            fn (string $filterValue): ?float => filter_var($filterValue, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE),
             $filterValues
         );
     }
 
     /**
      * Get only filter values that are floats.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                fn (string $filterValue) => filter_var($filterValue, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE) !== null
+                fn (string $filterValue): bool => filter_var($filterValue, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE) !== null
             )
         );
     }
@@ -41,8 +35,6 @@ class FloatFilter extends Filter
     /**
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
-     *
-     * @param  array  $filterValues
      */
     public function isAllFilterValues(array $filterValues): bool
     {
@@ -51,8 +43,6 @@ class FloatFilter extends Filter
 
     /**
      * Get the validation rules for the filter.
-     *
-     * @return array
      */
     public function getRules(): array
     {

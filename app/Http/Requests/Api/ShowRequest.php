@@ -15,15 +15,13 @@ class ShowRequest extends ReadRequest
 {
     /**
      * Get the filter validation rules.
-     *
-     * @return array
      */
     protected function getFilterRules(): array
     {
         $schema = $this->schema();
 
         $allowedIncludes = $schema->allowedIncludes();
-        if (empty($allowedIncludes)) {
+        if ($allowedIncludes === []) {
             return $this->prohibit(FilterParser::param());
         }
 
@@ -38,7 +36,7 @@ class ShowRequest extends ReadRequest
             $types = array_merge($types, $relationSchemaFormattedFilters);
 
             $param = Str::of(FilterParser::param())->append('.')->append($relationSchema->type())->__toString();
-            $rules = $rules + $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
+            $rules += $this->restrictAllowedTypes($param, $relationSchemaFormattedFilters);
         }
 
         return $rules + $this->restrictAllowedTypes(FilterParser::param(), array_unique($types));
@@ -46,8 +44,6 @@ class ShowRequest extends ReadRequest
 
     /**
      * Get the paging validation rules.
-     *
-     * @return array
      */
     protected function getPagingRules(): array
     {
@@ -56,8 +52,6 @@ class ShowRequest extends ReadRequest
 
     /**
      * Get the search validation rules.
-     *
-     * @return array
      */
     protected function getSearchRules(): array
     {
@@ -66,15 +60,13 @@ class ShowRequest extends ReadRequest
 
     /**
      * Get the sort validation rules.
-     *
-     * @return array
      */
     protected function getSortRules(): array
     {
         $schema = $this->schema();
 
         $allowedIncludes = $schema->allowedIncludes();
-        if (empty($allowedIncludes)) {
+        if ($allowedIncludes === []) {
             return $this->prohibit(SortParser::param());
         }
 
@@ -86,7 +78,7 @@ class ShowRequest extends ReadRequest
             $types[] = $relationSchema->type();
 
             $param = Str::of(SortParser::param())->append('.')->append($relationSchema->type())->__toString();
-            $rules = $rules + $this->restrictAllowedSortValues($param, $relationSchema);
+            $rules += $this->restrictAllowedSortValues($param, $relationSchema);
         }
 
         return $rules + $this->restrictAllowedTypes(SortParser::param(), $types);

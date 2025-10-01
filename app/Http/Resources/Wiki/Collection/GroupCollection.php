@@ -21,12 +21,11 @@ class GroupCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Group $group) => new GroupResource($group, $this->query))->all();
+        return $this->collection->map(fn (Group $group): GroupResource => new GroupResource($group, $this->query))->all();
     }
 }

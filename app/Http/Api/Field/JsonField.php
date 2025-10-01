@@ -6,6 +6,7 @@ namespace App\Http\Api\Field;
 
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ abstract class JsonField extends Field implements RenderableField, SelectableFie
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 
     public function render(Model $model): mixed
@@ -28,6 +29,6 @@ abstract class JsonField extends Field implements RenderableField, SelectableFie
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 }

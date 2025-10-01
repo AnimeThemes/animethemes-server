@@ -20,9 +20,6 @@ class VideoOverlapField extends EnumField implements CreatableField, UpdatableFi
         parent::__construct($schema, Video::ATTRIBUTE_OVERLAP, VideoOverlap::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class VideoOverlapField extends EnumField implements CreatableField, UpdatableFi
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

@@ -29,9 +29,6 @@ class AnimeController extends BaseController
         parent::__construct(Anime::class, 'anime');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): AnimeCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class AnimeController extends BaseController
         return new AnimeResource($anime, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Anime $anime, ShowAction $action): AnimeResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class AnimeController extends BaseController
         return new AnimeResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): AnimeResource
     {
         $updated = $action->update($anime, $request->validated());
@@ -75,9 +66,6 @@ class AnimeController extends BaseController
         return new AnimeResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Anime $anime, DestroyAction $action): AnimeResource
     {
         $deleted = $action->destroy($anime);
@@ -85,9 +73,6 @@ class AnimeController extends BaseController
         return new AnimeResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Anime $anime, RestoreAction $action): AnimeResource
     {
         $restored = $action->restore($anime);
@@ -95,9 +80,6 @@ class AnimeController extends BaseController
         return new AnimeResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Anime $anime, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($anime);

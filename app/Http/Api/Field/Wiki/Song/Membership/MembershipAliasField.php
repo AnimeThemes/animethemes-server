@@ -18,9 +18,6 @@ class MembershipAliasField extends StringField implements CreatableField, Updata
         parent::__construct($schema, Membership::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class MembershipAliasField extends StringField implements CreatableField, Updata
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

@@ -33,15 +33,15 @@ class Group extends BaseModel implements SoftDeletable
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'groups';
+    final public const string TABLE = 'groups';
 
-    final public const ATTRIBUTE_ID = 'group_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_ID = 'group_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SLUG = 'slug';
 
-    final public const RELATION_ANIME = 'animethemes.anime';
-    final public const RELATION_THEMES = 'animethemes';
-    final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
+    final public const string RELATION_ANIME = 'animethemes.anime';
+    final public const string RELATION_THEMES = 'animethemes';
+    final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

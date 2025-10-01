@@ -13,7 +13,6 @@ class UpdateAction
 {
     /**
      * @param  TModel  $model
-     * @param  array  $parameters
      * @return TModel
      */
     public function update(Model $model, array $parameters): Model

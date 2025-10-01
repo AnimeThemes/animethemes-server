@@ -35,7 +35,7 @@ class AttachImageAction extends BaseAction
         $this->label(__('filament.actions.models.wiki.attach_image.name'));
         $this->icon(Heroicon::OutlinedPhoto);
 
-        $this->visible(function ($livewire) {
+        $this->visible(function ($livewire): bool {
             if (Auth::user()->cannot('create', Image::class)) {
                 return false;
             }

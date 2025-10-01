@@ -26,7 +26,7 @@ abstract class BaseController extends Controller implements InteractsWithSchema
      */
     public function schema(): Schema
     {
-        $schemaClass = Str::of(get_class($this))
+        $schemaClass = Str::of(static::class)
             ->replace('Controllers\\Api', 'Api\\Schema')
             ->replace('Controller', 'Schema')
             ->__toString();

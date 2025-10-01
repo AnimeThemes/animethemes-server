@@ -6,6 +6,7 @@ namespace App\Actions\Http\Api;
 
 use App\Concerns\Actions\Http\Api\ConstrainsEagerLoads;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\EloquentSchema;
@@ -53,7 +54,7 @@ class IndexAction
         // paginate
         $paginationCriteria = $query->getPagingCriteria(PaginationStrategy::OFFSET);
 
-        return $paginationCriteria !== null
+        return $paginationCriteria instanceof Criteria
             ? $paginationCriteria->paginate($builder)
             : $builder->get();
     }
@@ -65,7 +66,7 @@ class IndexAction
     ): Collection|Paginator {
         $search = $this->getSearch();
 
-        if ($search !== null && $search->shouldSearch($query) && $schema instanceof EloquentSchema) {
+        if ($search instanceof Search && $search->shouldSearch($query) && $schema instanceof EloquentSchema) {
             return $search->search($query, $schema, $paginationStrategy);
         }
 

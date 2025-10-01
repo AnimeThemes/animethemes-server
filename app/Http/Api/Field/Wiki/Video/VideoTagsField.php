@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Wiki\Video;
 
 use App\Contracts\Http\Api\Field\RenderableField;
+use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -22,7 +23,7 @@ class VideoTagsField extends Field implements RenderableField
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return ! $criteria instanceof Criteria || $criteria->isAllowedField($this->getKey());
     }
 
     public function render(Model $model): string

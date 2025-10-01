@@ -29,8 +29,8 @@ class ThemeDeleting extends BaseEvent implements CascadesDeletesEvent
     {
         $theme = $this->getModel()->load(AnimeTheme::RELATION_VIDEOS);
 
-        $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
-            AnimeThemeEntry::withoutEvents(function () use ($entry) {
+        $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
+            AnimeThemeEntry::withoutEvents(function () use ($entry): void {
                 $entry->unsearchable();
                 $entry->delete();
 

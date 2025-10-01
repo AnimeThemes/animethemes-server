@@ -27,7 +27,7 @@ class EnumType extends PhpEnumType implements TypeConvertible
         }
 
         if ($value instanceof UnitEnum) {
-            return (string) $value->name;
+            return $value->name;
         }
 
         return (string) $value;

@@ -31,15 +31,15 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
     {
         $anime = $this->getModel()->load([Anime::RELATION_SYNONYMS, Anime::RELATION_VIDEOS]);
 
-        $anime->animesynonyms->each(function (AnimeSynonym $synonym) {
-            AnimeSynonym::withoutEvents(function () use ($synonym) {
+        $anime->animesynonyms->each(function (AnimeSynonym $synonym): void {
+            AnimeSynonym::withoutEvents(function () use ($synonym): void {
                 $synonym->unsearchable();
                 $synonym->delete();
             });
         });
 
-        $anime->animethemes->each(function (AnimeTheme $theme) {
-            AnimeTheme::withoutEvents(function () use ($theme) {
+        $anime->animethemes->each(function (AnimeTheme $theme): void {
+            AnimeTheme::withoutEvents(function () use ($theme): void {
                 Event::until(new ThemeDeleting($theme));
                 $theme->unsearchable();
                 $theme->delete();

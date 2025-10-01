@@ -55,27 +55,27 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'anime_themes';
+    final public const string TABLE = 'anime_themes';
 
-    final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_ID = 'theme_id';
-    final public const ATTRIBUTE_GROUP = 'group_id';
-    final public const ATTRIBUTE_SEQUENCE = 'sequence';
-    final public const ATTRIBUTE_SLUG = 'slug';
-    final public const ATTRIBUTE_SONG = 'song_id';
-    final public const ATTRIBUTE_TYPE = 'type';
+    final public const string ATTRIBUTE_ANIME = 'anime_id';
+    final public const string ATTRIBUTE_ID = 'theme_id';
+    final public const string ATTRIBUTE_GROUP = 'group_id';
+    final public const string ATTRIBUTE_SEQUENCE = 'sequence';
+    final public const string ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_SONG = 'song_id';
+    final public const string ATTRIBUTE_TYPE = 'type';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_ARTISTS = 'song.artists';
-    final public const RELATION_AUDIO = 'animethemeentries.videos.audio';
-    final public const RELATION_ENTRIES = 'animethemeentries';
-    final public const RELATION_GROUP = 'group';
-    final public const RELATION_IMAGES = 'anime.images';
-    final public const RELATION_PERFORMANCES = 'song.performances';
-    final public const RELATION_PERFORMANCES_ARTISTS = 'song.performances.artist';
-    final public const RELATION_SONG = 'song';
-    final public const RELATION_SYNONYMS = 'anime.animesynonyms';
-    final public const RELATION_VIDEOS = 'animethemeentries.videos';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_ARTISTS = 'song.artists';
+    final public const string RELATION_AUDIO = 'animethemeentries.videos.audio';
+    final public const string RELATION_ENTRIES = 'animethemeentries';
+    final public const string RELATION_GROUP = 'group';
+    final public const string RELATION_IMAGES = 'anime.images';
+    final public const string RELATION_PERFORMANCES = 'song.performances';
+    final public const string RELATION_PERFORMANCES_ARTISTS = 'song.performances.artist';
+    final public const string RELATION_SONG = 'song';
+    final public const string RELATION_SYNONYMS = 'anime.animesynonyms';
+    final public const string RELATION_VIDEOS = 'animethemeentries.videos';
 
     /**
      * The "boot" method of the model.
@@ -134,9 +134,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -149,8 +146,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 
     /**
      * Get the indexable data array for the model.
-     *
-     * @return array
      */
     public function toSearchableArray(): array
     {

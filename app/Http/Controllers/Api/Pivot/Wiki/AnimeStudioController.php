@@ -27,9 +27,6 @@ class AnimeStudioController extends PivotController
         parent::__construct(Anime::class, 'anime', Studio::class, 'studio');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): AnimeStudioCollection
     {
         $query = new Query($request->validated());
@@ -57,9 +54,6 @@ class AnimeStudioController extends PivotController
         return new AnimeStudioResource($animeStudio, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Anime $anime, Studio $studio, ShowAction $action): AnimeStudioResource
     {
         $animeStudio = AnimeStudio::query()
@@ -74,9 +68,6 @@ class AnimeStudioController extends PivotController
         return new AnimeStudioResource($show, $query);
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Anime $anime, Studio $studio, DestroyAction $action): JsonResponse
     {
         $animeStudio = AnimeStudio::query()

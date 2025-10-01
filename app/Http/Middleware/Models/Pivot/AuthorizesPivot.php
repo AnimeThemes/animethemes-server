@@ -35,9 +35,7 @@ class AuthorizesPivot
             default => false,
         };
 
-        if (! $isAuthorized) {
-            abort(403);
-        }
+        abort_unless($isAuthorized, 403);
 
         return $next($request);
     }

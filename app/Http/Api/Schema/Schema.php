@@ -38,8 +38,8 @@ abstract class Schema implements SchemaInterface
     public function filters(): array
     {
         return collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof FilterableField)
-            ->map(fn (FilterableField $field) => $field->getFilter())
+            ->filter(fn (Field $field): bool => $field instanceof FilterableField)
+            ->map(fn (FilterableField $field): Filter => $field->getFilter())
             ->push(new TrashedFilter())
             ->all();
     }
@@ -50,8 +50,8 @@ abstract class Schema implements SchemaInterface
     public function sorts(): array
     {
         return collect($this->fields())
-            ->filter(fn (Field $field) => $field instanceof SortableField)
-            ->map(fn (SortableField $field) => $field->getSort())
+            ->filter(fn (Field $field): bool => $field instanceof SortableField)
+            ->map(fn (SortableField $field): Sort => $field->getSort())
             ->push(new RandomSort())
             ->all();
     }
@@ -61,7 +61,7 @@ abstract class Schema implements SchemaInterface
      */
     public function relation(string $path): ?Schema
     {
-        $relationInclude = Arr::first($this->allowedIncludes(), fn (AllowedInclude $include) => $include->path() === $path);
+        $relationInclude = Arr::first($this->allowedIncludes(), fn (AllowedInclude $include): bool => $include->path() === $path);
 
         /** @phpstan-ignore-next-line */
         return $relationInclude?->schema();

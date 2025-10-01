@@ -20,7 +20,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function viewAny(?User $user, $playlist = null): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value)
+            return $user instanceof User && $user->hasRole(RoleEnum::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
@@ -28,7 +28,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist ??= request()->route('playlist');
 
-        if ($user !== null) {
+        if ($user instanceof User) {
             return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
                 ? Response::allow()
@@ -47,12 +47,12 @@ class PlaylistTrackPolicy extends BasePolicy
     public function view(?User $user, Model $track, $playlist = null): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value)
+            return $user instanceof User && $user->hasRole(RoleEnum::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
 
-        if ($user !== null) {
+        if ($user instanceof User) {
             return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
                 ? Response::allow()
                 : Response::deny();

@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\App;
 
 trait ReconcilesVideoRepositories
 {
-    /**
-     * @param  array  $data
-     */
     protected function getSourceRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(VideoSourceRepository::class);
     }
 
-    /**
-     * @param  array  $data
-     */
     protected function getDestinationRepository(array $data = []): ?RepositoryInterface
     {
         return App::make(VideoDestinationRepository::class);

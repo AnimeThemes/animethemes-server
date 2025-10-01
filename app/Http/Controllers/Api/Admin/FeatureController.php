@@ -24,9 +24,6 @@ class FeatureController extends BaseController
         parent::__construct(Feature::class, 'feature');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): FeatureCollection
     {
         $query = new Query($request->validated());
@@ -38,9 +35,6 @@ class FeatureController extends BaseController
         return new FeatureCollection($features, $query);
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Feature $feature, ShowAction $action): FeatureResource
     {
         $query = new Query($request->validated());
@@ -50,9 +44,6 @@ class FeatureController extends BaseController
         return new FeatureResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Feature $feature, UpdateAction $action): FeatureResource
     {
         $updated = $action->update($feature, $request->validated());

@@ -34,7 +34,7 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
-        return fn (Dump $first, Dump $second) => [$first->path] <=> [$second->path];
+        return fn (Dump $first, Dump $second): int => [$first->path] <=> [$second->path];
     }
 
     /**
@@ -52,13 +52,11 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForUpdate(): Closure
     {
-        return fn () => 0;
+        return fn (): int => 0;
     }
 
     /**
      * Get source model that has been updated for destination model.
-     *
-     * @param  Collection  $sourceModels
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
@@ -67,10 +65,6 @@ class ReconcileDumpRepositoriesAction extends ReconcileRepositoriesAction
 
     /**
      * Get reconciliation results.
-     *
-     * @param  Collection  $created
-     * @param  Collection  $deleted
-     * @param  Collection  $updated
      */
     protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
     {

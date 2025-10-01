@@ -25,8 +25,6 @@ abstract class ReadRequest extends BaseRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -42,8 +40,6 @@ abstract class ReadRequest extends BaseRequest
 
     /**
      * Get the field validation rules.
-     *
-     * @return array
      */
     protected function getFieldRules(): array
     {
@@ -54,7 +50,7 @@ abstract class ReadRequest extends BaseRequest
         foreach ($schema->allowedIncludes() as $allowedInclude) {
             $relationSchema = $allowedInclude->schema();
             $types[] = $relationSchema->type();
-            $rules = $rules + $this->restrictAllowedFieldValues($relationSchema);
+            $rules += $this->restrictAllowedFieldValues($relationSchema);
         }
 
         return $rules + $this->restrictAllowedTypes(FieldParser::param(), $types);
@@ -62,15 +58,11 @@ abstract class ReadRequest extends BaseRequest
 
     /**
      * Get the filter validation rules.
-     *
-     * @return array
      */
     abstract protected function getFilterRules(): array;
 
     /**
      * Get include validation rules.
-     *
-     * @return array
      */
     protected function getIncludeRules(): array
     {
@@ -85,22 +77,16 @@ abstract class ReadRequest extends BaseRequest
 
     /**
      * Get the paging validation rules.
-     *
-     * @return array
      */
     abstract protected function getPagingRules(): array;
 
     /**
      * Get the search validation rules.
-     *
-     * @return array
      */
     abstract protected function getSearchRules(): array;
 
     /**
      * Get the sort validation rules.
-     *
-     * @return array
      */
     abstract protected function getSortRules(): array;
 }

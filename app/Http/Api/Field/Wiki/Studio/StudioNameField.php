@@ -18,9 +18,6 @@ class StudioNameField extends StringField implements CreatableField, UpdatableFi
         parent::__construct($schema, Studio::ATTRIBUTE_NAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class StudioNameField extends StringField implements CreatableField, UpdatableFi
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

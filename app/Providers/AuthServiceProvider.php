@@ -25,9 +25,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->rules('confirmed')
         );
 
-        ResetPassword::createUrlUsing(function (mixed $user, string $token) {
-            return url(Config::get('wiki.reset_password'))."?token=$token";
-        });
+        ResetPassword::createUrlUsing(fn (mixed $user, string $token) => url(Config::get('wiki.reset_password'))."?token=$token");
 
         Gate::guessPolicyNamesUsing(
             fn (string $modelClass) => Str::of($modelClass)

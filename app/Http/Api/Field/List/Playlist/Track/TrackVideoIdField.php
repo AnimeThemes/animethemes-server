@@ -26,9 +26,6 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
         parent::__construct($schema, PlaylistTrack::ATTRIBUTE_VIDEO);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -51,9 +48,6 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         $entryId = $this->resolveEntryId($request);

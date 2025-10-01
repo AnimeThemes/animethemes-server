@@ -18,9 +18,6 @@ class FieldCriteria extends Criteria
         $this->direction = $criteria->getDirection();
     }
 
-    /**
-     * @return array
-     */
     public function sort(Sort $sort): array
     {
         return [$sort->getColumn() => $this->direction->value];

@@ -21,7 +21,6 @@ class ExternalProfileSyncedNotification extends Notification implements Arrayabl
     /**
      * Get the notification's delivery channels.
      *
-     * @return array
      *
      * @noinspection PhpUnusedParameterInspection
      */

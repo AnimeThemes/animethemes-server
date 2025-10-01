@@ -22,17 +22,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeThemeEntryVideo extends BasePivot
 {
-    final public const TABLE = 'anime_theme_entry_video';
+    final public const string TABLE = 'anime_theme_entry_video';
 
-    final public const ATTRIBUTE_ENTRY = 'entry_id';
-    final public const ATTRIBUTE_VIDEO = 'video_id';
+    final public const string ATTRIBUTE_ENTRY = 'entry_id';
+    final public const string ATTRIBUTE_VIDEO = 'video_id';
 
-    final public const RELATION_ANIME = 'animethemeentry.animetheme.anime';
-    final public const RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
-    final public const RELATION_ENTRY = 'animethemeentry';
-    final public const RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
-    final public const RELATION_SONG = 'animethemeentry.animetheme.song';
-    final public const RELATION_VIDEO = 'video';
+    final public const string RELATION_ANIME = 'animethemeentry.animetheme.anime';
+    final public const string RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
+    final public const string RELATION_ENTRY = 'animethemeentry';
+    final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
+    final public const string RELATION_SONG = 'animethemeentry.animetheme.song';
+    final public const string RELATION_VIDEO = 'video';
 
     /**
      * The table associated with the model.

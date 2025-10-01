@@ -34,9 +34,6 @@ class SendDiscordNotificationJob implements ShouldQueue
         }
     }
 
-    /**
-     * @return array
-     */
     public function middleware(): array
     {
         return [new RateLimited()];

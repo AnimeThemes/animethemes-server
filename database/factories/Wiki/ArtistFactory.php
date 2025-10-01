@@ -50,7 +50,7 @@ class ArtistFactory extends Factory
     public function jsonApiResource(): static
     {
         return $this->afterCreating(
-            function (Artist $artist) {
+            function (Artist $artist): void {
                 Song::factory()
                     ->hasAttached($artist)
                     ->has(AnimeTheme::factory()->for(Anime::factory()))

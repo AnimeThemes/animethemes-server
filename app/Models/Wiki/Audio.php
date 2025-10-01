@@ -40,17 +40,17 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     use Reportable;
     use SoftDeletes;
 
-    final public const TABLE = 'audios';
+    final public const string TABLE = 'audios';
 
-    final public const ATTRIBUTE_BASENAME = 'basename';
-    final public const ATTRIBUTE_FILENAME = 'filename';
-    final public const ATTRIBUTE_ID = 'audio_id';
-    final public const ATTRIBUTE_LINK = 'link';
-    final public const ATTRIBUTE_MIMETYPE = 'mimetype';
-    final public const ATTRIBUTE_PATH = 'path';
-    final public const ATTRIBUTE_SIZE = 'size';
+    final public const string ATTRIBUTE_BASENAME = 'basename';
+    final public const string ATTRIBUTE_FILENAME = 'filename';
+    final public const string ATTRIBUTE_ID = 'audio_id';
+    final public const string ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_MIMETYPE = 'mimetype';
+    final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_SIZE = 'size';
 
-    final public const RELATION_VIDEOS = 'videos';
+    final public const string RELATION_VIDEOS = 'videos';
 
     /**
      * The attributes that are mass assignable.
@@ -103,7 +103,7 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
         Audio::ATTRIBUTE_LINK,
     ];
 
-    public function getLinkAttribute(): ?string
+    protected function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
             return route('audio.show', $this);

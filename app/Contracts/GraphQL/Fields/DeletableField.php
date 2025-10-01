@@ -8,7 +8,6 @@ interface DeletableField
 {
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getDeleteRules(array $args): array;
 }

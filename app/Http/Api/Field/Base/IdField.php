@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Base;
 
+use App\Http\Api\Criteria\Include\Criteria;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -22,7 +23,7 @@ class IdField extends IntField
         $includeCriteria = $query->getIncludeCriteria($this->schema->type());
         if (
             $this->schema->type() === $schema->type()
-            && ($includeCriteria === null || $includeCriteria->getPaths()->isEmpty())
+            && (! $includeCriteria instanceof Criteria || $includeCriteria->getPaths()->isEmpty())
         ) {
             return parent::shouldSelect($query, $schema);
         }

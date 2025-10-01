@@ -20,9 +20,6 @@ class SynonymTypeField extends EnumField implements CreatableField, UpdatableFie
         parent::__construct($schema, AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::class);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class SynonymTypeField extends EnumField implements CreatableField, UpdatableFie
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

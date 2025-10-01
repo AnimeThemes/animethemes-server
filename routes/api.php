@@ -261,6 +261,6 @@ apiResource('animethemeentry', EntryController::class);
 // Video Routes
 apiResource('videoscript', ScriptController::class);
 
-Route::fallback(function () {
+Route::fallback(function (): void {
     abort(404);
 });

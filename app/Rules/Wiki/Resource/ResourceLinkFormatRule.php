@@ -17,15 +17,11 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
 {
     /**
      * The data under validation.
-     *
-     * @var array
      */
     protected array $data = [];
 
     /**
      * Set the data under validation.
-     *
-     * @param  array  $data
      */
     public function setData(array $data): self
     {
@@ -41,7 +37,7 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
      */
     protected function site(): ?ResourceSite
     {
-        if ($this->site !== null) {
+        if ($this->site instanceof ResourceSite) {
             return $this->site;
         }
 
@@ -59,7 +55,7 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $site = $this->site();
-        if ($site === null) {
+        if (! $site instanceof ResourceSite) {
             return;
         }
 

@@ -22,9 +22,9 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class FindAnimeByExternalSiteQuery extends BaseQuery
 {
-    final public const ATTRIBUTE_SITE = 'site';
-    final public const ATTRIBUTE_ID = 'id';
-    final public const ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_SITE = 'site';
+    final public const string ATTRIBUTE_ID = 'id';
+    final public const string ATTRIBUTE_LINK = 'link';
 
     public function __construct()
     {
@@ -77,15 +77,11 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
         $externalId = Arr::get($args, self::ATTRIBUTE_ID);
         $link = Arr::get($args, self::ATTRIBUTE_LINK);
 
-        if (is_null($externalId) && is_null($link)) {
-            throw new ClientValidationException('At least "id" or "link" is required.');
-        }
+        throw_if(is_null($externalId) && is_null($link), new ClientValidationException('At least "id" or "link" is required.'));
 
-        if (count($externalId) > 100) {
-            throw new ClientValidationException('The "Id" parameter cannot contain more than 100 integer values.');
-        }
+        throw_if(count($externalId) > 100, new ClientValidationException('The "Id" parameter cannot contain more than 100 integer values.'));
 
-        $builder->whereRelation(Anime::RELATION_RESOURCES, function (Builder $query) use ($site, $externalId, $link) {
+        $builder->whereRelation(Anime::RELATION_RESOURCES, function (Builder $query) use ($site, $externalId, $link): void {
             $query->where(ExternalResource::ATTRIBUTE_SITE, $site);
 
             if (is_array($externalId)) {

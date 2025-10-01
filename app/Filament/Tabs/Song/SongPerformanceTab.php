@@ -20,10 +20,6 @@ class SongPerformanceTab extends BaseTab
         return __('filament.tabs.song.performance.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query->whereDoesntHave(Song::RELATION_PERFORMANCES);

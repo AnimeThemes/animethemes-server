@@ -13,15 +13,11 @@ class UploadedFileAction
 {
     /**
      * The stream, chapter and format data as inspected by ffprobe.
-     *
-     * @var array
      */
     public array $ffprobeData = [];
 
     /**
      * The loudness stats of the input file as parsed by the ffmpeg audio filter.
-     *
-     * @var array
      */
     public array $loudnessStats = [];
 
@@ -44,8 +40,6 @@ class UploadedFileAction
 
     /**
      * Set the loudness stats for the uploaded file.
-     *
-     * @return array
      */
     public function setLoudnessStats(): array
     {
@@ -62,8 +56,6 @@ class UploadedFileAction
 
     /**
      * Get submission streams.
-     *
-     * @return array
      */
     public function streams(): array
     {
@@ -72,8 +64,6 @@ class UploadedFileAction
 
     /**
      * Get submission format.
-     *
-     * @return array
      */
     public function format(): array
     {
@@ -82,8 +72,6 @@ class UploadedFileAction
 
     /**
      * Get submission chapters.
-     *
-     * @return array
      */
     public function chapters(): array
     {
@@ -101,8 +89,6 @@ class UploadedFileAction
     /**
      * For WebMs, tags will be contained in the format object.
      * For Audios, tags will be contained in the stream object.
-     *
-     * @return array
      */
     public function tags(): array
     {
@@ -115,7 +101,7 @@ class UploadedFileAction
 
         $audio = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio'
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'audio'
         );
 
         $tags = Arr::get($audio, 'tags', []);
@@ -125,8 +111,6 @@ class UploadedFileAction
 
     /**
      * Get the submission loudness stats.
-     *
-     * @return array
      */
     public function loudness(): array
     {

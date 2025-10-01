@@ -35,24 +35,24 @@ class FeaturedTheme extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'featured_themes';
+    final public const string TABLE = 'featured_themes';
 
-    final public const ATTRIBUTE_END_AT = 'end_at';
-    final public const ATTRIBUTE_ENTRY = 'entry_id';
-    final public const ATTRIBUTE_ID = 'featured_theme_id';
-    final public const ATTRIBUTE_START_AT = 'start_at';
-    final public const ATTRIBUTE_USER = 'user_id';
-    final public const ATTRIBUTE_VIDEO = 'video_id';
+    final public const string ATTRIBUTE_END_AT = 'end_at';
+    final public const string ATTRIBUTE_ENTRY = 'entry_id';
+    final public const string ATTRIBUTE_ID = 'featured_theme_id';
+    final public const string ATTRIBUTE_START_AT = 'start_at';
+    final public const string ATTRIBUTE_USER = 'user_id';
+    final public const string ATTRIBUTE_VIDEO = 'video_id';
 
-    final public const RELATION_ANIME = 'animethemeentry.animetheme.anime';
-    final public const RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
-    final public const RELATION_ENTRY = 'animethemeentry';
-    final public const RELATION_GROUP = 'animethemeentry.animetheme.group';
-    final public const RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
-    final public const RELATION_SONG = 'animethemeentry.animetheme.song';
-    final public const RELATION_THEME = 'animethemeentry.animetheme';
-    final public const RELATION_USER = 'user';
-    final public const RELATION_VIDEO = 'video';
+    final public const string RELATION_ANIME = 'animethemeentry.animetheme.anime';
+    final public const string RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
+    final public const string RELATION_ENTRY = 'animethemeentry';
+    final public const string RELATION_GROUP = 'animethemeentry.animetheme.group';
+    final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
+    final public const string RELATION_SONG = 'animethemeentry.animetheme.song';
+    final public const string RELATION_THEME = 'animethemeentry.animetheme';
+    final public const string RELATION_USER = 'user';
+    final public const string RELATION_VIDEO = 'video';
 
     /**
      * The attributes that are mass assignable.

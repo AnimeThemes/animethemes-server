@@ -21,14 +21,13 @@ class DumpCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (Dump $dump) => new DumpResource($dump, $this->query)
+            fn (Dump $dump): DumpResource => new DumpResource($dump, $this->query)
         )->all();
     }
 }

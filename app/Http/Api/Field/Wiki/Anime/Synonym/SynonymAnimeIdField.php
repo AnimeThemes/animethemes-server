@@ -21,9 +21,6 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
         parent::__construct($schema, AnimeSynonym::ATTRIBUTE_ANIME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

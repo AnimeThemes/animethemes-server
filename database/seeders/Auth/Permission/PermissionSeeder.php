@@ -103,8 +103,6 @@ class PermissionSeeder extends Seeder
 
     /**
      * Register resource abilities.
-     *
-     * @param  array  $abilities
      */
     protected function registerResource(string $resource, array $abilities): void
     {

@@ -18,9 +18,6 @@ class ExternalProfileNameField extends StringField implements CreatableField
         parent::__construct($schema, ExternalProfile::ATTRIBUTE_NAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

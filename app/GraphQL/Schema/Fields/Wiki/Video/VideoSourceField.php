@@ -26,7 +26,6 @@ class VideoSourceField extends EnumField implements CreatableField, RequiredOnCr
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -38,7 +37,6 @@ class VideoSourceField extends EnumField implements CreatableField, RequiredOnCr
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

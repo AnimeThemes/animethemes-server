@@ -9,7 +9,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class TrashedArgument extends Argument
 {
-    final public const ARGUMENT = 'trashed';
+    final public const string ARGUMENT = 'trashed';
 
     public function __construct()
     {

@@ -17,9 +17,6 @@ class AudioPathField extends StringField implements CreatableField
         parent::__construct($schema, Audio::ATTRIBUTE_PATH);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

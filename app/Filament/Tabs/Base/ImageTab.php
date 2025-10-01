@@ -22,13 +22,9 @@ abstract class ImageTab extends BaseTab
         return __('filament.tabs.base.images.name', ['facet' => static::facet()->localize()]);
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(HasImages::IMAGES_RELATION, function (Builder $imageQuery) {
+        return $query->whereDoesntHave(HasImages::IMAGES_RELATION, function (Builder $imageQuery): void {
             $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
         });
     }

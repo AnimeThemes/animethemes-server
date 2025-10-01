@@ -18,9 +18,6 @@ class ThemeSequenceField extends IntField implements CreatableField, UpdatableFi
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_SEQUENCE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class ThemeSequenceField extends IntField implements CreatableField, UpdatableFi
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

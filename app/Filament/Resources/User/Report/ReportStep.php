@@ -67,9 +67,6 @@ class ReportStep extends BaseResource
         return ReportStepModel::ATTRIBUTE_ID;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -95,11 +92,11 @@ class ReportStep extends BaseResource
                 TextColumn::make(ReportStepModel::ATTRIBUTE_ACTION)
                     ->label(__('filament.fields.report_step.actionable'))
                     ->html()
-                    ->formatStateUsing(fn (ReportStepModel $record) => class_basename($record->actionable_type)),
+                    ->formatStateUsing(fn (ReportStepModel $record): string => class_basename($record->actionable_type)),
 
                 TextColumn::make(ReportStepModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.report.status'))
-                    ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
+                    ->formatStateUsing(fn (ApprovableStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 TextColumn::make(ReportStepModel::ATTRIBUTE_FINISHED_AT)
@@ -122,11 +119,11 @@ class ReportStep extends BaseResource
                         TextEntry::make(ReportStepModel::ATTRIBUTE_ACTION)
                             ->label(__('filament.fields.report_step.action'))
                             ->html()
-                            ->formatStateUsing(fn (ReportStepModel $record, ReportActionType $state) => static::getActionName($record, $state)),
+                            ->formatStateUsing(fn (ReportStepModel $record, ReportActionType $state): string => static::getActionName($record, $state)),
 
                         TextEntry::make(ReportStepModel::ATTRIBUTE_STATUS)
                             ->label(__('filament.fields.report.status'))
-                            ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
+                            ->formatStateUsing(fn (ApprovableStatus $state): ?string => $state->localize())
                             ->badge(),
 
                         TextEntry::make(ReportStepModel::ATTRIBUTE_FINISHED_AT)
@@ -141,16 +138,16 @@ class ReportStep extends BaseResource
                             ->leftLabel(__('filament.fields.report_step.fields.columns'))
                             ->middleLabel(__('filament.fields.report_step.fields.old_values'))
                             ->rightLabel(__('filament.fields.report_step.fields.values'))
-                            ->middleValueThroughState(fn (ReportStepModel $record) => $record->formatFields($record->actionable->attributesToArray()))
-                            ->visible(fn (ReportStepModel $record) => $record->action === ReportActionType::UPDATE)
-                            ->state(fn (ReportStepModel $record) => $record->formatFields())
+                            ->middleValueThroughState(fn (ReportStepModel $record): array => $record->formatFields($record->actionable->attributesToArray()))
+                            ->visible(fn (ReportStepModel $record): bool => $record->action === ReportActionType::UPDATE)
+                            ->state(fn (ReportStepModel $record): array => $record->formatFields())
                             ->columnSpanFull(),
 
                         KeyValueEntry::make(ReportStepModel::ATTRIBUTE_FIELDS)
                             ->label(__('filament.fields.report_step.fields.name'))
                             ->keyLabel(__('filament.fields.report_step.fields.columns'))
                             ->valueLabel(__('filament.fields.report_step.fields.values'))
-                            ->hidden(fn (?array $state, ReportStepModel $record) => is_null($state) || $record->action === ReportActionType::UPDATE)
+                            ->hidden(fn (?array $state, ReportStepModel $record): bool => is_null($state) || $record->action === ReportActionType::UPDATE)
                             ->columnSpanFull(),
                     ])
                     ->columns(3),

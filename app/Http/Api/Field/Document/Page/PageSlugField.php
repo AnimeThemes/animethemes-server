@@ -19,9 +19,6 @@ class PageSlugField extends StringField implements CreatableField, UpdatableFiel
         parent::__construct($schema, Page::ATTRIBUTE_SLUG);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -32,9 +29,6 @@ class PageSlugField extends StringField implements CreatableField, UpdatableFiel
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

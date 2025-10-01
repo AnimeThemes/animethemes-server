@@ -28,9 +28,9 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    final public const IMAGES = BackfillStudioActionAction::IMAGES;
+    final public const string IMAGES = BackfillStudioActionAction::IMAGES;
 
-    final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
+    final public const string BACKFILL_LARGE_COVER = 'backfill_large_cover';
 
     public static function getDefaultName(): ?string
     {
@@ -76,7 +76,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
             $this->failedLog($e);
         } finally {
             // Try not to upset third-party APIs
-            Sleep::for(rand(3, 5))->second();
+            Sleep::for(random_int(3, 5))->second();
         }
     }
 
@@ -91,7 +91,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
                         Checkbox::make(self::BACKFILL_LARGE_COVER)
                             ->label(__('filament.actions.studio.backfill.fields.images.large_cover.name'))
                             ->helperText(__('filament.actions.studio.backfill.fields.images.large_cover.help'))
-                            ->default(fn () => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::LARGE_COVER->value)->doesntExist()),
+                            ->default(fn (): bool => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::LARGE_COVER->value)->doesntExist()),
                     ]),
             ]);
     }

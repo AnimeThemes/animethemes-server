@@ -44,19 +44,19 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'songs';
+    final public const string TABLE = 'songs';
 
-    final public const ATTRIBUTE_ID = 'song_id';
-    final public const ATTRIBUTE_TITLE = 'title';
+    final public const string ATTRIBUTE_ID = 'song_id';
+    final public const string ATTRIBUTE_TITLE = 'title';
 
-    final public const RELATION_ANIME = 'animethemes.anime';
-    final public const RELATION_ANIMETHEMES = 'animethemes';
-    final public const RELATION_ARTISTS = 'artists';
-    final public const RELATION_PERFORMANCES = 'performances';
-    final public const RELATION_PERFORMANCE_ARTISTS = 'performances.artist';
-    final public const RELATION_RESOURCES = 'resources';
-    final public const RELATION_THEME_GROUPS = 'animethemes.group';
-    final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
+    final public const string RELATION_ANIME = 'animethemes.anime';
+    final public const string RELATION_ANIMETHEMES = 'animethemes';
+    final public const string RELATION_ARTISTS = 'artists';
+    final public const string RELATION_PERFORMANCES = 'performances';
+    final public const string RELATION_PERFORMANCE_ARTISTS = 'performances.artist';
+    final public const string RELATION_RESOURCES = 'resources';
+    final public const string RELATION_THEME_GROUPS = 'animethemes.group';
+    final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

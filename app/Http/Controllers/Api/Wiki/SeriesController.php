@@ -29,9 +29,6 @@ class SeriesController extends BaseController
         parent::__construct(Series::class, 'series');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): SeriesCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class SeriesController extends BaseController
         return new SeriesResource($series, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Series $series, ShowAction $action): SeriesResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class SeriesController extends BaseController
         return new SeriesResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Series $series, UpdateAction $action): SeriesResource
     {
         $updated = $action->update($series, $request->validated());
@@ -75,9 +66,6 @@ class SeriesController extends BaseController
         return new SeriesResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Series $series, DestroyAction $action): SeriesResource
     {
         $deleted = $action->destroy($series);
@@ -85,9 +73,6 @@ class SeriesController extends BaseController
         return new SeriesResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Series $series, RestoreAction $action): SeriesResource
     {
         $restored = $action->restore($series);
@@ -95,9 +80,6 @@ class SeriesController extends BaseController
         return new SeriesResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Series $series, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($series);

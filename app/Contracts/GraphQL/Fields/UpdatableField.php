@@ -8,7 +8,6 @@ interface UpdatableField
 {
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array;
 }

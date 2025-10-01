@@ -26,7 +26,7 @@ readonly class MoveResults implements StorageResults
 
     public function toLog(): void
     {
-        if (empty($this->moves)) {
+        if ($this->moves === []) {
             Log::error('No moves were attempted.');
         }
         foreach ($this->moves as $fs => $result) {
@@ -38,7 +38,7 @@ readonly class MoveResults implements StorageResults
 
     public function toConsole(Command $command): void
     {
-        if (empty($this->moves)) {
+        if ($this->moves === []) {
             $command->error('No moves were attempted.');
         }
         foreach ($this->moves as $fs => $result) {
@@ -50,7 +50,7 @@ readonly class MoveResults implements StorageResults
 
     public function toActionResult(): ActionResult
     {
-        if (empty($this->moves)) {
+        if ($this->moves === []) {
             return new ActionResult(
                 ActionStatus::FAILED,
                 'No moves were attempted. Please check that disks are configured.'
@@ -59,7 +59,7 @@ readonly class MoveResults implements StorageResults
 
         /** @var Collection $passed */
         /** @var Collection $failed */
-        [$passed, $failed] = collect($this->moves)->partition(fn (bool $result, string $fs) => $result);
+        [$passed, $failed] = collect($this->moves)->partition(fn (bool $result, string $fs): bool => $result);
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(

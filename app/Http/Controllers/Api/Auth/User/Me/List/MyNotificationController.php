@@ -25,9 +25,6 @@ class MyNotificationController extends BaseController
         parent::__construct(Notification::class, 'notification');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): NotificationCollection
     {
         $query = new Query($request->validated());

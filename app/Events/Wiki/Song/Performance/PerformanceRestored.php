@@ -38,7 +38,7 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([
-            Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
+            Performance::RELATION_ARTIST => function (MorphTo $morphTo): void {
                 $morphTo->morphWith([
                     Artist::class => [],
                     Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
@@ -71,7 +71,7 @@ class PerformanceRestored extends WikiRestoredEvent implements SyncArtistSongEve
             default => throw new Exception('Invalid artist type.'),
         };
 
-        ArtistSong::withoutEvents(function () use ($artist, $song, $performance) {
+        ArtistSong::withoutEvents(function () use ($artist, $song, $performance): void {
             $artist->songs()->syncWithPivotValues([$song->getKey()], [[
                 ArtistSong::ATTRIBUTE_ALIAS => $performance->alias,
                 ArtistSong::ATTRIBUTE_AS => $performance->as,

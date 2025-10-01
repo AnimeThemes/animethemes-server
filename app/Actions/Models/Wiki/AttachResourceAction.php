@@ -15,7 +15,6 @@ class AttachResourceAction
     use CanCreateExternalResource;
 
     /**
-     * @param  array  $fields
      * @param  ResourceSite[]  $sites
      */
     public function handle(BaseModel&HasResources $model, array $fields, array $sites): void

@@ -22,9 +22,6 @@ class HasFilter extends Filter
 
     /**
      * Convert filter values to integers.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function convertFilterValues(array $filterValues): array
     {
@@ -33,13 +30,10 @@ class HasFilter extends Filter
 
     /**
      * Get only filter values that are strings.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
     {
-        $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
+        $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude): string => $allowedInclude->path());
 
         return array_intersect($filterValues, $paths);
     }
@@ -47,8 +41,6 @@ class HasFilter extends Filter
     /**
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
-     *
-     * @param  array  $filterValues
      */
     public function isAllFilterValues(array $filterValues): bool
     {
@@ -57,12 +49,10 @@ class HasFilter extends Filter
 
     /**
      * Get the validation rules for the filter.
-     *
-     * @return array
      */
     public function getRules(): array
     {
-        $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
+        $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude): string => $allowedInclude->path());
 
         return [
             'required',

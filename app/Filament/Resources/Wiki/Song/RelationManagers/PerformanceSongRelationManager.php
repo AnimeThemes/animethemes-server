@@ -48,7 +48,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Format artists to the action.
      *
-     * @param  Song|null  $song
      * @return array<int, array>
      */
     public static function formatArtists(?Song $song = null): array
@@ -88,8 +87,8 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             ];
         }
 
-        foreach ($artists as $groupId => $group) {
-            $membershipsForGroup = Arr::where($memberships, fn ($value) => $value[Membership::ATTRIBUTE_ARTIST] === $groupId);
+        foreach (array_keys($artists) as $groupId) {
+            $membershipsForGroup = Arr::where($memberships, fn ($value): bool => $value[Membership::ATTRIBUTE_ARTIST] === $groupId);
 
             $artists[$groupId][PerformanceForm::REPEATER_MEMBERSHIPS] = $membershipsForGroup;
         }
@@ -99,9 +98,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
     /**
      * Save the artists to the action.
-     *
-     * @param  Song|int|null  $song
-     * @param  array|null  $data
      */
     public static function saveArtists(Song|int|null $song = null, ?array $data = []): void
     {

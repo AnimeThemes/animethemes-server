@@ -62,7 +62,7 @@ class AnimeFactory extends Factory
     public function jsonApiResource(): static
     {
         return $this->afterCreating(
-            function (Anime $anime) {
+            function (Anime $anime): void {
                 AnimeSynonym::factory()
                     ->for($anime)
                     ->count(fake()->numberBetween(1, 3))

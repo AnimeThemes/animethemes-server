@@ -24,13 +24,13 @@ class Select extends ComponentsSelect
             return $this
                 ->allowHtml()
                 ->searchable()
-                ->getOptionLabelUsing(fn ($state) => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($model::find($state)))
+                ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($model::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
                     $search = $this->escapeReservedChars($search);
 
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
-                        ->query(function (Builder $query) use ($livewire) {
+                        ->query(function (Builder $query) use ($livewire): void {
                             if (! ($livewire instanceof BaseRelationManager)
                                 ||($livewire->getTable()->allowsDuplicates())) {
                                 return;
@@ -42,7 +42,7 @@ class Select extends ComponentsSelect
                         ->take(25)
                         ->get()
                         ->load($loadRelation ?? [])
-                        ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
+                        ->mapWithKeys(fn (BaseModel $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
                         ->toArray();
                 });
         }

@@ -19,9 +19,6 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
         parent::__construct($schema, Video::ATTRIBUTE_NC);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -34,14 +31,14 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
     public function shouldSelect(Query $query, Schema $schema): bool
     {
         $tagsField = new VideoTagsField($this->schema);
-
         // The tags attribute is dependent on this field.
-        return parent::shouldSelect($query, $schema) || $tagsField->shouldRender($query);
+        if (parent::shouldSelect($query, $schema)) {
+            return true;
+        }
+
+        return $tagsField->shouldRender($query);
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

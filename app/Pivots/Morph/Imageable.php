@@ -32,15 +32,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Imageable extends BaseMorphPivot
 {
-    final public const TABLE = 'imageables';
+    final public const string TABLE = 'imageables';
 
-    final public const ATTRIBUTE_DEPTH = 'depth';
-    final public const ATTRIBUTE_IMAGE = 'image_id';
-    final public const ATTRIBUTE_IMAGEABLE_TYPE = 'imageable_type';
-    final public const ATTRIBUTE_IMAGEABLE_ID = 'imageable_id';
+    final public const string ATTRIBUTE_DEPTH = 'depth';
+    final public const string ATTRIBUTE_IMAGE = 'image_id';
+    final public const string ATTRIBUTE_IMAGEABLE_TYPE = 'imageable_type';
+    final public const string ATTRIBUTE_IMAGEABLE_ID = 'imageable_id';
 
-    final public const RELATION_IMAGE = 'image';
-    final public const RELATION_IMAGEABLE = 'imageable';
+    final public const string RELATION_IMAGE = 'image';
+    final public const string RELATION_IMAGEABLE = 'imageable';
 
     /**
      * The models that have images.
@@ -124,8 +124,6 @@ class Imageable extends BaseMorphPivot
 
     /**
      * Gets the model that owns the imageable.
-     *
-     * @return MorphTo
      */
     public function imageable(): MorphTo
     {

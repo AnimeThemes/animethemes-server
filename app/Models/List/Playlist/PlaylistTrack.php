@@ -41,24 +41,24 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     use HasFactory;
     use HasRecursiveRelationships;
 
-    final public const TABLE = 'playlist_tracks';
+    final public const string TABLE = 'playlist_tracks';
 
-    final public const ATTRIBUTE_ID = 'track_id';
-    final public const ATTRIBUTE_ENTRY = 'entry_id';
-    final public const ATTRIBUTE_NEXT = 'next_id';
-    final public const ATTRIBUTE_PLAYLIST = 'playlist_id';
-    final public const ATTRIBUTE_PREVIOUS = 'previous_id';
-    final public const ATTRIBUTE_VIDEO = 'video_id';
+    final public const string ATTRIBUTE_ID = 'track_id';
+    final public const string ATTRIBUTE_ENTRY = 'entry_id';
+    final public const string ATTRIBUTE_NEXT = 'next_id';
+    final public const string ATTRIBUTE_PLAYLIST = 'playlist_id';
+    final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
+    final public const string ATTRIBUTE_VIDEO = 'video_id';
 
-    final public const RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
-    final public const RELATION_AUDIO = 'video.audio';
-    final public const RELATION_ENTRY = 'animethemeentry';
-    final public const RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
-    final public const RELATION_NEXT = 'next';
-    final public const RELATION_PLAYLIST = 'playlist';
-    final public const RELATION_PREVIOUS = 'previous';
-    final public const RELATION_THEME_GROUP = 'animethemeentry.animetheme.group';
-    final public const RELATION_VIDEO = 'video';
+    final public const string RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
+    final public const string RELATION_AUDIO = 'video.audio';
+    final public const string RELATION_ENTRY = 'animethemeentry';
+    final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
+    final public const string RELATION_NEXT = 'next';
+    final public const string RELATION_PLAYLIST = 'playlist';
+    final public const string RELATION_PREVIOUS = 'previous';
+    final public const string RELATION_THEME_GROUP = 'animethemeentry.animetheme.group';
+    final public const string RELATION_VIDEO = 'video';
 
     /**
      * Is auditing disabled?
@@ -117,8 +117,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 
     /**
      * Get the numbers used to encode the model's hashids.
-     *
-     * @return array
      */
     public function hashids(): array
     {

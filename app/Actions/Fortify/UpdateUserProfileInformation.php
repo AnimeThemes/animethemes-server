@@ -30,7 +30,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         $email = Arr::get($validated, User::ATTRIBUTE_EMAIL);
         if (Arr::has($validated, User::ATTRIBUTE_EMAIL) && $email !== $user->email) {
-            $validated = $validated + [User::ATTRIBUTE_EMAIL_VERIFIED_AT => null];
+            $validated += [User::ATTRIBUTE_EMAIL_VERIFIED_AT => null];
 
             $user->update($validated);
 

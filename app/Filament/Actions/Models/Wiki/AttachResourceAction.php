@@ -79,7 +79,7 @@ abstract class AttachResourceAction extends BaseAction
      *
      * @param  ResourceSite[]  $sites
      */
-    public function sites($sites): static
+    public function sites(array $sites): static
     {
         $this->sites = $sites;
 

@@ -30,7 +30,7 @@ class VideoRepository extends StorageRepository
      */
     protected function filterCallback(): Closure
     {
-        return fn (StorageAttributes $file) => $file->isFile() && File::extension($file->path()) === 'webm';
+        return fn (StorageAttributes $file): bool => $file->isFile() && File::extension($file->path()) === 'webm';
     }
 
     /**
@@ -40,7 +40,7 @@ class VideoRepository extends StorageRepository
      */
     protected function mapCallback(): Closure
     {
-        return fn (StorageAttributes $file) => new Video([
+        return fn (StorageAttributes $file): Video => new Video([
             Video::ATTRIBUTE_BASENAME => File::basename($file->path()),
             Video::ATTRIBUTE_FILENAME => File::name($file->path()),
             Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),

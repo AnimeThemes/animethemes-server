@@ -9,12 +9,12 @@ use Illuminate\Support\Arr;
 
 class DiscordMessage implements Arrayable
 {
-    final public const ATTRIBUTE_CHANNEL_ID = 'channelId';
-    final public const ATTRIBUTE_ID = 'id';
-    final public const ATTRIBUTE_URL = 'url';
-    final public const ATTRIBUTE_CONTENT = 'content';
-    final public const ATTRIBUTE_EMBEDS = 'embeds';
-    final public const ATTRIBUTE_IMAGES = 'images';
+    final public const string ATTRIBUTE_CHANNEL_ID = 'channelId';
+    final public const string ATTRIBUTE_ID = 'id';
+    final public const string ATTRIBUTE_URL = 'url';
+    final public const string ATTRIBUTE_CONTENT = 'content';
+    final public const string ATTRIBUTE_EMBEDS = 'embeds';
+    final public const string ATTRIBUTE_IMAGES = 'images';
 
     protected string $channelId = '0';
     protected string $id = '0';
@@ -31,7 +31,7 @@ class DiscordMessage implements Arrayable
             ->setChannelId(Arr::get($array, self::ATTRIBUTE_CHANNEL_ID) ?? '0')
             ->setId(Arr::get($array, self::ATTRIBUTE_ID) ?? '0')
             ->setContent(Arr::get($array, self::ATTRIBUTE_CONTENT) ?? '')
-            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed) => DiscordEmbed::from($embed)))
+            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed): DiscordEmbed => DiscordEmbed::from($embed)))
             ->setImages(Arr::get($array, 'files') ?? Arr::get($array, self::ATTRIBUTE_IMAGES) ?? []);
     }
 
@@ -116,7 +116,7 @@ class DiscordMessage implements Arrayable
             'channelId' => $this->getChannelId(),
             'id' => $this->getId(),
             'content' => $this->getContent(),
-            'embeds' => Arr::map($this->getEmbeds(), fn (DiscordEmbed $embed) => $embed->toArray()),
+            'embeds' => Arr::map($this->getEmbeds(), fn (DiscordEmbed $embed): array => $embed->toArray()),
             'files' => $this->getImages(),
         ];
     }

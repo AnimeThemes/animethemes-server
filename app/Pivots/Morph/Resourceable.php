@@ -33,15 +33,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Resourceable extends BaseMorphPivot
 {
-    final public const TABLE = 'resourceables';
+    final public const string TABLE = 'resourceables';
 
-    final public const ATTRIBUTE_AS = 'as';
-    final public const ATTRIBUTE_RESOURCE = 'resource_id';
-    final public const ATTRIBUTE_RESOURCEABLE_TYPE = 'resourceable_type';
-    final public const ATTRIBUTE_RESOURCEABLE_ID = 'resourceable_id';
+    final public const string ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_RESOURCE = 'resource_id';
+    final public const string ATTRIBUTE_RESOURCEABLE_TYPE = 'resourceable_type';
+    final public const string ATTRIBUTE_RESOURCEABLE_ID = 'resourceable_id';
 
-    final public const RELATION_RESOURCE = 'resource';
-    final public const RELATION_RESOURCEABLE = 'resourceable';
+    final public const string RELATION_RESOURCE = 'resource';
+    final public const string RELATION_RESOURCEABLE = 'resourceable';
 
     /**
      * The models that have resources.
@@ -114,8 +114,6 @@ class Resourceable extends BaseMorphPivot
 
     /**
      * Gets the model that owns the resourceable.
-     *
-     * @return MorphTo
      */
     public function resourceable(): MorphTo
     {

@@ -100,9 +100,6 @@ class Theme extends BaseResource
         return 'anime-themes';
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -116,7 +113,7 @@ class Theme extends BaseResource
             AnimeTheme::RELATION_PERFORMANCES,
             AnimeTheme::RELATION_SONG,
             'song.animethemes',
-            AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo) {
+            AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo): void {
                 $morphTo->morphWith([
                     Artist::class => [],
                     Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
@@ -179,9 +176,9 @@ class Theme extends BaseResource
                                     ->resource(SongResource::class)
                                     ->showCreateOption()
                                     ->live()
-                                    ->afterStateUpdated(function (Set $set, $state) {
+                                    ->afterStateUpdated(function (Set $set, $state): void {
                                         /** @var Song|null $song */
-                                        $song = Song::find($state);
+                                        $song = Song::query()->find($state);
                                         $set(PerformanceForm::REPEATER_PERFORMANCES, PerformanceSongRelationManager::formatArtists($song));
                                     }),
 
@@ -214,7 +211,7 @@ class Theme extends BaseResource
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_theme.type.name'))
-                    ->formatStateUsing(fn (ThemeType $state) => $state->localize()),
+                    ->formatStateUsing(fn (ThemeType $state): ?string => $state->localize()),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name')),
@@ -226,10 +223,10 @@ class Theme extends BaseResource
 
                 BelongsToColumn::make(ThemeModel::RELATION_SONG, SongResource::class)
                     ->hiddenOn(ThemeSongRelationManager::class)
-                    ->searchable(true, function (Builder $query, string $search) {
+                    ->searchable(true, function (Builder $query, string $search): void {
                         $songs = Song::search($search)->take(25)->keys();
 
-                        $query->whereHas(ThemeModel::RELATION_SONG, function (Builder $query) use ($songs) {
+                        $query->whereHas(ThemeModel::RELATION_SONG, function (Builder $query) use ($songs): void {
                             $query->whereIn(Song::ATTRIBUTE_ID, $songs);
                         });
                     }, true),
@@ -250,7 +247,7 @@ class Theme extends BaseResource
 
                         TextEntry::make(ThemeModel::ATTRIBUTE_TYPE)
                             ->label(__('filament.fields.anime_theme.type.name'))
-                            ->formatStateUsing(fn (ThemeType $state) => $state->localize()),
+                            ->formatStateUsing(fn (ThemeType $state): ?string => $state->localize()),
 
                         TextEntry::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                             ->label(__('filament.fields.anime_theme.sequence.name')),
@@ -280,9 +277,6 @@ class Theme extends BaseResource
 
     /**
      * Set the theme slug.
-     *
-     * @param  Set  $set
-     * @param  Get  $get
      */
     protected static function setThemeSlug(Set $set, Get $get): void
     {
@@ -302,7 +296,7 @@ class Theme extends BaseResource
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
 
             if (! empty($group)) {
-                $slug = $slug->append('-'.Group::find(intval($group))->slug);
+                $slug = $slug->append('-'.Group::query()->find(intval($group))->slug);
             }
         }
 

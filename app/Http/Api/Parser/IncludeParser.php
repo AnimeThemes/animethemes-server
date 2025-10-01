@@ -23,7 +23,6 @@ class IncludeParser extends Parser
     /**
      * Parse includes from parameters.
      *
-     * @param  array  $parameters
      * @return Criteria[]
      */
     public static function parse(array $parameters): array

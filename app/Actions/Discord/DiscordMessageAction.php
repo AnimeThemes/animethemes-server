@@ -30,7 +30,7 @@ class DiscordMessageAction
 
         if (Arr::has($fields, DiscordMessage::ATTRIBUTE_URL)) {
             $url = Arr::get($fields, DiscordMessage::ATTRIBUTE_URL);
-            preg_match('/https:\/\/discord\.com\/channels\/(\d+)\/(\d+)\/(\d+)/', $url, $matches);
+            preg_match('/https:\/\/discord\.com\/channels\/(\d+)\/(\d+)\/(\d+)/', (string) $url, $matches);
 
             $message
                 ->setChannelId(strval($matches[2]))

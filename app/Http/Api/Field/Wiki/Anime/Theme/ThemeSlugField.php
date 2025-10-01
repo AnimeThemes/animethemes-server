@@ -18,9 +18,6 @@ class ThemeSlugField extends StringField implements CreatableField, UpdatableFie
         parent::__construct($schema, AnimeTheme::ATTRIBUTE_SLUG);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -31,9 +28,6 @@ class ThemeSlugField extends StringField implements CreatableField, UpdatableFie
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

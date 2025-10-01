@@ -18,9 +18,6 @@ class EntryNsfwField extends BooleanField implements CreatableField, UpdatableFi
         parent::__construct($schema, AnimeThemeEntry::ATTRIBUTE_NSFW);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class EntryNsfwField extends BooleanField implements CreatableField, UpdatableFi
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

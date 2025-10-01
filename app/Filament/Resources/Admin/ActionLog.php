@@ -72,9 +72,6 @@ class ActionLog extends BaseResource
         return ActionLogModel::ATTRIBUTE_NAME;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -96,16 +93,14 @@ class ActionLog extends BaseResource
                     ->keyLabel(__('filament.fields.action_log.fields.keys'))
                     ->valueLabel(__('filament.fields.action_log.fields.values'))
                     ->columnSpanFull()
-                    ->hidden(fn ($state) => is_null($state))
-                    ->formatStateUsing(function (?array $state) {
-                        return collect($state)->mapWithKeys(function ($value, $key) {
-                            if (is_array($value)) {
-                                $value = json_encode($value);
-                            }
+                    ->hidden(fn ($state): bool => is_null($state))
+                    ->formatStateUsing(fn (?array $state) => collect($state)->mapWithKeys(function ($value, $key): array {
+                        if (is_array($value)) {
+                            $value = json_encode($value);
+                        }
 
-                            return [$key => blank($value) ? '-' : $value];
-                        })->toArray();
-                    }),
+                        return [$key => blank($value) ? '-' : $value];
+                    })->toArray()),
 
                 Textarea::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
@@ -130,11 +125,11 @@ class ActionLog extends BaseResource
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)).': '.$state->getName()),
+                    ->formatStateUsing(fn ($state): string => Str::headline(class_basename($state)).': '.$state->getName()),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
-                    ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
+                    ->formatStateUsing(fn (ActionLogStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 TextColumn::make(BaseModel::ATTRIBUTE_CREATED_AT)
@@ -153,17 +148,17 @@ class ActionLog extends BaseResource
             ->components([
                 TextEntry::make(ActionLogModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.action_log.name'))
-                    ->formatStateUsing(fn ($state) => ucfirst($state)),
+                    ->formatStateUsing(fn ($state): string => ucfirst((string) $state)),
 
                 BelongsToEntry::make(ActionLogModel::RELATION_USER, User::class),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => class_basename($state).': '.$state->getName()),
+                    ->formatStateUsing(fn ($state): string => class_basename($state).': '.$state->getName()),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
-                    ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
+                    ->formatStateUsing(fn (ActionLogStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
@@ -179,16 +174,14 @@ class ActionLog extends BaseResource
                     ->keyLabel(__('filament.fields.action_log.fields.keys'))
                     ->valueLabel(__('filament.fields.action_log.fields.values'))
                     ->columnSpanFull()
-                    ->hidden(fn ($state) => is_null($state))
-                    ->formatStateUsing(function (?array $state) {
-                        return collect($state)->mapWithKeys(function ($value, $key) {
-                            if (is_array($value)) {
-                                $value = json_encode($value);
-                            }
+                    ->hidden(fn ($state): bool => is_null($state))
+                    ->formatStateUsing(fn (?array $state) => collect($state)->mapWithKeys(function ($value, $key): array {
+                        if (is_array($value)) {
+                            $value = json_encode($value);
+                        }
 
-                            return [$key => blank($value) ? '-' : $value];
-                        })->toArray();
-                    }),
+                        return [$key => blank($value) ? '-' : $value];
+                    })->toArray()),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))

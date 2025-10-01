@@ -26,9 +26,7 @@ abstract class BaseListResources extends ListRecords
     /**
      * Using Laravel Scout to search.
      *
-     * @param  Builder  $query
      * @param  class-string<Model>  $modelClass
-     * @return Builder
      */
     protected function makeScout(Builder $query, string $modelClass): Builder
     {

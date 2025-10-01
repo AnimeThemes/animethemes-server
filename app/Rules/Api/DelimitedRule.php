@@ -12,9 +12,6 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 readonly class DelimitedRule implements ValidationRule
 {
-    /**
-     * @param  string|array|ValidationRule  $rule
-     */
     public function __construct(protected string|array|ValidationRule $rule) {}
 
     /**

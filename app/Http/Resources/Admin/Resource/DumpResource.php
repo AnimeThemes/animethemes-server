@@ -10,7 +10,7 @@ use App\Http\Resources\BaseResource;
 
 class DumpResource extends BaseResource
 {
-    final public const ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_LINK = 'link';
 
     /**
      * The "data" wrapper that should be applied.

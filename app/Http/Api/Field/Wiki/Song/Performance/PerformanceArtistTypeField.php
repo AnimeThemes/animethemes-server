@@ -19,9 +19,6 @@ class PerformanceArtistTypeField extends Field implements CreatableField, Select
         parent::__construct($schema, Performance::ATTRIBUTE_ARTIST_TYPE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

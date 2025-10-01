@@ -12,14 +12,11 @@ class DateFilter extends Filter
 {
     /**
      * Convert filter values to booleans.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            function (string $filterValue) {
+            function (string $filterValue): ?string {
                 foreach (AllowedDateFormat::cases() as $allowedDateFormat) {
                     $date = DateTime::createFromFormat('!'.$allowedDateFormat->value, $filterValue);
                     if ($date && $date->format($allowedDateFormat->value) === $filterValue) {
@@ -35,16 +32,13 @@ class DateFilter extends Filter
 
     /**
      * Get only filter values that are valid dates.
-     *
-     * @param  array  $filterValues
-     * @return array
      */
     protected function getValidFilterValues(array $filterValues): array
     {
         return array_values(
             array_filter(
                 $filterValues,
-                function (string $filterValue) {
+                function (string $filterValue): bool {
                     foreach (AllowedDateFormat::cases() as $allowedDateFormat) {
                         $date = DateTime::createFromFormat('!'.$allowedDateFormat->value, $filterValue);
                         if ($date && $date->format($allowedDateFormat->value) === $filterValue) {
@@ -61,8 +55,6 @@ class DateFilter extends Filter
     /**
      * Determine if all valid filter values have been specified.
      * By default, this is false as we assume an unrestricted amount of valid values.
-     *
-     * @param  array  $filterValues
      */
     public function isAllFilterValues(array $filterValues): bool
     {
@@ -71,8 +63,6 @@ class DateFilter extends Filter
 
     /**
      * Get the validation rules for the filter.
-     *
-     * @return array
      */
     public function getRules(): array
     {

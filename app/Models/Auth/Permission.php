@@ -18,16 +18,16 @@ use Spatie\Permission\Models\Permission as BasePermission;
  */
 class Permission extends BasePermission implements Nameable
 {
-    final public const TABLE = 'permissions';
+    final public const string TABLE = 'permissions';
 
-    final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
-    final public const ATTRIBUTE_GUARD_NAME = 'guard_name';
-    final public const ATTRIBUTE_ID = 'id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
+    final public const string ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+    final public const string ATTRIBUTE_GUARD_NAME = 'guard_name';
+    final public const string ATTRIBUTE_ID = 'id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
 
-    final public const RELATION_ROLES = 'roles';
-    final public const RELATION_USERS = 'users';
+    final public const string RELATION_ROLES = 'roles';
+    final public const string RELATION_USERS = 'users';
 
     public function getName(): string
     {

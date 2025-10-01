@@ -16,8 +16,8 @@ trait AggregatesFields
     public function withAggregates(Builder $builder, Query $query, Schema $schema): Builder
     {
         collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($query))
-            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($query, $builder));
+            ->filter(fn (Field $field): bool => $field instanceof AggregateField && $field->shouldAggregate($query))
+            ->each(fn (AggregateField $selectedAggregate): Builder => $selectedAggregate->with($query, $builder));
 
         return $builder;
     }
@@ -25,8 +25,8 @@ trait AggregatesFields
     public function loadAggregates(Model $model, Query $query, Schema $schema): Model
     {
         collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($query))
-            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->load($query, $model));
+            ->filter(fn (Field $field): bool => $field instanceof AggregateField && $field->shouldAggregate($query))
+            ->each(fn (AggregateField $selectedAggregate): Model => $selectedAggregate->load($query, $model));
 
         return $model;
     }

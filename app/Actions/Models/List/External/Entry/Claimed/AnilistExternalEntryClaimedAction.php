@@ -29,7 +29,7 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
         }
 
         if ($data = $this->data) {
-            $lists = Arr::where(Arr::get($data, 'MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
+            $lists = Arr::where(Arr::get($data, 'MediaListCollection.lists'), fn ($value): bool => $value['isCustomList'] === false);
 
             foreach ($lists as $list) {
                 foreach (Arr::get($list, 'entries') as $entry) {

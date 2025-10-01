@@ -37,7 +37,7 @@ abstract class EloquentPaginationQuery extends EloquentQuery
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         $args = collect($args)
-            ->filter(fn ($value) => $value instanceof Model)
+            ->filter(fn ($value): bool => $value instanceof Model)
             ->values()
             ->all();
 
@@ -65,9 +65,7 @@ abstract class EloquentPaginationQuery extends EloquentQuery
     {
         $baseType = $this->baseType();
 
-        if (! $baseType instanceof BaseType) {
-            throw new RuntimeException("baseType not defined for query {$this->getName()}");
-        }
+        throw_unless($baseType instanceof BaseType, new RuntimeException("baseType not defined for query {$this->getName()}"));
 
         return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));
     }

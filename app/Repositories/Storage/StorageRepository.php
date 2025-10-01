@@ -30,8 +30,6 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
     /**
      * Get models from the repository.
      *
-     * @param  array  $columns
-     * @return Collection
      *
      * @throws FilesystemException
      */
@@ -66,8 +64,6 @@ abstract class StorageRepository implements InteractsWithDisk, RepositoryInterfa
 
     /**
      * Update model in the repository.
-     *
-     * @param  array  $attributes
      */
     public function update(Model $model, array $attributes): bool
     {

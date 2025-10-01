@@ -24,7 +24,7 @@ class VideoPixelFormatStreamRule extends SubmissionRule
 
         $video = Arr::first(
             $this->streams(),
-            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+            fn (array $stream): bool => Arr::get($stream, 'codec_type') === 'video'
         );
 
         if (Arr::get($video, 'pix_fmt') !== Feature::for(null)->value(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM)) {

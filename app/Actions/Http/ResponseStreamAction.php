@@ -24,7 +24,7 @@ abstract class ResponseStreamAction extends StreamAction
 
         $fs = Storage::disk($this->disk());
 
-        $response->setCallback(function () use ($fs) {
+        $response->setCallback(function () use ($fs): void {
             $stream = $fs->readStream($this->streamable->path());
             fpassthru($stream);
             fclose($stream);

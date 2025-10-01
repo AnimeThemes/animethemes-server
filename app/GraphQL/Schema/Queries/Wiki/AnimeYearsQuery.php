@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Gate;
 
 class AnimeYearsQuery extends BaseQuery
 {
-    final public const ARGUMENT_YEAR = 'year';
+    final public const string ARGUMENT_YEAR = 'year';
 
     public function __construct()
     {
@@ -37,7 +37,7 @@ class AnimeYearsQuery extends BaseQuery
         $model = Arr::pull($args, 'model');
 
         $args = collect($args)
-            ->filter(fn ($value) => $value instanceof Model)
+            ->filter(fn ($value): bool => $value instanceof Model)
             ->values()
             ->all();
 

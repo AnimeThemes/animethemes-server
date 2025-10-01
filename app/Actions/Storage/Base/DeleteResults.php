@@ -21,7 +21,7 @@ readonly class DeleteResults implements StorageResults
 
     public function toLog(): void
     {
-        if (empty($this->deletions)) {
+        if ($this->deletions === []) {
             Log::error('No deletions were attempted.');
         }
         foreach ($this->deletions as $fs => $result) {
@@ -33,7 +33,7 @@ readonly class DeleteResults implements StorageResults
 
     public function toConsole(Command $command): void
     {
-        if (empty($this->deletions)) {
+        if ($this->deletions === []) {
             $command->error('No deletions were attempted.');
         }
         foreach ($this->deletions as $fs => $result) {
@@ -45,7 +45,7 @@ readonly class DeleteResults implements StorageResults
 
     public function toActionResult(): ActionResult
     {
-        if (empty($this->deletions)) {
+        if ($this->deletions === []) {
             return new ActionResult(
                 ActionStatus::FAILED,
                 'No deletions were attempted. Please check that disks are configured.'
@@ -54,7 +54,7 @@ readonly class DeleteResults implements StorageResults
 
         /** @var Collection $passed */
         /** @var Collection $failed */
-        [$passed, $failed] = collect($this->deletions)->partition(fn (bool $result, string $fs) => $result);
+        [$passed, $failed] = collect($this->deletions)->partition(fn (bool $result, string $fs): bool => $result);
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(

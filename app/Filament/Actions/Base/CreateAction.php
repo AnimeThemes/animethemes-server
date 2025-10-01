@@ -27,7 +27,7 @@ class CreateAction extends BaseCreateAction
     {
         parent::setUp();
 
-        $this->schema(fn (Schema $schema, BaseManageResources|BaseListResources|BaseRelationManager $livewire) => [
+        $this->schema(fn (Schema $schema, BaseManageResources|BaseListResources|BaseRelationManager $livewire): array => [
             ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
@@ -40,7 +40,7 @@ class CreateAction extends BaseCreateAction
             return null;
         });
 
-        $this->after(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, Model $record, CreateAction $action) {
+        $this->after(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, Model $record, CreateAction $action): void {
             if ($livewire instanceof BaseListResources) {
                 ActionLog::modelCreated($record);
             }
@@ -75,7 +75,7 @@ class CreateAction extends BaseCreateAction
                 ->append(Str::studly(class_basename($livewire->getTable()->getModel())))
                 ->__toString();
 
-            return is_object($gate) & method_exists($gate, $ability)
+            return (is_object($gate) & method_exists($gate, $ability)) !== 0
                 ? Gate::forUser(Auth::user())->check($ability, $ownerRecord::class)
                 : true;
         });

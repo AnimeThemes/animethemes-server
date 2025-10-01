@@ -18,9 +18,6 @@ class PageNameField extends StringField implements CreatableField, UpdatableFiel
         parent::__construct($schema, Page::ATTRIBUTE_NAME);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class PageNameField extends StringField implements CreatableField, UpdatableFiel
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

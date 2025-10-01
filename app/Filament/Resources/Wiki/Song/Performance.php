@@ -72,9 +72,6 @@ class Performance extends BaseResource
         return 'performances';
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -82,7 +79,7 @@ class Performance extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         /** @phpstan-ignore-next-line */
         return $query->with([
-            PerformanceModel::RELATION_ARTIST => function (MorphTo $morphTo) {
+            PerformanceModel::RELATION_ARTIST => function (MorphTo $morphTo): void {
                 $morphTo->morphWith([
                     Artist::class => [],
                     Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
@@ -169,31 +166,31 @@ class Performance extends BaseResource
                         BelongsToEntry::make(PerformanceModel::RELATION_SONG, Song::class),
 
                         BelongsToEntry::make(PerformanceModel::RELATION_ARTIST, ArtistResource::class)
-                            ->hidden(fn (PerformanceModel $record) => $record->artist instanceof Membership),
+                            ->hidden(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
 
                         BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_GROUP, ArtistResource::class)
                             ->label(__('filament.fields.performance.artist'))
-                            ->hidden(fn ($state) => is_null($state)),
+                            ->hidden(fn ($state): bool => is_null($state)),
 
                         BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_MEMBER, ArtistResource::class, true)
                             ->label(__('filament.fields.membership.member'))
-                            ->hidden(fn ($state) => is_null($state)),
+                            ->hidden(fn ($state): bool => is_null($state)),
 
                         TextEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::ATTRIBUTE_ALIAS)
                             ->label(__('filament.fields.membership.alias.name'))
-                            ->visible(fn (PerformanceModel $record) => $record->artist instanceof Membership),
+                            ->visible(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
 
                         TextEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::ATTRIBUTE_AS)
                             ->label(__('filament.fields.membership.as.name'))
-                            ->visible(fn (PerformanceModel $record) => $record->artist instanceof Membership),
+                            ->visible(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
 
                         TextEntry::make(PerformanceModel::ATTRIBUTE_ALIAS)
                             ->label(__('filament.fields.performance.alias.name'))
-                            ->hidden(fn (PerformanceModel $record) => $record->artist instanceof Membership),
+                            ->hidden(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
 
                         TextEntry::make(PerformanceModel::ATTRIBUTE_AS)
                             ->label(__('filament.fields.performance.as.name'))
-                            ->hidden(fn (PerformanceModel $record) => $record->artist instanceof Membership),
+                            ->hidden(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
                     ])
                     ->columns(2),
 

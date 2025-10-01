@@ -47,7 +47,7 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
                     ->doesntStartWith('/')
                     ->doesntEndWith('/')
                     ->rule(new StorageDirectoryExistsRule($fs))
-                    ->hidden(fn ($livewire) => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
+                    ->hidden(fn ($livewire): bool => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
             ]);
     }
 
@@ -60,8 +60,6 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
 
     /**
      * Get the file validation rules.
-     *
-     * @return array
      */
     abstract protected function fileRules(): array;
 }

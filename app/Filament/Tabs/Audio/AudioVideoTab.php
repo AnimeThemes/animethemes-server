@@ -20,10 +20,6 @@ class AudioVideoTab extends BaseTab
         return __('filament.tabs.audio.video.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query->whereDoesntHave(Audio::RELATION_VIDEOS);

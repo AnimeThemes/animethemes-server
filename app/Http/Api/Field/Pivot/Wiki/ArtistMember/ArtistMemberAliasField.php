@@ -18,9 +18,6 @@ class ArtistMemberAliasField extends StringField implements CreatableField, Upda
         parent::__construct($schema, ArtistMember::ATTRIBUTE_ALIAS);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class ArtistMemberAliasField extends StringField implements CreatableField, Upda
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

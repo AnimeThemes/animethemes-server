@@ -29,12 +29,9 @@ class BackfillAnimeAction extends BackfillWikiAction
     use CanCreateAnimeSynonym;
     use CanCreateStudio;
 
-    final public const STUDIOS = 'studios';
-    final public const SYNONYMS = 'synonyms';
+    final public const string STUDIOS = 'studios';
+    final public const string SYNONYMS = 'synonyms';
 
-    /**
-     * @param  array  $toBackfill
-     */
     public function __construct(protected Anime $anime, protected array $toBackfill)
     {
         parent::__construct($anime, $toBackfill);

@@ -36,16 +36,16 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'anime_synonyms';
+    final public const string TABLE = 'anime_synonyms';
 
-    final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_ID = 'synonym_id';
-    final public const ATTRIBUTE_TEXT = 'text';
-    final public const ATTRIBUTE_TYPE = 'type';
+    final public const string ATTRIBUTE_ANIME = 'anime_id';
+    final public const string ATTRIBUTE_ID = 'synonym_id';
+    final public const string ATTRIBUTE_TEXT = 'text';
+    final public const string ATTRIBUTE_TYPE = 'type';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_SERIES = 'anime.series';
-    final public const RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_SERIES = 'anime.series';
+    final public const string RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.

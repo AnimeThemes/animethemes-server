@@ -70,9 +70,6 @@ class Synonym extends BaseResource
         return SynonymModel::ATTRIBUTE_TEXT;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -116,12 +113,12 @@ class Synonym extends BaseResource
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->formatStateUsing(fn (AnimeSynonymType $state) => $state->localize()),
+                    ->formatStateUsing(fn (AnimeSynonymType $state): ?string => $state->localize()),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
                     ->limit(50)
-                    ->tooltip(fn (TextColumn $column) => $column->getState()),
+                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
             ])
             ->searchable();
     }
@@ -139,7 +136,7 @@ class Synonym extends BaseResource
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TYPE)
                             ->label(__('filament.fields.anime_synonym.type.name'))
-                            ->formatStateUsing(fn (AnimeSynonymType $state) => $state->localize()),
+                            ->formatStateUsing(fn (AnimeSynonymType $state): ?string => $state->localize()),
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TEXT)
                             ->label(__('filament.fields.anime_synonym.text.name'))

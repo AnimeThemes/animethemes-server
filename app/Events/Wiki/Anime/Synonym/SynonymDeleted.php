@@ -59,9 +59,9 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
         $anime->searchable();
         $anime->series->each(fn (Series $series) => $series->searchable());
-        $anime->animethemes->each(function (AnimeTheme $theme) {
+        $anime->animethemes->each(function (AnimeTheme $theme): void {
             $theme->searchable();
-            $theme->animethemeentries->each(function (AnimeThemeEntry $entry) {
+            $theme->animethemeentries->each(function (AnimeThemeEntry $entry): void {
                 $entry->searchable();
                 $entry->videos->each(fn (Video $video) => $video->searchable());
             });

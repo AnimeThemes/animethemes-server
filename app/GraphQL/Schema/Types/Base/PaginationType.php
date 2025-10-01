@@ -40,7 +40,7 @@ class PaginationType extends ObjectType
             'paginationInfo' => [
                 'type' => GraphQLType::nonNull(GraphQL::type('PaginationInfo')),
                 'description' => 'Pagination information about the list of items.',
-                'resolve' => fn (LengthAwarePaginator $data) => $data,
+                'resolve' => fn (LengthAwarePaginator $data): LengthAwarePaginator => $data,
             ],
         ];
     }

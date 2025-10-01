@@ -35,7 +35,6 @@ class AnimeSlugField extends StringField implements BindableField, CreatableFiel
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -49,7 +48,6 @@ class AnimeSlugField extends StringField implements BindableField, CreatableFiel
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

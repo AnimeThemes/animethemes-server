@@ -25,12 +25,12 @@ trait ResolvesArguments
     public function args(): array
     {
         return collect($this->arguments())
-            ->mapWithKeys(fn (Argument $argument) => [
+            ->mapWithKeys(fn (Argument $argument): array => [
                 $argument->name => [
                     'name' => $argument->name,
                     'type' => $argument->getType(),
 
-                    ...(! is_null($argument->getDefaultValue()) ? ['defaultValue' => $argument->getDefaultValue()] : []),
+                    ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),
                 ],
             ])
             ->toArray();
@@ -45,10 +45,10 @@ trait ResolvesArguments
     protected function resolveFilterArguments(array $fields): array
     {
         return collect($fields)
-            ->filter(fn (Field $field) => $field instanceof FilterableField)
+            ->filter(fn (Field $field): bool => $field instanceof FilterableField)
             ->map(
                 fn (FilterableField $field) => collect($field->getFilters())
-                    ->map(fn (Filter $filter) => $filter->argument())
+                    ->map(fn (Filter $filter): Argument => $filter->argument())
                     ->toArray()
             )
             ->flatten()
@@ -64,9 +64,9 @@ trait ResolvesArguments
     protected function resolveCreateMutationArguments(array $fields): array
     {
         return collect($fields)
-            ->filter(fn (Field $field) => $field instanceof CreatableField)
+            ->filter(fn (Field $field): bool => $field instanceof CreatableField)
             ->map(
-                fn (Field $field) => new Argument($field->getColumn(), $field->baseType())
+                fn (Field $field): Argument => new Argument($field->getColumn(), $field->baseType())
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
@@ -82,9 +82,9 @@ trait ResolvesArguments
     protected function resolveUpdateMutationArguments(array $fields): array
     {
         return collect($fields)
-            ->filter(fn (Field $field) => $field instanceof UpdatableField)
+            ->filter(fn (Field $field): bool => $field instanceof UpdatableField)
             ->map(
-                fn (Field $field) => new Argument($field->getColumn(), $field->baseType())
+                fn (Field $field): Argument => new Argument($field->getColumn(), $field->baseType())
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()
@@ -98,8 +98,8 @@ trait ResolvesArguments
     protected function resolveBindArguments(array $fields, bool $shouldRequire = true): array
     {
         return collect($fields)
-            ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(fn (Field&BindableField $field) => new BindableArgument($field, $shouldRequire))
+            ->filter(fn (Field $field): bool => $field instanceof BindableField)
+            ->map(fn (Field&BindableField $field): BindableArgument => new BindableArgument($field, $shouldRequire))
             ->toArray();
     }
 }

@@ -72,9 +72,6 @@ class Playlist extends BaseResource
         return PlaylistModel::ATTRIBUTE_NAME;
     }
 
-    /**
-     * @return Builder
-     */
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
@@ -140,12 +137,12 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
                     ->limit(40)
-                    ->tooltip(fn (TextColumn $column) => $column->getState())
+                    ->tooltip(fn (TextColumn $column): mixed => $column->getState())
                     ->copyableWithMessage(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
-                    ->formatStateUsing(fn (PlaylistVisibility $state) => $state->localize()),
+                    ->formatStateUsing(fn (PlaylistVisibility $state): ?string => $state->localize()),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
@@ -180,7 +177,7 @@ class Playlist extends BaseResource
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                             ->label(__('filament.fields.playlist.visibility.name'))
-                            ->formatStateUsing(fn (PlaylistVisibility $state) => $state->localize()),
+                            ->formatStateUsing(fn (PlaylistVisibility $state): ?string => $state->localize()),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_HASHID)
                             ->label(__('filament.fields.playlist.hashid.name'))

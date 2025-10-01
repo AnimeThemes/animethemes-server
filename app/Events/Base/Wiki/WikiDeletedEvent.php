@@ -56,9 +56,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
             ]);
     }
 
-    /**
-     * @return Collection
-     */
     public function getFilamentNotificationRecipients(): Collection
     {
         return User::query()

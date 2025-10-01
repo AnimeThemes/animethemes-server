@@ -20,7 +20,7 @@ abstract class EloquentSchema extends Schema
      */
     public function resource(mixed $resource, Query $query): BaseResource
     {
-        $resourceClass = Str::of(get_class($this))
+        $resourceClass = Str::of(static::class)
             ->replace('Api\\Schema', 'Resources')
             ->replace('Schema', 'Resource')
             ->replaceLast('\\', '\\Resource\\')
@@ -34,7 +34,7 @@ abstract class EloquentSchema extends Schema
      */
     public function collection(mixed $resource, Query $query): BaseCollection
     {
-        $collectionClass = Str::of(get_class($this))
+        $collectionClass = Str::of(static::class)
             ->replace('Api\\Schema', 'Resources')
             ->replace('Schema', 'Collection')
             ->replaceLast('\\', '\\Collection\\')
@@ -45,7 +45,7 @@ abstract class EloquentSchema extends Schema
 
     public function model(): Model
     {
-        $modelClass = Str::of(get_class($this))
+        $modelClass = Str::of(static::class)
             ->replace('Http\\Api\\Schema', 'Models')
             ->remove('Schema')
             ->__toString();
@@ -104,7 +104,7 @@ abstract class EloquentSchema extends Schema
 
         foreach (explode('.', $path) as $path) {
             if (! method_exists($model, $path)) {
-                $classBasename = get_class($model);
+                $classBasename = $model::class;
                 throw new RuntimeException("Relation '$path' does not exist on model '$classBasename'.");
             }
             $model = $model->$path()->getRelated();
@@ -114,7 +114,7 @@ abstract class EloquentSchema extends Schema
             return $model->schema();
         }
 
-        $schema = Str::of(get_class($model))
+        $schema = Str::of($model::class)
             ->replace('Models', 'Http\\Api\\Schema')
             ->append('Schema')
             ->__toString();

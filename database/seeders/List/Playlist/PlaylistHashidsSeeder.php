@@ -17,7 +17,7 @@ class PlaylistHashidsSeeder extends Seeder
     public function run(): void
     {
         Playlist::query()
-            ->chunkById(100, fn (Collection $playlists) => $playlists->each(function (Playlist $playlist) {
+            ->chunkById(100, fn (Collection $playlists) => $playlists->each(function (Playlist $playlist): void {
                 $action = new AssignHashidsAction();
 
                 $action->assign($playlist, 'playlists');

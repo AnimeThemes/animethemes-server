@@ -60,8 +60,6 @@ abstract class Criteria
 
     /**
      * Get the filter values.
-     *
-     * @return array
      */
     public function getFilterValues(): array
     {
@@ -92,13 +90,9 @@ abstract class Criteria
         $filterValues = $filter->getFilterValues($this->getFilterValues());
 
         // Apply filter if we have a subset of valid values specified
-        return ! empty($filterValues) && ! $filter->isAllFilterValues($filterValues);
+        return $filterValues !== [] && ! $filter->isAllFilterValues($filterValues);
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     abstract public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder;
 
     /**

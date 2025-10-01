@@ -13,8 +13,5 @@ interface Likeable
 
     public function unlike(): mixed;
 
-    /**
-     * @return MorphMany
-     */
     public function likes(): MorphMany;
 }

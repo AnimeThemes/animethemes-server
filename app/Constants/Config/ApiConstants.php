@@ -6,7 +6,7 @@ namespace App\Constants\Config;
 
 class ApiConstants
 {
-    final public const PATH_QUALIFIED = 'api.path';
+    final public const string PATH_QUALIFIED = 'api.path';
 
-    final public const URL_QUALIFIED = 'api.url';
+    final public const string URL_QUALIFIED = 'api.url';
 }

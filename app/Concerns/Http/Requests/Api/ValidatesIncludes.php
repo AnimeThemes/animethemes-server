@@ -21,7 +21,7 @@ trait ValidatesIncludes
     {
         return $this->restrictAllowedValues(
             $param,
-            Arr::map($schema->allowedIncludes(), fn (AllowedInclude $include) => $include->path())
+            Arr::map($schema->allowedIncludes(), fn (AllowedInclude $include): string => $include->path())
         );
     }
 }

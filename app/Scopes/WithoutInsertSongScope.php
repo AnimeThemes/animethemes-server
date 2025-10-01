@@ -15,8 +15,6 @@ class WithoutInsertSongScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
-     *
-     * @param  Builder  $builder
      */
     public function apply(Builder $builder, Model $model): void
     {

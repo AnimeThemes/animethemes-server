@@ -24,7 +24,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
         $model = Arr::pull($args, 'model');
 
         $args = collect($args)
-            ->filter(fn ($value) => $value instanceof Model)
+            ->filter(fn ($value): bool => $value instanceof Model)
             ->prepend($model)
             ->values()
             ->all();
@@ -56,9 +56,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
     {
         $baseType = $this->baseType();
 
-        if (! $baseType instanceof BaseType) {
-            throw new RuntimeException("baseType not defined for query {$this->getName()}");
-        }
+        throw_unless($baseType instanceof BaseType, new RuntimeException("baseType not defined for query {$this->getName()}"));
 
         return Type::nonNull(GraphQL::type($this->baseType()->getName()));
     }

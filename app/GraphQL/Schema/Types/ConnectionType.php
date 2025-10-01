@@ -17,7 +17,7 @@ use Rebing\GraphQL\Support\Type as RebingType;
 
 class ConnectionType extends RebingType
 {
-    protected ?PivotType $pivotType;
+    protected ?PivotType $pivotType = null;
 
     public function __construct(protected EdgeType $edgeType)
     {
@@ -45,17 +45,17 @@ class ConnectionType extends RebingType
             'pageInfo' => [
                 'type' => Type::nonNull(GraphQL::type(new PaginationInfoType()->getName())),
                 'description' => 'Pagination information about the list of edges.',
-                'resolve' => fn (LengthAwarePaginator $paginator) => $paginator,
+                'resolve' => fn (LengthAwarePaginator $paginator): LengthAwarePaginator => $paginator,
             ],
             'edges' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),
                 'description' => "A list of {$this->getNodeTypeName()} edges.",
-                'resolve' => fn (LengthAwarePaginator $paginator) => $this->edgesResolver($paginator),
+                'resolve' => fn (LengthAwarePaginator $paginator): Collection => $this->edgesResolver($paginator),
             ],
             'nodes' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->getNodeTypeName())))),
                 'description' => "A list of {$this->getNodeTypeName()} resources. Use this if you don\'t care about pivot fields.",
-                'resolve' => fn (LengthAwarePaginator $paginator) => new Collection(array_values($paginator->items())),
+                'resolve' => fn (LengthAwarePaginator $paginator): Collection => new Collection(array_values($paginator->items())),
             ],
         ];
     }
@@ -89,7 +89,7 @@ class ConnectionType extends RebingType
 
         $values = new Collection(array_values($paginator->items()));
 
-        return $values->map(function (Model $item) use ($fields) {
+        return $values->map(function (Model $item) use ($fields): array {
             $edges = [];
             foreach ($fields as $name => $field) {
                 $column = Arr::get($field, 'alias');

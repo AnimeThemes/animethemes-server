@@ -21,10 +21,6 @@ class VideoUnlinkedTab extends BaseTab
         return __('filament.tabs.video.unlinked.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query

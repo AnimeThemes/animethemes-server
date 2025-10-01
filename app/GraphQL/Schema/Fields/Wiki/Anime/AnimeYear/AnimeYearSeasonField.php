@@ -18,8 +18,8 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumentsField
 {
-    final public const FIELD = 'season';
-    final public const ARGUMENT_SEASON = 'season';
+    final public const string FIELD = 'season';
+    final public const string ARGUMENT_SEASON = 'season';
 
     public function __construct()
     {

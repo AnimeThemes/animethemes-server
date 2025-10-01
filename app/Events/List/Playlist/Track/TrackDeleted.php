@@ -38,7 +38,7 @@ class TrackDeleted extends ListDeletedEvent
     protected function getDiscordMessageDescription(): string
     {
         return Str::of("Track '**{$this->getModel()->getName()}**' has been deleted")
-            ->append($this->playlist ? " for Playlist '**{$this->playlist->getName()}**'." : '.')
+            ->append($this->playlist instanceof Playlist ? " for Playlist '**{$this->playlist->getName()}**'." : '.')
             ->__toString();
     }
 }

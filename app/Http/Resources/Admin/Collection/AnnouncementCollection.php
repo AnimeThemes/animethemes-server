@@ -21,14 +21,13 @@ class AnnouncementCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (Announcement $announcement) => new AnnouncementResource($announcement, $this->query)
+            fn (Announcement $announcement): AnnouncementResource => new AnnouncementResource($announcement, $this->query)
         )->all();
     }
 }

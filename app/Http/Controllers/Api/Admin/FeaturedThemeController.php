@@ -29,9 +29,6 @@ class FeaturedThemeController extends BaseController
         parent::__construct(FeaturedTheme::class, 'featuredtheme');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): FeaturedThemeCollection
     {
         $query = new Query($request->validated());
@@ -55,9 +52,6 @@ class FeaturedThemeController extends BaseController
         return new FeaturedThemeResource($featuredtheme, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, FeaturedTheme $featuredtheme, ShowAction $action): FeaturedThemeResource
     {
         $query = new Query($request->validated());
@@ -67,9 +61,6 @@ class FeaturedThemeController extends BaseController
         return new FeaturedThemeResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, FeaturedTheme $featuredtheme, UpdateAction $action): FeaturedThemeResource
     {
         $updated = $action->update($featuredtheme, $request->validated());
@@ -77,9 +68,6 @@ class FeaturedThemeController extends BaseController
         return new FeaturedThemeResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($featuredtheme);

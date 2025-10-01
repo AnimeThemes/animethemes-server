@@ -29,9 +29,6 @@ use Illuminate\Support\Str;
 
 class UploadVideoAction extends UploadAction
 {
-    /**
-     * @param  array  $attributes
-     */
     public function __construct(
         UploadedFile $file,
         string $path,
@@ -116,12 +113,9 @@ class UploadVideoAction extends UploadAction
             $attributes[Video::ATTRIBUTE_SOURCE] = $source instanceof BackedEnum ? $source->value : $source;
         }
 
-        return Video::updateOrCreate(
-            [
-                Video::ATTRIBUTE_BASENAME => $this->file->getClientOriginalName(),
-            ],
-            $attributes
-        );
+        return Video::query()->updateOrCreate([
+            Video::ATTRIBUTE_BASENAME => $this->file->getClientOriginalName(),
+        ], $attributes);
     }
 
     /**
@@ -129,7 +123,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function attachEntry(Video $video): void
     {
-        if ($this->entry !== null && $video->wasRecentlyCreated) {
+        if ($this->entry instanceof AnimeThemeEntry && $video->wasRecentlyCreated) {
             $video->animethemeentries()->attach($this->entry);
         }
     }
@@ -139,7 +133,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function uploadScript(Video $video): void
     {
-        if ($this->script !== null) {
+        if ($this->script instanceof UploadedFile) {
             $uploadScript = new UploadScriptAction($this->script, $this->path, $video);
 
             $scriptResult = $uploadScript->handle();
@@ -153,7 +147,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function addToPlaylist(Video $video): void
     {
-        if ($encoder = $this->encoder) {
+        if (($encoder = $this->encoder) instanceof User) {
             $playlist = Playlist::query()->firstOrCreate([
                 Playlist::ATTRIBUTE_NAME => 'Encodes',
                 Playlist::ATTRIBUTE_USER => $encoder->getKey(),
@@ -179,8 +173,6 @@ class UploadVideoAction extends UploadAction
 
     /**
      * The list of disk names.
-     *
-     * @return array
      */
     public function disks(): array
     {

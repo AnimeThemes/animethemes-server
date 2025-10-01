@@ -22,9 +22,6 @@ class VideoAudioIdField extends Field implements CreatableField, SelectableField
         parent::__construct($schema, Video::ATTRIBUTE_AUDIO);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -41,9 +38,6 @@ class VideoAudioIdField extends Field implements CreatableField, SelectableField
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

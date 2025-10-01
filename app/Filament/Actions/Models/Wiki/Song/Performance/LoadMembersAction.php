@@ -26,7 +26,7 @@ class LoadMembersAction extends Action
 
         $this->label(__('filament.fields.performance.load_members.name'));
 
-        $this->action(function (Get $get, Set $set) {
+        $this->action(function (Get $get, Set $set): void {
             $artistId = $get(Artist::ATTRIBUTE_ID);
             if ($artistId === null) {
                 $set(PerformanceForm::REPEATER_MEMBERSHIPS, []);
@@ -39,7 +39,7 @@ class LoadMembersAction extends Action
                 ->with([Artist::RELATION_MEMBERS])
                 ->find($artistId);
 
-            $set(PerformanceForm::REPEATER_MEMBERSHIPS, $group->members->map(fn (Artist $member) => [
+            $set(PerformanceForm::REPEATER_MEMBERSHIPS, $group->members->map(fn (Artist $member): array => [
                 Membership::ATTRIBUTE_MEMBER => $member->getKey(),
                 Membership::ATTRIBUTE_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
                 Membership::ATTRIBUTE_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),

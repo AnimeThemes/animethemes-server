@@ -30,7 +30,7 @@ class AudioRepository extends StorageRepository
      */
     protected function filterCallback(): Closure
     {
-        return fn (StorageAttributes $file) => $file->isFile() && File::extension($file->path()) === 'ogg';
+        return fn (StorageAttributes $file): bool => $file->isFile() && File::extension($file->path()) === 'ogg';
     }
 
     /**
@@ -40,7 +40,7 @@ class AudioRepository extends StorageRepository
      */
     protected function mapCallback(): Closure
     {
-        return fn (StorageAttributes $file) => new Audio([
+        return fn (StorageAttributes $file): Audio => new Audio([
             Audio::ATTRIBUTE_BASENAME => File::basename($file->path()),
             Audio::ATTRIBUTE_FILENAME => File::name($file->path()),
             Audio::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),

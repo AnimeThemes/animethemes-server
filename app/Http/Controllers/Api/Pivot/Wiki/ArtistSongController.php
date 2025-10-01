@@ -29,9 +29,6 @@ class ArtistSongController extends PivotController
         parent::__construct(Artist::class, 'artist', Song::class, 'song');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ArtistSongCollection
     {
         $query = new Query($request->validated());
@@ -59,9 +56,6 @@ class ArtistSongController extends PivotController
         return new ArtistSongResource($artistSong, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): ArtistSongResource
     {
         $artistSong = ArtistSong::query()
@@ -76,9 +70,6 @@ class ArtistSongController extends PivotController
         return new ArtistSongResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): ArtistSongResource
     {
         $artistSong = ArtistSong::query()
@@ -93,9 +84,6 @@ class ArtistSongController extends PivotController
         return new ArtistSongResource($updated, $query);
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Artist $artist, Song $song, DestroyAction $action): JsonResponse
     {
         $artistSong = ArtistSong::query()

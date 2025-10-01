@@ -10,6 +10,7 @@ use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Scope\ScopeParser;
+use App\Scout\Elasticsearch\Api\Criteria\Filter\Criteria;
 use App\Scout\Elasticsearch\Api\Parser\FilterParser;
 use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
@@ -63,8 +64,6 @@ class Elasticsearch extends Search
 
     /**
      * Perform the search.
-     *
-     * @return Collection|Paginator
      */
     public function search(
         Query $query,
@@ -79,7 +78,7 @@ class Elasticsearch extends Search
         $builder = $elasticQuery->build($query->getSearchCriteria());
 
         // load aggregate fields
-        $builder->refineModels(function (Builder $searchModelBuilder) use ($query, $schema) {
+        $builder->refineModels(function (Builder $searchModelBuilder) use ($query, $schema): void {
             $this->withAggregates($searchModelBuilder, $query, $schema);
         });
 
@@ -91,7 +90,7 @@ class Elasticsearch extends Search
         $scope = ScopeParser::parse($schema->type());
         foreach ($query->getFilterCriteria() as $filterCriterion) {
             $elasticFilterCriteria = FilterParser::parse($filterCriterion);
-            if ($elasticFilterCriteria !== null) {
+            if ($elasticFilterCriteria instanceof Criteria) {
                 foreach ($elasticSchema->filters() as $filter) {
                     if ($filterCriterion->shouldFilter($filter, $scope)) {
                         $filterBuilder = $elasticFilterCriteria->filter($filterBuilder, $filter, $query);
@@ -109,7 +108,7 @@ class Elasticsearch extends Search
         $sorts = [];
         foreach ($query->getSortCriteria() as $sortCriterion) {
             $elasticSortCriteria = SortParser::parse($sortCriterion);
-            if ($elasticSortCriteria !== null) {
+            if ($elasticSortCriteria instanceof Api\Criteria\Sort\Criteria) {
                 foreach ($elasticSchema->sorts() as $sort) {
                     if ($sortCriterion->shouldSort($sort, $scope)) {
                         $sorts[] = $elasticSortCriteria->sort($sort);
@@ -117,7 +116,7 @@ class Elasticsearch extends Search
                 }
             }
         }
-        if (! empty($sorts)) {
+        if ($sorts !== []) {
             $builder->sortRaw($sorts);
         }
 
@@ -125,7 +124,7 @@ class Elasticsearch extends Search
         $paginationCriteria = $query->getPagingCriteria($paginationStrategy);
         $elasticPaginationCriteria = PagingParser::parse($paginationCriteria);
 
-        return $elasticPaginationCriteria !== null
+        return $elasticPaginationCriteria instanceof Api\Criteria\Paging\Criteria
             ? $elasticPaginationCriteria->paginate($builder)
             : $builder->execute()->models();
     }
@@ -135,7 +134,7 @@ class Elasticsearch extends Search
      */
     private function elasticSchema(EloquentSchema $schema): Schema
     {
-        $elasticSchemaClass = Str::of(get_class($schema))
+        $elasticSchemaClass = Str::of($schema::class)
             ->replace('Http', 'Scout\\Elasticsearch')
             ->__toString();
 

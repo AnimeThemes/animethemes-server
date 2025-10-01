@@ -24,7 +24,6 @@ class DumpPathField extends StringField implements CreatableField, RequiredOnCre
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -37,7 +36,6 @@ class DumpPathField extends StringField implements CreatableField, RequiredOnCre
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

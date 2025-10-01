@@ -21,12 +21,11 @@ class ArtistSongCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (ArtistSong $artistSong) => new ArtistSongResource($artistSong, $this->query))->all();
+        return $this->collection->map(fn (ArtistSong $artistSong): ArtistSongResource => new ArtistSongResource($artistSong, $this->query))->all();
     }
 }

@@ -21,9 +21,6 @@ class PerformanceSongIdField extends Field implements CreatableField, Selectable
         parent::__construct($schema, Performance::ATTRIBUTE_SONG);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

@@ -109,7 +109,7 @@ class AdminSeeder extends RoleSeeder
         $this->configureAbilities(
             $role,
             array_column(
-                Arr::reject(SpecialPermission::cases(), fn ($value) => $value === SpecialPermission::BYPASS_AUTHORIZATION),
+                Arr::reject(SpecialPermission::cases(), fn ($value): bool => $value === SpecialPermission::BYPASS_AUTHORIZATION),
                 'value'
             )
         );

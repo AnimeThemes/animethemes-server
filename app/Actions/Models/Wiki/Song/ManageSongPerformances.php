@@ -116,7 +116,7 @@ class ManageSongPerformances
                 ->whereNotIn(
                     Performance::ATTRIBUTE_ARTIST_ID,
                     Arr::map(
-                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Membership::class)),
+                        Arr::where($performancesToCreate, fn ($performance): bool => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Membership::class)),
                         fn ($performanceMembership) => Arr::get($performanceMembership, Performance::ATTRIBUTE_ARTIST_ID)
                     )
                 );
@@ -130,7 +130,7 @@ class ManageSongPerformances
                 ->whereNotIn(
                     Performance::ATTRIBUTE_ARTIST_ID,
                     Arr::map(
-                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Artist::class)),
+                        Arr::where($performancesToCreate, fn ($performance): bool => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Artist::class)),
                         fn ($solo) => Arr::get($solo, Performance::ATTRIBUTE_ARTIST_ID)
                     )
                 );

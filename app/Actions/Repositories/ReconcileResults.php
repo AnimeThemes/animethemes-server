@@ -18,11 +18,6 @@ use Illuminate\Support\Str;
  */
 abstract class ReconcileResults extends ActionResult
 {
-    /**
-     * @param  Collection  $created
-     * @param  Collection  $deleted
-     * @param  Collection  $updated
-     */
     public function __construct(
         protected readonly Collection $created = new Collection(),
         protected readonly Collection $deleted = new Collection(),
@@ -33,8 +28,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Get created models.
-     *
-     * @return Collection
      */
     public function getCreated(): Collection
     {
@@ -43,8 +36,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Get deleted models.
-     *
-     * @return Collection
      */
     public function getDeleted(): Collection
     {
@@ -53,8 +44,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Get updated models.
-     *
-     * @return Collection
      */
     public function getUpdated(): Collection
     {
@@ -66,7 +55,14 @@ abstract class ReconcileResults extends ActionResult
      */
     public function hasChanges(): bool
     {
-        return $this->created->isNotEmpty() || $this->deleted->isNotEmpty() || $this->updated->isNotEmpty();
+        if ($this->created->isNotEmpty()) {
+            return true;
+        }
+        if ($this->deleted->isNotEmpty()) {
+            return true;
+        }
+
+        return $this->updated->isNotEmpty();
     }
 
     /**
@@ -120,8 +116,6 @@ abstract class ReconcileResults extends ActionResult
 
     /**
      * Get the user-friendly label for the model class name.
-     *
-     * @param  int|array|Countable  $models
      */
     protected function label(int|array|Countable $models = 1): string
     {

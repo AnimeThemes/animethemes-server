@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class TrashedCriteria extends Criteria
 {
-    final public const PARAM_VALUE = 'trashed';
+    final public const string PARAM_VALUE = 'trashed';
 
     final public function __construct(
         Predicate $predicate,
@@ -39,10 +39,6 @@ class TrashedCriteria extends Criteria
         );
     }
 
-    /**
-     * @param  Builder  $builder
-     * @return Builder
-     */
     public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
         $filterValues = $filter->getFilterValues($this->getFilterValues());

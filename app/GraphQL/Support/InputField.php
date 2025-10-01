@@ -10,8 +10,8 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 final readonly class InputField
 {
     public function __construct(
-        protected string $name,
-        protected Type|string $type,
+        private string $name,
+        private Type|string $type,
     ) {}
 
     public function getName(): string

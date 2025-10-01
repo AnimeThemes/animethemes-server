@@ -48,8 +48,8 @@ class UnlikeMutation extends BaseMutation
         $type = new LikeType();
 
         return collect($type->fieldClasses())
-            ->filter(fn (Field $field) => $field instanceof DeletableField)
-            ->mapWithKeys(fn (Field&DeletableField $field) => [$field->getColumn() => $field->getDeleteRules($args)])
+            ->filter(fn (Field $field): bool => $field instanceof DeletableField)
+            ->mapWithKeys(fn (Field&DeletableField $field): array => [$field->getColumn() => $field->getDeleteRules($args)])
             ->toArray();
     }
 

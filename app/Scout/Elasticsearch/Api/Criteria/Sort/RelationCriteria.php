@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 class RelationCriteria extends FieldCriteria
 {
     /**
-     * @return array
-     *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function sort(Sort $sort): array

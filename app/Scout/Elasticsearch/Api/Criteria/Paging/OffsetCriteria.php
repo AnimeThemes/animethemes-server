@@ -19,9 +19,6 @@ class OffsetCriteria extends Criteria
         parent::__construct($criteria);
     }
 
-    /**
-     * @return Collection|Paginator
-     */
     public function paginate(SearchParametersBuilder $builder): Collection|Paginator
     {
         $pageNameQuery = Str::of(PagingParser::param())

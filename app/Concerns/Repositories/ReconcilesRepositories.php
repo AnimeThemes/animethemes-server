@@ -13,8 +13,6 @@ use Exception;
 trait ReconcilesRepositories
 {
     /**
-     * @param  array  $data
-     *
      * @throws Exception
      */
     protected function reconcileRepositories(array $data = []): ActionResult
@@ -44,20 +42,12 @@ trait ReconcilesRepositories
 
     abstract protected function reconcileAction(): ReconcileRepositoriesAction;
 
-    /**
-     * @param  array  $data
-     */
     abstract protected function getSourceRepository(array $data = []): ?RepositoryInterface;
 
-    /**
-     * @param  array  $data
-     */
     abstract protected function getDestinationRepository(array $data = []): ?RepositoryInterface;
 
     /**
      * Apply filters to repositories before reconciliation.
-     *
-     * @param  array  $data
      */
     protected function handleFilters(
         RepositoryInterface $sourceRepository,

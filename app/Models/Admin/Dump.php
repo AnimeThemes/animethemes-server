@@ -27,11 +27,11 @@ class Dump extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'dumps';
+    final public const string TABLE = 'dumps';
 
-    final public const ATTRIBUTE_ID = 'dump_id';
-    final public const ATTRIBUTE_PATH = 'path';
-    final public const ATTRIBUTE_LINK = 'link';
+    final public const string ATTRIBUTE_ID = 'dump_id';
+    final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_LINK = 'link';
 
     /**
      * Is auditing disabled?
@@ -88,7 +88,7 @@ class Dump extends BaseModel
     /**
      * The link of the dump.
      */
-    public function getLinkAttribute(): ?string
+    protected function getLinkAttribute(): ?string
     {
         if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
             return route('dump.show', $this);
@@ -122,13 +122,11 @@ class Dump extends BaseModel
 
     /**
      * Scope a query to only include safe dumps.
-     *
-     * @param  Builder  $query
      */
     #[Scope]
-    public function onlySafeDumps(Builder $query): void
+    protected function onlySafeDumps(Builder $query): void
     {
-        $query->where(function (Builder $query) {
+        $query->where(function (Builder $query): void {
             foreach (Dump::safeDumps() as $path) {
                 $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
             }

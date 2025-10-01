@@ -13,7 +13,6 @@ class YearShowRequest extends ShowRequest
     /**
      * Get the filter validation rules.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -25,7 +24,6 @@ class YearShowRequest extends ShowRequest
     /**
      * Get the sort validation rules.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

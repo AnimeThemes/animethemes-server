@@ -33,9 +33,9 @@ class RestoreAction extends BaseRestoreAction
             return $record->trashed();
         });
 
-        $this->after(fn (Model $record) => ActionLog::modelRestored($record));
+        $this->after(fn (Model $record): ActionLog => ActionLog::modelRestored($record));
 
-        $this->using(function (Model&SoftDeletable $record) {
+        $this->using(function (Model&SoftDeletable $record): bool {
             Gate::authorize('restore', $record);
 
             $result = $record->restore();

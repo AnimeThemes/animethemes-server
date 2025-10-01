@@ -51,7 +51,7 @@ class ExternalProfileFactory extends Factory
     public function entries(int $count): static
     {
         return $this->afterCreating(
-            function (ExternalProfile $profile) use ($count) {
+            function (ExternalProfile $profile) use ($count): void {
                 foreach (range(1, $count) as $index) {
                     $entry = ExternalEntry::factory()
                         ->for($profile)
@@ -75,7 +75,7 @@ class ExternalProfileFactory extends Factory
     public function entriesForIds(array $animeIds): static
     {
         return $this->afterCreating(
-            function (ExternalProfile $profile) use ($animeIds) {
+            function (ExternalProfile $profile) use ($animeIds): void {
                 foreach ($animeIds as $animeId) {
                     $entry = ExternalEntry::factory()
                         ->for($profile)

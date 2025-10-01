@@ -26,7 +26,6 @@ abstract class BaseResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -84,8 +83,6 @@ abstract class BaseResource extends JsonResource
 
     /**
      * Get the allowed pivots for the resource.
-     *
-     * @return array
      */
     protected function getAllowedPivots(): array
     {

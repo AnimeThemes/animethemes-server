@@ -19,8 +19,5 @@ abstract class Criteria
         return $this->criteria->getStrategy();
     }
 
-    /**
-     * @return Collection|Paginator
-     */
     abstract public function paginate(SearchParametersBuilder $builder): Collection|Paginator;
 }

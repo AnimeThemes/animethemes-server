@@ -21,8 +21,6 @@ abstract class ElasticQuery
      * - Matching all terms (words) (x1.0)
      * - Matching at least one term (word) (x0.6)
      * - Matching fuzzy (x0.4)
-     *
-     * @return array
      */
     protected function createTextQuery(string $field, string $searchTerm): array
     {
@@ -63,14 +61,11 @@ abstract class ElasticQuery
 
     /**
      * Helper function for raw queries. This will wrap queries in nested queries.
-     *
-     * @param  array  $nestedQueries
-     * @return array
      */
     protected function createNestedQuery(string $nestedResource, array $nestedQueries): array
     {
         return array_map(
-            fn (array $nestedQuery) => [
+            fn (array $nestedQuery): array => [
                 'nested' => [
                     'path' => $nestedResource,
                     'query' => $nestedQuery,
@@ -83,8 +78,6 @@ abstract class ElasticQuery
     /**
      * Shorthand function for calling `$this->createNestedQuery()` with the output from
      * `$this->createTextQuery()`.
-     *
-     * @return array
      */
     protected function createNestedTextQuery(string $nestedResource, string $field, string $searchTerm): array
     {
@@ -103,9 +96,7 @@ abstract class ElasticQuery
                 ->append('Query')
                 ->__toString();
 
-        if (! class_exists($query)) {
-            throw new RuntimeException("Please add the 'getElasticQuery' method to the model ".$model::class);
-        }
+        throw_unless(class_exists($query), new RuntimeException("Please add the 'getElasticQuery' method to the model ".$model::class));
 
         return new ReflectionClass($query)->newInstance();
     }

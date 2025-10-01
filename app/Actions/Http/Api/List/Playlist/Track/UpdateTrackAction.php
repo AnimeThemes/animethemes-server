@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Log;
 class UpdateTrackAction
 {
     /**
-     * @param  array  $parameters
-     *
      * @throws Exception
      */
     public function update(Playlist $playlist, PlaylistTrack $track, array $parameters): PlaylistTrack

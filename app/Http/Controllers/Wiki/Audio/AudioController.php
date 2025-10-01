@@ -20,9 +20,6 @@ class AudioController extends Controller
 {
     /**
      * Stream audio through configured streaming method.
-     *
-     * @param  Audio  $audio
-     * @return Response
      */
     public function show(Audio $audio, Request $request): Response
     {

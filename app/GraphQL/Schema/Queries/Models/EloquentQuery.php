@@ -7,6 +7,7 @@ namespace App\GraphQL\Schema\Queries\Models;
 use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Queries\BaseQuery;
+use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\TrashedArgument;
@@ -60,7 +61,7 @@ abstract class EloquentQuery extends BaseQuery
             return $baseType->model();
         }
 
-        throw new RuntimeException('The base return rebing type must be an instance of EloquentType, '.get_class($baseType).' given.');
+        throw new RuntimeException('The base return rebing type must be an instance of EloquentType, '.($baseType instanceof BaseType ? $baseType::class : self::class).' given.');
     }
 
     /**

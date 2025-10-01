@@ -41,15 +41,15 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'studios';
+    final public const string TABLE = 'studios';
 
-    final public const ATTRIBUTE_ID = 'studio_id';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_ID = 'studio_id';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SLUG = 'slug';
 
-    final public const RELATION_ANIME = 'anime';
-    final public const RELATION_IMAGES = 'images';
-    final public const RELATION_RESOURCES = 'resources';
+    final public const string RELATION_ANIME = 'anime';
+    final public const string RELATION_IMAGES = 'images';
+    final public const string RELATION_RESOURCES = 'resources';
 
     /**
      * The attributes that are mass assignable.

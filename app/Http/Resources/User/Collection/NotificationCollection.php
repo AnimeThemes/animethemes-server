@@ -21,12 +21,11 @@ class NotificationCollection extends BaseCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Notification $notification) => new NotificationResource($notification, $this->query))->all();
+        return $this->collection->map(fn (Notification $notification): NotificationResource => new NotificationResource($notification, $this->query))->all();
     }
 }

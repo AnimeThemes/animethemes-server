@@ -18,9 +18,6 @@ class VideoUncenField extends BooleanField implements CreatableField, UpdatableF
         parent::__construct($schema, Video::ATTRIBUTE_UNCEN);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class VideoUncenField extends BooleanField implements CreatableField, UpdatableF
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

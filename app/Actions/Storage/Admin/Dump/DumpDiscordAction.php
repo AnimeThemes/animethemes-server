@@ -14,12 +14,10 @@ class DumpDiscordAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
-    final public const FILENAME_PREFIX = 'animethemes-db-dump-discord-';
+    final public const string FILENAME_PREFIX = 'animethemes-db-dump-discord-';
 
     /**
      * The list of tables to include in the dump.
-     *
-     * @return array
      */
     protected function allowedTables(): array
     {

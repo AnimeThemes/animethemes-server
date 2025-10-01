@@ -34,7 +34,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getCreationRules(array $args): array
     {
@@ -53,7 +52,6 @@ class PlaylistTrackPreviousField extends Field implements CreatableField, Updata
 
     /**
      * @param  array<string, mixed>  $args
-     * @return array
      */
     public function getUpdateRules(array $args): array
     {

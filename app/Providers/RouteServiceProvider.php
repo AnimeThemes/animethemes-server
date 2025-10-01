@@ -75,7 +75,7 @@ class RouteServiceProvider extends ServiceProvider
                 return Limit::none();
             }
 
-            return Limit::perMinute($limit)->by($request->ip())->response(function (Request $request) {
+            return Limit::perMinute($limit)->by($request->ip())->response(function (Request $request): void {
                 /** @var Video $video */
                 $video = $request->route('video');
 
@@ -83,7 +83,7 @@ class RouteServiceProvider extends ServiceProvider
             });
         });
 
-        $this->routes(function () {
+        $this->routes(function (): void {
             Route::middleware('web')
                 ->domain(Config::get('web.url'))
                 ->prefix(Config::get('web.path'))

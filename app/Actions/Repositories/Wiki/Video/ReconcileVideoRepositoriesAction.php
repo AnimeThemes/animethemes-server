@@ -34,7 +34,7 @@ class ReconcileVideoRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
-        return fn (Video $first, Video $second) => $first->basename <=> $second->basename;
+        return fn (Video $first, Video $second): int => $first->basename <=> $second->basename;
     }
 
     /**
@@ -59,13 +59,11 @@ class ReconcileVideoRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForUpdate(): Closure
     {
-        return fn (Video $first, Video $second) => [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
+        return fn (Video $first, Video $second): int => [$first->basename, $first->path, $first->size] <=> [$second->basename, $second->path, $second->size];
     }
 
     /**
      * Get source model that has been updated for destination model.
-     *
-     * @param  Collection  $sourceModels
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
@@ -77,10 +75,6 @@ class ReconcileVideoRepositoriesAction extends ReconcileRepositoriesAction
 
     /**
      * Get reconciliation results.
-     *
-     * @param  Collection  $created
-     * @param  Collection  $deleted
-     * @param  Collection  $updated
      */
     protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
     {

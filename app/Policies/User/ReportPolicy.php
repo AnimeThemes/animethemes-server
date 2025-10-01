@@ -18,7 +18,7 @@ class ReportPolicy extends BasePolicy
     public function viewAny(?User $user, mixed $value = null): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value)
+            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
@@ -32,7 +32,7 @@ class ReportPolicy extends BasePolicy
     public function view(?User $user, Model $report): Response
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(Role::ADMIN->value)
+            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }

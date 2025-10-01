@@ -24,13 +24,13 @@ class DiscordThread extends BaseModel
 {
     use HasFactory;
 
-    final public const TABLE = 'discord_threads';
+    final public const string TABLE = 'discord_threads';
 
-    final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_ID = 'thread_id';
-    final public const ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_ANIME = 'anime_id';
+    final public const string ATTRIBUTE_ID = 'thread_id';
+    final public const string ATTRIBUTE_NAME = 'name';
 
-    final public const RELATION_ANIME = 'anime';
+    final public const string RELATION_ANIME = 'anime';
 
     /**
      * Is auditing disabled?

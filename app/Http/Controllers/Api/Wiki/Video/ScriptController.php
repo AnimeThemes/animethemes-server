@@ -29,9 +29,6 @@ class ScriptController extends BaseController
         parent::__construct(VideoScript::class, 'videoscript');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ScriptCollection
     {
         $query = new Query($request->validated());
@@ -51,9 +48,6 @@ class ScriptController extends BaseController
         return new ScriptResource($script, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, VideoScript $videoscript, ShowAction $action): ScriptResource
     {
         $query = new Query($request->validated());
@@ -63,9 +57,6 @@ class ScriptController extends BaseController
         return new ScriptResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, VideoScript $videoscript, UpdateAction $action): ScriptResource
     {
         $updated = $action->update($videoscript, $request->validated());
@@ -73,9 +64,6 @@ class ScriptController extends BaseController
         return new ScriptResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(VideoScript $videoscript, DestroyAction $action): ScriptResource
     {
         $deleted = $action->destroy($videoscript);
@@ -83,9 +71,6 @@ class ScriptController extends BaseController
         return new ScriptResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(VideoScript $videoscript, RestoreAction $action): ScriptResource
     {
         $restored = $action->restore($videoscript);
@@ -93,9 +78,6 @@ class ScriptController extends BaseController
         return new ScriptResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(VideoScript $videoscript, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($videoscript);

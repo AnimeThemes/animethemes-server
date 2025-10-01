@@ -21,14 +21,13 @@ class PageCollection extends BaseCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (Page $page) => new PageResource($page, $this->query)
+            fn (Page $page): PageResource => new PageResource($page, $this->query)
         )->all();
     }
 }

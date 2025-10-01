@@ -19,10 +19,10 @@ class ReplicateAction extends BaseReplicateAction
     {
         parent::setUp();
 
-        $this->schema(fn (Schema $schema, BaseListResources|BaseManageResources|BaseRelationManager $livewire) => $livewire->form($schema)->getComponents());
+        $this->schema(fn (Schema $schema, BaseListResources|BaseManageResources|BaseRelationManager $livewire): array => $livewire->form($schema)->getComponents());
 
         $this->successRedirectUrl(fn (Model $replica) => Filament::getModelResource($replica)::getUrl('view', ['record' => $replica]));
 
-        $this->after(fn (Model $replica) => ActionLog::modelCreated($replica));
+        $this->after(fn (Model $replica): ActionLog => ActionLog::modelCreated($replica));
     }
 }

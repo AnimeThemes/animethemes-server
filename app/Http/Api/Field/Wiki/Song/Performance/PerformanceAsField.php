@@ -18,9 +18,6 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
         parent::__construct($schema, Performance::ATTRIBUTE_AS);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [
@@ -30,9 +27,6 @@ class PerformanceAsField extends StringField implements CreatableField, Updatabl
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getUpdateRules(Request $request): array
     {
         return [

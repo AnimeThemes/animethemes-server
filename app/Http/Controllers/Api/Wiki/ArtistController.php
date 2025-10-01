@@ -29,9 +29,6 @@ class ArtistController extends BaseController
         parent::__construct(Artist::class, 'artist');
     }
 
-    /**
-     * @param  IndexAction  $action
-     */
     public function index(IndexRequest $request, IndexAction $action): ArtistCollection
     {
         $query = new Query($request->validated());
@@ -53,9 +50,6 @@ class ArtistController extends BaseController
         return new ArtistResource($artist, new Query());
     }
 
-    /**
-     * @param  ShowAction  $action
-     */
     public function show(ShowRequest $request, Artist $artist, ShowAction $action): ArtistResource
     {
         $query = new Query($request->validated());
@@ -65,9 +59,6 @@ class ArtistController extends BaseController
         return new ArtistResource($show, $query);
     }
 
-    /**
-     * @param  UpdateAction  $action
-     */
     public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): ArtistResource
     {
         $updated = $action->update($artist, $request->validated());
@@ -75,9 +66,6 @@ class ArtistController extends BaseController
         return new ArtistResource($updated, new Query());
     }
 
-    /**
-     * @param  DestroyAction  $action
-     */
     public function destroy(Artist $artist, DestroyAction $action): ArtistResource
     {
         $deleted = $action->destroy($artist);
@@ -85,9 +73,6 @@ class ArtistController extends BaseController
         return new ArtistResource($deleted, new Query());
     }
 
-    /**
-     * @param  RestoreAction  $action
-     */
     public function restore(Artist $artist, RestoreAction $action): ArtistResource
     {
         $restored = $action->restore($artist);
@@ -95,9 +80,6 @@ class ArtistController extends BaseController
         return new ArtistResource($restored, new Query());
     }
 
-    /**
-     * @param  ForceDeleteAction  $action
-     */
     public function forceDelete(Artist $artist, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($artist);

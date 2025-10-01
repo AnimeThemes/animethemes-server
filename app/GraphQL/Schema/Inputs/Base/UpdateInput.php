@@ -41,19 +41,19 @@ class UpdateInput extends Input
         $baseType = $this->type;
 
         $fields[] = collect($baseType->fieldClasses())
-            ->filter(fn (Field $field) => $field instanceof BindableField)
-            ->map(fn (Field&BindableField $field) => new InputField($field->getName(), $field->type()->__toString().'!'))
+            ->filter(fn (Field $field): bool => $field instanceof BindableField)
+            ->map(fn (Field&BindableField $field): InputField => new InputField($field->getName(), $field->type()->__toString().'!'))
             ->toArray();
 
         $fields[] = collect($baseType->fieldClasses())
-            ->filter(fn (Field $field) => $field instanceof UpdatableField) // and reportable field?
+            ->filter(fn (Field $field): bool => $field instanceof UpdatableField) // and reportable field?
             ->map(
-                fn (Field&UpdatableField $field) => new InputField($field->getName(), $field->type().($field instanceof RequiredOnUpdate ? '!' : ''))
+                fn (Field&UpdatableField $field): InputField => new InputField($field->getName(), $field->type().($field instanceof RequiredOnUpdate ? '!' : ''))
             )
             ->toArray();
 
         $fields[] = collect($baseType->relations())
-            ->mapWithKeys(function (Relation $relation) {
+            ->mapWithKeys(function (Relation $relation): array {
                 $baseType = $relation->getBaseType();
                 if (! $baseType instanceof EloquentType) {
                     return [];
@@ -66,7 +66,7 @@ class UpdateInput extends Input
                     default => [],
                 };
             })
-            ->map(fn (Input $input, string $name) => new InputField($name, $input->getName()))
+            ->map(fn (Input $input, string $name): InputField => new InputField($name, $input->getName()))
             ->toArray();
 
         return Arr::flatten($fields);

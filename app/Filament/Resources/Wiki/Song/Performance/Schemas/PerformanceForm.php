@@ -22,8 +22,8 @@ use Filament\Schemas\Schema;
 
 class PerformanceForm
 {
-    final public const REPEATER_PERFORMANCES = SongModel::RELATION_PERFORMANCES;
-    final public const REPEATER_MEMBERSHIPS = 'memberships';
+    final public const string REPEATER_PERFORMANCES = SongModel::RELATION_PERFORMANCES;
+    final public const string REPEATER_MEMBERSHIPS = 'memberships';
 
     /**
      * Configure the form schema.
@@ -62,11 +62,11 @@ class PerformanceForm
                 ->defaultItems(0)
                 ->columns(3)
                 ->columnSpanFull()
-                ->formatStateUsing(function ($livewire, Get $get) {
+                ->formatStateUsing(function ($livewire, Get $get): array {
                     /** @var SongModel|null $song */
                     $song = $livewire instanceof PerformanceSongRelationManager
                         ? $livewire->getOwnerRecord()
-                        : SongModel::find($get(Performance::ATTRIBUTE_SONG));
+                        : SongModel::query()->find($get(Performance::ATTRIBUTE_SONG));
 
                     return PerformanceSongRelationManager::formatArtists($song);
                 })

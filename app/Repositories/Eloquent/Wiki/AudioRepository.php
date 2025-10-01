@@ -14,9 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class AudioRepository extends EloquentRepository
 {
-    /**
-     * @return Builder
-     */
     protected function builder(): Builder
     {
         return Audio::query();

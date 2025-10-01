@@ -21,7 +21,7 @@ class BackfillAudioSeeder extends Seeder
     {
         Video::query()
             ->whereDoesntHave(Video::RELATION_AUDIO)
-            ->chunkById(100, fn (Collection $videos) => $videos->each(function (Video $video) {
+            ->chunkById(100, fn (Collection $videos) => $videos->each(function (Video $video): void {
                 $action = new BackfillAudioAction($video);
 
                 $action->handle();

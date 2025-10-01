@@ -63,31 +63,31 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     use Searchable;
     use SoftDeletes;
 
-    final public const TABLE = 'anime';
+    final public const string TABLE = 'anime';
 
-    final public const ATTRIBUTE_ID = 'anime_id';
-    final public const ATTRIBUTE_MEDIA_FORMAT = 'media_format';
-    final public const ATTRIBUTE_NAME = 'name';
-    final public const ATTRIBUTE_SEASON = 'season';
-    final public const ATTRIBUTE_SLUG = 'slug';
-    final public const ATTRIBUTE_SYNOPSIS = 'synopsis';
-    final public const ATTRIBUTE_YEAR = 'year';
+    final public const string ATTRIBUTE_ID = 'anime_id';
+    final public const string ATTRIBUTE_MEDIA_FORMAT = 'media_format';
+    final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_SEASON = 'season';
+    final public const string ATTRIBUTE_SLUG = 'slug';
+    final public const string ATTRIBUTE_SYNOPSIS = 'synopsis';
+    final public const string ATTRIBUTE_YEAR = 'year';
 
-    final public const RELATION_ARTISTS = 'animethemes.song.artists';
-    final public const RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
-    final public const RELATION_ENTRIES = 'animethemes.animethemeentries';
-    final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
-    final public const RELATION_EXTERNAL_PROFILE = 'externalentries.externalprofile';
-    final public const RELATION_GROUPS = 'animethemes.group';
-    final public const RELATION_IMAGES = 'images';
-    final public const RELATION_RESOURCES = 'resources';
-    final public const RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscript';
-    final public const RELATION_SERIES = 'series';
-    final public const RELATION_SONG = 'animethemes.song';
-    final public const RELATION_STUDIOS = 'studios';
-    final public const RELATION_SYNONYMS = 'animesynonyms';
-    final public const RELATION_THEMES = 'animethemes';
-    final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
+    final public const string RELATION_ARTISTS = 'animethemes.song.artists';
+    final public const string RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
+    final public const string RELATION_ENTRIES = 'animethemes.animethemeentries';
+    final public const string RELATION_EXTERNAL_ENTRIES = 'externalentries';
+    final public const string RELATION_EXTERNAL_PROFILE = 'externalentries.externalprofile';
+    final public const string RELATION_GROUPS = 'animethemes.group';
+    final public const string RELATION_IMAGES = 'images';
+    final public const string RELATION_RESOURCES = 'resources';
+    final public const string RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscript';
+    final public const string RELATION_SERIES = 'series';
+    final public const string RELATION_SONG = 'animethemes.song';
+    final public const string RELATION_STUDIOS = 'studios';
+    final public const string RELATION_SYNONYMS = 'animesynonyms';
+    final public const string RELATION_THEMES = 'animethemes';
+    final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
      * The attributes that are mass assignable.
@@ -134,9 +134,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  Builder  $query
-     * @return Builder
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -145,8 +142,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
 
     /**
      * Get the indexable data array for the model.
-     *
-     * @return array
      */
     public function toSearchableArray(): array
     {

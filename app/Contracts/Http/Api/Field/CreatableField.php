@@ -8,8 +8,5 @@ use Illuminate\Http\Request;
 
 interface CreatableField
 {
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array;
 }

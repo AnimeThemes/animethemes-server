@@ -31,7 +31,7 @@ abstract class CreateMutation extends BaseMutation
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         $args = collect($args)
-            ->filter(fn ($value) => $value instanceof Model)
+            ->filter(fn ($value): bool => $value instanceof Model)
             ->values()
             ->all();
 
@@ -50,8 +50,8 @@ abstract class CreateMutation extends BaseMutation
         $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType) {
-            $bindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => $field instanceof BindableField && $field instanceof CreatableField);
-            $notBindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field) => ! $field instanceof BindableField);
+            $bindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field): bool => $field instanceof BindableField && $field instanceof CreatableField);
+            $notBindableFields = Arr::where($baseType->fieldClasses(), fn (Field $field): bool => ! $field instanceof BindableField);
             $arguments[] = $this->resolveBindArguments($bindableFields);
             $arguments[] = $this->resolveCreateMutationArguments($notBindableFields);
         }
@@ -69,8 +69,8 @@ abstract class CreateMutation extends BaseMutation
 
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
-                ->filter(fn (Field $field) => $field instanceof CreatableField)
-                ->mapWithKeys(fn (Field&CreatableField $field) => [$field->getColumn() => $field->getCreationRules($args)])
+                ->filter(fn (Field $field): bool => $field instanceof CreatableField)
+                ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getColumn() => $field->getCreationRules($args)])
                 ->toArray();
         }
 

@@ -17,9 +17,6 @@ class VideoSizeField extends IntField implements CreatableField
         parent::__construct($schema, Video::ATTRIBUTE_SIZE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

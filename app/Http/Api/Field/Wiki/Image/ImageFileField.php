@@ -11,16 +11,13 @@ use Illuminate\Http\Request;
 
 class ImageFileField extends Field implements CreatableField
 {
-    final public const ATTRIBUTE_FILE = 'file';
+    final public const string ATTRIBUTE_FILE = 'file';
 
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ImageFileField::ATTRIBUTE_FILE);
     }
 
-    /**
-     * @return array
-     */
     public function getCreationRules(Request $request): array
     {
         return [

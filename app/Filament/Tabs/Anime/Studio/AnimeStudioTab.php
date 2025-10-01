@@ -20,10 +20,6 @@ class AnimeStudioTab extends BaseTab
         return __('filament.tabs.anime.studios.name');
     }
 
-    /**
-     * @param  Builder  $query
-     * @return Builder
-     */
     public function modifyQuery(Builder $query): Builder
     {
         return $query->whereDoesntHave(Anime::RELATION_STUDIOS);
