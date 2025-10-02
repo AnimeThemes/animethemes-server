@@ -74,7 +74,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
         // Select aggregate if sorting on the aggregate value
         $sort = $this->getSort();
 
-        return array_any($query->getSortCriteria(), fn ($sortCriterion) => $sortCriterion->shouldSort($sort, $scope));
+        return array_any($query->getSortCriteria(), fn ($sortCriterion): bool => $sortCriterion->shouldSort($sort, $scope));
     }
 
     /**
