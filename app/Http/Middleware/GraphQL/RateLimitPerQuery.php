@@ -7,11 +7,11 @@ namespace App\Http\Middleware\GraphQL;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Closure;
+use GraphQL\Language\AST\OperationDefinitionNode;
+use GraphQL\Language\Parser;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use GraphQL\Language\Parser;
-use GraphQL\Language\AST\OperationDefinitionNode;
-use Illuminate\Http\Request;
 use JsonException;
 
 class RateLimitPerQuery
@@ -37,7 +37,7 @@ class RateLimitPerQuery
         if ($query) {
             try {
                 $ast = Parser::parse($query);
-            } catch (JsonException $e) {
+            } catch (JsonException) {
                 return $next($request);
             }
 
@@ -51,7 +51,7 @@ class RateLimitPerQuery
 
             $hits = max(1, $rootFields);
 
-            $key = sprintf("graphql:%s", Auth::id() ?? $ip);
+            $key = sprintf('graphql:%s', Auth::id() ?? $ip);
 
             foreach (range(1, $hits) as $_) {
                 if (RateLimiter::tooManyAttempts($key, 80)) {
@@ -62,12 +62,12 @@ class RateLimitPerQuery
 
                 RateLimiter::hit($key);
             }
-        }
 
-        return $next($request)
-            ->withHeaders([
-                'X-RateLimit-Limit' => 80,
-                'X-RateLimit-Remaining' => RateLimiter::remaining($key, 80),
-            ]);
+            return $next($request)
+                ->withHeaders([
+                    'X-RateLimit-Limit' => 80,
+                    'X-RateLimit-Remaining' => RateLimiter::remaining($key, 80),
+                ]);
+        }
     }
 }
