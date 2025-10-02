@@ -8,13 +8,6 @@ use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\get;
 
-test('forwarded ip rate limited', function () {
-    $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
-
-    $response->assertHeader('X-RateLimit-Limit');
-    $response->assertHeader('X-RateLimit-Remaining');
-});
-
 test('client no forwarded ip not rate limited', function () {
     $response = get(route('api.anime.index'));
 
@@ -22,7 +15,7 @@ test('client no forwarded ip not rate limited', function () {
     $response->assertHeaderMissing('X-RateLimit-Remaining');
 });
 
-test('user not rate limited', function () {
+test('user with bypass not rate limited', function () {
     $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
 
     Sanctum::actingAs($user);
@@ -32,3 +25,23 @@ test('user not rate limited', function () {
     $response->assertHeaderMissing('X-RateLimit-Limit');
     $response->assertHeaderMissing('X-RateLimit-Remaining');
 });
+
+test('forwarded ip rate limited', function () {
+    $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
+
+    $response->assertHeader('X-RateLimit-Limit');
+    $response->assertHeader('X-RateLimit-Remaining');
+});
+
+test('user without bypass rate limited', function () {
+    $user = User::factory()->createOne();
+
+    Sanctum::actingAs($user);
+
+    $response = $this->withServerVariables([
+        'REMOTE_ADDR' => fake()->ipv4(),
+    ])->get(route('api.anime.index'));
+
+    $response->assertHeader('X-RateLimit-Limit');
+    $response->assertHeader('X-RateLimit-Remaining');
+})->only();

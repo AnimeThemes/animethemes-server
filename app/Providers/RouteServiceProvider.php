@@ -30,25 +30,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        RateLimiter::for('graphql', function (Request $request) {
-            $user = Auth::user();
-            $ip = $request->ip();
-            $forwardedIp = $request->header('x-forwarded-ip');
-
-            // (If request is from client and no forwarded ip) or (the user logged in has permission to bypass API rate limiting)
-            /** @phpstan-ignore-next-line */
-            if (($ip === '127.0.0.1' && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_GRAPHQL_RATE_LIMITER->value))) {
-                return Limit::none();
-            }
-
-            // Check if request is from client to prevent users from using forwarded ip
-            if ($ip === '127.0.0.1' && $forwardedIp) {
-                $ip = $forwardedIp;
-            }
-
-            return Limit::perMinute(80)->by(Auth::check() ? Auth::id() : $ip);
-        });
-
         RateLimiter::for('api', function (Request $request) {
             $user = $request->user('sanctum');
             $ip = $request->ip();
