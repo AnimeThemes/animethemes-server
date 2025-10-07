@@ -16,7 +16,10 @@ use JsonException;
 
 class RateLimitPerQuery
 {
-    public function handle(Request $request, Closure $next)
+    /**
+     * @param  Closure(Request): mixed  $next
+     */
+    public function handle(Request $request, Closure $next): mixed
     {
         $user = Auth::user();
         $query = $request->input('query');
@@ -69,5 +72,7 @@ class RateLimitPerQuery
                     'X-RateLimit-Remaining' => RateLimiter::remaining($key, 80),
                 ]);
         }
+
+        return $next($request);
     }
 }
