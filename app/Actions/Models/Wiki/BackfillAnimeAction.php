@@ -7,6 +7,7 @@ namespace App\Actions\Models\Wiki;
 use App\Actions\ActionResult;
 use App\Actions\Models\BackfillWikiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\AnilistAnimeExternalApiAction;
+use App\Actions\Models\Wiki\Anime\ExternalApi\AniZipAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\JikanAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\LivechartAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\MalAnimeExternalApiAction;
@@ -94,6 +95,7 @@ class BackfillAnimeAction extends BackfillWikiAction
     protected function getExternalApiActions(): array
     {
         return [
+            new AniZipAnimeExternalApiAction(),
             new LivechartAnimeExternalApiAction(),
             new AnilistAnimeExternalApiAction(),
             new JikanAnimeExternalApiAction(),
