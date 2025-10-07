@@ -34,7 +34,8 @@ class BackfillAnimeAction extends BaseAction
     final public const string BACKFILL_ANIME_PLANET_RESOURCE = 'backfill_anime_planet_resource';
     final public const string BACKFILL_ANN_RESOURCE = 'backfill_ann_resource';
     final public const string BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
-    final public const string BACKFILL_OTHER_RESOURCES = 'backfill_other_resources';
+    final public const string BACKFILL_LIVECHART_RESOURCE = 'backfill_livechart_resource';
+    final public const string BACKFILL_OFFICIAL_RESOURCES = 'backfill_official_resources';
     final public const string BACKFILL_LARGE_COVER = 'backfill_large_cover';
     final public const string BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
     final public const string BACKFILL_SMALL_COVER = 'backfill_small_cover';
@@ -108,25 +109,15 @@ class BackfillAnimeAction extends BaseAction
             ->components([
                 Section::make(__('filament.actions.anime.backfill.fields.resources.name'))
                     ->schema([
-                        Checkbox::make(self::BACKFILL_KITSU_RESOURCE)
-                            ->label(__('filament.actions.anime.backfill.fields.resources.kitsu.name'))
-                            ->helperText(__('filament.actions.anime.backfill.fields.resources.kitsu.help'))
-                            ->default(fn () => $resources->doesntContain(ResourceSite::KITSU->value)),
+                        Checkbox::make(self::BACKFILL_ANIDB_RESOURCE)
+                            ->label(__('filament.actions.anime.backfill.fields.resources.anidb.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.resources.anidb.help'))
+                            ->default(fn () => $resources->doesntContain(ResourceSite::ANIDB->value)),
 
                         Checkbox::make(self::BACKFILL_ANILIST_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anilist.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anilist.help'))
                             ->default(fn () => $resources->doesntContain(ResourceSite::ANILIST->value)),
-
-                        Checkbox::make(self::BACKFILL_MAL_RESOURCE)
-                            ->label(__('filament.actions.anime.backfill.fields.resources.mal.name'))
-                            ->helperText(__('filament.actions.anime.backfill.fields.resources.mal.help'))
-                            ->default(fn () => $resources->doesntContain(ResourceSite::MAL->value)),
-
-                        Checkbox::make(self::BACKFILL_ANIDB_RESOURCE)
-                            ->label(__('filament.actions.anime.backfill.fields.resources.anidb.name'))
-                            ->helperText(__('filament.actions.anime.backfill.fields.resources.anidb.help'))
-                            ->default(fn () => $resources->doesntContain(ResourceSite::ANIDB->value)),
 
                         Checkbox::make(self::BACKFILL_ANN_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.ann.name'))
@@ -138,7 +129,22 @@ class BackfillAnimeAction extends BaseAction
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anime_planet.help'))
                             ->default(fn () => $resources->doesntContain(ResourceSite::ANIME_PLANET->value)),
 
-                        Checkbox::make(self::BACKFILL_OTHER_RESOURCES)
+                        Checkbox::make(self::BACKFILL_KITSU_RESOURCE)
+                            ->label(__('filament.actions.anime.backfill.fields.resources.kitsu.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.resources.kitsu.help'))
+                            ->default(fn () => $resources->doesntContain(ResourceSite::KITSU->value)),
+
+                        Checkbox::make(self::BACKFILL_LIVECHART_RESOURCE)
+                            ->label(__('filament.actions.anime.backfill.fields.resources.livechart.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.resources.livechart.help'))
+                            ->default(fn () => $resources->doesntContain(ResourceSite::LIVECHART->value)),
+
+                        Checkbox::make(self::BACKFILL_MAL_RESOURCE)
+                            ->label(__('filament.actions.anime.backfill.fields.resources.mal.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.resources.mal.help'))
+                            ->default(fn () => $resources->doesntContain(ResourceSite::MAL->value)),
+
+                        Checkbox::make(self::BACKFILL_OFFICIAL_RESOURCES)
                             ->label(__('filament.actions.anime.backfill.fields.resources.external_links.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.external_links.help'))
                             ->default(true),
@@ -219,7 +225,8 @@ class BackfillAnimeAction extends BaseAction
             self::BACKFILL_ANIDB_RESOURCE => [ResourceSite::ANIDB],
             self::BACKFILL_ANN_RESOURCE => [ResourceSite::ANN],
             self::BACKFILL_ANIME_PLANET_RESOURCE => [ResourceSite::ANIME_PLANET],
-            self::BACKFILL_OTHER_RESOURCES => [
+            self::BACKFILL_LIVECHART_RESOURCE => [ResourceSite::LIVECHART],
+            self::BACKFILL_OFFICIAL_RESOURCES => [
                 ResourceSite::X, ResourceSite::OFFICIAL_SITE, ResourceSite::NETFLIX, ResourceSite::CRUNCHYROLL,
                 ResourceSite::HIDIVE, ResourceSite::AMAZON_PRIME_VIDEO, ResourceSite::HULU, ResourceSite::DISNEY_PLUS,
             ],

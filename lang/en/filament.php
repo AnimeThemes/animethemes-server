@@ -21,32 +21,36 @@ return [
                     ],
                     'resources' => [
                         'anidb' => [
-                            'help' => 'Use LiveChart to find an AniDB mapping',
+                            'help' => 'Use AniZip/LiveChart to find an AniDB mapping',
                             'name' => 'Backfill AniDB Resource',
                         ],
                         'anilist' => [
-                            'help' => 'Use LiveChart to find an AniList mapping',
+                            'help' => 'Use AniZip/LiveChart to find an AniList mapping',
                             'name' => 'Backfill Anilist Resource',
                         ],
                         'anime_planet' => [
-                            'help' => 'Use LiveChart to find an Anime Planet mapping',
+                            'help' => 'Use AniZip/LiveChart to find an Anime Planet mapping',
                             'name' => 'Backfill Anime Planet Resource',
                         ],
                         'ann' => [
-                            'help' => 'Use LiveChart to find an Anime News Network mapping',
+                            'help' => 'Use AniZip/LiveChart to find an Anime News Network mapping',
                             'name' => 'Backfill ANN Resource',
                         ],
                         'kitsu' => [
-                            'help' => 'Use LiveChart to find a Kitsu mapping',
+                            'help' => 'Use AniZip/LiveChart to find a Kitsu mapping',
                             'name' => 'Backfill Kitsu Resource',
                         ],
+                        'livechart' => [
+                            'help' => 'Use AniZip to find a LiveChart mapping',
+                            'name' => 'Backfill LiveChart Resource',
+                        ],
                         'mal' => [
-                            'help' => 'Use LiveChart to find a MyAnimeList mapping',
+                            'help' => 'Use AniZip/LiveChart to find a MyAnimeList mapping',
                             'name' => 'Backfill MyAnimeList Resource',
                         ],
                         'external_links' => [
-                            'help' => 'Use Anilist Resource to find other resources like Official Sites and Streamings',
-                            'name' => 'Backfill Other Resources',
+                            'help' => 'Use Anilist Resource to find official resources like Official Sites and Streamings',
+                            'name' => 'Backfill Official Resources',
                         ],
                         'name' => 'Backfill Resources',
                     ],
