@@ -43,7 +43,7 @@ class StoreTrackAction
 
             $track = $storeAction->store($builder, $trackParameters);
 
-            if (! empty($nextHashid) && empty($previousHashid)) {
+            if (filled($nextHashid) && blank($previousHashid)) {
                 /** @var PlaylistTrack $next */
                 $next = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_PREVIOUS)
@@ -56,7 +56,7 @@ class StoreTrackAction
                 $insertAction->insertBefore($playlist, $track, $next);
             }
 
-            if (! empty($previousHashid) && empty($nextHashid)) {
+            if (filled($previousHashid) && blank($nextHashid)) {
                 /** @var PlaylistTrack $previous */
                 $previous = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_NEXT)
@@ -69,7 +69,7 @@ class StoreTrackAction
                 $insertAction->insertAfter($playlist, $track, $previous);
             }
 
-            if (empty($nextHashid) && empty($previousHashid)) {
+            if (blank($nextHashid) && blank($previousHashid)) {
                 $insertAction = new InsertTrackAction();
 
                 $insertAction->insert($playlist, $track);

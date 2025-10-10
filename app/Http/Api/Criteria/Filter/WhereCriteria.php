@@ -39,19 +39,19 @@ class WhereCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
+            if (blank($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
                 $logicalOperator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set comparison operator
-            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) instanceof ComparisonOperator) {
+            if (blank($field) && ComparisonOperator::unstrictCoerce($filterPart) instanceof ComparisonOperator) {
                 $comparisonOperator = ComparisonOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set field
-            if (empty($field)) {
+            if (blank($field)) {
                 $field = Str::lower($filterPart);
             }
         }

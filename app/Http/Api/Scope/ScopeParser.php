@@ -13,7 +13,7 @@ class ScopeParser
      */
     public static function parse(string $scope): Scope
     {
-        if (empty($scope)) {
+        if (blank($scope)) {
             return new GlobalScope();
         }
 

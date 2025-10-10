@@ -94,7 +94,7 @@ class SearchRequest extends ReadRequest
 
             $resourceIncludes = $resourceSchema->allowedIncludes();
 
-            if (! empty($resourceIncludes)) {
+            if (filled($resourceIncludes)) {
                 $types[] = $resourceSchema->type();
 
                 $param = Str::of(IncludeParser::param())->append('.')->append($resourceSchema->type())->__toString();

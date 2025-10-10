@@ -168,7 +168,7 @@ class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSc
         $array['theme'] = $theme->toSearchableArray();
 
         // Overwrite version with readable format "v{#}"
-        $array['version'] = Str::of(empty($this->version) ? '1' : $this->version)->prepend('v')->__toString();
+        $array['version'] = Str::of(blank($this->version) ? '1' : $this->version)->prepend('v')->__toString();
 
         return $array;
     }

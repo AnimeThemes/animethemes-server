@@ -40,7 +40,7 @@ class IndexAction
         $this->filter($builder, $query, $schema, $scope);
 
         // special case: only apply HasFilter to top-level models
-        if (! empty($schema->allowedIncludes())) {
+        if (filled($schema->allowedIncludes())) {
             $hasFilter = new HasFilter($schema->allowedIncludes());
             foreach ($query->getFilterCriteria() as $criteria) {
                 if ($criteria->shouldFilter($hasFilter, $scope)) {

@@ -283,19 +283,19 @@ class Theme extends BaseResource
         $slug = Str::of('');
         $type = $get(ThemeModel::ATTRIBUTE_TYPE);
 
-        if (! empty($type) || $type !== null) {
+        if (filled($type) || $type !== null) {
             $slug = $slug->append($type->name);
         }
 
         if ($slug->isNotEmpty() && $type !== ThemeType::IN) {
             $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
-            $slug = $slug->append(strval(empty($sequence) ? 1 : $sequence));
+            $slug = $slug->append(strval(blank($sequence) ? 1 : $sequence));
         }
 
         if ($slug->isNotEmpty()) {
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
 
-            if (! empty($group)) {
+            if (filled($group)) {
                 $slug = $slug->append('-'.Group::query()->find(intval($group))->slug);
             }
         }

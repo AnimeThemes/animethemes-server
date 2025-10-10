@@ -56,14 +56,14 @@ class HasCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
+            if (blank($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
                 $logicalOperator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set count
             if (
-                empty($field)
+                blank($field)
                 && filter_var($filterPart, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) !== null
             ) {
                 $count = filter_var($filterPart, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
@@ -71,13 +71,13 @@ class HasCriteria extends Criteria
             }
 
             // Set comparison operator
-            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) instanceof ComparisonOperator) {
+            if (blank($field) && ComparisonOperator::unstrictCoerce($filterPart) instanceof ComparisonOperator) {
                 $comparisonOperator = ComparisonOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set found has param
-            if (empty($field) && $filterPart === HasCriteria::PARAM_VALUE) {
+            if (blank($field) && $filterPart === HasCriteria::PARAM_VALUE) {
                 $field = $filterPart;
             }
         }

@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use Closure;
 use GraphQL\Language\AST\OperationDefinitionNode;
 use GraphQL\Language\Parser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -58,7 +59,7 @@ class RateLimitPerQuery
 
             foreach (range(1, $hits) as $_) {
                 if (RateLimiter::tooManyAttempts($key, 80)) {
-                    return response()->json([
+                    return new JsonResponse([
                         'message' => 'Too many requests',
                     ], 429);
                 }

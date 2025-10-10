@@ -21,7 +21,7 @@ readonly class ResourceSiteMatchesLinkRule implements ValidationRule
     {
         $domain = ResourceSite::getDomain($value);
 
-        if (! empty($domain) && $domain !== Uri::of($this->link)->host()) {
+        if (filled($domain) && $domain !== Uri::of($this->link)->host()) {
             $fail(__('validation.resource_link_site_mismatch'));
         }
     }

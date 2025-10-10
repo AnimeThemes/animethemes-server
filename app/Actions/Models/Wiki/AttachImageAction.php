@@ -22,7 +22,7 @@ class AttachImageAction
         foreach ($facets as $facet) {
             $image = Arr::get($fields, $facet->name);
 
-            if (empty($image)) {
+            if (blank($image)) {
                 continue;
             }
 

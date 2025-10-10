@@ -21,7 +21,7 @@ class ExtraneousChaptersFormatRule extends SubmissionRule
             return;
         }
 
-        if (! empty($this->chapters())) {
+        if (filled($this->chapters())) {
             $fail(__('validation.submission.format_extraneous_chapters'));
         }
     }
