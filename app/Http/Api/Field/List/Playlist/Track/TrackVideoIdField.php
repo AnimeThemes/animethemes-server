@@ -58,7 +58,7 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
             'integer',
             Rule::exists(Video::class, Video::ATTRIBUTE_ID),
             Rule::when(
-                ! empty($entryId),
+                filled($entryId),
                 [
                     Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),

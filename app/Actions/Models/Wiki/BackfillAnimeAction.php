@@ -118,7 +118,7 @@ class BackfillAnimeAction extends BackfillWikiAction
             $id = Arr::get($studio, 'id');
             $name = Arr::get($studio, 'name');
 
-            if (empty($name) || empty($id)) {
+            if (blank($name) || blank($id)) {
                 Log::info("Skipping empty studio of name '$name' and id '$id''");
                 continue;
             }

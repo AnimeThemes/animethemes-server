@@ -48,19 +48,19 @@ class WhereInCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set Not
-            if (empty($field) && UnaryLogicalOperator::unstrictCoerce($filterPart) instanceof UnaryLogicalOperator) {
+            if (blank($field) && UnaryLogicalOperator::unstrictCoerce($filterPart) instanceof UnaryLogicalOperator) {
                 $not = true;
                 continue;
             }
 
             // Set operator
-            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
+            if (blank($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) instanceof BinaryLogicalOperator) {
                 $operator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set field
-            if (empty($field)) {
+            if (blank($field)) {
                 $field = Str::lower($filterPart);
             }
         }

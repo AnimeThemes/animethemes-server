@@ -186,7 +186,7 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
         if ($this->source === VideoSource::BD || $this->source === VideoSource::DVD) {
             $tags[] = $this->source->localize();
         }
-        if (! empty($this->resolution) && $this->resolution !== 720) {
+        if (filled($this->resolution) && $this->resolution !== 720) {
             $tags[] = strval($this->resolution);
         }
 

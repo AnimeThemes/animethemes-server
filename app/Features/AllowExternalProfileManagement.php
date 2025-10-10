@@ -12,7 +12,7 @@ class AllowExternalProfileManagement
 {
     public function resolve(?User $user): bool
     {
-        if (! empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))) {
+        if (filled($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))) {
             return true;
         }
 

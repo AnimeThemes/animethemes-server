@@ -104,7 +104,7 @@ class Track extends BaseResource
                     ->rules([
                         fn (Get $get): Closure => (fn (): array => [
                             Rule::when(
-                                ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
+                                filled($get(TrackModel::RELATION_ENTRY)) && filled($get(TrackModel::RELATION_VIDEO)),
                                 [
                                     Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
                                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(TrackModel::RELATION_VIDEO)),
@@ -119,7 +119,7 @@ class Track extends BaseResource
                     ->rules([
                         fn (Get $get): Closure => (fn (): array => [
                             Rule::when(
-                                ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
+                                filled($get(TrackModel::RELATION_ENTRY)) && filled($get(TrackModel::RELATION_VIDEO)),
                                 [
                                     Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
                                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(TrackModel::RELATION_ENTRY)),

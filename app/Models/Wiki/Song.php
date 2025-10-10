@@ -98,7 +98,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
 
     public function getName(): string
     {
-        if (empty($this->title)) {
+        if (blank($this->title)) {
             return strval($this->getKey());
         }
 

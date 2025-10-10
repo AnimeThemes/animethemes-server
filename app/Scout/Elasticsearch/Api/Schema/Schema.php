@@ -76,7 +76,7 @@ abstract class Schema implements SchemaInterface
 
             $appendPath = Str::of('');
             foreach (explode('.', $allowedInclude->path()) as $path) {
-                $appendPath = $appendPath->append(empty($appendPath->__toString()) ? '' : '.', $path);
+                $appendPath = $appendPath->append(blank($appendPath->__toString()) ? '' : '.', $path);
 
                 $stringAppendPath = $appendPath->__toString();
 

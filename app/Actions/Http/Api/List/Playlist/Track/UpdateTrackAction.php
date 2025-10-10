@@ -40,13 +40,13 @@ class UpdateTrackAction
 
             $updateAction->update($track, $trackParameters);
 
-            if (! empty($nextHashid) || ! empty($previousHashid)) {
+            if (filled($nextHashid) || filled($previousHashid)) {
                 $removeAction = new RemoveTrackAction();
 
                 $removeAction->remove($playlist, $track);
             }
 
-            if (! empty($nextHashid) && empty($previousHashid)) {
+            if (filled($nextHashid) && blank($previousHashid)) {
                 $next = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_PREVIOUS)
                     ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
@@ -58,7 +58,7 @@ class UpdateTrackAction
                 $insertAction->insertBefore($playlist, $track, $next);
             }
 
-            if (! empty($previousHashid) && empty($nextHashid)) {
+            if (filled($previousHashid) && blank($nextHashid)) {
                 $previous = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_NEXT)
                     ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())

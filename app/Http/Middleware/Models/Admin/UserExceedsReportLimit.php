@@ -26,7 +26,7 @@ class UserExceedsReportLimit
         $user = $request->user('sanctum');
 
         abort_if(intval($user?->reports->where(Report::ATTRIBUTE_STATUS, ApprovableStatus::PENDING->value)->count()) >= $reportLimit
-        && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)), 403, "User cannot have more than '$reportLimit' outstanding reports.");
+        && blank($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)), 403, "User cannot have more than '$reportLimit' outstanding reports.");
 
         return $next($request);
     }

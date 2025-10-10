@@ -49,7 +49,7 @@ class ModerationRule implements ValidationRule
 
             $flagged = Arr::get($response, 'results.0.flagged');
 
-            if (! empty($flagged)) {
+            if (filled($flagged)) {
                 $fail(__('validation.moderation', ['attribute' => $attribute]));
             }
         } catch (Exception $e) {

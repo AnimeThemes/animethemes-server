@@ -68,7 +68,7 @@ abstract class ReadRequest extends BaseRequest
     {
         $schema = $this->schema();
 
-        if (empty($schema->allowedIncludes())) {
+        if (blank($schema->allowedIncludes())) {
             return $this->prohibit(IncludeParser::param());
         }
 

@@ -106,7 +106,7 @@ class FeaturedTheme extends BaseResource
                     ->rules([
                         fn (Get $get): Closure => (fn (): array => [
                             Rule::when(
-                                ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                filled($get(FeaturedThemeModel::RELATION_ENTRY)) && filled($get(FeaturedThemeModel::RELATION_VIDEO)),
                                 [
                                     Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
                                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedThemeModel::RELATION_VIDEO)),
@@ -121,7 +121,7 @@ class FeaturedTheme extends BaseResource
                     ->rules([
                         fn (Get $get): Closure => (fn (): array => [
                             Rule::when(
-                                ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                filled($get(FeaturedThemeModel::RELATION_ENTRY)) && filled($get(FeaturedThemeModel::RELATION_VIDEO)),
                                 [
                                     Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
                                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedThemeModel::RELATION_ENTRY)),
