@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JsonSerializable;
+use Stringable;
 
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
@@ -78,7 +79,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
         }
 
         // Encode to json for all other non-empty scalar values
-        if (is_scalar($value) && Str::length($value) > 0) {
+        if ((is_scalar($value) || $value instanceof Stringable) && Str::length($value) > 0) {
             return strval($value);
         }
 
