@@ -25,7 +25,7 @@ class DestroyTrackAction
 
             // Lock tracks to prevent race conditions.
             Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
-            $playlist->tracks()->getQuery()->lockForUpdate()->count();
+            $playlist->tracks()->select(PlaylistTrack::ATTRIBUTE_ID)->lockForUpdate()->get();
 
             $removeAction = new RemoveTrackAction();
 
