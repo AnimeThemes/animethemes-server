@@ -36,7 +36,7 @@ class StoreTrackAction
 
             // Lock tracks to prevent race conditions.
             Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
-            $playlist->tracks()->getQuery()->lockForUpdate()->count();
+            $playlist->tracks()->select(PlaylistTrack::ATTRIBUTE_ID)->lockForUpdate()->get();
 
             /** @var StoreAction<PlaylistTrack> $storeAction */
             $storeAction = new StoreAction();

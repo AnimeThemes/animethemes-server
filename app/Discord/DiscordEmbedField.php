@@ -79,8 +79,13 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
         }
 
         // Encode to json for all other non-empty scalar values
-        if ((is_scalar($value) || $value instanceof Stringable) && Str::length($value) > 0) {
+        if (is_scalar($value) && Str::length($value) > 0) {
             return strval($value);
+        }
+
+        // Convert Stringable objects to string
+        if ($value instanceof Stringable && filled($value)) {
+            return (string) $value;
         }
 
         return self::DEFAULT_FIELD_VALUE;
