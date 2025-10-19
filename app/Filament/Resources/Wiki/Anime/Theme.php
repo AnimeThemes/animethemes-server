@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\ThemeType;
+use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -27,7 +28,6 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
-use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
@@ -176,11 +176,7 @@ class Theme extends BaseResource
                                     ->resource(SongResource::class)
                                     ->showCreateOption()
                                     ->live()
-                                    ->afterStateUpdated(function (Set $set, $state): void {
-                                        /** @var Song|null $song */
-                                        $song = Song::query()->find($state);
-                                        $set(PerformanceForm::REPEATER_PERFORMANCES, PerformanceSongRelationManager::formatArtists($song));
-                                    }),
+                                    ->hintAction(LoadArtistsAction::make()),
 
                                 ...PerformanceForm::performancesFields(),
                             ]),

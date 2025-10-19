@@ -885,6 +885,9 @@ return [
             ],
         ],
         'song' => [
+            'load_artists' => [
+                'name' => 'Load Artists',
+            ],
             'title' => [
                 'help' => 'The title of the song',
                 'name' => 'Title',
