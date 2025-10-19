@@ -90,7 +90,8 @@ class Artist extends BaseResource
 
                 Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
-                    ->helperText(__('filament.fields.artist.slug.help')),
+                    ->helperText(__('filament.fields.artist.slug.help'))
+                    ->unique(ArtistModel::TABLE, ArtistModel::ATTRIBUTE_SLUG, fn (?ArtistModel $record) => $record),
 
                 MarkdownEditor::make(ArtistModel::ATTRIBUTE_INFORMATION)
                     ->label(__('filament.fields.artist.information.name'))
