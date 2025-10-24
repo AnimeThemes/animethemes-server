@@ -34,6 +34,7 @@ use Illuminate\Support\Collection;
  * @property Collection<int, ExternalResource> $resources
  * @property int $song_id
  * @property string|null $title
+ * @property string|null $title_native
  *
  * @method static SongFactory factory(...$parameters)
  */
@@ -48,6 +49,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
 
     final public const string ATTRIBUTE_ID = 'song_id';
     final public const string ATTRIBUTE_TITLE = 'title';
+    final public const string ATTRIBUTE_TITLE_NATIVE = 'title_native';
 
     final public const string RELATION_ANIME = 'animethemes.anime';
     final public const string RELATION_ANIMETHEMES = 'animethemes';
@@ -65,6 +67,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
      */
     protected $fillable = [
         Song::ATTRIBUTE_TITLE,
+        Song::ATTRIBUTE_TITLE_NATIVE,
     ];
 
     /**
@@ -107,9 +110,11 @@ class Song extends BaseModel implements HasResources, SoftDeletable
 
     public function getSubtitle(): string
     {
-        return $this->animethemes()->count() !== 0 && $this->animethemes->first()->anime !== null
-            ? "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}"
-            : $this->getName();
+        if ($this->animethemes()->count() !== 0 && $this->animethemes->first()->anime !== null) {
+            return "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}";
+        }
+
+        return $this->title_native ?? $this->getKey();
     }
 
     /**

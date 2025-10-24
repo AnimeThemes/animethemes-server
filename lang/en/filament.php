@@ -892,6 +892,10 @@ return [
                 'help' => 'The title of the song',
                 'name' => 'Title',
             ],
+            'title_native' => [
+                'help' => 'The native title of the song as it is credited',
+                'name' => 'Native Title',
+            ],
         ],
         'studio' => [
             'name' => [

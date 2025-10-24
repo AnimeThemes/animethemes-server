@@ -30,6 +30,12 @@ class ThemeQuery extends ElasticQuery
                                     ],
                                     [
                                         'bool' => [
+                                            'boost' => 0.9,
+                                            'should' => $this->createNestedTextQuery('song', 'title_native', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                    [
+                                        'bool' => [
                                             'boost' => 0.5,
                                             'should' => $this->createNestedTextQuery('anime', 'name', $criteria->getTerm()),
                                         ],
