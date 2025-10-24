@@ -31,6 +31,7 @@ class SongFactory extends Factory
     {
         return [
             Song::ATTRIBUTE_TITLE => fake()->words(3, true),
+            Song::ATTRIBUTE_TITLE_NATIVE => fake()->words(3, true),
         ];
     }
 }

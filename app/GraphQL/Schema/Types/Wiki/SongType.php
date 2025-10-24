@@ -11,6 +11,7 @@ use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Song\SongTitleField;
+use App\GraphQL\Schema\Fields\Wiki\Song\SongTitleNativeField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
@@ -51,6 +52,7 @@ class SongType extends EloquentType implements ReportableType
         return [
             new IdField(Song::ATTRIBUTE_ID, Song::class),
             new SongTitleField(),
+            new SongTitleNativeField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

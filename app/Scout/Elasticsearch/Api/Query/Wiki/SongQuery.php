@@ -36,6 +36,27 @@ class SongQuery extends ElasticQuery
                     ->lenient(true)
                     ->fuzziness('AUTO')
             )
+            ->should(
+                new MatchPhraseQueryBuilder()
+                    ->field('title_native')
+                    ->query($criteria->getTerm())
+            )
+            ->should(
+                new MatchQueryBuilder()
+                    ->field('title_native')
+                    ->query($criteria->getTerm())
+                    ->operator('AND')
+                    ->boost(0.9)
+            )
+            ->should(
+                new MatchQueryBuilder()
+                    ->field('title_native')
+                    ->query($criteria->getTerm())
+                    ->operator('AND')
+                    ->lenient(true)
+                    ->fuzziness('AUTO')
+                    ->boost(0.9)
+            )
             ->minimumShouldMatch(1);
 
         return Song::searchQuery($query);

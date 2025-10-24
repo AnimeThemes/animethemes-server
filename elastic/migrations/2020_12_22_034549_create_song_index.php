@@ -23,6 +23,13 @@ final class CreateSongIndex implements MigrationInterface
                     ],
                 ],
             ]);
+            $mapping->text('title_native', [
+                'fields' => [
+                    'keyword' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->date('updated_at');
         });
     }

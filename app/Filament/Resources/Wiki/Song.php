@@ -77,6 +77,11 @@ class Song extends BaseResource
                     ->helperText(__('filament.fields.song.title.help'))
                     ->required()
                     ->maxLength(192),
+
+                TextInput::make(SongModel::ATTRIBUTE_TITLE_NATIVE)
+                    ->label(__('filament.fields.song.title_native.name'))
+                    ->helperText(__('filament.fields.song.title_native.help'))
+                    ->maxLength(192),
             ]);
     }
 
@@ -89,6 +94,10 @@ class Song extends BaseResource
 
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
+                    ->copyableWithMessage(),
+
+                TextColumn::make(SongModel::ATTRIBUTE_TITLE_NATIVE)
+                    ->label(__('filament.fields.song.title_native.name'))
                     ->copyableWithMessage(),
             ])
             ->searchable();
@@ -106,8 +115,12 @@ class Song extends BaseResource
                         TextEntry::make(SongModel::ATTRIBUTE_TITLE)
                             ->label(__('filament.fields.song.title.name'))
                             ->copyableWithMessage(),
+
+                        TextEntry::make(SongModel::ATTRIBUTE_TITLE_NATIVE)
+                            ->label(__('filament.fields.song.title_native.name'))
+                            ->copyableWithMessage(),
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 TimestampSection::make(),
             ]);
