@@ -14,6 +14,7 @@ use App\Models\Wiki\Song\Performance;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class PerformanceSongRelationManager extends PerformanceRelationManager
 {
@@ -63,7 +64,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         $artists = [];
         $memberships = [];
         foreach ($performances as $performance) {
-            if ($performance->artist instanceof Membership) {
+            if ($performance->isMembership()) {
                 $artists[$performance->artist->artist_id] = [
                     Performance::ATTRIBUTE_ARTIST_TYPE => $performance->artist_type,
                     Performance::ATTRIBUTE_ARTIST_ID => $performance->artist->artist_id,

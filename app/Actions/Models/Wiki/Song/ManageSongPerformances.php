@@ -137,6 +137,16 @@ class ManageSongPerformances
 
             $soloPerformances->each(fn (Performance $performance) => $performance->forceDelete());
 
+            Performance::withoutEvents(function () use ($performancesToCreate) {
+                foreach ($performancesToCreate as $index => $performanceToSort) {
+                    Performance::query()
+                        ->where(Performance::ATTRIBUTE_SONG, $this->song)
+                        ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Arr::get($performanceToSort, Performance::ATTRIBUTE_ARTIST_TYPE))
+                        ->where(Performance::ATTRIBUTE_ARTIST_ID, Arr::get($performanceToSort, Performance::ATTRIBUTE_ARTIST_ID))
+                        ->update([Performance::ATTRIBUTE_RELEVANCE => $index + 1]);
+                }
+            });
+
             // Update artist_member table to match memberships
             ArtistMember::query()->upsert(
                 $memberships,
