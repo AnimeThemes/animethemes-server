@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property string $artist_type
  * @property int $artist_id
  * @property Artist|Membership $artist
+ * @property int|null $relevance
  * @property Song $song
  *
  * @method static PerformanceFactory factory(...$parameters)
@@ -47,6 +48,7 @@ class Performance extends BaseModel implements SoftDeletable
     final public const string ATTRIBUTE_ARTIST = 'artist';
     final public const string ATTRIBUTE_ALIAS = 'alias';
     final public const string ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_RELEVANCE = 'relevance';
 
     final public const string RELATION_ARTIST = 'artist';
     final public const string RELATION_MEMBERSHIP = self::RELATION_ARTIST;
@@ -63,6 +65,7 @@ class Performance extends BaseModel implements SoftDeletable
         Performance::ATTRIBUTE_ARTIST_ID,
         Performance::ATTRIBUTE_ALIAS,
         Performance::ATTRIBUTE_AS,
+        Performance::ATTRIBUTE_RELEVANCE,
     ];
 
     /**

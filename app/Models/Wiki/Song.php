@@ -114,7 +114,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
             return "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}";
         }
 
-        return $this->title_native ?? $this->getKey();
+        return $this->title_native ?? strval($this->getKey());
     }
 
     /**
@@ -142,7 +142,8 @@ class Song extends BaseModel implements HasResources, SoftDeletable
      */
     public function performances(): HasMany
     {
-        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_SONG);
+        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_SONG)
+            ->orderBy(Performance::ATTRIBUTE_RELEVANCE);
     }
 
     /**
