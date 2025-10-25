@@ -9,6 +9,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistMember;
+use App\Pivots\Wiki\ArtistSong;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
@@ -154,6 +155,8 @@ class ManageSongPerformances
                 [ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS],
             );
 
+            $this->syncSongArtist();
+
             DB::commit();
         } catch (Exception $e) {
             Log::error($e->getMessage());
@@ -164,5 +167,31 @@ class ManageSongPerformances
         }
 
         return $this;
+    }
+
+    /**
+     * Temporary function where the performances feature synchronizes with the artist_song pivot table.
+     */
+    public function syncSongArtist(): void
+    {
+        /** @var Song $song */
+        $song = Song::query()
+            ->whereKey($this->song)
+            ->first();
+
+        $songArtists = [];
+        foreach ($this->performances as $performance) {
+            $groupOrArtist = Arr::get($performance, Performance::RELATION_MEMBERSHIP.'.'.Membership::ATTRIBUTE_ARTIST)
+                ?? Arr::get($performance, Performance::ATTRIBUTE_ARTIST_ID);
+
+            $songArtists[$groupOrArtist] = [
+                ArtistSong::ATTRIBUTE_ALIAS => Arr::get($performance, Performance::ATTRIBUTE_ALIAS),
+                ArtistSong::ATTRIBUTE_AS => Arr::get($performance, Performance::ATTRIBUTE_AS),
+            ];
+        }
+
+        ArtistSong::withoutEvents(function () use ($song, $songArtists) {
+            $song->artists()->sync($songArtists);
+        });
     }
 }
