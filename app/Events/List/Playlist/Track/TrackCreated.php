@@ -6,7 +6,6 @@ namespace App\Events\List\Playlist\Track;
 
 use App\Contracts\Events\AssignHashidsEvent;
 use App\Events\Base\List\ListCreatedEvent;
-use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
@@ -14,30 +13,14 @@ use App\Models\List\Playlist\PlaylistTrack;
  */
 class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
 {
-    /**
-     * The playlist the track belongs to.
-     */
-    protected Playlist $playlist;
-
-    public function __construct(PlaylistTrack $track)
-    {
-        parent::__construct($track);
-        $this->playlist = $track->playlist;
-    }
-
     public function shouldSendDiscordMessage(): bool
     {
         return false;
     }
 
-    public function getModel(): PlaylistTrack
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
-        return "Track '**{$this->getModel()->getName()}**' has been created for Playlist '**{$this->playlist->getName()}**'.";
+        return "Track '**{$this->getModel()->getName()}**' has been created for Playlist '**{$this->getModel()->playlist->getName()}**'.";
     }
 
     /**

@@ -16,16 +16,6 @@ use App\Models\Wiki\Video;
  */
 class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Group $group)
-    {
-        parent::__construct($group);
-    }
-
-    public function getModel(): Group
-    {
-        return $this->model;
-    }
-
     public function updateRelatedIndices(): void
     {
         $group = $this->getModel()->load(Group::RELATION_VIDEOS);

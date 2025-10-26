@@ -23,11 +23,6 @@ class PlaylistUpdated extends ListUpdatedEvent
         return false;
     }
 
-    public function getModel(): Playlist
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Playlist '**{$this->getModel()->getName()}**' has been updated.";

@@ -12,16 +12,6 @@ use App\Models\Wiki\Series;
  */
 class SeriesRestored extends WikiRestoredEvent
 {
-    public function __construct(Series $series)
-    {
-        parent::__construct($series);
-    }
-
-    public function getModel(): Series
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Series '**{$this->getModel()->getName()}**' has been restored.";

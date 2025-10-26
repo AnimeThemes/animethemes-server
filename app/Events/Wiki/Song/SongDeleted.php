@@ -17,16 +17,6 @@ use App\Models\Wiki\Video;
  */
 class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Song $song)
-    {
-        parent::__construct($song);
-    }
-
-    public function getModel(): Song
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Song '**{$this->getModel()->getName()}**' has been deleted.";

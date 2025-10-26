@@ -12,16 +12,6 @@ use App\Models\List\ExternalProfile;
  */
 class ExternalProfileCreated extends ListCreatedEvent
 {
-    public function __construct(ExternalProfile $profile)
-    {
-        parent::__construct($profile);
-    }
-
-    public function getModel(): ExternalProfile
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "External Profile '**{$this->getModel()->getName()}**' has been created.";

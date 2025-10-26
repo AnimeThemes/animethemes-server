@@ -13,16 +13,6 @@ use App\Models\Wiki\Song\Membership;
  */
 class MembershipRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Membership $membership)
-    {
-        parent::__construct($membership);
-    }
-
-    public function getModel(): Membership
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Membership '**{$this->getModel()->getName()}**' has been restored.";

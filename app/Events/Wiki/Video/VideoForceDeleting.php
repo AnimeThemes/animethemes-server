@@ -14,16 +14,6 @@ use App\Models\Wiki\Video;
  */
 class VideoForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    public function __construct(Video $video)
-    {
-        parent::__construct($video);
-    }
-
-    public function getModel(): Video
-    {
-        return $this->model;
-    }
-
     /**
      * Remove the video from the buckets.
      */

@@ -6,7 +6,6 @@ namespace App\Events\Wiki\Anime\Theme;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeFilament;
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 
 /**
@@ -14,30 +13,14 @@ use App\Models\Wiki\Anime\AnimeTheme;
  */
 class ThemeDeleted extends WikiDeletedEvent
 {
-    /**
-     * The anime that the theme belongs to.
-     */
-    protected Anime $anime;
-
-    public function __construct(AnimeTheme $theme)
-    {
-        parent::__construct($theme);
-        $this->anime = $theme->anime;
-    }
-
-    public function getModel(): AnimeTheme
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
-        return "Theme '**{$this->getModel()->getName()}**' has been deleted for Anime '**{$this->anime->getName()}**'.";
+        return "Theme '**{$this->getModel()->getName()}**' has been deleted for Anime '**{$this->getModel()->anime->getName()}**'.";
     }
 
     protected function getNotificationMessage(): string
     {
-        return "Theme '{$this->getModel()->getName()}' has been deleted for Anime '{$this->anime->getName()}'. It will be automatically pruned in one week. Please review.";
+        return "Theme '{$this->getModel()->getName()}' has been deleted for Anime '{$this->getModel()->anime->getName()}'. It will be automatically pruned in one week. Please review.";
     }
 
     protected function getFilamentNotificationUrl(): string

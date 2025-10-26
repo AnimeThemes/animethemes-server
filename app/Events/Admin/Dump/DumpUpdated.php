@@ -18,11 +18,6 @@ class DumpUpdated extends AdminUpdatedEvent
         $this->initializeEmbedFields($dump);
     }
 
-    public function getModel(): Dump
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Dump '**{$this->getModel()->getName()}**' has been updated.";

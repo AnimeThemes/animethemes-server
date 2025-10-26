@@ -12,16 +12,6 @@ use App\Models\Admin\Announcement;
  */
 class AnnouncementDeleted extends AdminDeletedEvent
 {
-    public function __construct(Announcement $announcement)
-    {
-        parent::__construct($announcement);
-    }
-
-    public function getModel(): Announcement
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Announcement '**{$this->getModel()->getName()}**' has been deleted.";

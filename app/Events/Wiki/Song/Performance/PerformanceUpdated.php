@@ -22,11 +22,6 @@ class PerformanceUpdated extends WikiUpdatedEvent implements UpdateRelatedIndice
         $this->initializeEmbedFields($performance);
     }
 
-    public function getModel(): Performance
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Performance '**{$this->getModel()->getName()}**' has been updated.";

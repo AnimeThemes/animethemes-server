@@ -16,16 +16,6 @@ use App\Models\Wiki\Video;
  */
 class SongDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Song $song)
-    {
-        parent::__construct($song);
-    }
-
-    public function getModel(): Song
-    {
-        return $this->model;
-    }
-
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_VIDEOS]);

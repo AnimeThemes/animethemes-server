@@ -19,11 +19,6 @@ class MembershipUpdated extends WikiUpdatedEvent implements UpdateRelatedIndices
         $this->initializeEmbedFields($membership);
     }
 
-    public function getModel(): Membership
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Membership '**{$this->getModel()->getName()}**' has been updated.";

@@ -13,16 +13,6 @@ use App\Models\Wiki\Song\Performance;
  */
 class PerformanceCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Performance $performance)
-    {
-        parent::__construct($performance);
-    }
-
-    public function getModel(): Performance
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();

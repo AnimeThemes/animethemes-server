@@ -13,16 +13,6 @@ use App\Models\Wiki\Studio;
  */
 class StudioDeleted extends WikiDeletedEvent
 {
-    public function __construct(Studio $studio)
-    {
-        parent::__construct($studio);
-    }
-
-    public function getModel(): Studio
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Studio '**{$this->getModel()->getName()}**' has been deleted.";

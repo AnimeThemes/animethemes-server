@@ -12,19 +12,9 @@ use App\Models\List\Playlist;
  */
 class PlaylistDeleted extends ListDeletedEvent
 {
-    public function __construct(Playlist $playlist)
-    {
-        parent::__construct($playlist);
-    }
-
     public function shouldSendDiscordMessage(): bool
     {
         return false;
-    }
-
-    public function getModel(): Playlist
-    {
-        return $this->model;
     }
 
     protected function getDiscordMessageDescription(): string

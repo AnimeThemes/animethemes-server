@@ -22,11 +22,6 @@ class AnimeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($anime);
     }
 
-    public function getModel(): Anime
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Anime '**{$this->getModel()->getName()}**' has been updated.";

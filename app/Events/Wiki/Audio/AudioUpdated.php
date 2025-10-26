@@ -18,11 +18,6 @@ class AudioUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($audio);
     }
 
-    public function getModel(): Audio
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Audio '**{$this->getModel()->getName()}**' has been updated.";

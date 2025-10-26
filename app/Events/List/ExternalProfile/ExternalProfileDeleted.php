@@ -12,19 +12,9 @@ use App\Models\List\ExternalProfile;
  */
 class ExternalProfileDeleted extends ListDeletedEvent
 {
-    public function __construct(ExternalProfile $profile)
-    {
-        parent::__construct($profile);
-    }
-
     public function shouldSendDiscordMessage(): bool
     {
         return false;
-    }
-
-    public function getModel(): ExternalProfile
-    {
-        return $this->model;
     }
 
     protected function getDiscordMessageDescription(): string

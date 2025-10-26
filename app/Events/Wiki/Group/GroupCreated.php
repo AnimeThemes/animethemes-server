@@ -16,16 +16,6 @@ use App\Models\Wiki\Video;
  */
 class GroupCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Group $group)
-    {
-        parent::__construct($group);
-    }
-
-    public function getModel(): Group
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Group '**{$this->getModel()->getName()}**' has been created.";

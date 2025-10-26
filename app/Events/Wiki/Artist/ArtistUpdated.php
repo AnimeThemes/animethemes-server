@@ -18,11 +18,6 @@ class ArtistUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($artist);
     }
 
-    public function getModel(): Artist
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Artist '**{$this->getModel()->getName()}**' has been updated.";

@@ -13,16 +13,6 @@ use App\Models\Wiki\Anime;
  */
 class AnimeDeleted extends WikiDeletedEvent
 {
-    public function __construct(Anime $anime)
-    {
-        parent::__construct($anime);
-    }
-
-    public function getModel(): Anime
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Anime '**{$this->getModel()->getName()}**' has been deleted.";

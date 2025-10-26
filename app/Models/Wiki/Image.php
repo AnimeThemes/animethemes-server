@@ -10,7 +10,6 @@ use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Events\Wiki\Image\ImageCreated;
 use App\Events\Wiki\Image\ImageDeleted;
-use App\Events\Wiki\Image\ImageDeleting;
 use App\Events\Wiki\Image\ImageForceDeleting;
 use App\Events\Wiki\Image\ImageRestored;
 use App\Events\Wiki\Image\ImageUpdated;
@@ -76,7 +75,6 @@ class Image extends BaseModel implements SoftDeletable
     protected $dispatchesEvents = [
         'created' => ImageCreated::class,
         'deleted' => ImageDeleted::class,
-        'deleting' => ImageDeleting::class,
         'forceDeleting' => ImageForceDeleting::class,
         'restored' => ImageRestored::class,
         'updated' => ImageUpdated::class,

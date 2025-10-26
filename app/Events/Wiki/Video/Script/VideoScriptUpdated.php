@@ -18,11 +18,6 @@ class VideoScriptUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($script);
     }
 
-    public function getModel(): VideoScript
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Script '**{$this->getModel()->getName()}**' has been updated.";
