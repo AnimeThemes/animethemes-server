@@ -21,7 +21,7 @@ class SyncExternalProfileController extends BaseController
         /** @var ExternalProfile $profile */
         $profile = Arr::pull($args, self::MODEL);
 
-        throw_unless($profile->canBeSynced(), new ClientForbiddenException('This external profile cannot be synced at the moment.'));
+        throw_unless($profile->canBeSynced(), ClientForbiddenException::class, 'This external profile cannot be synced at the moment.');
 
         $profile->dispatchSyncJob();
 

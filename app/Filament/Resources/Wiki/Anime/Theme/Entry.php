@@ -30,7 +30,6 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRel
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Song;
 use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
@@ -105,9 +104,9 @@ class Entry extends BaseResource
 
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
-            AnimeThemeEntry::RELATION_ANIME_SHALLOW,
-            AnimeThemeEntry::RELATION_SONG_SHALLOW,
-            AnimeThemeEntry::RELATION_THEME,
+            EntryModel::RELATION_ANIME_SHALLOW,
+            EntryModel::RELATION_SONG_SHALLOW,
+            EntryModel::RELATION_THEME,
         ]);
     }
 
@@ -297,7 +296,7 @@ class Entry extends BaseResource
 
             Filter::make(ThemeType::IN->localize())
                 ->label(__('filament.filters.anime_theme.without_in'))
-                ->query(fn (Builder $query) => $query->whereDoesntHaveRelation(AnimeThemeEntry::RELATION_THEME, ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
+                ->query(fn (Builder $query) => $query->whereDoesntHaveRelation(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
                 ->default(true),
 
             ...parent::getFilters(),

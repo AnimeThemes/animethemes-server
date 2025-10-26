@@ -3,12 +3,15 @@
 declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\CodingStyle\Rector\FunctionLike\FunctionLikeToFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector;
 use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
+use RectorLaravel\Rector\MethodCall\ConvertEnumerableToArrayToAllRector;
 use RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector;
+use RectorLaravel\Rector\StaticCall\DispatchToHelperFunctionsRector;
 use RectorLaravel\Set\LaravelSetList;
 use RectorLaravel\Set\LaravelSetProvider;
 
@@ -48,6 +51,9 @@ return RectorConfig::configure()
         __DIR__.'/database/migrations',
         AddOverrideAttributeToOverriddenMethodsRector::class,
         DisallowedEmptyRuleFixerRector::class,
+        DispatchToHelperFunctionsRector::class,
+        ConvertEnumerableToArrayToAllRector::class,
+        FunctionLikeToFirstClassCallableRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,

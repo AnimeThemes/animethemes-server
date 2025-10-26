@@ -96,7 +96,7 @@ abstract class ElasticQuery
                 ->append('Query')
                 ->__toString();
 
-        throw_unless(class_exists($query), new RuntimeException("Please add the 'getElasticQuery' method to the model ".$model::class));
+        throw_unless(class_exists($query), RuntimeException::class, "Please add the 'getElasticQuery' method to the model ".$model::class);
 
         return new ReflectionClass($query)->newInstance();
     }

@@ -36,7 +36,7 @@ class AnimeYearsController extends BaseController
 
         // Restrict 'animes' field to a unique year.
         throw_if(($year === null || count($year) > 1)
-        && (Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime')), new ClientValidationException("Please provide a unique 'year' argument to query the animes field."));
+        && (Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime')), ClientValidationException::class, "Please provide a unique 'year' argument to query the animes field.");
 
         return Anime::query()
             ->distinct([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])

@@ -47,7 +47,7 @@ class MalExternalTokenAction extends BaseExternalTokenAction
             $token = Arr::get($response, 'access_token');
             $refreshToken = Arr::get($response, 'refresh_token');
 
-            throw_if($token === null, new Error('Failed to get token'));
+            throw_if($token === null, Error::class, 'Failed to get token');
         } catch (Exception $e) {
             Log::error($e->getMessage());
 

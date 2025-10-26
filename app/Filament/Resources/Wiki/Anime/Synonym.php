@@ -20,7 +20,6 @@ use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -75,7 +74,7 @@ class Synonym extends BaseResource
         $query = parent::getEloquentQuery();
 
         // Necessary to prevent lazy loading when loading related resources
-        return $query->with([AnimeSynonym::RELATION_ANIME]);
+        return $query->with([SynonymModel::RELATION_ANIME]);
     }
 
     public static function form(Schema $schema): Schema

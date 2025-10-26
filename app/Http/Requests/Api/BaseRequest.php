@@ -38,7 +38,7 @@ abstract class BaseRequest extends FormRequest
 
         $controller = $this->route()->getController();
 
-        throw_unless($controller instanceof InteractsWithSchema, new RuntimeException("Cannot resolve schema for controller '{$this->route()->getControllerClass()}'"));
+        throw_unless($controller instanceof InteractsWithSchema, RuntimeException::class, "Cannot resolve schema for controller '{$this->route()->getControllerClass()}'");
 
         $this->schema = $controller->schema();
     }

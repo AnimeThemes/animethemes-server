@@ -42,7 +42,7 @@ class StoreExternalProfileUnclaimedAction
                 ->first();
 
             if ($findProfile instanceof ExternalProfile) {
-                throw_if($findProfile->isClaimed(), new Exception("The external profile '{$findProfile->getName()}' is already claimed."));
+                throw_if($findProfile->isClaimed(), Exception::class, "The external profile '{$findProfile->getName()}' is already claimed.");
 
                 DB::rollBack();
 

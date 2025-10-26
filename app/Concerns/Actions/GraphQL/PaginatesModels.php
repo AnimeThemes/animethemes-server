@@ -18,7 +18,7 @@ trait PaginatesModels
         $page = Arr::get($args, 'page');
 
         $maxCount = Config::get('graphql.pagination_values.max_count');
-        throw_if($maxCount !== null && $first > $maxCount, new ClientValidationException("Maximum first value is {$maxCount}. Got {$first}. Fetch in smaller chuncks."));
+        throw_if($maxCount !== null && $first > $maxCount, ClientValidationException::class, "Maximum first value is {$maxCount}. Got {$first}. Fetch in smaller chuncks.");
 
         return $builder->paginate($first, page: $page);
     }
