@@ -138,7 +138,7 @@ class ManageSongPerformances
 
             $soloPerformances->each(fn (Performance $performance) => $performance->forceDelete());
 
-            Performance::withoutEvents(function () use ($performancesToCreate) {
+            Performance::withoutEvents(function () use ($performancesToCreate): void {
                 foreach ($performancesToCreate as $index => $performanceToSort) {
                     Performance::query()
                         ->where(Performance::ATTRIBUTE_SONG, $this->song)
@@ -190,7 +190,7 @@ class ManageSongPerformances
             ];
         }
 
-        ArtistSong::withoutEvents(function () use ($song, $songArtists) {
+        ArtistSong::withoutEvents(function () use ($song, $songArtists): void {
             $song->artists()->sync($songArtists);
         });
     }

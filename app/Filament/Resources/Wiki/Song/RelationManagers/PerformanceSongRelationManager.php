@@ -14,7 +14,6 @@ use App\Models\Wiki\Song\Performance;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class PerformanceSongRelationManager extends PerformanceRelationManager
 {

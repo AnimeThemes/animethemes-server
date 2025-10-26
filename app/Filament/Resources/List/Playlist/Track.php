@@ -21,7 +21,6 @@ use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
 use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Video as VideoResource;
-use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
@@ -82,8 +81,8 @@ class Track extends BaseResource
 
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
-            PlaylistTrack::RELATION_PLAYLIST,
-            PlaylistTrack::RELATION_VIDEO,
+            TrackModel::RELATION_PLAYLIST,
+            TrackModel::RELATION_VIDEO,
             'animethemeentry.anime',
             'animethemeentry.animetheme.group',
         ]);

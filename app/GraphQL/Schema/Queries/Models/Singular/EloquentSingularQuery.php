@@ -56,7 +56,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
     {
         $baseType = $this->baseType();
 
-        throw_unless($baseType instanceof BaseType, new RuntimeException("baseType not defined for query {$this->getName()}"));
+        throw_unless($baseType instanceof BaseType, RuntimeException::class, "baseType not defined for query {$this->getName()}");
 
         return Type::nonNull(GraphQL::type($this->baseType()->getName()));
     }

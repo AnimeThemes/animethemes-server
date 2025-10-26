@@ -77,9 +77,9 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
         $externalId = Arr::get($args, self::ATTRIBUTE_ID);
         $link = Arr::get($args, self::ATTRIBUTE_LINK);
 
-        throw_if(is_null($externalId) && is_null($link), new ClientValidationException('At least "id" or "link" is required.'));
+        throw_if(is_null($externalId) && is_null($link), ClientValidationException::class, 'At least "id" or "link" is required.');
 
-        throw_if(count($externalId) > 100, new ClientValidationException('The "Id" parameter cannot contain more than 100 integer values.'));
+        throw_if(count($externalId) > 100, ClientValidationException::class, 'The "Id" parameter cannot contain more than 100 integer values.');
 
         $builder->whereRelation(Anime::RELATION_RESOURCES, function (Builder $query) use ($site, $externalId, $link): void {
             $query->where(ExternalResource::ATTRIBUTE_SITE, $site);

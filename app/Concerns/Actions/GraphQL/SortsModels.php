@@ -60,7 +60,7 @@ trait SortsModels
 
             $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
             if ($sortType === SortType::AGGREGATE) {
-                throw_if($relation === null, new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type."));
+                throw_if($relation === null, InvalidArgumentException::class, "The 'relation' argument is required for the {$column} column with aggregate sort type.");
 
                 $builder->withAggregate([
                     "$relation as {$relation}_value" => function ($query) use ($direction): void {
@@ -72,7 +72,7 @@ trait SortsModels
             }
 
             if ($sortType === SortType::RELATION) {
-                throw_if($relation === null, new InvalidArgumentException("The 'relation' argument is required for the {$column} column with aggregate sort type."));
+                throw_if($relation === null, InvalidArgumentException::class, "The 'relation' argument is required for the {$column} column with aggregate sort type.");
 
                 $builder->withAggregate([
                     "$relation as {$relation}_$column" => function ($query) use ($column, $direction): void {
@@ -84,7 +84,7 @@ trait SortsModels
             }
 
             if ($sortType === SortType::COUNT_RELATION) {
-                throw_if($relation === null, new InvalidArgumentException("The 'relation' argument is required for the {$column} column with relation sort type."));
+                throw_if($relation === null, InvalidArgumentException::class, "The 'relation' argument is required for the {$column} column with relation sort type.");
 
                 $builder->withCount($relation)->orderBy("{$relation}_count", $direction);
             }

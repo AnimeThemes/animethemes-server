@@ -29,7 +29,6 @@ use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
@@ -107,13 +106,13 @@ class Theme extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         /** @phpstan-ignore-next-line */
         return $query->with([
-            AnimeTheme::RELATION_ANIME,
-            AnimeTheme::RELATION_GROUP,
-            AnimeTheme::RELATION_ENTRIES,
-            AnimeTheme::RELATION_PERFORMANCES,
-            AnimeTheme::RELATION_SONG,
+            ThemeModel::RELATION_ANIME,
+            ThemeModel::RELATION_GROUP,
+            ThemeModel::RELATION_ENTRIES,
+            ThemeModel::RELATION_PERFORMANCES,
+            ThemeModel::RELATION_SONG,
             'song.animethemes',
-            AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo): void {
+            ThemeModel::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo): void {
                 $morphTo->morphWith([
                     Artist::class => [],
                     Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],

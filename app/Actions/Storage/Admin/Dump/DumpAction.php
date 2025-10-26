@@ -110,7 +110,7 @@ abstract class DumpAction
      */
     protected function prepareSqliteDumper(Connection $connection): Sqlite
     {
-        throw_if(version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '<'), new RuntimeException('DB connection does not support includeTables option'));
+        throw_if(version_compare($connection->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '3.32.0', '<'), RuntimeException::class, 'DB connection does not support includeTables option');
 
         $dumper = Sqlite::create();
 

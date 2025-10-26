@@ -32,7 +32,7 @@ trait ConstrainsEagerLoads
 
         foreach ($includeCriteria->getPaths() as $allowedIncludePath) {
             $relationSchema = $schema->relation($allowedIncludePath);
-            throw_if(! $relationSchema instanceof Schema, new RuntimeException("Unknown relation '$allowedIncludePath' for type '{$schema->type()}'."));
+            throw_if(! $relationSchema instanceof Schema, RuntimeException::class, "Unknown relation '$allowedIncludePath' for type '{$schema->type()}'.");
 
             $scope = ScopeParser::parse($allowedIncludePath);
             $constrainedEagerLoads[$allowedIncludePath] = function (Relation $relation) use ($query, $scope, $relationSchema): void {

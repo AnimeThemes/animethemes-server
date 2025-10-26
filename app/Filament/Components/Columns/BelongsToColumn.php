@@ -23,9 +23,9 @@ class BelongsToColumn extends TextColumn
      */
     public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
-        throw_unless(is_string($resource), new InvalidArgumentException('The resource must be specified.'));
+        throw_unless(is_string($resource), InvalidArgumentException::class, 'The resource must be specified.');
 
-        throw_unless(($resource = new $resource) instanceof BaseResource, new InvalidArgumentException('The resource must instanceof a BaseResource.'));
+        throw_unless(($resource = new $resource) instanceof BaseResource, InvalidArgumentException::class, 'The resource must instanceof a BaseResource.');
 
         $static = app(static::class, ['name' => $relation]);
         $static->resource = $resource;

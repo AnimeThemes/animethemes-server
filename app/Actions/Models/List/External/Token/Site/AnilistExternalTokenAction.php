@@ -42,7 +42,7 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
 
             $token = Arr::get($response, 'access_token');
 
-            throw_if($token === null, new Error('Failed to get token'));
+            throw_if($token === null, Error::class, 'Failed to get token');
 
             return ExternalToken::query()->create([
                 ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
