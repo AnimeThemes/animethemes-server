@@ -13,16 +13,6 @@ use App\Models\Wiki\Artist;
  */
 class ArtistDeleted extends WikiDeletedEvent
 {
-    public function __construct(Artist $artist)
-    {
-        parent::__construct($artist);
-    }
-
-    public function getModel(): Artist
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Artist '**{$this->getModel()->getName()}**' has been deleted.";

@@ -13,16 +13,6 @@ use App\Models\Wiki\Series;
  */
 class SeriesDeleted extends WikiDeletedEvent
 {
-    public function __construct(Series $series)
-    {
-        parent::__construct($series);
-    }
-
-    public function getModel(): Series
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Series '**{$this->getModel()->getName()}**' has been deleted.";

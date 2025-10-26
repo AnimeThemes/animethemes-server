@@ -15,16 +15,6 @@ use Illuminate\Support\Facades\Storage;
  */
 class ImageForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    public function __construct(Image $image)
-    {
-        parent::__construct($image);
-    }
-
-    public function getModel(): Image
-    {
-        return $this->model;
-    }
-
     public function removeFromStorage(): void
     {
         Storage::disk(Config::get('image.disk'))->delete($this->getModel()->path);

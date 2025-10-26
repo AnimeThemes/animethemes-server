@@ -16,16 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Performance $performance)
-    {
-        parent::__construct($performance);
-    }
-
-    public function getModel(): Performance
-    {
-        return $this->model;
-    }
-
     public function updateRelatedIndices(): void
     {
         $performance = $this->getModel()->load([

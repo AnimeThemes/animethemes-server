@@ -24,10 +24,11 @@ abstract class BaseEvent
         $this->authenticatedUser = Auth::user();
     }
 
-    /**
-     * @return TModel&Nameable
-     */
-    abstract public function getModel(): Model&Nameable;
+    /** @return TModel&Nameable */
+    public function getModel(): Model&Nameable
+    {
+        return $this->model;
+    }
 
     protected function getAuthenticatedUser(): ?User
     {

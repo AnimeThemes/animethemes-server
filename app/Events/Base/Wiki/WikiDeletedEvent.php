@@ -29,8 +29,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
         return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);
     }
 
-    abstract protected function getNotificationMessage(): string;
-
     public function shouldSendFilamentNotification(): bool
     {
         $model = $this->getModel();
@@ -67,4 +65,6 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
      * Get the URL for the filament notification.
      */
     abstract protected function getFilamentNotificationUrl(): string;
+
+    abstract protected function getNotificationMessage(): string;
 }

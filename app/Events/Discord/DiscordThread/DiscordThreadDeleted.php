@@ -20,11 +20,6 @@ class DiscordThreadDeleted extends AdminDeletedEvent
         $this->deleteThread();
     }
 
-    public function getModel(): DiscordThread
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Discord Thread '**{$this->getModel()->getName()}**' has been deleted.";

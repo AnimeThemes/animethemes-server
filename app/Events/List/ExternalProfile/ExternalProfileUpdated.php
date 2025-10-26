@@ -23,11 +23,6 @@ class ExternalProfileUpdated extends ListUpdatedEvent
         return false;
     }
 
-    public function getModel(): ExternalProfile
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "External Profile '**{$this->getModel()->getName()}**' has been updated.";

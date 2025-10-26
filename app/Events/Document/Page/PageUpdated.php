@@ -18,11 +18,6 @@ class PageUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($page);
     }
 
-    public function getModel(): Page
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Page '**{$this->getModel()->getName()}**' has been updated.";

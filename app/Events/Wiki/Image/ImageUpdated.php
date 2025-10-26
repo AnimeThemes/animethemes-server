@@ -18,11 +18,6 @@ class ImageUpdated extends WikiUpdatedEvent
         $this->initializeEmbedFields($image);
     }
 
-    public function getModel(): Image
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Image '**{$this->getModel()->getName()}**' has been updated.";

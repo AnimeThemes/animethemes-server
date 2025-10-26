@@ -13,16 +13,6 @@ use App\Models\Wiki\Image;
  */
 class ImageDeleted extends WikiDeletedEvent
 {
-    public function __construct(Image $image)
-    {
-        parent::__construct($image);
-    }
-
-    public function getModel(): Image
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Image '**{$this->getModel()->getName()}**' has been deleted.";

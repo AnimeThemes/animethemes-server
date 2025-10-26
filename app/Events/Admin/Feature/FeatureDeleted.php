@@ -12,16 +12,6 @@ use App\Models\Admin\Feature;
  */
 class FeatureDeleted extends AdminDeletedEvent
 {
-    public function __construct(Feature $feature)
-    {
-        parent::__construct($feature);
-    }
-
-    public function getModel(): Feature
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Feature '**{$this->getModel()->getName()}**' has been deleted.";

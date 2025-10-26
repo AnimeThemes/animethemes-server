@@ -15,16 +15,6 @@ use App\Models\Wiki\Video;
  */
 class EntryDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(AnimeThemeEntry $entry)
-    {
-        parent::__construct($entry);
-    }
-
-    public function getModel(): AnimeThemeEntry
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Entry '**{$this->getModel()->getName()}**' has been deleted.";

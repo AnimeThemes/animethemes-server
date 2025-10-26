@@ -12,16 +12,6 @@ use App\Models\Wiki\Image;
  */
 class ImageRestored extends WikiRestoredEvent
 {
-    public function __construct(Image $image)
-    {
-        parent::__construct($image);
-    }
-
-    public function getModel(): Image
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Image '**{$this->getModel()->getName()}**' has been restored.";

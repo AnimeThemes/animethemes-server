@@ -14,16 +14,6 @@ use App\Models\Wiki\Video\VideoScript;
  */
 class VideoScriptForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    public function __construct(VideoScript $script)
-    {
-        parent::__construct($script);
-    }
-
-    public function getModel(): VideoScript
-    {
-        return $this->model;
-    }
-
     public function removeFromStorage(): void
     {
         $action = new DeleteScriptAction($this->getModel());

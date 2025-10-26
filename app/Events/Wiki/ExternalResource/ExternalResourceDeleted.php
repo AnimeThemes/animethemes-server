@@ -13,16 +13,6 @@ use App\Models\Wiki\ExternalResource;
  */
 class ExternalResourceDeleted extends WikiDeletedEvent
 {
-    public function __construct(ExternalResource $resource)
-    {
-        parent::__construct($resource);
-    }
-
-    public function getModel(): ExternalResource
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Resource '**{$this->getModel()->getName()}**' has been deleted.";

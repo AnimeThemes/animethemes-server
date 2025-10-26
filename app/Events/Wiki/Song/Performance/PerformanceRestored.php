@@ -16,16 +16,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class PerformanceRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Performance $performance)
-    {
-        parent::__construct($performance);
-    }
-
-    public function getModel(): Performance
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Performance '**{$this->getModel()->getName()}**' has been restored.";

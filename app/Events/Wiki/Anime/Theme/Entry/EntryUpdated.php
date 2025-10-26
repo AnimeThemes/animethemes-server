@@ -20,11 +20,6 @@ class EntryUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($entry);
     }
 
-    public function getModel(): AnimeThemeEntry
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Entry '**{$this->getModel()->getName()}**' has been updated.";

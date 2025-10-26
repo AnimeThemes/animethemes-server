@@ -12,16 +12,6 @@ use App\Models\Auth\User;
  */
 class UserRestored extends AdminRestoredEvent
 {
-    public function __construct(User $user)
-    {
-        parent::__construct($user);
-    }
-
-    public function getModel(): User
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "User '**{$this->getModel()->getName()}**' has been restored.";

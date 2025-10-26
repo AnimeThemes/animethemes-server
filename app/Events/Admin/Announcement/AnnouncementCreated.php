@@ -12,16 +12,6 @@ use App\Models\Admin\Announcement;
  */
 class AnnouncementCreated extends AdminCreatedEvent
 {
-    public function __construct(Announcement $announcement)
-    {
-        parent::__construct($announcement);
-    }
-
-    public function getModel(): Announcement
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Announcement '**{$this->getModel()->getName()}**' has been created.";

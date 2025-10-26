@@ -18,11 +18,6 @@ class FeatureUpdated extends AdminUpdatedEvent
         $this->initializeEmbedFields($feature);
     }
 
-    public function getModel(): Feature
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Feature '**{$this->getModel()->getName()}**' has been updated.";

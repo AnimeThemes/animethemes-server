@@ -13,16 +13,6 @@ use App\Models\List\Playlist;
  */
 class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
 {
-    public function __construct(Playlist $playlist)
-    {
-        parent::__construct($playlist);
-    }
-
-    public function getModel(): Playlist
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Playlist '**{$this->getModel()->getName()}**' has been created.";

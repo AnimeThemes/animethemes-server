@@ -6,7 +6,6 @@ namespace App\Events\Wiki\Anime\Theme;
 
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Events\Base\Wiki\WikiRestoredEvent;
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
@@ -17,25 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  */
 class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    /**
-     * The anime that the theme belongs to.
-     */
-    protected Anime $anime;
-
-    public function __construct(AnimeTheme $theme)
-    {
-        parent::__construct($theme);
-        $this->anime = $theme->anime;
-    }
-
-    public function getModel(): AnimeTheme
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
-        return "Theme '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->anime->getName()}**'.";
+        return "Theme '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->getModel()->anime->getName()}**'.";
     }
 
     public function cascadeRestores(): void

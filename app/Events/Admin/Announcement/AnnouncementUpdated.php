@@ -18,11 +18,6 @@ class AnnouncementUpdated extends AdminUpdatedEvent
         $this->initializeEmbedFields($announcement);
     }
 
-    public function getModel(): Announcement
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Announcement '**{$this->getModel()->getName()}**' has been updated.";

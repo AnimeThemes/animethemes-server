@@ -17,16 +17,6 @@ use Illuminate\Support\Facades\Event;
  */
 class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
 {
-    public function __construct(Anime $anime)
-    {
-        parent::__construct($anime);
-    }
-
-    public function getModel(): Anime
-    {
-        return $this->model;
-    }
-
     public function cascadeDeletes(): void
     {
         $anime = $this->getModel()->load([Anime::RELATION_SYNONYMS, Anime::RELATION_VIDEOS]);

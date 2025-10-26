@@ -12,16 +12,6 @@ use App\Models\Document\Page;
  */
 class PageCreated extends WikiCreatedEvent
 {
-    public function __construct(Page $page)
-    {
-        parent::__construct($page);
-    }
-
-    public function getModel(): Page
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Page '**{$this->getModel()->getName()}**' has been created.";

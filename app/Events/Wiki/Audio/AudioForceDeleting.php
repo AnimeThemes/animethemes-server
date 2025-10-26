@@ -14,16 +14,6 @@ use App\Models\Wiki\Audio;
  */
 class AudioForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    public function __construct(Audio $audio)
-    {
-        parent::__construct($audio);
-    }
-
-    public function getModel(): Audio
-    {
-        return $this->model;
-    }
-
     /**
      * Remove the audio from the bucket.
      */

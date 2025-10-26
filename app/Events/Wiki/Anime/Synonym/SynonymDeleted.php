@@ -19,30 +19,14 @@ use App\Models\Wiki\Video;
  */
 class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    /**
-     * The anime that the synonym belongs to.
-     */
-    protected Anime $anime;
-
-    public function __construct(AnimeSynonym $synonym)
-    {
-        parent::__construct($synonym);
-        $this->anime = $synonym->anime;
-    }
-
-    public function getModel(): AnimeSynonym
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
-        return "Synonym '**{$this->getModel()->getName()}**' has been deleted for Anime '**{$this->anime->getName()}**'.";
+        return "Synonym '**{$this->getModel()->getName()}**' has been deleted for Anime '**{$this->getModel()->anime->getName()}**'.";
     }
 
     protected function getNotificationMessage(): string
     {
-        return "Synonym '{$this->getModel()->getName()}' has been deleted for Anime '{$this->anime->getName()}'. It will be automatically pruned in one week. Please review.";
+        return "Synonym '{$this->getModel()->getName()}' has been deleted for Anime '{$this->getModel()->anime->getName()}'. It will be automatically pruned in one week. Please review.";
     }
 
     protected function getFilamentNotificationUrl(): string
@@ -52,7 +36,7 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
 
     public function updateRelatedIndices(): void
     {
-        $anime = $this->anime->load([
+        $anime = $this->getModel()->anime->load([
             Anime::RELATION_SERIES,
             Anime::RELATION_VIDEOS,
         ]);

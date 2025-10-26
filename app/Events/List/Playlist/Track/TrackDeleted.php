@@ -14,31 +14,17 @@ use Illuminate\Support\Str;
  */
 class TrackDeleted extends ListDeletedEvent
 {
-    /**
-     * The playlist the track belongs to.
-     */
-    protected ?Playlist $playlist;
-
-    public function __construct(PlaylistTrack $track)
-    {
-        parent::__construct($track);
-        $this->playlist = $track->playlist;
-    }
-
     public function shouldSendDiscordMessage(): bool
     {
         return false;
     }
 
-    public function getModel(): PlaylistTrack
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
+        $playlist = $this->getModel()->playlist;
+
         return Str::of("Track '**{$this->getModel()->getName()}**' has been deleted")
-            ->append($this->playlist instanceof Playlist ? " for Playlist '**{$this->playlist->getName()}**'." : '.')
+            ->append($playlist instanceof Playlist ? " for Playlist '**{$playlist->getName()}**'." : '.')
             ->__toString();
     }
 }

@@ -17,16 +17,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
-    public function __construct(Performance $performance)
-    {
-        parent::__construct($performance);
-    }
-
-    public function getModel(): Performance
-    {
-        return $this->model;
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         $performance = $this->getModel();
