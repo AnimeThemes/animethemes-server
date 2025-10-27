@@ -9,7 +9,10 @@ use App\Models\BaseModel;
 
 interface AssignHashidsEvent
 {
-    public function getModel(): HasHashids&BaseModel;
+    /**
+     * @return BaseModel&HasHashids
+     */
+    public function getModel(): BaseModel;
 
     public function getHashidsConnection(): ?string;
 }
