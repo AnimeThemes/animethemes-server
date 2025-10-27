@@ -13,6 +13,11 @@ use App\Models\List\Playlist\PlaylistTrack;
  */
 class TrackCreated extends ListCreatedEvent implements AssignHashidsEvent
 {
+    public function getModel(): PlaylistTrack
+    {
+        return $this->model;
+    }
+
     public function shouldSendDiscordMessage(): bool
     {
         return false;
