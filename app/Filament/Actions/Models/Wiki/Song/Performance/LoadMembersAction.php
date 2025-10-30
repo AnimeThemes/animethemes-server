@@ -11,6 +11,7 @@ use App\Pivots\Wiki\ArtistMember;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
 class LoadMembersAction extends Action
@@ -36,7 +37,11 @@ class LoadMembersAction extends Action
 
             /** @var Artist $group */
             $group = Artist::query()
-                ->with([Artist::RELATION_MEMBERS])
+                ->with([
+                    Artist::RELATION_MEMBERS => function (BelongsToMany $relation) {
+                        $relation->orderBy(ArtistMember::ATTRIBUTE_RELEVANCE);
+                    },
+                ])
                 ->find($artistId);
 
             $set(PerformanceForm::REPEATER_MEMBERSHIPS, $group->members->map(fn (Artist $member): array => [

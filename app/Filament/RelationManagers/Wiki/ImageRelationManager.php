@@ -32,7 +32,7 @@ class ImageRelationManager extends BaseRelationManager
             $table
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
                 ->reorderable(Imageable::ATTRIBUTE_DEPTH)
-                ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Imageable::ATTRIBUTE_DEPTH)
         );
     }
 

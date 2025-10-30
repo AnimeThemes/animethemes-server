@@ -6,6 +6,7 @@ namespace App\Events\Wiki\Song\Performance;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiCreatedEvent;
+use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 
 /**
@@ -18,7 +19,7 @@ class PerformanceCreated extends WikiCreatedEvent implements UpdateRelatedIndice
         $performance = $this->getModel();
 
         $song = $performance->song;
-        $artist = $performance->artist;
+        $artist = $performance->artist instanceof Membership ? $performance->artist->group : $performance->artist;
 
         $artistName = $performance->alias ?? $artist->getName();
         $artistName = filled($performance->as) ? "{$performance->as} (CV: {$artistName})" : $artistName;
