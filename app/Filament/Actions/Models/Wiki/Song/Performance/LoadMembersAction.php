@@ -12,6 +12,7 @@ use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 
 class LoadMembersAction extends Action
@@ -38,7 +39,7 @@ class LoadMembersAction extends Action
             /** @var Artist $group */
             $group = Artist::query()
                 ->with([
-                    Artist::RELATION_MEMBERS => function (BelongsToMany $relation): void {
+                    Artist::RELATION_MEMBERS => function (Relation $relation): void {
                         $relation->orderBy(ArtistMember::ATTRIBUTE_RELEVANCE);
                     },
                 ])
