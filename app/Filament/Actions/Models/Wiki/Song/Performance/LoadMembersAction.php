@@ -38,7 +38,7 @@ class LoadMembersAction extends Action
             /** @var Artist $group */
             $group = Artist::query()
                 ->with([
-                    Artist::RELATION_MEMBERS => function (BelongsToMany $relation) {
+                    Artist::RELATION_MEMBERS => function (BelongsToMany $relation): void {
                         $relation->orderBy(ArtistMember::ATTRIBUTE_RELEVANCE);
                     },
                 ])
