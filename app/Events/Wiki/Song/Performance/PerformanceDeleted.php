@@ -22,7 +22,7 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
         $performance = $this->getModel();
 
         $song = $performance->song;
-        $artist = $performance->artist;
+        $artist = $performance->artist instanceof Membership ? $performance->artist->group : $performance->artist;
 
         $artistName = $performance->alias ?? $artist->getName();
         $artistName = filled($performance->as) ? "{$performance->as} (CV: {$artistName})" : $artistName;

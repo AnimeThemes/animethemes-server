@@ -246,7 +246,7 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER)
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES, ArtistMember::ATTRIBUTE_RELEVANCE])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }

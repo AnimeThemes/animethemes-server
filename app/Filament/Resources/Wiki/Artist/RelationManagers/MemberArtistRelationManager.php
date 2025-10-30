@@ -62,6 +62,8 @@ class MemberArtistRelationManager extends ArtistRelationManager
             $table
                 ->inverseRelationship(Artist::RELATION_GROUPS)
         )
+            ->reorderable(ArtistMember::ATTRIBUTE_RELEVANCE)
+            ->defaultSort(ArtistMember::ATTRIBUTE_RELEVANCE)
             ->heading(__('filament.resources.label.members'))
             ->modelLabel(__('filament.resources.singularLabel.member'));
     }

@@ -18,8 +18,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $alias
  * @property string|null $as
  * @property Artist $member
- * @property string|null $notes
  * @property int $member_id
+ * @property string|null $notes
+ * @property int|null $relevance
  *
  * @method static ArtistMemberFactory factory(...$parameters)
  */
@@ -32,6 +33,7 @@ class ArtistMember extends BasePivot
     final public const string ATTRIBUTE_ARTIST = 'artist_id';
     final public const string ATTRIBUTE_MEMBER = 'member_id';
     final public const string ATTRIBUTE_NOTES = 'notes';
+    final public const string ATTRIBUTE_RELEVANCE = 'relevance';
 
     final public const string RELATION_ARTIST = 'artist';
     final public const string RELATION_MEMBER = 'member';
@@ -45,8 +47,9 @@ class ArtistMember extends BasePivot
         ArtistMember::ATTRIBUTE_ALIAS,
         ArtistMember::ATTRIBUTE_ARTIST,
         ArtistMember::ATTRIBUTE_AS,
-        ArtistMember::ATTRIBUTE_NOTES,
         ArtistMember::ATTRIBUTE_MEMBER,
+        ArtistMember::ATTRIBUTE_NOTES,
+        ArtistMember::ATTRIBUTE_RELEVANCE,
     ];
 
     /**

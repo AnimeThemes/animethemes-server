@@ -148,12 +148,7 @@ class ManageSongPerformances
                 }
             });
 
-            // Update artist_member table to match memberships
-            ArtistMember::query()->upsert(
-                $memberships,
-                [ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER],
-                [ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS],
-            );
+            $this->syncArtistMembers($memberships);
 
             $this->syncSongArtist();
 
@@ -170,9 +165,27 @@ class ManageSongPerformances
     }
 
     /**
+     * Update artist_member table to match memberships.
+     */
+    protected function syncArtistMembers(array $memberships): void
+    {
+        foreach ($memberships as $index => $membership) {
+            ArtistMember::query()
+                ->updateOrCreate([
+                    ArtistMember::ATTRIBUTE_ARTIST => Arr::get($membership, Membership::ATTRIBUTE_ARTIST),
+                    ArtistMember::ATTRIBUTE_MEMBER => Arr::get($membership, Membership::ATTRIBUTE_MEMBER),
+                ], [
+                    ArtistMember::ATTRIBUTE_ALIAS => Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
+                    ArtistMember::ATTRIBUTE_AS => Arr::get($membership, Membership::ATTRIBUTE_AS),
+                    ArtistMember::ATTRIBUTE_RELEVANCE => $index + 1,
+                ]);
+        }
+    }
+
+    /**
      * Temporary function where the performances feature synchronizes with the artist_song pivot table.
      */
-    public function syncSongArtist(): void
+    protected function syncSongArtist(): void
     {
         /** @var Song $song */
         $song = Song::query()
