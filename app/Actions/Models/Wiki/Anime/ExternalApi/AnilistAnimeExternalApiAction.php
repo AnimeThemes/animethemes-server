@@ -14,8 +14,10 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AnilistAnimeExternalApiAction extends ExternalApiAction implements BackfillImages, BackfillResources, BackfillSynonyms
 {
@@ -60,14 +62,17 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
                 'id' => $resource->external_id,
             ];
 
-            $response = Http::post('https://graphql.anilist.co', [
-                'query' => $query,
-                'variables' => $variables,
-            ])
-                ->throw()
-                ->json();
+            try {
+                $this->response = Http::post('https://graphql.anilist.co', [
+                    'query' => $query,
+                    'variables' => $variables,
+                ])
+                    ->throw()
+                    ->json();
 
-            $this->response = $response;
+            } catch (RequestException $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         return $this;

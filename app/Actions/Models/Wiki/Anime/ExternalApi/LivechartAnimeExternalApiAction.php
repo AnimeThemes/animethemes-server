@@ -10,7 +10,9 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class LivechartAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
@@ -31,12 +33,15 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
         if ($resource instanceof ExternalResource) {
             $id = $resource->external_id;
 
-            $response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
-                ->get("https://www.livechart.me/api/v1/anime/$id")
-                ->throw()
-                ->json();
+            try {
+                $this->response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
+                    ->get("https://www.livechart.me/api/v1/anime/$id")
+                    ->throw()
+                    ->json();
 
-            $this->response = $response;
+            } catch (RequestException $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         return $this;
