@@ -155,6 +155,8 @@ class ManageSongPerformances
                 [ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS],
             );
 
+            $this->setArtistMemberRelevance();
+
             $this->syncSongArtist();
 
             DB::commit();
@@ -167,6 +169,40 @@ class ManageSongPerformances
         }
 
         return $this;
+    }
+
+    /**
+     * Complex query to set relevance for artist members based on created_at order.
+     */
+    protected function setArtistMemberRelevance(): void
+    {
+        DB::statement('
+            WITH base AS (
+                SELECT
+                    artist_id,
+                    COALESCE(MAX(relevance), 0) AS max_rel
+                FROM artist_member
+                GROUP BY artist_id
+            ),
+            ranked AS (
+                SELECT
+                    artist_id,
+                    member_id,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY artist_id
+                        ORDER BY created_at
+                    ) AS rn
+                FROM artist_member
+                WHERE relevance IS NULL
+            )
+            UPDATE artist_member am
+            JOIN ranked r
+                ON am.artist_id = r.artist_id
+            AND am.member_id = r.member_id
+            JOIN base b
+                ON b.artist_id = r.artist_id
+            SET am.relevance = r.rn + b.max_rel;
+        ');
     }
 
     /**

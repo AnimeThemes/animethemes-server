@@ -39,8 +39,7 @@ class LoadMembersAction extends Action
             $group = Artist::query()
                 ->with([
                     Artist::RELATION_MEMBERS => function (Relation $relation): void {
-                        $relation->orderBy(ArtistMember::ATTRIBUTE_RELEVANCE)
-                            ->orderBy(ArtistMember::ATTRIBUTE_CREATED_AT);
+                        $relation->orderBy(ArtistMember::ATTRIBUTE_RELEVANCE)->oldest();
                     },
                 ])
                 ->find($artistId);
