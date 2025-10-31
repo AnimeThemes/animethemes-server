@@ -176,8 +176,7 @@ class ManageSongPerformances
      */
     protected function setArtistMemberRelevance(): void
     {
-        DB::statement(
-            '
+        DB::statement('
             WITH base AS (
                 SELECT
                     artist_id,
@@ -202,8 +201,8 @@ class ManageSongPerformances
             AND am.member_id = r.member_id
             JOIN base b
                 ON b.artist_id = r.artist_id
-            SET am.relevance = r.rn + b.max_rel;'
-        );
+            SET am.relevance = r.rn + b.max_rel;
+        ');
     }
 
     /**
