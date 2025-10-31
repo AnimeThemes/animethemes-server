@@ -10,8 +10,10 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
@@ -32,11 +34,14 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
         if ($resource instanceof ExternalResource) {
             $id = $resource->external_id;
 
-            $response = Http::get("https://api.jikan.moe/v4/anime/$id/external")
-                ->throw()
-                ->json();
+            try {
+                $this->response = Http::get("https://api.jikan.moe/v4/anime/$id/external")
+                    ->throw()
+                    ->json();
 
-            $this->response = $response;
+            } catch (RequestException $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         return $this;

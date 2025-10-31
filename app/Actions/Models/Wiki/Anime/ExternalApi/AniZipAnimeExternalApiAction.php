@@ -10,8 +10,10 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AniZipAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
@@ -32,11 +34,14 @@ class AniZipAnimeExternalApiAction extends ExternalApiAction implements Backfill
         if ($resource instanceof ExternalResource) {
             $id = $resource->external_id;
 
-            $response = Http::get("https://api.ani.zip/v1/mappings?anilist_id=$id")
-                ->throw()
-                ->json();
+            try {
+                $this->response = Http::get("https://api.ani.zip/v1/mappings?anilist_id=$id")
+                    ->throw()
+                    ->json();
 
-            $this->response = $response;
+            } catch (RequestException $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         return $this;
