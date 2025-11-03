@@ -38,7 +38,6 @@ class AniZipAnimeExternalApiAction extends ExternalApiAction implements Backfill
                 $this->response = Http::get("https://api.ani.zip/v1/mappings?anilist_id=$id")
                     ->throw()
                     ->json();
-
             } catch (RequestException $e) {
                 Log::error($e->getMessage());
             }

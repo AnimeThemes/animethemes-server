@@ -11,7 +11,6 @@ use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;

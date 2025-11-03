@@ -139,7 +139,7 @@ class Series extends BaseResource
                         ->label(__('filament.fields.series.name.name')),
 
                     TextConstraint::make(SeriesModel::ATTRIBUTE_SLUG)
-                        ->label(__('filament.fields.series.name.name')),
+                        ->label(__('filament.fields.series.slug.name')),
 
                     ...parent::getConstraints(),
                 ]),

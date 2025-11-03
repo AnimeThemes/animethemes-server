@@ -225,7 +225,7 @@ class Playlist extends BaseResource
                     TextConstraint::make(PlaylistModel::ATTRIBUTE_HASHID)
                         ->label(__('filament.fields.playlist.hashid.name')),
 
-                        TextConstraint::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
+                    TextConstraint::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                         ->label(__('filament.fields.playlist.description.name')),
 
                     ...parent::getConstraints(),

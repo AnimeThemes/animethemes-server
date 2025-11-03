@@ -41,7 +41,6 @@ class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStu
                     ])
                     ->throw()
                     ->json();
-
             } catch (RequestException $e) {
                 Log::error($e->getMessage());
             }

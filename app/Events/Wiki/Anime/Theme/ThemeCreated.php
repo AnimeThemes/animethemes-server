@@ -44,7 +44,7 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
     {
         if ($this->getModel()->sequence >= 2) {
             $this->getModel()->anime->animethemes()->getQuery()
-                ->where(AnimeTheme::ATTRIBUTE_SEQUENCE, null)
+                ->where(AnimeTheme::ATTRIBUTE_SEQUENCE)
                 ->where(AnimeTheme::ATTRIBUTE_TYPE, $this->getModel()->type)
                 ->update([AnimeTheme::ATTRIBUTE_SEQUENCE => 1]);
         }
