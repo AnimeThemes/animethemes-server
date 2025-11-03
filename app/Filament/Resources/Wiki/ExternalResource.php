@@ -156,7 +156,8 @@ class ExternalResource extends BaseResource
                 ->constraints([
                     SelectConstraint::make(ExternalResourceModel::ATTRIBUTE_SITE)
                         ->label(__('filament.fields.external_resource.site.name'))
-                        ->options(ResourceSite::class),
+                        ->options(ResourceSite::class)
+                        ->multiple(),
 
                     NumberConstraint::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                         ->label(__('filament.fields.external_resource.external_id.name')),

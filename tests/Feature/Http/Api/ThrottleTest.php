@@ -44,4 +44,4 @@ test('user without bypass rate limited', function () {
 
     $response->assertHeader('X-RateLimit-Limit');
     $response->assertHeader('X-RateLimit-Remaining');
-})->only();
+});

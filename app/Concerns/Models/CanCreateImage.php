@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
+use App\Constants\Config\ImageConstants;
 use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
@@ -51,7 +52,7 @@ trait CanCreateImage
     public function createImageFromFile(mixed $image, ImageFacet $facet, (BaseModel&HasImages)|null $model = null): Image
     {
         /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get('image.disk'));
+        $fs = Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED));
 
         $fsFile = $fs->putFile($this->path($facet, $model), $image);
 

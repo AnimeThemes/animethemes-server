@@ -281,7 +281,8 @@ class Theme extends BaseResource
                 ->constraints([
                     SelectConstraint::make(ThemeModel::ATTRIBUTE_TYPE)
                         ->label(__('filament.fields.anime_theme.type.name'))
-                        ->options(ThemeType::class),
+                        ->options(ThemeType::class)
+                        ->multiple(),
 
                     NumberConstraint::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                         ->label(__('filament.fields.anime_theme.sequence.name')),

@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Actions\Models\Wiki\Image\OptimizeImageAction;
 use App\Filament\Actions\Models\Wiki\Image\UploadImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
@@ -142,12 +143,23 @@ class Image extends BaseResource
                 ->constraints([
                     SelectConstraint::make(ImageModel::ATTRIBUTE_FACET)
                         ->label(__('filament.fields.image.facet.name'))
-                        ->options(ImageFacet::class),
+                        ->options(ImageFacet::class)
+                        ->multiple(),
 
                     ...parent::getConstraints(),
                 ]),
 
             ...parent::getFilters(),
+        ];
+    }
+
+    /**
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            OptimizeImageAction::make(),
         ];
     }
 

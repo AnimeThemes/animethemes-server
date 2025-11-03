@@ -220,7 +220,8 @@ class Playlist extends BaseResource
 
                     SelectConstraint::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                         ->label(__('filament.fields.playlist.visibility.name'))
-                        ->options(PlaylistVisibility::class),
+                        ->options(PlaylistVisibility::class)
+                        ->multiple(),
 
                     TextConstraint::make(PlaylistModel::ATTRIBUTE_HASHID)
                         ->label(__('filament.fields.playlist.hashid.name')),

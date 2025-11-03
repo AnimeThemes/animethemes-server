@@ -181,7 +181,8 @@ class ExternalEntry extends BaseResource
                         ->label(__('filament.fields.external_entry.score.name')),
 
                     SelectConstraint::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
-                        ->label(__('filament.fields.external_entry.watch_status.name')),
+                        ->label(__('filament.fields.external_entry.watch_status.name'))
+                        ->multiple(),
 
                     ...parent::getConstraints(),
                 ]),
