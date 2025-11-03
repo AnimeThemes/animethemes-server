@@ -172,10 +172,13 @@ class ExternalProfile extends BaseResource
 
                     SelectConstraint::make(ExternalProfileModel::ATTRIBUTE_SITE)
                         ->label(__('filament.fields.external_profile.site.name'))
-                        ->options(ExternalProfileSite::class),
+                        ->options(ExternalProfileSite::class)
+                        ->multiple(),
 
                     SelectConstraint::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
-                        ->label(__('filament.fields.external_profile.visibility.name')),
+                        ->label(__('filament.fields.external_profile.visibility.name'))
+                        ->options(ExternalProfileVisibility::class)
+                        ->multiple(),
 
                     ...parent::getConstraints(),
                 ]),

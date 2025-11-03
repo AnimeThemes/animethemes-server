@@ -262,11 +262,13 @@ class Video extends BaseResource
 
                     SelectConstraint::make(VideoModel::ATTRIBUTE_OVERLAP)
                         ->label(__('filament.fields.video.overlap.name'))
-                        ->options(VideoOverlap::class),
+                        ->options(VideoOverlap::class)
+                        ->multiple(),
 
                     SelectConstraint::make(VideoModel::ATTRIBUTE_SOURCE)
                         ->label(__('filament.fields.video.source.name'))
-                        ->options(VideoSource::class),
+                        ->options(VideoSource::class)
+                        ->multiple(),
 
                     NumberConstraint::make(VideoModel::ATTRIBUTE_SIZE)
                         ->label(__('filament.fields.video.size.name')),

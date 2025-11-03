@@ -227,11 +227,13 @@ class Anime extends BaseResource
 
                     SelectConstraint::make(AnimeModel::ATTRIBUTE_SEASON)
                         ->label(__('filament.fields.anime.season.name'))
-                        ->options(AnimeSeason::class),
+                        ->options(AnimeSeason::class)
+                        ->multiple(),
 
                     SelectConstraint::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                         ->label(__('filament.fields.anime.media_format.name'))
-                        ->options(AnimeMediaFormat::class),
+                        ->options(AnimeMediaFormat::class)
+                        ->multiple(),
 
                     TextConstraint::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                         ->label(__('filament.fields.anime.synopsis.name')),

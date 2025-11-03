@@ -163,7 +163,8 @@ class Synonym extends BaseResource
 
                     SelectConstraint::make(SynonymModel::ATTRIBUTE_TYPE)
                         ->label(__('filament.fields.anime_synonym.type.name'))
-                        ->options(AnimeSynonymType::class),
+                        ->options(AnimeSynonymType::class)
+                        ->multiple(),
 
                     ...parent::getConstraints(),
                 ]),

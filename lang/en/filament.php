@@ -289,6 +289,9 @@ return [
                     'help' => 'Use 2:3 ratio. Ex: 100x150, 400x600, 720x1080.',
                     'name' => 'Upload & Attach',
                 ],
+                'optimize_image' => [
+                    'name' => 'Optimize Image',
+                ],
                 'upload_image' => [
                     'name' => 'Upload Image',
                 ],
