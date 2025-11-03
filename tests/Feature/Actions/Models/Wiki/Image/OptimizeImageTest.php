@@ -9,6 +9,7 @@ use App\Models\Wiki\Image;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
@@ -25,6 +26,7 @@ test('converts to avif', function () {
 
     $result = $action->handle();
 
+    $this->assertTrue(Str::endsWith(($image->path), '.avif'));
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
     $this->assertTrue($image->exists());
