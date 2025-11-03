@@ -25,10 +25,13 @@ use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationM
 use App\Filament\Resources\List\Playlist\Track;
 use App\Models\List\Playlist as PlaylistModel;
 use Filament\Forms\Components\Textarea;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -205,17 +208,30 @@ class Playlist extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      */
-    public static function getRelations(): array
+    public static function getFilters(): array
     {
         return [
-            RelationGroup::make(static::getModelLabel(), [
-                ImageRelationManager::class,
-                TrackPlaylistRelationManager::class,
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(PlaylistModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.playlist.name.name')),
 
-                ...parent::getBaseRelations(),
-            ]),
+                    SelectConstraint::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
+                        ->label(__('filament.fields.playlist.visibility.name'))
+                        ->options(PlaylistVisibility::class),
+
+                    TextConstraint::make(PlaylistModel::ATTRIBUTE_HASHID)
+                        ->label(__('filament.fields.playlist.hashid.name')),
+
+                    TextConstraint::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
+                        ->label(__('filament.fields.playlist.description.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
         ];
     }
 
@@ -229,6 +245,21 @@ class Playlist extends BaseResource
                 ->setConnection('playlists'),
 
             FixPlaylistAction::make(),
+        ];
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                ImageRelationManager::class,
+                TrackPlaylistRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 

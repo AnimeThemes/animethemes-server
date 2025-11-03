@@ -18,8 +18,6 @@ use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Components\Filters\CheckboxFilter;
-use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -34,12 +32,15 @@ use App\Models\Wiki\Video as VideoModel;
 use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
+use Filament\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\QueryBuilder\Constraints\NumberConstraint;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -237,52 +238,41 @@ class Video extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getModelLabel(), [
-                EntryVideoRelationManager::class,
-                ScriptVideoRelationManager::class,
-                TrackVideoRelationManager::class,
-
-                ...parent::getBaseRelations(),
-            ]),
-        ];
-    }
-
-    /**
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
     {
         return [
-            NumberFilter::make(VideoModel::ATTRIBUTE_RESOLUTION)
-                ->label(__('filament.fields.video.resolution.name')),
+            QueryBuilder::make()
+                ->constraints([
+                    NumberConstraint::make(VideoModel::ATTRIBUTE_RESOLUTION)
+                        ->label(__('filament.fields.video.resolution.name')),
 
-            CheckboxFilter::make(VideoModel::ATTRIBUTE_NC)
-                ->label(__('filament.fields.video.nc.name')),
+                    BooleanConstraint::make(VideoModel::ATTRIBUTE_NC)
+                        ->label(__('filament.fields.video.nc.name')),
 
-            CheckboxFilter::make(VideoModel::ATTRIBUTE_SUBBED)
-                ->label(__('filament.fields.video.subbed.name')),
+                    BooleanConstraint::make(VideoModel::ATTRIBUTE_SUBBED)
+                        ->label(__('filament.fields.video.subbed.name')),
 
-            CheckboxFilter::make(VideoModel::ATTRIBUTE_LYRICS)
-                ->label(__('filament.fields.video.lyrics.name')),
+                    BooleanConstraint::make(VideoModel::ATTRIBUTE_LYRICS)
+                        ->label(__('filament.fields.video.lyrics.name')),
 
-            CheckboxFilter::make(VideoModel::ATTRIBUTE_UNCEN)
-                ->label(__('filament.fields.video.uncen.name')),
+                    BooleanConstraint::make(VideoModel::ATTRIBUTE_UNCEN)
+                        ->label(__('filament.fields.video.uncen.name')),
 
-            SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
-                ->label(__('filament.fields.video.overlap.name'))
-                ->options(VideoOverlap::class),
+                    SelectConstraint::make(VideoModel::ATTRIBUTE_OVERLAP)
+                        ->label(__('filament.fields.video.overlap.name'))
+                        ->options(VideoOverlap::class),
 
-            SelectFilter::make(VideoModel::ATTRIBUTE_SOURCE)
-                ->label(__('filament.fields.video.source.name'))
-                ->options(VideoSource::class),
+                    SelectConstraint::make(VideoModel::ATTRIBUTE_SOURCE)
+                        ->label(__('filament.fields.video.source.name'))
+                        ->options(VideoSource::class),
 
-            NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
-                ->label(__('filament.fields.video.size.name')),
+                    NumberConstraint::make(VideoModel::ATTRIBUTE_SIZE)
+                        ->label(__('filament.fields.video.size.name')),
+
+                    ...parent::getConstraints(),
+                ]),
 
             ...parent::getFilters(),
         ];
@@ -336,6 +326,22 @@ class Video extends BaseResource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                EntryVideoRelationManager::class,
+                ScriptVideoRelationManager::class,
+                TrackVideoRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
+        ];
     }
 
     /**

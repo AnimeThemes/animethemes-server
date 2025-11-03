@@ -15,7 +15,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\RelationManagers\Wiki\ImageRelationManager;
@@ -29,11 +28,14 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManag
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\QueryBuilder\Constraints\NumberConstraint;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -207,40 +209,35 @@ class Anime extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getModelLabel(), [
-                SynonymAnimeRelationManager::class,
-                ThemeAnimeRelationManager::class,
-                SeriesAnimeRelationManager::class,
-                ResourceRelationManager::class,
-                ImageRelationManager::class,
-                StudioAnimeRelationManager::class,
-
-                ...parent::getBaseRelations(),
-            ]),
-        ];
-    }
-
-    /**
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
     {
         return [
-            NumberFilter::make(AnimeModel::ATTRIBUTE_YEAR)
-                ->label(__('filament.fields.anime.year.name')),
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(AnimeModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.anime.name.name')),
 
-            SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
-                ->label(__('filament.fields.anime.season.name'))
-                ->options(AnimeSeason::class),
+                    TextConstraint::make(AnimeModel::ATTRIBUTE_SLUG)
+                        ->label(__('filament.fields.anime.slug.name')),
 
-            SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
-                ->label(__('filament.fields.anime.media_format.name'))
-                ->options(AnimeMediaFormat::class),
+                    NumberConstraint::make(AnimeModel::ATTRIBUTE_YEAR)
+                        ->label(__('filament.fields.anime.year.name')),
+
+                    SelectConstraint::make(AnimeModel::ATTRIBUTE_SEASON)
+                        ->label(__('filament.fields.anime.season.name'))
+                        ->options(AnimeSeason::class),
+
+                    SelectConstraint::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                        ->label(__('filament.fields.anime.media_format.name'))
+                        ->options(AnimeMediaFormat::class),
+
+                    TextConstraint::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
+                        ->label(__('filament.fields.anime.synopsis.name')),
+
+                    ...parent::getConstraints(),
+                ]),
 
             ...parent::getFilters(),
         ];
@@ -271,6 +268,25 @@ class Anime extends BaseResource
                 ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
                 ->icon(Heroicon::OutlinedTv)
                 ->sites($streamingResourceSites),
+        ];
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                SynonymAnimeRelationManager::class,
+                ThemeAnimeRelationManager::class,
+                SeriesAnimeRelationManager::class,
+                ResourceRelationManager::class,
+                ImageRelationManager::class,
+                StudioAnimeRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 

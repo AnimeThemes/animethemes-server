@@ -14,10 +14,12 @@ use App\Filament\Resources\Document\Page\Pages\ListPages;
 use App\Filament\Resources\Document\Page\Pages\ViewPage;
 use App\Models\Document\Page as PageModel;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -137,6 +139,30 @@ class Page extends BaseResource
 
                 TimestampSection::make(),
             ]);
+    }
+
+    /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(PageModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.page.name.name')),
+
+                    TextConstraint::make(PageModel::ATTRIBUTE_SLUG)
+                        ->label(__('filament.fields.page.slug.name')),
+
+                    TextConstraint::make(PageModel::ATTRIBUTE_BODY)
+                        ->label(__('filament.fields.page.body.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**

@@ -38,7 +38,6 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
                 $this->response = Http::get("https://api.jikan.moe/v4/anime/$id/external")
                     ->throw()
                     ->json();
-
             } catch (RequestException $e) {
                 Log::error($e->getMessage());
             }

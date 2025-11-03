@@ -21,11 +21,13 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManag
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -149,6 +151,28 @@ class Synonym extends BaseResource
     }
 
     /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(SynonymModel::ATTRIBUTE_TEXT)
+                        ->label(__('filament.fields.anime_synonym.text.name')),
+
+                    SelectConstraint::make(SynonymModel::ATTRIBUTE_TYPE)
+                        ->label(__('filament.fields.anime_synonym.type.name'))
+                        ->options(AnimeSynonymType::class),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -157,20 +181,6 @@ class Synonym extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return \Filament\Tables\Filters\BaseFilter[]
-     */
-    public static function getFilters(): array
-    {
-        return [
-            SelectFilter::make(SynonymModel::ATTRIBUTE_TYPE)
-                ->label(__('filament.fields.anime_synonym.type.name'))
-                ->options(AnimeSynonymType::class),
-
-            ...parent::getFilters(),
         ];
     }
 

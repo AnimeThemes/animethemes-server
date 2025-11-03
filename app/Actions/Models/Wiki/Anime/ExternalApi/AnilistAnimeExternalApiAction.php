@@ -69,7 +69,6 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
                 ])
                     ->throw()
                     ->json();
-
             } catch (RequestException $e) {
                 Log::error($e->getMessage());
             }

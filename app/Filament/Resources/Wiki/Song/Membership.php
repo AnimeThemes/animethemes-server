@@ -17,10 +17,12 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Song\Membership\Pages\ListMemberships;
 use App\Filament\Resources\Wiki\Song\Membership\Pages\ViewMembership;
 use App\Models\Wiki\Song\Membership as MembershipModel;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -144,6 +146,27 @@ class Membership extends BaseResource
 
                 TimestampSection::make(),
             ]);
+    }
+
+    /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(MembershipModel::ATTRIBUTE_ALIAS)
+                        ->label(__('filament.fields.membership.alias.name')),
+
+                    TextConstraint::make(MembershipModel::ATTRIBUTE_AS)
+                        ->label(__('filament.fields.membership.as.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**

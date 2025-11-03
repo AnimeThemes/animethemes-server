@@ -22,10 +22,13 @@ use App\Filament\Resources\List\External\Pages\ListExternalProfiles;
 use App\Filament\Resources\List\External\Pages\ViewExternalProfile;
 use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalProfileRelationManager;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -157,16 +160,27 @@ class ExternalProfile extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      */
-    public static function getRelations(): array
+    public static function getFilters(): array
     {
         return [
-            RelationGroup::make(static::getModelLabel(), [
-                ExternalEntryExternalProfileRelationManager::class,
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(ExternalProfileModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.external_profile.name.name')),
 
-                ...parent::getBaseRelations(),
-            ]),
+                    SelectConstraint::make(ExternalProfileModel::ATTRIBUTE_SITE)
+                        ->label(__('filament.fields.external_profile.site.name'))
+                        ->options(ExternalProfileSite::class),
+
+                    SelectConstraint::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
+                        ->label(__('filament.fields.external_profile.visibility.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
         ];
     }
 
@@ -177,6 +191,20 @@ class ExternalProfile extends BaseResource
     {
         return [
             SyncExternalProfileAction::make(),
+        ];
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                ExternalEntryExternalProfileRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 

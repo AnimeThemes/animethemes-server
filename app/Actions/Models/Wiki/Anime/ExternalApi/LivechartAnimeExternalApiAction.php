@@ -38,7 +38,6 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
                     ->get("https://www.livechart.me/api/v1/anime/$id")
                     ->throw()
                     ->json();
-
             } catch (RequestException $e) {
                 Log::error($e->getMessage());
             }

@@ -204,6 +204,17 @@ class Track extends BaseResource
     }
 
     /**
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            AssignHashidsAction::make()
+                ->setConnection('playlists'),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -212,17 +223,6 @@ class Track extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            AssignHashidsAction::make()
-                ->setConnection('playlists'),
         ];
     }
 

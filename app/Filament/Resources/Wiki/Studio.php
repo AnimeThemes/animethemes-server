@@ -19,10 +19,12 @@ use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
 use App\Models\Wiki\Studio as StudioModel;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -124,18 +126,23 @@ class Studio extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     * @return \Filament\Tables\Filters\BaseFilter[]
      */
-    public static function getRelations(): array
+    public static function getFilters(): array
     {
         return [
-            RelationGroup::make(static::getModelLabel(), [
-                AnimeStudioRelationManager::class,
-                ResourceRelationManager::class,
-                ImageRelationManager::class,
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(StudioModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.studio.name.name')),
 
-                ...parent::getBaseRelations(),
-            ]),
+                    TextConstraint::make(StudioModel::ATTRIBUTE_SLUG)
+                        ->label(__('filament.fields.studio.name.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
         ];
     }
 
@@ -148,6 +155,22 @@ class Studio extends BaseResource
             BackfillStudioAction::make(),
 
             AttachStudioResourceAction::make(),
+        ];
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                AnimeStudioRelationManager::class,
+                ResourceRelationManager::class,
+                ImageRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 

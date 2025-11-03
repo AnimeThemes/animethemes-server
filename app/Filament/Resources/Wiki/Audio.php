@@ -11,7 +11,6 @@ use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
@@ -20,10 +19,12 @@ use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
 use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager;
 use App\Models\Wiki\Audio as AudioModel;
 use Filament\Actions\ActionGroup;
+use Filament\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -113,27 +114,18 @@ class Audio extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getModelLabel(), [
-                VideoAudioRelationManager::class,
-
-                ...parent::getBaseRelations(),
-            ]),
-        ];
-    }
-
-    /**
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
     {
         return [
-            NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
-                ->label(__('filament.fields.audio.size.name')),
+            QueryBuilder::make()
+                ->constraints([
+                    NumberConstraint::make(AudioModel::ATTRIBUTE_SIZE)
+                        ->label(__('filament.fields.audio.size.name')),
+
+                    ...parent::getConstraints(),
+                ]),
 
             ...parent::getFilters(),
         ];
@@ -181,6 +173,20 @@ class Audio extends BaseResource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                VideoAudioRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
+        ];
     }
 
     /**
