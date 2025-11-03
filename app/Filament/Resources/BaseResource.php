@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Constants\ModelConstants;
 use App\Contracts\Models\SoftDeletable;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\DetachAction;
@@ -92,11 +91,6 @@ abstract class BaseResource extends Resource
 
             DateConstraint::make(BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->label(__('filament.fields.base.updated_at')),
-
-            // ...[in_array(SoftDeletable::class, class_implements(static::getModel())) ? [
-            //     DateConstraint::make(ModelConstants::ATTRIBUTE_DELETED_AT)
-            //         ->label(__('filament.fields.base.deleted_at')),
-            // ] : []],
         ];
     }
 
