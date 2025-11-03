@@ -35,6 +35,9 @@ use App\Models\Wiki\Song;
 use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
+use Filament\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\QueryBuilder\Constraints\NumberConstraint;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
@@ -42,6 +45,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -259,6 +263,41 @@ class Entry extends BaseResource
     }
 
     /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    NumberConstraint::make(EntryModel::ATTRIBUTE_VERSION)
+                        ->label(__('filament.fields.anime_theme_entry.version.name')),
+
+                    TextConstraint::make(EntryModel::ATTRIBUTE_EPISODES)
+                        ->label(__('filament.fields.anime_theme_entry.episodes.name')),
+
+                    BooleanConstraint::make(EntryModel::ATTRIBUTE_NSFW)
+                        ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
+
+                    BooleanConstraint::make(EntryModel::ATTRIBUTE_SPOILER)
+                        ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
+
+                    TextConstraint::make(EntryModel::ATTRIBUTE_NOTES)
+                        ->label(__('filament.fields.anime_theme_entry.notes.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            Filter::make(ThemeType::IN->localize())
+                ->label(__('filament.filters.anime_theme.without_in'))
+                ->query(fn (Builder $query) => $query->whereDoesntHaveRelation(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
+                ->default(true),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -270,36 +309,6 @@ class Entry extends BaseResource
 
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return \Filament\Tables\Filters\BaseFilter[]
-     */
-    public static function getFilters(): array
-    {
-        return [
-            NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
-                ->label(__('filament.fields.anime_theme_entry.version.name')),
-
-            TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
-                ->label(__('filament.fields.anime_theme_entry.episodes.name')),
-
-            CheckboxFilter::make(EntryModel::ATTRIBUTE_NSFW)
-                ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
-
-            CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
-                ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
-
-            TextFilter::make(EntryModel::ATTRIBUTE_NOTES)
-                ->label(__('filament.fields.anime_theme_entry.notes.name')),
-
-            Filter::make(ThemeType::IN->localize())
-                ->label(__('filament.filters.anime_theme.without_in'))
-                ->query(fn (Builder $query) => $query->whereDoesntHaveRelation(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
-                ->default(true),
-
-            ...parent::getFilters(),
         ];
     }
 

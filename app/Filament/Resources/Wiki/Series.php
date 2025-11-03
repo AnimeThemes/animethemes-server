@@ -15,10 +15,12 @@ use App\Filament\Resources\Wiki\Series\Pages\ListSeries;
 use App\Filament\Resources\Wiki\Series\Pages\ViewSeries;
 use App\Filament\Resources\Wiki\Series\RelationManagers\AnimeSeriesRelationManager;
 use App\Models\Wiki\Series as SeriesModel;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -123,6 +125,27 @@ class Series extends BaseResource
 
                 TimestampSection::make(),
             ]);
+    }
+
+    /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(SeriesModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.series.name.name')),
+
+                    TextConstraint::make(SeriesModel::ATTRIBUTE_SLUG)
+                        ->label(__('filament.fields.series.name.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**

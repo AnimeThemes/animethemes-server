@@ -24,10 +24,12 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song as SongModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -196,6 +198,27 @@ class Performance extends BaseResource
 
                 TimestampSection::make(),
             ]);
+    }
+
+    /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(PerformanceModel::ATTRIBUTE_ALIAS)
+                        ->label(__('filament.fields.performance.alias.name')),
+
+                    TextConstraint::make(PerformanceModel::ATTRIBUTE_AS)
+                        ->label(__('filament.fields.performance.as.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**

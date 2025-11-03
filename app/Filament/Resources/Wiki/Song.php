@@ -17,10 +17,12 @@ use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -127,6 +129,37 @@ class Song extends BaseResource
     }
 
     /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(SongModel::ATTRIBUTE_TITLE)
+                        ->label(__('filament.fields.song.title.name')),
+
+                    TextConstraint::make(SongModel::ATTRIBUTE_TITLE_NATIVE)
+                        ->label(__('filament.fields.song.title_native.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            AttachSongResourceAction::make(),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -139,16 +172,6 @@ class Song extends BaseResource
 
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            AttachSongResourceAction::make(),
         ];
     }
 

@@ -24,10 +24,12 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelatio
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -157,6 +159,40 @@ class Artist extends BaseResource
     }
 
     /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(ArtistModel::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.artist.name.name')),
+
+                    TextConstraint::make(ArtistModel::ATTRIBUTE_SLUG)
+                        ->label(__('filament.fields.artist.slug.name')),
+
+                    TextConstraint::make(ArtistModel::ATTRIBUTE_INFORMATION)
+                        ->label(__('filament.fields.artist.information.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            AttachArtistResourceAction::make(),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -172,16 +208,6 @@ class Artist extends BaseResource
 
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            AttachArtistResourceAction::make(),
         ];
     }
 

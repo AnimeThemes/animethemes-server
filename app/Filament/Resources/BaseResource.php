@@ -24,7 +24,11 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Panel;
+use Filament\QueryBuilder\Constraints\Constraint;
+use Filament\QueryBuilder\Constraints\DateConstraint;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Width;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,6 +58,8 @@ abstract class BaseResource extends Resource
         return $table
             ->defaultSort(fn (Table $table): ?string => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table): ?string => $table->hasSearch() ? null : 'desc')
             ->filters(static::getFilters())
+            ->filtersLayout(FiltersLayout::Modal)
+            ->filtersFormWidth(Width::FourExtraLarge)
             ->filtersFormMaxHeight('400px')
             ->recordActions(static::getActions())
             ->toolbarActions(static::getBulkActions())
@@ -73,16 +79,25 @@ abstract class BaseResource extends Resource
         return [
             TrashedFilter::make()
                 ->visible(in_array(SoftDeletable::class, class_implements(static::getModel()))),
+        ];
+    }
 
-            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+    /**
+     * @return Constraint[]
+     */
+    public static function getConstraints(): array
+    {
+        return [
+            DateConstraint::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.base.created_at')),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateConstraint::make(BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->label(__('filament.fields.base.updated_at')),
 
-            DateFilter::make(ModelConstants::ATTRIBUTE_DELETED_AT)
-                ->label(__('filament.fields.base.deleted_at'))
-                ->visible(in_array(SoftDeletable::class, class_implements(static::getModel()))),
+            // ...[in_array(SoftDeletable::class, class_implements(static::getModel())) ? [
+            //     DateConstraint::make(ModelConstants::ATTRIBUTE_DELETED_AT)
+            //         ->label(__('filament.fields.base.deleted_at')),
+            // ] : []],
         ];
     }
 

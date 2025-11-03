@@ -97,18 +97,6 @@ class Script extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getModelLabel(), [
-                ...parent::getBaseRelations(),
-            ]),
-        ];
-    }
-
-    /**
      * @return array<int, \Filament\Actions\Action|ActionGroup>
      */
     public static function getRecordActions(): array
@@ -150,6 +138,18 @@ class Script extends BaseResource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                ...parent::getBaseRelations(),
+            ]),
+        ];
     }
 
     /**

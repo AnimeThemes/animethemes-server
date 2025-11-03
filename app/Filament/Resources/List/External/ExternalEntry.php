@@ -24,11 +24,16 @@ use App\Filament\Resources\Wiki\Anime;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\IconEntry;
+use Filament\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\QueryBuilder\Constraints\DateConstraint;
+use Filament\QueryBuilder\Constraints\NumberConstraint;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -164,6 +169,30 @@ class ExternalEntry extends BaseResource
     }
 
     /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    BooleanConstraint::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
+                        ->label(__('filament.fields.external_entry.is_favorite.name')),
+
+                    NumberConstraint::make(ExternalEntryModel::ATTRIBUTE_SCORE)
+                        ->label(__('filament.fields.external_entry.score.name')),
+
+                    SelectConstraint::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
+                        ->label(__('filament.fields.external_entry.watch_status.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -172,20 +201,6 @@ class ExternalEntry extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return \Filament\Tables\Filters\BaseFilter[]
-     */
-    public static function getFilters(): array
-    {
-        return [
-            DateFilter::make(Model::CREATED_AT)
-                ->label(__('filament.fields.base.created_at')),
-
-            DateFilter::make(Model::UPDATED_AT)
-                ->label(__('filament.fields.base.updated_at')),
         ];
     }
 

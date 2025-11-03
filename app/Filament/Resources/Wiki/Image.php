@@ -20,12 +20,14 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationMana
 use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Infolists\Components\ImageEntry;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -132,31 +134,19 @@ class Image extends BaseResource
     }
 
     /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getModelLabel(), [
-                AnimeImageRelationManager::class,
-                ArtistImageRelationManager::class,
-                PlaylistImageRelationManager::class,
-                StudioImageRelationManager::class,
-
-                ...parent::getBaseRelations(),
-            ]),
-        ];
-    }
-
-    /**
      * @return \Filament\Tables\Filters\BaseFilter[]
      */
     public static function getFilters(): array
     {
         return [
-            SelectFilter::make(ImageModel::ATTRIBUTE_FACET)
-                ->label(__('filament.fields.image.facet.name'))
-                ->options(ImageFacet::class),
+            QueryBuilder::make()
+                ->constraints([
+                    SelectConstraint::make(ImageModel::ATTRIBUTE_FACET)
+                        ->label(__('filament.fields.image.facet.name'))
+                        ->options(ImageFacet::class),
+
+                    ...parent::getConstraints(),
+                ]),
 
             ...parent::getFilters(),
         ];
@@ -177,6 +167,23 @@ class Image extends BaseResource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                AnimeImageRelationManager::class,
+                ArtistImageRelationManager::class,
+                PlaylistImageRelationManager::class,
+                StudioImageRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
+        ];
     }
 
     /**

@@ -21,11 +21,14 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\EntryResourceR
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use Filament\QueryBuilder\Constraints\NumberConstraint;
+use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -146,6 +149,28 @@ class ExternalResource extends BaseResource
     }
 
     /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    SelectConstraint::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                        ->label(__('filament.fields.external_resource.site.name'))
+                        ->options(ResourceSite::class),
+
+                    NumberConstraint::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
+                        ->label(__('filament.fields.external_resource.external_id.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
      * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      */
     public static function getRelations(): array
@@ -160,23 +185,6 @@ class ExternalResource extends BaseResource
 
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * @return \Filament\Tables\Filters\BaseFilter[]
-     */
-    public static function getFilters(): array
-    {
-        return [
-            SelectFilter::make(ExternalResourceModel::ATTRIBUTE_SITE)
-                ->label(__('filament.fields.external_resource.site.name'))
-                ->options(ResourceSite::class),
-
-            NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                ->label(__('filament.fields.external_resource.external_id.name')),
-
-            ...parent::getFilters(),
         ];
     }
 
