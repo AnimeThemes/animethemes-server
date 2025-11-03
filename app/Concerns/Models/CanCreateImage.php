@@ -7,6 +7,7 @@ namespace App\Concerns\Models;
 use App\Constants\Config\ImageConstants;
 use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Jobs\Wiki\Image\OptimizeImageJob;
 use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Client\RequestException;
@@ -33,7 +34,7 @@ trait CanCreateImage
         $file = File::createWithContent(basename($url), $image);
 
         /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get('image.disk'));
+        $fs = Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED));
 
         $fsFile = $fs->putFile($this->path($facet, $model), $file);
 
@@ -45,6 +46,8 @@ trait CanCreateImage
         ]);
 
         $this->attachImage($image, $model);
+
+        $this->optimize($image);
 
         return $image;
     }
@@ -64,6 +67,8 @@ trait CanCreateImage
         ]);
 
         $this->attachImage($image, $model);
+
+        $this->optimize($image);
 
         return $image;
     }
@@ -88,6 +93,15 @@ trait CanCreateImage
         if ($model !== null) {
             Log::info("Attaching Image {$image->getName()} to {$this->privateLabel($model)} {$model->getName()}");
             $model->images()->attach($image);
+        }
+    }
+
+    protected function optimize(Image $image): void
+    {
+        if ($image->facet === ImageFacet::SMALL_COVER) {
+            OptimizeImageJob::dispatch($image)
+                ->onQueue('optimize-image')
+                ->afterCommit();
         }
     }
 }
