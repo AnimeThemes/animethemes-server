@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types\User;
 
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\User\Like\LikeAnimeThemeEntryField;
 use App\GraphQL\Schema\Fields\User\Like\LikePlaylistField;
-use App\GraphQL\Schema\Fields\User\Like\LikeVideoField;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Unions\LikedUnion;
@@ -44,8 +44,8 @@ class LikeType extends EloquentType
     public function fieldClasses(): array
     {
         return [
+            new LikeAnimeThemeEntryField(),
             new LikePlaylistField(),
-            new LikeVideoField(),
         ];
     }
 }

@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Unions;
 
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
-use App\GraphQL\Schema\Types\Wiki\VideoType;
+use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
 class LikedUnion extends BaseUnion
 {
@@ -32,8 +32,8 @@ class LikedUnion extends BaseUnion
     public function baseTypes(): array
     {
         return [
+            new AnimeThemeEntryType(),
             new PlaylistType(),
-            new VideoType(),
         ];
     }
 }

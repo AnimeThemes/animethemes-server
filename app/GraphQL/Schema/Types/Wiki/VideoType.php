@@ -13,7 +13,6 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoBasenameField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoFilenameField;
-use App\GraphQL\Schema\Fields\Wiki\Video\VideoLikesCountField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoLinkField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoLyricsField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoMimetypeField;
@@ -83,7 +82,6 @@ class VideoType extends EloquentType implements ReportableType
             new VideoUncenField(),
             new VideoTagsField(),
             new VideoLinkField(),
-            new VideoLikesCountField(),
             new VideoViewsCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),

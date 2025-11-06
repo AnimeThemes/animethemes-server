@@ -47,7 +47,7 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     public function getCreationRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_VIDEO)->__toString(),
+            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_ENTRY)->__toString(),
         ];
     }
 
@@ -57,7 +57,7 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     public function getDeleteRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_VIDEO)->__toString(),
+            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_ENTRY)->__toString(),
         ];
     }
 }

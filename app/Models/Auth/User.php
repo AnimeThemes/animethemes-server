@@ -20,7 +20,7 @@ use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Report;
-use App\Models\Wiki\Video;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
@@ -205,6 +205,25 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     }
 
     /**
+     * Get the liked entries of the user.
+     *
+     * @return BelongsToMany<AnimeThemeEntry, $this>
+     */
+    public function likedentries(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            AnimeThemeEntry::class,
+            Like::TABLE,
+            Like::ATTRIBUTE_USER,
+            Like::ATTRIBUTE_LIKEABLE_ID,
+            null,
+            AnimeThemeEntry::ATTRIBUTE_ID
+        )
+            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(AnimeThemeEntry::class))
+            ->withTimestamps();
+    }
+
+    /**
      * Get the liked playlists of the user.
      *
      * @return BelongsToMany<Playlist, $this>
@@ -220,25 +239,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
             Playlist::ATTRIBUTE_ID
         )
             ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(Playlist::class))
-            ->withTimestamps();
-    }
-
-    /**
-     * Get the liked videos of the user.
-     *
-     * @return BelongsToMany<Video, $this>
-     */
-    public function likedvideos(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Video::class,
-            Like::TABLE,
-            Like::ATTRIBUTE_USER,
-            Like::ATTRIBUTE_LIKEABLE_ID,
-            null,
-            Video::ATTRIBUTE_ID
-        )
-            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(Video::class))
             ->withTimestamps();
     }
 
