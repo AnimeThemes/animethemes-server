@@ -30,7 +30,7 @@ test('converts to avif', function () {
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
     $this->assertTrue($image->exists());
-});
+})->only();
 
 test('passes', function () {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
@@ -45,7 +45,8 @@ test('passes', function () {
 
     $result = $action->handle();
 
+    var_dump($result->getMessage());
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
     $this->assertTrue($image->exists());
-});
+})->only();
