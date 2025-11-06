@@ -22,39 +22,7 @@ class PlaylistQuery extends ElasticQuery
                         [
                             // The more sub-queries match the better the score will be.
                             'bool' => [
-                                'should' => [
-                                    [
-                                        'match_phrase' => [
-                                            'name' => [
-                                                'query' => $criteria->getTerm(),
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'match' => [
-                                            'name' => [
-                                                'query' => $criteria->getTerm(),
-                                                'operator' => 'AND',
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'match' => [
-                                            'name' => [
-                                                'query' => $criteria->getTerm(),
-                                                'boost' => 0.6,
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'fuzzy' => [
-                                            'name' => [
-                                                'value' => $criteria->getTerm(),
-                                                'boost' => 0.4,
-                                            ],
-                                        ],
-                                    ],
-                                ],
+                                'should' => $this->createTextQuery('name', $criteria->getTerm()),
                             ],
                         ],
                     ],

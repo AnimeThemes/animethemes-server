@@ -125,9 +125,9 @@ final class CreateEntryIndex implements MigrationInterface
                     'slug' => [
                         'type' => 'text',
                         'copy_to' => [
-                            'version_slug',
                             'anime_slug',
                             'synonym_slug',
+                            'version_slug',
                         ],
                     ],
                     'song' => [
@@ -165,9 +165,9 @@ final class CreateEntryIndex implements MigrationInterface
             $mapping->date('updated_at');
             $mapping->text('version', [
                 'copy_to' => [
-                    'version_slug',
                     'anime_slug',
                     'synonym_slug',
+                    'version_slug',
                 ],
                 'fields' => [
                     'keyword' => [

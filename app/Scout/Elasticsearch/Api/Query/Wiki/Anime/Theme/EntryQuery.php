@@ -7,9 +7,6 @@ namespace App\Scout\Elasticsearch\Api\Query\Wiki\Anime\Theme;
 use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
-use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
-use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
-use Elastic\ScoutDriverPlus\Builders\NestedQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
@@ -18,224 +15,66 @@ class EntryQuery extends ElasticQuery
     public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()
-            ->should(
-                new MatchPhraseQueryBuilder()
-                    ->field('version')
-                    ->query($criteria->getTerm())
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('version')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('version')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-            )
-            ->should(
-                new MatchPhraseQueryBuilder()
-                    ->field('version_slug')
-                    ->query($criteria->getTerm())
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('version_slug')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('version_slug')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-            )
-            ->should(
-                new MatchPhraseQueryBuilder()
-                    ->field('anime_slug')
-                    ->query($criteria->getTerm())
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('anime_slug')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('anime_slug')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-            )
-            ->should(
-                new MatchPhraseQueryBuilder()
-                    ->field('synonym_slug')
-                    ->query($criteria->getTerm())
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('synonym_slug')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('synonym_slug')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.anime')
-                            ->query(
-                                new MatchPhraseQueryBuilder()
-                                    ->field('theme.anime.name')
-                                    ->query($criteria->getTerm())
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.anime')
-                            ->query(
-                                new MatchQueryBuilder()
-                                    ->field('theme.anime.name')
-                                    ->query($criteria->getTerm())
-                                    ->operator('AND')
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.anime')
-                            ->query(
-                                new MatchQueryBuilder()
-                                    ->field('theme.anime.name')
-                                    ->query($criteria->getTerm())
-                                    ->operator('AND')
-                                    ->lenient(true)
-                                    ->fuzziness('AUTO')
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.anime')
-                            ->query(
-                                new NestedQueryBuilder()
-                                    ->path('theme.anime.synonyms')
-                                    ->query(
-                                        new MatchPhraseQueryBuilder()
-                                            ->field('theme.anime.synonyms.text')
-                                            ->query($criteria->getTerm())
-                                    )
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.anime')
-                            ->query(
-                                new NestedQueryBuilder()
-                                    ->path('theme.anime.synonyms')
-                                    ->query(
-                                        new MatchQueryBuilder()
-                                            ->field('theme.anime.synonyms.text')
-                                            ->query($criteria->getTerm())
-                                            ->operator('AND')
-                                    )
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.anime')
-                            ->query(
-                                new NestedQueryBuilder()
-                                    ->path('theme.anime.synonyms')
-                                    ->query(
-                                        new MatchQueryBuilder()
-                                            ->field('theme.anime.synonyms.text')
-                                            ->query($criteria->getTerm())
-                                            ->operator('AND')
-                                            ->lenient(true)
-                                            ->fuzziness('AUTO')
-                                    )
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.song')
-                            ->query(
-                                new MatchPhraseQueryBuilder()
-                                    ->field('theme.song.title')
-                                    ->query($criteria->getTerm())
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.song')
-                            ->query(
-                                new MatchQueryBuilder()
-                                    ->field('theme.song.title')
-                                    ->query($criteria->getTerm())
-                                    ->operator('AND')
-                            )
-                    )
-            )
-            ->should(
-                new NestedQueryBuilder()
-                    ->path('theme')
-                    ->query(
-                        new NestedQueryBuilder()
-                            ->path('theme.song')
-                            ->query(
-                                new MatchQueryBuilder()
-                                    ->field('theme.song.title')
-                                    ->query($criteria->getTerm())
-                                    ->operator('AND')
-                                    ->lenient(true)
-                                    ->fuzziness('AUTO')
-                            )
-                    )
-            )
-            ->minimumShouldMatch(1);
+            ->mustRaw([
+                // The more sub-queries match the better the score will be.
+                'bool' => [
+                    'should' => [
+                        [
+                            // Pick the score of the best performing sub-query.
+                            'dis_max' => [
+                                'queries' => [
+                                    [
+                                        'bool' => [
+                                            'should' => $this->createNestedTextQuery('theme.song', 'title', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                    [
+                                        'bool' => [
+                                            'boost' => 0.85,
+                                            'should' => $this->createNestedTextQuery('theme.song', 'title_native', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                    [
+                                        'bool' => [
+                                            'boost' => 0.5,
+                                            'should' => $this->createNestedTextQuery('theme.anime', 'name', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                    [
+                                        'bool' => [
+                                            'boost' => 0.5 * 0.85,
+                                            'should' => $this->createNestedTextQuery('theme.anime.synonyms', 'text', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'dis_max' => [
+                                'queries' => [
+                                    [
+                                        'bool' => [
+                                            'should' => $this->createTextQuery('version_slug', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                    [
+                                        'bool' => [
+                                            'boost' => 0.85,
+                                            'should' => $this->createTextQuery('anime_slug', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                    [
+                                        'bool' => [
+                                            'boost' => 0.85,
+                                            'should' => $this->createTextQuery('synonym_slug', $criteria->getTerm()),
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
 
         return AnimeThemeEntry::searchQuery($query);
     }
