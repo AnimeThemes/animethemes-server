@@ -26,10 +26,13 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Install full FFmpeg
+    - name: Install static FFmpeg
       run: |
-        sudo apt-get update -y
-        sudo apt-get install ffmpeg -y
+        curl -L -o ffmpeg.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+        tar -xf ffmpeg.tar.xz
+        sudo mv ffmpeg-*-amd64-static/ffmpeg /usr/local/bin/
+        sudo mv ffmpeg-*-amd64-static/ffprobe /usr/local/bin/
+        ffmpeg -encoders | grep av1 || true
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
