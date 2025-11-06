@@ -12,7 +12,7 @@ class AllowVideoStreams
 {
     public function resolve(?User $user): bool
     {
-        if (filled($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))) {
+        if ($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)) {
             return true;
         }
 

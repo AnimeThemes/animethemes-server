@@ -70,7 +70,7 @@ test('passes if not flagged by open ai', function () {
     );
 
     $this->assertTrue($validator->passes());
-})->only();
+});
 
 test('passes if open ai fails', function () {
     Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
