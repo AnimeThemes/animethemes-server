@@ -48,4 +48,4 @@ test('passes', function () {
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
     $this->assertTrue($image->exists());
-})->only();
+});
