@@ -7,8 +7,6 @@ namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\Wiki\Song;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
-use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
-use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
@@ -17,47 +15,23 @@ class SongQuery extends ElasticQuery
     public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()
-            ->should(
-                new MatchPhraseQueryBuilder()
-                    ->field('title')
-                    ->query($criteria->getTerm())
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('title')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('title')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-            )
-            ->should(
-                new MatchPhraseQueryBuilder()
-                    ->field('title_native')
-                    ->query($criteria->getTerm())
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('title_native')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->boost(0.9)
-            )
-            ->should(
-                new MatchQueryBuilder()
-                    ->field('title_native')
-                    ->query($criteria->getTerm())
-                    ->operator('AND')
-                    ->lenient(true)
-                    ->fuzziness('AUTO')
-                    ->boost(0.9)
-            )
-            ->minimumShouldMatch(1);
+            ->mustRaw([
+                'dis_max' => [
+                    'queries' => [
+                        [
+                            'bool' => [
+                                'should' => $this->createTextQuery('title', $criteria->getTerm()),
+                            ],
+                        ],
+                        [
+                            'bool' => [
+                                'boost' => 0.85,
+                                'should' => $this->createTextQuery('title_native', $criteria->getTerm()),
+                            ],
+                        ],
+                    ],
+                ],
+            ]);
 
         return Song::searchQuery($query);
     }
