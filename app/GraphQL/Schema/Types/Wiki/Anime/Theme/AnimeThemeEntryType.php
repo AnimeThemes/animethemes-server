@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Types\ReportableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
+use App\GraphQL\Schema\Fields\Base\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryEpisodesField;
@@ -64,6 +65,7 @@ class AnimeThemeEntryType extends EloquentType implements ReportableType
             new AnimeThemeEntryNsfwField(),
             new AnimeThemeEntrySpoilerField(),
             new AnimeThemeEntryVersionField(),
+            new LikesCountField(),
             new AnimeThemeEntryTracksCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),

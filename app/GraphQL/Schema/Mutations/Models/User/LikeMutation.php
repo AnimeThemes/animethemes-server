@@ -11,7 +11,6 @@ use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\User\LikeType;
 use App\GraphQL\Schema\Unions\LikedUnion;
 use App\GraphQL\Support\Argument\Argument;
-use App\Models\User\Like;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\App;

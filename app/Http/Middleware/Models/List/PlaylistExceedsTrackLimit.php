@@ -28,7 +28,7 @@ class PlaylistExceedsTrackLimit
         $user = $request->user('sanctum');
 
         abort_if(intval($playlist?->tracks()?->count()) >= $trackLimit
-        && blank($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)), 403, "Playlists cannot contain more than '$trackLimit' tracks.");
+        && $user?->cannot(SpecialPermission::BYPASS_FEATURE_FLAGS->value), 403, "Playlists cannot contain more than '$trackLimit' tracks.");
 
         return $next($request);
     }

@@ -35,6 +35,7 @@ abstract class BaseController
      * Get the attributes and values that were validated.
      *
      * @param  class-string<BaseMutation>  $mutation
+     * @return array<string, mixed>
      *
      * @throws ValidationException
      */

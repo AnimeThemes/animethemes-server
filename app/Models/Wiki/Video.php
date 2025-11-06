@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Concerns\Models\Aggregate\AggregatesLike;
 use App\Concerns\Models\Aggregate\AggregatesView;
-use App\Concerns\Models\InteractsWithLikes;
 use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
-use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasAggregateViews;
-use App\Contracts\Models\Likeable;
 use App\Contracts\Models\SoftDeletable;
 use App\Contracts\Models\Streamable;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -63,12 +59,10 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, Likeable, SoftDeletable, Streamable
+class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Streamable
 {
-    use AggregatesLike;
     use AggregatesView;
     use HasFactory;
-    use InteractsWithLikes;
     use Reportable;
     use Searchable;
     use SoftDeletes;

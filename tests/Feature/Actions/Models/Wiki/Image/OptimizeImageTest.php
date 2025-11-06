@@ -26,7 +26,7 @@ test('converts to avif', function () {
 
     $result = $action->handle();
 
-    $this->assertTrue(Str::endsWith(($image->path), '.avif'));
+    $this->assertTrue(Str::endsWith(($image->refresh()->path), '.avif'));
     $this->assertTrue($result->getStatus() === ActionStatus::PASSED);
     $this->assertDatabaseCount(Image::class, 1);
     $this->assertTrue($image->exists());

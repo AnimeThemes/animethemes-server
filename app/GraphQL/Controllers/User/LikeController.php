@@ -4,46 +4,37 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Controllers\User;
 
+use App\Contracts\Models\Likeable;
 use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Schema\Mutations\Models\User\LikeMutation;
 use App\GraphQL\Schema\Mutations\Models\User\UnlikeMutation;
-use App\Models\List\Playlist;
 use App\Models\User\Like;
-use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 
 /**
  * @extends BaseController<Like>
  */
 class LikeController extends BaseController
 {
+    final public const string ATTRIBUTE_ENTRY = 'entry';
     final public const string ATTRIBUTE_PLAYLIST = 'playlist';
-    final public const string ATTRIBUTE_VIDEO = 'video';
 
     /**
      * @param  array<string, mixed>  $args
      *
      * @throws ClientValidationException
      */
-    public function store($root, array $args): Model
+    public function store($root, array $args): Model&Likeable
     {
         $validated = $this->validated($args, LikeMutation::class);
 
-        $playlist = Arr::get($validated, self::ATTRIBUTE_PLAYLIST);
-        $video = Arr::get($validated, self::ATTRIBUTE_VIDEO);
+        foreach ($validated as $likeable) {
+            if ($likeable instanceof Model && $likeable instanceof Likeable) {
+                $likeable->like();
 
-        if ($playlist instanceof Playlist) {
-            $playlist->like();
-
-            return $playlist;
-        }
-
-        if ($video instanceof Video) {
-            $video->like();
-
-            return $video;
+                return $likeable;
+            }
         }
 
         throw new ClientValidationException('One resource is required to like.');
@@ -54,23 +45,16 @@ class LikeController extends BaseController
      *
      * @throws ClientValidationException
      */
-    public function destroy($root, array $args): Model
+    public function destroy($root, array $args): Model&Likeable
     {
         $validated = $this->validated($args, UnlikeMutation::class);
 
-        $playlist = Arr::get($validated, self::ATTRIBUTE_PLAYLIST);
-        $video = Arr::get($validated, self::ATTRIBUTE_VIDEO);
+        foreach ($validated as $likeable) {
+            if ($likeable instanceof Model && $likeable instanceof Likeable) {
+                $likeable->unlike();
 
-        if ($playlist instanceof Playlist) {
-            $playlist->unlike();
-
-            return $playlist;
-        }
-
-        if ($video instanceof Video) {
-            $video->unlike();
-
-            return $video;
+                return $likeable;
+            }
         }
 
         throw new ClientValidationException('One resource is required to unlike.');

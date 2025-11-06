@@ -15,6 +15,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
 use Filament\Actions\Testing\TestAction;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -77,6 +78,10 @@ test('mount create action', function () {
 });
 
 test('mount edit action', function () {
+    if (DB::getDriverName() === 'sqlite') {
+        $this->markTestSkipped('SQLite does not support this test properly.');
+    }
+
     $user = User::factory()
         ->withPermissions(
             SpecialPermission::VIEW_FILAMENT->value,

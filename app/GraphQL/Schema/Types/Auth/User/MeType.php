@@ -16,7 +16,7 @@ use App\GraphQL\Schema\Types\Auth\PermissionType;
 use App\GraphQL\Schema\Types\Auth\RoleType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
-use App\GraphQL\Schema\Types\Wiki\VideoType;
+use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Unions\NotificationUnion;
 use App\GraphQL\Support\Relations\BelongsToManyRelation;
 use App\GraphQL\Support\Relations\HasManyRelation;
@@ -43,8 +43,8 @@ class MeType extends EloquentType
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
             new BelongsToManyRelation($this, RoleType::class, User::RELATION_ROLES),
             new BelongsToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
+            new BelongsToManyRelation($this, AnimeThemeEntryType::class, 'likedentries'),
             new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
-            new BelongsToManyRelation($this, VideoType::class, 'likedvideos'),
         ];
     }
 

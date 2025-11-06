@@ -72,7 +72,7 @@ class OptimizeImageAction
             );
 
             [$command, $imagePath] = match ($this->extension) {
-                'avif' => static::getAvifCommand(),
+                'avif' => static::getAvifCommand($this->image),
                 default => throw new Exception("Unsupported image extension: {$this->extension}"),
             };
 
@@ -106,17 +106,17 @@ class OptimizeImageAction
     /**
      * @return array{0:array<int, string>, 1:string}
      */
-    protected function getAvifCommand(): array
+    public static function getAvifCommand(Image $image): array
     {
         $imagePath = Storage::disk('local')->path(
-            Str::replaceLast(File::extension($this->image->path), 'avif', $this->image->path)
+            Str::replaceLast(File::extension($image->path), 'avif', $image->path)
         );
 
         return [
             [
                 'ffmpeg',
                 '-i',
-                Storage::disk('local')->path($this->image->path),
+                Storage::disk('local')->path($image->path),
                 '-c:v',
                 'libaom-av1',
                 '-crf',

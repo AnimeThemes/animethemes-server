@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Anime\Theme;
 
+use App\Concerns\Models\Aggregate\AggregatesLike;
+use App\Concerns\Models\InteractsWithLikes;
 use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasResources;
+use App\Contracts\Models\Likeable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
@@ -57,9 +61,11 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
-class AnimeThemeEntry extends BaseModel implements HasResources, InteractsWithSchema, SoftDeletable
+class AnimeThemeEntry extends BaseModel implements HasAggregateLikes, HasResources, InteractsWithSchema, Likeable, SoftDeletable
 {
+    use AggregatesLike;
     use HasFactory;
+    use InteractsWithLikes;
     use Reportable;
     use Searchable;
     use SoftDeletes;

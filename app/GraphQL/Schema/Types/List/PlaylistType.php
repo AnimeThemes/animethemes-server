@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types\List;
 
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
+use App\GraphQL\Schema\Fields\Base\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistDescriptionField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistIdField;
-use App\GraphQL\Schema\Fields\List\Playlist\PlaylistLikesCountField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistNameField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTracksCountField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTracksExistsField;
@@ -65,7 +65,7 @@ class PlaylistType extends EloquentType
             new LocalizedEnumField(new PlaylistVisibilityField()),
             new PlaylistTracksCountField(),
             new PlaylistTracksExistsField(),
-            new PlaylistLikesCountField(),
+            new LikesCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
         ];

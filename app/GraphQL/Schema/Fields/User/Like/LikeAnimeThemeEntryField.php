@@ -9,21 +9,21 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\DeletableField;
 use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Schema\Fields\Field;
-use App\Models\Wiki\Video;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class LikeVideoField extends Field implements BindableField, CreatableField, DeletableField
+class LikeAnimeThemeEntryField extends Field implements BindableField, CreatableField, DeletableField
 {
     public function __construct()
     {
-        parent::__construct('video');
+        parent::__construct('entry');
     }
 
     public function description(): string
     {
-        return 'The id of the video to like';
+        return 'The id of the entry to like';
     }
 
     public function baseType(): Type
@@ -34,10 +34,10 @@ class LikeVideoField extends Field implements BindableField, CreatableField, Del
     /**
      * The resolver to cast the model.
      */
-    public function bindResolver(array $args): Video
+    public function bindResolver(array $args): AnimeThemeEntry
     {
-        return Video::query()
-            ->where(Video::ATTRIBUTE_ID, Arr::get($args, $this->getName()))
+        return AnimeThemeEntry::query()
+            ->where(AnimeThemeEntry::ATTRIBUTE_ID, Arr::get($args, $this->getName()))
             ->firstOrFail();
     }
 
