@@ -26,6 +26,11 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Install full FFmpeg
+      run: |
+        sudo add-apt-repository ppa:savoury1/ffmpeg7 -y
+        sudo apt-get update -y
+        sudo apt-get install ffmpeg -y
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
