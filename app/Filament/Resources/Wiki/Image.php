@@ -8,6 +8,7 @@ use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\Models\Wiki\Image\OptimizeImageAction;
 use App\Filament\Actions\Models\Wiki\Image\UploadImageAction;
+use App\Filament\Actions\Storage\Wiki\Image\MoveImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
@@ -159,6 +160,8 @@ class Image extends BaseResource
     public static function getRecordActions(): array
     {
         return [
+            MoveImageAction::make(),
+
             OptimizeImageAction::make(),
         ];
     }
