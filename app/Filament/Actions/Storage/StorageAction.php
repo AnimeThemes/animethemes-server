@@ -44,7 +44,9 @@ abstract class StorageAction extends BaseAction
 
         $storageResults->toLog();
 
-        $record ??= $action->then($storageResults);
+        $updated = $action->then($storageResults);
+
+        $record ??= $updated;
 
         $actionResult = $storageResults->toActionResult();
 
