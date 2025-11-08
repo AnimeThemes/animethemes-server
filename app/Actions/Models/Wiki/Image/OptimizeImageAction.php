@@ -29,7 +29,7 @@ class OptimizeImageAction
         try {
             DB::beginTransaction();
 
-            $directory = Str::beforeLast($this->image->path, DIRECTORY_SEPARATOR);
+            $directory = File::dirname($this->image->path);
 
             $optimizedImage = $this->convertImage();
 
