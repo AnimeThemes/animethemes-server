@@ -6,6 +6,8 @@ use App\GraphQL\Schema\Schemas\DefaultSchema;
 use App\GraphQL\Schema\Types\Base\PaginationInfoType;
 
 return [
+    'rate_limit' => env('GRAPHQL_RATE_LIMIT', 80),
+
     'route' => [
         // The prefix for routes; do NOT use a leading slash!
         'prefix' => env('GRAPHQL_PATH', '/'),

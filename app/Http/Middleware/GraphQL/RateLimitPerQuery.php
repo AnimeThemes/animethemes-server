@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Middleware\GraphQL;
 
 use App\Enums\Auth\SpecialPermission;
-use App\Models\Auth\User;
 use Closure;
 use GraphQL\Language\AST\OperationDefinitionNode;
 use GraphQL\Language\Parser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
 use JsonException;
 
@@ -22,6 +22,8 @@ class RateLimitPerQuery
      */
     public function handle(Request $request, Closure $next): mixed
     {
+        $limit = Config::get('graphql.rate_limit');
+
         $user = Auth::user();
         $query = $request->input('query');
         $ip = $request->ip();
@@ -58,10 +60,17 @@ class RateLimitPerQuery
             $key = sprintf('graphql:%s', Auth::id() ?? $ip);
 
             foreach (range(1, $hits) as $_) {
-                if (RateLimiter::tooManyAttempts($key, 80)) {
+                if (RateLimiter::tooManyAttempts($key, $limit)) {
+                    $retryAfter = RateLimiter::availableIn($key);
+
                     return new JsonResponse([
-                        'message' => 'Too many requests',
-                    ], 429);
+                        'message' => 'Too Many Attempts.',
+                    ], 429, [
+                        'Retry-After' => $retryAfter,
+                        'X-RateLimit-Limit' => $limit,
+                        'X-RateLimit-Remaining' => RateLimiter::remaining($key, $limit),
+                        'X-RateLimit-Reset' => now()->addSeconds($retryAfter)->getTimestampMs(),
+                    ]);
                 }
 
                 RateLimiter::hit($key);
@@ -69,8 +78,8 @@ class RateLimitPerQuery
 
             return $next($request)
                 ->withHeaders([
-                    'X-RateLimit-Limit' => 80,
-                    'X-RateLimit-Remaining' => RateLimiter::remaining($key, 80),
+                    'X-RateLimit-Limit' => $limit,
+                    'X-RateLimit-Remaining' => RateLimiter::remaining($key, $limit),
                 ]);
         }
 
