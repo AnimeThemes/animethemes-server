@@ -6,6 +6,7 @@ namespace App\Http\Middleware\GraphQL;
 
 use App\Enums\Auth\SpecialPermission;
 use Closure;
+use GraphQL\Error\SyntaxError;
 use GraphQL\Language\AST\OperationDefinitionNode;
 use GraphQL\Language\Parser;
 use Illuminate\Http\JsonResponse;
@@ -41,18 +42,18 @@ class RateLimitPerQuery
         }
 
         if ($query) {
-            try {
-                $ast = Parser::parse($query);
-            } catch (JsonException) {
-                return $next($request);
-            }
-
             $rootFields = 0;
 
-            foreach ($ast->definitions as $definition) {
-                if ($definition instanceof OperationDefinitionNode) {
-                    $rootFields += count($definition->selectionSet->selections ?? []);
+            try {
+                $ast = Parser::parse($query);
+
+                foreach ($ast->definitions as $definition) {
+                    if ($definition instanceof OperationDefinitionNode) {
+                        $rootFields += count($definition->selectionSet->selections ?? []);
+                    }
                 }
+            } catch (JsonException|SyntaxError) {
+                // Do nothing
             }
 
             $hits = max(1, $rootFields);
