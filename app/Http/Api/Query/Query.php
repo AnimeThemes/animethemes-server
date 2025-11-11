@@ -10,7 +10,6 @@ use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
 use App\Http\Api\Criteria\Include\Criteria as IncludeCriteria;
 use App\Http\Api\Criteria\Include\ResourceCriteria;
 use App\Http\Api\Criteria\Paging\Criteria as PagingCriteria;
-use App\Http\Api\Criteria\Search\Criteria as SearchCriteria;
 use App\Http\Api\Criteria\Sort\Criteria as SortCriteria;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
@@ -18,6 +17,7 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
+use App\Search\Criteria as SearchCriteria;
 use Illuminate\Support\Arr;
 
 class Query

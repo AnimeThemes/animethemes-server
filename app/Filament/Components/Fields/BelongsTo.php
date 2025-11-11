@@ -9,6 +9,8 @@ use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User;
+use App\Search\Criteria;
+use App\Search\Search;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -59,22 +61,21 @@ class BelongsTo extends Select
     }
 
     /**
-     * @param  class-string<Model>  $model
+     * @param  class-string<Model>  $modelClass
      */
-    protected function tryScout(string $model): static
+    protected function tryScout(string $modelClass): static
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
+        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($modelClass::find($state), $this->withSubtitle));
 
-        if (in_array(Searchable::class, class_uses_recursive($model))) {
+        if (in_array(Searchable::class, class_uses_recursive($modelClass))) {
             return $this
-                ->getSearchResultsUsing(function (string $search) use ($model) {
+                ->getSearchResultsUsing(function (string $search) use ($modelClass) {
                     $search = $this->escapeReservedChars($search);
 
-                    /** @phpstan-ignore-next-line */
-                    return $model::search($search)
-                        ->take(25)
+                    return Search::search($modelClass, new Criteria($search))
+                        ->toEloquentBuilder()
                         ->get()
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                         ->toArray();
@@ -82,7 +83,7 @@ class BelongsTo extends Select
         }
 
         return $this
-            ->getSearchResultsUsing(fn (string $search) => $model::query()
+            ->getSearchResultsUsing(fn (string $search) => $modelClass::query()
                 ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
                 ->take(25)
                 ->get()

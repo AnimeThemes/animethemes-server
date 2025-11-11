@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Api\Criteria\Search\Criteria;
 use App\Http\Api\Parser\SearchParser;
+use App\Search\Criteria;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 

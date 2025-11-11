@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
-use App\Http\Api\Criteria\Search\Criteria;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use App\Search\Criteria;
+use App\Search\Search;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
@@ -21,11 +21,8 @@ trait SearchModels
         if ($search !== null) {
             $model = $builder->getModel();
 
-            $query = ElasticQuery::getForModel($model);
-
-            $elasticBuilder = $query->build(new Criteria($search));
-
-            $keys = $elasticBuilder->execute()->models()->modelKeys();
+            $keys = Search::search($model, new Criteria($search))
+                ->keys();
 
             $builder->whereIn($model->getKeyName(), $keys);
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\Wiki\Anime;
 
-use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use App\Search\Criteria;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 

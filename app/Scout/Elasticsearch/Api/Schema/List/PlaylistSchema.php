@@ -17,16 +17,10 @@ use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistDescriptionField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistHashidsField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistNameField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistVisibilityField;
-use App\Scout\Elasticsearch\Api\Query\List\PlaylistQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class PlaylistSchema extends Schema
 {
-    public function query(): PlaylistQuery
-    {
-        return new PlaylistQuery();
-    }
-
     public function type(): string
     {
         return PlaylistResource::$wrap;

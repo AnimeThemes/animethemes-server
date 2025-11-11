@@ -13,16 +13,10 @@ use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Studio\StudioNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Studio\StudioSlugField;
-use App\Scout\Elasticsearch\Api\Query\Wiki\StudioQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 class StudioSchema extends Schema
 {
-    public function query(): StudioQuery
-    {
-        return new StudioQuery();
-    }
-
     public function type(): string
     {
         return StudioResource::$wrap;

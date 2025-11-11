@@ -14,7 +14,6 @@ use App\Events\Wiki\Anime\Synonym\SynonymRestored;
 use App\Events\Wiki\Anime\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
-use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
 use Database\Factories\Wiki\Anime\AnimeSynonymFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -106,11 +105,6 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
     public function getSubtitle(): string
     {
         return $this->anime->getName();
-    }
-
-    public function getElasticQuery(): string
-    {
-        return SynonymQuery::class;
     }
 
     /**

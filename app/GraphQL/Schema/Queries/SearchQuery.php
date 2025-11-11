@@ -26,11 +26,13 @@ use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
+use App\Search\Criteria;
+use App\Search\Search;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
 
 class SearchQuery extends BaseQuery
@@ -115,20 +117,30 @@ class SearchQuery extends BaseQuery
     }
 
     /**
-     * @param  class-string<Model>  $model
+     * @param  class-string<Model>  $modelClass
      */
-    protected function search(string $model, array $args, ResolveInfo $resolveInfo, EloquentType $type, string $field): array
+    protected function search(string $modelClass, array $args, ResolveInfo $resolveInfo, EloquentType $type, string $field): Collection
     {
         $term = Arr::get($args, 'search');
-        $page = Arr::get($args, 'page');
+        $page = Arr::get($args, 'page', 1);
         $first = Number::clamp(Arr::get($args, 'first'), 1, 15);
 
         $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$field}.{$field}.selectionSet");
 
-        /** @phpstan-ignore-next-line */
-        return $model::search($term)
-            ->query(fn (Builder $builder) => $this->constrainEagerLoads($builder, $fields, $type))
-            ->paginate($first, $page)
-            ->items();
+        $searchBuilder = Search::search($modelClass, new Criteria($term))
+            ->withPagination($first, $page);
+
+        $keys = $searchBuilder->keys();
+
+        $builder = $searchBuilder->toEloquentBuilder()
+            ->orderByRaw(sprintf(
+                'FIELD(%s, %s)',
+                (new $modelClass)->getKeyName(),
+                implode(',', $keys)
+            ));
+
+        $this->constrainEagerLoads($builder, $fields, $type);
+
+        return $builder->get();
     }
 }

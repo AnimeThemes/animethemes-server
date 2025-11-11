@@ -16,6 +16,8 @@ use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Search;
+use App\Search\Builders\ElasticSearchBuilder;
+use App\Search\Search as SearchSearch;
 use Elastic\Client\ClientBuilderInterface;
 use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
 use Elastic\ScoutDriverPlus\Exceptions\QueryBuilderValidationException;
@@ -72,10 +74,10 @@ class Elasticsearch extends Search
     ): Collection|Paginator {
         $elasticSchema = $this->elasticSchema($schema);
 
-        $elasticQuery = $elasticSchema->query();
-
         // initialize builder for matches
-        $builder = $elasticQuery->build($query->getSearchCriteria());
+        /** @var ElasticSearchBuilder $searchBuilder */
+        $searchBuilder = SearchSearch::search($elasticSchema->model(), $query->getSearchCriteria());
+        $builder = $searchBuilder->getBuilder();
 
         // load aggregate fields
         $builder->refineModels(function (Builder $searchModelBuilder) use ($query, $schema): void {

@@ -11,17 +11,11 @@ use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Synonym\SynonymTextField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Synonym\SynonymTypeField;
-use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 
 class SynonymSchema extends Schema
 {
-    public function query(): SynonymQuery
-    {
-        return new SynonymQuery();
-    }
-
     public function type(): string
     {
         return SynonymResource::$wrap;

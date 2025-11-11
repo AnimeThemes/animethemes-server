@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Parser;
 
-use App\Http\Api\Criteria\Search\Criteria;
+use App\Search\Criteria;
 use Illuminate\Support\Arr;
 
 class SearchParser extends Parser
