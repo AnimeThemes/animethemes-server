@@ -33,10 +33,8 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                 continue;
             }
 
-            $query = $this->escapeReservedChars($query);
-
             $resourceResults = collect(
-                Search::search($modelClass, new Criteria($query))
+                Search::search($modelClass, new Criteria($this->escapeReservedChars($query)))
                     ->passToEloquentBuilder(fn (Builder $builder) => $builder->with($resource::getEloquentQuery()->getEagerLoads()))
                     ->execute()
                     ->items()

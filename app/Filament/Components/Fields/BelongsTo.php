@@ -71,26 +71,26 @@ class BelongsTo extends Select
 
         if (in_array(Searchable::class, class_uses_recursive($modelClass))) {
             return $this
-                ->getSearchResultsUsing(function (string $search) use ($modelClass) {
-                    $search = $this->escapeReservedChars($search);
-
-                    return collect(
-                        Search::search($modelClass, new Criteria($search))
+                ->getSearchResultsUsing(
+                    fn (string $search) => collect(
+                        Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
                             ->execute()
                             ->items()
                     )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
-                        ->toArray();
-                });
+                        ->toArray()
+                );
         }
 
         return $this
-            ->getSearchResultsUsing(fn (string $search) => $modelClass::query()
-                ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
-                ->take(25)
-                ->get()
-                ->mapWithKeys(fn ($model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
-                ->toArray());
+            ->getSearchResultsUsing(
+                fn (string $search) => $modelClass::query()
+                    ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
+                    ->take(25)
+                    ->get()
+                    ->mapWithKeys(fn ($model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
+                    ->toArray()
+            );
     }
 
     /**

@@ -26,26 +26,27 @@ class Select extends ComponentsSelect
                 ->allowHtml()
                 ->searchable()
                 ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($modelClass::find($state)))
-                ->getSearchResultsUsing(function (string $search) use ($livewire, $modelClass, $loadRelation) {
-                    $search = $this->escapeReservedChars($search);
-
+                ->getSearchResultsUsing(
+                    fn (string $search) =>
                     /** @phpstan-ignore-next-line */
-                    return Search::search($modelClass, new Criteria($search))
-                        ->toEloquentBuilder()
-                        ->where(function (Builder $query) use ($livewire): void {
-                            if (! ($livewire instanceof BaseRelationManager)
-                                ||($livewire->getTable()->allowsDuplicates())) {
-                                return;
-                            }
+                    collect(
+                        Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
+                            ->passToEloquentBuilder(function (Builder $query) use ($loadRelation, $livewire): void {
+                                $query->with($loadRelation);
 
-                            // This is necessary to prevent already attached records from being returned on search.
-                            $query->whereDoesntHave($livewire->getTable()->getInverseRelationship(), fn (Builder $query) => $query->whereKey($livewire->getOwnerRecord()->getKey()));
-                        })
-                        ->get()
-                        ->load($loadRelation ?? [])
+                                if (! ($livewire instanceof BaseRelationManager)
+                                    ||($livewire->getTable()->allowsDuplicates())) {
+                                    return;
+                                }
+
+                                // This is necessary to prevent already attached records from being returned on search.
+                                $query->whereDoesntHave($livewire->getTable()->getInverseRelationship(), fn (Builder $query) => $query->whereKey($livewire->getOwnerRecord()->getKey()));
+                            })
+                            ->execute()
+                    )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
-                        ->toArray();
-                });
+                        ->toArray()
+                );
         }
 
         return $this->searchable();

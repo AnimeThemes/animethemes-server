@@ -37,9 +37,7 @@ abstract class BaseListResources extends ListRecords
         $model = new $modelClass;
 
         if (filled($search = $this->getTableSearch())) {
-            $search = $this->escapeReservedChars($search);
-
-            $keys = Search::search($modelClass, new Criteria($search))
+            $keys = Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
                 ->keys();
 
             $query
