@@ -27,6 +27,7 @@ use App\Scout\Elasticsearch\Api\Query\Wiki\SongQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\StudioQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\VideoQuery;
 use App\Search\Criteria;
+use Closure;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Paginator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -36,7 +37,7 @@ use RuntimeException;
 
 class ElasticSearchBuilder implements SearchBuilder
 {
-    protected SearchParametersBuilder $builder;
+    public SearchParametersBuilder $builder;
 
     protected int $perPage = 15;
     protected int $page = 1;
@@ -61,21 +62,67 @@ class ElasticSearchBuilder implements SearchBuilder
         return $this;
     }
 
-    public function toEloquentBuilder(): EloquentBuilder
+    /**
+     * @param  array<string, array{direction: string, isString: bool, relation: ?string}>  $sorts
+     */
+    public function withSort(array $sorts): static
     {
-        return $this->model::query()
-            ->whereIn(
-                $this->model->getKeyName(),
-                $this->keys()
-            );
+        $sortRaw = [];
+        foreach ($sorts as $column => $data) {
+            $nested = Arr::get($data, 'direction');
+            if (Arr::get($data, 'isString') === true) {
+                if ($relation = Arr::get($data, 'relation')) {
+                    $column = $relation.'.'.$column.'_keyword';
+
+                    $nested = [
+                        'order' => $nested,
+                        'nested' => [
+                            'path' => $relation,
+                        ],
+                    ];
+                } else {
+                    $column .= '.keyword';
+                }
+            }
+
+            $sortRaw[$column] = $nested;
+        }
+
+        if ($sortRaw !== []) {
+            $this->builder->sortRaw($sortRaw);
+        }
+
+        return $this;
     }
 
     /**
-     * Get the underlying search parameters builder.
+     * Run a callback through the Eloquent query.
+     *
+     * @param  Closure(EloquentBuilder): void  $callback
      */
-    public function getBuilder(): SearchParametersBuilder
+    public function passToEloquentBuilder(Closure $callback): static
     {
-        return $this->builder;
+        $this->builder->refineModels($callback);
+
+        return $this;
+    }
+
+    /**
+     * Execute the search and get the resulting models.
+     */
+    public function execute(): Paginator
+    {
+        return $this->builder->paginate($this->perPage, page: $this->page)->onlyModels();
+    }
+
+    /**
+     * Get the keys of the retrieved models.
+     *
+     * @return int[]
+     */
+    public function keys(): array
+    {
+        return $this->execute()->getCollection()->keys()->toArray();
     }
 
     /**
@@ -96,20 +143,5 @@ class ElasticSearchBuilder implements SearchBuilder
             Video::class => new VideoQuery(),
             default => throw new RuntimeException("No ElasticQuery defined for model: {$model}"),
         };
-    }
-
-    /**
-     * The keys of the retrieved models.
-     *
-     * @return int[]
-     */
-    public function keys(): array
-    {
-        return Arr::pluck($this->paginate()->items(), $this->model->getKeyName());
-    }
-
-    protected function paginate(): Paginator
-    {
-        return $this->builder->paginate($this->perPage, page: $this->page)->onlyModels();
     }
 }

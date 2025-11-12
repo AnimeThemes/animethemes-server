@@ -14,6 +14,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use RuntimeException;
@@ -55,7 +56,9 @@ abstract class EloquentPaginationQuery extends EloquentQuery
 
         $this->query($builder, $args);
 
-        return $action->index($builder, $args, $this->baseType(), $resolveInfo);
+        return Arr::has($args, 'search')
+            ? $action->search($builder, $args, $this->baseType(), $resolveInfo)
+            : $action->index($builder, $args, $this->baseType(), $resolveInfo);
     }
 
     /**

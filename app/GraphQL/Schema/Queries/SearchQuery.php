@@ -30,6 +30,7 @@ use App\Search\Criteria;
 use App\Search\Search;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -128,19 +129,9 @@ class SearchQuery extends BaseQuery
         $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$field}.{$field}.selectionSet");
 
         $searchBuilder = Search::search($modelClass, new Criteria($term))
+            ->passToEloquentBuilder(fn (Builder $builder) => $this->constrainEagerLoads($builder, $fields, $type))
             ->withPagination($first, $page);
 
-        $keys = $searchBuilder->keys();
-
-        $builder = $searchBuilder->toEloquentBuilder()
-            ->orderByRaw(sprintf(
-                'FIELD(%s, %s)',
-                (new $modelClass)->getKeyName(),
-                implode(',', $keys)
-            ));
-
-        $this->constrainEagerLoads($builder, $fields, $type);
-
-        return $builder->get();
+        return collect($searchBuilder->execute()->items());
     }
 }

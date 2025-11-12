@@ -6,7 +6,8 @@ namespace App\Search\Builders;
 
 use App\Contracts\Search\SearchBuilder;
 use App\Search\Criteria;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Closure;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -39,27 +40,46 @@ class CollectionBuilder implements SearchBuilder
         return $this;
     }
 
-    public function toEloquentBuilder(): EloquentBuilder
+    /**
+     * @param  array<string, array{direction: string, isString: bool, relation: ?string}>  $sorts
+     */
+    public function withSort(array $sorts): static
     {
-        return $this->model::query()
-            ->whereIn(
-                $this->model->getKeyName(),
-                $this->keys()
-            );
+        foreach ($sorts as $column => $data) {
+            $this->builder->orderBy($column, Arr::get($data, 'direction'));
+        }
+
+        return $this;
     }
 
     /**
-     * The keys of the retrieved models.
+     * Run a callback through the Eloquent query.
+     *
+     * @param  Closure(EloquentBuilder): void  $callback
+     */
+    public function passToEloquentBuilder(Closure $callback): SearchBuilder
+    {
+        $this->builder->query($callback);
+
+        return $this;
+    }
+
+    /**
+     * Execute the search and get the resulting models.
+     */
+    public function execute(): Paginator
+    {
+        return $this->builder
+            ->paginate($this->perPage, page: $this->page);
+    }
+
+    /**
+     * Get the keys of the retrieved models.
      *
      * @return int[]
      */
     public function keys(): array
     {
-        return Arr::pluck($this->paginate()->items(), $this->model->getKeyName());
-    }
-
-    protected function paginate(): LengthAwarePaginator
-    {
-        return $this->builder->paginate($this->perPage, page: $this->page);
+        return Arr::pluck($this->execute()->items(), fn (Model $model) => $model->getKey());
     }
 }

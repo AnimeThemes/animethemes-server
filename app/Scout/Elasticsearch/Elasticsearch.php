@@ -77,7 +77,7 @@ class Elasticsearch extends Search
         // initialize builder for matches
         /** @var ElasticSearchBuilder $searchBuilder */
         $searchBuilder = SearchSearch::search($elasticSchema->model(), $query->getSearchCriteria());
-        $builder = $searchBuilder->getBuilder();
+        $builder = $searchBuilder->builder;
 
         // load aggregate fields
         $builder->refineModels(function (Builder $searchModelBuilder) use ($query, $schema): void {

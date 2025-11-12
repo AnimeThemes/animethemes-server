@@ -74,9 +74,11 @@ class BelongsTo extends Select
                 ->getSearchResultsUsing(function (string $search) use ($modelClass) {
                     $search = $this->escapeReservedChars($search);
 
-                    return Search::search($modelClass, new Criteria($search))
-                        ->toEloquentBuilder()
-                        ->get()
+                    return collect(
+                        Search::search($modelClass, new Criteria($search))
+                            ->execute()
+                            ->items()
+                    )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                         ->toArray();
                 });

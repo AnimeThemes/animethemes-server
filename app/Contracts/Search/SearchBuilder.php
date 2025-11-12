@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Contracts\Search;
 
 use App\Search\Criteria;
-use Illuminate\Database\Eloquent\Builder;
+use Closure;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 
 interface SearchBuilder
@@ -21,12 +22,22 @@ interface SearchBuilder
     public function withPagination(int $perPage, int $page): static;
 
     /**
-     * Get the eloquent builder for the search results.
+     * @param  array<string, array{direction: string, isString: bool, relation: ?string}>  $sorts
      */
-    public function toEloquentBuilder(): Builder;
+    public function withSort(array $sorts): static;
 
     /**
-     * The keys of the retrieved models.
+     * Run a callback through the Eloquent query.
+     */
+    public function passToEloquentBuilder(Closure $callback): SearchBuilder;
+
+    /**
+     * Execute the search and get the resulting models.
+     */
+    public function execute(): Paginator;
+
+    /**
+     * Get the keys of the retrieved models.
      *
      * @return int[]
      */

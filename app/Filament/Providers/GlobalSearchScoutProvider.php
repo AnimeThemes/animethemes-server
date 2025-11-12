@@ -12,6 +12,7 @@ use Filament\Facades\Filament;
 use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\GlobalSearch\GlobalSearchResults;
 use Filament\GlobalSearch\Providers\Contracts\GlobalSearchProvider;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class GlobalSearchScoutProvider implements GlobalSearchProvider
@@ -34,10 +35,12 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
 
             $query = $this->escapeReservedChars($query);
 
-            $resourceResults = Search::search($modelClass, new Criteria($query))
-                ->toEloquentBuilder()
-                ->with($resource::getEloquentQuery()->getEagerLoads())
-                ->get()
+            $resourceResults = collect(
+                Search::search($modelClass, new Criteria($query))
+                    ->passToEloquentBuilder(fn (Builder $builder) => $builder->with($resource::getEloquentQuery()->getEagerLoads()))
+                    ->execute()
+                    ->items()
+            )
                 ->map(function (Model $record) use ($resource): ?GlobalSearchResult {
                     $url = $resource::getUrl('view', ['record' => $record]);
 
