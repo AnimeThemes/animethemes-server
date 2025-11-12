@@ -32,7 +32,7 @@ class Select extends ComponentsSelect
                     collect(
                         Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
                             ->passToEloquentBuilder(function (Builder $query) use ($loadRelation, $livewire): void {
-                                $query->with($loadRelation);
+                                $query->with($loadRelation ?? []);
 
                                 if (! ($livewire instanceof BaseRelationManager)
                                     ||($livewire->getTable()->allowsDuplicates())) {
@@ -43,6 +43,7 @@ class Select extends ComponentsSelect
                                 $query->whereDoesntHave($livewire->getTable()->getInverseRelationship(), fn (Builder $query) => $query->whereKey($livewire->getOwnerRecord()->getKey()));
                             })
                             ->execute()
+                            ->items()
                     )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
                         ->toArray()
