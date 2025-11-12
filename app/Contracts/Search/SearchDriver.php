@@ -9,12 +9,12 @@ use Closure;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 
-interface SearchBuilder
+interface SearchDriver
 {
     /**
      * Build the query.
      */
-    public static function search(Model $model, Criteria $criteria): SearchBuilder;
+    public static function search(Model $model, Criteria $criteria): SearchDriver;
 
     /**
      * Paginate the results.
@@ -29,7 +29,7 @@ interface SearchBuilder
     /**
      * Run a callback through the Eloquent query.
      */
-    public function passToEloquentBuilder(Closure $callback): SearchBuilder;
+    public function passToEloquentBuilder(Closure $callback): SearchDriver;
 
     /**
      * Execute the search and get the resulting models.

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Search\Builders;
+namespace App\Search\Drivers;
 
-use App\Contracts\Search\SearchBuilder;
+use App\Contracts\Search\SearchDriver;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use RuntimeException;
 
-class ElasticSearchBuilder implements SearchBuilder
+class ElasticsearchDriver implements SearchDriver
 {
     public SearchParametersBuilder $builder;
 
@@ -44,7 +44,7 @@ class ElasticSearchBuilder implements SearchBuilder
 
     protected function __construct(protected Model $model) {}
 
-    public static function search(Model $model, Criteria $criteria): SearchBuilder
+    public static function search(Model $model, Criteria $criteria): SearchDriver
     {
         $builder = new self($model);
 

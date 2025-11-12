@@ -16,7 +16,7 @@ use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Search;
-use App\Search\Builders\ElasticSearchBuilder;
+use App\Search\Drivers\ElasticsearchDriver;
 use App\Search\Search as SearchSearch;
 use Elastic\Client\ClientBuilderInterface;
 use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
@@ -75,7 +75,7 @@ class Elasticsearch extends Search
         $elasticSchema = $this->elasticSchema($schema);
 
         // initialize builder for matches
-        /** @var ElasticSearchBuilder $searchBuilder */
+        /** @var ElasticsearchDriver $searchBuilder */
         $searchBuilder = SearchSearch::search($elasticSchema->model(), $query->getSearchCriteria());
         $builder = $searchBuilder->builder;
 

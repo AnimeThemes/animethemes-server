@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Search\Builders;
+namespace App\Search\Drivers;
 
-use App\Contracts\Search\SearchBuilder;
+use App\Contracts\Search\SearchDriver;
 use App\Search\Criteria;
 use Closure;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Laravel\Scout\Builder;
 
-class CollectionBuilder implements SearchBuilder
+class CollectionDriver implements SearchDriver
 {
     protected Builder $builder;
 
@@ -22,7 +22,7 @@ class CollectionBuilder implements SearchBuilder
 
     protected function __construct(protected Model $model) {}
 
-    public static function search(Model $model, Criteria $criteria): SearchBuilder
+    public static function search(Model $model, Criteria $criteria): SearchDriver
     {
         $builder = new self($model);
 
@@ -57,7 +57,7 @@ class CollectionBuilder implements SearchBuilder
      *
      * @param  Closure(EloquentBuilder): void  $callback
      */
-    public function passToEloquentBuilder(Closure $callback): SearchBuilder
+    public function passToEloquentBuilder(Closure $callback): SearchDriver
     {
         $this->builder->query($callback);
 
