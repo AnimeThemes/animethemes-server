@@ -23,18 +23,12 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoSizeField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoSourceField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoSubbedField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Video\VideoUncenField;
-use App\Scout\Elasticsearch\Api\Query\Wiki\VideoQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class VideoSchema extends Schema
 {
-    public function query(): VideoQuery
-    {
-        return new VideoQuery();
-    }
-
     public function type(): string
     {
         return VideoResource::$wrap;

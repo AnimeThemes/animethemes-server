@@ -14,7 +14,6 @@ use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeTypeField;
-use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\ThemeQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
@@ -31,11 +30,6 @@ class ThemeSchema extends Schema
     final public const string SORT_TITLE_FIELD = 'song.title_keyword';
 
     final public const string SORT_YEAR = 'anime.year';
-
-    public function query(): ThemeQuery
-    {
-        return new ThemeQuery();
-    }
 
     public function type(): string
     {

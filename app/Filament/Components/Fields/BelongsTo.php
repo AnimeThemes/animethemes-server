@@ -9,6 +9,8 @@ use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User;
+use App\Search\Criteria;
+use App\Search\Search;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -59,35 +61,36 @@ class BelongsTo extends Select
     }
 
     /**
-     * @param  class-string<Model>  $model
+     * @param  class-string<Model>  $modelClass
      */
-    protected function tryScout(string $model): static
+    protected function tryScout(string $modelClass): static
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
+        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($modelClass::find($state), $this->withSubtitle));
 
-        if (in_array(Searchable::class, class_uses_recursive($model))) {
+        if (in_array(Searchable::class, class_uses_recursive($modelClass))) {
             return $this
-                ->getSearchResultsUsing(function (string $search) use ($model) {
-                    $search = $this->escapeReservedChars($search);
-
-                    /** @phpstan-ignore-next-line */
-                    return $model::search($search)
-                        ->take(25)
-                        ->get()
+                ->getSearchResultsUsing(
+                    fn (string $search) => collect(
+                        Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
+                            ->execute()
+                            ->items()
+                    )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
-                        ->toArray();
-                });
+                        ->toArray()
+                );
         }
 
         return $this
-            ->getSearchResultsUsing(fn (string $search) => $model::query()
-                ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
-                ->take(25)
-                ->get()
-                ->mapWithKeys(fn ($model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
-                ->toArray());
+            ->getSearchResultsUsing(
+                fn (string $search) => $modelClass::query()
+                    ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
+                    ->take(25)
+                    ->get()
+                    ->mapWithKeys(fn ($model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
+                    ->toArray()
+            );
     }
 
     /**

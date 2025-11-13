@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Components\Fields;
 
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Models\BaseModel;
+use App\Search\Criteria;
+use App\Search\Search;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,35 +17,37 @@ class Select extends ComponentsSelect
     /**
      * Use laravel scout to make fields searchable.
      *
-     * @param  class-string<Model>  $model
+     * @param  class-string<Model>  $modelClass
      */
-    public function useScout(mixed $livewire, string $model, ?string $loadRelation = null): static
+    public function useScout(mixed $livewire, string $modelClass, ?string $loadRelation = null): static
     {
-        if (in_array(Searchable::class, class_uses_recursive($model))) {
+        if (in_array(Searchable::class, class_uses_recursive($modelClass))) {
             return $this
                 ->allowHtml()
                 ->searchable()
-                ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($model::find($state)))
-                ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
-                    $search = $this->escapeReservedChars($search);
-
+                ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($modelClass::find($state)))
+                ->getSearchResultsUsing(
+                    fn (string $search) =>
                     /** @phpstan-ignore-next-line */
-                    return $model::search($search)
-                        ->query(function (Builder $query) use ($livewire): void {
-                            if (! ($livewire instanceof BaseRelationManager)
-                                ||($livewire->getTable()->allowsDuplicates())) {
-                                return;
-                            }
+                    collect(
+                        Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
+                            ->passToEloquentBuilder(function (Builder $query) use ($loadRelation, $livewire): void {
+                                $query->with($loadRelation ?? []);
 
-                            // This is necessary to prevent already attached records from being returned on search.
-                            $query->whereDoesntHave($livewire->getTable()->getInverseRelationship(), fn (Builder $query) => $query->whereKey($livewire->getOwnerRecord()->getKey()));
-                        })
-                        ->take(25)
-                        ->get()
-                        ->load($loadRelation ?? [])
-                        ->mapWithKeys(fn (BaseModel $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
-                        ->toArray();
-                });
+                                if (! ($livewire instanceof BaseRelationManager)
+                                    ||($livewire->getTable()->allowsDuplicates())) {
+                                    return;
+                                }
+
+                                // This is necessary to prevent already attached records from being returned on search.
+                                $query->whereDoesntHave($livewire->getTable()->getInverseRelationship(), fn (Builder $query) => $query->whereKey($livewire->getOwnerRecord()->getKey()));
+                            })
+                            ->execute()
+                            ->items()
+                    )
+                        ->mapWithKeys(fn (Model $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])
+                        ->toArray()
+                );
         }
 
         return $this->searchable();

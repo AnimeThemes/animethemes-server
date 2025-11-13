@@ -14,15 +14,12 @@ use App\Scout\Elasticsearch\Api\Field\Base\CreatedAtField;
 use App\Scout\Elasticsearch\Api\Field\Base\DeletedAtField;
 use App\Scout\Elasticsearch\Api\Field\Base\UpdatedAtField;
 use App\Scout\Elasticsearch\Api\Field\Field;
-use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RuntimeException;
 
 abstract class Schema implements SchemaInterface
 {
-    abstract public function query(): ElasticQuery;
-
     /**
      * @return Field[]
      */

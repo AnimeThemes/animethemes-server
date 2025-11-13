@@ -24,6 +24,7 @@ class SortableColumns extends EnumType
 {
     final public const string SUFFIX = 'SortableColumns';
 
+    final public const string RESOLVER_FIELD = 'field';
     final public const string RESOLVER_COLUMN = 'column';
     final public const string RESOLVER_SORT_TYPE = 'sortType';
     final public const string RESOLVER_RELATION = 'relation';
@@ -96,6 +97,7 @@ class SortableColumns extends EnumType
         return $this->getSortableFields()
             ->mapWithKeys(fn (Field&SortableField $field): array => [
                 Str::of($field->getName())->snake()->upper()->__toString() => [
+                    self::RESOLVER_FIELD => $field,
                     self::RESOLVER_COLUMN => $field->getColumn(),
                     self::RESOLVER_SORT_TYPE => $field->sortType(),
                     self::RESOLVER_RELATION => method_exists($field, 'relation') ? $field->{'relation'}() : null,
@@ -103,8 +105,9 @@ class SortableColumns extends EnumType
             ])
             ->merge(
                 $this->getRelations($this->type)
-                    ->flatMap(fn (Collection $collection, $relation) => $collection->flatMap(fn (Field $field): array => [
+                    ->flatMap(fn (Collection $collection, $relation) => $collection->flatMap(fn (Field&SortableField $field): array => [
                         Str::upper($relation).'_'.Str::of($field->getName())->snake()->upper()->__toString() => [
+                            self::RESOLVER_FIELD => $field,
                             self::RESOLVER_COLUMN => $field->getColumn(),
                             self::RESOLVER_SORT_TYPE => SortType::RELATION,
                             self::RESOLVER_RELATION => $relation,

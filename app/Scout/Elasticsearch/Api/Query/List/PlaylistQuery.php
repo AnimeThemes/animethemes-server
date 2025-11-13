@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\List;
 
-use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\List\Playlist;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use App\Search\Criteria;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Base;
 
 use App\Filament\Actions\Base\CreateAction;
+use App\Search\Criteria;
+use App\Search\Search;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -35,13 +37,12 @@ abstract class BaseListResources extends ListRecords
         $model = new $modelClass;
 
         if (filled($search = $this->getTableSearch())) {
-            $search = $this->escapeReservedChars($search);
-            /** @phpstan-ignore-next-line */
-            $keys = $modelClass::search($search)->take(25)->keys();
+            $keys = Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
+                ->keys();
 
             $query
                 ->whereIn($model->getKeyName(), $keys)
-                ->orderByRaw("FIELD({$this->getResource()::getRecordRouteKeyName()}, ".$keys->implode(',').')');
+                ->orderByRaw("FIELD({$this->getResource()::getRecordRouteKeyName()}, ".implode(',', $keys).')');
         }
 
         return $query;

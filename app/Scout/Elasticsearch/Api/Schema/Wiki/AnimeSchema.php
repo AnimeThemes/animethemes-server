@@ -20,7 +20,6 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSeasonField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSlugField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSynopsisField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeYearField;
-use App\Scout\Elasticsearch\Api\Query\Wiki\AnimeQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -28,11 +27,6 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
 class AnimeSchema extends Schema
 {
-    public function query(): AnimeQuery
-    {
-        return new AnimeQuery();
-    }
-
     public function type(): string
     {
         return AnimeResource::$wrap;

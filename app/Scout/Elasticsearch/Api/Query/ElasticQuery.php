@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query;
 
-use App\Http\Api\Criteria\Search\Criteria;
+use App\Search\Criteria;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use ReflectionClass;
-use RuntimeException;
 
 abstract class ElasticQuery
 {
@@ -82,22 +78,5 @@ abstract class ElasticQuery
     protected function createNestedTextQuery(string $nestedResource, string $field, string $searchTerm): array
     {
         return $this->createNestedQuery($nestedResource, $this->createTextQuery("$nestedResource.$field", $searchTerm));
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    public static function getForModel(Model $model): ElasticQuery
-    {
-        $query = method_exists($model, 'getElasticQuery')
-            ? $model->getElasticQuery()
-            : Str::of($model::class)
-                ->replace('Models', 'Scout\\Elasticsearch\\Api\\Query')
-                ->append('Query')
-                ->__toString();
-
-        throw_unless(class_exists($query), RuntimeException::class, "Please add the 'getElasticQuery' method to the model ".$model::class);
-
-        return new ReflectionClass($query)->newInstance();
     }
 }

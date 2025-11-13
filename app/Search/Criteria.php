@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Criteria\Search;
+namespace App\Search;
 
 readonly class Criteria
 {
