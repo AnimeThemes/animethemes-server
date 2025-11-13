@@ -11,7 +11,7 @@ use App\GraphQL\Support\ResolveInfo as CustomResolveInfo;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\Relation as RelationLaravel;
+use Illuminate\Database\Eloquent\Relations\Relation as EloquentRelation;
 use Illuminate\Support\Arr;
 
 trait ConstrainsEagerLoads
@@ -57,13 +57,13 @@ trait ConstrainsEagerLoads
 
             $relationType = $relation->getBaseType();
 
-            $eagerLoadRelations[$path] = function (RelationLaravel $relationLaravel) use ($relationSelection, $relationArgs, $relationType): void {
-                if ($relationLaravel instanceof MorphTo) {
-                    $this->processMorphToRelation($relationSelection, $relationType, $relationLaravel);
+            $eagerLoadRelations[$path] = function (EloquentRelation $eloquentRelation) use ($relationSelection, $relationArgs, $relationType, $relation): void {
+                if ($eloquentRelation instanceof MorphTo) {
+                    $this->processMorphToRelation($relationSelection, $relationType, $eloquentRelation);
                 } elseif ($relationType instanceof BaseUnion) {
-                    $this->processUnion($relationSelection, $relationLaravel, $relationType);
+                    $this->processUnion($relationSelection, $eloquentRelation, $relationType);
                 } else {
-                    $this->processGenericRelation($relationLaravel, $relationArgs, $relationSelection, $relationType);
+                    $this->processGenericRelation($eloquentRelation, $relationArgs, $relationSelection, $relationType, $relation);
                 }
             };
         }
@@ -96,9 +96,9 @@ trait ConstrainsEagerLoads
     /**
      * Process a union relation by applying the eager loads for each type in the union.
      */
-    private function processUnion(array $selection, RelationLaravel $relation, BaseUnion $union): void
+    private function processUnion(array $selection, EloquentRelation $relation, BaseUnion $union): void
     {
-        $query = $relation->getQuery();
+        $builder = $relation->getQuery();
 
         $unions = Arr::get($selection, 'selectionSet.data.data.unions', []);
 
@@ -109,25 +109,25 @@ trait ConstrainsEagerLoads
         foreach ($types as $type) {
             $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet", []);
 
-            $this->processEagerLoadForType($query, $typeSelection, $type);
+            $this->processEagerLoadForType($builder, $typeSelection, $type);
         }
     }
 
     /**
      * Process a generic relation by applying filters, sorting and eager loads.
      */
-    private function processGenericRelation(RelationLaravel $relation, array $args, array $selection, BaseType $type): void
+    private function processGenericRelation(EloquentRelation $relation, array $args, array $selection, BaseType $type, Relation $graphqlRelation): void
     {
-        $query = $relation->getQuery();
+        $builder = $relation->getQuery();
 
-        $this->filter($query, $args, $type);
+        $this->filter($builder, $args, $type);
 
-        $this->sort($query, $args, $type);
+        $this->sort($builder, $args, $type, $relation, $graphqlRelation);
 
-        $child = Arr::get($selection, 'selectionSet.data.data.selectionSet')
+        $fields = Arr::get($selection, 'selectionSet.data.data.selectionSet')
             ?? Arr::get($selection, 'selectionSet.nodes.nodes.selectionSet')
             ?? Arr::get($selection, 'selectionSet', []);
 
-        $this->processEagerLoadForType($query, $child, $type);
+        $this->processEagerLoadForType($builder, $fields, $type);
     }
 }

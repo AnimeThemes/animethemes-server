@@ -10,13 +10,16 @@ use App\Enums\GraphQL\SortType;
 use App\GraphQL\Criteria\Sort\AggregateSortCriteria;
 use App\GraphQL\Criteria\Sort\CountSortCriteria;
 use App\GraphQL\Criteria\Sort\FieldSortCriteria;
+use App\GraphQL\Criteria\Sort\PivotSortCriteria;
 use App\GraphQL\Criteria\Sort\RandomSortCriteria;
 use App\GraphQL\Criteria\Sort\RelationSortCriteria;
 use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Support\Relations\BelongsToRelation;
 use App\GraphQL\Support\Relations\Relation;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Rebing\GraphQL\Support\EnumType;
 
@@ -27,15 +30,23 @@ class SortableColumns extends EnumType
 {
     final public const string SUFFIX = 'SortableColumns';
 
-    public function __construct(protected BaseType $type) {}
+    public function __construct(
+        protected BaseType $type,
+        protected ?PivotType $pivotType = null,
+        protected ?BelongsToMany $relation = null,
+    ) {}
 
     /**
      * @return array<string, mixed>
      */
     public function attributes(): array
     {
+        $name = $this->pivotType instanceof PivotType
+            ? $this->pivotType->getName()
+            : $this->type->getName();
+
         return [
-            'name' => $this->type->getName().self::SUFFIX,
+            'name' => $name.self::SUFFIX,
             'values' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort->__toString()])->toArray(),
             'criterias' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort])->toArray(),
         ];
@@ -53,6 +64,7 @@ class SortableColumns extends EnumType
     private function getCriterias(): Collection
     {
         return $this->getFieldSortCriterias()
+            ->merge($this->getPivotSortCriterias())
             ->merge($this->getCountSortCriterias())
             ->merge($this->getAggregateSortCriterias())
             ->merge($this->getRelationSortCriterias())
@@ -63,7 +75,21 @@ class SortableColumns extends EnumType
     {
         return $this->getSortableFields()
             ->filter(fn (Field $field): bool => $field->sortType() === SortType::ROOT)
-            ->map(fn (Field $field): array => [new FieldSortCriteria($field), new FieldSortCriteria($field, SortDirection::DESC)])
+            ->map(fn (Field $field): array => [
+                new FieldSortCriteria($field),
+                new FieldSortCriteria($field, SortDirection::DESC),
+            ])
+            ->flatten();
+    }
+
+    private function getPivotSortCriterias(): Collection
+    {
+        return collect($this->pivotType?->fieldClasses() ?? [])
+            ->filter(fn (Field $field): bool => $field instanceof SortableField)
+            ->map(fn (Field $field): array => [
+                new PivotSortCriteria($field, SortDirection::ASC, $this->relation),
+                new PivotSortCriteria($field, SortDirection::DESC, $this->relation),
+            ])
             ->flatten();
     }
 
@@ -71,7 +97,10 @@ class SortableColumns extends EnumType
     {
         return $this->getSortableFields()
             ->filter(fn (Field $field): bool => $field->sortType() === SortType::COUNT_RELATION)
-            ->map(fn (Field $field): array => [new CountSortCriteria($field), new CountSortCriteria($field, SortDirection::DESC)])
+            ->map(fn (Field $field): array => [
+                new CountSortCriteria($field),
+                new CountSortCriteria($field, SortDirection::DESC),
+            ])
             ->flatten();
     }
 
@@ -79,7 +108,10 @@ class SortableColumns extends EnumType
     {
         return $this->getSortableFields()
             ->filter(fn (Field $field): bool => $field->sortType() === SortType::AGGREGATE)
-            ->map(fn (Field $field): array => [new AggregateSortCriteria($field), new AggregateSortCriteria($field, SortDirection::DESC)])
+            ->map(fn (Field $field): array => [
+                new AggregateSortCriteria($field),
+                new AggregateSortCriteria($field, SortDirection::DESC),
+            ])
             ->flatten();
     }
 

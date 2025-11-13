@@ -9,6 +9,7 @@ use App\Concerns\GraphQL\ResolvesArguments;
 use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\FirstArgument;
@@ -106,26 +107,17 @@ abstract class Relation
         return Arr::flatten($arguments);
     }
 
-    /**
-     * @return array<string, array<string, mixed>>
-     */
-    public function args(): array
-    {
-        return collect($this->arguments())
-            ->mapWithKeys(fn (Argument $argument): array => [
-                $argument->name => [
-                    'name' => $argument->name,
-                    'type' => $argument->getType(),
-
-                    ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),
-                ],
-            ])
-            ->toArray();
-    }
-
     public function getBaseType(): BaseType|BaseUnion
     {
         return $this->baseType;
+    }
+
+    /**
+     * Get the pivot type if it exists.
+     */
+    public function getPivotType(): ?PivotType
+    {
+        return null;
     }
 
     /**
