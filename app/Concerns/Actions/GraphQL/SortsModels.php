@@ -29,7 +29,7 @@ trait SortsModels
             ? $relation
             : null;
 
-        $criterias = Arr::get(new SortableColumns($type, $graphqlRelation->getPivotType(), $relation)->getAttributes(), 'criterias');
+        $criterias = Arr::get(new SortableColumns($type, $graphqlRelation?->getPivotType(), $relation)->getAttributes(), 'criterias');
 
         foreach ($sorts as $sort) {
             /** @var SortCriteria $criteria */
