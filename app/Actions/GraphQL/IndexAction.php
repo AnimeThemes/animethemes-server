@@ -9,20 +9,19 @@ use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
+use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Fields\StringField;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\SortArgument;
-use App\GraphQL\Support\Sort\Sort;
 use App\Search\Criteria;
 use App\Search\Search;
+use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 
 class IndexAction
 {
@@ -67,11 +66,13 @@ class IndexAction
 
         $sortsRaw = [];
         foreach ($sorts as $sort) {
-            $direction = Sort::resolveFromEnumCase($sort);
-            $resolver = Arr::get($resolvers, Str::remove('_DESC', $sort));
-            $column = Arr::get($resolver, SortableColumns::RESOLVER_COLUMN);
-            $sortType = Arr::get($resolver, SortableColumns::RESOLVER_SORT_TYPE);
-            $isString = Arr::get($resolver, SortableColumns::RESOLVER_FIELD) instanceof StringField;
+            /** @var SortCriteria $criteria */
+            $criteria = Arr::get($resolvers, $sort);
+
+            $column = $criteria->getField()->getColumn();
+            $direction = $criteria->getDirection();
+            $sortType = $criteria->getField()->sortType();
+            $isString = $criteria->getField() instanceof StringField;
 
             if ($sortType === SortType::ROOT) {
                 $sortsRaw[$column] = [
@@ -81,11 +82,15 @@ class IndexAction
             }
 
             if ($sortType === SortType::RELATION) {
-                $relation = Arr::get($resolver, SortableColumns::RESOLVER_RELATION);
-                throw_if($relation === null, InvalidArgumentException::class, "The 'relation' argument is required for the {$column} column with aggregate sort type.");
+                try {
+                    /** @phpstan-ignore-next-line */
+                    $relation = $criteria->getField()->{'relation'}();
+                } catch (Exception) {
+                    throw new Exception("The 'relation' argument is required for the {$column} column with aggregate sort type.");
+                }
 
                 $sortsRaw[$column] = [
-                    'direction' => $direction,
+                    'direction' => $direction->value,
                     'isString' => $isString,
                     'relation' => $relation,
                 ];
