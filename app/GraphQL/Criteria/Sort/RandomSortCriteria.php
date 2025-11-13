@@ -23,6 +23,9 @@ class RandomSortCriteria extends SortCriteria
         return 'RANDOM';
     }
 
+    /**
+     * Apply the ordering to the current Eloquent builder.
+     */
     public function sort(Builder $builder): Builder
     {
         return $builder->inRandomOrder();

@@ -9,6 +9,7 @@ use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\Enums\GraphQL\SortType;
 use App\Exceptions\GraphQL\ClientValidationException;
+use App\GraphQL\Criteria\Sort\RelationSortCriteria;
 use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Fields\StringField;
@@ -16,7 +17,6 @@ use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\SortArgument;
 use App\Search\Criteria;
 use App\Search\Search;
-use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,12 +62,12 @@ class IndexAction
         $searchBuilder->withPagination($first, $page);
 
         $sorts = Arr::get($args, SortArgument::ARGUMENT, []);
-        $resolvers = Arr::get(new SortableColumns($type)->getAttributes(), 'resolvers');
+        $criterias = Arr::get(new SortableColumns($type)->getAttributes(), 'criterias');
 
         $sortsRaw = [];
         foreach ($sorts as $sort) {
             /** @var SortCriteria $criteria */
-            $criteria = Arr::get($resolvers, $sort);
+            $criteria = Arr::get($criterias, $sort);
 
             $column = $criteria->getField()->getColumn();
             $direction = $criteria->getDirection();
@@ -81,18 +81,11 @@ class IndexAction
                 ];
             }
 
-            if ($sortType === SortType::RELATION) {
-                try {
-                    /** @phpstan-ignore-next-line */
-                    $relation = $criteria->getField()->{'relation'}();
-                } catch (Exception) {
-                    throw new Exception("The 'relation' argument is required for the {$column} column with aggregate sort type.");
-                }
-
+            if ($criteria instanceof RelationSortCriteria) {
                 $sortsRaw[$column] = [
                     'direction' => $direction->value,
                     'isString' => $isString,
-                    'relation' => $relation,
+                    'relation' => $criteria->relation,
                 ];
             }
         }

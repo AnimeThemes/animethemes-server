@@ -9,13 +9,16 @@ use Illuminate\Database\Eloquent\Builder;
 
 class AggregateSortCriteria extends SortCriteria
 {
+    /**
+     * Apply the ordering to the current Eloquent builder.
+     */
     public function sort(Builder $builder): Builder
     {
         try {
             /** @phpstan-ignore-next-line */
             $relation = $this->field->{'relation'}();
         } catch (Exception) {
-            throw new Exception("'relation' method is required for the aggregate sort type");
+            throw new Exception("'relation' method is required for the aggregate sort type.");
         }
 
         $builder->withAggregate([
