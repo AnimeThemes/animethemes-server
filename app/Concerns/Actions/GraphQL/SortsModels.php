@@ -22,11 +22,11 @@ trait SortsModels
             return $builder;
         }
 
-        $resolvers = Arr::get(new SortableColumns($type)->getAttributes(), 'resolvers');
+        $criterias = Arr::get(new SortableColumns($type)->getAttributes(), 'criterias');
 
         foreach ($sorts as $sort) {
             /** @var SortCriteria $criteria */
-            $criteria = Arr::get($resolvers, $sort);
+            $criteria = Arr::get($criterias, $sort);
 
             $criteria->sort($builder);
         }

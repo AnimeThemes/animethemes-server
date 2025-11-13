@@ -41,5 +41,8 @@ abstract class SortCriteria implements Stringable
         };
     }
 
+    /**
+     * Apply the ordering to the current Eloquent builder.
+     */
     abstract public function sort(Builder $builder): Builder;
 }

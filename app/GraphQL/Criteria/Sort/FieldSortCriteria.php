@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FieldSortCriteria extends SortCriteria
 {
+    /**
+     * Apply the ordering to the current Eloquent builder.
+     */
     public function sort(Builder $builder): Builder
     {
         return $builder->orderBy(

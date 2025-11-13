@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Filter;
 
+use App\GraphQL\Criteria\Filter\WhereInFilterCriteria;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Builder;
 
 class NotInFilter extends Filter
 {
@@ -16,11 +16,12 @@ class NotInFilter extends Filter
             ->withDefaultValue($this->defaultValue);
     }
 
-    public function filter(Builder $builder, mixed $value): Builder
+    public function criteria(mixed $value): WhereInFilterCriteria
     {
-        return $builder->whereNotIn(
-            $builder->qualifyColumn($this->field->getColumn()),
+        return new WhereInFilterCriteria(
+            $this,
             $value,
+            true
         );
     }
 }

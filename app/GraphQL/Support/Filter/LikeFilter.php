@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\GraphQL\Criteria\Filter\WhereFilterCriteria;
 use App\GraphQL\Support\Argument\Argument;
-use Illuminate\Database\Eloquent\Builder;
 
 class LikeFilter extends Filter
 {
@@ -16,12 +16,12 @@ class LikeFilter extends Filter
             ->withDefaultValue($this->defaultValue);
     }
 
-    public function filter(Builder $builder, mixed $value): Builder
+    public function criteria(mixed $value): WhereFilterCriteria
     {
-        return $builder->where(
-            $builder->qualifyColumn($this->field->getColumn()),
-            ComparisonOperator::LIKE->value,
-            $value,
+        return new WhereFilterCriteria(
+            $this,
+            ComparisonOperator::LIKE,
+            $value
         );
     }
 }

@@ -35,6 +35,9 @@ class RelationSortCriteria extends SortCriteria
         };
     }
 
+    /**
+     * Apply the ordering to the current Eloquent builder.
+     */
     public function sort(Builder $builder): Builder
     {
         $column = $this->field->getColumn();

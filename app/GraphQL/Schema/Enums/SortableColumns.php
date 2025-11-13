@@ -37,7 +37,7 @@ class SortableColumns extends EnumType
         return [
             'name' => $this->type->getName().self::SUFFIX,
             'values' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort->__toString()])->toArray(),
-            'resolvers' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort])->toArray(),
+            'criterias' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort])->toArray(),
         ];
     }
 

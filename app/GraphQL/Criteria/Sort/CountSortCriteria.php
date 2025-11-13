@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CountSortCriteria extends SortCriteria
 {
+    /**
+     * Apply the ordering to the current Eloquent builder.
+     */
     public function sort(Builder $builder): Builder
     {
         try {
