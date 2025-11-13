@@ -142,8 +142,7 @@ class Song extends BaseModel implements HasResources, SoftDeletable
      */
     public function performances(): HasMany
     {
-        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_SONG)
-            ->orderBy(Performance::ATTRIBUTE_RELEVANCE);
+        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_SONG);
     }
 
     /**

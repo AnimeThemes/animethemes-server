@@ -8,6 +8,9 @@ use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Schema\Types\ConnectionType;
 use App\GraphQL\Schema\Types\EdgeType;
 use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\Pivot\PivotType;
+use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Support\Argument\SortArgument;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
@@ -20,7 +23,7 @@ class BelongsToManyRelation extends Relation
         protected EloquentType $ownerType,
         protected string $nodeType,
         protected string $relationName,
-        protected ?string $pivotType = null,
+        protected PivotType|string|null $pivotType = null,
     ) {
         $this->edgeType = new EdgeType($ownerType, $nodeType, $pivotType);
         $this->connectionType = new ConnectionType($this->edgeType);
@@ -28,6 +31,28 @@ class BelongsToManyRelation extends Relation
         GraphQL::addType($this->connectionType, $this->connectionType->getName());
 
         parent::__construct(new $nodeType, $relationName);
+
+        $this->pivotType = class_exists($pivotType ?? '') ? new $pivotType : null;
+    }
+
+    /**
+     * Resolve the arguments of the sub-query.
+     *
+     * @return Argument[]
+     */
+    protected function arguments(): array
+    {
+        $pivotType = $this->pivotType;
+
+        if ($pivotType instanceof PivotType) {
+            return [
+                ...parent::arguments(),
+
+                new SortArgument($this->baseType, $pivotType),
+            ];
+        }
+
+        return [];
     }
 
     /**
@@ -36,6 +61,14 @@ class BelongsToManyRelation extends Relation
     public function getEdgeType(): EdgeType
     {
         return $this->edgeType;
+    }
+
+    /**
+     * Get the pivot type of the belongs to many relationship.
+     */
+    public function getPivotType(): ?PivotType
+    {
+        return $this->pivotType;
     }
 
     public function type(): Type
