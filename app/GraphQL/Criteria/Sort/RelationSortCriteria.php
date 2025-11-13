@@ -14,7 +14,7 @@ class RelationSortCriteria extends SortCriteria
 {
     public function __construct(
         protected Field&SortableField $field,
-        protected string $relation,
+        public string $relation,
         protected SortDirection $direction = SortDirection::ASC
     ) {
         parent::__construct($field, $direction);
