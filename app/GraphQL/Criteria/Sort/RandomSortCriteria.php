@@ -11,6 +11,7 @@ class RandomSortCriteria extends SortCriteria
 {
     public function __construct()
     {
+        // Random Sort doesn't need a field so we fake it.
         parent::__construct(new CreatedAtField);
     }
 

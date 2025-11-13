@@ -12,8 +12,11 @@ use Illuminate\Support\Str;
 
 class RelationSortCriteria extends SortCriteria
 {
-    public function __construct(protected Field&SortableField $field, protected string $relation, protected SortDirection $direction = SortDirection::ASC)
-    {
+    public function __construct(
+        protected Field&SortableField $field,
+        protected string $relation,
+        protected SortDirection $direction = SortDirection::ASC
+    ) {
         parent::__construct($field, $direction);
     }
 
