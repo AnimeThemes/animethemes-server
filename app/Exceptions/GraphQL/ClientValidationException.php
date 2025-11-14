@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Exceptions\GraphQL;
 
-use Exception;
-use GraphQL\Error\ClientAware;
+use GraphQL\Error\Error;
 
 /**
  * Thrown when client arguments are missing or wrong.
  */
-class ClientValidationException extends Exception implements ClientAware
+class ClientValidationException extends Error
 {
     public function isClientSafe(): bool
     {
