@@ -8,10 +8,10 @@ use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\GraphQL\Schema\Mutations\BaseMutation;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\ValidationError;
 
 /**
