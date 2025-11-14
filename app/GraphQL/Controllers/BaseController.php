@@ -8,10 +8,11 @@ use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\GraphQL\Schema\Mutations\BaseMutation;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Rebing\GraphQL\Error\ValidationError;
 
 /**
  * @template TModel of \Illuminate\Database\Eloquent\Model
@@ -37,13 +38,19 @@ abstract class BaseController
      * @param  class-string<BaseMutation>  $mutation
      * @return array<string, mixed>
      *
-     * @throws ValidationException
+     * @throws ValidationError
      */
     public function validated(array $args, string $mutation): array
     {
         $mutationInstance = App::make($mutation);
 
-        $validated = Validator::make($args, $mutationInstance->rulesForValidation($args))->validated();
+        $validator = Validator::make($args, $mutationInstance->rulesForValidation($args));
+
+        try {
+            $validated = $validator->validated();
+        } catch (ValidationException $e) {
+            throw new ValidationError($e->getMessage(), $validator);
+        }
 
         return [
             ...$validated,
