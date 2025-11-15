@@ -9,7 +9,6 @@ use App\Contracts\Models\HasHashids;
 use App\Filament\Actions\BaseAction;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
-use Exception;
 use Illuminate\Support\Facades\Gate;
 
 class AssignHashidsAction extends BaseAction
@@ -37,11 +36,7 @@ class AssignHashidsAction extends BaseAction
         $action = new AssignHashids();
 
         if ($model instanceof HasHashids) {
-            try {
-                $action->assign($model, $this->connection);
-            } catch (Exception $e) {
-                $this->failedLog($e);
-            }
+            $action->assign($model, $this->connection);
         }
     }
 

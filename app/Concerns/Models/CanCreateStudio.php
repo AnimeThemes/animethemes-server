@@ -7,7 +7,6 @@ namespace App\Concerns\Models;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Pivots\Morph\Resourceable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -34,29 +33,13 @@ trait CanCreateStudio
 
     public function ensureStudioHasResource(Studio $studio, ResourceSite $site, int $id): void
     {
-        $studioResource = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
-            ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->where(ExternalResource::ATTRIBUTE_LINK, $site->formatResourceLink(Studio::class, $id))
-            ->first();
-
-        if (! $studioResource instanceof ExternalResource) {
-            Log::info("Creating studio resource with site '{$site->localize()}' and id '$id'");
-
-            $studioResource = ExternalResource::query()->create([
+        $resource = ExternalResource::query()
+            ->firstOrCreate([
+                ExternalResource::ATTRIBUTE_SITE => $site->value,
                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
                 ExternalResource::ATTRIBUTE_LINK => $site->formatResourceLink(Studio::class, $id),
-                ExternalResource::ATTRIBUTE_SITE => $site->value,
             ]);
-        }
 
-        if (Resourceable::query()
-            ->whereMorphedTo(Resourceable::RELATION_RESOURCEABLE, $studio)
-            ->where(Resourceable::ATTRIBUTE_RESOURCE, $studioResource->getKey())
-            ->doesntExist()
-        ) {
-            Log::info("Attaching resource '$studioResource->link' to studio '{$studio->getName()}'");
-            $studioResource->studios()->attach($studio);
-        }
+        $resource->studios()->attach($studio);
     }
 }

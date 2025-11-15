@@ -10,8 +10,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Jobs\Wiki\Image\OptimizeImageJob;
 use App\Models\BaseModel;
 use App\Models\Wiki\Image;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\Testing\File;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -22,24 +21,20 @@ trait CanCreateImage
 {
     use HasLabel;
 
-    /**
-     * @throws RequestException
-     */
     public function createImageFromUrl(string $url, ImageFacet $facet, (BaseModel&HasImages)|null $model = null): Image
     {
-        $imageResponse = Http::get($url)->throw();
+        $binary = Http::get($url)
+            ->throw()
+            ->body();
 
-        $image = $imageResponse->body();
+        $tmp = tempnam(sys_get_temp_dir(), 'img_');
 
-        $file = File::createWithContent(basename($url), $image);
+        file_put_contents($tmp, $binary);
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED));
-
-        $fsFile = $fs->putFile($this->path($facet, $model), $file);
+        $fsFile = Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED))
+            ->putFile($this->path($facet, $model), new File($tmp));
 
         Log::info("Creating Image {$fsFile}");
-        /** @var Image $image */
         $image = Image::query()->create([
             Image::ATTRIBUTE_FACET => $facet->value,
             Image::ATTRIBUTE_PATH => $fsFile,
@@ -54,13 +49,10 @@ trait CanCreateImage
 
     public function createImageFromFile(mixed $image, ImageFacet $facet, (BaseModel&HasImages)|null $model = null): Image
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED));
-
-        $fsFile = $fs->putFile($this->path($facet, $model), $image);
+        $fsFile = Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED))
+            ->putFile($this->path($facet, $model), $image);
 
         Log::info("Creating Image {$fsFile}");
-        /** @var Image $image */
         $image = Image::query()->create([
             Image::ATTRIBUTE_FACET => $facet->value,
             Image::ATTRIBUTE_PATH => $fsFile,

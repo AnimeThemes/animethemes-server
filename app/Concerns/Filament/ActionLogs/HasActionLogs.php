@@ -66,7 +66,7 @@ trait HasActionLogs
 
     public function finishedLog(): void
     {
-        if (($actionLog = $this->actionLog) && ! $this->isFailedLog()) {
+        if (($actionLog = $this->actionLog) && ! $this->hasFailedLog()) {
             $actionLog->finished();
             // Filament notifications
             if ($this instanceof Action) {
@@ -80,8 +80,8 @@ trait HasActionLogs
         $this->actionLog->batchFinished();
     }
 
-    public function isFailedLog(): bool
+    public function hasFailedLog(): bool
     {
-        return $this->actionLog->isFailed();
+        return $this->actionLog->hasFailed();
     }
 }

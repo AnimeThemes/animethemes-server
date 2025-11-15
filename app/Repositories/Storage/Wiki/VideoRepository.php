@@ -8,7 +8,6 @@ use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use App\Repositories\Storage\StorageRepository;
 use Closure;
-use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
@@ -43,7 +42,7 @@ class VideoRepository extends StorageRepository
         return fn (StorageAttributes $file): Video => new Video([
             Video::ATTRIBUTE_BASENAME => File::basename($file->path()),
             Video::ATTRIBUTE_FILENAME => File::name($file->path()),
-            Video::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
+            Video::ATTRIBUTE_MIMETYPE => File::mimeType($file->path()),
             Video::ATTRIBUTE_PATH => $file->path(),
             Video::ATTRIBUTE_SIZE => $file->offsetGet(StorageAttributes::ATTRIBUTE_FILE_SIZE),
         ]);

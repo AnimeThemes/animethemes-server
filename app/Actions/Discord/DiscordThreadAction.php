@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Discord;
 
+use App\Actions\ActionResult;
+use App\Enums\Actions\ActionStatus;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Exception;
@@ -14,8 +16,10 @@ class DiscordThreadAction
 {
     /**
      * @param  array<string, mixed>  $fields
+     *
+     * @throws Exception
      */
-    public function handle(Anime $anime, array $fields): ?Exception
+    public function handle(Anime $anime, array $fields): ActionResult
     {
         try {
             $anime->load(Anime::RELATION_IMAGES);
@@ -44,13 +48,13 @@ class DiscordThreadAction
                     DiscordThread::ATTRIBUTE_ANIME => $anime->getKey(),
                 ]);
             }
-
-            return null;
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return $e;
+            throw $e;
         }
+
+        return new ActionResult(ActionStatus::PASSED);
     }
 
     /**

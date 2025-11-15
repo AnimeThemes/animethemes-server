@@ -34,6 +34,10 @@ abstract class StorageBulkAction extends BaseBulkAction
             $action->then($storageResults);
 
             $actionResult = $storageResults->toActionResult();
+
+            if ($actionResult->hasFailed()) {
+                $this->failedLog($actionResult->getMessage());
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class BackfillAudioAction extends BaseAction implements ShouldQueue
 {
@@ -60,6 +61,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
         try {
             $result = $action->handle();
+
             if ($result->hasFailed()) {
                 Notification::make()
                     ->body($result->getMessage())
@@ -68,9 +70,13 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
                         MarkAsReadAction::make(),
                     ])
                     ->sendToDatabase(Auth::user());
+
+                $this->failedLog($result->getMessage());
             }
         } catch (Exception $e) {
-            $this->failedLog($e);
+            Log::error($e->getMessage());
+
+            throw $e;
         }
     }
 

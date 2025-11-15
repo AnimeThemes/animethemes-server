@@ -9,7 +9,6 @@ use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\TextInput;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
-use Exception;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
@@ -33,10 +32,10 @@ class DiscordThreadAction extends BaseAction
         $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 
         $this->action(function (Anime $record, array $data): void {
-            $action = new DiscordThreadActionAction()->handle($record, $data);
+            $result = new DiscordThreadActionAction()->handle($record, $data);
 
-            if ($action instanceof Exception) {
-                $this->failedLog($action);
+            if ($result->hasFailed()) {
+                $this->failedLog($result->getMessage());
             }
         });
     }

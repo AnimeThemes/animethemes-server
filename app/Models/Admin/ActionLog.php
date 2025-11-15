@@ -393,7 +393,7 @@ class ActionLog extends Model implements Nameable
     /**
      * Check if the model status is failed.
      */
-    public function isFailed(): bool
+    public function hasFailed(): bool
     {
         return $this->status === ActionLogStatus::FAILED;
     }

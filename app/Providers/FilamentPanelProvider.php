@@ -8,7 +8,6 @@ use App\Enums\Filament\NavigationGroup;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Awcodes\Recently\RecentlyPlugin;
-use Filament\Actions\ActionGroup;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -45,10 +44,6 @@ class FilamentPanelProvider extends PanelProvider
     public function register(): void
     {
         parent::register();
-
-        ActionGroup::configureUsing(function (ActionGroup $actionGroup): void {
-            $actionGroup->dropdownPlacement('bottom-end');
-        });
 
         Column::configureUsing(function (Column $column): void {
             $column->placeholder('-');
