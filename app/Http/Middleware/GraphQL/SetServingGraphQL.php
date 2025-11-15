@@ -6,16 +6,17 @@ namespace App\Http\Middleware\GraphQL;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Context;
 
 class SetServingGraphQL
 {
+    public static $isServing = false;
+
     /**
      * @param  Closure(Request): mixed  $next
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        Context::add('serving-graphql', true);
+        static::$isServing = true;
 
         return $next($request);
     }

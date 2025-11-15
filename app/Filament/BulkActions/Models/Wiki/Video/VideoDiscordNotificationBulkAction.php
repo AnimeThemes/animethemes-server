@@ -45,7 +45,11 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
 
         $action = new DiscordVideoNotificationActionAction();
 
-        $action->handle($videos, $data);
+        $result = $action->handle($videos, $data);
+
+        if ($result->hasFailed()) {
+            $this->failedLog($result->getMessage());
+        }
     }
 
     /**

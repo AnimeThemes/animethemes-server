@@ -21,6 +21,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Sleep;
 
 class BackfillStudioAction extends BaseAction implements ShouldQueue
@@ -71,9 +72,13 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
                         MarkAsReadAction::make(),
                     ])
                     ->sendToDatabase(Auth::user());
+
+                $this->failedLog($result->getMessage());
             }
         } catch (Exception $e) {
-            $this->failedLog($e);
+            Log::error($e->getMessage());
+
+            throw $e;
         } finally {
             // Try not to upset third-party APIs
             Sleep::for(random_int(3, 5))->second();

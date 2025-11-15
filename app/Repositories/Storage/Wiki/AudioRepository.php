@@ -8,7 +8,6 @@ use App\Constants\Config\AudioConstants;
 use App\Models\Wiki\Audio;
 use App\Repositories\Storage\StorageRepository;
 use Closure;
-use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use League\Flysystem\StorageAttributes;
@@ -43,7 +42,7 @@ class AudioRepository extends StorageRepository
         return fn (StorageAttributes $file): Audio => new Audio([
             Audio::ATTRIBUTE_BASENAME => File::basename($file->path()),
             Audio::ATTRIBUTE_FILENAME => File::name($file->path()),
-            Audio::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
+            Audio::ATTRIBUTE_MIMETYPE => File::mimeType($file->path()),
             Audio::ATTRIBUTE_PATH => $file->path(),
             Audio::ATTRIBUTE_SIZE => $file->offsetGet(StorageAttributes::ATTRIBUTE_FILE_SIZE),
         ]);

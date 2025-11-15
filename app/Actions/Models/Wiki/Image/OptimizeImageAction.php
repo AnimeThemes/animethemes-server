@@ -60,9 +60,6 @@ class OptimizeImageAction
         return new ActionResult(ActionStatus::PASSED);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function convertImage(): ?string
     {
         try {

@@ -15,6 +15,7 @@ use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Middleware\GraphQL\SetServingGraphQL;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -28,7 +29,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
@@ -83,7 +83,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     {
         parent::boot();
 
-        if (! Context::get('serving-graphql')) {
+        if (! SetServingGraphQL::$isServing) {
             static::addGlobalScope(new WithoutInsertSongScope);
         }
     }

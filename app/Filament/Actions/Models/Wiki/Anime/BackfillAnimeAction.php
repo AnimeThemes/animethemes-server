@@ -12,7 +12,6 @@ use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
@@ -72,20 +71,18 @@ class BackfillAnimeAction extends BaseAction
 
         $action = new BackfillAnime($anime, $this->getToBackfill($data));
 
-        try {
-            $result = $action->handle();
+        $result = $action->handle();
 
-            if ($result->hasFailed()) {
-                Notification::make()
-                    ->body($result->getMessage())
-                    ->warning()
-                    ->actions([
-                        MarkAsReadAction::make(),
-                    ])
-                    ->sendToDatabase(Auth::user());
-            }
-        } catch (Exception $e) {
-            $this->failedLog($e);
+        if ($result->hasFailed()) {
+            Notification::make()
+                ->body($result->getMessage())
+                ->warning()
+                ->actions([
+                    MarkAsReadAction::make(),
+                ])
+                ->sendToDatabase(Auth::user());
+
+            $this->failedLog($result->getMessage());
         }
     }
 
