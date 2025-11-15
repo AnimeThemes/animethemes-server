@@ -12,6 +12,7 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Song\Performance\PerformanceAliasField;
 use App\GraphQL\Schema\Fields\Wiki\Song\Performance\PerformanceAsField;
+use App\GraphQL\Schema\Fields\Wiki\Song\Performance\PerformanceRelevanceField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\SongType;
 use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
@@ -53,6 +54,7 @@ class PerformanceType extends EloquentType implements ReportableType
             new IdField(Performance::ATTRIBUTE_ID, Performance::class),
             new PerformanceAliasField(),
             new PerformanceAsField(),
+            new PerformanceRelevanceField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
