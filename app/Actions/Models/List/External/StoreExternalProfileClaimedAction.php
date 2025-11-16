@@ -67,28 +67,26 @@ class StoreExternalProfileClaimedAction
             ->first();
 
         if ($unclaimedProfile instanceof ExternalProfile) {
-            $unclaimedProfile->update([
-                ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
-                ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
-
-            return $unclaimedProfile;
+            return tap(
+                $unclaimedProfile,
+                fn ($unclaimedProfile) => $unclaimedProfile->update([
+                    ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
+                    ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
+                    ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+                ])
+            );
         }
 
-        /** @var StoreAction<ExternalProfile> */
+        /** @var StoreAction<ExternalProfile> $storeAction */
         $storeAction = new StoreAction();
 
-        /** @var ExternalProfile $profile */
-        $profile = $storeAction->store(ExternalProfile::query(), [
+        return $storeAction->store(ExternalProfile::query(), [
             ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $userId,
             ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
             ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
             ExternalProfile::ATTRIBUTE_SITE => $site->value,
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
         ]);
-
-        return $profile;
     }
 
     /**

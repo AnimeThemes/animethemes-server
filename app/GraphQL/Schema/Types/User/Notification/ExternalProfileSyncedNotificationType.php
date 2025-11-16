@@ -10,10 +10,10 @@ use App\GraphQL\Schema\Fields\User\Notification\ExternalProfileSynced\ExternalPr
 use App\GraphQL\Schema\Fields\User\Notification\ExternalProfileSynced\ExternalProfileSyncedProfileNameField;
 use App\GraphQL\Schema\Fields\User\Notification\NotificationReadAtField;
 use App\GraphQL\Schema\Fields\User\Notification\NotificationTypeField;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\Relation;
 use App\Models\User\Notification;
 
 class ExternalProfileSyncedNotificationType extends EloquentType

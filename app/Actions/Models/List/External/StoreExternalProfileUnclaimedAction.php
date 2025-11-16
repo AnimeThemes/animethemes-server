@@ -22,7 +22,6 @@ class StoreExternalProfileUnclaimedAction
     /**
      * Get the first record or store an external profile and its entries given determined username.
      *
-     *
      * @throws Exception
      */
     public function firstOrCreate(Builder $builder, array $profileParameters): ExternalProfile
@@ -51,9 +50,9 @@ class StoreExternalProfileUnclaimedAction
 
             $action = static::getActionClass($profileSite, $profileParameters);
 
+            /** @var StoreAction<ExternalProfile> $storeAction */
             $storeAction = new StoreAction();
 
-            /** @var ExternalProfile $profile */
             $profile = $storeAction->store($builder, [
                 ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getUserId(),
                 ExternalProfile::ATTRIBUTE_NAME => $name,

@@ -34,7 +34,7 @@ class DatabaseSyncCommand extends BaseCommand
 
         Schema::dropDatabaseIfExists($database);
         Schema::createDatabase($database);
-        DB::statement("USE {$database}");
+        DB::statement("USE `{$database}`");
 
         $this->info('Importing wiki dump');
         $wiki = Http::get('https://dump.animethemes.moe/latest/wiki')->body();

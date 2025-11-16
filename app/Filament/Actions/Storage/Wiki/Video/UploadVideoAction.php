@@ -55,6 +55,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File as FileRule;
@@ -95,26 +96,22 @@ class UploadVideoAction extends UploadAction
                                         Checkbox::make(Video::ATTRIBUTE_NC)
                                             ->label(__('filament.fields.video.nc.name'))
                                             ->helperText(__('filament.fields.video.nc.help'))
-                                            ->nullable()
-                                            ->rules(['boolean']),
+                                            ->nullable(),
 
                                         Checkbox::make(Video::ATTRIBUTE_SUBBED)
                                             ->label(__('filament.fields.video.subbed.name'))
                                             ->helperText(__('filament.fields.video.subbed.help'))
-                                            ->nullable()
-                                            ->rules(['boolean']),
+                                            ->nullable(),
 
                                         Checkbox::make(Video::ATTRIBUTE_LYRICS)
                                             ->label(__('filament.fields.video.lyrics.name'))
                                             ->helperText(__('filament.fields.video.lyrics.help'))
-                                            ->nullable()
-                                            ->rules(['boolean']),
+                                            ->nullable(),
 
                                         Checkbox::make(Video::ATTRIBUTE_UNCEN)
                                             ->label(__('filament.fields.video.uncen.name'))
                                             ->helperText(__('filament.fields.video.uncen.help'))
-                                            ->nullable()
-                                            ->rules(['boolean']),
+                                            ->nullable(),
 
                                         Select::make(Video::ATTRIBUTE_OVERLAP)
                                             ->label(__('filament.fields.video.overlap.name'))
@@ -210,7 +207,7 @@ class UploadVideoAction extends UploadAction
 
         if ($path === null) {
             $video = Video::query()->firstWhere(Video::ATTRIBUTE_BASENAME, $file->getClientOriginalName());
-            $path = $video instanceof Video ? Str::beforeLast($video->path(), '/') : '';
+            $path = $video instanceof Video ? File::dirname($video->path()) : '';
         }
 
         $attributes = [
@@ -231,21 +228,19 @@ class UploadVideoAction extends UploadAction
      * @param  Video  $video
      * @param  array<string, mixed>  $data
      */
-    protected function afterUploaded(?Model $video, array $data): void
+    protected function afterStorageAction(?Model $video, array $data): void
     {
-        $shouldBackfill = Arr::get($data, ShouldBackfillAudio::getFieldKey());
-        $shouldSendNot = Arr::get($data, ShouldSendNotification::getFieldKey());
+        $shouldBackfillAudio = Arr::get($data, ShouldBackfillAudio::getFieldKey());
+        $shouldSendNotification = Arr::get($data, ShouldSendNotification::getFieldKey());
 
-        if ($shouldBackfill === ShouldBackfillAudio::YES) {
-            $backfillAudioAction = new BackfillAudioAction('audio');
-            $backfillAudioAction->handle($video, $data);
+        if ($shouldBackfillAudio === ShouldBackfillAudio::YES) {
+            BackfillAudioAction::make()->handle($video, $data);
         }
 
-        if ($shouldSendNot === ShouldSendNotification::YES) {
+        if ($shouldSendNotification === ShouldSendNotification::YES) {
             $videos = new Collection([$video]);
 
-            $discordNotificationAction = new VideoDiscordNotificationBulkAction('discord');
-            $discordNotificationAction->handle($videos, $data);
+            VideoDiscordNotificationBulkAction::make()->handle($videos, $data);
         }
     }
 

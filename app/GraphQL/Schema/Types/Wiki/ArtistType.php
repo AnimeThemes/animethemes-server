@@ -13,17 +13,17 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Artist\ArtistInformationField;
 use App\GraphQL\Schema\Fields\Wiki\Artist\ArtistNameField;
 use App\GraphQL\Schema\Fields\Wiki\Artist\ArtistSlugField;
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\MorphManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\ArtistMemberType;
 use App\GraphQL\Schema\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\MorphManyRelation;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Artist;
 
 class ArtistType extends EloquentType implements ReportableType

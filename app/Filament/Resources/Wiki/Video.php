@@ -96,23 +96,19 @@ class Video extends BaseResource
 
                 Checkbox::make(VideoModel::ATTRIBUTE_NC)
                     ->label(__('filament.fields.video.nc.name'))
-                    ->helperText(__('filament.fields.video.nc.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.video.nc.help')),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_SUBBED)
                     ->label(__('filament.fields.video.subbed.name'))
-                    ->helperText(__('filament.fields.video.subbed.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.video.subbed.help')),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_LYRICS)
                     ->label(__('filament.fields.video.lyrics.name'))
-                    ->helperText(__('filament.fields.video.lyrics.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.video.lyrics.help')),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_UNCEN)
                     ->label(__('filament.fields.video.uncen.name'))
-                    ->helperText(__('filament.fields.video.uncen.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.video.uncen.help')),
 
                 Select::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))

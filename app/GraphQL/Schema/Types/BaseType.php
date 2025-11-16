@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Types;
 
 use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\Relation;
 use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Type as RebingType;
 

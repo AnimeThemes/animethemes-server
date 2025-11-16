@@ -14,14 +14,14 @@ use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\AnimeThemeSequenceField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\AnimeThemeSlugField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\AnimeThemeTypeField;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
 use App\GraphQL\Schema\Types\Wiki\SongType;
 use App\GraphQL\Schema\Types\Wiki\ThemeGroupType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime\AnimeTheme;
 
 class AnimeThemeType extends EloquentType implements ReportableType

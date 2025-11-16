@@ -12,11 +12,11 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Song\Membership\MembershipAliasField;
 use App\GraphQL\Schema\Fields\Wiki\Song\Membership\MembershipAsField;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\MorphManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\ArtistType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\MorphManyRelation;
-use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Song\Membership;
 
 class MembershipType extends EloquentType implements ReportableType

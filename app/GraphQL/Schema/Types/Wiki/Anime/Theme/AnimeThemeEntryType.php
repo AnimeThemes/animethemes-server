@@ -17,16 +17,16 @@ use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNsfwField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntrySpoilerField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryTracksCountField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryVersionField;
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Schema\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 class AnimeThemeEntryType extends EloquentType implements ReportableType

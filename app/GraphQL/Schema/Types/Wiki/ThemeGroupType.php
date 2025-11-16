@@ -12,10 +12,10 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\ThemeGroup\ThemeGroupNameField;
 use App\GraphQL\Schema\Fields\Wiki\ThemeGroup\ThemeGroupSlugField;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\Relation;
 use App\Models\Wiki\Group;
 
 class ThemeGroupType extends EloquentType implements ReportableType

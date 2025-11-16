@@ -40,6 +40,6 @@ trait CanCreateStudio
                 ExternalResource::ATTRIBUTE_LINK => $site->formatResourceLink(Studio::class, $id),
             ]);
 
-        $resource->studios()->attach($studio);
+        $resource->studios()->syncWithoutDetaching($studio);
     }
 }
