@@ -107,8 +107,7 @@ class ExternalEntry extends BaseResource
 
                 Checkbox::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))
-                    ->helperText(__('filament.fields.external_entry.is_favorite.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.external_entry.is_favorite.help')),
             ])
             ->columns(1);
     }

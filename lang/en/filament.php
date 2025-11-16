@@ -456,9 +456,9 @@ return [
         ],
         'discord' => [
             'notification' => [
-                'name' => 'Create Discord Notification',
+                'name' => 'Send Discord Notification',
                 'should_send' => [
-                    'help' => 'If yes, the notification will be created.',
+                    'help' => 'If yes, the notification will be sent.',
                     'name' => 'Should send notification?',
                 ],
                 'type' => [
@@ -750,7 +750,7 @@ return [
         ],
         'membership' => [
             'alias' => [
-                'help' => 'Used in place of the Member if the performance is using an alias.',
+                'help' => 'Used in place of the Member name if the performance is using an alias.',
                 'name' => 'Alias',
             ],
             'as' => [
@@ -776,7 +776,7 @@ return [
         ],
         'performance' => [
             'alias' => [
-                'help' => 'Used in place of the Artist if the performance is using an alias.',
+                'help' => 'Used in place of the Artist name if the performance is using an alias.',
                 'name' => 'Alias',
             ],
             'artist' => 'Artist',
@@ -788,7 +788,7 @@ return [
                 'name' => 'Load Members',
             ],
             'memberships' => [
-                'help' => 'When a group and its members are credited, you need to add the members (called memberships) that performed the song.',
+                'help' => 'When a group and its members are credited, you must include the individual members (called memberships) who performed the song.',
             ],
         ],
         'permission' => [

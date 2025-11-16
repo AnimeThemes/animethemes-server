@@ -31,7 +31,7 @@ abstract class StorageAction extends BaseAction
      *
      * @param  array<string, mixed>  $data
      */
-    protected function afterUploaded(?Model $record, array $data): void {}
+    protected function afterStorageAction(?Model $record, array $data): void {}
 
     /**
      * @param  array<string, mixed>  $data
@@ -56,7 +56,7 @@ abstract class StorageAction extends BaseAction
             return;
         }
 
-        $this->afterUploaded($record, $data);
+        $this->afterStorageAction($record, $data);
 
         $livewire = $this->getLivewire();
         if ($livewire instanceof BaseRelationManager && $record instanceof Model) {

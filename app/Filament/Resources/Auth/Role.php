@@ -82,8 +82,7 @@ class Role extends BaseResource
 
                 Checkbox::make(RoleModel::ATTRIBUTE_DEFAULT)
                     ->label(__('filament.fields.role.default.name'))
-                    ->helperText(__('filament.fields.role.default.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.role.default.help')),
 
                 ColorPicker::make(RoleModel::ATTRIBUTE_COLOR)
                     ->label(__('filament.fields.role.color.name'))

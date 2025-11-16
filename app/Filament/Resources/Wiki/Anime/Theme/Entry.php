@@ -145,13 +145,11 @@ class Entry extends BaseResource
 
                 Checkbox::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
-                    ->helperText(__('filament.fields.anime_theme_entry.nsfw.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.anime_theme_entry.nsfw.help')),
 
                 Checkbox::make(EntryModel::ATTRIBUTE_SPOILER)
                     ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
-                    ->helperText(__('filament.fields.anime_theme_entry.spoiler.help'))
-                    ->rules(['boolean']),
+                    ->helperText(__('filament.fields.anime_theme_entry.spoiler.help')),
 
                 TextInput::make(EntryModel::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
