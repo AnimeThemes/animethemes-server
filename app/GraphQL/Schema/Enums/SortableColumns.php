@@ -47,8 +47,8 @@ class SortableColumns extends EnumType
 
         return [
             'name' => $name.self::SUFFIX,
-            'values' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort->__toString()])->toArray(),
-            'criterias' => $this->getCriterias()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort])->toArray(),
+            'values' => $this->getCriteria()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort->__toString()])->toArray(),
+            'criteria' => $this->getCriteria()->mapWithKeys(fn (SortCriteria $sort): array => [$sort->__toString() => $sort])->toArray(),
         ];
     }
 
@@ -61,17 +61,17 @@ class SortableColumns extends EnumType
             ->filter(fn (Field $field): bool => $field instanceof SortableField);
     }
 
-    private function getCriterias(): Collection
+    private function getCriteria(): Collection
     {
-        return $this->getFieldSortCriterias()
-            ->merge($this->getPivotSortCriterias())
-            ->merge($this->getCountSortCriterias())
-            ->merge($this->getAggregateSortCriterias())
-            ->merge($this->getRelationSortCriterias())
+        return $this->getFieldSortCriteria()
+            ->merge($this->getPivotSortCriteria())
+            ->merge($this->getCountSortCriteria())
+            ->merge($this->getAggregateSortCriteria())
+            ->merge($this->getRelationSortCriteria())
             ->push(new RandomSortCriteria());
     }
 
-    private function getFieldSortCriterias(): Collection
+    private function getFieldSortCriteria(): Collection
     {
         return $this->getSortableFields()
             ->filter(fn (Field $field): bool => $field->sortType() === SortType::ROOT)
@@ -82,7 +82,7 @@ class SortableColumns extends EnumType
             ->flatten();
     }
 
-    private function getPivotSortCriterias(): Collection
+    private function getPivotSortCriteria(): Collection
     {
         return collect($this->pivotType?->fieldClasses() ?? [])
             ->filter(fn (Field $field): bool => $field instanceof SortableField)
@@ -93,7 +93,7 @@ class SortableColumns extends EnumType
             ->flatten();
     }
 
-    private function getCountSortCriterias(): Collection
+    private function getCountSortCriteria(): Collection
     {
         return $this->getSortableFields()
             ->filter(fn (Field $field): bool => $field->sortType() === SortType::COUNT_RELATION)
@@ -104,7 +104,7 @@ class SortableColumns extends EnumType
             ->flatten();
     }
 
-    private function getAggregateSortCriterias(): Collection
+    private function getAggregateSortCriteria(): Collection
     {
         return $this->getSortableFields()
             ->filter(fn (Field $field): bool => $field->sortType() === SortType::AGGREGATE)
@@ -115,7 +115,7 @@ class SortableColumns extends EnumType
             ->flatten();
     }
 
-    private function getRelationSortCriterias(): Collection
+    private function getRelationSortCriteria(): Collection
     {
         return $this->getRelations($this->type)
             ->flatMap(fn (Collection $fields, $relation) => $fields->map(fn (Field&SortableField $field): array => [

@@ -22,12 +22,16 @@ class RelationSortCriteria extends SortCriteria
 
     /**
      * Build the enum case for a direction.
-     * Template: {RELATION}_{COLUMN}.
-     * Template: {RELATION}_{COLUMN}_DESC.
+     * Template: {RELATION}_{FIELD_NAME}.
+     * Template: {RELATION}_{FIELD_NAME}_DESC.
      */
     public function __toString(): string
     {
-        $name = Str::of($this->relation.'_'.$this->field->getName())->snake()->upper();
+        $name = Str::of($this->relation)
+            ->append('_')
+            ->append($this->field->getName())
+            ->snake()
+            ->upper();
 
         return (string) match ($this->direction) {
             SortDirection::ASC => $name,

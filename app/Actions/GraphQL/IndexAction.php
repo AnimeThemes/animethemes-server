@@ -62,12 +62,12 @@ class IndexAction
         $searchBuilder->withPagination($first, $page);
 
         $sorts = Arr::get($args, SortArgument::ARGUMENT, []);
-        $criterias = Arr::get(new SortableColumns($type)->getAttributes(), 'criterias');
+        $sortCriteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
 
         $sortsRaw = [];
         foreach ($sorts as $sort) {
             /** @var SortCriteria $criteria */
-            $criteria = Arr::get($criterias, $sort);
+            $criteria = Arr::get($sortCriteria, $sort);
 
             $column = $criteria->getField()->getColumn();
             $direction = $criteria->getDirection();

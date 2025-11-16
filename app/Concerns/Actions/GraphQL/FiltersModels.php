@@ -18,9 +18,9 @@ trait FiltersModels
             return $builder;
         }
 
-        $criterias = FilterCriteria::parse($type, $args);
+        $filterCriteria = FilterCriteria::parse($type, $args);
 
-        foreach ($criterias as $criteria) {
+        foreach ($filterCriteria as $criteria) {
             $criteria->filter($builder);
         }
 

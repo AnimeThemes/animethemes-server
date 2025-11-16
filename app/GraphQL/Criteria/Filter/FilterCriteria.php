@@ -42,16 +42,16 @@ abstract class FilterCriteria
     {
         $filters = static::getFilters($type);
 
-        $criterias = [];
+        $criteria = [];
         foreach ($args as $arg => $value) {
             $filter = $filters->first(fn (Filter $filter): bool => $filter->argument()->getName() === $arg);
 
             if ($filter instanceof Filter) {
-                $criterias[] = $filter->criteria($value);
+                $criteria[] = $filter->criteria($value);
             }
         }
 
-        return $criterias;
+        return $criteria;
     }
 
     /**
