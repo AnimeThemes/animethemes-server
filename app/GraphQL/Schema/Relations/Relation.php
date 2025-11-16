@@ -7,7 +7,7 @@ namespace App\GraphQL\Schema\Relations;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Enums\GraphQL\PaginationType;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
+use App\GraphQL\Criteria\Filter\FilterCriteria;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Unions\BaseUnion;
@@ -15,7 +15,7 @@ use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\FirstArgument;
 use App\GraphQL\Support\Argument\PageArgument;
 use App\GraphQL\Support\Argument\SortArgument;
-use App\GraphQL\Support\Argument\TrashedArgument;
+use App\GraphQL\Support\Filter\Filter;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -88,7 +88,8 @@ abstract class Relation
         $type = $this->baseType;
 
         if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType) {
-            $arguments[] = $this->resolveFilterArguments($type->fieldClasses());
+            $arguments[] = FilterCriteria::getFilters($type)
+                ->map(fn (Filter $filter): Argument => $filter->argument());
         }
 
         if ($this->paginationType() !== PaginationType::NONE) {
@@ -98,10 +99,6 @@ abstract class Relation
             if ($type instanceof BaseType) {
                 $arguments[] = new SortArgument($type);
             }
-        }
-
-        if ($type instanceof BaseType && in_array(new DeletedAtField(), $type->fieldClasses())) {
-            $arguments[] = new TrashedArgument();
         }
 
         return Arr::flatten($arguments);

@@ -7,12 +7,14 @@ namespace App\GraphQL\Schema\Queries;
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\GraphQL\Criteria\Filter\FilterCriteria;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\FirstArgument;
 use App\GraphQL\Support\Argument\PageArgument;
 use App\GraphQL\Support\Argument\SortArgument;
+use App\GraphQL\Support\Filter\Filter;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -66,7 +68,7 @@ abstract class BaseQuery extends Query
         }
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveFilterArguments($baseType->fieldClasses());
+            $arguments[] = FilterCriteria::getFilters($baseType)->map(fn (Filter $filter): Argument => $filter->argument());
         }
 
         if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery) {

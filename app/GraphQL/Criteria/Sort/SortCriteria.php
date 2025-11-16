@@ -30,14 +30,18 @@ abstract class SortCriteria implements Stringable
 
     /**
      * Build the enum case for a direction.
-     * Template: {COLUMN}.
-     * Template: {COLUMN}_DESC.
+     * Template: {FIELD_NAME}.
+     * Template: {FIELD_NAME}_DESC.
      */
     public function __toString(): string
     {
+        $name = Str::of($this->field->getName())
+            ->snake()
+            ->upper();
+
         return (string) match ($this->direction) {
-            SortDirection::ASC => Str::of($this->field->getName())->snake()->upper(),
-            SortDirection::DESC => Str::of($this->field->getName())->snake()->upper()->append('_DESC'),
+            SortDirection::ASC => $name,
+            SortDirection::DESC => $name->append('_DESC'),
         };
     }
 

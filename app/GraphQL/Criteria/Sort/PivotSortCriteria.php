@@ -23,14 +23,19 @@ class PivotSortCriteria extends SortCriteria
 
     /**
      * Build the enum case for a direction.
-     * Template: PIVOT_{COLUMN}.
-     * Template: PIVOT_{COLUMN}_DESC.
+     * Template: PIVOT_{FIELD_NAME}.
+     * Template: PIVOT_{FIELD_NAME}_DESC.
      */
     public function __toString(): string
     {
+        $name = Str::of($this->field->getName())
+            ->snake()
+            ->upper()
+            ->prepend('PIVOT_');
+
         return (string) match ($this->direction) {
-            SortDirection::ASC => Str::of($this->field->getName())->snake()->upper()->prepend('PIVOT_'),
-            SortDirection::DESC => Str::of($this->field->getName())->snake()->upper()->prepend('PIVOT_')->append('_DESC'),
+            SortDirection::ASC => $name,
+            SortDirection::DESC => $name->append('_DESC'),
         };
     }
 

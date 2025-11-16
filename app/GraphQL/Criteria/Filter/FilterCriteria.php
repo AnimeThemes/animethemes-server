@@ -5,27 +5,31 @@ declare(strict_types=1);
 namespace App\GraphQL\Criteria\Filter;
 
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Support\Argument\TrashedArgument;
 use App\GraphQL\Support\Filter\Filter;
 use App\GraphQL\Support\Filter\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 abstract class FilterCriteria
 {
     /**
-     * @return Collection<string, Filter>
+     * @return Collection<int, Filter>
      */
     public static function getFilters(BaseType $baseType): Collection
     {
-        return collect($baseType->fieldClasses())
+        $fields = $baseType->fieldClasses();
+
+        return collect($fields)
             ->filter(fn (Field $field): bool => $field instanceof FilterableField)
-            ->flatMap(fn (Field&FilterableField $field) => collect($field->getFilters())
-                ->mapWithKeys(fn (Filter $filter): array => [$filter->argument()->name => $filter]))
-            ->put(new TrashedArgument()->name, new TrashedFilter());
+            ->map(fn (Field&FilterableField $field): array => $field->getFilters())
+            ->flatten()
+            ->when(
+                in_array(new DeletedAtField(), $fields),
+                fn (Collection $collection) => $collection->push(new TrashedFilter())
+            );
     }
 
     /**
@@ -38,16 +42,16 @@ abstract class FilterCriteria
     {
         $filters = static::getFilters($type);
 
-        $criterias = [];
+        $criteria = [];
         foreach ($args as $arg => $value) {
-            $filter = Arr::get($filters, $arg);
+            $filter = $filters->first(fn (Filter $filter): bool => $filter->argument()->getName() === $arg);
 
             if ($filter instanceof Filter) {
-                $criterias[] = $filter->criteria($value);
+                $criteria[] = $filter->criteria($value);
             }
         }
 
-        return $criterias;
+        return $criteria;
     }
 
     /**

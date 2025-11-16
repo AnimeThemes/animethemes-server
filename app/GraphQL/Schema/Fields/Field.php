@@ -74,8 +74,8 @@ abstract class Field
     {
         return collect($this->arguments())
             ->mapWithKeys(fn (Argument $argument): array => [
-                $argument->name => [
-                    'name' => $argument->name,
+                $argument->getName() => [
+                    'name' => $argument->getName(),
                     'type' => $argument->getType(),
 
                     ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),

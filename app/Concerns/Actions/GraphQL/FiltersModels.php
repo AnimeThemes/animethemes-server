@@ -18,10 +18,10 @@ trait FiltersModels
             return $builder;
         }
 
-        $criterias = FilterCriteria::parse($type, $args);
+        $criteria = FilterCriteria::parse($type, $args);
 
-        foreach ($criterias as $criteria) {
-            $criteria->filter($builder);
+        foreach ($criteria as $criterion) {
+            $criterion->filter($builder);
         }
 
         return $builder;

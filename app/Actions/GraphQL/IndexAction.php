@@ -62,17 +62,17 @@ class IndexAction
         $searchBuilder->withPagination($first, $page);
 
         $sorts = Arr::get($args, SortArgument::ARGUMENT, []);
-        $criterias = Arr::get(new SortableColumns($type)->getAttributes(), 'criterias');
+        $criteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
 
         $sortsRaw = [];
         foreach ($sorts as $sort) {
-            /** @var SortCriteria $criteria */
-            $criteria = Arr::get($criterias, $sort);
+            /** @var SortCriteria $criterion */
+            $criterion = Arr::get($criteria, $sort);
 
-            $column = $criteria->getField()->getColumn();
-            $direction = $criteria->getDirection();
-            $sortType = $criteria->getField()->sortType();
-            $isString = $criteria->getField() instanceof StringField;
+            $column = $criterion->getField()->getColumn();
+            $direction = $criterion->getDirection();
+            $sortType = $criterion->getField()->sortType();
+            $isString = $criterion->getField() instanceof StringField;
 
             if ($sortType === SortType::ROOT) {
                 $sortsRaw[$column] = [
@@ -81,11 +81,11 @@ class IndexAction
                 ];
             }
 
-            if ($criteria instanceof RelationSortCriteria) {
+            if ($criterion instanceof RelationSortCriteria) {
                 $sortsRaw[$column] = [
                     'direction' => $direction->value,
                     'isString' => $isString,
-                    'relation' => $criteria->relation,
+                    'relation' => $criterion->relation,
                 ];
             }
         }
