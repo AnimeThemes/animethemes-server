@@ -9,7 +9,7 @@ use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\SortArgument;
-use App\GraphQL\Support\Relations\Relation as GraphQLRelation;
+use App\GraphQL\Schema\Relations\Relation as GraphQLRelation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;

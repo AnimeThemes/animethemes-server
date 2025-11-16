@@ -10,9 +10,9 @@ use App\GraphQL\Schema\Fields\User\Like\LikePlaylistField;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Unions\LikedUnion;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\MorphToRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\MorphToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\User\Like;
 
 class LikeType extends EloquentType

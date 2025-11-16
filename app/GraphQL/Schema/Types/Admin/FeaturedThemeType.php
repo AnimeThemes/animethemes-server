@@ -14,8 +14,8 @@ use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Admin\FeaturedTheme;
 
 class FeaturedThemeType extends EloquentType

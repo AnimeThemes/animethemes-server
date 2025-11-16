@@ -16,9 +16,9 @@ use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\Studio;
 
 class StudioType extends EloquentType implements ReportableType

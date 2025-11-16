@@ -13,10 +13,10 @@ use App\GraphQL\Schema\Inputs\Relations\CreateBelongsToManyInput;
 use App\GraphQL\Schema\Inputs\Relations\CreateHasManyInput;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Support\InputField;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use Illuminate\Support\Arr;
 
 class CreateInput extends Input

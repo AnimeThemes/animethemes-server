@@ -24,10 +24,10 @@ use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeSeriesType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
-use App\GraphQL\Support\Relations\BelongsToManyRelation;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\Anime;
 
 class AnimeType extends EloquentType implements ReportableType

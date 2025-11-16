@@ -12,9 +12,9 @@ use App\GraphQL\Schema\Fields\Pivot\Morph\Imageable\ImageableDepthField;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Types\Wiki\ImageType;
 use App\GraphQL\Schema\Unions\ImageableUnion;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\MorphToRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\MorphToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Pivots\Morph\Imageable;
 
 class ImageableType extends PivotType implements ReportableType

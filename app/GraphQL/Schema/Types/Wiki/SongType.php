@@ -16,9 +16,9 @@ use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\Song;
 
 class SongType extends EloquentType implements ReportableType

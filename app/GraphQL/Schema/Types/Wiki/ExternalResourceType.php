@@ -16,8 +16,8 @@ use App\GraphQL\Schema\Fields\Wiki\ExternalResource\ExternalResourceLinkField;
 use App\GraphQL\Schema\Fields\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\ExternalResource;
 
 class ExternalResourceType extends EloquentType implements ReportableType

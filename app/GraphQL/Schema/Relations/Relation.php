@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Relations;
+namespace App\GraphQL\Schema\Relations;
 
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;

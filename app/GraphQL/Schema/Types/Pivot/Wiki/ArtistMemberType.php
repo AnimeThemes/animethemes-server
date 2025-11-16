@@ -14,8 +14,8 @@ use App\GraphQL\Schema\Fields\Pivot\Wiki\ArtistMember\ArtistMemberNotesField;
 use App\GraphQL\Schema\Fields\Pivot\Wiki\ArtistMember\ArtistMemberRelevanceField;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Types\Wiki\ArtistType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Pivots\Wiki\ArtistMember;
 
 class ArtistMemberType extends PivotType implements ReportableType

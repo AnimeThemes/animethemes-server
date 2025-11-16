@@ -16,8 +16,8 @@ use App\GraphQL\Schema\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Schema\Fields\Wiki\Image\ImagePathField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
-use App\GraphQL\Support\Relations\MorphToManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\Image;
 
 class ImageType extends EloquentType implements ReportableType

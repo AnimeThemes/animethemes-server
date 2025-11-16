@@ -15,8 +15,8 @@ use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\List\External\ExternalEntry;
 
 class ExternalEntryType extends EloquentType

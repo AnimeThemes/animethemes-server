@@ -11,8 +11,8 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 class AnimeThemeEntryVideoType extends PivotType implements ReportableType

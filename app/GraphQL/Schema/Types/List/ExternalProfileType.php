@@ -15,9 +15,9 @@ use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\External\ExternalEntryType;
-use App\GraphQL\Support\Relations\BelongsToRelation;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\List\ExternalProfile;
 
 class ExternalProfileType extends EloquentType

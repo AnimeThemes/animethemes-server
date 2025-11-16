@@ -6,7 +6,7 @@ namespace App\Concerns\Actions\GraphQL;
 
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Support\ResolveInfo as CustomResolveInfo;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;

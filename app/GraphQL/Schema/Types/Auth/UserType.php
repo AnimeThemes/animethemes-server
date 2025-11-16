@@ -11,8 +11,8 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
-use App\GraphQL\Support\Relations\HasManyRelation;
-use App\GraphQL\Support\Relations\Relation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Auth\User;
 
 class UserType extends EloquentType
