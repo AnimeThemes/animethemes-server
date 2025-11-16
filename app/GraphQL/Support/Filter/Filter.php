@@ -15,6 +15,11 @@ abstract class Filter
         protected mixed $defaultValue = null,
     ) {}
 
+    public function getFieldName(): string
+    {
+        return $this->field->getName();
+    }
+
     public function getColumn(): string
     {
         return $this->field->getColumn();

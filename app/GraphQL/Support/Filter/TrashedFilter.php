@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Support\Filter;
 
+use App\Enums\GraphQL\TrashedFilter as TrashedFilterEnum;
 use App\GraphQL\Criteria\Filter\TrashedFilterCriteria;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\TrashedArgument;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class TrashedFilter extends Filter
 {
@@ -19,7 +20,8 @@ class TrashedFilter extends Filter
 
     public function argument(): Argument
     {
-        return new TrashedArgument();
+        return new Argument('trashed', GraphQL::type(class_basename(TrashedFilterEnum::class)))
+            ->withDefaultValue(TrashedFilterEnum::WITHOUT);
     }
 
     public function criteria(mixed $value): TrashedFilterCriteria

@@ -6,14 +6,12 @@ namespace App\Concerns\GraphQL;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Support\Argument\Argument;
 use App\GraphQL\Support\Argument\BindableArgument;
-use App\GraphQL\Support\Filter\Filter;
 
 trait ResolvesArguments
 {
@@ -33,25 +31,6 @@ trait ResolvesArguments
                     ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),
                 ],
             ])
-            ->toArray();
-    }
-
-    /**
-     * Resolve the fields into arguments that are used for filtering.
-     *
-     * @param  Field[]  $fields
-     * @return Argument[]
-     */
-    protected function resolveFilterArguments(array $fields): array
-    {
-        return collect($fields)
-            ->filter(fn (Field $field): bool => $field instanceof FilterableField)
-            ->map(
-                fn (FilterableField $field) => collect($field->getFilters())
-                    ->map(fn (Filter $filter): Argument => $filter->argument())
-                    ->toArray()
-            )
-            ->flatten()
             ->toArray();
     }
 
