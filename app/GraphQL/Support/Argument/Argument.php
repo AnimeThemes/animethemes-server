@@ -11,11 +11,6 @@ class Argument
     protected bool $required = false;
     protected mixed $defaultValue = null;
 
-    /**
-     * @var array<string, array>
-     */
-    protected array $directives = [];
-
     public function __construct(
         protected string $name,
         public Type|string $returnType,
