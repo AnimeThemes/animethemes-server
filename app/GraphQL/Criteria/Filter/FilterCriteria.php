@@ -44,7 +44,7 @@ abstract class FilterCriteria
 
         $criterias = [];
         foreach ($args as $arg => $value) {
-            $filter = $filters->first(fn (Filter $filter): bool => $filter->getFieldName() === $arg);
+            $filter = $filters->first(fn (Filter $filter): bool => $filter->argument()->getName() === $arg);
 
             if ($filter instanceof Filter) {
                 $criterias[] = $filter->criteria($value);

@@ -17,7 +17,7 @@ class Argument
     protected array $directives = [];
 
     public function __construct(
-        public string $name,
+        protected string $name,
         public Type|string $returnType,
     ) {}
 
@@ -39,6 +39,14 @@ class Argument
         $this->defaultValue = $value;
 
         return $this;
+    }
+
+    /**
+     * Get the name of the argument.
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**
