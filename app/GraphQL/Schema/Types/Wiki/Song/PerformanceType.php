@@ -13,12 +13,12 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Song\Performance\PerformanceAliasField;
 use App\GraphQL\Schema\Fields\Wiki\Song\Performance\PerformanceAsField;
 use App\GraphQL\Schema\Fields\Wiki\Song\Performance\PerformanceRelevanceField;
-use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Types\Wiki\SongType;
-use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\GraphQL\Schema\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Relations\MorphToRelation;
 use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\Wiki\SongType;
+use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\Models\Wiki\Song\Performance;
 
 class PerformanceType extends EloquentType implements ReportableType

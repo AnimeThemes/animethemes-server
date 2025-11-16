@@ -12,11 +12,11 @@ use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryIs
 use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryScoreField;
 use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\Models\List\External\ExternalEntry;
 
 class ExternalEntryType extends EloquentType

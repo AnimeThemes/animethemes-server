@@ -17,6 +17,10 @@ use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSeasonField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSlugField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSynopsisField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYearField;
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
@@ -24,10 +28,6 @@ use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeSeriesType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\Anime;
 
 class AnimeType extends EloquentType implements ReportableType

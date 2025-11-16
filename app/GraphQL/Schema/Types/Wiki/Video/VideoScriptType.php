@@ -11,10 +11,10 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoScript\VideoScriptLinkField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoScript\VideoScriptPathField;
-use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\GraphQL\Schema\Relations\HasOneRelation;
 use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\Models\Wiki\Video\VideoScript;
 
 class VideoScriptType extends EloquentType

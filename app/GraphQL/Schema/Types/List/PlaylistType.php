@@ -15,15 +15,15 @@ use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTracksCountField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTracksExistsField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistVisibilityField;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Wiki\ImageType;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\Models\List\Playlist;
 
 class PlaylistType extends EloquentType

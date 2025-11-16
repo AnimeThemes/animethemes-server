@@ -10,12 +10,12 @@ use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Admin\FeaturedTheme;
 
 class FeaturedThemeType extends EloquentType

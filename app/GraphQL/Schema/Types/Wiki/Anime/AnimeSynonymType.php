@@ -13,10 +13,10 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTextField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTypeField;
-use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Types\Wiki\AnimeType;
 use App\GraphQL\Schema\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\Wiki\AnimeType;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
 class AnimeSynonymType extends EloquentType implements ReportableType

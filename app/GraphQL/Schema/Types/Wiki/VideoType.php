@@ -26,14 +26,14 @@ use App\GraphQL\Schema\Fields\Wiki\Video\VideoSubbedField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoTagsField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoUncenField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoViewsCountField;
-use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
-use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
-use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Schema\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Relations\HasOneRelation;
 use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
+use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
+use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 use App\Models\Wiki\Video;
 
 class VideoType extends EloquentType implements ReportableType

@@ -12,13 +12,13 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Song\SongTitleField;
 use App\GraphQL\Schema\Fields\Wiki\Song\SongTitleNativeField;
+use App\GraphQL\Schema\Relations\HasManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\Models\Wiki\Song;
 
 class SongType extends EloquentType implements ReportableType

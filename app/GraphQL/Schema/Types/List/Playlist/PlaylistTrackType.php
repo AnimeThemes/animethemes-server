@@ -13,12 +13,12 @@ use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackNextField
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPreviousField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackVideoIdField;
+use App\GraphQL\Schema\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\Models\List\Playlist\PlaylistTrack;
 
 class PlaylistTrackType extends EloquentType

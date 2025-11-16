@@ -12,10 +12,10 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Wiki\Series\SeriesNameField;
 use App\GraphQL\Schema\Fields\Wiki\Series\SeriesSlugField;
-use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeSeriesType;
 use App\GraphQL\Schema\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeSeriesType;
 use App\Models\Wiki\Series;
 
 class SeriesType extends EloquentType implements ReportableType
