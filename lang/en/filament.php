@@ -493,7 +493,7 @@ return [
         ],
         'anime_synonym' => [
             'text' => [
-                'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings',
+                'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings.',
                 'name' => 'Text',
             ],
             'type' => [
@@ -507,7 +507,7 @@ return [
                 'name' => 'Episodes',
             ],
             'notes' => [
-                'help' => 'Any additional information not included in other fields that may be useful',
+                'help' => 'Any additional information not included in other fields that may be useful.',
                 'name' => 'Notes',
             ],
             'nsfw' => [
@@ -532,7 +532,7 @@ return [
                 'name' => 'Sequence',
             ],
             'slug' => [
-                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "-" replacing spaces. These should be unique within the scope of the anime. Ex: "OP1", "ED1", "OP2-Dub".',
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "-" replacing spaces. These should be unique within the scope of the anime. Ex: "OP1", "ED1", "OP2-EN".',
                 'name' => 'Slug',
             ],
             'type' => [
@@ -554,7 +554,7 @@ return [
                 'name' => 'Slug',
             ],
             'synopsis' => [
-                'help' => 'The brief description of the Anime',
+                'help' => 'The brief description of the Anime.',
                 'name' => 'Synopsis',
             ],
             'year' => [
@@ -604,7 +604,7 @@ return [
                 'name' => 'Name',
             ],
             'slug' => [
-                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv"',
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv".',
                 'name' => 'Slug',
             ],
             'songs' => [
@@ -698,7 +698,7 @@ return [
                 'name' => 'External ID',
             ],
             'link' => [
-                'help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
+                'help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/.',
                 'name' => 'Link',
             ],
             'site' => [
@@ -729,7 +729,7 @@ return [
         'group' => [
             'name' => [
                 'name' => 'Name',
-                'help' => 'The name of the group.',
+                'help' => 'The name of the group. Ex: English Version.',
             ],
             'slug' => [
                 'name' => 'Slug',
@@ -762,15 +762,15 @@ return [
         ],
         'page' => [
             'body' => [
-                'help' => 'The content of the Page',
+                'help' => 'The content of the Page.',
                 'name' => 'Body',
             ],
             'name' => [
-                'help' => 'The display title of the Page',
+                'help' => 'The display title of the Page.',
                 'name' => 'Name',
             ],
             'slug' => [
-                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces',
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces.',
                 'name' => 'Slug',
             ],
         ],
@@ -800,17 +800,17 @@ return [
                 'name' => 'Hashid',
             ],
             'next' => [
-                'help' => 'The next Track in the Playlist',
+                'help' => 'The next Track in the Playlist.',
                 'name' => 'Next Track',
             ],
             'previous' => [
-                'help' => 'The previous Track in the Playlist',
+                'help' => 'The previous Track in the Playlist.',
                 'name' => 'Previous Track',
             ],
         ],
         'playlist' => [
             'first' => [
-                'help' => 'The first Track of the Playlist',
+                'help' => 'The first Track of the Playlist.',
                 'name' => 'First Track',
             ],
             'hashid' => [
@@ -818,15 +818,15 @@ return [
                 'name' => 'Hashid',
             ],
             'last' => [
-                'help' => 'The last Track of the Playlist',
+                'help' => 'The last Track of the Playlist.',
                 'name' => 'Last Track',
             ],
             'name' => [
-                'help' => 'The display title of the Playlist',
+                'help' => 'The display title of the Playlist.',
                 'name' => 'Name',
             ],
             'description' => [
-                'help' => 'The description of the Playlist',
+                'help' => 'The brief description of the Playlist.',
                 'name' => 'Description',
             ],
             'visibility' => [
@@ -892,17 +892,17 @@ return [
                 'name' => 'Load Artists',
             ],
             'title' => [
-                'help' => 'The title of the song',
+                'help' => 'The title of the song.',
                 'name' => 'Title',
             ],
             'title_native' => [
-                'help' => 'The native title of the song as it is credited',
+                'help' => 'The native title of the song as it is credited.',
                 'name' => 'Native Title',
             ],
         ],
         'studio' => [
             'name' => [
-                'help' => 'The display title of the Studio',
+                'help' => 'The display title of the Studio.',
                 'name' => 'Name',
             ],
             'slug' => [
@@ -944,7 +944,7 @@ return [
                 'name' => 'Path',
             ],
             'resolution' => [
-                'help' => 'Frame height of the video',
+                'help' => 'Frame height of the video.',
                 'name' => 'Resolution',
             ],
             'size' => [
