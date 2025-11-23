@@ -122,7 +122,11 @@ class ElasticsearchDriver implements SearchDriver
      */
     public function keys(): array
     {
-        return $this->execute()->getCollection()->keys()->toArray();
+        return $this
+            ->execute()
+            ->getCollection()
+            ->map(fn (Model $model) => $model->getKey())
+            ->toArray();
     }
 
     /**
