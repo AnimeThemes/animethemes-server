@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Document;
 
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
+use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Document\Page\PageCreated;
 use App\Events\Document\Page\PageDeleted;
@@ -26,8 +26,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Page extends BaseModel implements SoftDeletable
 {
     use HasFactory;
-    use Reportable;
     use SoftDeletes;
+    use Submitable;
 
     final public const string TABLE = 'pages';
 

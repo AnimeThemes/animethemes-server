@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki;
 
+use App\Actions\ActionResult;
 use App\Actions\Models\Wiki\AttachResourceAction as AttachResource;
 use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -34,7 +35,7 @@ abstract class AttachResourceAction extends BaseAction
 
         $this->visible(Gate::allows('create', ExternalResource::class));
 
-        $this->action(fn (BaseModel&HasResources $record, array $data, AttachResource $attachResource) => $attachResource->handle($record, $data, $this->sites));
+        $this->action(fn (BaseModel&HasResources $record, array $data, AttachResource $attachResource): ActionResult => $attachResource->handle($record, $data, $this->sites));
     }
 
     /**

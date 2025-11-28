@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
+use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Events\Wiki\Image\ImageCreated;
@@ -40,8 +40,8 @@ use Illuminate\Support\Facades\Storage;
 class Image extends BaseModel implements SoftDeletable
 {
     use HasFactory;
-    use Reportable;
     use SoftDeletes;
+    use Submitable;
 
     final public const string TABLE = 'images';
 

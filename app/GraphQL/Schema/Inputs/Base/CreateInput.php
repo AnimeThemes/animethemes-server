@@ -40,7 +40,7 @@ class CreateInput extends Input
         $baseType = $this->type;
 
         $fields[] = collect($baseType->fieldClasses())
-            ->filter(fn (Field $field): bool => $field instanceof CreatableField) // and reportable field?
+            ->filter(fn (Field $field): bool => $field instanceof CreatableField) // and submitable field?
             ->map(
                 fn (Field&CreatableField $field): InputField => new InputField($field->getName(), $field->type().($field instanceof RequiredOnCreation ? '!' : ''))
             )

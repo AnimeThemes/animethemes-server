@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Pivot\Morph;
 
-use App\Contracts\GraphQL\Types\ReportableType;
+use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -17,7 +17,7 @@ use App\GraphQL\Schema\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Schema\Unions\ResourceableUnion;
 use App\Pivots\Morph\Resourceable;
 
-class ResourceableType extends PivotType implements ReportableType
+class ResourceableType extends PivotType implements SubmitableType
 {
     public function description(): string
     {

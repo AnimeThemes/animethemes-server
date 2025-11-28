@@ -46,7 +46,7 @@ class UpdateInput extends Input
             ->toArray();
 
         $fields[] = collect($baseType->fieldClasses())
-            ->filter(fn (Field $field): bool => $field instanceof UpdatableField) // and reportable field?
+            ->filter(fn (Field $field): bool => $field instanceof UpdatableField) // and submitable field?
             ->map(
                 fn (Field&UpdatableField $field): InputField => new InputField($field->getName(), $field->type().($field instanceof RequiredOnUpdate ? '!' : ''))
             )

@@ -22,7 +22,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Report;
+use App\Models\User\Submission;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -76,7 +76,7 @@ class PermissionSeeder extends Seeder
         // User Resources
         $this->registerResource(Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);
         $this->registerResource(Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
-        $this->registerResource(Report::class, CrudPermission::cases());
+        $this->registerResource(Submission::class, CrudPermission::cases());
 
         // Wiki Resources
         $this->registerResource(Anime::class, $extendedCrudPermissions);

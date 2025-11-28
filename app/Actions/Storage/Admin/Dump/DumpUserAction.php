@@ -8,8 +8,8 @@ use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Models\Aggregate\LikeAggregate;
 use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Report;
-use App\Models\User\Report\ReportStep;
+use App\Models\User\Submission;
+use App\Models\User\Submission\SubmissionStep;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -29,8 +29,8 @@ class DumpUserAction extends DumpAction
             Like::TABLE,
             LikeAggregate::TABLE,
             Notification::TABLE,
-            Report::TABLE,
-            ReportStep::TABLE,
+            Submission::TABLE,
+            SubmissionStep::TABLE,
         ];
     }
 
