@@ -50,7 +50,7 @@ return new class extends Migration
                 $table->json(SubmissionStep::ATTRIBUTE_FIELDS)->nullable();
                 $table->integer(SubmissionStep::ATTRIBUTE_STATUS)->nullable();
 
-                $table->unsignedBigInteger(SubmissionStep::ATTRIBUTE_SUBMISSION)->nullable();
+                $table->unsignedBigInteger(SubmissionStep::ATTRIBUTE_SUBMISSION);
                 $table->foreign(SubmissionStep::ATTRIBUTE_SUBMISSION)->references(Submission::ATTRIBUTE_ID)->on(Submission::TABLE)->cascadeOnDelete();
 
                 $table->timestamp(SubmissionStep::ATTRIBUTE_FINISHED_AT, 6)->nullable();

@@ -6,6 +6,7 @@ namespace Database\Factories\User\Submission;
 
 use App\Enums\Models\User\ApprovableStatus;
 use App\Enums\Models\User\SubmissionActionType;
+use App\Models\User\Submission;
 use App\Models\User\Submission\SubmissionStep;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -38,6 +39,7 @@ class SubmissionStepFactory extends Factory
         return [
             SubmissionStep::ATTRIBUTE_ACTION => $action->value,
             SubmissionStep::ATTRIBUTE_STATUS => $status->value,
+            SubmissionStep::ATTRIBUTE_SUBMISSION => Submission::factory(),
         ];
     }
 }
