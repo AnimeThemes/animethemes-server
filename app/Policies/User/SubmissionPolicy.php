@@ -27,9 +27,9 @@ class SubmissionPolicy extends BasePolicy
     }
 
     /**
-     * @param  Submission  $report
+     * @param  Submission  $submission
      */
-    public function view(?User $user, Model $report): Response
+    public function view(?User $user, Model $submission): Response
     {
         if (Filament::isServing()) {
             return $user instanceof User && $user->hasRole(Role::ADMIN->value)
@@ -37,29 +37,29 @@ class SubmissionPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $report->user()->is($user) && $user?->can(CrudPermission::VIEW->format(static::getModel()))
+        return $submission->user()->is($user) && $user?->can(CrudPermission::VIEW->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }
 
     /**
-     * @param  Submission  $report
+     * @param  Submission  $submission
      */
-    public function update(User $user, Model $report): Response
+    public function update(User $user, Model $submission): Response
     {
         if ($user->hasRole(Role::ADMIN->value)) {
             return Response::allow();
         }
 
-        return $report->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()))
+        return $submission->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }
 
     /**
-     * @param  Submission  $report
+     * @param  Submission  $submission
      */
-    public function delete(User $user, Model $report): Response
+    public function delete(User $user, Model $submission): Response
     {
         return $user->hasRole(Role::ADMIN->value)
             ? Response::allow()
