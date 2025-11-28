@@ -21,7 +21,7 @@ return new class extends Migration
                 $table->id(Submission::ATTRIBUTE_ID);
 
                 $table->longText(Submission::ATTRIBUTE_NOTES)->nullable();
-                $table->longText(Submission::ATTRIBUTE_MOD_NOTES)->nullable();
+                $table->longText(Submission::ATTRIBUTE_MODERATOR_NOTES)->nullable();
 
                 $table->integer(Submission::ATTRIBUTE_STATUS)->nullable();
 

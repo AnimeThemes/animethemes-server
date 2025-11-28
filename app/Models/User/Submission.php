@@ -21,7 +21,7 @@ use Illuminate\Support\Collection;
  * @property Carbon|null $finished_at
  * @property User|null $moderator
  * @property int|null $moderator_id
- * @property string|null $mod_notes
+ * @property string|null $moderator_notes
  * @property string|null $notes
  * @property ApprovableStatus $status
  * @property Collection<int, SubmissionStep> $steps
@@ -40,7 +40,7 @@ class Submission extends BaseModel
     final public const string ATTRIBUTE_ID = 'submission_id';
     final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
     final public const string ATTRIBUTE_MODERATOR = 'moderator_id';
-    final public const string ATTRIBUTE_MOD_NOTES = 'mod_notes';
+    final public const string ATTRIBUTE_MODERATOR_NOTES = 'moderator_notes';
     final public const string ATTRIBUTE_NOTES = 'notes';
     final public const string ATTRIBUTE_STATUS = 'status';
     final public const string ATTRIBUTE_USER = 'user_id';
@@ -64,7 +64,7 @@ class Submission extends BaseModel
     protected $fillable = [
         Submission::ATTRIBUTE_FINISHED_AT,
         Submission::ATTRIBUTE_MODERATOR,
-        Submission::ATTRIBUTE_MOD_NOTES,
+        Submission::ATTRIBUTE_MODERATOR_NOTES,
         Submission::ATTRIBUTE_NOTES,
         Submission::ATTRIBUTE_STATUS,
         Submission::ATTRIBUTE_USER,

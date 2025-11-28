@@ -837,7 +837,7 @@ return [
         'submission' => [
             'finished_at' => 'Finished At',
             'moderator' => 'Moderator',
-            'mod_notes' => 'Moderator Notes',
+            'moderator_notes' => 'Moderator Notes',
             'notes' => 'Notes',
             'status' => 'Status',
             'target' => 'Target',

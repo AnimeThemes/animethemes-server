@@ -34,7 +34,7 @@ class SubmissionFactory extends Factory
         $status = Arr::random(ApprovableStatus::cases());
 
         return [
-            Submission::ATTRIBUTE_MOD_NOTES => fake()->text(),
+            Submission::ATTRIBUTE_MODERATOR_NOTES => fake()->text(),
             Submission::ATTRIBUTE_STATUS => $status->value,
         ];
     }
