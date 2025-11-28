@@ -16,7 +16,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Report;
+use App\Models\User\Submission;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -60,7 +60,7 @@ class PanelViewerRoleSeeder extends RoleSeeder
         // User Resources
         $this->configureResource($role, Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);
         $this->configureResource($role, Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
-        $this->configureResource($role, Report::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::UPDATE]);
+        $this->configureResource($role, Submission::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::UPDATE]);
 
         // Wiki Resources
         $this->configureResource($role, Anime::class, [CrudPermission::VIEW]);

@@ -8,7 +8,7 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\User\ApprovableStatus;
-use App\Enums\Models\User\ReportActionType;
+use App\Enums\Models\User\SubmissionActionType;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
@@ -81,12 +81,12 @@ return [
         PlaylistVisibility::PRIVATE->name => 'Private',
         PlaylistVisibility::UNLISTED->name => 'Unlisted',
     ],
-    ReportActionType::class => [
-        ReportActionType::CREATE->name => 'Create',
-        ReportActionType::UPDATE->name => 'Update',
-        ReportActionType::DELETE->name => 'Delete',
-        ReportActionType::ATTACH->name => 'Attach',
-        ReportActionType::DETACH->name => 'Detach',
+    SubmissionActionType::class => [
+        SubmissionActionType::CREATE->name => 'Create',
+        SubmissionActionType::UPDATE->name => 'Update',
+        SubmissionActionType::DELETE->name => 'Delete',
+        SubmissionActionType::ATTACH->name => 'Attach',
+        SubmissionActionType::DETACH->name => 'Detach',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE->name => 'Official Website',

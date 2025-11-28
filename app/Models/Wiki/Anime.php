@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
+use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\SoftDeletable;
@@ -59,9 +59,9 @@ use Illuminate\Support\Collection;
 class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
 {
     use HasFactory;
-    use Reportable;
     use Searchable;
     use SoftDeletes;
+    use Submitable;
 
     final public const string TABLE = 'anime';
 

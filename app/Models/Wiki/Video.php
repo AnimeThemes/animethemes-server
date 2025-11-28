@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Aggregate\AggregatesView;
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
+use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\SoftDeletable;
 use App\Contracts\Models\Streamable;
@@ -63,9 +63,9 @@ class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
 {
     use AggregatesView;
     use HasFactory;
-    use Reportable;
     use Searchable;
     use SoftDeletes;
+    use Submitable;
 
     final public const string TABLE = 'videos';
 

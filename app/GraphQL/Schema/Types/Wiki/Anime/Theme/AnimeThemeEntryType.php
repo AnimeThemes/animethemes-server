@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki\Anime\Theme;
 
-use App\Contracts\GraphQL\Types\ReportableType;
+use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -29,7 +29,7 @@ use App\GraphQL\Schema\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
-class AnimeThemeEntryType extends EloquentType implements ReportableType
+class AnimeThemeEntryType extends EloquentType implements SubmitableType
 {
     public function description(): string
     {

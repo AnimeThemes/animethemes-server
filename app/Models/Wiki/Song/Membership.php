@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Song;
 
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\SoftDeletes;
+use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Song\Membership\MembershipCreated;
 use App\Events\Wiki\Song\Membership\MembershipDeleted;
@@ -35,8 +35,8 @@ use Illuminate\Support\Collection;
 class Membership extends BaseModel implements SoftDeletable
 {
     use HasFactory;
-    use Reportable;
     use SoftDeletes;
+    use Submitable;
 
     final public const string TABLE = 'memberships';
 

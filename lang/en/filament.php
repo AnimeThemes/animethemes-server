@@ -834,7 +834,7 @@ return [
                 'name' => 'Visibility',
             ],
         ],
-        'report' => [
+        'submission' => [
             'finished_at' => 'Finished At',
             'moderator' => 'Moderator',
             'mod_notes' => 'Moderator Notes',
@@ -842,7 +842,7 @@ return [
             'status' => 'Status',
             'target' => 'Target',
         ],
-        'report_step' => [
+        'submission_step' => [
             'action' => 'Action',
             'actionable' => 'Actionable',
             'fields' => [
@@ -1000,8 +1000,8 @@ return [
             'permissions' => 'Permissions',
             'playlist_tracks' => 'Playlist Tracks',
             'playlists' => 'Playlists',
-            'reports' => 'Reports',
-            'report_steps' => 'Report Steps',
+            'submissions' => 'Submissions',
+            'submission_steps' => 'Submission Steps',
             'roles' => 'Roles',
             'series' => 'Series',
             'songs' => 'Songs',
@@ -1036,8 +1036,8 @@ return [
             'permission' => 'Permission',
             'playlist_track' => 'Playlist Track',
             'playlist' => 'Playlist',
-            'report' => 'Report',
-            'report_step' => 'Report Step',
+            'submission' => 'Submission',
+            'submission_step' => 'Submission Step',
             'role' => 'Role',
             'series' => 'Series',
             'song' => 'Song',

@@ -19,7 +19,7 @@ use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\User\Notification;
-use App\Models\User\Report;
+use App\Models\User\Submission;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
@@ -50,12 +50,12 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $email_verified_at
  * @property Collection<int, ExternalProfile> $externalprofiles
  * @property int $id
- * @property Collection<int, Report> $managedreports
+ * @property Collection<int, Submission> $managedsubmissions
  * @property string $name
  * @property string $password
  * @property Collection<int, Playlist> $playlists
  * @property string $remember_token
- * @property Collection<int, Report> $reports
+ * @property Collection<int, Submission> $submissions
  * @property Collection<int, PersonalAccessToken> $tokens
  * @property Carbon|null $two_factor_confirmed_at
  * @property string|null $two_factor_recovery_codes
@@ -86,11 +86,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const string ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     final public const string RELATION_EXTERNAL_PROFILES = 'externalprofiles';
-    final public const string RELATION_MANAGED_REPORTS = 'managedreports';
+    final public const string RELATION_MANAGED_SUBMISSIONS = 'managedsubmissions';
     final public const string RELATION_NOTIFICATIONS = 'notifications';
     final public const string RELATION_PERMISSIONS = 'permissions';
     final public const string RELATION_PLAYLISTS = 'playlists';
-    final public const string RELATION_REPORTS = 'reports';
+    final public const string RELATION_SUBMISSIONS = 'submissions';
     final public const string RELATION_ROLES = 'roles';
     final public const string RELATION_ROLES_PERMISSIONS = 'roles.permissions';
 
@@ -245,17 +245,17 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     /**
      * Get the submissions that the user made.
      */
-    public function reports(): HasMany
+    public function submissions(): HasMany
     {
-        return $this->hasMany(Report::class, Report::ATTRIBUTE_USER);
+        return $this->hasMany(Submission::class, Submission::ATTRIBUTE_USER);
     }
 
     /**
-     * Get the reports that the admin managed.
+     * Get the submissions that the admin managed.
      */
-    public function managedreports(): HasMany
+    public function managedsubmissions(): HasMany
     {
-        return $this->hasMany(Report::class, Report::ATTRIBUTE_MODERATOR);
+        return $this->hasMany(Submission::class, Submission::ATTRIBUTE_MODERATOR);
     }
 
     /**

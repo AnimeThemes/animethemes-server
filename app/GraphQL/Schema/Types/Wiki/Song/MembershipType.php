@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki\Song;
 
-use App\Contracts\GraphQL\Types\ReportableType;
+use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -19,7 +19,7 @@ use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\ArtistType;
 use App\Models\Wiki\Song\Membership;
 
-class MembershipType extends EloquentType implements ReportableType
+class MembershipType extends EloquentType implements SubmitableType
 {
     public function description(): string
     {

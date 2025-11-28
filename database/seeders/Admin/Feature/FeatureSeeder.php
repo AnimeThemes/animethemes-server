@@ -9,8 +9,8 @@ use App\Features\AllowAudioStreams;
 use App\Features\AllowDumpDownloading;
 use App\Features\AllowExternalProfileManagement;
 use App\Features\AllowPlaylistManagement;
-use App\Features\AllowReport;
 use App\Features\AllowScriptDownloading;
+use App\Features\AllowSubmission;
 use App\Features\AllowVideoStreams;
 use Illuminate\Database\Seeder;
 use Laravel\Pennant\Feature;
@@ -26,7 +26,7 @@ class FeatureSeeder extends Seeder
         Feature::deactivate(AllowDumpDownloading::class);
         Feature::deactivate(AllowExternalProfileManagement::class);
         Feature::deactivate(AllowPlaylistManagement::class);
-        Feature::deactivate(AllowReport::class);
+        Feature::deactivate(AllowSubmission::class);
         Feature::deactivate(AllowScriptDownloading::class);
         Feature::deactivate(AllowVideoStreams::class);
 
