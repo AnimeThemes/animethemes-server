@@ -13,6 +13,24 @@ use Illuminate\Support\Str;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
+test('skipped', function () {
+    $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
+    $file = File::fake()->image(fake()->word().'.jpg');
+    $fsFile = $fs->putFile('', $file);
+
+    $image = Image::factory()->createOne([
+        Image::ATTRIBUTE_PATH => $fsFile,
+    ]);
+
+    $action = new OptimizeImageAction($image);
+
+    $result = $action->handle();
+
+    $this->assertTrue($result->getStatus() === ActionStatus::SKIPPED);
+    $this->assertDatabaseCount(Image::class, 1);
+    $this->assertTrue($image->exists());
+});
+
 test('converts to avif', function () {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
     $file = File::fake()->image(fake()->word().'.jpg');
@@ -32,7 +50,7 @@ test('converts to avif', function () {
     $this->assertTrue($image->exists());
 });
 
-test('passes', function () {
+test('downscale', function () {
     $fs = Storage::fake(Config::get(ImageConstants::DISKS_QUALIFIED));
     $file = File::fake()->image(fake()->word().'.jpg');
     $fsFile = $fs->putFile('', $file);
@@ -41,7 +59,7 @@ test('passes', function () {
         Image::ATTRIBUTE_PATH => $fsFile,
     ]);
 
-    $action = new OptimizeImageAction($image);
+    $action = new OptimizeImageAction($image, null, fake()->randomDigitNotNull(), fake()->randomDigitNotNull());
 
     $result = $action->handle();
 

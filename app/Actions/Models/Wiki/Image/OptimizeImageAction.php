@@ -19,30 +19,48 @@ use Illuminate\Support\Str;
 
 class OptimizeImageAction
 {
-    public function __construct(protected readonly Image $image, protected readonly string $extension = 'avif') {}
+    public function __construct(
+        protected readonly Image $image,
+        protected readonly ?string $extension = null,
+        protected readonly ?int $width = null,
+        protected readonly ?int $height = null,
+    ) {}
 
     /**
      * @throws Exception
      */
     public function handle(): ActionResult
     {
+        if ($this->extension === null && $this->width === null && $this->height === null) {
+            return new ActionResult(
+                ActionStatus::SKIPPED,
+                'No optimization parameters provided, nothing to process.'
+            );
+        }
+
         try {
             DB::beginTransaction();
 
             $directory = File::dirname($this->image->path);
 
-            $optimizedImage = $this->convertImage();
+            $optimizedImage = $this->handleFFmpeg();
 
             if ($optimizedImage === null) {
                 DB::rollBack();
 
                 return new ActionResult(
                     ActionStatus::FAILED,
-                    "Failed to convert image '{$this->image->path}' to '{$this->extension}'.",
+                    "Failed to optimize image '{$this->image->path}'.",
                 );
             }
 
-            $path = $this->uploadImage($optimizedImage, $directory);
+            $path = $this->uploadImage(
+                Storage::disk('local')->path($optimizedImage),
+                $directory
+            );
+
+            // Delete the old image from the bucket.
+            Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED))->delete($this->image->path);
 
             $this->image->update([
                 Image::ATTRIBUTE_PATH => $path,
@@ -60,7 +78,7 @@ class OptimizeImageAction
         return new ActionResult(ActionStatus::PASSED);
     }
 
-    protected function convertImage(): ?string
+    protected function handleFFmpeg(): ?string
     {
         try {
             Storage::disk('local')->put(
@@ -68,15 +86,15 @@ class OptimizeImageAction
                 Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED))->get($this->image->path),
             );
 
-            [$command, $imagePath] = match ($this->extension) {
-                'avif' => static::getAvifCommand($this->image),
-                default => throw new Exception("Unsupported image extension: {$this->extension}"),
-            };
+            $imagePath = $this->image->path;
 
-            Process::run($command)->throw();
+            if ($this->extension !== null) {
+                $imagePath = $this->convertImage($imagePath);
+            }
 
-            // Delete the old image from the bucket.
-            Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED))->delete($this->image->path);
+            if ($this->width !== null && $this->height !== null) {
+                $imagePath = $this->downscaleImage($imagePath);
+            }
 
             return $imagePath;
         } catch (Exception $e) {
@@ -88,6 +106,40 @@ class OptimizeImageAction
         return null;
     }
 
+    /**
+     * Convert the image to given extension.
+     *
+     * @throws Exception
+     */
+    protected function convertImage(string $path): string
+    {
+        [$command, $imagePath] = match ($this->extension) {
+            'avif' => static::getAvifCommand($path),
+            default => throw new Exception("Unsupported image extension: {$this->extension}"),
+        };
+
+        Process::run($command)->throw();
+
+        return $imagePath;
+    }
+
+    /**
+     * Downscale the image to given width and height.
+     *
+     * @throws Exception
+     */
+    protected function downscaleImage(string $path): string
+    {
+        [$command, $imagePath] = static::getDownscaleCommand($path, $this->width, $this->height);
+
+        Process::run($command)->throw();
+
+        return $imagePath;
+    }
+
+    /**
+     * Upload the image to the bucket.
+     */
     protected function uploadImage(string $image, string $directory): string
     {
         /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
@@ -103,17 +155,17 @@ class OptimizeImageAction
     /**
      * @return array{0:array<int, string>, 1:string}
      */
-    public static function getAvifCommand(Image $image): array
+    public static function getAvifCommand(string $path): array
     {
         $imagePath = Storage::disk('local')->path(
-            Str::replaceLast(File::extension($image->path), 'avif', $image->path)
+            $newPath = Str::replaceLast(File::extension($path), 'avif', $path)
         );
 
         return [
             [
                 'ffmpeg',
                 '-i',
-                Storage::disk('local')->path($image->path),
+                Storage::disk('local')->path($path),
                 '-c:v',
                 'libaom-av1',
                 '-crf',
@@ -122,7 +174,30 @@ class OptimizeImageAction
                 'yuv420p',
                 $imagePath,
             ],
-            $imagePath,
+            $newPath,
+        ];
+    }
+
+    /**
+     * @return array{0:array<int, string>, 1:string}
+     */
+    public static function getDownscaleCommand(string $path, int $width = 100, int $height = 150): array
+    {
+        $tempPath = Storage::disk('local')->path(
+            $newPath = Str::replaceLast('.', '_scaled.', $path)
+        );
+
+        return [
+            [
+                'ffmpeg',
+                '-y',
+                '-i',
+                Storage::disk('local')->path($path),
+                '-vf',
+                "scale={$width}:{$height}",
+                $tempPath,
+            ],
+            $newPath,
         ];
     }
 }

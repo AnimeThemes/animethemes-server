@@ -291,6 +291,18 @@ return [
                 ],
                 'optimize_image' => [
                     'name' => 'Optimize Image',
+                    'extension' => [
+                        'help' => 'The output image format to convert to.',
+                        'name' => 'Extension',
+                    ],
+                    'height' => [
+                        'help' => 'The target height in pixels when downscaling the image.',
+                        'name' => 'Height',
+                    ],
+                    'width' => [
+                        'help' => 'The target width in pixels when downscaling the image.',
+                        'name' => 'Width',
+                    ],
                 ],
                 'upload_image' => [
                     'name' => 'Upload Image',
