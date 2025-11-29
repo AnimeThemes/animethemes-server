@@ -29,7 +29,7 @@ class OptimizeImageAction extends BaseAction
 
         $this->icon(Heroicon::ArrowPathRoundedSquare);
 
-        $this->visible(fn (Image $record) => Auth::user()->can('update', $record));
+        $this->visible(fn (Image $record) => Auth::user()->can('forceDelete', $record));
 
         $this->action(fn (Image $record, array $data) => $this->handle($record, $data));
     }
