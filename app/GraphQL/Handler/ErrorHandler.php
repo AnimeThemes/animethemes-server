@@ -7,6 +7,7 @@ namespace App\GraphQL\Handler;
 use Error as PhpError;
 use Exception;
 use GraphQL\Error\Error as GraphQLError;
+use GraphQL\Server\RequestError;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
@@ -28,6 +29,9 @@ class ErrorHandler
                 continue;
             }
             if ($error instanceof GraphQLError) {
+                continue;
+            }
+            if ($error instanceof RequestError) {
                 continue;
             }
             if (! $error instanceof Exception && ! $error instanceof PhpError) {
