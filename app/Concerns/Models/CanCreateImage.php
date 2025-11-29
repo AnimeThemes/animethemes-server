@@ -91,7 +91,7 @@ trait CanCreateImage
     protected function optimize(Image $image): void
     {
         if ($image->facet === ImageFacet::SMALL_COVER) {
-            OptimizeImageJob::dispatch($image)
+            OptimizeImageJob::dispatch($image, 'avif', 100, 150)
                 ->onQueue('optimize-image')
                 ->afterCommit();
         }

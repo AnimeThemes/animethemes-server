@@ -17,11 +17,16 @@ class OptimizeImageJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(public readonly Image $image) {}
+    public function __construct(
+        public readonly Image $image,
+        public readonly string $extension = 'avif',
+        public readonly ?int $width = null,
+        public readonly ?int $height = null,
+    ) {}
 
     public function handle(): void
     {
-        $action = new OptimizeImageAction($this->image, 'avif');
+        $action = new OptimizeImageAction($this->image, $this->extension, $this->width, $this->height);
 
         $action->handle();
     }
