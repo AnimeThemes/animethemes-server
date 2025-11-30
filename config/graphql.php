@@ -2,28 +2,32 @@
 
 declare(strict_types=1);
 
-use App\GraphQL\Schema\Schemas\DefaultSchema;
+use App\GraphQL\Schema\Schemas\V1Schema;
 use App\GraphQL\Schema\Types\Base\PaginationInfoType;
+use App\Http\Middleware\GraphQL\RateLimitPerQuery;
+use App\Http\Middleware\GraphQL\SetServingGraphQL;
 
 return [
+    'domain' => env('GRAPHQL_DOMAIN_NAME', env('APP_URL')),
+
     'rate_limit' => (int) env('GRAPHQL_RATE_LIMIT', 80),
 
     'route' => [
         // The prefix for routes; do NOT use a leading slash!
         'prefix' => env('GRAPHQL_PATH', '/'),
 
-        // The controller/method to use in GraphQL request.
         // Also supported array syntax: `[\Rebing\GraphQL\GraphQLController::class, 'query']`
         'controller' => Rebing\GraphQL\GraphQLController::class.'@query',
 
-        // Any middleware for the graphql route group
         // This middleware will apply to all schemas
-        'middleware' => [],
+        'middleware' => [
+            // Set the serving context to graphql.
+            SetServingGraphQL::class,
+            // Rate limiting GraphQL to prevent abuse.
+            RateLimitPerQuery::class,
+        ],
 
         // Additional route group attributes
-        //
-        // Example:
-        //
         // 'group_attributes' => ['guard' => 'api']
         //
         'group_attributes' => [
@@ -33,7 +37,7 @@ return [
 
     // The name of the default schema
     // Used when the route group is directly accessed
-    'default_schema' => 'default',
+    'default_schema' => 'v1',
 
     'batching' => [
         // Whether to support GraphQL batching or not.
@@ -44,8 +48,6 @@ return [
 
     // The schemas for query and/or mutation. It expects an array of schemas to provide
     // both the 'query' fields and the 'mutation' fields.
-    //
-    // You can also provide a middleware that will only apply to the given schema
     //
     // Example:
     //
@@ -71,17 +73,13 @@ return [
     //  ]
     //
     'schemas' => [
-        'default' => DefaultSchema::class,
+        'v1' => V1Schema::class,
     ],
 
     // The global types available to all schemas.
-    // You can then access it from the facade like this: GraphQL::type('user')
     'types' => [
         // Pagination
         PaginationInfoType::class,
-        // ExampleType::class,
-        // ExampleRelationType::class,
-        // \Rebing\GraphQL\Support\UploadType::class,
     ],
 
     // This callable will be passed the Error object for each errors GraphQL catch.
@@ -124,19 +122,16 @@ return [
     ],
 
     /*
-     * You can define your own pagination type.
      * Reference \Rebing\GraphQL\Support\PaginationType::class
      */
     'pagination_type' => App\GraphQL\Schema\Types\Base\PaginationType::class,
 
     /*
-     * You can define your own simple pagination type.
      * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
      */
     'simple_pagination_type' => Rebing\GraphQL\Support\SimplePaginationType::class,
 
     /*
-     * You can define your own cursor pagination type.
      * Reference Rebing\GraphQL\Support\CursorPaginationType::class
      */
     'cursor_pagination_type' => Rebing\GraphQL\Support\CursorPaginationType::class,
@@ -193,9 +188,6 @@ return [
         'cache_ttl' => 300,
     ],
 
-    /*
-     * Execution middlewares
-     */
     'execution_middleware' => [
         Rebing\GraphQL\Support\ExecutionMiddleware\ValidateOperationParamsMiddleware::class,
         // AutomaticPersistedQueriesMiddleware listed even if APQ is disabled, see the docs for the `'apq'` configuration
@@ -204,8 +196,5 @@ return [
         // \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
     ],
 
-    /*
-     * Globally registered ResolverMiddleware
-     */
     'resolver_middleware_append' => null,
 ];
