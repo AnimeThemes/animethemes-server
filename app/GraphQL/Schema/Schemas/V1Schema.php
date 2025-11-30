@@ -88,15 +88,18 @@ use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\GraphQL\Schema\Unions\ResourceableUnion;
 use App\Http\Middleware\GraphQL\LogGraphQLRequest;
 use App\Http\Middleware\GraphQL\MaxCount;
-use App\Http\Middleware\GraphQL\RateLimitPerQuery;
-use App\Http\Middleware\GraphQL\SetServingGraphQL;
+use Illuminate\Support\Facades\Config;
+use Rebing\GraphQL\GraphQLController;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 
-class DefaultSchema implements ConfigConvertible
+class V1Schema implements ConfigConvertible
 {
     public function toConfig(): array
     {
         return [
+            // Also supported array syntax: `[\Rebing\GraphQL\GraphQLController::class, 'query']`
+            'controller' => GraphQLController::class.'@query',
+
             'query' => [
                 // Admin
                 AnnouncementPaginationQuery::class,
@@ -220,12 +223,6 @@ class DefaultSchema implements ConfigConvertible
             ],
             // Laravel HTTP middleware
             'middleware' => [
-                // Rate limiting GraphQL to prevent abuse.
-                RateLimitPerQuery::class,
-
-                // Set the serving context to graphql.
-                SetServingGraphQL::class,
-
                 // Allow client to get full database.
                 MaxCount::class,
 
@@ -237,6 +234,10 @@ class DefaultSchema implements ConfigConvertible
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => [],
+
+            'route_attributes' => [
+                'domain' => Config::get('graphql.domain'),
+            ],
         ];
     }
 }

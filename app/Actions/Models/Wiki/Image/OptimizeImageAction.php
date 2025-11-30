@@ -93,7 +93,7 @@ class OptimizeImageAction
             }
 
             if ($this->width !== null && $this->height !== null) {
-                $imagePath = $this->downscaleImage($imagePath);
+                return $this->downscaleImage($imagePath);
             }
 
             return $imagePath;
