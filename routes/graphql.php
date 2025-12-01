@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/sandbox', function () {
-    return view('graphql.sandbox', [
-        'endpoint' => route('graphql'),
-    ]);
-});
+Route::get('/sandbox', fn (): Factory|View => view('graphql.sandbox', [
+    'endpoint' => route('graphql'),
+]));
