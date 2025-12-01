@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,3 +15,11 @@ declare(strict_types=1);
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/sandbox', function () {
+    return view('graphql.sandbox', [
+        'endpoint' => route('graphql'),
+    ]);
+})
+    ->domain(Config::get('graphql.domain'))
+    ->prefix(Config::get('graphql.route.prefix'));
