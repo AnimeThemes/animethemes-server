@@ -19,7 +19,7 @@ return [
     |
     */
 
-    'domain' => env('FILAMENT_DOMAIN_NAME'),
+    'domain' => env('FILAMENT_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_DOMAIN_NAME') ? env('PULSE_PATH', 'pulse') : env('FILAMENT_PATH').'/pulse',
+    'path' => env('FILAMENT_URL') ? env('PULSE_PATH', 'pulse') : env('FILAMENT_PATH').'/pulse',
 
     /*
     |--------------------------------------------------------------------------

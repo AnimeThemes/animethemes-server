@@ -53,6 +53,6 @@ class MeQuery extends BaseQuery
 
         $this->constrainEagerLoads($builder, $resolveInfo, $this->baseType());
 
-        return $builder->firstOrFail();
+        return $builder->first();
     }
 }

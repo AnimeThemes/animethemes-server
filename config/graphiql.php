@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+$path = env('GRAPHQL_PATH')
+    ? '/'.env('GRAPHQL_PATH')
+    : '';
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -16,11 +20,11 @@ return [
     */
 
     'routes' => [
-        '/graphiql' => [
+        $path.'/graphiql' => [
             'name' => 'graphiql',
             // 'middleware' => ['web'],
             'prefix' => env('GRAPHQL_PREFIX', null),
-            'domain' => env('GRAPHQL_DOMAIN_NAME', env('APP_URL')),
+            'domain' => env('GRAPHQL_URL', env('APP_URL')),
 
             /*
             |--------------------------------------------------------------------------
@@ -33,7 +37,7 @@ return [
             |
             */
 
-            'endpoint' => env('GRAPHQL_PATH', '/'),
+            'endpoint' => env('GRAPHQL_URL', env('APP_URL')).'/'.env('GRAPHQL_PATH'),
 
             /*
             |--------------------------------------------------------------------------

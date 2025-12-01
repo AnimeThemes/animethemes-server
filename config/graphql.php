@@ -8,7 +8,7 @@ use App\Http\Middleware\GraphQL\RateLimitPerQuery;
 use App\Http\Middleware\GraphQL\SetServingGraphQL;
 
 return [
-    'domain' => env('GRAPHQL_DOMAIN_NAME', env('APP_URL')),
+    'domain' => env('GRAPHQL_URL', env('APP_URL')),
 
     'rate_limit' => (int) env('GRAPHQL_RATE_LIMIT', 80),
 
