@@ -42,7 +42,7 @@ return [
     | on subdomains which do not need access to your admin application.
     |
     */
-    'domain' => env('FILAMENT_DOMAIN_NAME'),
+    'domain' => env('FILAMENT_URL'),
 
     /*
     |--------------------------------------------------------------------------
