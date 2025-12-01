@@ -96,6 +96,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->as('api.')
                 ->group(base_path('routes/external.php'));
 
+            Route::middleware('web')
+                ->domain(Config::get('graphql.domain'))
+                ->prefix(Config::get('graphql.route.prefix'))
+                ->group(base_path('routes/graphql.php'));
+
             Route::middleware('api')
                 ->domain(Config::get(ApiConstants::URL_QUALIFIED))
                 ->prefix(Config::get(ApiConstants::PATH_QUALIFIED))
