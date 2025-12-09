@@ -28,7 +28,7 @@ class SubmissionStage extends BaseModel
 {
     use HasFactory;
 
-    final public const string TABLE = 'submission_stage';
+    final public const string TABLE = 'submission_stages';
 
     final public const string ATTRIBUTE_ID = 'stage_id';
 
