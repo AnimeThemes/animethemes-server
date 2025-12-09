@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\User;
 
 use App\Enums\Filament\NavigationGroup;
-use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\BelongsToEntry;
@@ -15,7 +15,7 @@ use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\User\Submission\Pages\ListSubmissions;
 use App\Filament\Resources\User\Submission\Pages\ViewSubmission;
-use App\Filament\Resources\User\Submission\RelationManagers\StepSubmissionRelationManager;
+use App\Filament\Resources\User\Submission\RelationManagers\StageSubmissionRelationManager;
 use App\Models\User\Submission as SubmissionModel;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -89,7 +89,7 @@ class Submission extends BaseResource
 
                 TextColumn::make(SubmissionModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.submission.status'))
-                    ->formatStateUsing(fn (ApprovableStatus $state): ?string => $state->localize())
+                    ->formatStateUsing(fn (SubmissionStatus $state): ?string => $state->localize())
                     ->badge(),
 
                 BelongsToColumn::make(SubmissionModel::RELATION_USER, UserResource::class),
@@ -114,7 +114,7 @@ class Submission extends BaseResource
 
                         TextEntry::make(SubmissionModel::ATTRIBUTE_STATUS)
                             ->label(__('filament.fields.submission.status'))
-                            ->formatStateUsing(fn (ApprovableStatus $state): ?string => $state->localize())
+                            ->formatStateUsing(fn (SubmissionStatus $state): ?string => $state->localize())
                             ->badge(),
 
                         BelongsToEntry::make(SubmissionModel::RELATION_USER, UserResource::class),
@@ -125,10 +125,6 @@ class Submission extends BaseResource
                         TextEntry::make(SubmissionModel::ATTRIBUTE_FINISHED_AT)
                             ->label(__('filament.fields.submission.finished_at'))
                             ->dateTime(),
-
-                        TextEntry::make(SubmissionModel::ATTRIBUTE_NOTES)
-                            ->label(__('filament.fields.submission.notes'))
-                            ->columnSpanFull(),
                     ])
                     ->columns(3),
 
@@ -143,7 +139,7 @@ class Submission extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
-                StepSubmissionRelationManager::class,
+                StageSubmissionRelationManager::class,
             ]),
         ];
     }

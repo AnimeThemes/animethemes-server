@@ -51,7 +51,7 @@ class SubmissionPolicy extends BasePolicy
             return Response::allow();
         }
 
-        return $submission->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()))
+        return ! $submission->isLocked() && $submission->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }

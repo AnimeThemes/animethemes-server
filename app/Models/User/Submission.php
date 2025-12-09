@@ -4,27 +4,30 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
-use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission\SubmissionStage;
 use Database\Factories\User\SubmissionFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
+ * @property string|null $actionable_type
+ * @property string|null $actionable_id
  * @property Carbon|null $finished_at
+ * @property bool $locked
  * @property User|null $moderator
  * @property int|null $moderator_id
  * @property string|null $moderator_notes
- * @property string|null $notes
- * @property ApprovableStatus $status
- * @property Collection<int, SubmissionStep> $steps
+ * @property SubmissionStatus $status
+ * @property Collection<int, SubmissionStage> $stages
  * @property User|null $user
  * @property int|null $user_id
  *
@@ -38,15 +41,19 @@ class Submission extends BaseModel
     final public const string TABLE = 'submissions';
 
     final public const string ATTRIBUTE_ID = 'submission_id';
+    final public const string ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
+    final public const string ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
     final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
+    final public const string ATTRIBUTE_LOCKED = 'locked';
     final public const string ATTRIBUTE_MODERATOR = 'moderator_id';
     final public const string ATTRIBUTE_MODERATOR_NOTES = 'moderator_notes';
-    final public const string ATTRIBUTE_NOTES = 'notes';
     final public const string ATTRIBUTE_STATUS = 'status';
+    final public const string ATTRIBUTE_TYPE = 'type';
     final public const string ATTRIBUTE_USER = 'user_id';
 
+    final public const string RELATION_ACTIONABLE = 'actionable';
     final public const string RELATION_MODERATOR = 'moderator';
-    final public const string RELATION_STEPS = 'steps';
+    final public const string RELATION_STAGES = 'stages';
     final public const string RELATION_USER = 'user';
 
     /**
@@ -62,11 +69,14 @@ class Submission extends BaseModel
      * @var list<string>
      */
     protected $fillable = [
+        Submission::ATTRIBUTE_ACTIONABLE_TYPE,
+        Submission::ATTRIBUTE_ACTIONABLE_ID,
         Submission::ATTRIBUTE_FINISHED_AT,
+        Submission::ATTRIBUTE_LOCKED,
         Submission::ATTRIBUTE_MODERATOR,
         Submission::ATTRIBUTE_MODERATOR_NOTES,
-        Submission::ATTRIBUTE_NOTES,
         Submission::ATTRIBUTE_STATUS,
+        Submission::ATTRIBUTE_TYPE,
         Submission::ATTRIBUTE_USER,
     ];
 
@@ -107,8 +117,14 @@ class Submission extends BaseModel
     {
         return [
             Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
-            Submission::ATTRIBUTE_STATUS => ApprovableStatus::class,
+            Submission::ATTRIBUTE_LOCKED => 'bool',
+            Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
         ];
+    }
+
+    public function isLocked(): bool
+    {
+        return $this->locked;
     }
 
     /**
@@ -117,15 +133,23 @@ class Submission extends BaseModel
     #[Scope]
     protected function pending(Builder $query): void
     {
-        $query->where(Submission::ATTRIBUTE_STATUS, ApprovableStatus::PENDING->value);
+        $query->where(Submission::ATTRIBUTE_STATUS, SubmissionStatus::PENDING->value);
     }
 
     /**
-     * @return HasMany<SubmissionStep, $this>
+     * Get the model that references the submission.
      */
-    public function steps(): HasMany
+    public function actionable(): MorphTo
     {
-        return $this->hasMany(SubmissionStep::class, SubmissionStep::ATTRIBUTE_SUBMISSION);
+        return $this->morphTo();
+    }
+
+    /**
+     * @return HasMany<SubmissionStage, $this>
+     */
+    public function stages(): HasMany
+    {
+        return $this->hasMany(SubmissionStage::class, SubmissionStage::ATTRIBUTE_SUBMISSION);
     }
 
     /**

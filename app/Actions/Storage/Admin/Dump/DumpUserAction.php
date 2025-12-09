@@ -9,7 +9,7 @@ use App\Models\Aggregate\LikeAggregate;
 use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission\SubmissionStage;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -30,7 +30,7 @@ class DumpUserAction extends DumpAction
             LikeAggregate::TABLE,
             Notification::TABLE,
             Submission::TABLE,
-            SubmissionStep::TABLE,
+            SubmissionStage::TABLE,
         ];
     }
 

@@ -7,13 +7,13 @@ namespace App\Policies\User\Submission;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\User;
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission\SubmissionStage;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
-class SubmissionStepPolicy extends BasePolicy
+class SubmissionStagePolicy extends BasePolicy
 {
     public function viewAny(?User $user, mixed $value = null): Response
     {
@@ -27,9 +27,9 @@ class SubmissionStepPolicy extends BasePolicy
     }
 
     /**
-     * @param  SubmissionStep  $step
+     * @param  SubmissionStage  $stage
      */
-    public function view(?User $user, Model $step): Response
+    public function view(?User $user, Model $stage): Response
     {
         if (Filament::isServing()) {
             return $user instanceof User && $user->hasRole(Role::ADMIN->value)
@@ -37,29 +37,25 @@ class SubmissionStepPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $step->submission->user()->is($user) && $user?->can(CrudPermission::VIEW->format(static::getModel()))
+        return $stage->submission->user()->is($user) && $user?->can(CrudPermission::VIEW->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }
 
     /**
-     * @param  SubmissionStep  $step
+     * @param  SubmissionStage  $stage
      */
-    public function update(User $user, Model $step): Response
+    public function update(User $user, Model $stage): Response
     {
-        if ($user->hasRole(Role::ADMIN->value)) {
-            return Response::allow();
-        }
-
-        return $step->submission->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()))
+        return $user->hasRole(Role::ADMIN->value)
             ? Response::allow()
             : Response::deny();
     }
 
     /**
-     * @param  SubmissionStep  $step
+     * @param  SubmissionStage  $stage
      */
-    public function delete(User $user, Model $step): Response
+    public function delete(User $user, Model $stage): Response
     {
         return $user->hasRole(Role::ADMIN->value)
             ? Response::allow()

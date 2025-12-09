@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Auth\User;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission\SubmissionStage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +20,8 @@ return new class extends Migration
             Schema::create(Submission::TABLE, function (Blueprint $table) {
                 $table->id(Submission::ATTRIBUTE_ID);
 
-                $table->longText(Submission::ATTRIBUTE_NOTES)->nullable();
+                $table->nullableUuidMorphs(Submission::RELATION_ACTIONABLE);
+                $table->string(Submission::ATTRIBUTE_TYPE);
                 $table->longText(Submission::ATTRIBUTE_MODERATOR_NOTES)->nullable();
 
                 $table->integer(Submission::ATTRIBUTE_STATUS)->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
                 $table->unsignedBigInteger(Submission::ATTRIBUTE_MODERATOR)->nullable();
                 $table->foreign(Submission::ATTRIBUTE_MODERATOR)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->nullOnDelete();
 
+                $table->boolean(Submission::ATTRIBUTE_LOCKED)->default(false);
                 $table->timestamp(Submission::ATTRIBUTE_FINISHED_AT, 6)->nullable();
                 $table->timestamps(6);
 
@@ -38,22 +40,22 @@ return new class extends Migration
             });
         }
 
-        if (! Schema::hasTable(SubmissionStep::TABLE)) {
-            Schema::create(SubmissionStep::TABLE, function (Blueprint $table) {
-                $table->id(SubmissionStep::ATTRIBUTE_ID);
+        if (! Schema::hasTable(SubmissionStage::TABLE)) {
+            Schema::create(SubmissionStage::TABLE, function (Blueprint $table) {
+                $table->id(SubmissionStage::ATTRIBUTE_ID);
 
-                $table->integer(SubmissionStep::ATTRIBUTE_ACTION)->nullable();
-                $table->nullableMorphs(SubmissionStep::RELATION_ACTIONABLE);
-                $table->nullableMorphs(SubmissionStep::RELATION_TARGET);
-                $table->string(SubmissionStep::ATTRIBUTE_PIVOT)->nullable();
+                $table->integer(SubmissionStage::ATTRIBUTE_STAGE);
 
-                $table->json(SubmissionStep::ATTRIBUTE_FIELDS)->nullable();
-                $table->integer(SubmissionStep::ATTRIBUTE_STATUS)->nullable();
+                $table->json(SubmissionStage::ATTRIBUTE_FIELDS)->nullable();
+                $table->longText(SubmissionStage::ATTRIBUTE_NOTES)->nullable();
+                $table->longText(Submission::ATTRIBUTE_MODERATOR_NOTES)->nullable();
 
-                $table->unsignedBigInteger(SubmissionStep::ATTRIBUTE_SUBMISSION);
-                $table->foreign(SubmissionStep::ATTRIBUTE_SUBMISSION)->references(Submission::ATTRIBUTE_ID)->on(Submission::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(SubmissionStage::ATTRIBUTE_SUBMISSION);
+                $table->foreign(SubmissionStage::ATTRIBUTE_SUBMISSION)->references(Submission::ATTRIBUTE_ID)->on(Submission::TABLE)->cascadeOnDelete();
 
-                $table->timestamp(SubmissionStep::ATTRIBUTE_FINISHED_AT, 6)->nullable();
+                $table->unsignedBigInteger(SubmissionStage::ATTRIBUTE_MODERATOR)->nullable();
+                $table->foreign(SubmissionStage::ATTRIBUTE_MODERATOR)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->nullOnDelete();
+
                 $table->timestamps(6);
             });
         }
@@ -64,7 +66,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(SubmissionStep::TABLE);
+        Schema::dropIfExists(SubmissionStage::TABLE);
         Schema::dropIfExists(Submission::TABLE);
     }
 };

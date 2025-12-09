@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission\SubmissionStage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -33,22 +33,22 @@ test('casts finished at', function () {
 test('casts status to enum', function () {
     $submission = Submission::factory()->createOne();
 
-    $this->assertInstanceOf(ApprovableStatus::class, $submission->status);
+    $this->assertInstanceOf(SubmissionStatus::class, $submission->status);
 });
 
-test('steps', function () {
-    $stepsCount = fake()->randomDigitNotNull();
+test('stages', function () {
+    $stagesCount = fake()->randomDigitNotNull();
 
     $submission = Submission::factory()->createOne();
 
-    SubmissionStep::factory()
+    SubmissionStage::factory()
         ->for($submission)
-        ->count($stepsCount)
+        ->count($stagesCount)
         ->create();
 
-    $this->assertInstanceOf(HasMany::class, $submission->steps());
-    $this->assertEquals($stepsCount, $submission->steps()->count());
-    $this->assertInstanceOf(SubmissionStep::class, $submission->steps()->first());
+    $this->assertInstanceOf(HasMany::class, $submission->stages());
+    $this->assertEquals($stagesCount, $submission->stages()->count());
+    $this->assertInstanceOf(SubmissionStage::class, $submission->stages()->first());
 });
 
 test('user', function () {

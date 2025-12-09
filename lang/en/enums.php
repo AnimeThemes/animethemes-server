@@ -7,8 +7,7 @@ use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
-use App\Enums\Models\User\ApprovableStatus;
-use App\Enums\Models\User\SubmissionActionType;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
@@ -45,12 +44,6 @@ return [
         AnimeSynonymType::ENGLISH->name => 'English',
         AnimeSynonymType::SHORT->name => 'Short',
     ],
-    ApprovableStatus::class => [
-        ApprovableStatus::PENDING->name => 'Pending',
-        ApprovableStatus::REJECTED->name => 'Rejected',
-        ApprovableStatus::PARTIALLY_APPROVED->name => 'Partially Approved',
-        ApprovableStatus::APPROVED->name => 'Approved',
-    ],
     ExternalEntryWatchStatus::class => [
         ExternalEntryWatchStatus::WATCHING->name => 'Watching',
         ExternalEntryWatchStatus::COMPLETED->name => 'Completed',
@@ -81,12 +74,12 @@ return [
         PlaylistVisibility::PRIVATE->name => 'Private',
         PlaylistVisibility::UNLISTED->name => 'Unlisted',
     ],
-    SubmissionActionType::class => [
-        SubmissionActionType::CREATE->name => 'Create',
-        SubmissionActionType::UPDATE->name => 'Update',
-        SubmissionActionType::DELETE->name => 'Delete',
-        SubmissionActionType::ATTACH->name => 'Attach',
-        SubmissionActionType::DETACH->name => 'Detach',
+    SubmissionStatus::class => [
+        SubmissionStatus::PENDING->name => 'Pending',
+        SubmissionStatus::CHANGES_REQUESTED->name => 'Changes Requested',
+        SubmissionStatus::REJECTED->name => 'Rejected',
+        SubmissionStatus::PARTIALLY_APPROVED->name => 'Partially Approved',
+        SubmissionStatus::APPROVED->name => 'Approved',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE->name => 'Official Website',

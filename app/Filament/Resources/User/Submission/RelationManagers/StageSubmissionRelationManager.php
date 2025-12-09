@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\User\Submission\RelationManagers;
 
-use App\Filament\RelationManagers\User\SubmissionStepRelationManager;
+use App\Filament\RelationManagers\User\SubmissionStageRelationManager;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission\SubmissionStage;
 use Filament\Tables\Table;
 
-class StepSubmissionRelationManager extends SubmissionStepRelationManager
+class StageSubmissionRelationManager extends SubmissionStageRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
      */
-    protected static string $relationship = Submission::RELATION_STEPS;
+    protected static string $relationship = Submission::RELATION_STAGES;
 
     public function table(Table $table): Table
     {
         return parent::table(
             $table
-                ->inverseRelationship(SubmissionStep::RELATION_SUBMISSION)
+                ->inverseRelationship(SubmissionStage::RELATION_SUBMISSION)
         );
     }
 }

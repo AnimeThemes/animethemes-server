@@ -10,8 +10,6 @@ use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
-use App\Filament\Components\Fields\Select;
-use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -23,6 +21,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
+use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
@@ -136,30 +135,9 @@ class Theme extends BaseResource
                                     ->hiddenOn(ThemeRelationManager::class)
                                     ->required(),
 
-                                Select::make(ThemeModel::ATTRIBUTE_TYPE)
-                                    ->label(__('filament.fields.anime_theme.type.name'))
-                                    ->helperText(__('filament.fields.anime_theme.type.help'))
-                                    ->options(ThemeType::class)
-                                    ->required()
-                                    ->live()
-                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
-
-                                TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
-                                    ->label(__('filament.fields.anime_theme.sequence.name'))
-                                    ->helperText(__('filament.fields.anime_theme.sequence.help'))
-                                    ->integer()
-                                    ->live()
-                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
-
-                                TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
-                                    ->label(__('filament.fields.anime_theme.slug.name'))
-                                    ->helperText(__('filament.fields.anime_theme.slug.help'))
-                                    ->required()
-                                    ->maxLength(192)
-                                    ->alphaDash()
-                                    ->readOnly(),
+                                ThemeForm::typeField(),
+                                ThemeForm::sequenceField(),
+                                ThemeForm::slugField(),
 
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
@@ -327,7 +305,7 @@ class Theme extends BaseResource
     /**
      * Set the theme slug.
      */
-    protected static function setThemeSlug(Set $set, Get $get): void
+    public static function setThemeSlug(Set $set, Get $get): void
     {
         $slug = Str::of('');
         $type = $get(ThemeModel::ATTRIBUTE_TYPE);

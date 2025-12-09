@@ -20,6 +20,7 @@ use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
+use App\Filament\Submission\Resources\Anime\Pages\CreateAnimeSubmission;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\QueryBuilder\Constraints\TextConstraint;
@@ -85,7 +86,7 @@ class Synonym extends BaseResource
             ->components([
                 BelongsTo::make(SynonymModel::ATTRIBUTE_ANIME)
                     ->resource(AnimeResource::class)
-                    ->hiddenOn(SynonymRelationManager::class),
+                    ->hiddenOn([SynonymRelationManager::class, CreateAnimeSubmission::class]),
 
                 Select::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))

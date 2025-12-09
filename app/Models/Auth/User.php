@@ -8,6 +8,7 @@ use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
 use App\Contracts\Models\SoftDeletable;
+use App\Enums\Auth\Role;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Events\Auth\User\UserCreated;
@@ -174,6 +175,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
      */
     public function canAccessPanel(Panel $panel): bool
     {
+        if ($panel->getId() === 'submission') {
+            return $this->hasRole(Role::ADMIN->value);
+        }
+
         if ($this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value)) {
             return true;
         }
