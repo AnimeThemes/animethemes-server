@@ -48,7 +48,7 @@ return new class extends Migration
 
                 $table->json(SubmissionStage::ATTRIBUTE_FIELDS)->nullable();
                 $table->longText(SubmissionStage::ATTRIBUTE_NOTES)->nullable();
-                $table->longText(Submission::ATTRIBUTE_MODERATOR_NOTES)->nullable();
+                $table->longText(SubmissionStage::ATTRIBUTE_MODERATOR_NOTES)->nullable();
 
                 $table->unsignedBigInteger(SubmissionStage::ATTRIBUTE_SUBMISSION);
                 $table->foreign(SubmissionStage::ATTRIBUTE_SUBMISSION)->references(Submission::ATTRIBUTE_ID)->on(Submission::TABLE)->cascadeOnDelete();
