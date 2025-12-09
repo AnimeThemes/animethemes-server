@@ -6,7 +6,7 @@ namespace App\Http\Middleware\Models\Admin;
 
 use App\Constants\Config\SubmissionConstants;
 use App\Enums\Auth\SpecialPermission;
-use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\User\Submission;
 use Closure;
@@ -25,7 +25,7 @@ class UserExceedsSubmissionLimit
         /** @var User|null $user */
         $user = $request->user('sanctum');
 
-        abort_if(intval($user?->submissions->where(Submission::ATTRIBUTE_STATUS, ApprovableStatus::PENDING->value)->count()) >= $submissionLimit
+        abort_if(intval($user?->submissions->where(Submission::ATTRIBUTE_STATUS, SubmissionStatus::PENDING->value)->count()) >= $submissionLimit
         && blank($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)), 403, "User cannot have more than '$submissionLimit' outstanding submissions.");
 
         return $next($request);

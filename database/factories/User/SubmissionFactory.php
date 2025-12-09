@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\User;
 
-use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Models\User\Submission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -31,7 +31,7 @@ class SubmissionFactory extends Factory
      */
     public function definition(): array
     {
-        $status = Arr::random(ApprovableStatus::cases());
+        $status = Arr::random(SubmissionStatus::cases());
 
         return [
             Submission::ATTRIBUTE_MODERATOR_NOTES => fake()->text(),

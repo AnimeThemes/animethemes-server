@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
-use App\Models\User\Submission\SubmissionStep;
+use App\Models\User\Submission;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Submitable
 {
-    public function submissionsteps(): MorphMany
+    public function submissions(): MorphMany
     {
-        return $this->morphMany(SubmissionStep::class, SubmissionStep::RELATION_ACTIONABLE);
+        return $this->morphMany(Submission::class, Submission::RELATION_ACTIONABLE);
     }
 }
