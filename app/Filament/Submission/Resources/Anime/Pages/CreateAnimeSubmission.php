@@ -36,6 +36,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -52,6 +53,11 @@ class CreateAnimeSubmission extends CreateRecord
     {
         return $schema
             ->components([
+                Textarea::make('notes')
+                    ->label(__('submissions.fields.base.notes.name'))
+                    ->helperText(__('submissions.fields.base.notes.help'))
+                    ->rows(5),
+
                 Tabs::make('tabs')
                     ->vertical()
                     ->columnSpanFull()
@@ -78,7 +84,6 @@ class CreateAnimeSubmission extends CreateRecord
                                 Repeater::make(Anime::RELATION_THEMES)
                                     ->label(__('filament.resources.label.anime_themes'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme')]))
-                                    ->defaultItems(0)
                                     ->schema([
                                         Tabs::make('Tabs')
                                             ->schema([
@@ -296,12 +301,12 @@ class CreateAnimeSubmission extends CreateRecord
     protected function getCreateFormAction(): Action
     {
         return parent::getCreateFormAction()
-            ->label('Submit');
+            ->label(__('submissions.buttons.submit'));
     }
 
     protected function getCreateAnotherFormAction(): Action
     {
         return parent::getCreateAnotherFormAction()
-            ->label('Submit & Submit another');
+            ->label(__('submissions.buttons.submit_another'));
     }
 }

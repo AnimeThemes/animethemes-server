@@ -27,7 +27,7 @@ class BelongsToEntry extends TextEntry
 
         throw_unless(($resource = new $resource) instanceof BaseResource, InvalidArgumentException::class, 'The resource must instanceof a BaseResource.');
 
-        $static = app(static::class, ['name' => $relation]);
+        $static = resolve(static::class, ['name' => $relation]);
         $static->resource = $resource;
         $static->shouldUseModelName = $shouldUseModelName;
         $static->configure();

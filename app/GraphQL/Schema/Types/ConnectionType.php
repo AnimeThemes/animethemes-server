@@ -50,7 +50,7 @@ class ConnectionType extends RebingType
             'edges' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),
                 'description' => "A list of {$this->getNodeTypeName()} edges.",
-                'resolve' => fn (LengthAwarePaginator $paginator): Collection => $this->edgesResolver($paginator),
+                'resolve' => $this->edgesResolver(...),
             ],
             'nodes' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->getNodeTypeName())))),

@@ -83,7 +83,7 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var class-string[]
+     * @var array<string, class-string>
      */
     protected $dispatchesEvents = [
         'created' => TrackCreated::class,

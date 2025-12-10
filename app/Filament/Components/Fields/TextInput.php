@@ -12,7 +12,7 @@ class TextInput extends BaseTextInput
     public function uri(): static
     {
         return $this
-            ->stateCast(app(UriStateCast::class))
+            ->stateCast(resolve(UriStateCast::class))
             ->url();
     }
 }

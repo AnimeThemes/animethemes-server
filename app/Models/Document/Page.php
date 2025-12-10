@@ -61,7 +61,7 @@ class Page extends BaseModel implements SoftDeletable
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var class-string[]
+     * @var array<string, class-string>
      */
     protected $dispatchesEvents = [
         'created' => PageCreated::class,
