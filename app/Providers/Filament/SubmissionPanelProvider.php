@@ -17,6 +17,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class SubmissionPanelProvider extends PanelProvider
@@ -24,13 +25,14 @@ class SubmissionPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('submission')
-            ->path('submission')
+            ->id(Config::get('filament.submission.path'))
+            ->path(Config::get('filament.submission.path'))
+            ->domain(Config::get('filament.submission.domain'))
             ->login()
             ->maxContentWidth(Width::Full)
             ->globalSearch(false)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Violet,
             ])
             ->discoverResources(in: app_path('Filament/Submission/Resources'), for: 'App\Filament\Submission\Resources')
             ->discoverPages(in: app_path('Filament/Submission/Pages'), for: 'App\Filament\Submission\Pages')
