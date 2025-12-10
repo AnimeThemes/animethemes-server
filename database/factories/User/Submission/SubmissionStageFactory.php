@@ -33,6 +33,7 @@ class SubmissionStageFactory extends Factory
         return [
             SubmissionStage::ATTRIBUTE_SUBMISSION => Submission::factory(),
             SubmissionStage::ATTRIBUTE_MODERATOR_NOTES => fake()->text(),
+            SubmissionStage::ATTRIBUTE_STAGE => fake()->randomDigitNotNull(),
         ];
     }
 }
