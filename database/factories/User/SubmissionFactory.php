@@ -36,6 +36,7 @@ class SubmissionFactory extends Factory
         return [
             Submission::ATTRIBUTE_MODERATOR_NOTES => fake()->text(),
             Submission::ATTRIBUTE_STATUS => $status->value,
+            Submission::ATTRIBUTE_TYPE => fake()->text(),
         ];
     }
 }
