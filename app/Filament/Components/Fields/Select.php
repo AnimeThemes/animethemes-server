@@ -25,7 +25,7 @@ class Select extends ComponentsSelect
             return $this
                 ->allowHtml()
                 ->searchable()
-                ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($modelClass::find($state)))
+                ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($modelClass::query()->find($state)))
                 ->getSearchResultsUsing(
                     fn (string $search) =>
                     /** @phpstan-ignore-next-line */

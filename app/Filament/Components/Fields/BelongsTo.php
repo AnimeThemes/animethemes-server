@@ -67,7 +67,7 @@ class BelongsTo extends Select
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($modelClass::find($state), $this->withSubtitle));
+        $this->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : static::getSearchLabelWithBlade($modelClass::query()->find($state), $this->withSubtitle));
 
         if (in_array(Searchable::class, class_uses_recursive($modelClass))) {
             return $this

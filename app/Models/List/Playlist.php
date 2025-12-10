@@ -90,7 +90,7 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var class-string[]
+     * @var array<string, class-string>
      */
     protected $dispatchesEvents = [
         'created' => PlaylistCreated::class,

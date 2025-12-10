@@ -122,7 +122,7 @@ class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
      *
      * Allows for object-based events for native Eloquent events.
      *
-     * @var class-string[]
+     * @var array<string, class-string>
      */
     protected $dispatchesEvents = [
         'created' => VideoCreated::class,
