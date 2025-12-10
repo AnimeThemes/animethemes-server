@@ -21,4 +21,6 @@ enum SpecialPermission: string
     case VIEW_PULSE = 'view pulse';
 
     case REVALIDATE_PAGES = 'revalidate pages';
+
+    case MAKE_SUBMISSION = 'make submission';
 }
