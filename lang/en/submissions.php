@@ -3,6 +3,10 @@
 declare(strict_types=1);
 
 return [
+    'buttons' => [
+        'submit' => 'Submit',
+        'submit_another' => 'Submit & Submit another',
+    ],
     'fields' => [
         'base' => [
             'notes' => [

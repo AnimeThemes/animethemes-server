@@ -301,12 +301,12 @@ class CreateAnimeSubmission extends CreateRecord
     protected function getCreateFormAction(): Action
     {
         return parent::getCreateFormAction()
-            ->label('Submit');
+            ->label(__('submissions.buttons.submit'));
     }
 
     protected function getCreateAnotherFormAction(): Action
     {
         return parent::getCreateAnotherFormAction()
-            ->label('Submit & Submit another');
+            ->label(__('submissions.buttons.submit_another'));
     }
 }
