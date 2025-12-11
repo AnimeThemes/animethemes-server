@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Discord\DiscordThread;
 
+use App\Actions\Discord\DiscordThreadAction;
 use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Discord\DiscordThread;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 
 /**
  * @extends AdminUpdatedEvent<DiscordThread>
@@ -31,8 +30,8 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
      */
     protected function updateThread(): void
     {
-        Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->put(Config::get('services.discord.api_url').'/thread', $this->getModel()->toArray())
+        DiscordThreadAction::getHttp()
+            ->put('/thread', $this->getModel()->toArray())
             ->throw();
     }
 }

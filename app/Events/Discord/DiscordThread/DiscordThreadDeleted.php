@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Discord\DiscordThread;
 
+use App\Actions\Discord\DiscordThreadAction;
 use App\Events\Base\Admin\AdminDeletedEvent;
 use App\Models\Discord\DiscordThread;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 
 /**
  * @extends AdminDeletedEvent<DiscordThread>
@@ -30,8 +29,8 @@ class DiscordThreadDeleted extends AdminDeletedEvent
      */
     protected function deleteThread(): void
     {
-        Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->delete(Config::get('services.discord.api_url').'/thread', ['id' => $this->getModel()->getKey()])
+        DiscordThreadAction::getHttp()
+            ->delete('/thread', ['id' => $this->getModel()->getKey()])
             ->throw();
     }
 }

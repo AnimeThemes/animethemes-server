@@ -9,11 +9,23 @@ use App\Enums\Actions\ActionStatus;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Exception;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class DiscordThreadAction
 {
+    /**
+     * Get the HTTP client for Discord API.
+     */
+    public static function getHttp(): PendingRequest
+    {
+        return Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+            ->baseUrl(Config::get('services.discord.api_url'));
+    }
+
     /**
      * @param  array<string, mixed>  $fields
      *
@@ -35,7 +47,7 @@ class DiscordThreadAction
                 Arr::set($animeArray, "images.$key.facet", $anime->images->get($key)->facet->localize());
             }
 
-            $response = DiscordMessageAction::getHttp()
+            $response = static::getHttp()
                 ->acceptJson()
                 ->post('/thread', $animeArray)
                 ->throw()
@@ -64,7 +76,7 @@ class DiscordThreadAction
      */
     public function get(string $id): array
     {
-        return DiscordMessageAction::getHttp()
+        return static::getHttp()
             ->acceptJson()
             ->get('/thread', ['id' => $id])
             ->throw()
