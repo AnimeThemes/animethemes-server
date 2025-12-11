@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Submission\Resources\Anime\Pages;
 
 use App\Enums\Models\User\SubmissionStatus;
-use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\SubmissionBelongsTo;
@@ -13,8 +12,9 @@ use App\Filament\Components\Fields\TextInput;
 use App\Filament\Resources\Wiki\Anime as AnimeModel;
 use App\Filament\Resources\Wiki\Anime\Synonym;
 use App\Filament\Resources\Wiki\Anime\Theme;
+use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
-use App\Filament\Resources\Wiki\Artist as WikiArtist;
+use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\ExternalResource;
 use App\Filament\Resources\Wiki\Group;
 use App\Filament\Resources\Wiki\Series as SeriesResource;
@@ -26,17 +26,14 @@ use App\Models\User\Submission;
 use App\Models\User\Submission\SubmissionStage;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource as WikiExternalResource;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Models\Wiki\Series;
-use App\Models\Wiki\Song as WikiSong;
+use App\Models\Wiki\Song as SongModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
-use App\Rules\Wiki\Resource\AnimeThemeEntryResourceLinkFormatRule;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
@@ -133,14 +130,14 @@ class CreateAnimeSubmission extends CreateRecord
                                                             ->reorderableWithDragAndDrop(false)
                                                             ->reorderableWithButtons()
                                                             ->formatStateUsing(function (Get $get): array {
-                                                                /** @var WikiSong|null $song */
-                                                                $song = WikiSong::query()->find($get(Performance::ATTRIBUTE_SONG));
+                                                                /** @var SongModel|null $song */
+                                                                $song = SongModel::query()->find($get(Performance::ATTRIBUTE_SONG));
 
                                                                 return PerformanceSongRelationManager::formatArtists($song);
                                                             })
                                                             ->schema([
                                                                 SubmissionBelongsTo::make(Artist::ATTRIBUTE_ID)
-                                                                    ->resource(WikiArtist::class)
+                                                                    ->resource(ArtistResource::class)
                                                                     ->showCreateOption()
                                                                     ->required()
                                                                     ->hintAction(LoadMembersAction::make()),
@@ -167,7 +164,7 @@ class CreateAnimeSubmission extends CreateRecord
                                                                     ->reorderableWithButtons()
                                                                     ->schema([
                                                                         SubmissionBelongsTo::make(Membership::ATTRIBUTE_MEMBER)
-                                                                            ->resource(WikiArtist::class)
+                                                                            ->resource(ArtistResource::class)
                                                                             ->showCreateOption()
                                                                             ->label(__('filament.fields.membership.member'))
                                                                             ->required(),
@@ -192,38 +189,7 @@ class CreateAnimeSubmission extends CreateRecord
                                                         Repeater::make(AnimeTheme::RELATION_ENTRIES)
                                                             ->label(__('filament.resources.label.anime_theme_entries'))
                                                             ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme_entry')]))
-                                                            ->schema([
-                                                                TextInput::make(AnimeThemeEntry::ATTRIBUTE_VERSION)
-                                                                    ->label(__('filament.fields.anime_theme_entry.version.name'))
-                                                                    ->helperText(__('filament.fields.anime_theme_entry.version.help'))
-                                                                    ->integer(),
-
-                                                                TextInput::make(AnimeThemeEntry::ATTRIBUTE_EPISODES)
-                                                                    ->label(__('filament.fields.anime_theme_entry.episodes.name'))
-                                                                    ->helperText(__('filament.fields.anime_theme_entry.episodes.help'))
-                                                                    ->maxLength(192),
-
-                                                                Checkbox::make(AnimeThemeEntry::ATTRIBUTE_NSFW)
-                                                                    ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
-                                                                    ->helperText(__('filament.fields.anime_theme_entry.nsfw.help')),
-
-                                                                Checkbox::make(AnimeThemeEntry::ATTRIBUTE_SPOILER)
-                                                                    ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
-                                                                    ->helperText(__('filament.fields.anime_theme_entry.spoiler.help')),
-
-                                                                TextInput::make(AnimeThemeEntry::ATTRIBUTE_NOTES)
-                                                                    ->label(__('filament.fields.anime_theme_entry.notes.name'))
-                                                                    ->helperText(__('filament.fields.anime_theme_entry.notes.help'))
-                                                                    ->maxLength(192),
-
-                                                                TextInput::make(ResourceSite::YOUTUBE->name)
-                                                                    ->label(ResourceSite::YOUTUBE->localize())
-                                                                    ->helperText(__('filament.fields.anime_theme_entry.youtube.help'))
-                                                                    ->url()
-                                                                    ->maxLength(255)
-                                                                    ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
-                                                                    ->uri(),
-                                                            ]),
+                                                            ->schema(Entry::form($schema)->getComponents()),
                                                     ]),
                                             ]),
                                     ]),
@@ -254,12 +220,12 @@ class CreateAnimeSubmission extends CreateRecord
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.external_resource')]))
                                     ->defaultItems(0)
                                     ->schema([
-                                        SubmissionBelongsTo::make(WikiExternalResource::ATTRIBUTE_ID)
+                                        SubmissionBelongsTo::make(ExternalResourceModel::ATTRIBUTE_ID)
                                             ->resource(ExternalResource::class)
                                             ->showCreateOption()
                                             ->required(),
 
-                                        Hidden::make(WikiExternalResource::ATTRIBUTE_ID.'_virtual'),
+                                        Hidden::make(ExternalResourceModel::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
 
