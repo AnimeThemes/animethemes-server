@@ -89,7 +89,7 @@ class SubmissionVirtual extends BaseModel
         return strval($this->getKey());
     }
 
-    public function getModelAttribute(): string
+    protected function getModelAttribute(): string
     {
         return Relation::getMorphedModel($this->model_type) ?? $this->model_type;
     }

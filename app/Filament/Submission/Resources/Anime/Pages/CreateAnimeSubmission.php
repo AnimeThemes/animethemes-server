@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Submission\Resources\Anime\Pages;
 
+use App\Enums\Models\User\SubmissionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
@@ -21,6 +22,8 @@ use App\Filament\Resources\Wiki\Song;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Studio as StudioResource;
 use App\Filament\Submission\Resources\AnimeSubmissionResource;
+use App\Models\User\Submission;
+use App\Models\User\Submission\SubmissionStage;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -44,6 +47,8 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class CreateAnimeSubmission extends CreateRecord
 {
@@ -53,9 +58,10 @@ class CreateAnimeSubmission extends CreateRecord
     {
         return $schema
             ->components([
-                Textarea::make('notes')
+                Textarea::make(SubmissionStage::ATTRIBUTE_NOTES)
                     ->label(__('submissions.fields.base.notes.name'))
                     ->helperText(__('submissions.fields.base.notes.help'))
+                    ->required()
                     ->rows(5),
 
                 Tabs::make('tabs')
@@ -274,8 +280,24 @@ class CreateAnimeSubmission extends CreateRecord
             ]);
     }
 
+    // TODO: Refactor common submission creation logic
     protected function handleRecordCreation(array $data): Model
     {
+        $submission = Submission::query()
+            ->create([
+                Submission::ATTRIBUTE_STATUS => SubmissionStatus::PENDING->value,
+                Submission::ATTRIBUTE_TYPE => CreateAnimeSubmission::class,
+                Submission::ATTRIBUTE_USER => Auth::id(),
+            ]);
+
+        SubmissionStage::query()
+            ->create([
+                SubmissionStage::ATTRIBUTE_SUBMISSION => $submission->getKey(),
+                SubmissionStage::ATTRIBUTE_FIELDS => Arr::except($data, SubmissionStage::ATTRIBUTE_NOTES),
+                SubmissionStage::ATTRIBUTE_NOTES => Arr::get($data, SubmissionStage::ATTRIBUTE_NOTES),
+                SubmissionStage::ATTRIBUTE_STAGE => 1,
+            ]);
+
         $this->halt();
 
         return new Anime();
