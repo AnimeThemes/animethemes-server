@@ -26,6 +26,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Filament\Resources\Wiki\Song as SongResource;
+use App\Filament\Submission\Resources\Anime\Pages\CreateAnimeSubmission;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Song;
@@ -163,12 +164,12 @@ class Entry extends BaseResource
                     ->maxLength(255)
                     ->rule(new AnimeThemeEntryResourceLinkFormatRule(ResourceSite::YOUTUBE))
                     ->uri()
-                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, ?Uri $state): void {
-                        $fields = [
-                            ResourceSite::YOUTUBE->name => $state,
-                        ];
+                    ->saveRelationshipsUsing(function (EntryModel $record, AttachResourceAction $action, ?Uri $state, $livewire): void {
+                        if ($livewire instanceof CreateAnimeSubmission) {
+                            return;
+                        }
 
-                        $action->handle($record, $fields, [ResourceSite::YOUTUBE]);
+                        $action->handle($record, [ResourceSite::YOUTUBE->name => $state], [ResourceSite::YOUTUBE]);
                     }),
             ])
             ->columns(1);
