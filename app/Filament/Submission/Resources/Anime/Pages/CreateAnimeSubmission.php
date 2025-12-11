@@ -96,15 +96,12 @@ class CreateAnimeSubmission extends CreateRecord
 
                                                         SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_GROUP)
                                                             ->resource(Group::class)
-                                                            ->hiddenField('group_fields')
                                                             ->showCreateOption()
                                                             ->live()
                                                             ->partiallyRenderComponentsAfterStateUpdated([AnimeTheme::ATTRIBUTE_SLUG])
                                                             ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
-                                                        Hidden::make('group_fields')
-                                                            ->default([])
-                                                            ->dehydrated(false),
+                                                        Hidden::make(AnimeTheme::ATTRIBUTE_GROUP.'_virtual'),
                                                     ]),
 
                                                 Tab::make('song')
@@ -112,14 +109,11 @@ class CreateAnimeSubmission extends CreateRecord
                                                     ->schema([
                                                         SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_SONG)
                                                             ->resource(Song::class)
-                                                            ->hiddenField('song_fields')
                                                             ->showCreateOption()
                                                             ->live()
                                                             ->hintAction(LoadArtistsAction::make()),
 
-                                                        Hidden::make('song_fields')
-                                                            ->default([])
-                                                            ->dehydrated(false),
+                                                        Hidden::make(AnimeTheme::ATTRIBUTE_SONG.'_virtual'),
 
                                                         Repeater::make('performances')
                                                             ->label(__('filament.resources.label.artists'))
@@ -141,14 +135,11 @@ class CreateAnimeSubmission extends CreateRecord
                                                             ->schema([
                                                                 SubmissionBelongsTo::make(Artist::ATTRIBUTE_ID)
                                                                     ->resource(WikiArtist::class)
-                                                                    ->hiddenField('artist_fields')
                                                                     ->showCreateOption()
                                                                     ->required()
                                                                     ->hintAction(LoadMembersAction::make()),
 
-                                                                Hidden::make('artist_fields')
-                                                                    ->default([])
-                                                                    ->dehydrated(false),
+                                                                Hidden::make(Artist::ATTRIBUTE_ID.'_virtual'),
 
                                                                 TextInput::make(Performance::ATTRIBUTE_AS)
                                                                     ->label(__('filament.fields.performance.as.name'))
@@ -171,14 +162,12 @@ class CreateAnimeSubmission extends CreateRecord
                                                                     ->schema([
                                                                         SubmissionBelongsTo::make(Membership::ATTRIBUTE_MEMBER)
                                                                             ->resource(WikiArtist::class)
-                                                                            ->hiddenField('member_fields')
                                                                             ->showCreateOption()
                                                                             ->label(__('filament.fields.membership.member'))
                                                                             ->required(),
 
-                                                                        Hidden::make('member_fields')
-                                                                            ->default([])
-                                                                            ->dehydrated(false),
+                                                                        Hidden::make(Membership::ATTRIBUTE_MEMBER.'_virtual')
+                                                                            ->dehydrated(true),
 
                                                                         TextInput::make(Membership::ATTRIBUTE_AS)
                                                                             ->label(__('filament.fields.membership.as.name'))
@@ -246,9 +235,7 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->resource(SeriesResource::class)
                                             ->showCreateOption(),
 
-                                        Hidden::make('fields')
-                                            ->default([])
-                                            ->dehydrated(false),
+                                        Hidden::make(Series::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
 
@@ -264,9 +251,7 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->resource(ExternalResource::class)
                                             ->showCreateOption(),
 
-                                        Hidden::make('fields')
-                                            ->default([])
-                                            ->dehydrated(false),
+                                        Hidden::make(WikiExternalResource::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
 
@@ -282,9 +267,7 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->resource(StudioResource::class)
                                             ->showCreateOption(),
 
-                                        Hidden::make('fields')
-                                            ->default([])
-                                            ->dehydrated(false),
+                                        Hidden::make(Studio::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
                     ]),
