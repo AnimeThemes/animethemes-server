@@ -239,7 +239,8 @@ class CreateAnimeSubmission extends CreateRecord
                                     ->schema([
                                         SubmissionBelongsTo::make(Series::ATTRIBUTE_ID)
                                             ->resource(SeriesResource::class)
-                                            ->showCreateOption(),
+                                            ->showCreateOption()
+                                            ->required(),
 
                                         Hidden::make(Series::ATTRIBUTE_ID.'_virtual'),
                                     ]),
@@ -255,7 +256,8 @@ class CreateAnimeSubmission extends CreateRecord
                                     ->schema([
                                         SubmissionBelongsTo::make(WikiExternalResource::ATTRIBUTE_ID)
                                             ->resource(ExternalResource::class)
-                                            ->showCreateOption(),
+                                            ->showCreateOption()
+                                            ->required(),
 
                                         Hidden::make(WikiExternalResource::ATTRIBUTE_ID.'_virtual'),
                                     ]),
@@ -271,7 +273,8 @@ class CreateAnimeSubmission extends CreateRecord
                                     ->schema([
                                         SubmissionBelongsTo::make(Studio::ATTRIBUTE_ID)
                                             ->resource(StudioResource::class)
-                                            ->showCreateOption(),
+                                            ->showCreateOption()
+                                            ->required(),
 
                                         Hidden::make(Studio::ATTRIBUTE_ID.'_virtual'),
                                     ]),
