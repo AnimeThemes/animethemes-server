@@ -6,8 +6,6 @@ namespace App\Filament\Resources\Discord;
 
 use App\Actions\Discord\DiscordThreadAction;
 use App\Enums\Filament\NavigationGroup;
-use App\Filament\Actions\Models\Discord\DiscordEditMessageAction;
-use App\Filament\Actions\Models\Discord\DiscordSendMessageAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -21,7 +19,6 @@ use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
-use Filament\Actions\ActionGroup;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
@@ -158,22 +155,6 @@ class DiscordThread extends BaseResource
         return [
             DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.base.created_at')),
-        ];
-    }
-
-    /**
-     * @return array<int, ActionGroup|\Filament\Actions\Action>
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
-
-            ActionGroup::make([
-                DiscordEditMessageAction::make(),
-
-                DiscordSendMessageAction::make(),
-            ]),
         ];
     }
 

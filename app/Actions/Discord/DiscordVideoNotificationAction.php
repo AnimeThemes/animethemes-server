@@ -55,7 +55,7 @@ class DiscordVideoNotificationAction
             $newVideos[] = $videoArray;
         }
 
-        DiscordMessageAction::getHttp()
+        DiscordThreadAction::getHttp()
             ->post('/notification', [
                 'type' => $type->value,
                 'videos' => $newVideos,
