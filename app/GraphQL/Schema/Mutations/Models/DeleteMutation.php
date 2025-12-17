@@ -35,7 +35,7 @@ abstract class DeleteMutation extends BaseMutation
             ->values()
             ->all();
 
-        return Gate::allows('delete', $args);
+        return ($this->response = Gate::inspect('delete', $args))->allowed();
     }
 
     /**

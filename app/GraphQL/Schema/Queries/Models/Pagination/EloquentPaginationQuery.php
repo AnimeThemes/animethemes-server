@@ -42,7 +42,7 @@ abstract class EloquentPaginationQuery extends EloquentQuery
             ->values()
             ->all();
 
-        return Gate::allows('viewAny', [$this->model(), ...$args]);
+        return ($this->response = Gate::inspect('viewAny', [$this->model(), ...$args]))->allowed();
     }
 
     /**

@@ -16,6 +16,7 @@ use App\GraphQL\Support\Argument\PageArgument;
 use App\GraphQL\Support\Argument\SortArgument;
 use App\GraphQL\Support\Filter\Filter;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
@@ -26,11 +27,18 @@ abstract class BaseQuery extends Query
     use FiltersModels;
     use ResolvesArguments;
 
+    protected Response $response;
+
     public function __construct(
         protected string $name,
         protected bool $nullable = true,
         protected bool $isList = false,
     ) {}
+
+    public function getAuthorizationMessage(): string
+    {
+        return $this->response->message() ?? 'Unauthorized';
+    }
 
     /**
      * @return array<string, mixed>
