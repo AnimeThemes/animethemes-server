@@ -11,12 +11,15 @@ use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Auth\Access\Response;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 
 abstract class BaseMutation extends Mutation
 {
     use ResolvesArguments;
+
+    protected Response $response;
 
     public function __construct(
         protected string $name,
@@ -27,6 +30,11 @@ abstract class BaseMutation extends Mutation
                 ResolveBindableArgs::class,
             ],
         );
+    }
+
+    public function getAuthorizationMessage(): string
+    {
+        return $this->response->message() ?? 'Unauthorized';
     }
 
     /**

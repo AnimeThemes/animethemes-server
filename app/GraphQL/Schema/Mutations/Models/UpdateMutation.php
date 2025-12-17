@@ -37,7 +37,7 @@ abstract class UpdateMutation extends BaseMutation
             ->values()
             ->all();
 
-        return Gate::allows('update', $args);
+        return ($this->response = Gate::inspect('update', $args))->allowed();
     }
 
     /**

@@ -29,7 +29,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
             ->values()
             ->all();
 
-        return Gate::allows('view', $args);
+        return ($this->response = Gate::inspect('view', $args))->allowed();
     }
 
     /**

@@ -38,7 +38,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
-        return Gate::allows('viewAny', Anime::class);
+        return ($this->response = Gate::inspect('viewAny', Anime::class))->allowed();
     }
 
     /**

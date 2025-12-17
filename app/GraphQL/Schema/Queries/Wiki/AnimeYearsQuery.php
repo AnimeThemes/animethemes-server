@@ -41,7 +41,7 @@ class AnimeYearsQuery extends BaseQuery
             ->values()
             ->all();
 
-        return Gate::allows('viewAny', [Anime::class, $model, ...$args]);
+        return ($this->response = Gate::inspect('viewAny', [Anime::class, $model, ...$args]))->allowed();
     }
 
     /**
