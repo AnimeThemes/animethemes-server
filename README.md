@@ -22,8 +22,8 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
   - [Database](#database)
   - [PHP](#php)
 - [Configuration](#configuration)
-- [Elasticsearch](#elasticsearch)
 - [Users](#users)
+- [Elasticsearch](#elasticsearch)
 - [Local Storage](#local-storage)
 - [Running](#running)
 
