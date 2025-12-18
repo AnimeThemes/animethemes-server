@@ -12,9 +12,14 @@ use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Attributes\DeleteWhenMissingModels;
+use Illuminate\Queue\Attributes\WithoutRelations;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Laravel\Pennant\Feature;
 
+#[DeleteWhenMissingModels]
+#[WithoutRelations]
 class SyncExternalProfileJob implements ShouldQueue
 {
     use Dispatchable;
@@ -37,7 +42,10 @@ class SyncExternalProfileJob implements ShouldQueue
 
     public function middleware(): array
     {
-        return [new ExternalProfileSiteRateLimited()];
+        return [
+            new ExternalProfileSiteRateLimited(),
+            new WithoutOverlapping($this->profile->site->name),
+        ];
     }
 
     /**

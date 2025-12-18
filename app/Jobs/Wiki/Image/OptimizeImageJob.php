@@ -9,8 +9,12 @@ use App\Models\Wiki\Image;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Attributes\DeleteWhenMissingModels;
+use Illuminate\Queue\Attributes\WithoutRelations;
 use Illuminate\Queue\InteractsWithQueue;
 
+#[DeleteWhenMissingModels]
+#[WithoutRelations]
 class OptimizeImageJob implements ShouldQueue
 {
     use Dispatchable;
