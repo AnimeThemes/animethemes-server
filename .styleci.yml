@@ -1,4 +1,4 @@
-version: 8.4.1
+version: 8.5
 preset: laravel
 finder:
   not-name:
