@@ -6,6 +6,7 @@ namespace App\Actions\Http\Api\List\Playlist\Track;
 
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Models\List\Playlist\RemoveTrackAction;
+use App\Concerns\Actions\List\LocksPlaylist;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
@@ -15,41 +16,41 @@ use Illuminate\Support\Str;
 
 class DestroyTrackAction
 {
+    use LocksPlaylist;
+
     /**
      * @throws Exception
      */
     public function destroy(Playlist $playlist, PlaylistTrack $track): string
     {
-        try {
-            DB::beginTransaction();
+        return $this->withPlaylistLock($playlist, function () use ($playlist, $track) {
+            try {
+                DB::beginTransaction();
 
-            // Lock tracks to prevent race conditions.
-            Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
-            $playlist->tracks()->select(PlaylistTrack::ATTRIBUTE_ID)->lockForUpdate()->get();
+                $removeAction = new RemoveTrackAction();
 
-            $removeAction = new RemoveTrackAction();
+                $removeAction->remove($playlist, $track);
 
-            $removeAction->remove($playlist, $track);
+                $message = Str::of(Str::headline(class_basename($track)))
+                    ->append(' \'')
+                    ->append($track->getName())
+                    ->append('\' was deleted.')
+                    ->__toString();
 
-            $message = Str::of(Str::headline(class_basename($track)))
-                ->append(' \'')
-                ->append($track->getName())
-                ->append('\' was deleted.')
-                ->__toString();
+                $destroyAction = new DestroyAction();
 
-            $destroyAction = new DestroyAction();
+                $destroyAction->forceDelete($track);
 
-            $destroyAction->forceDelete($track);
+                DB::commit();
 
-            DB::commit();
+                return $message;
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
 
-            return $message;
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
+                DB::rollBack();
 
-            DB::rollBack();
-
-            throw $e;
-        }
+                throw $e;
+            }
+        });
     }
 }
