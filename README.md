@@ -16,8 +16,6 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 
 # Installation
 
-This guide exists to help developers set up a local instance of AnimeThemes.
-
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
   - [Web Server](#web-server)
@@ -39,6 +37,7 @@ This guide exists to help developers set up a local instance of AnimeThemes.
 
 A LAMP stack, such as [XAMPP](https://www.apachefriends.org/download.html), can
 also be used to set up Apache, MySQL, and PHP.
+
 Alternatively, you may use [Laravel Herd](https://herd.laravel.com), which
 provides a simple local development environment with PHP and a web server.
 
@@ -65,6 +64,7 @@ php artisan db:sync
 ### Web Server
 
 Next, we will configure our web server [here](/AnimeThemes/animethemes-server/wiki/Server-Setup) to serve the application.
+
 If you are using a local development environment such as **Laravel Herd**, the web server and PHP runtime are already configured for you, and you can skip most of the manual web server setup steps.
 
 ### PHP
@@ -105,20 +105,6 @@ If we want to enable video streams, we need to set the `App\Features\AllowVideoS
 
 If we want to enable discord notifications, we need to set the `allow_discord_notifications` value on DB to `true`. We will need to configure a [Queue](/AnimeThemes/animethemes-server/wiki/Configuration#queue) to process the dispatched events through a worker. Finally, we will need to create a [Discord application](https://discord.com/developers/applications) and register it `config/services.php`.
 
-## Elasticsearch
-
-If we want to enable scout, we need to configure [Elasticsearch](/AnimeThemes/animethemes-server/wiki/Elasticsearch).
-
-If we have configured Elasticsearch, migrate and import models into our indices using:
-
-```sh
-# Run the elastic migrations
-php artisan elastic:migrate
-
-# Import Models with a seeder
-php artisan db:seed --class="Database\Seeders\Scout\ImportModelsSeeder"
-```
-
 ## Users
 
 ```sh
@@ -131,6 +117,20 @@ $user = App\Models\Auth\User::factory()->create(['name' => 'User Name', 'email' 
 # It is useful to create a user with the Admin role with permissions to all actions
 # Assign the Admin role to the user
 $user->assignRole('Admin');
+```
+
+## Elasticsearch
+
+If we want to enable scout, we need to configure [Elasticsearch](/AnimeThemes/animethemes-server/wiki/Elasticsearch).
+
+If we have configured Elasticsearch, migrate and import models into our indices using:
+
+```sh
+# Run the elastic migrations
+php artisan elastic:migrate
+
+# Import Models with a seeder
+php artisan db:seed --class="Database\Seeders\Scout\ImportModelsSeeder"
 ```
 
 ## Local Storage
