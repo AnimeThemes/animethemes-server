@@ -65,7 +65,7 @@ php artisan db:sync
 
 Next, we will configure our web server [here](/AnimeThemes/animethemes-server/wiki/Server-Setup) to serve the application.
 
-If you are using a local development environment such as **Laravel Herd**, the web server and PHP runtime are already configured for you, and you can skip most of the manual web server setup steps.
+If you are using a local development environment such as **Laravel Herd**, the web server and PHP runtime are already configured for you, and you can skip most of the manual web server setup steps. Database support is a paid feature, but you can install MySQL separately.
 
 ### PHP
 
