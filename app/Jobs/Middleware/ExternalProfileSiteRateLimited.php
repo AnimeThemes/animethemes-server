@@ -27,13 +27,10 @@ class ExternalProfileSiteRateLimited
                 ->allow(Arr::get($definition, 'allow'))
                 ->every(Arr::get($definition, 'every'))
                 ->then(
-                    function () use ($job, $next): void {
-                        // Lock obtained...
-                        $next($job);
-                    },
-                    function () use ($job): void {
+                    fn () => $next($job),
+                    function () use ($job, $definition): void {
                         // Could not obtain lock...
-                        $job->release(5);
+                        $job->release(Arr::get($definition, 'every'));
                     }
                 );
         } else {
@@ -57,8 +54,8 @@ class ExternalProfileSiteRateLimited
             ],
             ExternalProfileSite::MAL->value => [ // MAL rate limiting is 90/min
                 'key' => ExternalProfileSite::MAL->name,
-                'allow' => 1,
-                'every' => 1,
+                'allow' => 4,
+                'every' => 3,
             ],
         ];
     }
