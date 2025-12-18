@@ -45,7 +45,7 @@ class BackfillSongAction extends BackfillAction
 
             $pattern = '/<a[^>]*class="[^"]*music-service-list__link[^"]*js-redirect[^"]*"[^>]*href="([^"]+)"[^>]*data-label="([^"]*)"[^>]*>/i';
 
-            preg_match_all($pattern, $response->body(), $matches);
+            preg_match_all($pattern, (string) $response->body(), $matches);
 
             foreach ($matches[1] as $key => $link) {
                 $label = $matches[2][$key];

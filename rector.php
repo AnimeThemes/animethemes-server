@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
-use Rector\CodingStyle\Rector\FunctionLike\FunctionLikeToFirstClassCallableRector;
+use Rector\CodingStyle\Rector\ArrowFunction\ArrowFunctionDelegatingCallToFirstClassCallableRector;
+use Rector\CodingStyle\Rector\Closure\ClosureDelegatingCallToFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
@@ -53,7 +54,8 @@ return RectorConfig::configure()
         DisallowedEmptyRuleFixerRector::class,
         DispatchToHelperFunctionsRector::class,
         ConvertEnumerableToArrayToAllRector::class,
-        FunctionLikeToFirstClassCallableRector::class,
+        ArrowFunctionDelegatingCallToFirstClassCallableRector::class,
+        ClosureDelegatingCallToFirstClassCallableRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,

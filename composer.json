@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-fileinfo": "*",
         "ext-gd": "*",
         "ext-intl": "*",
@@ -32,15 +32,15 @@
         "filament/filament": "^4.3.1",
         "flowframe/laravel-trend": ">=0.4",
         "guzzlehttp/guzzle": "^7.10.0",
-        "larastan/larastan": "^3.8.0",
+        "larastan/larastan": "^3.8.1",
         "laravel-notification-channels/discord": "^1.7",
-        "laravel/fortify": "^1.32.1",
-        "laravel/framework": "^12.42.0",
-        "laravel/horizon": "^5.40.2",
+        "laravel/fortify": "^1.33.0",
+        "laravel/framework": "^12.43.1",
+        "laravel/horizon": "^5.41.0",
         "laravel/pennant": "^1.18.5",
-        "laravel/pulse": "^1.4.6",
+        "laravel/pulse": "^1.4.7",
         "laravel/sanctum": "^4.2.1",
-        "laravel/scout": "^10.22.1",
+        "laravel/scout": "^10.23.0",
         "laravel/tinker": "^2.10.2",
         "league/flysystem-aws-s3-v3": "^3.30.1",
         "leandrocfe/filament-apex-charts": "^4.0.0",
@@ -50,7 +50,7 @@
         "propaganistas/laravel-disposable-email": "^2.4.21",
         "rebing/graphql-laravel": "^9.14",
         "spatie/db-dumper": "^3.8.2",
-        "spatie/laravel-permission": "^6.23.0",
+        "spatie/laravel-permission": "^6.24.0",
         "staudenmeir/belongs-to-through": "^2.17",
         "staudenmeir/eloquent-has-many-deep": "1.21.1",
         "staudenmeir/laravel-adjacency-list": "^1.25.2",
@@ -59,12 +59,12 @@
         "vinkla/hashids": "^13.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.16.1",
-        "driftingly/rector-laravel": "^2.1.6",
+        "barryvdh/laravel-debugbar": "^3.16.2",
+        "driftingly/rector-laravel": "^2.1.8",
         "laravel/pint": "^1.26.0",
         "laravel/sail": "^1.51.0",
         "mockery/mockery": "^1.6.12",
-        "pestphp/pest": "^4.1.6",
+        "pestphp/pest": "^4.2.0",
         "pestphp/pest-plugin-laravel": "^4.0",
         "predis/predis": "^2.4.1",
         "rector/rector": "^2.2.14"
@@ -72,8 +72,8 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "ext-pcntl": "8.4",
-            "ext-posix": "8.4"
+            "ext-pcntl": "8.5",
+            "ext-posix": "8.5"
         },
         "preferred-install": "dist",
         "sort-packages": true,
