@@ -33,12 +33,4 @@ return new class extends Migration
             });
         }
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('filament_exceptions_table');
-    }
 };

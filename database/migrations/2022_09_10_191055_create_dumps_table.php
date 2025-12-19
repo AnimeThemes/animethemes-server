@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Admin\Dump;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,20 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Dump::TABLE)) {
-            Schema::create(Dump::TABLE, function (Blueprint $table) {
-                $table->id(Dump::ATTRIBUTE_ID);
+        if (! Schema::hasTable('dumps')) {
+            Schema::create('dumps', function (Blueprint $table) {
+                $table->id('dump_id');
                 $table->timestamps(6);
-                $table->string(Dump::ATTRIBUTE_PATH);
+                $table->string('path');
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Dump::TABLE);
     }
 };

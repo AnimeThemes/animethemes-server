@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
-use App\Models\Wiki\Song\Performance;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,48 +13,39 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Performance::TABLE)) {
-            Schema::create(Performance::TABLE, function (Blueprint $table) {
-                $table->id(Performance::ATTRIBUTE_ID);
+        if (! Schema::hasTable('performances')) {
+            Schema::create('performances', function (Blueprint $table) {
+                $table->id('performance_id');
 
-                $table->unsignedBigInteger(Performance::ATTRIBUTE_SONG);
-                $table->foreign(Performance::ATTRIBUTE_SONG)->references(Song::ATTRIBUTE_ID)->on(Song::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('song_id');
+                $table->foreign('song_id')->references('song_id')->on('songs')->cascadeOnDelete();
 
-                $table->morphs(Performance::ATTRIBUTE_ARTIST);
+                $table->morphs('artist');
 
-                $table->string(Performance::ATTRIBUTE_ALIAS)->nullable();
-                $table->string(Performance::ATTRIBUTE_AS)->nullable();
+                $table->string('alias')->nullable();
+                $table->string('as')->nullable();
                 $table->timestamps(6);
-                $table->softDeletes(Performance::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes('deleted_at', 6);
 
-                $table->unique([Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID], 'unique_performance');
+                $table->unique(['song_id', 'artist_type', 'artist_id'], 'unique_performance');
             });
         }
 
-        if (! Schema::hasTable(Membership::TABLE)) {
-            Schema::create(Membership::TABLE, function (Blueprint $table) {
-                $table->id(Membership::ATTRIBUTE_ID);
+        if (! Schema::hasTable('memberships')) {
+            Schema::create('memberships', function (Blueprint $table) {
+                $table->id('membership_id');
 
-                $table->unsignedBigInteger(Membership::ATTRIBUTE_ARTIST);
-                $table->foreign(Membership::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('artist_id');
+                $table->foreign('artist_id')->references('artist_id')->on('artists')->cascadeOnDelete();
 
-                $table->unsignedBigInteger(Membership::ATTRIBUTE_MEMBER);
-                $table->foreign(Membership::ATTRIBUTE_MEMBER)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('member_id');
+                $table->foreign('member_id')->references('artist_id')->on('artists')->cascadeOnDelete();
 
-                $table->string(Performance::ATTRIBUTE_ALIAS)->nullable();
-                $table->string(Performance::ATTRIBUTE_AS)->nullable();
+                $table->string('alias')->nullable();
+                $table->string('as')->nullable();
                 $table->timestamps(6);
-                $table->softDeletes(Performance::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes('deleted_at', 6);
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Performance::TABLE);
-        Schema::dropIfExists(Membership::TABLE);
     }
 };
