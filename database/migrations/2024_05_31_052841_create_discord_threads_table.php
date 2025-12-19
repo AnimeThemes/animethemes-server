@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Discord\DiscordThread;
-use App\Models\Wiki\Anime;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,23 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(DiscordThread::TABLE)) {
-            Schema::create(DiscordThread::TABLE, function (Blueprint $table) {
+        if (! Schema::hasTable('discord_threads')) {
+            Schema::create('discord_threads', function (Blueprint $table) {
                 $table->timestamps(6);
-                $table->string(DiscordThread::ATTRIBUTE_ID)->primary();
-                $table->string(DiscordThread::ATTRIBUTE_NAME);
+                $table->string('thread_id')->primary();
+                $table->string('name');
 
-                $table->unsignedBigInteger(DiscordThread::ATTRIBUTE_ANIME);
-                $table->foreign(DiscordThread::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('anime_id');
+                $table->foreign('anime_id')->references('anime_id')->on('anime')->cascadeOnDelete();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(DiscordThread::TABLE);
     }
 };

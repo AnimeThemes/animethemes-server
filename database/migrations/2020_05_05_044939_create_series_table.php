@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\ModelConstants;
-use App\Models\Wiki\Series;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,22 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Series::TABLE)) {
-            Schema::create(Series::TABLE, function (Blueprint $table) {
-                $table->id(Series::ATTRIBUTE_ID);
+        if (! Schema::hasTable('series')) {
+            Schema::create('series', function (Blueprint $table) {
+                $table->id('series_id');
                 $table->timestamps(6);
-                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(Series::ATTRIBUTE_SLUG);
-                $table->string(Series::ATTRIBUTE_NAME);
+                $table->softDeletes(precision: 6);
+                $table->string('slug');
+                $table->string('name');
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Series::TABLE);
     }
 };

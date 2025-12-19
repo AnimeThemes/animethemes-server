@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Contracts\Models\HasHashids;
-use App\Models\List\Playlist;
-use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,39 +15,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(PlaylistTrack::TABLE)) {
-            Schema::create(PlaylistTrack::TABLE, function (Blueprint $table) {
-                $table->id(PlaylistTrack::ATTRIBUTE_ID);
+        if (! Schema::hasTable('playlist_tracks')) {
+            Schema::create('playlist_tracks', function (Blueprint $table) {
+                $table->id('track_id');
                 $table->timestamps(6);
-                $hashIdColumn = $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
+                $hashIdColumn = $table->string('hashid')->nullable();
                 if (DB::connection() instanceof MySqlConnection) {
                     // Set collation to binary to be case-sensitive
                     $hashIdColumn->collation('utf8mb4_bin');
                 }
 
-                $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_PLAYLIST);
-                $table->foreign(PlaylistTrack::ATTRIBUTE_PLAYLIST)->references(Playlist::ATTRIBUTE_ID)->on(Playlist::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('playlist_id');
+                $table->foreign('playlist_id')->references('playlist_id')->on('playlists')->cascadeOnDelete();
 
-                $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_ENTRY)->nullable();
-                $table->foreign(PlaylistTrack::ATTRIBUTE_ENTRY)->references(AnimeThemeEntry::ATTRIBUTE_ID)->on(AnimeThemeEntry::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('entry_id')->nullable();
+                $table->foreign('entry_id')->references('entry_id')->on('anime_theme_entries')->nullOnDelete();
 
-                $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_VIDEO)->nullable();
-                $table->foreign(PlaylistTrack::ATTRIBUTE_VIDEO)->references(Video::ATTRIBUTE_ID)->on(Video::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('video_id')->nullable();
+                $table->foreign('video_id')->references('video_id')->on('videos')->nullOnDelete();
 
-                $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_PREVIOUS)->nullable();
-                $table->foreign(PlaylistTrack::ATTRIBUTE_PREVIOUS)->references(PlaylistTrack::ATTRIBUTE_ID)->on(PlaylistTrack::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('previous_id')->nullable();
+                $table->foreign('previous_id')->references('track_id')->on('playlist_tracks')->nullOnDelete();
 
-                $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_NEXT)->nullable();
-                $table->foreign(PlaylistTrack::ATTRIBUTE_NEXT)->references(PlaylistTrack::ATTRIBUTE_ID)->on(PlaylistTrack::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('next_id')->nullable();
+                $table->foreign('next_id')->references('track_id')->on('playlist_tracks')->nullOnDelete();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(PlaylistTrack::TABLE);
     }
 };

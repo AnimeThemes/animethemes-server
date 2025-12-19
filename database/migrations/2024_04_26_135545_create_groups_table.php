@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\ModelConstants;
-use App\Models\Wiki\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,22 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Group::TABLE)) {
-            Schema::create(Group::TABLE, function (Blueprint $table) {
-                $table->id(Group::ATTRIBUTE_ID);
+        if (! Schema::hasTable('groups')) {
+            Schema::create('groups', function (Blueprint $table) {
+                $table->id('group_id');
                 $table->timestamps(6);
-                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(Group::ATTRIBUTE_NAME);
-                $table->string(Group::ATTRIBUTE_SLUG);
+                $table->softDeletes(precision: 6);
+                $table->string('name');
+                $table->string('slug');
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Group::TABLE);
     }
 };

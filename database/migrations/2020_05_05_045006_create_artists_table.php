@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\ModelConstants;
-use App\Models\Wiki\Artist;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,23 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Artist::TABLE)) {
-            Schema::create(Artist::TABLE, function (Blueprint $table) {
-                $table->id(Artist::ATTRIBUTE_ID);
+        if (! Schema::hasTable('artists')) {
+            Schema::create('artists', function (Blueprint $table) {
+                $table->id('artist_id');
                 $table->timestamps(6);
-                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(Artist::ATTRIBUTE_SLUG);
-                $table->string(Artist::ATTRIBUTE_NAME);
-                $table->text(Artist::ATTRIBUTE_INFORMATION)->nullable();
+                $table->softDeletes(precision: 6);
+                $table->string('slug');
+                $table->string('name');
+                $table->text('information')->nullable();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Artist::TABLE);
     }
 };

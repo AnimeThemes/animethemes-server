@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song;
-use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,25 +13,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(ArtistSong::TABLE)) {
-            Schema::create(ArtistSong::TABLE, function (Blueprint $table) {
+        if (! Schema::hasTable('artist_song')) {
+            Schema::create('artist_song', function (Blueprint $table) {
                 $table->timestamps(6);
-                $table->unsignedBigInteger(ArtistSong::ATTRIBUTE_ARTIST);
-                $table->foreign(ArtistSong::ATTRIBUTE_ARTIST)->references(Artist::ATTRIBUTE_ID)->on(Artist::TABLE)->cascadeOnDelete();
-                $table->unsignedBigInteger(ArtistSong::ATTRIBUTE_SONG);
-                $table->foreign(ArtistSong::ATTRIBUTE_SONG)->references(Song::ATTRIBUTE_ID)->on(Song::TABLE)->cascadeOnDelete();
-                $table->primary([ArtistSong::ATTRIBUTE_ARTIST, ArtistSong::ATTRIBUTE_SONG]);
-                $table->string(ArtistSong::ATTRIBUTE_AS)->nullable();
-                $table->string(ArtistSong::ATTRIBUTE_ALIAS)->nullable();
+                $table->unsignedBigInteger('artist_id');
+                $table->foreign('artist_id')->references('artist_id')->on('artists')->cascadeOnDelete();
+                $table->unsignedBigInteger('song_id');
+                $table->foreign('song_id')->references('song_id')->on('songs')->cascadeOnDelete();
+                $table->primary(['artist_id', 'song_id']);
+                $table->string('as')->nullable();
+                $table->string('alias')->nullable();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(ArtistSong::TABLE);
     }
 };

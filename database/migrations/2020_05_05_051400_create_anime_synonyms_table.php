@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\ModelConstants;
-use App\Enums\Models\Wiki\AnimeSynonymType;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,25 +13,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(AnimeSynonym::TABLE)) {
-            Schema::create(AnimeSynonym::TABLE, function (Blueprint $table) {
-                $table->id(AnimeSynonym::ATTRIBUTE_ID);
+        if (! Schema::hasTable('anime_synonyms')) {
+            Schema::create('anime_synonyms', function (Blueprint $table) {
+                $table->id('synonym_id');
                 $table->timestamps(6);
-                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(AnimeSynonym::ATTRIBUTE_TEXT)->nullable();
-                $table->integer(AnimeSynonym::ATTRIBUTE_TYPE)->default(AnimeSynonymType::OTHER->value);
+                $table->softDeletes(precision: 6);
+                $table->string('text')->nullable();
+                $table->integer('type')->default(0);
 
-                $table->unsignedBigInteger(AnimeSynonym::ATTRIBUTE_ANIME);
-                $table->foreign(AnimeSynonym::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('anime_id');
+                $table->foreign('anime_id')->references('anime_id')->on('anime')->cascadeOnDelete();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(AnimeSynonym::TABLE);
     }
 };

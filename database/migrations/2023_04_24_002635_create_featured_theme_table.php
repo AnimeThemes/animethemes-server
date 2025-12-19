@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Admin\FeaturedTheme;
-use App\Models\Auth\User;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,30 +13,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(FeaturedTheme::TABLE)) {
-            Schema::create(FeaturedTheme::TABLE, function (Blueprint $table) {
-                $table->id(FeaturedTheme::ATTRIBUTE_ID);
+        if (! Schema::hasTable('featured_themes')) {
+            Schema::create('featured_themes', function (Blueprint $table) {
+                $table->id('featured_theme_id');
                 $table->timestamps(6);
-                $table->timestamp(FeaturedTheme::ATTRIBUTE_START_AT, 6)->nullable();
-                $table->timestamp(FeaturedTheme::ATTRIBUTE_END_AT, 6)->nullable();
+                $table->timestamp('start_at', 6)->nullable();
+                $table->timestamp('end_at', 6)->nullable();
 
-                $table->unsignedBigInteger(FeaturedTheme::ATTRIBUTE_USER)->nullable();
-                $table->foreign(FeaturedTheme::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
 
-                $table->unsignedBigInteger(FeaturedTheme::ATTRIBUTE_ENTRY)->nullable();
-                $table->foreign(FeaturedTheme::ATTRIBUTE_ENTRY)->references(AnimeThemeEntry::ATTRIBUTE_ID)->on(AnimeThemeEntry::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('entry_id')->nullable();
+                $table->foreign('entry_id')->references('entry_id')->on('anime_theme_entries')->nullOnDelete();
 
-                $table->unsignedBigInteger(FeaturedTheme::ATTRIBUTE_VIDEO)->nullable();
-                $table->foreign(FeaturedTheme::ATTRIBUTE_VIDEO)->references(Video::ATTRIBUTE_ID)->on(Video::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger('video_id')->nullable();
+                $table->foreign('video_id')->references('video_id')->on('videos')->nullOnDelete();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(FeaturedTheme::TABLE);
     }
 };

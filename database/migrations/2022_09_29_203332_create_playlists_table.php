@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Contracts\Models\HasHashids;
-use App\Models\Auth\User;
-use App\Models\List\Playlist;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,31 +15,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Playlist::TABLE)) {
-            Schema::create(Playlist::TABLE, function (Blueprint $table) {
-                $table->id(Playlist::ATTRIBUTE_ID);
+        if (! Schema::hasTable('playlists')) {
+            Schema::create('playlists', function (Blueprint $table) {
+                $table->id('playlist_id');
                 $table->timestamps(6);
-                $hashIdColumn = $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
+                $hashIdColumn = $table->string('hashid')->nullable();
                 if (DB::connection() instanceof MySqlConnection) {
                     // Set collation to binary to be case-sensitive
                     $hashIdColumn->collation('utf8mb4_bin');
                 }
-                $table->string(Playlist::ATTRIBUTE_NAME);
-                $table->integer(Playlist::ATTRIBUTE_VISIBILITY);
+                $table->string('name');
+                $table->integer('visibility');
 
-                $table->unsignedBigInteger(Playlist::ATTRIBUTE_USER)->nullable();
-                $table->foreign(Playlist::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
 
-                $table->text(Playlist::ATTRIBUTE_DESCRIPTION)->nullable();
+                $table->text('description')->nullable();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Playlist::TABLE);
     }
 };

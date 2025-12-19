@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\ModelConstants;
-use App\Enums\Models\Wiki\VideoOverlap;
-use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,32 +13,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Video::TABLE)) {
-            Schema::create(Video::TABLE, function (Blueprint $table) {
-                $table->id(Video::ATTRIBUTE_ID);
+        if (! Schema::hasTable('videos')) {
+            Schema::create('videos', function (Blueprint $table) {
+                $table->id('video_id');
                 $table->timestamps(6);
-                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(Video::ATTRIBUTE_BASENAME);
-                $table->string(Video::ATTRIBUTE_FILENAME);
-                $table->string(Video::ATTRIBUTE_PATH);
-                $table->integer(Video::ATTRIBUTE_SIZE);
-                $table->string(Video::ATTRIBUTE_MIMETYPE);
-                $table->integer(Video::ATTRIBUTE_RESOLUTION)->nullable();
-                $table->boolean(Video::ATTRIBUTE_NC)->default(false);
-                $table->boolean(Video::ATTRIBUTE_SUBBED)->default(false);
-                $table->boolean(Video::ATTRIBUTE_LYRICS)->default(false);
-                $table->boolean(Video::ATTRIBUTE_UNCEN)->default(false);
-                $table->integer(Video::ATTRIBUTE_OVERLAP)->default(VideoOverlap::NONE->value);
-                $table->integer(Video::ATTRIBUTE_SOURCE)->nullable();
+                $table->softDeletes(precision: 6);
+                $table->string('basename');
+                $table->string('filename');
+                $table->string('path');
+                $table->integer('size');
+                $table->string('mimetype');
+                $table->integer('resolution')->nullable();
+                $table->boolean('nc')->default(false);
+                $table->boolean('subbed')->default(false);
+                $table->boolean('lyrics')->default(false);
+                $table->boolean('uncen')->default(false);
+                $table->integer('overlap')->default(0);
+                $table->integer('source')->nullable();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Video::TABLE);
     }
 };

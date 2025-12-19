@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,22 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumn(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_GROUP)) {
-            Schema::table(AnimeTheme::TABLE, function (Blueprint $table) {
-                $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_GROUP)->nullable();
-                $table->foreign(AnimeTheme::ATTRIBUTE_GROUP)->references(Group::ATTRIBUTE_ID)->on(Group::TABLE)->nullOnDelete();
-            });
-        }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        if (Schema::hasColumn(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_GROUP)) {
-            Schema::table(AnimeTheme::TABLE, function (Blueprint $table) {
-                $table->dropConstrainedForeignId(AnimeTheme::ATTRIBUTE_GROUP);
+        if (! Schema::hasColumn('anime_themes', 'group_id')) {
+            Schema::table('anime_themes', function (Blueprint $table) {
+                $table->unsignedBigInteger('group_id')->nullable();
+                $table->foreign('group_id')->references('group_id')->on('groups')->nullOnDelete();
             });
         }
     }

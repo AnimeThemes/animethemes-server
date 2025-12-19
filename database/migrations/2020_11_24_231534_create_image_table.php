@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\ModelConstants;
-use App\Models\Wiki\Image;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,22 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasTable(Image::TABLE)) {
-            Schema::create(Image::TABLE, function (Blueprint $table) {
-                $table->id(Image::ATTRIBUTE_ID);
+        if (! Schema::hasTable('images')) {
+            Schema::create('images', function (Blueprint $table) {
+                $table->id('image_id');
                 $table->timestamps(6);
-                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(Image::ATTRIBUTE_PATH);
-                $table->integer(Image::ATTRIBUTE_FACET)->nullable();
+                $table->softDeletes(precision: 6);
+                $table->string('path');
+                $table->integer('facet')->nullable();
             });
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists(Image::TABLE);
     }
 };
