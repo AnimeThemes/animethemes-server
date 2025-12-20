@@ -21,9 +21,11 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
+use App\Observers\Wiki\Anime\AnimeThemeObserver;
 use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,6 +49,7 @@ use Illuminate\Support\Stringable;
  *
  * @method static AnimeThemeFactory factory(...$parameters)
  */
+#[ObservedBy(AnimeThemeObserver::class)]
 class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 {
     use HasFactory;
