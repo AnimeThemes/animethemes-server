@@ -6,6 +6,8 @@ namespace App\Models\User\Submission;
 
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use App\Observers\User\Submission\SubmissionVirtualObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -18,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property int $user_id
  * @property User $user
  */
+#[ObservedBy(SubmissionVirtualObserver::class)]
 class SubmissionVirtual extends BaseModel
 {
     final public const string TABLE = 'submission_virtuals';
@@ -67,17 +70,6 @@ class SubmissionVirtual extends BaseModel
     protected $appends = [
         'model',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (SubmissionVirtual $virtual): void {
-            if (class_exists($model = $virtual->model_type)) {
-                $virtual->model_type = Relation::getMorphAlias($model);
-            }
-        });
-    }
 
     public function getName(): string
     {

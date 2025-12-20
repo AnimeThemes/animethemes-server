@@ -18,8 +18,6 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
     public function __construct(AnimeTheme $theme)
     {
         parent::__construct($theme);
-
-        $this->updateFirstTheme();
     }
 
     protected function getDiscordMessageDescription(): string
@@ -35,18 +33,5 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
             $entry->searchable();
             $entry->videos->each(fn (Video $video) => $video->searchable());
         });
-    }
-
-    /**
-     * Update the sequence attribute of the first theme when creating a new sequence theme.
-     */
-    protected function updateFirstTheme(): void
-    {
-        if ($this->getModel()->sequence >= 2) {
-            $this->getModel()->anime->animethemes()->getQuery()
-                ->where(AnimeTheme::ATTRIBUTE_SEQUENCE)
-                ->where(AnimeTheme::ATTRIBUTE_TYPE, $this->getModel()->type)
-                ->update([AnimeTheme::ATTRIBUTE_SEQUENCE => 1]);
-        }
     }
 }

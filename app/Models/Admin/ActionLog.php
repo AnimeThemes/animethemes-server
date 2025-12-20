@@ -10,8 +10,10 @@ use App\Discord\DiscordEmbedField;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use App\Observers\Admin\ActionLogObserver;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -41,6 +43,7 @@ use Throwable;
  * @property int $user_id
  * @property User $user
  */
+#[ObservedBy(ActionLogObserver::class)]
 class ActionLog extends Model implements Nameable
 {
     final public const string TABLE = 'action_logs';
@@ -103,26 +106,6 @@ class ActionLog extends Model implements Nameable
      * @var string
      */
     protected $primaryKey = ActionLog::ATTRIBUTE_ID;
-
-    /**
-     * Boostrap the model.
-     */
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function (ActionLog $actionLog): void {
-            if ($actionLog->status === ActionLogStatus::RUNNING) {
-                Session::put('currentActionLog', $actionLog->batch_id);
-            }
-        });
-
-        static::updating(function (ActionLog $actionLog): void {
-            if ($actionLog->status === ActionLogStatus::FINISHED || $actionLog->status === ActionLogStatus::FAILED) {
-                Session::forget('currentActionLog');
-            }
-        });
-    }
 
     /**
      * When an exception is thrown, the current action logs should be handled.

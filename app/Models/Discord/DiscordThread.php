@@ -8,7 +8,9 @@ use App\Events\Discord\DiscordThread\DiscordThreadDeleted;
 use App\Events\Discord\DiscordThread\DiscordThreadUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use App\Observers\Discord\DiscordThreadObserver;
 use Database\Factories\Discord\DiscordThreadFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static DiscordThreadFactory factory(...$parameters)
  */
+#[ObservedBy(DiscordThreadObserver::class)]
 class DiscordThread extends BaseModel
 {
     use HasFactory;
