@@ -29,7 +29,6 @@ use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use Filament\Forms\Components\Repeater;
@@ -40,8 +39,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\Filter;
@@ -137,14 +134,11 @@ class Theme extends BaseResource
 
                                 ThemeForm::typeField(),
                                 ThemeForm::sequenceField(),
-                                ThemeForm::slugField(),
 
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
                                     ->showCreateOption()
-                                    ->live()
-                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
+                                    ->live(),
                             ]),
 
                         Tab::make('song')
@@ -300,33 +294,5 @@ class Theme extends BaseResource
             'index' => ListThemes::route('/'),
             'view' => ViewTheme::route('/{record:theme_id}'),
         ];
-    }
-
-    /**
-     * Set the theme slug.
-     */
-    public static function setThemeSlug(Set $set, Get $get): void
-    {
-        $slug = Str::of('');
-        $type = $get(ThemeModel::ATTRIBUTE_TYPE);
-
-        if (filled($type) || $type !== null) {
-            $slug = $slug->append($type->name);
-        }
-
-        if ($slug->isNotEmpty() && $type !== ThemeType::IN) {
-            $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
-            $slug = $slug->append(strval(blank($sequence) ? 1 : $sequence));
-        }
-
-        if ($slug->isNotEmpty()) {
-            $group = $get(ThemeModel::ATTRIBUTE_GROUP);
-
-            if (filled($group)) {
-                $slug = $slug->append('-'.Group::query()->find(intval($group))->slug);
-            }
-        }
-
-        $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());
     }
 }
