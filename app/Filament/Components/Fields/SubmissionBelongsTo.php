@@ -22,6 +22,13 @@ use Laravel\Scout\Searchable;
 
 class SubmissionBelongsTo extends BelongsTo
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->live();
+    }
+
     public function showCreateOption(): static
     {
         $model = $this->modelResource;

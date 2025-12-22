@@ -11,7 +11,6 @@ use App\Filament\Components\Fields\SubmissionBelongsTo;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Resources\Wiki\Anime as AnimeModel;
 use App\Filament\Resources\Wiki\Anime\Synonym;
-use App\Filament\Resources\Wiki\Anime\Theme;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
@@ -41,7 +40,6 @@ use Filament\Resources\Pages\CreateRecord;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -95,14 +93,10 @@ class CreateAnimeSubmission extends CreateRecord
                                                     ->schema([
                                                         ThemeForm::typeField(),
                                                         ThemeForm::sequenceField(),
-                                                        ThemeForm::slugField(),
 
                                                         SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_GROUP)
                                                             ->resource(Group::class)
-                                                            ->showCreateOption()
-                                                            ->live()
-                                                            ->partiallyRenderComponentsAfterStateUpdated([AnimeTheme::ATTRIBUTE_SLUG])
-                                                            ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
+                                                            ->showCreateOption(),
 
                                                         Hidden::make(AnimeTheme::ATTRIBUTE_GROUP.'_virtual'),
                                                     ]),
