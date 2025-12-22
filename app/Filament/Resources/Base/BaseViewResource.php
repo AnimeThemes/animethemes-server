@@ -11,6 +11,7 @@ class BaseViewResource extends ViewRecord
 {
     use HasRecentHistoryRecorder;
 
+    /** @var array<string, string> */
     protected $listeners = [
         'updateAllRelationManager' => '$refresh',
     ];

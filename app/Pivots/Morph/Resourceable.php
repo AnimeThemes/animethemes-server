@@ -46,7 +46,7 @@ class Resourceable extends BaseMorphPivot
     /**
      * The models that have resources.
      *
-     * @return class-string<Model&HasResources>
+     * @var class-string<Model&HasResources>[]
      */
     public static $resourceables = [
         Anime::class,
@@ -114,6 +114,8 @@ class Resourceable extends BaseMorphPivot
 
     /**
      * Gets the model that owns the resourceable.
+     *
+     * @return MorphTo<Model, $this>
      */
     public function resourceable(): MorphTo
     {

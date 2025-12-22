@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class SetServingGraphQL
 {
-    public static $isServing = false;
+    public static bool $isServing = false;
 
     /**
      * @param  Closure(Request): mixed  $next

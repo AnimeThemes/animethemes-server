@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExternalEntryPolicy extends BasePolicy
 {
+    /**
+     * @param  ExternalProfile  $profile
+     */
     public function viewAny(?User $user, $profile = null): Response
     {
         if (Filament::isServing()) {

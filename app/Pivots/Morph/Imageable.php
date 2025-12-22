@@ -45,7 +45,7 @@ class Imageable extends BaseMorphPivot
     /**
      * The models that have images.
      *
-     * @return class-string<Model&HasImages>
+     * @var class-string<Model&HasImages>[]
      */
     public static $imageables = [
         Playlist::class,
