@@ -64,6 +64,5 @@ class AnimeThemeObserver
         }
 
         $theme->setAttribute(AnimeTheme::ATTRIBUTE_SLUG, (string) $slug);
-      //  dd($theme);
     }
 }
