@@ -30,6 +30,7 @@ abstract class BaseRelationManager extends RelationManager
 {
     protected static bool $isLazy = false;
 
+    /** @var array<string, string> */
     protected $listeners = ['updateAllRelationManager' => '$refresh'];
 
     /**

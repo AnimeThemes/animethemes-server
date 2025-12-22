@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaylistTrackPolicy extends BasePolicy
 {
+    /**
+     * @param  Playlist  $playlist
+     */
     public function viewAny(?User $user, $playlist = null): Response
     {
         if (Filament::isServing()) {
@@ -63,6 +66,9 @@ class PlaylistTrackPolicy extends BasePolicy
             : Response::deny();
     }
 
+    /**
+     * @param  Playlist  $playlist
+     */
     public function create(User $user, $playlist = null): Response
     {
         if (Filament::isServing()) {
