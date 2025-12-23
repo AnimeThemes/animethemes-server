@@ -26,3 +26,4 @@ auth.json
 *.sqlite3
 public/css/app.css
 public/js/app.js
+test.php

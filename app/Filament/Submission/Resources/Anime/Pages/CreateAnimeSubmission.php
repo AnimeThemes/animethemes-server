@@ -33,7 +33,6 @@ use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Pages\CreateRecord;
@@ -97,8 +96,6 @@ class CreateAnimeSubmission extends CreateRecord
                                                         SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_GROUP)
                                                             ->resource(Group::class)
                                                             ->showCreateOption(),
-
-                                                        Hidden::make(AnimeTheme::ATTRIBUTE_GROUP.'_virtual'),
                                                     ]),
 
                                                 Tab::make('song')
@@ -109,8 +106,6 @@ class CreateAnimeSubmission extends CreateRecord
                                                             ->showCreateOption()
                                                             ->live()
                                                             ->hintAction(LoadArtistsAction::make()),
-
-                                                        Hidden::make(AnimeTheme::ATTRIBUTE_SONG.'_virtual'),
 
                                                         Repeater::make('performances')
                                                             ->label(__('filament.resources.label.artists'))
@@ -136,8 +131,6 @@ class CreateAnimeSubmission extends CreateRecord
                                                                     ->required()
                                                                     ->hintAction(LoadMembersAction::make()),
 
-                                                                Hidden::make(Artist::ATTRIBUTE_ID.'_virtual'),
-
                                                                 TextInput::make(Performance::ATTRIBUTE_AS)
                                                                     ->label(__('filament.fields.performance.as.name'))
                                                                     ->helperText(__('filament.fields.performance.as.help')),
@@ -162,9 +155,6 @@ class CreateAnimeSubmission extends CreateRecord
                                                                             ->showCreateOption()
                                                                             ->label(__('filament.fields.membership.member'))
                                                                             ->required(),
-
-                                                                        Hidden::make(Membership::ATTRIBUTE_MEMBER.'_virtual')
-                                                                            ->dehydrated(true),
 
                                                                         TextInput::make(Membership::ATTRIBUTE_AS)
                                                                             ->label(__('filament.fields.membership.as.name'))
@@ -201,8 +191,6 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->resource(SeriesResource::class)
                                             ->showCreateOption()
                                             ->required(),
-
-                                        Hidden::make(Series::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
 
@@ -218,8 +206,6 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->resource(ExternalResource::class)
                                             ->showCreateOption()
                                             ->required(),
-
-                                        Hidden::make(ExternalResourceModel::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
 
@@ -235,8 +221,6 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->resource(StudioResource::class)
                                             ->showCreateOption()
                                             ->required(),
-
-                                        Hidden::make(Studio::ATTRIBUTE_ID.'_virtual'),
                                     ]),
                             ]),
                     ]),

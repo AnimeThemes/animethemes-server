@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Submission\Resources;
 
-use App\Enums\Models\Wiki\AnimeMediaFormat;
-use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\User\SubmissionStatus;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Submission\Resources\Anime\Pages\CreateAnimeSubmission;
 use App\Filament\Submission\Resources\Anime\Pages\ListAnimeSubmissions;
-use App\Models\Wiki\Anime as AnimeModel;
-use Filament\QueryBuilder\Constraints\NumberConstraint;
-use Filament\QueryBuilder\Constraints\SelectConstraint;
-use Filament\QueryBuilder\Constraints\TextConstraint;
+use App\Models\User\Submission;
+use App\Models\User\Submission\SubmissionStage;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class AnimeSubmissionResource extends BaseSubmissionResource
 {
@@ -25,7 +24,7 @@ class AnimeSubmissionResource extends BaseSubmissionResource
      *
      * @var class-string<Model>|null
      */
-    protected static ?string $model = AnimeModel::class;
+    protected static ?string $model = Submission::class;
 
     public static function getModelLabel(): string
     {
@@ -44,7 +43,7 @@ class AnimeSubmissionResource extends BaseSubmissionResource
 
     public static function getRecordTitleAttribute(): string
     {
-        return AnimeModel::ATTRIBUTE_NAME;
+        return Submission::ATTRIBUTE_ID;
     }
 
     public static function canGloballySearch(): bool
@@ -57,37 +56,48 @@ class AnimeSubmissionResource extends BaseSubmissionResource
         return 'anime';
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        $query->whereBelongsTo(Auth::user(), Submission::RELATION_USER);
+
+        // Necessary to prevent lazy loading when loading related resources
+        /** @phpstan-ignore-next-line */
+        return $query->with([
+            Submission::RELATION_STAGES,
+        ]);
+    }
+
     public static function table(Table $table): Table
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(AnimeModel::ATTRIBUTE_ID)
+                TextColumn::make(Submission::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.anime.name.name'))
-                    ->copyableWithMessage()
-                    ->limit(50)
-                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
+                TextColumn::make('name')
+                    ->label(__('submissions.fields.submission.name'))
+                    ->state(
+                        fn (Submission $submission) => Arr::get(
+                            $submission
+                                ->stages
+                                ->sortBy(SubmissionStage::ATTRIBUTE_CREATED_AT)
+                                ->first()
+                                ->getAttribute(SubmissionStage::ATTRIBUTE_FIELDS),
+                            'anime.name'
+                        )
+                    ),
 
-                TextColumn::make(AnimeModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.anime.slug.name'))
-                    ->limit(20)
-                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
+                TextColumn::make(Submission::ATTRIBUTE_STATUS)
+                    ->label(__('submissions.fields.submission.status'))
+                    ->formatStateUsing(fn (SubmissionStatus $state): string => $state->localize())
+                    ->badge(),
 
-                TextColumn::make(AnimeModel::ATTRIBUTE_YEAR)
-                    ->label(__('filament.fields.anime.year.name')),
-
-                TextColumn::make(AnimeModel::ATTRIBUTE_SEASON)
-                    ->label(__('filament.fields.anime.season.name'))
-                    ->formatStateUsing(fn (AnimeSeason $state): string => $state->localizeStyled())
-                    ->html(),
-
-                TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
-                    ->label(__('filament.fields.anime.media_format.name'))
-                    ->formatStateUsing(fn (AnimeMediaFormat $state): ?string => $state->localize()),
-            ])
-            ->searchable();
+                TextColumn::make(Submission::ATTRIBUTE_FINISHED_AT)
+                    ->label(__('submissions.fields.submission.finished_at'))
+                    ->dateTime(),
+            ]);
     }
 
     /**
@@ -95,36 +105,7 @@ class AnimeSubmissionResource extends BaseSubmissionResource
      */
     public static function getFilters(): array
     {
-        return [
-            QueryBuilder::make()
-                ->constraints([
-                    TextConstraint::make(AnimeModel::ATTRIBUTE_NAME)
-                        ->label(__('filament.fields.anime.name.name')),
-
-                    TextConstraint::make(AnimeModel::ATTRIBUTE_SLUG)
-                        ->label(__('filament.fields.anime.slug.name')),
-
-                    NumberConstraint::make(AnimeModel::ATTRIBUTE_YEAR)
-                        ->label(__('filament.fields.anime.year.name')),
-
-                    SelectConstraint::make(AnimeModel::ATTRIBUTE_SEASON)
-                        ->label(__('filament.fields.anime.season.name'))
-                        ->options(AnimeSeason::class)
-                        ->multiple(),
-
-                    SelectConstraint::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
-                        ->label(__('filament.fields.anime.media_format.name'))
-                        ->options(AnimeMediaFormat::class)
-                        ->multiple(),
-
-                    TextConstraint::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
-                        ->label(__('filament.fields.anime.synopsis.name')),
-
-                    ...parent::getConstraints(),
-                ]),
-
-            ...parent::getFilters(),
-        ];
+        return [];
     }
 
     /**
