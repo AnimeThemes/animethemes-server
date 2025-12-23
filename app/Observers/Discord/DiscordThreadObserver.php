@@ -6,8 +6,9 @@ namespace App\Observers\Discord;
 
 use App\Actions\Discord\DiscordThreadAction;
 use App\Models\Discord\DiscordThread;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class DiscordThreadObserver
+class DiscordThreadObserver implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the DiscordThread "updated" event.

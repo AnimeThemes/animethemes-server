@@ -1,66 +1,65 @@
+- [Assignment](#assignment)
+- [Development Environment](#development-environment)
+- [Feature Branch Workflow](#feature-branch-workflow)
+- [Cleanup Before Pull Request](#cleanup-before-pull-request)
+- [Pull Request](#pull-request)
+
 ## Assignment
 
 Unless otherwise specified, any issue that does not have an assignee can be claimed by any volunteer.
 
-Please leave a comment in the issue indicating interest so that you can be designated as the assignee by a member. This is a requirement in Github to allow asssignment of contributors outside of the organization by members. 
+Leave a comment in the issue indicating interest so that the assignee can be designated by a member. This is a requirement in Github to allow assignment of contributors outside of the organization by members. 
 
-If further discussion is needed before work can be started, please make use of the programming channels on the discord.
+If further discussion is needed before work can be started, please make use of the `#api` channel on the discord.
 
 ## Development Environment
 
-Ensure that you have a functional local instance of AnimeThemes forked from this repository by following the [Installation Guide](https://github.com/AnimeThemes/animethemes-server/wiki/Installation).
+Follow the [Installation Guide](/AnimeThemes/animethemes-server/wiki/Installation) to ensure a functional local instance of AnimeThemes forked from this repository.
 
-Enable your repository in [StyleCI](https://styleci.io/) so that code styling guidelines are followed. At the time of writing, analysis is run on push and merge.
+Enable the forked repository in [StyleCI](https://styleci.io/) so that code styling guidelines are followed. At the time of writing, analysis is run on push and merge.
 
-Set this repository as upstream to your fork.
+```sh
+# Set this repository as upstream to the forked repository.
+git remote add upstream git@github.com:AnimeThemes/animethemes-server.git
 
-`git remote add upstream https://github.com/AnimeThemes/animethemes-server.git`
+# Pull upstream changes so that the local main branch is even with the upstream main branch.
+git pull upstream main
 
-Checkout release branch.
-
-`git checkout release-branch`
-
-Pull upstream changes so that your local branch is even with upstream.
-
-`git pull upstream release-branch`
-
-Push upstream changes to your remote if needed.
-
-`git push`
+# Push upstream changes to the forked remote main branch if needed.
+git push origin main
+```
 
 ## Feature Branch Workflow
 
-Once your release branch is even with upstream, create feature branch from release branch.
+```sh
+# Once the release branch is even with upstream, create a new feature branch from the release branch. The new feature branch name should be descriptive.
+git checkout -b new-feature-branch
 
-`git branch new-feature-branch`
+# Make changes in the new feature branch. Once completed, run tests.
+php artisan config:clear && php artisan test --parallel
 
-Switch to feature branch.
+# Execute static code analysis.
+composer test:types
 
-`git checkout new-feature-branch`
+# Execute pint.
+composer lint
+```
 
-Make changes in feature branch. Once completed, run tests.
+Evaluate code changes against [conventions & standards](/AnimeThemes/animethemes-server/wiki/Coding-Conventions-&-Standards).
 
-`php artisan config:clear && php artisan test --parallel`
-
-Execute static code analysis.
-
-`./vendor/bin/phpstan analyse --memory-limit=-1`
-
-Stage changes. Commit changes. Please include ticket ID's and use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
+Stage changes. Commit changes. Please include issue ID's and use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
 
 ## Cleanup Before Pull Request
 
-Fetch upstream master and merge with your repo's master branch
-```
-git fetch upstream release-branch
-git checkout release-branch
-git merge upstream/release-branch
-```
+```sh
+# Fetch the upstream release branch and merge with the fork repo's release branch.
+git fetch upstream main
+git checkout main
+git merge upstream/main
 
-If there were any new commits, rebase your development branch
-```
+# If there were any new commits, rebase the new feature branch.
 git checkout new-feature-branch
-git rebase release-branch
+git rebase main
 ```
 
 ## Pull Request
@@ -69,27 +68,24 @@ Push changes to remote.
 
 `git push --set-upstream origin new-feature-branch`
 
-Confirm StyleCI passing status on push.
-
-Create Pull Request from your new feature branch to upstream release branch.
+Create Pull Request from the new feature branch to the upstream release branch.
 
 ## Pruning
 
-Once the Pull Request is merged, delete the feature branch locally.
+```sh
+# Once the Pull Request is merged, check out the release branch and delete the feature branch locally.
+git checkout main
+git branch -D new-feature-branch
 
-`git branch --delete new-feature-branch`
+# Delete the remote feature branch.
+git push origin -D new-feature-branch
 
-Delete the remote feature branch.
+# Pull upstream changes so that the fork release branch is even with upstream.
+git pull upstream main
 
-`git push origin --delete new-feature-branch`
-
-Pull upstream changes so that your local branch is even with upstream.
-
-`git pull upstream release-branch`
-
-Push upstream changes to your remote if needed.
-
-`git push`
+# Push upstream changes to the fork's remote if needed.
+git push origin main
+```
 
 ## References
 
