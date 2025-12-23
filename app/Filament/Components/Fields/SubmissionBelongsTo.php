@@ -11,8 +11,7 @@ use App\Models\Auth\User;
 use App\Models\User\Submission\SubmissionVirtual;
 use App\Search\Criteria;
 use App\Search\Search;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
+use Filament\Actions\Action;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -22,20 +21,14 @@ use Laravel\Scout\Searchable;
 
 class SubmissionBelongsTo extends BelongsTo
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->live();
-    }
-
     public function showCreateOption(): static
     {
         $model = $this->modelResource;
 
         $this->createOptionForm(fn (Schema $schema): array => $this->resource::form($schema)->getComponents())
             ->editOptionForm(fn (Schema $schema): array => $this->resource::form($schema)->getComponents())
-            ->createOptionUsing(function (Set $set, array $data, SubmissionBelongsTo $component): int {
+            ->editOptionAction(fn (Action $action, $state): Action => $action->visible($state < 0))
+            ->createOptionUsing(function (array $data, SubmissionBelongsTo $component): int {
                 $virtual = SubmissionVirtual::query()
                     ->create([
                         SubmissionVirtual::ATTRIBUTE_MODEL_TYPE => $this->modelResource,
@@ -43,30 +36,32 @@ class SubmissionBelongsTo extends BelongsTo
                         SubmissionVirtual::ATTRIBUTE_USER => Auth::id(),
                     ]);
 
-                $component->state(0);
+                $component->state(-$virtual->getKey());
                 $component->refreshSelectedOptionLabel();
-                $set($this->getName().'_virtual', $virtual->getKey());
 
-                return 0;
+                return -$virtual->getKey();
             })
-            ->updateOptionUsing(function (Get $get, array $data, SubmissionBelongsTo $component): int {
+            ->updateOptionUsing(function ($state, array $data, SubmissionBelongsTo $component): int {
+                $state = intval($state);
+
                 SubmissionVirtual::query()
-                    ->find($get($this->getName().'_virtual'))
+                    ->find($state * -1)
                     ->update([
                         SubmissionVirtual::ATTRIBUTE_FIELDS => $data,
                     ]);
 
-                $component->state(0);
+                $component->state($state);
                 $component->refreshSelectedOptionLabel();
 
-                return 0;
+                return $state;
             })
-            ->fillEditOptionActionFormUsing(fn (Get $get): mixed => SubmissionVirtual::query()->find($get($this->getName().'_virtual'))->fields);
+            ->fillEditOptionActionFormUsing(fn ($state): mixed => SubmissionVirtual::query()->find(intval($state) * -1)->fields);
 
         $this->allowHtml();
-        $this->getOptionLabelUsing(function (Get $get, $state) use ($model): string {
-            if (intval($state) <= 0) {
-                $virtual = SubmissionVirtual::query()->find($get($this->getName().'_virtual'));
+        $this->getOptionLabelUsing(function ($state) use ($model): string {
+            $state = intval($state);
+            if ($state <= 0) {
+                $virtual = SubmissionVirtual::query()->find($state * -1);
 
                 return static::getSearchLabelWithBlade(new $model($virtual->fields));
             }
@@ -90,12 +85,6 @@ class SubmissionBelongsTo extends BelongsTo
     protected function tryScout(string $modelClass): static
     {
         $this->searchable();
-
-        $this->afterStateUpdated(function ($state, Set $set): void {
-            if (intval($state) < 0) {
-                $set($this->getName().'_virtual', intval($state) * -1);
-            }
-        });
 
         if (in_array(Searchable::class, class_uses_recursive($modelClass))) {
             return $this

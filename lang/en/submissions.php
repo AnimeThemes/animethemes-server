@@ -14,10 +14,15 @@ return [
                 'name' => 'Notes / Sources',
             ],
         ],
+        'submission' => [
+            'name' => 'Name',
+            'finished_at' => 'Finished At',
+            'status' => 'Status',
+        ],
     ],
     'resources' => [
         'label' => [
-            'anime' => 'Anime',
+            'anime' => 'Anime Submissions',
         ],
         'singularLabel' => [
             'anime' => 'Anime Submission',
