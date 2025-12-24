@@ -14,6 +14,8 @@ use App\Events\Document\Page\PageUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Document\PageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property string $body
@@ -23,8 +25,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @method static PageFactory factory(...$parameters)
  */
-class Page extends BaseModel implements SoftDeletable
+class Page extends BaseModel implements Auditable, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use SoftDeletes;
     use Submitable;
@@ -35,6 +38,34 @@ class Page extends BaseModel implements SoftDeletable
     final public const string ATTRIBUTE_ID = 'page_id';
     final public const string ATTRIBUTE_NAME = 'name';
     final public const string ATTRIBUTE_SLUG = 'slug';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = Page::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Page::ATTRIBUTE_ID;
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
+     */
+    protected $dispatchesEvents = [
+        'created' => PageCreated::class,
+        'deleted' => PageDeleted::class,
+        'restored' => PageRestored::class,
+        'updated' => PageUpdated::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -55,34 +86,6 @@ class Page extends BaseModel implements SoftDeletable
     protected $hidden = [
         Page::ATTRIBUTE_BODY,
     ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => PageCreated::class,
-        'deleted' => PageDeleted::class,
-        'restored' => PageRestored::class,
-        'updated' => PageUpdated::class,
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Page::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Page::ATTRIBUTE_ID;
 
     /**
      * Get the route key for the model.

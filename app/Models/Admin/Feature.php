@@ -35,20 +35,18 @@ class Feature extends BaseModel
     final public const string ATTRIBUTE_VALUE = 'value';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = Feature::TABLE;
 
     /**
-     * The attributes that are mass assignable.
+     * The primary key associated with the table.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Feature::ATTRIBUTE_VALUE,
-    ];
+    protected $primaryKey = Feature::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -64,18 +62,13 @@ class Feature extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Feature::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Feature::ATTRIBUTE_ID;
+    protected $fillable = [
+        Feature::ATTRIBUTE_VALUE,
+    ];
 
     public function getName(): string
     {

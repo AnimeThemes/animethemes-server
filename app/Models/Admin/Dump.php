@@ -34,20 +34,18 @@ class Dump extends BaseModel
     final public const string ATTRIBUTE_LINK = 'link';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = Dump::TABLE;
 
     /**
-     * The attributes that are mass assignable.
+     * The primary key associated with the table.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Dump::ATTRIBUTE_PATH,
-    ];
+    protected $primaryKey = Dump::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -63,18 +61,13 @@ class Dump extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Dump::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Dump::ATTRIBUTE_ID;
+    protected $fillable = [
+        Dump::ATTRIBUTE_PATH,
+    ];
 
     /**
      * The accessors to append to the model's array form.

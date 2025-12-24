@@ -12,6 +12,8 @@ use Database\Factories\Admin\AnnouncementFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $announcement_id
@@ -21,8 +23,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static AnnouncementFactory factory(...$parameters)
  * @method static Builder<Announcement> public()
  */
-class Announcement extends BaseModel
+class Announcement extends BaseModel implements Auditable
 {
+    use HasAudits;
     use HasFactory;
 
     final public const string TABLE = 'announcements';
@@ -30,6 +33,33 @@ class Announcement extends BaseModel
     final public const string ATTRIBUTE_CONTENT = 'content';
     final public const string ATTRIBUTE_ID = 'announcement_id';
     final public const string ATTRIBUTE_PUBLIC = 'public';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = Announcement::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Announcement::ATTRIBUTE_ID;
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
+     */
+    protected $dispatchesEvents = [
+        'created' => AnnouncementCreated::class,
+        'deleted' => AnnouncementDeleted::class,
+        'updated' => AnnouncementUpdated::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -52,33 +82,6 @@ class Announcement extends BaseModel
             Announcement::ATTRIBUTE_PUBLIC => 'boolean',
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => AnnouncementCreated::class,
-        'deleted' => AnnouncementDeleted::class,
-        'updated' => AnnouncementUpdated::class,
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Announcement::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Announcement::ATTRIBUTE_ID;
 
     public function getName(): string
     {

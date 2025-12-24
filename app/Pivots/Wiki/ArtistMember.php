@@ -39,6 +39,26 @@ class ArtistMember extends BasePivot
     final public const string RELATION_MEMBER = 'member';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = ArtistMember::TABLE;
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
+     */
+    protected $dispatchesEvents = [
+        'created' => ArtistMemberCreated::class,
+        'deleted' => ArtistMemberDeleted::class,
+        'updated' => ArtistMemberUpdated::class,
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -53,13 +73,6 @@ class ArtistMember extends BasePivot
     ];
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ArtistMember::TABLE;
-
-    /**
      * Get the composite primary key for the pivot.
      *
      * @return string[]
@@ -71,19 +84,6 @@ class ArtistMember extends BasePivot
             ArtistMember::ATTRIBUTE_MEMBER,
         ];
     }
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => ArtistMemberCreated::class,
-        'deleted' => ArtistMemberDeleted::class,
-        'updated' => ArtistMemberUpdated::class,
-    ];
 
     /**
      * Gets the artist that owns the artist member.

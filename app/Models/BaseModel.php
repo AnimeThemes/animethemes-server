@@ -11,16 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use OwenIt\Auditing\Auditable as HasAudits;
-use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-abstract class BaseModel extends Model implements Auditable, HasSubtitle, Nameable
+abstract class BaseModel extends Model implements HasSubtitle, Nameable
 {
-    use HasAudits;
     use ModelHasActionLogs;
 
     /**

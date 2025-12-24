@@ -95,16 +95,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const string RELATION_ROLES_PERMISSIONS = 'roles.permissions';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        User::ATTRIBUTE_EMAIL,
-        User::ATTRIBUTE_NAME,
-        User::ATTRIBUTE_PASSWORD,
-        User::ATTRIBUTE_EMAIL_VERIFIED_AT,
-    ];
+    protected $table = User::TABLE;
 
     /**
      * The event map for the model.
@@ -121,11 +116,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = User::TABLE;
+    protected $fillable = [
+        User::ATTRIBUTE_EMAIL,
+        User::ATTRIBUTE_NAME,
+        User::ATTRIBUTE_PASSWORD,
+        User::ATTRIBUTE_EMAIL_VERIFIED_AT,
+    ];
 
     /**
      * The attributes that should be hidden for serialization.

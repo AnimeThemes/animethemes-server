@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
@@ -51,8 +53,9 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  *
  * @method static ArtistFactory factory(...$parameters)
  */
-class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
+class Artist extends BaseModel implements Auditable, HasImages, HasResources, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use HasRelationships;
     use Searchable;
@@ -84,15 +87,18 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Artist::ATTRIBUTE_NAME,
-        Artist::ATTRIBUTE_SLUG,
-        Artist::ATTRIBUTE_INFORMATION,
-    ];
+    protected $table = Artist::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Artist::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -109,18 +115,15 @@ class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Artist::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Artist::ATTRIBUTE_ID;
+    protected $fillable = [
+        Artist::ATTRIBUTE_NAME,
+        Artist::ATTRIBUTE_SLUG,
+        Artist::ATTRIBUTE_INFORMATION,
+    ];
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.

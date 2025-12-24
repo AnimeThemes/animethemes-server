@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $membership_id
@@ -32,8 +34,9 @@ use Illuminate\Support\Collection;
  *
  * @method static MembershipFactory factory(...$parameters)
  */
-class Membership extends BaseModel implements SoftDeletable
+class Membership extends BaseModel implements Auditable, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use SoftDeletes;
     use Submitable;
@@ -51,16 +54,18 @@ class Membership extends BaseModel implements SoftDeletable
     final public const string RELATION_PERFORMANCES = 'performances';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Membership::ATTRIBUTE_ALIAS,
-        Membership::ATTRIBUTE_ARTIST,
-        Membership::ATTRIBUTE_AS,
-        Membership::ATTRIBUTE_MEMBER,
-    ];
+    protected $table = Membership::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Membership::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -78,18 +83,16 @@ class Membership extends BaseModel implements SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Membership::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Membership::ATTRIBUTE_ID;
+    protected $fillable = [
+        Membership::ATTRIBUTE_ALIAS,
+        Membership::ATTRIBUTE_ARTIST,
+        Membership::ATTRIBUTE_AS,
+        Membership::ATTRIBUTE_MEMBER,
+    ];
 
     public function getName(): string
     {

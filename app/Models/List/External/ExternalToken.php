@@ -41,11 +41,18 @@ class ExternalToken extends BaseModel
     final public const string RELATION_USER_SHALLOW = 'user';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = ExternalToken::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = ExternalToken::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -67,20 +74,6 @@ class ExternalToken extends BaseModel
         ExternalToken::ATTRIBUTE_ACCESS_TOKEN,
         ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
     ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalToken::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalToken::ATTRIBUTE_ID;
 
     public function getName(): string
     {

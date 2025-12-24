@@ -38,17 +38,16 @@ class AnimeStudio extends BasePivot
     protected $table = AnimeStudio::TABLE;
 
     /**
-     * Get the composite primary key for the pivot.
+     * The event map for the model.
      *
-     * @return string[]
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
      */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            AnimeStudio::ATTRIBUTE_ANIME,
-            AnimeStudio::ATTRIBUTE_STUDIO,
-        ];
-    }
+    protected $dispatchesEvents = [
+        'created' => AnimeStudioCreated::class,
+        'deleted' => AnimeStudioDeleted::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -61,16 +60,17 @@ class AnimeStudio extends BasePivot
     ];
 
     /**
-     * The event map for the model.
+     * Get the composite primary key for the pivot.
      *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
+     * @return string[]
      */
-    protected $dispatchesEvents = [
-        'created' => AnimeStudioCreated::class,
-        'deleted' => AnimeStudioDeleted::class,
-    ];
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeStudio::ATTRIBUTE_ANIME,
+            AnimeStudio::ATTRIBUTE_STUDIO,
+        ];
+    }
 
     /**
      * Gets the anime that owns the anime studio.

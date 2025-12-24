@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Collection<int, Anime> $anime
@@ -29,8 +31,9 @@ use Illuminate\Support\Collection;
  *
  * @method static SeriesFactory factory(...$parameters)
  */
-class Series extends BaseModel implements SoftDeletable
+class Series extends BaseModel implements Auditable, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -46,14 +49,18 @@ class Series extends BaseModel implements SoftDeletable
     final public const string RELATION_ANIME_SYNONYMS = 'anime.animesynonyms';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Series::ATTRIBUTE_NAME,
-        Series::ATTRIBUTE_SLUG,
-    ];
+    protected $table = Series::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Series::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -70,18 +77,14 @@ class Series extends BaseModel implements SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Series::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Series::ATTRIBUTE_ID;
+    protected $fillable = [
+        Series::ATTRIBUTE_NAME,
+        Series::ATTRIBUTE_SLUG,
+    ];
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.

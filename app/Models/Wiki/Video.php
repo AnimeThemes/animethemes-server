@@ -34,6 +34,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Collection<int, AnimeThemeEntry> $animethemeentries
@@ -59,9 +61,10 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Streamable
+class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDeletable, Streamable
 {
     use AggregatesView;
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -97,6 +100,35 @@ class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     final public const string RELATION_TRACKS = 'tracks';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = Video::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Video::ATTRIBUTE_ID;
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
+     */
+    protected $dispatchesEvents = [
+        'created' => VideoCreated::class,
+        'deleted' => VideoDeleted::class,
+        'forceDeleting' => VideoForceDeleting::class,
+        'restored' => VideoRestored::class,
+        'updated' => VideoUpdated::class,
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -118,35 +150,6 @@ class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     ];
 
     /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => VideoCreated::class,
-        'deleted' => VideoDeleted::class,
-        'forceDeleting' => VideoForceDeleting::class,
-        'restored' => VideoRestored::class,
-        'updated' => VideoUpdated::class,
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Video::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Video::ATTRIBUTE_ID;
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var list<string>
@@ -155,6 +158,24 @@ class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
         Video::ATTRIBUTE_LINK,
         Video::ATTRIBUTE_TAGS,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Video::ATTRIBUTE_LYRICS => 'boolean',
+            Video::ATTRIBUTE_NC => 'boolean',
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
+            Video::ATTRIBUTE_SIZE => 'int',
+            Video::ATTRIBUTE_SOURCE => VideoSource::class,
+            Video::ATTRIBUTE_SUBBED => 'boolean',
+            Video::ATTRIBUTE_UNCEN => 'boolean',
+        ];
+    }
 
     protected function getLinkAttribute(): ?string
     {
@@ -254,24 +275,6 @@ class Video extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     public function getRouteKeyName(): string
     {
         return Video::ATTRIBUTE_BASENAME;
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            Video::ATTRIBUTE_LYRICS => 'boolean',
-            Video::ATTRIBUTE_NC => 'boolean',
-            Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
-            Video::ATTRIBUTE_SIZE => 'int',
-            Video::ATTRIBUTE_SOURCE => VideoSource::class,
-            Video::ATTRIBUTE_SUBBED => 'boolean',
-            Video::ATTRIBUTE_UNCEN => 'boolean',
-        ];
     }
 
     public function getName(): string

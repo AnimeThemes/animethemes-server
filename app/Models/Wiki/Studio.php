@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Collection<int, Anime> $anime
@@ -34,8 +36,9 @@ use Illuminate\Support\Collection;
  *
  * @method static StudioFactory factory(...$parameters)
  */
-class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
+class Studio extends BaseModel implements Auditable, HasImages, HasResources, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -52,14 +55,18 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     final public const string RELATION_RESOURCES = 'resources';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Studio::ATTRIBUTE_NAME,
-        Studio::ATTRIBUTE_SLUG,
-    ];
+    protected $table = Studio::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Studio::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -76,18 +83,14 @@ class Studio extends BaseModel implements HasImages, HasResources, SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Studio::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Studio::ATTRIBUTE_ID;
+    protected $fillable = [
+        Studio::ATTRIBUTE_NAME,
+        Studio::ATTRIBUTE_SLUG,
+    ];
 
     /**
      * Get the route key for the model.

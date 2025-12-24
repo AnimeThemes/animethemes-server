@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Collection<int, Anime> $anime
@@ -37,8 +39,9 @@ use Illuminate\Support\Facades\Storage;
  *
  * @method static ImageFactory factory(...$parameters)
  */
-class Image extends BaseModel implements SoftDeletable
+class Image extends BaseModel implements Auditable, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use SoftDeletes;
     use Submitable;
@@ -56,14 +59,18 @@ class Image extends BaseModel implements SoftDeletable
     final public const string RELATION_STUDIOS = 'studios';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Image::ATTRIBUTE_FACET,
-        Image::ATTRIBUTE_PATH,
-    ];
+    protected $table = Image::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Image::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -81,18 +88,14 @@ class Image extends BaseModel implements SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Image::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Image::ATTRIBUTE_ID;
+    protected $fillable = [
+        Image::ATTRIBUTE_FACET,
+        Image::ATTRIBUTE_PATH,
+    ];
 
     /**
      * The accessors to append to the model's array form.

@@ -20,6 +20,8 @@ use Database\Factories\Wiki\AudioFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $audio_id
@@ -33,9 +35,10 @@ use Illuminate\Support\Collection;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Streamable
+class Audio extends BaseModel implements Auditable, HasAggregateViews, SoftDeletable, Streamable
 {
     use AggregatesView;
+    use HasAudits;
     use HasFactory;
     use SoftDeletes;
     use Submitable;
@@ -53,17 +56,18 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     final public const string RELATION_VIDEOS = 'videos';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Audio::ATTRIBUTE_BASENAME,
-        Audio::ATTRIBUTE_FILENAME,
-        Audio::ATTRIBUTE_MIMETYPE,
-        Audio::ATTRIBUTE_PATH,
-        Audio::ATTRIBUTE_SIZE,
-    ];
+    protected $table = Audio::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Audio::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -81,18 +85,17 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Audio::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Audio::ATTRIBUTE_ID;
+    protected $fillable = [
+        Audio::ATTRIBUTE_BASENAME,
+        Audio::ATTRIBUTE_FILENAME,
+        Audio::ATTRIBUTE_MIMETYPE,
+        Audio::ATTRIBUTE_PATH,
+        Audio::ATTRIBUTE_SIZE,
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -102,6 +105,18 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     protected $appends = [
         Audio::ATTRIBUTE_LINK,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Audio::ATTRIBUTE_SIZE => 'int',
+        ];
+    }
 
     protected function getLinkAttribute(): ?string
     {
@@ -120,18 +135,6 @@ class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Strea
     public function getRouteKeyName(): string
     {
         return Audio::ATTRIBUTE_BASENAME;
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            Audio::ATTRIBUTE_SIZE => 'int',
-        ];
     }
 
     public function getName(): string

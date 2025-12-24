@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Anime $anime
@@ -50,8 +52,9 @@ use Illuminate\Support\Stringable;
  * @method static AnimeThemeFactory factory(...$parameters)
  */
 #[ObservedBy(AnimeThemeObserver::class)]
-class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
+class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -92,18 +95,18 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     }
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        AnimeTheme::ATTRIBUTE_ANIME,
-        AnimeTheme::ATTRIBUTE_GROUP,
-        AnimeTheme::ATTRIBUTE_SEQUENCE,
-        AnimeTheme::ATTRIBUTE_SLUG,
-        AnimeTheme::ATTRIBUTE_SONG,
-        AnimeTheme::ATTRIBUTE_TYPE,
-    ];
+    protected $table = AnimeTheme::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = AnimeTheme::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -121,18 +124,32 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = AnimeTheme::TABLE;
+    protected $fillable = [
+        AnimeTheme::ATTRIBUTE_ANIME,
+        AnimeTheme::ATTRIBUTE_GROUP,
+        AnimeTheme::ATTRIBUTE_SEQUENCE,
+        AnimeTheme::ATTRIBUTE_SLUG,
+        AnimeTheme::ATTRIBUTE_SONG,
+        AnimeTheme::ATTRIBUTE_TYPE,
+    ];
 
     /**
-     * The primary key associated with the table.
+     * Get the attributes that should be cast.
      *
-     * @var string
+     * @return array<string, string>
      */
-    protected $primaryKey = AnimeTheme::ATTRIBUTE_ID;
+    protected function casts(): array
+    {
+        return [
+            AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
+            AnimeTheme::ATTRIBUTE_SONG => 'int',
+            AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
+        ];
+    }
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
@@ -158,20 +175,6 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
         }
 
         return $array;
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
-            AnimeTheme::ATTRIBUTE_SONG => 'int',
-            AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
-        ];
     }
 
     public function getName(): string
