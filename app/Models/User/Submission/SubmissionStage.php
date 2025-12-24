@@ -43,11 +43,18 @@ class SubmissionStage extends BaseModel
     final public const string RELATION_SUBMISSION = 'submission';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = SubmissionStage::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = SubmissionStage::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -62,20 +69,6 @@ class SubmissionStage extends BaseModel
         SubmissionStage::ATTRIBUTE_STAGE,
         SubmissionStage::ATTRIBUTE_SUBMISSION,
     ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = SubmissionStage::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = SubmissionStage::ATTRIBUTE_ID;
 
     public function getName(): string
     {

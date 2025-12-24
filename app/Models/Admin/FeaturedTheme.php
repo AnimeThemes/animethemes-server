@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Carbon|null $end_at
@@ -31,8 +33,9 @@ use Illuminate\Support\Str;
  *
  * @method static FeaturedThemeFactory factory(...$parameters)
  */
-class FeaturedTheme extends BaseModel
+class FeaturedTheme extends BaseModel implements Auditable
 {
+    use HasAudits;
     use HasFactory;
 
     final public const string TABLE = 'featured_themes';
@@ -55,17 +58,18 @@ class FeaturedTheme extends BaseModel
     final public const string RELATION_VIDEO = 'video';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        FeaturedTheme::ATTRIBUTE_END_AT,
-        FeaturedTheme::ATTRIBUTE_ENTRY,
-        FeaturedTheme::ATTRIBUTE_START_AT,
-        FeaturedTheme::ATTRIBUTE_USER,
-        FeaturedTheme::ATTRIBUTE_VIDEO,
-    ];
+    protected $table = FeaturedTheme::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = FeaturedTheme::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -81,18 +85,17 @@ class FeaturedTheme extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = FeaturedTheme::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = FeaturedTheme::ATTRIBUTE_ID;
+    protected $fillable = [
+        FeaturedTheme::ATTRIBUTE_END_AT,
+        FeaturedTheme::ATTRIBUTE_ENTRY,
+        FeaturedTheme::ATTRIBUTE_START_AT,
+        FeaturedTheme::ATTRIBUTE_USER,
+        FeaturedTheme::ATTRIBUTE_VIDEO,
+    ];
 
     /**
      * Get the attributes that should be cast.

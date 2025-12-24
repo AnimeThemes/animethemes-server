@@ -67,23 +67,18 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     final public const string RELATION_USER = 'user';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = Playlist::TABLE;
 
     /**
-     * The attributes that are mass assignable.
+     * The primary key associated with the table.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Playlist::ATTRIBUTE_DESCRIPTION,
-        Playlist::ATTRIBUTE_NAME,
-        Playlist::ATTRIBUTE_USER,
-        Playlist::ATTRIBUTE_VISIBILITY,
-    ];
+    protected $primaryKey = Playlist::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -99,18 +94,16 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Playlist::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Playlist::ATTRIBUTE_ID;
+    protected $fillable = [
+        Playlist::ATTRIBUTE_DESCRIPTION,
+        Playlist::ATTRIBUTE_NAME,
+        Playlist::ATTRIBUTE_USER,
+        Playlist::ATTRIBUTE_VISIBILITY,
+    ];
 
     /**
      * Get the route key for the model.
@@ -164,6 +157,16 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
+     * Only get the attributes as an array to prevent recursive toArray() calls.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return $this->attributesToArray();
+    }
+
+    /**
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -204,15 +207,5 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     public function tracks(): HasMany
     {
         return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_PLAYLIST);
-    }
-
-    /**
-     * Only get the attributes as an array to prevent recursive toArray() calls.
-     *
-     * @return array<string, mixed>
-     */
-    public function toSearchableArray(): array
-    {
-        return $this->attributesToArray();
     }
 }

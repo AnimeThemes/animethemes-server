@@ -18,6 +18,8 @@ use App\Models\Wiki\Video;
 use Database\Factories\Wiki\Video\VideoScriptFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $script_id
@@ -28,8 +30,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static VideoScriptFactory factory(...$parameters)
  */
-class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletable
+class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use SoftDeletes;
 
@@ -43,14 +46,18 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
     final public const string RELATION_VIDEO = 'video';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        VideoScript::ATTRIBUTE_PATH,
-        VideoScript::ATTRIBUTE_VIDEO,
-    ];
+    protected $table = VideoScript::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = VideoScript::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -68,18 +75,14 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = VideoScript::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = VideoScript::ATTRIBUTE_ID;
+    protected $fillable = [
+        VideoScript::ATTRIBUTE_PATH,
+        VideoScript::ATTRIBUTE_VIDEO,
+    ];
 
     /**
      * The accessors to append to the model's array form.

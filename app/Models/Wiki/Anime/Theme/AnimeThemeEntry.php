@@ -42,6 +42,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
 
@@ -60,9 +62,10 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
-class AnimeThemeEntry extends BaseModel implements HasAggregateLikes, HasResources, InteractsWithSchema, Likeable, SoftDeletable
+class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes, HasResources, InteractsWithSchema, Likeable, SoftDeletable
 {
     use AggregatesLike;
+    use HasAudits;
     use HasFactory;
     use InteractsWithLikes;
     use Searchable;
@@ -92,18 +95,18 @@ class AnimeThemeEntry extends BaseModel implements HasAggregateLikes, HasResourc
     final public const string RELATION_VIDEOS = 'videos';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        AnimeThemeEntry::ATTRIBUTE_EPISODES,
-        AnimeThemeEntry::ATTRIBUTE_NOTES,
-        AnimeThemeEntry::ATTRIBUTE_NSFW,
-        AnimeThemeEntry::ATTRIBUTE_SPOILER,
-        AnimeThemeEntry::ATTRIBUTE_THEME,
-        AnimeThemeEntry::ATTRIBUTE_VERSION,
-    ];
+    protected $table = AnimeThemeEntry::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = AnimeThemeEntry::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -121,18 +124,18 @@ class AnimeThemeEntry extends BaseModel implements HasAggregateLikes, HasResourc
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = AnimeThemeEntry::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = AnimeThemeEntry::ATTRIBUTE_ID;
+    protected $fillable = [
+        AnimeThemeEntry::ATTRIBUTE_EPISODES,
+        AnimeThemeEntry::ATTRIBUTE_NOTES,
+        AnimeThemeEntry::ATTRIBUTE_NSFW,
+        AnimeThemeEntry::ATTRIBUTE_SPOILER,
+        AnimeThemeEntry::ATTRIBUTE_THEME,
+        AnimeThemeEntry::ATTRIBUTE_VERSION,
+    ];
 
     /**
      * Get the attributes that should be cast.

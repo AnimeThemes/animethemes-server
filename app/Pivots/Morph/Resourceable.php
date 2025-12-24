@@ -44,6 +44,13 @@ class Resourceable extends BaseMorphPivot
     final public const string RELATION_RESOURCEABLE = 'resourceable';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = Resourceable::TABLE;
+
+    /**
      * The models that have resources.
      *
      * @var class-string<Model&HasResources>[]
@@ -57,11 +64,17 @@ class Resourceable extends BaseMorphPivot
     ];
 
     /**
-     * The table associated with the model.
+     * The event map for the model.
      *
-     * @var string
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
      */
-    protected $table = Resourceable::TABLE;
+    protected $dispatchesEvents = [
+        'created' => ResourceableCreated::class,
+        'deleted' => ResourceableDeleted::class,
+        'updated' => ResourceableUpdated::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -73,19 +86,6 @@ class Resourceable extends BaseMorphPivot
         Resourceable::ATTRIBUTE_RESOURCE,
         Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
         Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => ResourceableCreated::class,
-        'deleted' => ResourceableDeleted::class,
-        'updated' => ResourceableUpdated::class,
     ];
 
     /**

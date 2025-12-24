@@ -36,6 +36,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $anime_id
@@ -56,8 +58,9 @@ use Illuminate\Support\Collection;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
-class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
+class Anime extends BaseModel implements Auditable, HasImages, HasResources, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -90,18 +93,18 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Anime::ATTRIBUTE_NAME,
-        Anime::ATTRIBUTE_SEASON,
-        Anime::ATTRIBUTE_SLUG,
-        Anime::ATTRIBUTE_SYNOPSIS,
-        Anime::ATTRIBUTE_YEAR,
-        Anime::ATTRIBUTE_MEDIA_FORMAT,
-    ];
+    protected $table = Anime::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Anime::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -119,18 +122,32 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Anime::TABLE;
+    protected $fillable = [
+        Anime::ATTRIBUTE_NAME,
+        Anime::ATTRIBUTE_SEASON,
+        Anime::ATTRIBUTE_SLUG,
+        Anime::ATTRIBUTE_SYNOPSIS,
+        Anime::ATTRIBUTE_YEAR,
+        Anime::ATTRIBUTE_MEDIA_FORMAT,
+    ];
 
     /**
-     * The primary key associated with the table.
+     * Get the attributes that should be cast.
      *
-     * @var string
+     * @return array<string, string>
      */
-    protected $primaryKey = Anime::ATTRIBUTE_ID;
+    protected function casts(): array
+    {
+        return [
+            Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
+            Anime::ATTRIBUTE_YEAR => 'int',
+            Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class,
+        ];
+    }
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
@@ -159,20 +176,6 @@ class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
     public function getRouteKeyName(): string
     {
         return Anime::ATTRIBUTE_SLUG;
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
-            Anime::ATTRIBUTE_YEAR => 'int',
-            Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class,
-        ];
     }
 
     public function getName(): string

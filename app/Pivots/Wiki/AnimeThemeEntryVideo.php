@@ -42,17 +42,16 @@ class AnimeThemeEntryVideo extends BasePivot
     protected $table = AnimeThemeEntryVideo::TABLE;
 
     /**
-     * Get the composite primary key for the pivot.
+     * The event map for the model.
      *
-     * @return string[]
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
      */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,
-            AnimeThemeEntryVideo::ATTRIBUTE_VIDEO,
-        ];
-    }
+    protected $dispatchesEvents = [
+        'created' => AnimeThemeEntryVideoCreated::class,
+        'deleted' => AnimeThemeEntryVideoDeleted::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -65,16 +64,17 @@ class AnimeThemeEntryVideo extends BasePivot
     ];
 
     /**
-     * The event map for the model.
+     * Get the composite primary key for the pivot.
      *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
+     * @return string[]
      */
-    protected $dispatchesEvents = [
-        'created' => AnimeThemeEntryVideoCreated::class,
-        'deleted' => AnimeThemeEntryVideoDeleted::class,
-    ];
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,
+            AnimeThemeEntryVideo::ATTRIBUTE_VIDEO,
+        ];
+    }
 
     /**
      * Gets the video that owns the video entry.

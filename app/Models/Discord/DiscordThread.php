@@ -36,24 +36,6 @@ class DiscordThread extends BaseModel
     final public const string RELATION_ANIME = 'anime';
 
     /**
-     * Is auditing disabled?
-     *
-     * @var bool
-     */
-    public static $auditingDisabled = true;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        DiscordThread::ATTRIBUTE_ANIME,
-        DiscordThread::ATTRIBUTE_ID,
-        DiscordThread::ATTRIBUTE_NAME,
-    ];
-
-    /**
      * The table associated with the model.
      *
      * @var string
@@ -91,6 +73,17 @@ class DiscordThread extends BaseModel
     protected $dispatchesEvents = [
         'deleted' => DiscordThreadDeleted::class,
         'updated' => DiscordThreadUpdated::class,
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        DiscordThread::ATTRIBUTE_ANIME,
+        DiscordThread::ATTRIBUTE_ID,
+        DiscordThread::ATTRIBUTE_NAME,
     ];
 
     public function getName(): string

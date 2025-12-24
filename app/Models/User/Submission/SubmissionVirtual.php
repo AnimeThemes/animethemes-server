@@ -35,25 +35,6 @@ class SubmissionVirtual extends BaseModel
     final public const string RELATION_USER = 'user';
 
     /**
-     * Is auditing disabled?
-     *
-     * @var bool
-     */
-    public static $auditingDisabled = true;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        SubmissionVirtual::ATTRIBUTE_EXISTS,
-        SubmissionVirtual::ATTRIBUTE_FIELDS,
-        SubmissionVirtual::ATTRIBUTE_MODEL_TYPE,
-        SubmissionVirtual::ATTRIBUTE_USER,
-    ];
-
-    /**
      * The table associated with the model.
      *
      * @var string
@@ -66,6 +47,18 @@ class SubmissionVirtual extends BaseModel
      * @var string
      */
     protected $primaryKey = SubmissionVirtual::ATTRIBUTE_ID;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        SubmissionVirtual::ATTRIBUTE_EXISTS,
+        SubmissionVirtual::ATTRIBUTE_FIELDS,
+        SubmissionVirtual::ATTRIBUTE_MODEL_TYPE,
+        SubmissionVirtual::ATTRIBUTE_USER,
+    ];
 
     protected $appends = [
         'model',

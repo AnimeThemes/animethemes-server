@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Collection<int, AnimeTheme> $animethemes
@@ -38,8 +40,9 @@ use Illuminate\Support\Collection;
  *
  * @method static SongFactory factory(...$parameters)
  */
-class Song extends BaseModel implements HasResources, SoftDeletable
+class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -61,14 +64,18 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Song::ATTRIBUTE_TITLE,
-        Song::ATTRIBUTE_TITLE_NATIVE,
-    ];
+    protected $table = Song::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Song::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -86,18 +93,14 @@ class Song extends BaseModel implements HasResources, SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Song::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Song::ATTRIBUTE_ID;
+    protected $fillable = [
+        Song::ATTRIBUTE_TITLE,
+        Song::ATTRIBUTE_TITLE_NATIVE,
+    ];
 
     public function getName(): string
     {

@@ -42,11 +42,18 @@ class ExternalEntry extends BaseModel
     final public const string RELATION_USER = 'externalprofile.user';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = ExternalEntry::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = ExternalEntry::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -60,20 +67,6 @@ class ExternalEntry extends BaseModel
         ExternalEntry::ATTRIBUTE_SCORE,
         ExternalEntry::ATTRIBUTE_WATCH_STATUS,
     ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalEntry::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalEntry::ATTRIBUTE_ID;
 
     /**
      * Get the attributes that should be cast.

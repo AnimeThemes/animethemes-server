@@ -43,6 +43,13 @@ class Imageable extends BaseMorphPivot
     final public const string RELATION_IMAGEABLE = 'imageable';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = Imageable::TABLE;
+
+    /**
      * The models that have images.
      *
      * @var class-string<Model&HasImages>[]
@@ -52,25 +59,6 @@ class Imageable extends BaseMorphPivot
         Anime::class,
         Artist::class,
         Studio::class,
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Imageable::TABLE;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        Imageable::ATTRIBUTE_DEPTH,
-        Imageable::ATTRIBUTE_IMAGE,
-        Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
-        Imageable::ATTRIBUTE_IMAGEABLE_ID,
     ];
 
     /**
@@ -87,18 +75,16 @@ class Imageable extends BaseMorphPivot
     ];
 
     /**
-     * Get the composite primary key for the pivot.
+     * The attributes that are mass assignable.
      *
-     * @return string[]
+     * @var list<string>
      */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            Imageable::ATTRIBUTE_IMAGE,
-            Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
-            Imageable::ATTRIBUTE_IMAGEABLE_ID,
-        ];
-    }
+    protected $fillable = [
+        Imageable::ATTRIBUTE_DEPTH,
+        Imageable::ATTRIBUTE_IMAGE,
+        Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
+        Imageable::ATTRIBUTE_IMAGEABLE_ID,
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -109,6 +95,20 @@ class Imageable extends BaseMorphPivot
     {
         return [
             Imageable::ATTRIBUTE_DEPTH => 'int',
+        ];
+    }
+
+    /**
+     * Get the composite primary key for the pivot.
+     *
+     * @return string[]
+     */
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            Imageable::ATTRIBUTE_IMAGE,
+            Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
+            Imageable::ATTRIBUTE_IMAGEABLE_ID,
         ];
     }
 

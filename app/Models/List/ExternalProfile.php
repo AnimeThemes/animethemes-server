@@ -65,25 +65,18 @@ class ExternalProfile extends BaseModel
     final public const string RELATION_USER = 'user';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = ExternalProfile::TABLE;
 
     /**
-     * The attributes that are mass assignable.
+     * The primary key associated with the table.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID,
-        ExternalProfile::ATTRIBUTE_NAME,
-        ExternalProfile::ATTRIBUTE_SITE,
-        ExternalProfile::ATTRIBUTE_SYNCED_AT,
-        ExternalProfile::ATTRIBUTE_VISIBILITY,
-        ExternalProfile::ATTRIBUTE_USER,
-    ];
+    protected $primaryKey = ExternalProfile::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -99,18 +92,18 @@ class ExternalProfile extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = ExternalProfile::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalProfile::ATTRIBUTE_ID;
+    protected $fillable = [
+        ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID,
+        ExternalProfile::ATTRIBUTE_NAME,
+        ExternalProfile::ATTRIBUTE_SITE,
+        ExternalProfile::ATTRIBUTE_SYNCED_AT,
+        ExternalProfile::ATTRIBUTE_VISIBILITY,
+        ExternalProfile::ATTRIBUTE_USER,
+    ];
 
     /**
      * Get the attributes that should be cast.

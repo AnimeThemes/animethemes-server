@@ -73,6 +73,20 @@ class ActionLog extends Model implements Nameable
     final public const string RELATION_TARGET = 'target';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = ActionLog::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = ActionLog::ATTRIBUTE_ID;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -94,18 +108,17 @@ class ActionLog extends Model implements Nameable
     ];
 
     /**
-     * The table associated with the model.
+     * Get the attributes that should be cast.
      *
-     * @var string
+     * @return array<string, string>
      */
-    protected $table = ActionLog::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ActionLog::ATTRIBUTE_ID;
+    protected function casts(): array
+    {
+        return [
+            ActionLog::ATTRIBUTE_FIELDS => 'array',
+            ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::class,
+        ];
+    }
 
     /**
      * When an exception is thrown, the current action logs should be handled.
@@ -122,19 +135,6 @@ class ActionLog extends Model implements Nameable
                     ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
                 ]);
         }
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            ActionLog::ATTRIBUTE_FIELDS => 'array',
-            ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::class,
-        ];
     }
 
     public function getName(): string

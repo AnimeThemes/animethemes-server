@@ -38,17 +38,16 @@ class AnimeSeries extends BasePivot
     protected $table = AnimeSeries::TABLE;
 
     /**
-     * Get the composite primary key for the pivot.
+     * The event map for the model.
      *
-     * @return string[]
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array<string, class-string>
      */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            AnimeSeries::ATTRIBUTE_ANIME,
-            AnimeSeries::ATTRIBUTE_SERIES,
-        ];
-    }
+    protected $dispatchesEvents = [
+        'created' => AnimeSeriesCreated::class,
+        'deleted' => AnimeSeriesDeleted::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -61,16 +60,17 @@ class AnimeSeries extends BasePivot
     ];
 
     /**
-     * The event map for the model.
+     * Get the composite primary key for the pivot.
      *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
+     * @return string[]
      */
-    protected $dispatchesEvents = [
-        'created' => AnimeSeriesCreated::class,
-        'deleted' => AnimeSeriesDeleted::class,
-    ];
+    protected function getPrimaryKeys(): array
+    {
+        return [
+            AnimeSeries::ATTRIBUTE_ANIME,
+            AnimeSeries::ATTRIBUTE_SERIES,
+        ];
+    }
 
     /**
      * Gets the anime that owns the anime series.

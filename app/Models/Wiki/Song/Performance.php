@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $performance_id
@@ -33,8 +35,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  *
  * @method static PerformanceFactory factory(...$parameters)
  */
-class Performance extends BaseModel implements SoftDeletable
+class Performance extends BaseModel implements Auditable, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use SoftDeletes;
     use Submitable;
@@ -55,18 +58,18 @@ class Performance extends BaseModel implements SoftDeletable
     final public const string RELATION_SONG = 'song';
 
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        Performance::ATTRIBUTE_SONG,
-        Performance::ATTRIBUTE_ARTIST_TYPE,
-        Performance::ATTRIBUTE_ARTIST_ID,
-        Performance::ATTRIBUTE_ALIAS,
-        Performance::ATTRIBUTE_AS,
-        Performance::ATTRIBUTE_RELEVANCE,
-    ];
+    protected $table = Performance::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Performance::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -84,18 +87,18 @@ class Performance extends BaseModel implements SoftDeletable
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = Performance::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Performance::ATTRIBUTE_ID;
+    protected $fillable = [
+        Performance::ATTRIBUTE_SONG,
+        Performance::ATTRIBUTE_ARTIST_TYPE,
+        Performance::ATTRIBUTE_ARTIST_ID,
+        Performance::ATTRIBUTE_ALIAS,
+        Performance::ATTRIBUTE_AS,
+        Performance::ATTRIBUTE_RELEVANCE,
+    ];
 
     public function getName(): string
     {

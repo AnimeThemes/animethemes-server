@@ -57,11 +57,18 @@ class Submission extends BaseModel
     final public const string RELATION_USER = 'user';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = Submission::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = Submission::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -81,18 +88,18 @@ class Submission extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
+     * Get the attributes that should be cast.
      *
-     * @var string
+     * @return array<string, string>
      */
-    protected $table = Submission::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Submission::ATTRIBUTE_ID;
+    protected function casts(): array
+    {
+        return [
+            Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
+            Submission::ATTRIBUTE_LOCKED => 'bool',
+            Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
+        ];
+    }
 
     public function getName(): string
     {
@@ -106,20 +113,6 @@ class Submission extends BaseModel
         }
 
         return strval($this->getKey());
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
-            Submission::ATTRIBUTE_LOCKED => 'bool',
-            Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
-        ];
     }
 
     public function isLocked(): bool

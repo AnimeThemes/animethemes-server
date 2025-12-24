@@ -61,22 +61,18 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     final public const string RELATION_VIDEO = 'video';
 
     /**
-     * Is auditing disabled?
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public static $auditingDisabled = true;
+    protected $table = PlaylistTrack::TABLE;
 
     /**
-     * The attributes that are mass assignable.
+     * The primary key associated with the table.
      *
-     * @var list<string>
+     * @var string
      */
-    protected $fillable = [
-        PlaylistTrack::ATTRIBUTE_ENTRY,
-        PlaylistTrack::ATTRIBUTE_PLAYLIST,
-        PlaylistTrack::ATTRIBUTE_VIDEO,
-    ];
+    protected $primaryKey = PlaylistTrack::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -92,18 +88,15 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     ];
 
     /**
-     * The table associated with the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var list<string>
      */
-    protected $table = PlaylistTrack::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = PlaylistTrack::ATTRIBUTE_ID;
+    protected $fillable = [
+        PlaylistTrack::ATTRIBUTE_ENTRY,
+        PlaylistTrack::ATTRIBUTE_PLAYLIST,
+        PlaylistTrack::ATTRIBUTE_VIDEO,
+    ];
 
     /**
      * Get the route key for the model.

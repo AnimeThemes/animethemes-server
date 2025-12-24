@@ -18,6 +18,8 @@ use Database\Factories\Wiki\Anime\AnimeSynonymFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Anime $anime
@@ -28,8 +30,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static AnimeSynonymFactory factory(...$parameters)
  */
-class AnimeSynonym extends BaseModel implements SoftDeletable
+class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
 {
+    use HasAudits;
     use HasFactory;
     use Searchable;
     use SoftDeletes;
@@ -45,6 +48,20 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_SERIES = 'anime.series';
     final public const string RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = AnimeSynonym::TABLE;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = AnimeSynonym::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -70,20 +87,6 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
         'restored' => SynonymRestored::class,
         'updated' => SynonymUpdated::class,
     ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeSynonym::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = AnimeSynonym::ATTRIBUTE_ID;
 
     /**
      * Get the attributes that should be cast.
