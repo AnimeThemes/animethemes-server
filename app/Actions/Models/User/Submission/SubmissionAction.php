@@ -8,7 +8,6 @@ use App\Enums\Models\User\SubmissionStatus;
 use App\Models\User\Submission;
 use App\Models\User\Submission\SubmissionStage;
 use App\Models\User\Submission\SubmissionVirtual;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -84,7 +83,7 @@ abstract class SubmissionAction
 
                 $virtual->update([SubmissionVirtual::ATTRIBUTE_EXISTS => true]);
 
-                $fields[$key] = Relation::getMorphedModel($virtual->model_type)::query()
+                $fields[$key] = $virtual->model::query()
                     ->create($virtual->getAttribute(SubmissionVirtual::ATTRIBUTE_FIELDS))
                     ->getKey();
             }
