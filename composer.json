@@ -29,13 +29,13 @@
         "babenkoivan/elastic-scout-driver-plus": "^4.8",
         "bepsvpt/secure-headers": "^7.5",
         "fakerphp/faker": "^1.24.1",
-        "filament/filament": "^4.3.1",
+        "filament/filament": "^4.4.0",
         "flowframe/laravel-trend": ">=0.4",
         "guzzlehttp/guzzle": "^7.10.0",
         "larastan/larastan": "^3.8.1",
         "laravel-notification-channels/discord": "^1.7",
         "laravel/fortify": "^1.33.0",
-        "laravel/framework": "^12.43.1",
+        "laravel/framework": "^12.44.0",
         "laravel/horizon": "^5.41.0",
         "laravel/pennant": "^1.18.5",
         "laravel/pulse": "^1.4.7",
@@ -59,15 +59,15 @@
         "vinkla/hashids": "^13.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.16.2",
-        "driftingly/rector-laravel": "^2.1.8",
+        "barryvdh/laravel-debugbar": "^3.16.3",
+        "driftingly/rector-laravel": "^2.1.9",
         "laravel/pint": "^1.26.0",
         "laravel/sail": "^1.51.0",
         "mockery/mockery": "^1.6.12",
-        "pestphp/pest": "^4.2.0",
+        "pestphp/pest": "^4.3.0",
         "pestphp/pest-plugin-laravel": "^4.0",
         "predis/predis": "^2.4.1",
-        "rector/rector": "^2.2.14"
+        "rector/rector": "^2.3.0"
     },
     "config": {
         "optimize-autoloader": true,
