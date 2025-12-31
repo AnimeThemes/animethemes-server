@@ -12,11 +12,6 @@ use App\Models\Discord\DiscordThread;
  */
 class DiscordThreadDeleted extends AdminDeletedEvent
 {
-    public function __construct(DiscordThread $thread)
-    {
-        parent::__construct($thread);
-    }
-
     protected function getDiscordMessageDescription(): string
     {
         return "Discord Thread '**{$this->getModel()->getName()}**' has been deleted.";

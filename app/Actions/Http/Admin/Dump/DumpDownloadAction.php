@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DumpDownloadAction extends DownloadAction
 {
-    public function __construct(Dump $dump)
-    {
-        parent::__construct($dump);
-    }
-
     /**
      * Get the path of the resource in storage.
      */

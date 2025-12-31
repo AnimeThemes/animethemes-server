@@ -25,7 +25,8 @@ class AnnouncementPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $announcement->public
+        return $announcement->start_at->isPast()
+            && $announcement->end_at->isFuture()
             ? Response::allow()
             : Response::deny();
     }

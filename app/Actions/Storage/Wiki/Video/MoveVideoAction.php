@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\File;
  */
 class MoveVideoAction extends MoveAction
 {
-    public function __construct(Video $video, string $to)
-    {
-        parent::__construct($video, $to);
-    }
-
     /**
      * The list of disk names.
      */

@@ -632,9 +632,13 @@ return [
         ],
         'announcement' => [
             'content' => 'Content',
-            'public' => [
-                'help' => 'Determine if the announcement should be active on the homepage.',
-                'name' => 'Public',
+            'end_at' => [
+                'help' => 'The datetime that the announcement should stop being displayed.',
+                'name' => 'End At',
+            ],
+            'start_at' => [
+                'help' => 'The datetime that the announcement should start being displayed.',
+                'name' => 'Start At',
             ],
         ],
         'audio' => [

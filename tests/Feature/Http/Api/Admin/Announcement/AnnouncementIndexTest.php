@@ -44,9 +44,33 @@ test('default', function () {
     );
 });
 
-test('private', function () {
+test('past', function () {
     Announcement::factory()
-        ->private()
+        ->past()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $announcements = Announcement::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $response = get(route('api.announcement.index'));
+
+    $response->assertJson(
+        json_decode(
+            json_encode(
+                new AnnouncementCollection($announcements, new Query())
+                    ->response()
+                    ->getData()
+            ),
+            true
+        )
+    );
+});
+
+test('future', function () {
+    Announcement::factory()
+        ->future()
         ->count(fake()->randomDigitNotNull())
         ->create();
 

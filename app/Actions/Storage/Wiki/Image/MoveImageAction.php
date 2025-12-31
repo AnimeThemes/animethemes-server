@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Config;
  */
 class MoveImageAction extends MoveAction
 {
-    public function __construct(Image $image, string $to)
-    {
-        parent::__construct($image, $to);
-    }
-
     /**
      * The list of disk names.
      */
