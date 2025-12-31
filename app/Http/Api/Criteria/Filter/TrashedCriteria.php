@@ -17,14 +17,6 @@ class TrashedCriteria extends Criteria
 {
     final public const string PARAM_VALUE = 'trashed';
 
-    final public function __construct(
-        Predicate $predicate,
-        BinaryLogicalOperator $operator,
-        Scope $scope
-    ) {
-        parent::__construct($predicate, $operator, $scope);
-    }
-
     /**
      * Create a new criteria instance from query string.
      */

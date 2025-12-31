@@ -17,14 +17,6 @@ use Illuminate\Support\Str;
 
 class WhereCriteria extends Criteria
 {
-    final public function __construct(
-        Predicate $predicate,
-        BinaryLogicalOperator $operator,
-        Scope $scope
-    ) {
-        parent::__construct($predicate, $operator, $scope);
-    }
-
     /**
      * Create a new criteria instance from query string.
      */

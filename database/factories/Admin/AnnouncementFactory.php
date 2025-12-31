@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\Admin;
 
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Admin\Announcement;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -31,17 +32,30 @@ class AnnouncementFactory extends Factory
     {
         return [
             Announcement::ATTRIBUTE_CONTENT => fake()->sentence(),
-            Announcement::ATTRIBUTE_PUBLIC => true,
+            Announcement::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
+            Announcement::ATTRIBUTE_START_AT => fake()->dateTimeBetween()->format(AllowedDateFormat::YMDHISU->value),
         ];
     }
 
     /**
-     * Set the public state to false.
+     * Set the announcement time to past.
      */
-    public function private(): static
+    public function past(): static
     {
         return $this->state([
-            Announcement::ATTRIBUTE_PUBLIC => false,
+            Announcement::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-2 years', '-1 year')->format(AllowedDateFormat::YMDHISU->value),
+            Announcement::ATTRIBUTE_START_AT => fake()->dateTimeBetween('-3 years', '-2 years')->format(AllowedDateFormat::YMDHISU->value),
+        ]);
+    }
+
+    /**
+     * Set the announcement time to future.
+     */
+    public function future(): static
+    {
+        return $this->state([
+            Announcement::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 year', '+2 years')->format(AllowedDateFormat::YMDHISU->value),
+            Announcement::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
         ]);
     }
 }

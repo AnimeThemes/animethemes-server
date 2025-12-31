@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Config;
  */
 class ScriptDownloadAction extends DownloadAction
 {
-    public function __construct(VideoScript $script)
-    {
-        parent::__construct($script);
-    }
-
     /**
      * Get the path of the resource in storage.
      */

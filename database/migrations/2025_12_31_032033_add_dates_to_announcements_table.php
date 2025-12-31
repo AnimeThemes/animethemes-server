@@ -15,7 +15,8 @@ return new class extends Migration
     {
         if (! Schema::hasColumn('announcements', 'public')) {
             Schema::table('announcements', function (Blueprint $table) {
-                $table->boolean('public')->default(false)->after('updated_at');
+                $table->timestamp('start_at', 6)->nullable();
+                $table->timestamp('end_at', 6)->nullable();
             });
         }
     }

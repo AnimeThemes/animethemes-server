@@ -11,7 +11,6 @@ use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Date;
 
 class FeaturedThemePolicy extends BasePolicy
 {
@@ -26,7 +25,7 @@ class FeaturedThemePolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $featuredtheme->start_at->isBefore(Date::now())
+        return $featuredtheme->start_at->isPast()
             ? Response::allow()
             : Response::deny();
     }

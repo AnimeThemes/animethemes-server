@@ -12,16 +12,19 @@ use Database\Factories\Admin\AnnouncementFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $announcement_id
  * @property string $content
- * @property bool $public
+ * @property Carbon|null $end_at
+ * @property Carbon|null $start_at
  *
  * @method static AnnouncementFactory factory(...$parameters)
- * @method static Builder<Announcement> public()
+ * @method static Builder<Announcement> current()
  */
 class Announcement extends BaseModel implements Auditable
 {
@@ -31,8 +34,9 @@ class Announcement extends BaseModel implements Auditable
     final public const string TABLE = 'announcements';
 
     final public const string ATTRIBUTE_CONTENT = 'content';
+    final public const string ATTRIBUTE_END_AT = 'end_at';
     final public const string ATTRIBUTE_ID = 'announcement_id';
-    final public const string ATTRIBUTE_PUBLIC = 'public';
+    final public const string ATTRIBUTE_START_AT = 'start_at';
 
     /**
      * The table associated with the model.
@@ -68,7 +72,8 @@ class Announcement extends BaseModel implements Auditable
      */
     protected $fillable = [
         Announcement::ATTRIBUTE_CONTENT,
-        Announcement::ATTRIBUTE_PUBLIC,
+        Announcement::ATTRIBUTE_END_AT,
+        Announcement::ATTRIBUTE_START_AT,
     ];
 
     /**
@@ -79,7 +84,8 @@ class Announcement extends BaseModel implements Auditable
     protected function casts(): array
     {
         return [
-            Announcement::ATTRIBUTE_PUBLIC => 'boolean',
+            Announcement::ATTRIBUTE_END_AT => 'datetime',
+            Announcement::ATTRIBUTE_START_AT => 'datetime',
         ];
     }
 
@@ -94,11 +100,14 @@ class Announcement extends BaseModel implements Auditable
     }
 
     /**
-     * Scope a query to only include public announcements.
+     * Scope a query to only include current announcements.
      */
     #[Scope]
-    protected function public(Builder $query): void
+    protected function current(Builder $query): void
     {
-        $query->where(Announcement::ATTRIBUTE_PUBLIC, true);
+        $query->whereValueBetween(Date::now(), [
+            Announcement::ATTRIBUTE_START_AT,
+            Announcement::ATTRIBUTE_END_AT,
+        ]);
     }
 }

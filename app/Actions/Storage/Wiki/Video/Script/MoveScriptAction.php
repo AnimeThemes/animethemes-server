@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Config;
  */
 class MoveScriptAction extends MoveAction
 {
-    public function __construct(VideoScript $script, string $to)
-    {
-        parent::__construct($script, $to);
-    }
-
     /**
      * The list of disk names.
      */

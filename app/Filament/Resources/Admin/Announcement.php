@@ -11,13 +11,12 @@ use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Admin\Announcement\Pages\ManageAnnouncements;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Announcement as AnnouncementModel;
-use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,9 +58,19 @@ class Announcement extends BaseResource
     {
         return $schema
             ->components([
-                Checkbox::make(AnnouncementModel::ATTRIBUTE_PUBLIC)
-                    ->label(__('filament.fields.announcement.public.name'))
-                    ->helperText(__('filament.fields.announcement.public.help')),
+                DatePicker::make(AnnouncementModel::ATTRIBUTE_START_AT)
+                    ->label(__('filament.fields.announcement.start_at.name'))
+                    ->helperText(__('filament.fields.announcement.start_at.help'))
+                    ->native(false)
+                    ->required()
+                    ->before(AnnouncementModel::ATTRIBUTE_END_AT),
+
+                DatePicker::make(AnnouncementModel::ATTRIBUTE_END_AT)
+                    ->label(__('filament.fields.announcement.end_at.name'))
+                    ->helperText(__('filament.fields.announcement.end_at.help'))
+                    ->native(false)
+                    ->required()
+                    ->after(AnnouncementModel::ATTRIBUTE_START_AT),
 
                 MarkdownEditor::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                     ->label(__('filament.fields.announcement.content'))
@@ -79,9 +88,13 @@ class Announcement extends BaseResource
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                IconColumn::make(AnnouncementModel::ATTRIBUTE_PUBLIC)
-                    ->label(__('filament.fields.announcement.public.name'))
-                    ->boolean(),
+                TextColumn::make(AnnouncementModel::ATTRIBUTE_START_AT)
+                    ->label(__('filament.fields.announcement.start_at.name'))
+                    ->date(),
+
+                TextColumn::make(AnnouncementModel::ATTRIBUTE_END_AT)
+                    ->label(__('filament.fields.announcement.end_at.name'))
+                    ->date(),
 
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                     ->label(__('filament.fields.announcement.content'))
@@ -99,8 +112,13 @@ class Announcement extends BaseResource
                         TextEntry::make(AnnouncementModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(AnnouncementModel::ATTRIBUTE_PUBLIC)
-                            ->label(__('filament.fields.announcement.public.name')),
+                        TextEntry::make(AnnouncementModel::ATTRIBUTE_START_AT)
+                            ->label(__('filament.fields.announcement.start_at.name'))
+                            ->date(),
+
+                        TextEntry::make(AnnouncementModel::ATTRIBUTE_END_AT)
+                            ->label(__('filament.fields.announcement.end_at.name'))
+                            ->date(),
 
                         TextEntry::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                             ->label(__('filament.fields.announcement.content'))

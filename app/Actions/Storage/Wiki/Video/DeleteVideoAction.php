@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteVideoAction extends DeleteAction
 {
-    public function __construct(Video $video)
-    {
-        parent::__construct($video);
-    }
-
     /**
      * The list of disk names.
      */

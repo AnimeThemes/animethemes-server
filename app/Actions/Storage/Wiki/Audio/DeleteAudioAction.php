@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteAudioAction extends DeleteAction
 {
-    public function __construct(Audio $audio)
-    {
-        parent::__construct($audio);
-    }
-
     /**
      * The list of disk names.
      */

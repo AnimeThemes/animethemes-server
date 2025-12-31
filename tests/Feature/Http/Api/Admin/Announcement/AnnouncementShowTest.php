@@ -30,8 +30,16 @@ test('default', function () {
     );
 });
 
-test('cannot view private', function () {
-    $announcement = Announcement::factory()->private()->create();
+test('cannot view past announcement', function () {
+    $announcement = Announcement::factory()->past()->create();
+
+    $response = get(route('api.announcement.show', ['announcement' => $announcement]));
+
+    $response->assertForbidden();
+});
+
+test('cannot view future announcement', function () {
+    $announcement = Announcement::factory()->future()->create();
 
     $response = get(route('api.announcement.show', ['announcement' => $announcement]));
 

@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\File;
  */
 class MoveAudioAction extends MoveAction
 {
-    public function __construct(Audio $audio, string $to)
-    {
-        parent::__construct($audio, $to);
-    }
-
     /**
      * The list of disk names.
      */

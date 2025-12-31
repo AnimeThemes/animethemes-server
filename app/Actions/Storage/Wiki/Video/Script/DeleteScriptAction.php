@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteScriptAction extends DeleteAction
 {
-    public function __construct(VideoScript $script)
-    {
-        parent::__construct($script);
-    }
-
     /**
      * The list of disk names.
      */

@@ -31,6 +31,6 @@ class AnnouncementPaginationQuery extends EloquentPaginationQuery
     protected function query(Builder $builder, array $args): Builder
     {
         /** @phpstan-ignore-next-line */
-        return $builder->public();
+        return $builder->current();
     }
 }
