@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumn('announcements', 'public')) {
+        if (! Schema::hasColumns('announcements', ['start_at', 'end_at'])) {
             Schema::table('announcements', function (Blueprint $table) {
                 $table->timestamp('start_at', 6)->nullable();
                 $table->timestamp('end_at', 6)->nullable();
