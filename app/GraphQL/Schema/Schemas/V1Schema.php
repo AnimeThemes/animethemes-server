@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Schemas;
 
+use App\GraphQL\Scalars\MixedScalar;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\CreatePlaylistMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\DeletePlaylistMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackMutation;
@@ -220,6 +221,9 @@ class V1Schema implements ConfigConvertible
                 NotificationUnion::class,
                 PerformanceArtistUnion::class,
                 ResourceableUnion::class,
+
+                // Scalars
+                MixedScalar::class,
             ],
             // Laravel HTTP middleware
             'middleware' => [

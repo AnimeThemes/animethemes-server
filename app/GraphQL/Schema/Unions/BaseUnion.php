@@ -46,7 +46,7 @@ abstract class BaseUnion extends UnionType
     {
         return collect($this->baseTypes())
             ->map(fn (BaseType $type) => GraphQL::type($type->getName()))
-            ->toArray();
+            ->all();
     }
 
     public function resolveType($value): Type

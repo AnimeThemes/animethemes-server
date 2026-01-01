@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\GraphQL\ComparisonOperator;
 use App\Enums\GraphQL\SortDirection;
 use App\Enums\GraphQL\TrashedFilter;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
@@ -45,6 +46,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
     protected function bootEnums(): void
     {
+        GraphQL::addType(new EnumType(ComparisonOperator::class));
         GraphQL::addType(new EnumType(TrashedFilter::class));
         GraphQL::addType(new EnumType(SortDirection::class));
         GraphQL::addType(new EnumType(ExternalEntryWatchStatus::class));

@@ -45,7 +45,7 @@ class EdgeType extends RebingType
                     'resolve' => $field->resolve(...),
                 ],
             ])
-            ->toArray();
+            ->all();
     }
 
     /**

@@ -47,8 +47,8 @@ class SortableColumns extends EnumType
 
         return [
             'name' => $name.self::SUFFIX,
-            'values' => $this->getCriteria()->mapWithKeys(fn (SortCriteria $criterion): array => [$criterion->__toString() => $criterion->__toString()])->toArray(),
-            'criteria' => $this->getCriteria()->mapWithKeys(fn (SortCriteria $criterion): array => [$criterion->__toString() => $criterion])->toArray(),
+            'values' => $this->getCriteria()->mapWithKeys(fn (SortCriteria $criterion): array => [$criterion->__toString() => $criterion->__toString()])->all(),
+            'criteria' => $this->getCriteria()->mapWithKeys(fn (SortCriteria $criterion): array => [$criterion->__toString() => $criterion])->all(),
         ];
     }
 

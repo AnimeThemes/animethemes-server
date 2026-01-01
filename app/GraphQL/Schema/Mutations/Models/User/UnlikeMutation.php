@@ -50,7 +50,7 @@ class UnlikeMutation extends BaseMutation
         return collect($type->fieldClasses())
             ->filter(fn (Field $field): bool => $field instanceof DeletableField)
             ->mapWithKeys(fn (Field&DeletableField $field): array => [$field->getColumn() => $field->getDeleteRules($args)])
-            ->toArray();
+            ->all();
     }
 
     /**
