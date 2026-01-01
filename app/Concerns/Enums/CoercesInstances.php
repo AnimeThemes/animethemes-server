@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Enums;
 
+use BackedEnum;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,10 @@ trait CoercesInstances
      */
     public static function unstrictCoerce(mixed $enumKeyOrValue): ?static
     {
+        if ($enumKeyOrValue instanceof BackedEnum) {
+            return $enumKeyOrValue;
+        }
+
         return is_numeric($enumKeyOrValue)
             ? static::coerce(intval($enumKeyOrValue))
             : static::coerce(Str::lower($enumKeyOrValue));

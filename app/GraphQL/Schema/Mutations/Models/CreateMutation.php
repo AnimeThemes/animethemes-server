@@ -71,7 +71,7 @@ abstract class CreateMutation extends BaseMutation
             return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field): bool => $field instanceof CreatableField)
                 ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getColumn() => $field->getCreationRules($args)])
-                ->toArray();
+                ->all();
         }
 
         return [];

@@ -25,6 +25,8 @@ parameters:
             identifier: varTag.nativeType
         -
             identifier: method.childReturnType
+        -
+            identifier: new.static
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
         - '#::mapWithKeys\(\) expects*non-empty-array<int\|string, string> given.#'

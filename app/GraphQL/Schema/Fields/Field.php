@@ -81,7 +81,7 @@ abstract class Field
                     ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),
                 ],
             ])
-            ->toArray();
+            ->all();
     }
 
     abstract public function baseType(): Type|BaseType;

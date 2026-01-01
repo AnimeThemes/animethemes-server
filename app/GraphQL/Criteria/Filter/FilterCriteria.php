@@ -8,8 +8,10 @@ use App\Contracts\GraphQL\Fields\FilterableField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Support\Filter\Filter;
 use App\GraphQL\Support\Filter\TrashedFilter;
+use App\GraphQL\Support\Filter\WhereConditionsFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -26,6 +28,11 @@ abstract class FilterCriteria
             ->filter(fn (Field $field): bool => $field instanceof FilterableField)
             ->map(fn (Field&FilterableField $field): array => $field->getFilters())
             ->flatten()
+            ->when(
+                $baseType instanceof EloquentType,
+                /** @phpstan-ignore-next-line */
+                fn (Collection $collection) => $collection->push(new WhereConditionsFilter($baseType))
+            )
             ->when(
                 in_array(new DeletedAtField(), $fields),
                 fn (Collection $collection) => $collection->push(new TrashedFilter())

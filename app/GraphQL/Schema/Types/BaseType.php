@@ -91,6 +91,6 @@ abstract class BaseType extends RebingType
                 ],
             ]);
 
-        return $fields->merge($relations)->toArray();
+        return $fields->merge($relations)->all();
     }
 }

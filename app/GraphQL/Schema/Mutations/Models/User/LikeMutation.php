@@ -50,7 +50,7 @@ class LikeMutation extends BaseMutation
         return collect($type->fieldClasses())
             ->filter(fn (Field $field): bool => $field instanceof CreatableField)
             ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getColumn() => $field->getCreationRules($args)])
-            ->toArray();
+            ->all();
     }
 
     /**

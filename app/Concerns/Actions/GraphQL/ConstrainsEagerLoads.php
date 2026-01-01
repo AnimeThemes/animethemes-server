@@ -6,6 +6,7 @@ namespace App\Concerns\Actions\GraphQL;
 
 use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Unions\BaseUnion;
 use App\GraphQL\Support\ResolveInfo as CustomResolveInfo;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -22,15 +23,11 @@ trait ConstrainsEagerLoads
     /**
      * Apply eager loads with filters and sorting.
      */
-    protected function constrainEagerLoads(Builder $query, ResolveInfo|array $resolveInfo, BaseType $type): void
+    protected function constrainEagerLoads(Builder $query, ResolveInfo $resolveInfo, BaseType $type): void
     {
-        if ($resolveInfo instanceof ResolveInfo) {
-            $resolveInfo = new CustomResolveInfo($resolveInfo);
-        }
+        $resolveInfo = new CustomResolveInfo($resolveInfo);
 
-        $fields = $resolveInfo instanceof ResolveInfo
-            ? Arr::get($resolveInfo->getFieldSelectionWithAliases(100), 'data.data.selectionSet') ?? $resolveInfo->getFieldSelectionWithAliases(100)
-            : $resolveInfo;
+        $fields = collect(data_get($resolveInfo->getFieldSelectionWithAliases(100), '*.*.selectionSet'))->flatten()->all();
 
         $this->processEagerLoadForType($query, $fields, $type);
     }
@@ -45,7 +42,7 @@ trait ConstrainsEagerLoads
         /** @var array<int, Relation> $relations */
         $relations = collect($type->relations())
             ->filter(fn (Relation $relation) => Arr::has($fields, $relation->getName()))
-            ->toArray();
+            ->all();
 
         foreach ($relations as $relation) {
             $name = $relation->getName();
@@ -77,9 +74,12 @@ trait ConstrainsEagerLoads
     private function processMorphToRelation(array $selection, BaseUnion $union, MorphTo $relation): void
     {
         $unions = Arr::get($selection, 'unions');
+
+        /** @var array<int, EloquentType> $types */
         $types = collect($union->baseTypes())
-            ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
-            ->toArray();
+            ->filter(fn (BaseType $type): bool => $type instanceof EloquentType)
+            ->filter(fn (EloquentType $type) => Arr::has($unions, $type->getName()))
+            ->all();
 
         $morphConstrains = [];
         foreach ($types as $type) {
@@ -104,7 +104,7 @@ trait ConstrainsEagerLoads
 
         $types = collect($union->baseTypes())
             ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
-            ->toArray();
+            ->all();
 
         foreach ($types as $type) {
             $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet", []);
@@ -124,9 +124,7 @@ trait ConstrainsEagerLoads
 
         $this->sort($builder, $args, $type, $relation, $graphqlRelation);
 
-        $fields = Arr::get($selection, 'selectionSet.data.data.selectionSet')
-            ?? Arr::get($selection, 'selectionSet.nodes.nodes.selectionSet')
-            ?? Arr::get($selection, 'selectionSet', []);
+        $fields = data_get($selection, 'selectionSet.*.*.selectionSet', Arr::get($selection, 'selectionSet', []));
 
         $this->processEagerLoadForType($builder, $fields, $type);
     }

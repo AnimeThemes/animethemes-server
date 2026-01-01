@@ -16,9 +16,13 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use UnitEnum;
 
 abstract class EnumField extends Field implements DisplayableField, FilterableField, SortableField
 {
+    /**
+     * @param  class-string<UnitEnum>  $enum
+     */
     public function __construct(
         public string $column,
         public string $enum,

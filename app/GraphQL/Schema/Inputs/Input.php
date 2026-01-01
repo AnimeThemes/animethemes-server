@@ -9,11 +9,9 @@ use Rebing\GraphQL\Support\InputType;
 
 abstract class Input extends InputType
 {
-    public function getAttributes(): array
+    public function __construct()
     {
-        return [
-            'name' => $this->getName(),
-        ];
+        $this->attributes['name'] = $this->getName();
     }
 
     public function getName(): string
@@ -42,6 +40,6 @@ abstract class Input extends InputType
                     'rules' => $field->getRules(),
                 ],
             ])
-            ->toArray();
+            ->all();
     }
 }

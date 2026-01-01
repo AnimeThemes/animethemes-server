@@ -83,35 +83,35 @@ class SearchQuery extends BaseQuery
         $fields = $resolveInfo->getFieldSelection();
 
         if (Arr::get($fields, 'anime')) {
-            $result['anime'] = $this->search(Anime::class, $args, $resolveInfo, new AnimeType, 'anime');
+            $result['anime'] = $this->search(Anime::class, $args, $resolveInfo, new AnimeType);
         }
 
         if (Arr::get($fields, 'artists')) {
-            $result['artists'] = $this->search(Artist::class, $args, $resolveInfo, new ArtistType, 'artists');
+            $result['artists'] = $this->search(Artist::class, $args, $resolveInfo, new ArtistType);
         }
 
         if (Arr::get($fields, 'animethemes')) {
-            $result['animethemes'] = $this->search(AnimeTheme::class, $args, $resolveInfo, new AnimeThemeType, 'animethemes');
+            $result['animethemes'] = $this->search(AnimeTheme::class, $args, $resolveInfo, new AnimeThemeType);
         }
 
         if (Arr::get($fields, 'playlists')) {
-            $result['playlists'] = $this->search(Playlist::class, $args, $resolveInfo, new PlaylistType, 'playlists');
+            $result['playlists'] = $this->search(Playlist::class, $args, $resolveInfo, new PlaylistType);
         }
 
         if (Arr::get($fields, 'series')) {
-            $result['series'] = $this->search(Series::class, $args, $resolveInfo, new SeriesType, 'series');
+            $result['series'] = $this->search(Series::class, $args, $resolveInfo, new SeriesType);
         }
 
         if (Arr::get($fields, 'songs')) {
-            $result['songs'] = $this->search(Song::class, $args, $resolveInfo, new SongType, 'songs');
+            $result['songs'] = $this->search(Song::class, $args, $resolveInfo, new SongType);
         }
 
         if (Arr::get($fields, 'studios')) {
-            $result['studios'] = $this->search(Studio::class, $args, $resolveInfo, new StudioType, 'studios');
+            $result['studios'] = $this->search(Studio::class, $args, $resolveInfo, new StudioType);
         }
 
         if (Arr::get($fields, 'videos')) {
-            $result['videos'] = $this->search(Video::class, $args, $resolveInfo, new VideoType, 'videos');
+            $result['videos'] = $this->search(Video::class, $args, $resolveInfo, new VideoType);
         }
 
         return $result;
@@ -120,16 +120,14 @@ class SearchQuery extends BaseQuery
     /**
      * @param  class-string<Model>  $modelClass
      */
-    protected function search(string $modelClass, array $args, ResolveInfo $resolveInfo, EloquentType $type, string $field): Collection
+    protected function search(string $modelClass, array $args, ResolveInfo $resolveInfo, EloquentType $type): Collection
     {
         $term = Arr::get($args, 'search');
         $page = Arr::get($args, 'page', 1);
         $first = Number::clamp(Arr::get($args, 'first'), 1, 15);
 
-        $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$field}.{$field}.selectionSet");
-
         $searchBuilder = Search::search($modelClass, new Criteria($term))
-            ->passToEloquentBuilder(fn (Builder $builder) => $this->constrainEagerLoads($builder, $fields, $type))
+            ->passToEloquentBuilder(fn (Builder $builder) => $this->constrainEagerLoads($builder, $resolveInfo, $type))
             ->withPagination($first, $page);
 
         return collect($searchBuilder->execute()->items());
