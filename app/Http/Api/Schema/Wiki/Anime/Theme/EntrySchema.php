@@ -12,6 +12,7 @@ use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryNotesField;
 use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryNsfwField;
 use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntrySpoilerField;
 use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryThemeIdField;
+use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryTrackCountField;
 use App\Http\Api\Field\Wiki\Anime\Theme\Entry\EntryVersionField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -20,7 +21,6 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use Illuminate\Database\Eloquent\Model;
 
 class EntrySchema extends EloquentSchema implements SearchableSchema
 {
@@ -55,6 +55,7 @@ class EntrySchema extends EloquentSchema implements SearchableSchema
                 new EntryNsfwField($this),
                 new EntrySpoilerField($this),
                 new EntryVersionField($this),
+                new EntryTrackCountField($this),
                 new EntryThemeIdField($this),
             ],
         );
