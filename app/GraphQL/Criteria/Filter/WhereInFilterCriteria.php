@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Filter;
 
-use App\GraphQL\Support\Filter\Filter;
+use App\GraphQL\Schema\Fields\Field;
 use Illuminate\Database\Eloquent\Builder;
 
 class WhereInFilterCriteria extends FilterCriteria
 {
     public function __construct(
-        protected Filter $filter,
+        protected Field $field,
         protected mixed $value,
         protected bool $not = false,
     ) {}
@@ -21,7 +21,7 @@ class WhereInFilterCriteria extends FilterCriteria
     public function filter(Builder $builder): Builder
     {
         return $builder->{$this->not ? 'whereNotIn' : 'whereIn'}(
-            $builder->qualifyColumn($this->filter->getColumn()),
+            $builder->qualifyColumn($this->field->getColumn()),
             $this->value
         );
     }

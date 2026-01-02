@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Support\Filter;
 
 use App\GraphQL\Criteria\Filter\WhereConditionsFilterCriteria;
-use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Inputs\WhereConditionsInput;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Support\Argument\Argument;
@@ -14,10 +13,10 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class WhereConditionsFilter extends Filter
 {
-    public function __construct(protected EloquentType $type)
-    {
-        parent::__construct(new CreatedAtField);
-    }
+    public function __construct(
+        protected EloquentType $type,
+        protected mixed $defaultValue,
+    ) {}
 
     public function argument(): Argument
     {

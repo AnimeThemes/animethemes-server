@@ -6,10 +6,16 @@ namespace App\GraphQL\Support\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\GraphQL\Criteria\Filter\WhereFilterCriteria;
+use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Support\Argument\Argument;
 
 class GreaterFilter extends Filter
 {
+    public function __construct(
+        protected Field $field,
+        protected mixed $defaultValue = null,
+    ) {}
+
     public function argument(): Argument
     {
         return new Argument($this->field->getName().'_greater', $this->field->baseType())
@@ -19,7 +25,7 @@ class GreaterFilter extends Filter
     public function criteria(mixed $value): WhereFilterCriteria
     {
         return new WhereFilterCriteria(
-            $this,
+            $this->field,
             ComparisonOperator::GT,
             $value
         );
