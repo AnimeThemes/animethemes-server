@@ -14,6 +14,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use RuntimeException;
 
@@ -40,6 +41,14 @@ class ModerationRule implements ValidationRule
      */
     private function validateForOpenAI(string $attribute, mixed $value, Closure $fail): void
     {
+        $key = 'openai-moderation';
+
+        if (RateLimiter::tooManyAttempts($key, 60)) {
+            return;
+        }
+
+        RateLimiter::hit($key, 60);
+
         try {
             $response = Http::acceptJson()
                 ->withToken(Config::get(ServiceConstants::OPENAI_BEARER_TOKEN))
