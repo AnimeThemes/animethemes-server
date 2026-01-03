@@ -9,16 +9,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class TrashedFilterCriteria extends FilterCriteria
 {
-    public function __construct(
-        protected TrashedFilter $trashedFilter,
-    ) {}
-
     /**
      * Apply the filtering to the current Eloquent builder.
      */
     public function filter(Builder $builder): Builder
     {
-        return match ($this->trashedFilter) {
+        return match ($this->value) {
             /** @phpstan-ignore-next-line */
             TrashedFilter::WITH => $builder->withTrashed(),
             /** @phpstan-ignore-next-line */

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Filter;
 
-use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Argument\FilterArgument;
+use App\GraphQL\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class WhereFilterCriteria extends FilterCriteria
 {
     public function __construct(
-        protected Field $field,
-        protected ComparisonOperator $operator,
-        protected mixed $value,
-    ) {}
+        protected Filter $filter,
+        protected $value,
+        protected FilterArgument $argument,
+    ) {
+        parent::__construct($filter, $value);
+    }
 
     /**
      * Apply the filtering to the current Eloquent builder.
@@ -22,9 +25,9 @@ class WhereFilterCriteria extends FilterCriteria
     public function filter(Builder $builder): Builder
     {
         return $builder->where(
-            $builder->qualifyColumn($this->field->getColumn()),
-            $this->operator->value,
-            $this->value
+            $builder->qualifyColumn($this->filter->getColumn()),
+            $this->argument->getComparisonOperator()->value,
+            Arr::first($this->filter->getFilterValues($this->getFilterValues())),
         );
     }
 }

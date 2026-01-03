@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Filter;
 
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Criteria\Filter\WhereConditionsFilterCriteria;
 use App\GraphQL\Schema\Inputs\WhereConditionsInput;
 use App\GraphQL\Schema\Types\EloquentType;
 use GraphQL\Type\Definition\Type;
@@ -18,14 +17,27 @@ class WhereConditionsFilter extends Filter
         protected mixed $defaultValue = null,
     ) {}
 
-    public function argument(): Argument
+    public function getBaseType(): Type
     {
-        return new Argument('where', Type::listOf(Type::nonNull(GraphQL::type(new WhereConditionsInput($this->type)->getName()))))
-            ->withDefaultValue($this->defaultValue);
+        return Type::listOf(Type::nonNull(GraphQL::type(new WhereConditionsInput($this->type)->getName())));
     }
 
-    public function criteria(mixed $value): WhereConditionsFilterCriteria
+    /**
+     * @return Argument[]
+     */
+    public function getArguments(): array
     {
-        return new WhereConditionsFilterCriteria($value, $this->type);
+        return [
+            new Argument('where', $this->getBaseType())
+                ->withDefaultValue($this->defaultValue),
+        ];
+    }
+
+    /**
+     * Convert filter values if needed. By default, no conversion is needed.
+     */
+    protected function convertFilterValues(array $filterValues): array
+    {
+        return $filterValues;
     }
 }

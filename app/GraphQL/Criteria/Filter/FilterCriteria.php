@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Criteria\Filter;
 
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\FilterArgument;
 use App\GraphQL\Filter\Filter;
 use App\GraphQL\Filter\TrashedFilter;
 use App\GraphQL\Filter\WhereConditionsFilter;
@@ -13,10 +15,17 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 abstract class FilterCriteria
 {
+    public function __construct(
+        protected Filter $filter,
+        protected $value,
+    ) {}
+
     /**
      * @return Collection<int, Filter>
      */
@@ -26,7 +35,7 @@ abstract class FilterCriteria
 
         return collect($fields)
             ->filter(fn (Field $field): bool => $field instanceof FilterableField)
-            ->map(fn (Field&FilterableField $field): array => $field->getFilters())
+            ->map(fn (Field&FilterableField $field): Filter => $field->getFilter())
             ->flatten()
             ->when(
                 $baseType instanceof EloquentType,
@@ -51,14 +60,54 @@ abstract class FilterCriteria
 
         $criteria = [];
         foreach ($args as $arg => $value) {
-            $filter = $filters->first(fn (Filter $filter): bool => $filter->argument()->getName() === $arg);
+            $match = $filters
+                ->map(function (Filter $filter) use ($arg): ?array {
+                    $argument = collect($filter->getArguments())
+                        ->first(fn (Argument $argument): bool => $argument->getName() === $arg);
 
-            if ($filter instanceof Filter) {
-                $criteria[] = $filter->criteria($value);
+                    return $argument ? [$filter, $argument] : null;
+                })
+                ->filter()
+                ->first();
+
+            [$filter, $argument] = $match;
+
+            if ($filter instanceof Filter && Str::endsWith($arg, '_in')) {
+                $criteria[] = new WhereInFilterCriteria($filter, $value, Str::endsWith($arg, '_not_in'));
+                continue;
+            }
+
+            if ($filter instanceof TrashedFilter) {
+                $criteria[] = new TrashedFilterCriteria($filter, $value);
+                continue;
+            }
+
+            if ($filter instanceof WhereConditionsFilter && $type instanceof EloquentType) {
+                $criteria[] = new WhereConditionsFilterCriteria($filter, $value, $type);
+                continue;
+            }
+
+            if ($filter instanceof Filter && $argument instanceof FilterArgument) {
+                $criteria[] = new WhereFilterCriteria($filter, $value, $argument);
+                continue;
             }
         }
 
         return $criteria;
+    }
+
+    /**
+     * Get the filter values.
+     */
+    public function getFilterValues(): array
+    {
+        $value = $this->value;
+
+        if ($value instanceof Collection) {
+            return $value->all();
+        }
+
+        return Arr::wrap($value);
     }
 
     /**

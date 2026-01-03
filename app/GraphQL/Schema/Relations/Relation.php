@@ -89,7 +89,8 @@ abstract class Relation
 
         if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType) {
             $arguments[] = FilterCriteria::getFilters($type)
-                ->map(fn (Filter $filter): Argument => $filter->argument());
+                ->map(fn (Filter $filter): array => $filter->getArguments())
+                ->flatten();
         }
 
         if ($this->paginationType() !== PaginationType::NONE) {

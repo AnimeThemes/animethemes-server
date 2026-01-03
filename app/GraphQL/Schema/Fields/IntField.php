@@ -8,12 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Filter\EqFilter;
-use App\GraphQL\Filter\Filter;
-use App\GraphQL\Filter\GreaterFilter;
-use App\GraphQL\Filter\InFilter;
-use App\GraphQL\Filter\LesserFilter;
-use App\GraphQL\Filter\NotInFilter;
+use App\GraphQL\Filter\IntFilter;
 use GraphQL\Type\Definition\Type;
 
 abstract class IntField extends Field implements DisplayableField, FilterableField, SortableField
@@ -28,18 +23,14 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
         return true;
     }
 
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array
+    public function getFilter(): IntFilter
     {
-        return [
-            new EqFilter($this),
-            new InFilter($this),
-            new NotInFilter($this),
-            new LesserFilter($this),
-            new GreaterFilter($this),
-        ];
+        return new IntFilter($this->getName(), $this->getColumn())
+            ->useEq()
+            ->useLt()
+            ->useGt()
+            ->useIn()
+            ->useNotIn();
     }
 
     public function sortType(): SortType

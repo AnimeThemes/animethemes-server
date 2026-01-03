@@ -76,7 +76,7 @@ abstract class BaseQuery extends Query
         }
 
         if ($baseType instanceof BaseType) {
-            $arguments[] = FilterCriteria::getFilters($baseType)->map(fn (Filter $filter): Argument => $filter->argument());
+            $arguments[] = FilterCriteria::getFilters($baseType)->map(fn (Filter $filter): array => $filter->getArguments())->flatten();
         }
 
         if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery) {

@@ -38,6 +38,11 @@ abstract class Field
         return '';
     }
 
+    public function args(): array
+    {
+        return [];
+    }
+
     public function type(): Type
     {
         $baseType = $this->baseType();

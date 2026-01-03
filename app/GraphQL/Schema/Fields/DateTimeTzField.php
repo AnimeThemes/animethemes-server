@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields;
 
-use App\GraphQL\Filter\EqFilter;
-use App\GraphQL\Filter\Filter;
-use App\GraphQL\Filter\GreaterFilter;
-use App\GraphQL\Filter\LesserFilter;
+use App\GraphQL\Filter\DateTimeTzFilter;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
@@ -15,18 +12,6 @@ use Illuminate\Support\Carbon;
 
 abstract class DateTimeTzField extends StringField
 {
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array
-    {
-        return [
-            new EqFilter($this),
-            new LesserFilter($this),
-            new GreaterFilter($this),
-        ];
-    }
-
     /**
      * @return array<string, array<string, mixed>>
      */
@@ -38,6 +23,14 @@ abstract class DateTimeTzField extends StringField
                 'defaultValue' => 'Y-m-d H:i:s',
             ],
         ];
+    }
+
+    public function getFilter(): DateTimeTzFilter
+    {
+        return new DateTimeTzFilter($this->getName(), $this->getColumn())
+            ->useEq()
+            ->useLt()
+            ->useGt();
     }
 
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed

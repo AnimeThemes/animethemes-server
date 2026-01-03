@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Auth\User\Me;
 
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Filter\Filter;
 use App\GraphQL\Schema\Fields\DateTimeTzField;
 use App\Models\Auth\User;
 
@@ -19,14 +18,6 @@ class MeEmailVerifiedAtField extends DateTimeTzField
     public function description(): string
     {
         return 'The date the user verified their email';
-    }
-
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array
-    {
-        return [];
     }
 
     public function sortType(): SortType

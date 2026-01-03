@@ -6,19 +6,20 @@ namespace App\GraphQL\Filter;
 
 use App\Enums\GraphQL\TrashedFilter as TrashedFilterEnum;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Criteria\Filter\TrashedFilterCriteria;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class TrashedFilter extends Filter
+class TrashedFilter extends EnumFilter
 {
-    public function argument(): Argument
+    public function __construct()
     {
-        return new Argument('trashed', GraphQL::type(class_basename(TrashedFilterEnum::class)))
-            ->withDefaultValue(TrashedFilterEnum::WITHOUT);
+        parent::__construct('trashed', TrashedFilterEnum::class);
     }
 
-    public function criteria(mixed $value): TrashedFilterCriteria
+    public function getArguments(): array
     {
-        return new TrashedFilterCriteria($value);
+        return [
+            new Argument('trashed', GraphQL::type(class_basename(TrashedFilterEnum::class)))
+                ->withDefaultValue(TrashedFilterEnum::WITHOUT),
+        ];
     }
 }
