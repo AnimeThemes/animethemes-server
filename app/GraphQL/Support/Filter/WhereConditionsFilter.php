@@ -15,7 +15,7 @@ class WhereConditionsFilter extends Filter
 {
     public function __construct(
         protected EloquentType $type,
-        protected mixed $defaultValue,
+        protected mixed $defaultValue = null,
     ) {}
 
     public function argument(): Argument
