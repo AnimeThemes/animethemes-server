@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Auth\User\Me;
 
 use App\Enums\GraphQL\SortType;
+use App\GraphQL\Filter\Filter;
 use App\GraphQL\Schema\Fields\DateTimeTzField;
-use App\GraphQL\Support\Filter\Filter;
 use App\Models\Auth\User;
 
 class MeTwoFactorConfirmedAtField extends DateTimeTzField

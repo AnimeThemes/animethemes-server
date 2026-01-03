@@ -2,25 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Filter;
+namespace App\GraphQL\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Criteria\Filter\WhereFilterCriteria;
-use App\GraphQL\Support\Argument\Argument;
+use App\GraphQL\Schema\Fields\Field;
 
-class LesserFilter extends Filter
+class EqFilter extends Filter
 {
+    public function __construct(
+        protected Field $field,
+        protected mixed $defaultValue = null,
+    ) {}
+
     public function argument(): Argument
     {
-        return new Argument($this->field->getName().'_lesser', $this->field->baseType())
+        return new Argument($this->field->getName(), $this->field->baseType())
             ->withDefaultValue($this->defaultValue);
     }
 
     public function criteria(mixed $value): WhereFilterCriteria
     {
         return new WhereFilterCriteria(
-            $this,
-            ComparisonOperator::LT,
+            $this->field,
+            ComparisonOperator::EQ,
             $value
         );
     }

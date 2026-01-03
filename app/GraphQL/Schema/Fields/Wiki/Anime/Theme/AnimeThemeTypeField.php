@@ -8,11 +8,11 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\Wiki\ThemeType;
+use App\GraphQL\Filter\EqFilter;
+use App\GraphQL\Filter\Filter;
+use App\GraphQL\Filter\InFilter;
+use App\GraphQL\Filter\NotInFilter;
 use App\GraphQL\Schema\Fields\EnumField;
-use App\GraphQL\Support\Filter\EqFilter;
-use App\GraphQL\Support\Filter\Filter;
-use App\GraphQL\Support\Filter\InFilter;
-use App\GraphQL\Support\Filter\NotInFilter;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Validation\Rules\Enum;
 

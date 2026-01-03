@@ -8,9 +8,9 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Support\Filter\EqFilter;
-use App\GraphQL\Support\Filter\Filter;
-use App\GraphQL\Support\Filter\LikeFilter;
+use App\GraphQL\Filter\EqFilter;
+use App\GraphQL\Filter\Filter;
+use App\GraphQL\Filter\LikeFilter;
 use GraphQL\Type\Definition\Type;
 
 abstract class StringField extends Field implements DisplayableField, FilterableField, SortableField

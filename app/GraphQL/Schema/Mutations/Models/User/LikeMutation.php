@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Mutations\Models\User;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\User\LikeType;
 use App\GraphQL\Schema\Unions\LikedUnion;
-use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\App;

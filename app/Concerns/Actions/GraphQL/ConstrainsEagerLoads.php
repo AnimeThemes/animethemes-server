@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
+use App\GraphQL\ResolveInfo as CustomResolveInfo;
 use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Unions\BaseUnion;
-use App\GraphQL\Support\ResolveInfo as CustomResolveInfo;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;

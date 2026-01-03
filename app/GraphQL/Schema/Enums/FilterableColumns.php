@@ -7,8 +7,6 @@ namespace App\GraphQL\Schema\Enums;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Schema\Types\Pivot\PivotType;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\EnumType;
@@ -20,11 +18,7 @@ class FilterableColumns extends EnumType
 {
     final public const string SUFFIX = 'FilterableColumns';
 
-    public function __construct(
-        protected BaseType $type,
-        protected ?PivotType $pivotType = null,
-        protected ?BelongsToMany $relation = null,
-    ) {}
+    public function __construct(protected BaseType $type) {}
 
     /**
      * @return array<string, mixed>
@@ -39,11 +33,7 @@ class FilterableColumns extends EnumType
 
     public function getName(): string
     {
-        $name = $this->pivotType instanceof PivotType
-            ? $this->pivotType->getName()
-            : $this->type->getName();
-
-        return $name.self::SUFFIX;
+        return $this->type->getName().self::SUFFIX;
     }
 
     /**

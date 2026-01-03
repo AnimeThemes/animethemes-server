@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Anime;
 
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\SearchArgument;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\SearchArgument;
 
 class AnimeThemePaginationQuery extends EloquentPaginationQuery
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Admin;
 
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Admin\FeaturedThemeType;
-use App\GraphQL\Support\Argument\Argument;
 use App\Models\Admin\FeaturedTheme;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
