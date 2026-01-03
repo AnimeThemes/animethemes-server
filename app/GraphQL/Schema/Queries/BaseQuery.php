@@ -13,7 +13,6 @@ use App\GraphQL\Argument\PageArgument;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Filter\FilterCriteria;
 use App\GraphQL\Filter\Filter;
-use App\GraphQL\Middleware\ResolveInfoMiddleware;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\BaseType;
 use GraphQL\Type\Definition\Type;
@@ -34,14 +33,7 @@ abstract class BaseQuery extends Query
         protected string $name,
         protected bool $nullable = true,
         protected bool $isList = false,
-    ) {
-        $this->middleware = array_merge(
-            $this->getMiddleware(),
-            [
-                ResolveInfoMiddleware::class,
-            ]
-        );
-    }
+    ) {}
 
     public function getAuthorizationMessage(): string
     {
