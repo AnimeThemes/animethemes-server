@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields;
 
-use App\GraphQL\Argument\Argument;
 use App\GraphQL\Filter\EqFilter;
 use App\GraphQL\Filter\Filter;
 use App\GraphQL\Filter\GreaterFilter;
@@ -29,16 +28,15 @@ abstract class DateTimeTzField extends StringField
     }
 
     /**
-     * The arguments of the type.
-     *
-     * @return Argument[]
+     * @return array<string, array<string, mixed>>
      */
-    public function arguments(): array
+    public function args(): array
     {
         return [
-            new Argument('format', Type::string())
-                ->required()
-                ->withDefaultValue('Y-m-d H:i:s'),
+            'format' => [
+                'type' => Type::nonNull(Type::string()),
+                'defaultValue' => 'Y-m-d H:i:s',
+            ],
         ];
     }
 

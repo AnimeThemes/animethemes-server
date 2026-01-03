@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\Fields\HasArgumentsField;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Schema\Fields\Field;
@@ -17,7 +16,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasArgumentsField
+class AnimeYearSeasonAnimeField extends Field implements DisplayableField
 {
     final public const string FIELD = 'anime';
 
@@ -44,6 +43,23 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField, HasAr
     public function canBeDisplayed(): bool
     {
         return true;
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function args(): array
+    {
+        return collect(new AnimePaginationQuery()->arguments())
+            ->mapWithKeys(fn (Argument $argument): array => [
+                $argument->getName() => [
+                    'name' => $argument->getName(),
+                    'type' => $argument->getType(),
+
+                    ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),
+                ],
+            ])
+            ->all();
     }
 
     /**

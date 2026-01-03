@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\Fields\HasArgumentsField;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\GraphQL\Argument\Argument;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumentsField
+class AnimeYearSeasonField extends Field implements DisplayableField
 {
     final public const string FIELD = 'season';
     final public const string ARGUMENT_SEASON = 'season';
@@ -42,17 +41,14 @@ class AnimeYearSeasonField extends Field implements DisplayableField, HasArgumen
     }
 
     /**
-     * The arguments of the type.
-     *
-     * @return Argument[]
+     * @return array<string, array<string, mixed>>
      */
-    public function arguments(): array
+    public function args(): array
     {
-        $season = GraphQL::type(class_basename(AnimeSeason::class));
-
         return [
-            new Argument(self::ARGUMENT_SEASON, $season)
-                ->required(),
+            self::ARGUMENT_SEASON => [
+                'type' => Type::nonNull(GraphQL::type(class_basename(AnimeSeason::class))),
+            ],
         ];
     }
 
