@@ -18,6 +18,6 @@ enum ThemeType: int implements HasLabel
     #[Description('Ending')]
     case ED = 1;
 
-    #[Description("Insert Song\n\nNote: Not retrieved by default, include it in the type_in argument to do so.")]
+    #[Description("Insert Song")]
     case IN = 2;
 }

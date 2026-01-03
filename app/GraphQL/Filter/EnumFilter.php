@@ -59,9 +59,8 @@ class EnumFilter extends Filter
             'required',
             function ($attribute, mixed $value, Closure $fail): void {
                 if (
-                    ! is_string($value)
-                    || ! enum_exists($this->enumClass)
-                    || Arr::first($this->enumClass::cases(), fn (UnitEnum $enum): bool => $enum->name === $value) === null
+                    Arr::first($this->enumClass::cases(), fn (UnitEnum $enum): bool => $enum->name === $value) === null
+                    && ! $value instanceof BackedEnum
                 ) {
                     $fail("'{$value}' does not exist in the ".class_basename($this->enumClass).' enum.');
                 }
