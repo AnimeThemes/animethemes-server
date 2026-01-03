@@ -24,4 +24,15 @@ class IntFilter extends Filter
             fn (string $filterValue): ?int => filter_var($filterValue, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE)
         );
     }
+
+    /**
+     * Get the validation rules for the filter.
+     */
+    protected function getRules(): array
+    {
+        return [
+            'required',
+            'integer',
+        ];
+    }
 }
