@@ -74,13 +74,13 @@ class WhereConditionsFilterCriteria extends FilterCriteria
             );
         }
 
-        $builder->where(function (Builder $builder) use ($where) {
+        $builder->where(function (Builder $builder) use ($where): void {
             foreach (Arr::array($where, 'AND', []) as $whereCondition) {
                 $this->filterWhereCondition($builder, $whereCondition, LogicalOperator::AND);
             }
         });
 
-        $builder->where(function (Builder $builder) use ($where) {
+        $builder->where(function (Builder $builder) use ($where): void {
             foreach (Arr::array($where, 'OR', []) as $whereCondition) {
                 $this->filterWhereCondition($builder, $whereCondition, LogicalOperator::OR);
             }

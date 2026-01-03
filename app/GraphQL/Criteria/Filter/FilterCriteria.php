@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\GraphQL\Criteria\Filter;
 
 use App\Contracts\GraphQL\Fields\FilterableField;
+use App\GraphQL\Filter\Filter;
+use App\GraphQL\Filter\TrashedFilter;
+use App\GraphQL\Filter\WhereConditionsFilter;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Support\Filter\Filter;
-use App\GraphQL\Support\Filter\TrashedFilter;
-use App\GraphQL\Support\Filter\WhereConditionsFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 

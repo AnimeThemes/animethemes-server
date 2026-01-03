@@ -6,9 +6,9 @@ namespace App\GraphQL\Schema\Queries\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Exceptions\GraphQL\ClientValidationException;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
-use App\GraphQL\Support\Argument\Argument;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Closure;

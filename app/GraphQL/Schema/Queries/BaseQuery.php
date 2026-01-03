@@ -7,14 +7,15 @@ namespace App\GraphQL\Schema\Queries;
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\FirstArgument;
+use App\GraphQL\Argument\PageArgument;
+use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Filter\FilterCriteria;
+use App\GraphQL\Filter\Filter;
+use App\GraphQL\Middleware\ResolveInfoMiddleware;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\FirstArgument;
-use App\GraphQL\Support\Argument\PageArgument;
-use App\GraphQL\Support\Argument\SortArgument;
-use App\GraphQL\Support\Filter\Filter;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Arr;
@@ -33,7 +34,14 @@ abstract class BaseQuery extends Query
         protected string $name,
         protected bool $nullable = true,
         protected bool $isList = false,
-    ) {}
+    ) {
+        $this->middleware = array_merge(
+            $this->getMiddleware(),
+            [
+                ResolveInfoMiddleware::class,
+            ]
+        );
+    }
 
     public function getAuthorizationMessage(): string
     {

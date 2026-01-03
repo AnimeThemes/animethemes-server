@@ -6,11 +6,11 @@ namespace App\GraphQL\Schema\Mutations\Models\List\ExternalProfile;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Features\AllowExternalProfileManagement;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Controllers\List\SyncExternalProfileController;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
-use App\GraphQL\Support\Argument\Argument;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;

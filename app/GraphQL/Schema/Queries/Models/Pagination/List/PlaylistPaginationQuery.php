@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Models\Pagination\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\SearchArgument;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\List\PlaylistType;
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\SearchArgument;
 use App\Models\List\Playlist;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;

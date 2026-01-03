@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\List\Playlist;
 
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
-use App\GraphQL\Support\Argument\Argument;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;

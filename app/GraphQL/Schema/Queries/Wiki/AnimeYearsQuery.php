@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Wiki;
 
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYearType;
-use App\GraphQL\Support\Argument\Argument;
 use App\Models\Wiki\Anime;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;

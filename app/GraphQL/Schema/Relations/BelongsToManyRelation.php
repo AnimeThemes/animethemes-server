@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Relations;
 
 use App\Enums\GraphQL\PaginationType;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Schema\Types\ConnectionType;
 use App\GraphQL\Schema\Types\EdgeType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\SortArgument;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 

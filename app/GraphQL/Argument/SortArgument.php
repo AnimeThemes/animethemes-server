@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Argument;
+namespace App\GraphQL\Argument;
 
 use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Types\BaseType;

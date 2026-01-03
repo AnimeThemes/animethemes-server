@@ -8,8 +8,8 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Support\Filter\EqFilter;
-use App\GraphQL\Support\Filter\Filter;
+use App\GraphQL\Filter\EqFilter;
+use App\GraphQL\Filter\Filter;
 use GraphQL\Type\Definition\Type;
 
 abstract class BooleanField extends Field implements DisplayableField, FilterableField, SortableField

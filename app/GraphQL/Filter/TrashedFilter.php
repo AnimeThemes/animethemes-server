@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Filter;
+namespace App\GraphQL\Filter;
 
 use App\Enums\GraphQL\TrashedFilter as TrashedFilterEnum;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Criteria\Filter\TrashedFilterCriteria;
-use App\GraphQL\Support\Argument\Argument;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class TrashedFilter extends Filter

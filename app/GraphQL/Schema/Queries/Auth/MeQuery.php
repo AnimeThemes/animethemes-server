@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Auth;
 
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Auth\User\MeType;
-use App\GraphQL\Support\Argument\Argument;
 use App\Models\Auth\User;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;

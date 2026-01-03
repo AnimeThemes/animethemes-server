@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Filter;
+namespace App\GraphQL\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Criteria\Filter\WhereFilterCriteria;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Support\Argument\Argument;
 
-class LikeFilter extends Filter
+class GreaterFilter extends Filter
 {
     public function __construct(
         protected Field $field,
@@ -18,7 +18,7 @@ class LikeFilter extends Filter
 
     public function argument(): Argument
     {
-        return new Argument($this->field->getName().'_like', $this->field->baseType())
+        return new Argument($this->field->getName().'_greater', $this->field->baseType())
             ->withDefaultValue($this->defaultValue);
     }
 
@@ -26,7 +26,7 @@ class LikeFilter extends Filter
     {
         return new WhereFilterCriteria(
             $this->field,
-            ComparisonOperator::LIKE,
+            ComparisonOperator::GT,
             $value
         );
     }

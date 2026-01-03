@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Filter;
+namespace App\GraphQL\Filter;
 
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Criteria\Filter\WhereConditionsFilterCriteria;
 use App\GraphQL\Schema\Inputs\WhereConditionsInput;
 use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 

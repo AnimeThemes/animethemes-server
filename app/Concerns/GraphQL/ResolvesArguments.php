@@ -9,9 +9,9 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\RequiredOnUpdate;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\BindableArgument;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\BindableArgument;
 
 trait ResolvesArguments
 {

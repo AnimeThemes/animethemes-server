@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Wiki;
 
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\SearchArgument;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\SeriesType;
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Argument\SearchArgument;
 
 class SeriesPaginationQuery extends EloquentPaginationQuery
 {

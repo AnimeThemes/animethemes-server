@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Mutations;
 
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
-use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Auth\Access\Response;

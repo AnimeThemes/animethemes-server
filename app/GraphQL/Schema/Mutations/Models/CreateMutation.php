@@ -6,10 +6,10 @@ namespace App\GraphQL\Schema\Mutations\Models;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Support\Argument\Argument;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;

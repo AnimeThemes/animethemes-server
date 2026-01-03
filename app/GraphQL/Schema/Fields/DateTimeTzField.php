@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields;
 
-use App\GraphQL\Support\Argument\Argument;
-use App\GraphQL\Support\Filter\EqFilter;
-use App\GraphQL\Support\Filter\Filter;
-use App\GraphQL\Support\Filter\GreaterFilter;
-use App\GraphQL\Support\Filter\LesserFilter;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Filter\EqFilter;
+use App\GraphQL\Filter\Filter;
+use App\GraphQL\Filter\GreaterFilter;
+use App\GraphQL\Filter\LesserFilter;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;

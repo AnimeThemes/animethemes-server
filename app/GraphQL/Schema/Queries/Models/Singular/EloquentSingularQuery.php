@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Models\Singular;
 
 use App\Actions\GraphQL\ShowAction;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\Models\EloquentQuery;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Support\Argument\Argument;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;

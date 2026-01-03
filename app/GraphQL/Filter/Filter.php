@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Support\Filter;
+namespace App\GraphQL\Filter;
 
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Criteria\Filter\FilterCriteria;
-use App\GraphQL\Support\Argument\Argument;
 
 abstract class Filter
 {

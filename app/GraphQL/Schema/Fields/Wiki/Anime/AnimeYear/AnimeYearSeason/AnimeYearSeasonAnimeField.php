@@ -6,11 +6,11 @@ namespace App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\HasArgumentsField;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\AnimePaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
-use App\GraphQL\Support\Argument\Argument;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Contracts\Pagination\Paginator;
