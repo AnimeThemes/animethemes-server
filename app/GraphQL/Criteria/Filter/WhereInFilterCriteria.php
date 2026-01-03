@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Filter;
 
-use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
 class WhereInFilterCriteria extends FilterCriteria
 {
     public function __construct(
-        protected Field $field,
-        protected mixed $value,
+        protected Filter $filter,
+        protected $value,
         protected bool $not = false,
-    ) {}
+    ) {
+        parent::__construct($filter, $value);
+    }
 
     /**
      * Apply the filtering to the current Eloquent builder.
@@ -21,8 +23,8 @@ class WhereInFilterCriteria extends FilterCriteria
     public function filter(Builder $builder): Builder
     {
         return $builder->{$this->not ? 'whereNotIn' : 'whereIn'}(
-            $builder->qualifyColumn($this->field->getColumn()),
-            $this->value
+            $builder->qualifyColumn($this->filter->getColumn()),
+            $this->filter->getFilterValues($this->getFilterValues())
         );
     }
 }

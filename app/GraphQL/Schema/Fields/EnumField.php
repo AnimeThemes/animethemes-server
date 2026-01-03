@@ -8,10 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Filter\EqFilter;
-use App\GraphQL\Filter\Filter;
-use App\GraphQL\Filter\InFilter;
-use App\GraphQL\Filter\NotInFilter;
+use App\GraphQL\Filter\EnumFilter;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
@@ -47,16 +44,12 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
         return Arr::get($root, $this->column)?->name;
     }
 
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array
+    public function getFilter(): EnumFilter
     {
-        return [
-            new EqFilter($this),
-            new InFilter($this),
-            new NotInFilter($this),
-        ];
+        return new EnumFilter($this->getName(), $this->enum, $this->getColumn())
+            ->useEq()
+            ->useIn()
+            ->useNotIn();
     }
 
     public function sortType(): SortType

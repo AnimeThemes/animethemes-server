@@ -31,7 +31,7 @@ trait ResolvesArguments
                     ...(is_null($argument->getDefaultValue()) ? [] : ['defaultValue' => $argument->getDefaultValue()]),
                 ],
             ])
-            ->toArray();
+            ->all();
     }
 
     /**
@@ -49,7 +49,7 @@ trait ResolvesArguments
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
-            ->toArray();
+            ->all();
     }
 
     /**
@@ -67,7 +67,7 @@ trait ResolvesArguments
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()
-            ->toArray();
+            ->all();
     }
 
     /**
@@ -79,6 +79,6 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field): bool => $field instanceof BindableField)
             ->map(fn (Field&BindableField $field): BindableArgument => new BindableArgument($field, $shouldRequire))
-            ->toArray();
+            ->all();
     }
 }

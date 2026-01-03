@@ -8,9 +8,8 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Filter\EqFilter;
 use App\GraphQL\Filter\Filter;
-use App\GraphQL\Filter\LikeFilter;
+use App\GraphQL\Filter\StringFilter;
 use GraphQL\Type\Definition\Type;
 
 abstract class StringField extends Field implements DisplayableField, FilterableField, SortableField
@@ -25,15 +24,11 @@ abstract class StringField extends Field implements DisplayableField, Filterable
         return true;
     }
 
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array
+    public function getFilter(): Filter
     {
-        return [
-            new EqFilter($this),
-            new LikeFilter($this),
-        ];
+        return new StringFilter($this->getName(), $this->getColumn())
+            ->useEq()
+            ->useLike();
     }
 
     public function sortType(): SortType

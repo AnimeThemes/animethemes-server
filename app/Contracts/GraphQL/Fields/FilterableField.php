@@ -8,8 +8,5 @@ use App\GraphQL\Filter\Filter;
 
 interface FilterableField
 {
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array;
+    public function getFilter(): Filter;
 }

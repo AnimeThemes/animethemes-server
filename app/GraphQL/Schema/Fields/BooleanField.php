@@ -8,8 +8,7 @@ use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\SortType;
-use App\GraphQL\Filter\EqFilter;
-use App\GraphQL\Filter\Filter;
+use App\GraphQL\Filter\BooleanFilter;
 use GraphQL\Type\Definition\Type;
 
 abstract class BooleanField extends Field implements DisplayableField, FilterableField, SortableField
@@ -24,14 +23,10 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
         return true;
     }
 
-    /**
-     * @return Filter[]
-     */
-    public function getFilters(): array
+    public function getFilter(): BooleanFilter
     {
-        return [
-            new EqFilter($this),
-        ];
+        return new BooleanFilter($this->getName(), $this->getColumn())
+            ->useEq();
     }
 
     public function sortType(): SortType
