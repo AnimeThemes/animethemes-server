@@ -20,4 +20,15 @@ class StringFilter extends Filter
     {
         return $filterValues;
     }
+
+    /**
+     * Get the validation rules for the filter.
+     */
+    protected function getRules(): array
+    {
+        return [
+            'required',
+            'string',
+        ];
+    }
 }

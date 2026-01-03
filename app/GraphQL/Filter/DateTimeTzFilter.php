@@ -35,4 +35,18 @@ class DateTimeTzFilter extends Filter
             }
         );
     }
+
+    /**
+     * Get the validation rules for the filter.
+     */
+    protected function getRules(): array
+    {
+        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
+        $dateFormats = implode(',', $allowedDateFormats);
+
+        return [
+            'required',
+            "date_format:$dateFormats",
+        ];
+    }
 }
