@@ -13,7 +13,6 @@ use App\Models\List\External\ExternalToken;
 use App\Models\List\ExternalProfile;
 use Exception;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -23,7 +22,6 @@ class ExternalTokenCallbackAction
     /**
      * We should store the token and the profile.
      *
-     *
      * @throws Exception
      */
     public function store(array $parameters): ExternalProfile
@@ -31,16 +29,15 @@ class ExternalTokenCallbackAction
         try {
             DB::beginTransaction();
 
-            $site = Arr::get($parameters, ExternalProfile::ATTRIBUTE_SITE);
-            $profileSite = ExternalProfileSite::fromLocalizedName($site);
+            $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, ExternalProfile::ATTRIBUTE_SITE));
 
             $externalToken = ExternalToken::query()
-                ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_USER, Auth::id())
-                ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
+                ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_USER, Arr::integer($parameters, ExternalProfile::ATTRIBUTE_USER))
+                ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_SITE, $site->value)
                 ->first();
 
             if (! $externalToken instanceof ExternalToken) {
-                $externalToken = $this->getActionClass($profileSite)->store($parameters);
+                $externalToken = $this->getActionClass($site)->store($parameters);
             }
 
             $profileAction = new StoreExternalProfileClaimedAction();

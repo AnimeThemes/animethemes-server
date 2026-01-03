@@ -11,6 +11,7 @@ use App\GraphQL\Schema\Mutations\Models\User\LikeMutation;
 use App\GraphQL\Schema\Mutations\Models\User\UnlikeMutation;
 use App\Models\User\Like;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @extends BaseController<Like>
@@ -31,7 +32,7 @@ class LikeController extends BaseController
 
         foreach ($validated as $likeable) {
             if ($likeable instanceof Model && $likeable instanceof Likeable) {
-                $likeable->like();
+                $likeable->like(Auth::user());
 
                 return $likeable;
             }
@@ -51,7 +52,7 @@ class LikeController extends BaseController
 
         foreach ($validated as $likeable) {
             if ($likeable instanceof Model && $likeable instanceof Likeable) {
-                $likeable->unlike();
+                $likeable->unlike(Auth::user());
 
                 return $likeable;
             }

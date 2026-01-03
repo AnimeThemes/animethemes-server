@@ -8,13 +8,10 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Http\Requests\List\External\ExternalTokenAuthRequest;
 use App\Models\List\ExternalProfile;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Uri;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class ExternalTokenAuthController extends Controller
@@ -33,21 +30,11 @@ class ExternalTokenAuthController extends Controller
     /**
      * This will redirect the user to the appropriate auth service.
      */
-    public function index(Request $request): RedirectResponse|JsonResponse
+    public function index(ExternalTokenAuthRequest $request): RedirectResponse
     {
-        $site = Arr::get($request->all(), ExternalProfile::ATTRIBUTE_SITE);
-        $profileSite = ExternalProfileSite::fromLocalizedName($site);
+        /** @var ExternalProfileSite $site */
+        $site = ExternalProfileSite::fromLocalizedName($request->validated(ExternalProfile::ATTRIBUTE_SITE));
 
-        if ($profileSite instanceof ExternalProfileSite) {
-            $link = $profileSite->getAuthorizeUrl();
-
-            if ($link instanceof Uri) {
-                $link->redirect();
-            }
-        }
-
-        return new JsonResponse([
-            'error' => 'invalid site',
-        ], 400);
+        return $site->getAuthorizeUrl()->redirect();
     }
 }

@@ -8,12 +8,10 @@ use App\Actions\Models\List\ExternalTokenCallbackAction;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Http\Requests\List\External\ExternalTokenCallbackRequest;
 use App\Models\List\ExternalProfile;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -33,10 +31,10 @@ class ExternalTokenCallbackController extends Controller
     /**
      * This is the redirect URL which is set in the external provider.
      */
-    public function index(Request $request): RedirectResponse|JsonResponse
+    public function index(ExternalTokenCallbackRequest $request): RedirectResponse
     {
         $validated = array_merge(
-            $request->all(),
+            $request->validated(),
             [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
         );
 
@@ -46,6 +44,6 @@ class ExternalTokenCallbackController extends Controller
 
         $profile->dispatchSyncJob();
 
-        return Redirect::to($profile->getClientUrl());
+        return $profile->getClientUrl()->redirect();
     }
 }

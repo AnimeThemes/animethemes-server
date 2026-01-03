@@ -11,6 +11,7 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\ExternalProfile;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -27,28 +28,26 @@ class StoreExternalProfileUnclaimedAction
     public function firstOrCreate(Builder $builder, array $profileParameters): ExternalProfile
     {
         $name = Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME);
-        $siteLocalized = Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_SITE);
-        $visibilityLocalized = Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY);
+        $site = ExternalProfileSite::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_SITE));
+        $visibility = ExternalProfileVisibility::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY));
 
         try {
             DB::beginTransaction();
 
-            $profileSite = ExternalProfileSite::fromLocalizedName($siteLocalized);
-
             $findProfile = ExternalProfile::query()
                 ->where(ExternalProfile::ATTRIBUTE_NAME, $name)
-                ->where(ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
+                ->where(ExternalProfile::ATTRIBUTE_SITE, $site->value)
                 ->first();
 
             if ($findProfile instanceof ExternalProfile) {
-                throw_if($findProfile->isClaimed(), Exception::class, "The external profile '{$findProfile->getName()}' is already claimed.");
+                throw_if($findProfile->isClaimed(), AuthorizationException::class, "The external profile '{$findProfile->getName()}' is already claimed.");
 
                 DB::rollBack();
 
                 return $findProfile;
             }
 
-            $action = static::getActionClass($profileSite, $profileParameters);
+            $action = static::getActionClass($site, $profileParameters);
 
             /** @var StoreAction<ExternalProfile> $storeAction */
             $storeAction = new StoreAction();
@@ -56,8 +55,8 @@ class StoreExternalProfileUnclaimedAction
             $profile = $storeAction->store($builder, [
                 ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getUserId(),
                 ExternalProfile::ATTRIBUTE_NAME => $name,
-                ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName($visibilityLocalized)->value,
+                ExternalProfile::ATTRIBUTE_SITE => $site->value,
+                ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->value,
             ]);
 
             DB::commit();

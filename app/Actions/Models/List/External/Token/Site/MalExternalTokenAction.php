@@ -7,8 +7,8 @@ namespace App\Actions\Models\List\External\Token\Site;
 use App\Actions\Models\List\External\Token\BaseExternalTokenAction;
 use App\Constants\Config\ServiceConstants;
 use App\Models\List\External\ExternalToken;
-use Error;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
@@ -21,44 +21,44 @@ class MalExternalTokenAction extends BaseExternalTokenAction
     /**
      * Use the authorization code to get the tokens and store them.
      *
+     * @param  array{code: string, state: string}  $parameters
      *
      * @throws Exception
      */
     public function store(array $parameters): ExternalToken
     {
-        $code = Arr::get($parameters, 'code');
-        $state = Arr::get($parameters, 'state');
+        $code = Arr::string($parameters, 'code');
+        $state = Arr::string($parameters, 'state');
 
         $codeVerifier = Cache::get("mal-external-token-request-{$state}");
 
         try {
             $response = Http::asForm()
+                ->acceptJson()
                 ->post('https://myanimelist.net/v1/oauth2/token', [
                     'grant_type' => 'authorization_code',
-                    'client_id' => Config::get(ServiceConstants::MAL_CLIENT_ID),
-                    'client_secret' => Config::get(ServiceConstants::MAL_CLIENT_SECRET),
-                    'redirect_uri' => Config::get(ServiceConstants::MAL_REDIRECT_URI),
+                    'client_id' => Config::string(ServiceConstants::MAL_CLIENT_ID),
+                    'client_secret' => Config::string(ServiceConstants::MAL_CLIENT_SECRET),
+                    'redirect_uri' => Config::string(ServiceConstants::MAL_REDIRECT_URI),
                     'code' => $code,
                     'code_verifier' => $codeVerifier,
                 ])
                 ->throw()
                 ->json();
 
-            $token = Arr::get($response, 'access_token');
-            $refreshToken = Arr::get($response, 'refresh_token');
+            $token = Arr::string($response, 'access_token');
+            $refreshToken = Arr::string($response, 'refresh_token');
 
-            throw_if($token === null, Error::class, 'Failed to get token');
-        } catch (Exception $e) {
+            return ExternalToken::query()->create([
+                ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
+                ExternalToken::ATTRIBUTE_REFRESH_TOKEN => Crypt::encrypt($refreshToken),
+            ]);
+        } catch (RequestException $e) {
             Log::error($e->getMessage());
 
             throw $e;
         } finally {
             Cache::forget("mal-external-token-request-{$state}");
         }
-
-        return ExternalToken::query()->create([
-            ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
-            ExternalToken::ATTRIBUTE_REFRESH_TOKEN => Crypt::encrypt($refreshToken),
-        ]);
     }
 }
