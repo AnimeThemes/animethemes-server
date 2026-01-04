@@ -12,7 +12,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class GraphQLPrintSchemaCommand extends BaseCommand
 {
-    protected $signature = 'graphql:print-schema {schema=default}';
+    protected $signature = 'graphql:print-schema {schema=v1}';
 
     protected $description = 'Print the GraphQL schema into SDL';
 
