@@ -7,6 +7,7 @@ namespace App\Http\Controllers\List;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Http\Middleware\Models\List\ExternalProfileSyncLimit;
 use App\Http\Requests\Api\ShowRequest;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
@@ -22,8 +23,10 @@ class SyncExternalProfileController extends Controller
             ->append(AllowExternalProfileManagement::class)
             ->__toString();
 
+        $this->authorizeResource(ExternalProfile::class, 'externalprofile');
         $this->middleware(EnabledOnlyOnLocalhost::class);
         $this->middleware($isExternalProfileManagementAllowed)->except(['show']);
+        $this->middleware(ExternalProfileSyncLimit::class)->only('update');
     }
 
     /**
@@ -37,14 +40,8 @@ class SyncExternalProfileController extends Controller
     /**
      * Start a new sync job.
      */
-    public function store(ExternalProfile $externalProfile): JsonResponse
+    public function update(ExternalProfile $externalProfile): JsonResponse
     {
-        if (! $externalProfile->canBeSynced()) {
-            return new JsonResponse([
-                'error' => 'This external profile cannot be synced at the moment.',
-            ], 403);
-        }
-
         $externalProfile->dispatchSyncJob();
 
         return new JsonResponse([

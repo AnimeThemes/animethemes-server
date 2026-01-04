@@ -70,7 +70,7 @@ class StoreExternalProfileClaimedAction
             return tap(
                 $unclaimedProfile,
                 fn ($unclaimedProfile) => $unclaimedProfile->update([
-                    ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
+                    ExternalProfile::ATTRIBUTE_USER => Arr::integer($parameters, ExternalProfile::ATTRIBUTE_USER),
                     ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
                     ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
                 ])
@@ -82,7 +82,7 @@ class StoreExternalProfileClaimedAction
 
         return $storeAction->store(ExternalProfile::query(), [
             ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $userId,
-            ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
+            ExternalProfile::ATTRIBUTE_USER => Arr::integer($parameters, ExternalProfile::ATTRIBUTE_USER),
             ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
             ExternalProfile::ATTRIBUTE_SITE => $site->value,
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,

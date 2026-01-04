@@ -28,6 +28,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 
 /**
  * @property int $profile_id
@@ -173,14 +174,10 @@ class ExternalProfile extends BaseModel
     /**
      * Format: https://animethemes.moe/external/{mal|anilist}/{profile_name}.
      */
-    public function getClientUrl(): string
+    public function getClientUrl(): Uri
     {
-        return Str::of(Config::get('wiki.external_profile'))
-            ->append('/')
-            ->append(Str::lower($this->site->name))
-            ->append('/')
-            ->append($this->getName())
-            ->__toString();
+        return Uri::of(Config::get('wiki.external_profile'))
+            ->withPath(Str::lower($this->site->name).'/'.$this->getName());
     }
 
     /**

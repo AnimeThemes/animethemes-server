@@ -28,5 +28,5 @@ Route::get('externaltoken/callback', [ExternalTokenCallbackController::class, 'i
 Route::get('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'show'])
     ->name('externalprofile.sync.show');
 
-Route::post('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'store'])
-    ->name('externalprofile.sync.store');
+Route::post('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'update'])
+    ->name('externalprofile.sync.update');

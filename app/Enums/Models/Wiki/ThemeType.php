@@ -18,6 +18,6 @@ enum ThemeType: int implements HasLabel
     #[Description('Ending')]
     case ED = 1;
 
-    #[Description("Insert Song")]
+    #[Description('Insert Song')]
     case IN = 2;
 }

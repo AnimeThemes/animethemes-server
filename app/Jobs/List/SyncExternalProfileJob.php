@@ -44,7 +44,7 @@ class SyncExternalProfileJob implements ShouldQueue
     {
         return [
             new ExternalProfileSiteRateLimited(),
-            new WithoutOverlapping($this->profile->site->name),
+            new WithoutOverlapping($this->profile->getKey()),
         ];
     }
 

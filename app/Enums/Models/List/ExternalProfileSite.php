@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
+use RuntimeException;
 
 enum ExternalProfileSite: int implements HasLabel
 {
@@ -35,8 +36,10 @@ enum ExternalProfileSite: int implements HasLabel
 
     /**
      * Get the link of the external site to authenticate the user.
+     *
+     * @throws RuntimeException
      */
-    public function getAuthorizeUrl(): ?Uri
+    public function getAuthorizeUrl(): Uri
     {
         if ($this === self::MAL) {
             $codeVerifier = bin2hex(random_bytes(64));
@@ -65,6 +68,6 @@ enum ExternalProfileSite: int implements HasLabel
                 ]);
         }
 
-        return null;
+        throw new RuntimeException("An authorize Url was not defined for the {$this->localize()} site.");
     }
 }
