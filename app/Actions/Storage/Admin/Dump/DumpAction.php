@@ -115,7 +115,7 @@ abstract class DumpAction
         $dumper = Sqlite::create();
 
         $dumper->setDbName($connection->getDatabaseName());
-        $dumper->includeTables($this->allowedTables());
+        $dumper->includeTables(static::allowedTables());
 
         return $dumper;
     }
@@ -146,7 +146,7 @@ abstract class DumpAction
             $dumper->setPort(intval($port));
         }
 
-        $dumper->includeTables($this->allowedTables());
+        $dumper->includeTables(static::allowedTables());
 
         if ($this->option('comments')) {
             $dumper->dontSkipComments();
@@ -226,7 +226,7 @@ abstract class DumpAction
             $dumper->setPort($port);
         }
 
-        $dumper->includeTables($this->allowedTables());
+        $dumper->includeTables(static::allowedTables());
 
         if ($this->option('inserts')) {
             $dumper->useInserts();
@@ -265,5 +265,5 @@ abstract class DumpAction
     /**
      * The list of tables to include in the dump.
      */
-    abstract protected function allowedTables(): array;
+    abstract public static function allowedTables(): array;
 }
