@@ -37,14 +37,18 @@ class EnumFilter extends Filter
         $values = [];
 
         foreach ($filterValues as $filterValue) {
-            if (! $filterValue instanceof BackedEnum) {
-                $enum = Arr::first(
-                    $this->enumClass::cases(),
-                    fn (UnitEnum $enum): bool => $enum->name === $filterValue
-                );
+            if ($filterValue instanceof BackedEnum) {
+                $values[] = $filterValue->value;
+                continue;
             }
 
-            $values[] = $enum?->value ?? $filterValue->value;
+            /** @var BackedEnum $enum */
+            $enum = Arr::first(
+                $this->enumClass::cases(),
+                fn (UnitEnum $enum): bool => $enum->name === $filterValue
+            );
+
+            $values[] = $enum->value;
         }
 
         return $values;
