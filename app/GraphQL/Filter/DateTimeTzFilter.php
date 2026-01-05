@@ -19,7 +19,7 @@ class DateTimeTzFilter extends Filter
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      */
-    public function convertFilterValues(array $filterValues): array
+    protected function convertFilterValues(array $filterValues): array
     {
         return Arr::map(
             $filterValues,
