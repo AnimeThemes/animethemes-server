@@ -41,7 +41,7 @@ class DumpWikiAction extends DumpAction
     /**
      * The list of tables to include in the dump.
      */
-    protected function allowedTables(): array
+    public static function allowedTables(): array
     {
         return [
             Anime::TABLE,

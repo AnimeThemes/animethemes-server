@@ -22,7 +22,7 @@ class DumpAuthAction extends DumpAction
     /**
      * The list of tables to include in the dump.
      */
-    protected function allowedTables(): array
+    public static function allowedTables(): array
     {
         return [
             // This table stores tokens which are sensitive data.
