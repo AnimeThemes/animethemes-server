@@ -57,6 +57,9 @@ composer install
 # Set a value for `APP_KEY`
 php artisan key:generate
 
+# Create the database
+mysql -h localhost -u root -p -e "CREATE DATABASE IF NOT EXISTS ``animethemes`` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
 # Import dumps automatically, migrate the database and run seeders
 php artisan db:sync
 ```
