@@ -16,7 +16,7 @@ class StringFilter extends Filter
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      */
-    public function convertFilterValues(array $filterValues): array
+    protected function convertFilterValues(array $filterValues): array
     {
         return $filterValues;
     }

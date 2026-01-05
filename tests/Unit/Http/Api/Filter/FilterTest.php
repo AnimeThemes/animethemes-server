@@ -5,8 +5,6 @@ declare(strict_types=1);
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
 
-use function Pest\Laravel\get;
-
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 
 test('default column', function () {

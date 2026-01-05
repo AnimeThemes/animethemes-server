@@ -32,7 +32,7 @@ class EnumFilter extends Filter
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      */
-    public function convertFilterValues(array $filterValues): array
+    protected function convertFilterValues(array $filterValues): array
     {
         $values = [];
 
@@ -44,7 +44,7 @@ class EnumFilter extends Filter
                 );
             }
 
-            $values[] = $enum ?? $filterValue;
+            $values[] = $enum?->value ?? $filterValue->value;
         }
 
         return $values;
