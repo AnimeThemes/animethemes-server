@@ -23,11 +23,11 @@ trait ConstrainsEagerLoads
     /**
      * Apply eager loads with filters and sorting.
      */
-    protected function constrainEagerLoads(Builder $query, ResolveInfo $resolveInfo, BaseType $type): void
+    protected function constrainEagerLoads(Builder $query, ResolveInfo $resolveInfo, BaseType $type, string $fieldName = 'data'): void
     {
         $resolveInfo = new CustomResolveInfo($resolveInfo);
 
-        $fields = collect(data_get($resolveInfo->getFieldSelectionWithAliases(100), '*.*.selectionSet'))->flatten()->all();
+        $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$fieldName}.{$fieldName}.selectionSet");
 
         $this->processEagerLoadForType($query, $fields, $type);
     }
@@ -53,7 +53,6 @@ trait ConstrainsEagerLoads
             $relationArgs = Arr::get($relationSelection, 'args');
 
             $relationType = $relation->getBaseType();
-
             $eagerLoadRelations[$path] = function (EloquentRelation $eloquentRelation) use ($relationSelection, $relationArgs, $relationType, $relation): void {
                 if ($eloquentRelation instanceof MorphTo) {
                     $this->processMorphToRelation($relationSelection, $relationType, $eloquentRelation);
@@ -124,7 +123,9 @@ trait ConstrainsEagerLoads
 
         $this->sort($builder, $args, $type, $relation, $graphqlRelation);
 
-        $fields = data_get($selection, 'selectionSet.*.*.selectionSet', Arr::get($selection, 'selectionSet', []));
+        $fields = Arr::get($selection, 'selectionSet.data.data.selectionSet')
+            ?? Arr::get($selection, 'selectionSet.nodes.nodes.selectionSet')
+            ?? Arr::get($selection, 'selectionSet', []);
 
         $this->processEagerLoadForType($builder, $fields, $type);
     }
