@@ -27,7 +27,8 @@ trait ConstrainsEagerLoads
     {
         $resolveInfo = new CustomResolveInfo($resolveInfo);
 
-        $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$fieldName}.{$fieldName}.selectionSet");
+        $fields = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$fieldName}.{$fieldName}.selectionSet")
+            ?? $resolveInfo->getFieldSelectionWithAliases(100);
 
         $this->processEagerLoadForType($query, $fields, $type);
     }
