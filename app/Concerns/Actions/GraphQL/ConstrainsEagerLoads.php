@@ -53,6 +53,7 @@ trait ConstrainsEagerLoads
             $relationArgs = Arr::get($relationSelection, 'args');
 
             $relationType = $relation->getBaseType();
+
             $eagerLoadRelations[$path] = function (EloquentRelation $eloquentRelation) use ($relationSelection, $relationArgs, $relationType, $relation): void {
                 if ($eloquentRelation instanceof MorphTo) {
                     $this->processMorphToRelation($relationSelection, $relationType, $eloquentRelation);
