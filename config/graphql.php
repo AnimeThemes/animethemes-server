@@ -89,7 +89,7 @@ return [
     //     'message' => '',
     //     'locations' => []
     // ]
-    'error_formatter' => [Rebing\GraphQL\GraphQL::class, 'formatError'],
+    'error_formatter' => [App\GraphQL\Handler\ErrorHandler::class, 'formatError'],
 
     /*
      * Custom Error Handling

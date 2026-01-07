@@ -48,6 +48,9 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     {
         return [
             Str::of('prohibits:')->append(LikeController::ATTRIBUTE_ENTRY)->__toString(),
+            'required_without_all:'.implode(',', [
+                LikeController::ATTRIBUTE_ENTRY,
+            ]),
         ];
     }
 
@@ -58,6 +61,9 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     {
         return [
             Str::of('prohibits:')->append(LikeController::ATTRIBUTE_ENTRY)->__toString(),
+            'required_without_all:'.implode(',', [
+                LikeController::ATTRIBUTE_ENTRY,
+            ]),
         ];
     }
 }

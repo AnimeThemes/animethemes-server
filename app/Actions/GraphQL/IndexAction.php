@@ -8,7 +8,6 @@ use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
 use App\Enums\GraphQL\SortType;
-use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Sort\RelationSortCriteria;
 use App\GraphQL\Criteria\Sort\SortCriteria;
@@ -22,6 +21,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
 
 class IndexAction
 {
@@ -57,7 +57,17 @@ class IndexAction
         $page = Arr::get($args, 'page', 1);
 
         $maxCount = Config::get('graphql.pagination_values.max_count');
-        throw_if($maxCount !== null && $first > $maxCount, ClientValidationException::class, "Maximum first value is {$maxCount}. Got {$first}. Fetch in smaller chuncks.");
+
+        Validator::make(['first' => $first], [
+            'first' => [
+                'required', 'integer', 'min:1',
+                function ($attribute, $value, $fail) use ($maxCount, $first): void {
+                    if ($maxCount !== null && $value > $maxCount) {
+                        $fail("You may request at most {$maxCount} items. Got {$first}. Fetch in smaller chuncks.");
+                    }
+                },
+            ],
+        ])->validate();
 
         $searchBuilder->withPagination($first, $page);
 

@@ -128,7 +128,7 @@ abstract class Relation
         /** @var Collection $collection */
         $collection = $root->{$this->getRelationName()};
 
-        $first = Arr::get($args, 'first');
+        $first = max(1, Arr::integer($args, 'first'));
         $page = Arr::get($args, 'page');
 
         return new LengthAwarePaginator(

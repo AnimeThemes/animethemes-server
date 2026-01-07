@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Controllers\Wiki\Anime;
 
 use App\Actions\GraphQL\IndexAction;
-use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonField;
@@ -19,6 +18,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @extends BaseController<Anime>
@@ -35,11 +35,20 @@ class AnimeYearsController extends BaseController
         $fieldSelection = $resolveInfo->getFieldSelection(1);
 
         // Restrict 'animes' field to a unique year.
-        throw_if(
-            ($year === null || count($year) > 1) && (Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime')),
-            ClientValidationException::class,
-            "Please provide a unique 'year' argument to query the animes field."
-        );
+        Validator::make(
+            [
+                'year' => $year,
+            ],
+            [
+                'year' => [
+                    function ($attribute, $value, $fail) use ($fieldSelection): void {
+                        if (($value === null || count($value) > 1) && (Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime'))) {
+                            $fail('Exactly one year is required when requesting anime.');
+                        }
+                    },
+                ],
+            ]
+        )->validate();
 
         return Anime::query()
             ->distinct([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])

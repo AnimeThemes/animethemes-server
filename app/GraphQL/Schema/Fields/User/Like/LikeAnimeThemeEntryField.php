@@ -48,6 +48,9 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     {
         return [
             Str::of('prohibits:')->append(LikeController::ATTRIBUTE_PLAYLIST)->__toString(),
+            'required_without_all:'.implode(',', [
+                LikeController::ATTRIBUTE_PLAYLIST,
+            ]),
         ];
     }
 
@@ -58,6 +61,9 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     {
         return [
             Str::of('prohibits:')->append(LikeController::ATTRIBUTE_PLAYLIST)->__toString(),
+            'required_without_all:'.implode(',', [
+                LikeController::ATTRIBUTE_PLAYLIST,
+            ]),
         ];
     }
 }

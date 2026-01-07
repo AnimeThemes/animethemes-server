@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\GraphQL\Controllers\User;
 
 use App\Contracts\Models\Likeable;
-use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Controllers\BaseController;
 use App\GraphQL\Schema\Mutations\Models\User\LikeMutation;
 use App\GraphQL\Schema\Mutations\Models\User\UnlikeMutation;
 use App\Models\User\Like;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -23,41 +23,27 @@ class LikeController extends BaseController
 
     /**
      * @param  array<string, mixed>  $args
-     *
-     * @throws ClientValidationException
      */
-    public function store($root, array $args): Model&Likeable
+    public function store($root, array $args): Model
     {
         $validated = $this->validated($args, LikeMutation::class);
 
-        foreach ($validated as $likeable) {
-            if ($likeable instanceof Model && $likeable instanceof Likeable) {
-                $likeable->like(Auth::user());
+        /** @var Model&Likeable $likeable */
+        $likeable = Arr::first($validated);
 
-                return $likeable;
-            }
-        }
-
-        throw new ClientValidationException('One resource is required to like.');
+        return $likeable->like(Auth::user());
     }
 
     /**
      * @param  array<string, mixed>  $args
-     *
-     * @throws ClientValidationException
      */
-    public function destroy($root, array $args): Model&Likeable
+    public function destroy($root, array $args): Model
     {
         $validated = $this->validated($args, UnlikeMutation::class);
 
-        foreach ($validated as $likeable) {
-            if ($likeable instanceof Model && $likeable instanceof Likeable) {
-                $likeable->unlike(Auth::user());
+        /** @var Model&Likeable $likeable */
+        $likeable = Arr::first($validated);
 
-                return $likeable;
-            }
-        }
-
-        throw new ClientValidationException('One resource is required to unlike.');
+        return $likeable->unlike(Auth::user());
     }
 }
