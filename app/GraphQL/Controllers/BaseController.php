@@ -11,8 +11,6 @@ use App\GraphQL\Schema\Mutations\BaseMutation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Rebing\GraphQL\Error\ValidationError;
 
 /**
  * @template TModel of \Illuminate\Database\Eloquent\Model
@@ -37,8 +35,6 @@ abstract class BaseController
      *
      * @param  class-string<BaseMutation>  $mutation
      * @return array<string, mixed>
-     *
-     * @throws ValidationError
      */
     public function validated(array $args, string $mutation): array
     {
@@ -46,11 +42,7 @@ abstract class BaseController
 
         $validator = Validator::make($args, $mutationInstance->rulesForValidation($args));
 
-        try {
-            $validated = $validator->validated();
-        } catch (ValidationException $e) {
-            throw new ValidationError($e->getMessage(), $validator);
-        }
+        $validated = $validator->validated();
 
         return [
             ...$validated,

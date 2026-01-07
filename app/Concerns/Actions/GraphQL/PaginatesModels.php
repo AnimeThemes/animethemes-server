@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
-use App\Exceptions\GraphQL\ClientValidationException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
 
 trait PaginatesModels
 {
@@ -18,7 +18,17 @@ trait PaginatesModels
         $page = Arr::get($args, 'page');
 
         $maxCount = Config::get('graphql.pagination_values.max_count');
-        throw_if($maxCount !== null && $first > $maxCount, ClientValidationException::class, "Maximum first value is {$maxCount}. Got {$first}. Fetch in smaller chuncks.");
+
+        Validator::make(['first' => $first], [
+            'first' => [
+                'required', 'integer', 'min:1',
+                function ($attribute, $value, $fail) use ($maxCount, $first): void {
+                    if ($maxCount !== null && $value > $maxCount) {
+                        $fail("You may request at most {$maxCount} items. Got {$first}. Fetch in smaller chuncks.");
+                    }
+                },
+            ],
+        ])->validate();
 
         return $builder->paginate($first, page: $page);
     }

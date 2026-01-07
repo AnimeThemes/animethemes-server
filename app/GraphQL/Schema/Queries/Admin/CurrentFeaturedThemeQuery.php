@@ -8,8 +8,8 @@ use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Admin\FeaturedThemeType;
 use App\Models\Admin\FeaturedTheme;
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 
 class CurrentFeaturedThemeQuery extends BaseQuery
@@ -48,7 +48,7 @@ class CurrentFeaturedThemeQuery extends BaseQuery
      * @param  array<string, mixed>  $args
      * @return FeaturedTheme|null
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): ?Model
     {
         $builder = FeaturedTheme::query();
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
@@ -18,6 +17,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Enum;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class FindAnimeByExternalSiteQuery extends BaseQuery
@@ -71,15 +72,17 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
+        Validator::make($args, [
+            self::ATTRIBUTE_SITE => ['required', new Enum(ResourceSite::class)],
+            self::ATTRIBUTE_ID => ['required_without:link', 'max:100'],
+            self::ATTRIBUTE_LINK => ['required_without:id'],
+        ])->validate();
+
         $builder = Anime::query();
 
         $site = Arr::get($args, self::ATTRIBUTE_SITE);
         $externalId = Arr::get($args, self::ATTRIBUTE_ID);
         $link = Arr::get($args, self::ATTRIBUTE_LINK);
-
-        throw_if(is_null($externalId) && is_null($link), ClientValidationException::class, 'At least "id" or "link" is required.');
-
-        throw_if($externalId !== null && count($externalId) > 100, ClientValidationException::class, 'The "Id" parameter cannot contain more than 100 integer values.');
 
         $builder->whereRelation(Anime::RELATION_RESOURCES, function (Builder $query) use ($site, $externalId, $link): void {
             $query->where(ExternalResource::ATTRIBUTE_SITE, $site);

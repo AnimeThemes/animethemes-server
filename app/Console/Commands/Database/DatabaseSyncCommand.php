@@ -44,7 +44,7 @@ class DatabaseSyncCommand extends BaseCommand
         }
 
         if (! $this->option('drop')) {
-            Schema::withoutForeignKeyConstraints(function () {
+            Schema::withoutForeignKeyConstraints(function (): void {
                 foreach ([
                     ...DumpDocumentAction::allowedTables(),
                     ...DumpWikiAction::allowedTables(),

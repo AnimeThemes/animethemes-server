@@ -10,10 +10,11 @@ use App\GraphQL\Controllers\User\LikeController;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\User\LikeType;
-use App\GraphQL\Schema\Unions\LikedUnion;
+use App\Models\User\Like;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 
 class UnlikeMutation extends BaseMutation
 {
@@ -25,6 +26,11 @@ class UnlikeMutation extends BaseMutation
     public function description(): string
     {
         return 'Unlike a model';
+    }
+
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, $selectFields = null): bool
+    {
+        return ($this->response = Gate::inspect('delete', [Like::class, ...[]]))->allowed();
     }
 
     /**
@@ -56,9 +62,9 @@ class UnlikeMutation extends BaseMutation
     /**
      * The base return type of the mutation.
      */
-    public function baseType(): LikedUnion
+    public function baseType(): LikeType
     {
-        return new LikedUnion();
+        return new LikeType();
     }
 
     public function type(): Type

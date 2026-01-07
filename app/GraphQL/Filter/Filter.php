@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Filter;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Exceptions\GraphQL\ClientValidationException;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FilterArgument;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 abstract class Filter
 {
@@ -63,14 +61,10 @@ abstract class Filter
     protected function validateFilterValues(array $filterValues): void
     {
         foreach ($filterValues as $filterValue) {
-            try {
-                Validator::make(
-                    [$this->fieldName => $filterValue],
-                    [$this->fieldName => $this->getRules()],
-                )->validate();
-            } catch (ValidationException $e) {
-                throw new ClientValidationException($e->getMessage());
-            }
+            Validator::make(
+                [$this->fieldName => $filterValue],
+                [$this->fieldName => $this->getRules()],
+            )->validate();
         }
     }
 

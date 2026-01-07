@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types;
 
 use App\Contracts\GraphQL\Fields\DeprecatedField;
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Relations\Relation;
 use Illuminate\Support\Str;
@@ -77,6 +78,7 @@ abstract class BaseType extends RebingType
             ]);
 
         $fields = collect($this->fieldClasses())
+            ->filter(fn (Field $field): bool => $field instanceof DisplayableField && $field->canBeDisplayed())
             ->mapWithKeys(fn (Field $field): array => [
                 $field->getName() => [
                     'type' => $field->type(),
