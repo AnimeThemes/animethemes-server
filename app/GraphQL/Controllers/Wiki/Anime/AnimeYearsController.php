@@ -42,7 +42,7 @@ class AnimeYearsController extends BaseController
             [
                 'year' => [
                     function ($attribute, $value, $fail) use ($fieldSelection): void {
-                        if (($value === null || count($value) > 1) && Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime')) {
+                        if (($value === null || count($value) > 1) && (Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime'))) {
                             $fail('Exactly one year is required when requesting anime.');
                         }
                     },
