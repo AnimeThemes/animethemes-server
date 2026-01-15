@@ -18,6 +18,10 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
+use App\Http\Api\Schema\Wiki\ArtistSchema;
+use App\Http\Api\Schema\Wiki\AudioSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
+use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -38,6 +42,12 @@ class EntrySchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new AnimeSchema(), AnimeThemeEntry::RELATION_ANIME),
             new AllowedInclude(new ThemeSchema(), AnimeThemeEntry::RELATION_THEME),
             new AllowedInclude(new VideoSchema(), AnimeThemeEntry::RELATION_VIDEOS),
+
+            // Undocumented paths needed for client builds
+            new AllowedInclude(new ImageSchema(), 'animetheme.anime.images'),
+            new AllowedInclude(new ArtistSchema(), 'animetheme.song.artists'),
+            new AllowedInclude(new GroupSchema(), AnimeThemeEntry::RELATION_THEME_GROUP),
+            new AllowedInclude(new AudioSchema(), 'videos.audio'),
         ]);
     }
 
