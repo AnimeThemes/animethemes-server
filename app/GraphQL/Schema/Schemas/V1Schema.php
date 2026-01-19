@@ -44,6 +44,7 @@ use App\GraphQL\Schema\Queries\Models\Singular\Wiki\AnimeQuery;
 use App\GraphQL\Schema\Queries\Models\Singular\Wiki\ArtistQuery;
 use App\GraphQL\Schema\Queries\Models\Singular\Wiki\SeriesQuery;
 use App\GraphQL\Schema\Queries\Models\Singular\Wiki\StudioQuery;
+use App\GraphQL\Schema\Queries\Models\Singular\Wiki\VideoQuery;
 use App\GraphQL\Schema\Queries\SearchQuery;
 use App\GraphQL\Schema\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Schema\Queries\Wiki\FindAnimeByExternalSiteQuery;
@@ -142,6 +143,7 @@ class V1Schema implements ConfigConvertible
                 StudioQuery::class,
                 StudioPaginationQuery::class,
                 ThemeGroupPaginationQuery::class,
+                VideoQuery::class,
                 VideoPaginationQuery::class,
                 VideoScriptPaginationQuery::class,
 

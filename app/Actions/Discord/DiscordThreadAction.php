@@ -34,22 +34,9 @@ class DiscordThreadAction
     public function handle(Anime $anime, array $fields): ActionResult
     {
         try {
-            $anime->load(Anime::RELATION_IMAGES);
-
-            $anime->name = Arr::get($fields, 'name');
-
-            $animeArray = $anime->toArray();
-
-            Arr::set($animeArray, Anime::ATTRIBUTE_SEASON, $anime->season->localize());
-            Arr::set($animeArray, Anime::ATTRIBUTE_MEDIA_FORMAT, $anime->media_format->localize());
-
-            foreach ($animeArray['images'] as $key => $image) {
-                Arr::set($animeArray, "images.$key.facet", $anime->images->get($key)->facet->localize());
-            }
-
             $response = static::getHttp()
                 ->acceptJson()
-                ->post('/thread', $animeArray)
+                ->post('/thread', ['name' => Arr::get($fields, 'name'), 'slug' => $anime->slug])
                 ->throw()
                 ->json();
 
