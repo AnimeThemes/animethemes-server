@@ -28,13 +28,9 @@ class DiscordVideoNotificationAction
             $video
                 ->load([
                     'animethemeentries.animetheme.anime.discordthread',
-                    'animethemeentries.animetheme.anime.images',
-                    Video::RELATION_GROUP,
-                    'animethemeentries.animetheme.song.artists',
                 ]);
 
-            $theme = $video->animethemeentries->first()->animetheme;
-            $anime = $theme->anime;  
+            $anime = $video->animethemeentries->first()->animetheme->anime;
 
             if ($anime->discordthread === null) {
                 if (Str::length($anime->name) >= 100) {
@@ -47,17 +43,10 @@ class DiscordVideoNotificationAction
                 $anime->load('discordthread');
             }
 
-            $videoArray = $video->toArray();
-
-            Arr::set($videoArray, Video::ATTRIBUTE_SOURCE, $video->source->localize());
-            Arr::set($videoArray, Video::ATTRIBUTE_OVERLAP, $video->overlap->localize());
-            Arr::set($videoArray, 'animethemeentries.0.animetheme.type', $theme->type->localize());
-
-            foreach (Arr::get($videoArray, 'animethemeentries.0.animetheme.anime.images') as $key => $image) {
-                Arr::set($videoArray, "animethemeentries.0.animetheme.anime.images.$key.facet", $anime->images->get($key)->facet->localize());
-            }
-
-            $newVideos[] = $videoArray;
+            $newVideos[] = [
+                'threadId' => $anime->discordthread->getKey(),
+                'videoId' => $video->getKey(),
+            ];
         }
 
         DiscordThreadAction::getHttp()
