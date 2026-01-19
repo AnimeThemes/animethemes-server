@@ -10,6 +10,7 @@ use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class DiscordVideoNotificationAction
 {
@@ -33,9 +34,13 @@ class DiscordVideoNotificationAction
                 ]);
 
             $theme = $video->animethemeentries->first()->animetheme;
-            $anime = $theme->anime;
+            $anime = $theme->anime;  
 
             if ($anime->discordthread === null) {
+                if (Str::length($anime->name) >= 100) {
+                    $anime->name = Str::limit($anime->name, 96, '...');
+                }
+
                 $threadAction = new DiscordThreadAction();
 
                 $threadAction->handle($anime, ['name' => $anime->getName()]);
