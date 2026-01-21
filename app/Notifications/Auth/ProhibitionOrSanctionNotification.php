@@ -9,6 +9,9 @@ use App\Models\Auth\Sanction;
 use DateTimeInterface;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 
 class ProhibitionOrSanctionNotification extends Notification
 {
@@ -38,10 +41,12 @@ class ProhibitionOrSanctionNotification extends Notification
     {
         $type = $this->issued instanceof Prohibition ? 'prohibition' : 'sanction';
 
+        $typeCapitalized = Str::ucfirst($type);
+
         return new MailMessage()
-            ->subject('Account Prohibition or Sanction Issued')
+            ->subject("Account {$typeCapitalized} Issued")
             ->greeting("Dear {$notifiable->getName()},")
-            ->line("Your account has been issued a {$type} ({$this->issued->name}).")
+            ->line("A {$type} ({$this->issued->name}) has been applied to your account.")
             ->line($this->getExpiresAtLine($type))
             ->line("Reason: {$this->reason}");
     }
@@ -52,8 +57,8 @@ class ProhibitionOrSanctionNotification extends Notification
             return "This {$type} is permanent.";
         }
 
-        $expiresFormat = $this->expiresAt->format('Y-m-d H:i:s');
+        $human = Date::instance($this->expiresAt)->diffForHumans(syntax: Carbon::DIFF_ABSOLUTE, parts: 4);
 
-        return "This {$type} will expire on {$expiresFormat}.";
+        return "This {$type} will expire in {$human}.";
     }
 }
