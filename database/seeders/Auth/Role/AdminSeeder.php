@@ -13,7 +13,9 @@ use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\Permission;
+use App\Models\Auth\Prohibition;
 use App\Models\Auth\Role;
+use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
@@ -69,7 +71,9 @@ class AdminSeeder extends RoleSeeder
 
         // Auth Resources
         $this->configureResource($role, Permission::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Prohibition::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
         $this->configureResource($role, Role::class, CrudPermission::cases());
+        $this->configureResource($role, Sanction::class, CrudPermission::cases());
         $this->configureResource($role, User::class, $extendedCrudPermissions);
 
         // Discord Resources

@@ -33,10 +33,23 @@ abstract class BasePolicy
             ->__toString();
     }
 
+    protected static function format(string $ability): string
+    {
+        return Str::of($ability)
+            ->remove('Any')
+            ->append(class_basename(static::getModel()))
+            ->snake(' ')
+            ->__toString();
+    }
+
     public function before(User $user, string $ability): ?Response
     {
         if ($user->can(SpecialPermission::BYPASS_AUTHORIZATION->value)) {
             return Response::allow();
+        }
+
+        if ($user->isProhibitedFrom(static::format($ability))) {
+            return Response::deny('You have been banned from performing this action. Please check your email for more details.');
         }
 
         return null;

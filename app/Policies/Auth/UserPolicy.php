@@ -30,44 +30,60 @@ class UserPolicy extends BasePolicy
             : Response::deny();
     }
 
-    public function attachAnyRole(): Response
+    public function attachAnyRole(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function attachRole(): Response
+    public function attachRole(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function detachAnyRole(): Response
+    public function detachAnyRole(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function detachRole(): Response
+    public function detachRole(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function attachAnyPermission(): Response
+    public function attachAnyPermission(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function attachPermission(): Response
+    public function attachPermission(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function detachAnyPermission(): Response
+    public function detachAnyPermission(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
-    public function detachPermission(): Response
+    public function detachPermission(User $user): Response
     {
-        return Response::deny();
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
     }
 
     public function addPlaylist(User $user): Response

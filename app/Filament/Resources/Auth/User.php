@@ -6,7 +6,9 @@ namespace App\Filament\Resources\Auth;
 
 use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Models\Auth\User\GivePermissionAction;
+use App\Filament\Actions\Models\Auth\User\GiveProhibitionAction;
 use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
+use App\Filament\Actions\Models\Auth\User\GiveSanctionAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -17,7 +19,9 @@ use App\Filament\Resources\Auth\User\Pages\ListUsers;
 use App\Filament\Resources\Auth\User\Pages\ViewUser;
 use App\Filament\Resources\Auth\User\RelationManagers\PermissionUserRelationManager;
 use App\Filament\Resources\Auth\User\RelationManagers\PlaylistUserRelationManager;
+use App\Filament\Resources\Auth\User\RelationManagers\ProhibitionUserRelationManager;
 use App\Filament\Resources\Auth\User\RelationManagers\RoleUserRelationManager;
+use App\Filament\Resources\Auth\User\RelationManagers\SanctionUserRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User as UserModel;
 use Filament\Infolists\Components\ImageEntry;
@@ -147,6 +151,8 @@ class User extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 RoleUserRelationManager::class,
                 PermissionUserRelationManager::class,
+                SanctionUserRelationManager::class,
+                ProhibitionUserRelationManager::class,
                 PlaylistUserRelationManager::class,
 
                 ...parent::getBaseRelations(),
@@ -167,6 +173,10 @@ class User extends BaseResource
             GivePermissionAction::make(),
 
             RevokePermissionAction::make(),
+
+            GiveProhibitionAction::make(),
+
+            GiveSanctionAction::make(),
         ];
     }
 

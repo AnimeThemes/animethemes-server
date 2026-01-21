@@ -29,6 +29,7 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
+use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\AdminSeeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -55,6 +56,7 @@ class AppServiceProvider extends ServiceProvider
         ParallelTesting::setUpTestDatabase(function (string $database, int $token): void {
             Artisan::call('db:seed', ['--class' => PermissionSeeder::class]);
             Artisan::call('db:seed', ['--class' => AdminSeeder::class]);
+            Artisan::call('db:seed', ['--class' => ProhibitionSeeder::class]);
         });
 
         DB::listen(function (QueryExecuted $query): void {

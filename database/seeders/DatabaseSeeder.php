@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Admin\Feature\FeatureSeeder;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
+use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\RoleSeeder;
 use Database\Seeders\Scout\ImportModelsSeeder;
 use Database\Seeders\Wiki\Audio\AudioSeeder;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
+        $this->call(ProhibitionSeeder::class);
         $this->call(VideoSeeder::class);
         $this->call(AudioSeeder::class);
         $this->call(HashidsSeeder::class);

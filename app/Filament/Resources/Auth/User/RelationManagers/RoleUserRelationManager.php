@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Auth\User\RelationManagers;
 use App\Filament\RelationManagers\Auth\RoleRelationManager;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Filament\Actions\EditAction;
 use Filament\Tables\Table;
 
 class RoleUserRelationManager extends RoleRelationManager
@@ -32,8 +31,11 @@ class RoleUserRelationManager extends RoleRelationManager
     {
         return [
             ...parent::getRecordActions(),
-
-            EditAction::make(),
         ];
+    }
+
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
+    {
+        return [];
     }
 }

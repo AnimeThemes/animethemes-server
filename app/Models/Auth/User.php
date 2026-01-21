@@ -39,6 +39,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Kyrch\Prohibition\Traits\HasSanctions;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -69,6 +70,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
+    use HasSanctions;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
@@ -89,7 +91,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const string RELATION_MANAGED_SUBMISSIONS = 'managedsubmissions';
     final public const string RELATION_NOTIFICATIONS = 'notifications';
     final public const string RELATION_PERMISSIONS = 'permissions';
+    final public const string RELATION_PROHIBITIONS = 'prohibitions';
     final public const string RELATION_PLAYLISTS = 'playlists';
+    final public const string RELATION_SANCTIONS = 'sanctions';
     final public const string RELATION_SUBMISSIONS = 'submissions';
     final public const string RELATION_ROLES = 'roles';
     final public const string RELATION_ROLES_PERMISSIONS = 'roles.permissions';
