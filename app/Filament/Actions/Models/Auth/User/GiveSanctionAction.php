@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Models\Auth\User;
 
 use App\Events\Auth\Sanction\ModelSanctioned;
-use App\Events\Auth\Sanction\ModelSanctionTriggered;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;

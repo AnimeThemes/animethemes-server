@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Models\Auth\User;
 
 use App\Events\Auth\Prohibition\ModelProhibited;
-use App\Events\Auth\Prohibition\ModelProhibitionTriggered;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
