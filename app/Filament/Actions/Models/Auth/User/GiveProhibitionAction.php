@@ -44,6 +44,7 @@ class GiveProhibitionAction extends BaseAction
      */
     public function handle(User $user, array $data): void
     {
+        /** @var Prohibition $prohibition */
         $prohibition = Prohibition::query()->find(intval(Arr::get($data, self::FIELD_PROHIBITION)));
 
         $reason = Arr::get($data, 'reason');
