@@ -13,12 +13,16 @@ use App\Models\Auth\User;
 use App\Notifications\Auth\ProhibitionOrSanctionNotification;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
-use Kyrch\Prohibition\Events\ModelSanctionTriggered as BaseModelSanctionTriggered;
 use NotificationChannels\Discord\DiscordMessage;
 
-class ModelSanctionTriggered extends BaseModelSanctionTriggered implements DiscordMessageEvent, NotifiesUsersEvent
+class ModelSanctioned implements DiscordMessageEvent, NotifiesUsersEvent
 {
+    use Dispatchable;
+    use SerializesModels;
+
     /**
      * @param  User  $model
      * @param  Sanction  $sanction
@@ -30,9 +34,7 @@ class ModelSanctionTriggered extends BaseModelSanctionTriggered implements Disco
         public ?DateTimeInterface $expiresAt = null,
         public ?string $reason = null,
         public ?Model $moderator = null,
-    ) {
-        parent::__construct($model, $sanction, $expiresAt, $reason, $moderator);
-    }
+    ) {}
 
     public function getDiscordMessage(): DiscordMessage
     {

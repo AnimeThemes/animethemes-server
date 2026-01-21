@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Auth\User;
 
+use App\Events\Auth\Sanction\ModelSanctioned;
 use App\Events\Auth\Sanction\ModelSanctionTriggered;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
@@ -52,7 +53,7 @@ class GiveSanctionAction extends BaseAction
 
         $user->applySanction($sanction, $expiresAt, $reason, Auth::user());
 
-        event(new ModelSanctionTriggered($user, $sanction, $expiresAt, $reason, Auth::user()));
+        event(new ModelSanctioned($user, $sanction, $expiresAt, $reason, Auth::user()));
     }
 
     public function getSchema(Schema $schema): Schema
