@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Auth\User;
 
+use App\Events\Auth\Prohibition\ModelProhibitionTriggered;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
@@ -50,6 +51,8 @@ class GiveProhibitionAction extends BaseAction
         $expiresAt = Date::createFromFormat('Y-m-d H:i:s', Arr::get($data, 'expires_at'));
 
         $user->prohibit($prohibition, $expiresAt, $reason, Auth::user());
+
+        event(new ModelProhibitionTriggered($user, $prohibition, $expiresAt, $reason, Auth::user()));
     }
 
     public function getSchema(Schema $schema): Schema

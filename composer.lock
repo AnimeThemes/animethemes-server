@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb6030b3eb15a33d1ccc341411798e01",
+    "content-hash": "ad7bbfdc96fcdca090892cc0ee25a07f",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3344,16 +3344,16 @@
         },
         {
             "name": "kyrch/laravel-prohibitions",
-            "version": "v1.0.2",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kyrch/laravel-prohibitions.git",
-                "reference": "2ead8aa67e54448d4a2ddc9714c15e929350788e"
+                "reference": "8874f07051b40994fd069950e28aa2f7ce39b3da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kyrch/laravel-prohibitions/zipball/2ead8aa67e54448d4a2ddc9714c15e929350788e",
-                "reference": "2ead8aa67e54448d4a2ddc9714c15e929350788e",
+                "url": "https://api.github.com/repos/Kyrch/laravel-prohibitions/zipball/8874f07051b40994fd069950e28aa2f7ce39b3da",
+                "reference": "8874f07051b40994fd069950e28aa2f7ce39b3da",
                 "shasum": ""
             },
             "require": {
@@ -3412,7 +3412,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Kyrch/laravel-prohibitions/issues",
-                "source": "https://github.com/Kyrch/laravel-prohibitions/tree/v1.0.2"
+                "source": "https://github.com/Kyrch/laravel-prohibitions/tree/v1.1"
             },
             "funding": [
                 {
@@ -3420,7 +3420,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-21T17:13:55+00:00"
+            "time": "2026-01-21T19:03:55+00:00"
         },
         {
             "name": "laragraph/utils",

@@ -9,7 +9,7 @@ use Kyrch\Prohibition\Pivots\ModelProhibition;
 use Kyrch\Prohibition\Pivots\ModelSanction;
 
 return [
-    'events_enabled' => true,
+    'events_enabled' => false,
 
     'models' => [
         'user' => User::class,
