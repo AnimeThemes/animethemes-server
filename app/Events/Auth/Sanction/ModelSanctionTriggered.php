@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Events\Auth\Prohibition;
+namespace App\Events\Auth\Sanction;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
