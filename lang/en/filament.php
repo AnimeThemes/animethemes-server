@@ -340,6 +340,14 @@ return [
                 'name' => 'Revoke Permission',
             ],
         ],
+        'sanction' => [
+            'give_prohibition' => [
+                'name' => 'Give Prohibition',
+            ],
+            'revoke_prohibition' => [
+                'name' => 'Revoke Prohibition',
+            ],
+        ],
         'storage' => [
             'delete' => [
                 'confirmButtonText' => 'Remove',
@@ -405,12 +413,35 @@ return [
             'give_role' => [
                 'name' => 'Give Role',
             ],
+            'give_prohibition' => [
+                'name' => 'Give Prohibition',
+                'expires_at' => [
+                    'help' => 'The date and time the prohibition expires. Leave blank for a permanent prohibition',
+                    'name' => 'Expires At',
+                ],
+                'reason' => [
+                    'help' => 'The reason for the prohibition. It will be sent to the email address associated with the user account.',
+                    'name' => 'Reason',
+                ],
+            ],
+            'give_sanction' => [
+                'name' => 'Give Sanction',
+                'expires_at' => [
+                    'help' => 'The date and time the sanction expires. Leave blank for a permanent sanction',
+                    'name' => 'Expires At',
+                ],
+                'reason' => [
+                    'help' => 'The reason for the sanction. It will be sent to the email address associated with the user account.',
+                    'name' => 'Reason',
+                ],
+            ],
             'revoke_permission' => [
                 'name' => 'Revoke Permission',
             ],
             'revoke_role' => [
                 'name' => 'Revoke Role',
             ],
+
         ],
         'video_script' => [
             'delete' => [
@@ -850,6 +881,9 @@ return [
                 'name' => 'Visibility',
             ],
         ],
+        'prohibition' => [
+            'name' => 'Name',
+        ],
         'submission' => [
             'finished_at' => 'Finished At',
             'locked' => 'Locked',
@@ -883,6 +917,9 @@ return [
                 'help' => 'The weight assigned to a role. Higher numbers are higher priority.',
                 'name' => 'Priority',
             ],
+        ],
+        'sanction' => [
+            'name' => 'Name',
         ],
         'series' => [
             'name' => [
@@ -1007,9 +1044,11 @@ return [
             'permissions' => 'Permissions',
             'playlist_tracks' => 'Playlist Tracks',
             'playlists' => 'Playlists',
+            'prohibitions' => 'Prohibitions',
             'submissions' => 'Submissions',
             'submission_stages' => 'Submission Stages',
             'roles' => 'Roles',
+            'sanctions' => 'Sanctions',
             'series' => 'Series',
             'songs' => 'Songs',
             'studios' => 'Studios',
@@ -1043,6 +1082,8 @@ return [
             'permission' => 'Permission',
             'playlist_track' => 'Playlist Track',
             'playlist' => 'Playlist',
+            'prohibition' => 'Prohibition',
+            'sanction' => 'Sanction',
             'submission' => 'Submission',
             'submission_stage' => 'Submission Stage',
             'role' => 'Role',

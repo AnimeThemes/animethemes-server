@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Models\Auth\Role;
 
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Resources\Auth\Permission as PermissionResource;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Filament\Schemas\Schema;
@@ -14,7 +15,7 @@ use Illuminate\Support\Arr;
 
 class GivePermissionAction extends BaseAction
 {
-    final public const string FIELD_PERMISSION = 'permission';
+    final public const string FIELD_PERMISSIONS = 'permissions';
 
     public static function getDefaultName(): ?string
     {
@@ -27,6 +28,8 @@ class GivePermissionAction extends BaseAction
 
         $this->label(__('filament.actions.role.give_permission.name'));
 
+        $this->icon(PermissionResource::getNavigationIcon());
+
         $this->action(fn (Role $record, array $data) => $this->handle($record, $data));
     }
 
@@ -37,9 +40,9 @@ class GivePermissionAction extends BaseAction
      */
     public function handle(Role $role, array $data): void
     {
-        $permission = Permission::findById(intval(Arr::get($data, self::FIELD_PERMISSION)));
+        $permissions = Arr::get($data, self::FIELD_PERMISSIONS);
 
-        $role->givePermissionTo($permission);
+        $role->givePermissionTo($permissions);
     }
 
     public function getSchema(Schema $schema): Schema
@@ -53,10 +56,11 @@ class GivePermissionAction extends BaseAction
 
         return $schema
             ->components([
-                Select::make(self::FIELD_PERMISSION)
-                    ->label(__('filament.resources.singularLabel.permission'))
+                Select::make(self::FIELD_PERMISSIONS)
+                    ->label(__('filament.resources.label.permissions'))
                     ->searchable()
                     ->required()
+                    ->multiple()
                     ->options($permissions),
             ]);
     }

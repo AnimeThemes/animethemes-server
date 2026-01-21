@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Models\Auth\User;
 
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Resources\Auth\Role as RoleResource;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Filament\Schemas\Schema;
@@ -26,6 +27,8 @@ class RevokeRoleAction extends BaseAction
         parent::setUp();
 
         $this->label(__('filament.actions.user.revoke_role.name'));
+
+        $this->icon(RoleResource::getNavigationIcon());
 
         $this->action(fn (User $record, array $data) => $this->handle($record, $data));
     }

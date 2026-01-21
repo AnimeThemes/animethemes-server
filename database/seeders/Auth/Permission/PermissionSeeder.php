@@ -12,7 +12,9 @@ use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\Permission;
+use App\Models\Auth\Prohibition;
 use App\Models\Auth\Role;
+use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
@@ -61,7 +63,9 @@ class PermissionSeeder extends Seeder
 
         // Auth Resources
         $this->registerResource(Permission::class, [CrudPermission::VIEW]);
+        $this->registerResource(Prohibition::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
         $this->registerResource(Role::class, CrudPermission::cases());
+        $this->registerResource(Sanction::class, CrudPermission::cases());
         $this->registerResource(User::class, $extendedCrudPermissions);
 
         // Discord Resources

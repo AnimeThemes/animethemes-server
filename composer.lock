@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e17368d2e59c27ecf9080634a686d848",
+    "content-hash": "ad7bbfdc96fcdca090892cc0ee25a07f",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3341,6 +3341,86 @@
                 "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/4.2.11"
             },
             "time": "2025-12-17T00:37:48+00:00"
+        },
+        {
+            "name": "kyrch/laravel-prohibitions",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Kyrch/laravel-prohibitions.git",
+                "reference": "8874f07051b40994fd069950e28aa2f7ce39b3da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Kyrch/laravel-prohibitions/zipball/8874f07051b40994fd069950e28aa2f7ce39b3da",
+                "reference": "8874f07051b40994fd069950e28aa2f7ce39b3da",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^11.0||^12.0",
+                "php": "^8.4",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "driftingly/rector-laravel": "^2.1",
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.8",
+                "orchestra/testbench": "^10.0.0||^9.0.0",
+                "pestphp/pest": "^4.0",
+                "pestphp/pest-plugin-arch": "^4.0",
+                "pestphp/pest-plugin-laravel": "^4.0",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "rector/rector": "^2.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Prohibition": "Kyrch\\Prohibition\\Facades\\Prohibition"
+                    },
+                    "providers": [
+                        "Kyrch\\Prohibition\\ProhibitionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kyrch\\Prohibition\\": "src/",
+                    "Kyrch\\Prohibition\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyrch",
+                    "email": "kyrchk5@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Prohibit your models from execute an action in a way similar to spatie/laravel-permission.",
+            "homepage": "https://github.com/kyrch/laravel-prohibitions",
+            "keywords": [
+                "Kyrch",
+                "laravel",
+                "laravel-prohibitions"
+            ],
+            "support": {
+                "issues": "https://github.com/Kyrch/laravel-prohibitions/issues",
+                "source": "https://github.com/Kyrch/laravel-prohibitions/tree/v1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Kyrch",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-01-21T19:03:55+00:00"
         },
         {
             "name": "laragraph/utils",

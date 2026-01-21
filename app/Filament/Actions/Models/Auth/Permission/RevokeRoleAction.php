@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Models\Auth\Permission;
 
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Resources\Auth\Role as RoleResource;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Filament\Schemas\Schema;
@@ -14,7 +15,7 @@ use Illuminate\Support\Arr;
 
 class RevokeRoleAction extends BaseAction
 {
-    final public const string FIELD_ROLE = 'role';
+    final public const string FIELD_ROLES = 'roles';
 
     public static function getDefaultName(): ?string
     {
@@ -27,6 +28,8 @@ class RevokeRoleAction extends BaseAction
 
         $this->label(__('filament.actions.permission.revoke_role.name'));
 
+        $this->icon(RoleResource::getNavigationIcon());
+
         $this->action(fn (Permission $record, array $data) => $this->handle($record, $data));
     }
 
@@ -35,9 +38,9 @@ class RevokeRoleAction extends BaseAction
      */
     public function handle(Permission $permission, array $data): void
     {
-        $role = Role::findById(intval(Arr::get($data, self::FIELD_ROLE)));
+        $roles = Arr::get($data, self::FIELD_ROLES);
 
-        $permission->removeRole($role);
+        $permission->removeRole($roles);
     }
 
     public function getSchema(Schema $schema): Schema
@@ -51,9 +54,10 @@ class RevokeRoleAction extends BaseAction
 
         return $schema
             ->components([
-                Select::make(self::FIELD_ROLE)
-                    ->label(__('filament.resources.singularLabel.role'))
+                Select::make(self::FIELD_ROLES)
+                    ->label(__('filament.resources.label.roles'))
                     ->searchable()
+                    ->multiple()
                     ->required()
                     ->options($roles),
             ]);

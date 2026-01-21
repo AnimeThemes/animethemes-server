@@ -32,6 +32,7 @@
         "filament/filament": "^4.4.0",
         "flowframe/laravel-trend": ">=0.4",
         "guzzlehttp/guzzle": "^7.10.0",
+        "kyrch/laravel-prohibitions": "^1.1.0",
         "larastan/larastan": "^3.8.1",
         "laravel-notification-channels/discord": "^1.7",
         "laravel/fortify": "^1.33.0",
