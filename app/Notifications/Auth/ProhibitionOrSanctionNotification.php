@@ -9,6 +9,7 @@ use App\Models\Auth\Sanction;
 use DateTimeInterface;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
@@ -56,7 +57,7 @@ class ProhibitionOrSanctionNotification extends Notification
             return "This {$type} is permanent.";
         }
 
-        $human = Date::instance($this->expiresAt)->diffForHumans(syntax: true, parts: 4);
+        $human = Date::instance($this->expiresAt)->diffForHumans(syntax: Carbon::DIFF_ABSOLUTE, parts: 4);
 
         return "This {$type} will expire in {$human}.";
     }
