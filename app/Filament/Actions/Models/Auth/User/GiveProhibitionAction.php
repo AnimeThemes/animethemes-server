@@ -11,8 +11,11 @@ use App\Filament\Components\Fields\TextInput;
 use App\Filament\Resources\Auth\Prohibition as ProhibitionResource;
 use App\Models\Auth\Prohibition;
 use App\Models\Auth\User;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
@@ -49,7 +52,9 @@ class GiveProhibitionAction extends BaseAction
 
         $reason = Arr::get($data, 'reason');
 
-        $expiresAt = Date::createFromFormat('Y-m-d H:i:s', Arr::get($data, 'expires_at'));
+        $expiresAt = ($expiresAtField = Arr::get($data, 'expires_at'))
+            ? Date::createFromFormat('Y-m-d H:i:s', $expiresAtField)
+            : null;
 
         $user->prohibit($prohibition, $expiresAt, $reason, Auth::user());
 
@@ -72,15 +77,85 @@ class GiveProhibitionAction extends BaseAction
                     ->required()
                     ->options($prohibitions),
 
-                DateTimePicker::make('expires_at')
-                    ->label(__('filament.actions.user.give_prohibition.expires_at.name'))
-                    ->helperText(__('filament.actions.user.give_prohibition.expires_at.help'))
-                    ->nullable(),
+                static::getExpiresAtField(),
 
-                TextInput::make('reason')
-                    ->label(__('filament.actions.user.give_prohibition.reason.name'))
-                    ->helperText(__('filament.actions.user.give_prohibition.reason.help'))
-                    ->required(),
+                static::getReasonField(),
             ]);
+    }
+
+    public static function getExpiresAtField(): DateTimePicker
+    {
+        return DateTimePicker::make('expires_at')
+            ->label(__('filament.actions.user.give_prohibition.expires_at.name'))
+            ->helperText(__('filament.actions.user.give_prohibition.expires_at.help'))
+            ->default(now())
+            ->native(false)
+            ->hintActions(static::getHintDateActions())
+            ->suffixAction(
+                Action::make('clear')
+                    ->icon(Heroicon::Trash)
+                    ->color(Color::Red)
+                    ->action(fn (DateTimePicker $component): DateTimePicker => $component->state(null))
+            )
+            ->minDate(now())
+            ->nullable();
+    }
+
+    public static function getReasonField(): TextInput
+    {
+        return TextInput::make('reason')
+            ->label(__('filament.actions.user.give_prohibition.reason.name'))
+            ->helperText(__('filament.actions.user.give_prohibition.reason.help'))
+            ->required();
+    }
+
+    /**
+     * Get hint actions for date picker.
+     *
+     * @return Action[]
+     */
+    public static function getHintDateActions(): array
+    {
+        return [
+            Action::make('1 hour')
+                ->label('+1 hour')
+                ->action(
+                    fn (DateTimePicker $component): DateTimePicker => $component->state(
+                        Date::parse($component->getState() ?? now())
+                            ->addHour()
+                            ->format($component->getFormat())
+                    )
+                ),
+
+            Action::make('1 day')
+                ->label('+1 day')
+                ->action(
+                    fn (DateTimePicker $component): DateTimePicker => $component->state(
+                        Date::parse($component->getState() ?? now())
+                            ->addDay()
+                            ->format($component->getFormat())
+                    )
+                ),
+
+            Action::make('1 week')
+                ->label('+1 week')
+                ->action(
+                    fn (DateTimePicker $component): DateTimePicker => $component->state(
+                        Date::parse($component->getState() ?? now())
+                            ->addWeek()
+                            ->format($component->getFormat())
+                    )
+                ),
+
+            Action::make('1 month')
+                ->label('+1 month')
+                ->action(
+                    fn (DateTimePicker $component): DateTimePicker => $component->state(
+                        Date::parse($component->getState() ?? now())
+                            ->addMonth()
+                            ->format($component->getFormat())
+                    )
+                ),
+        ];
     }
 }

@@ -57,7 +57,7 @@ class ProhibitionOrSanctionNotification extends Notification
             return "This {$type} is permanent.";
         }
 
-        $human = Date::instance($this->expiresAt)->diffForHumans(syntax: Carbon::DIFF_ABSOLUTE, parts: 4);
+        $human = Date::instance($this->expiresAt)->diffForHumans(syntax: Carbon::DIFF_ABSOLUTE, parts: 3);
 
         return "This {$type} will expire in {$human}.";
     }

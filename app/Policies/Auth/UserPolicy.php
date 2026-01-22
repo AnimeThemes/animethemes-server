@@ -86,6 +86,62 @@ class UserPolicy extends BasePolicy
             : Response::deny();
     }
 
+    public function attachAnySanction(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function attachSanction(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function detachAnySanction(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function detachSanction(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function attachAnyProhibition(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function attachProhibition(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function detachAnyProhibition(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    public function detachProhibition(User $user): Response
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value)
+            ? Response::allow()
+            : Response::deny();
+    }
+
     public function addPlaylist(User $user): Response
     {
         return $user->hasRole(RoleEnum::ADMIN->value)

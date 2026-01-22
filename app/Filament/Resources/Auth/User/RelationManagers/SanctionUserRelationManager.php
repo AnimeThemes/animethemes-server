@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\User\RelationManagers;
 
+use App\Filament\Actions\Models\Auth\User\GiveProhibitionAction;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\Auth\SanctionRelationManager;
 use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Config;
 
 class SanctionUserRelationManager extends SanctionRelationManager
 {
@@ -19,24 +20,13 @@ class SanctionUserRelationManager extends SanctionRelationManager
      */
     protected static string $relationship = User::RELATION_SANCTIONS;
 
-    public function table(Table $table): Table
-    {
-        return parent::table(
-            $table
-                ->inverseRelationship(Sanction::RELATION_USERS)
-        );
-    }
-
     public function getPivotComponents(): array
     {
         return [
-            DateTimePicker::make('expires_at')
-                ->label(__('filament.actions.user.give_sanction.expires_at.name'))
-                ->helperText(__('filament.actions.user.give_sanction.expires_at.help'))
-                ->nullable(),
+            GiveProhibitionAction::getExpiresAtField()
+                ->helperText(__('filament.actions.user.give_sanction.expires_at.help')),
 
-            TextInput::make('reason')
-                ->label(__('filament.actions.user.give_sanction.reason.name'))
+            GiveProhibitionAction::getReasonField()
                 ->helperText(__('filament.actions.user.give_sanction.reason.help'))
                 ->disabled(),
         ];
@@ -56,6 +46,15 @@ class SanctionUserRelationManager extends SanctionRelationManager
         ];
     }
 
+    public function table(Table $table): Table
+    {
+        return parent::table(
+            $table
+                ->inverseRelationship(Sanction::RELATION_USERS)
+        )
+            ->defaultSort(Config::string('prohibition.table_names.model_sanctions').'.created_at', 'desc');
+    }
+
     /**
      * @return array<int, \Filament\Actions\Action>
      */
@@ -69,5 +68,18 @@ class SanctionUserRelationManager extends SanctionRelationManager
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [];
+    }
+
+    public static function getFilters(): array
+    {
+        return [
+            ...parent::getFilters(),
+
+            Filter::make('expired')
+                ->modifyQueryUsing(fn ($query) => $query->expired()),
+
+            Filter::make('not expired')
+                ->modifyQueryUsing(fn ($query) => $query->notExpired()),
+        ];
     }
 }
