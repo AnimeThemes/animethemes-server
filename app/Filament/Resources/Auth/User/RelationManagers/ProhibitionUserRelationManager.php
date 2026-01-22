@@ -9,7 +9,9 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\RelationManagers\Auth\ProhibitionRelationManager;
 use App\Models\Auth\Prohibition;
 use App\Models\Auth\User;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Config;
 
 class ProhibitionUserRelationManager extends ProhibitionRelationManager
 {
@@ -45,11 +47,25 @@ class ProhibitionUserRelationManager extends ProhibitionRelationManager
         return parent::table(
             $table
                 ->inverseRelationship(Prohibition::RELATION_USERS)
-        );
+        )
+            ->defaultSort(Config::string('prohibition.table_names.model_prohibitions').'.created_at', 'desc');
     }
 
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [];
+    }
+
+    public static function getFilters(): array
+    {
+        return [
+            ...parent::getFilters(),
+
+            Filter::make('expired')
+                ->modifyQueryUsing(fn ($query) => $query->expired()),
+
+            Filter::make('not expired')
+                ->modifyQueryUsing(fn ($query) => $query->notExpired()),
+        ];
     }
 }

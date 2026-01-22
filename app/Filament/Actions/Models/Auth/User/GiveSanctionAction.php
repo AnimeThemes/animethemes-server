@@ -46,7 +46,9 @@ class GiveSanctionAction extends BaseAction
 
         $reason = Arr::get($data, 'reason');
 
-        $expiresAt = Date::createFromFormat('Y-m-d H:i:s', Arr::get($data, 'expires_at'));
+        $expiresAt = ($expiresAtField = Arr::get($data, 'expires_at'))
+            ? Date::createFromFormat('Y-m-d H:i:s', $expiresAtField)
+            : null;
 
         $user->applySanction($sanction, $expiresAt, $reason, Auth::user());
 
