@@ -7,11 +7,9 @@ namespace App\Filament\Actions\Models\Auth\User;
 use App\Events\Auth\Sanction\ModelSanctioned;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Components\Fields\TextInput;
 use App\Filament\Resources\Auth\Sanction as SanctionResource;
 use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -71,15 +69,11 @@ class GiveSanctionAction extends BaseAction
                     ->required()
                     ->options($sanctions),
 
-                DateTimePicker::make('expires_at')
-                    ->label(__('filament.actions.user.give_sanction.expires_at.name'))
-                    ->helperText(__('filament.actions.user.give_sanction.expires_at.help'))
-                    ->nullable(),
+                GiveProhibitionAction::getExpiresAtField()
+                    ->helperText(__('filament.actions.user.give_sanction.expires_at.help')),
 
-                TextInput::make('reason')
-                    ->label(__('filament.actions.user.give_sanction.reason.name'))
-                    ->helperText(__('filament.actions.user.give_sanction.reason.help'))
-                    ->required(),
+                GiveProhibitionAction::getReasonField()
+                    ->helperText(__('filament.actions.user.give_sanction.reason.help')),
             ]);
     }
 }
