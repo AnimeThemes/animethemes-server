@@ -13,7 +13,7 @@ class PlaylistChart extends BaseChartWidget
     /**
      * Chart Id.
      */
-    protected static ?string $chartId = 'playlistChart';
+    protected static ?string $chartId = 'playlistsChart';
 
     /**
      * Get the displayed label of the widget.
@@ -25,46 +25,40 @@ class PlaylistChart extends BaseChartWidget
 
     /**
      * Chart options (series, labels, types, size, animations...)
-     * https://apexcharts.com/docs/options.
-     *
-     * @return array<string, array>
+     * https://echarts.apache.org/en/option.html.
      */
     protected function getOptions(): array
     {
         $data = $this->perMonth(Playlist::class);
 
         return [
-            'chart' => [
-                'type' => 'area',
-                'height' => 300,
+            'grid' => [
+                'top' => '10',
+                'left' => '0',
+                'bottom' => '0',
+                'right' => '0',
+                'containLabel' => true,
+            ],
+            'xAxis' => [
+                'type' => 'category',
+                'boundaryGap' => true,
+                'data' => $data->map(fn (TrendValue $value): string => $this->translateDate($value->date)),
+                'axisLabel' => [
+                    'interval' => 0,
+                ],
+            ],
+            'yAxis' => [
+                'type' => 'value',
+
             ],
             'series' => [
                 [
-                    'name' => $this->getHeading(),
                     'data' => $data->map(fn (TrendValue $value): mixed => $value->aggregate),
-                ],
-            ],
-            'xaxis' => [
-                'categories' => $data->map(fn (TrendValue $value): string => $this->translateDate($value->date)),
-                'labels' => [
-                    'style' => [
-                        'fontFamily' => 'inherit',
+                    'type' => 'bar',
+                    'label' => [
+                        'show' => true,
                     ],
                 ],
-            ],
-            'yaxis' => [
-                'labels' => [
-                    'style' => [
-                        'fontFamily' => 'inherit',
-                    ],
-                ],
-            ],
-            'colors' => ['#71E9C5'],
-            'stroke' => [
-                'curve' => 'smooth',
-            ],
-            'dataLabels' => [
-                'enabled' => false,
             ],
         ];
     }

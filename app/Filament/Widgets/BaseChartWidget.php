@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
+use Elemind\FilamentECharts\Widgets\EChartWidget;
 use Flowframe\Trend\Trend;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class BaseChartWidget extends ApexChartWidget
+class BaseChartWidget extends EChartWidget
 {
     protected static bool $isLazy = false;
 
@@ -21,7 +21,7 @@ class BaseChartWidget extends ApexChartWidget
     protected function perMonth(string $model): Collection
     {
         return Cache::flexible("filament_chart_$model", [300, 1200], fn (): Collection => Trend::model($model)
-            ->between(now()->addMonths(-11)->startOfMonth(), now()->endOfMonth())
+            ->between(now()->subMonths(11)->startOfMonth(), now()->endOfMonth())
             ->perMonth()
             ->count());
     }
