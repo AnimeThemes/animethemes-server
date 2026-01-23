@@ -8,6 +8,7 @@ use App\Enums\Filament\NavigationGroup;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Awcodes\Recently\RecentlyPlugin;
+use Elemind\FilamentECharts\FilamentEChartsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -30,7 +31,6 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class FilamentPanelProvider extends PanelProvider
 {
@@ -96,7 +96,7 @@ class FilamentPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Dashboards'), for: 'App\\Filament\\Dashboards')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
-                FilamentApexChartsPlugin::make(),
+                FilamentEChartsPlugin::make(),
                 RecentlyPlugin::make()->rounded(),
             ])
             ->navigationGroups(NavigationGroup::class)
