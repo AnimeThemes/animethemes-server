@@ -37,9 +37,9 @@ abstract class DateTimeTzField extends StringField
     {
         $format = Arr::get($args, 'format');
 
-        /** @var Carbon $field */
+        /** @var Carbon|null $field */
         $field = $root->{$this->getColumn()};
 
-        return $field->format($format);
+        return $field?->format($format);
     }
 }
