@@ -10,11 +10,13 @@ use App\Enums\GraphQL\ComparisonOperator;
 use App\Enums\GraphQL\LogicalOperator;
 use App\GraphQL\Filter\Filter;
 use App\GraphQL\Schema\Enums\FilterableColumns;
+use App\GraphQL\Schema\Fields\Base\CountField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\EloquentType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class WhereConditionsFilterCriteria extends FilterCriteria
 {
@@ -62,12 +64,22 @@ class WhereConditionsFilterCriteria extends FilterCriteria
         if (filled($fieldName) && filled($value)) {
             $field = $this->filterableFields->get($fieldName);
 
-            $builder->where(
-                $field->getColumn(),
-                ComparisonOperator::unstrictCoerce(Arr::get($where, 'operator'))->value,
-                Arr::first($field->getFilter()->getFilterValues(Arr::wrap($value))),
-                $logical->value
-            );
+            if ($field instanceof CountField) {
+                $builder->withCount(Str::replace('Count', '', $field->getName()));
+                $builder->having(
+                    Str::snake($field->getColumn()),
+                    ComparisonOperator::unstrictCoerce(Arr::get($where, 'operator'))->value,
+                    Arr::first($field->getFilter()->getFilterValues(Arr::wrap($value))),
+                    $logical->value
+                );
+            } else {
+                $builder->where(
+                    $field->getColumn(),
+                    ComparisonOperator::unstrictCoerce(Arr::get($where, 'operator'))->value,
+                    Arr::first($field->getFilter()->getFilterValues(Arr::wrap($value))),
+                    $logical->value
+                );
+            }
         }
 
         $builder->where(function (Builder $builder) use ($where): void {
