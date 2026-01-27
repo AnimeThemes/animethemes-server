@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Inputs;
 
-use App\Enums\GraphQL\ComparisonOperator;
+use App\Enums\GraphQL\Filter\ComparisonOperator;
 use App\GraphQL\Schema\Enums\FilterableColumns;
 use App\GraphQL\Schema\Types\EloquentType;
 use GraphQL\Type\Definition\Type;

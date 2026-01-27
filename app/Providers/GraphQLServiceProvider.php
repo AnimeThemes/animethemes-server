@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Enums\GraphQL\ComparisonOperator;
-use App\Enums\GraphQL\SortDirection;
-use App\Enums\GraphQL\TrashedFilter;
+use App\Enums\GraphQL\Filter\ComparisonOperator;
+use App\Enums\GraphQL\Filter\TrashedFilter;
+use App\Enums\GraphQL\Sort\SortDirection;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;

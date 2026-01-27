@@ -18,6 +18,8 @@ class ShowAction
 
     public function show(Builder $builder, array $args, BaseType $type, ResolveInfo $resolveInfo): Model
     {
+        $this->withAggregates($builder, $args, $this->getSelection($resolveInfo), $type);
+
         $this->filter($builder, $args, $type);
 
         $this->constrainEagerLoads($builder, $resolveInfo, $type);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Criteria\Sort;
 
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Enums\GraphQL\SortDirection;
+use App\Enums\GraphQL\Sort\SortDirection;
 use App\GraphQL\Schema\Fields\Field;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -45,12 +45,6 @@ class RelationSortCriteria extends SortCriteria
     public function sort(Builder $builder): Builder
     {
         $column = $this->field->getColumn();
-
-        $builder->withAggregate([
-            "{$this->relation} as {$this->relation}_$column" => function ($query) use ($column): void {
-                $query->orderBy($column, $this->direction->value);
-            },
-        ], $column);
 
         return $builder->orderBy("{$this->relation}_$column", $this->direction->value);
     }

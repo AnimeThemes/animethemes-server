@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Schema\Fields\Base;
+namespace App\GraphQL\Schema\Fields\Base\Aggregate;
 
 use App\Contracts\Models\HasAggregateLikes;
 

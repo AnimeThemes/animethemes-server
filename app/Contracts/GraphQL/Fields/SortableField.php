@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Contracts\GraphQL\Fields;
 
-use App\Enums\GraphQL\SortType;
+use App\GraphQL\Criteria\Sort\Sort;
 
 interface SortableField
 {
-    public function sortType(): SortType;
+    public function getSort(): Sort;
 }

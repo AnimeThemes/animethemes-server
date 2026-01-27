@@ -13,9 +13,12 @@ class FieldSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        return $builder->orderBy(
-            $builder->qualifyColumn($this->field->getColumn()),
-            $this->direction->value
-        );
+        $sort = $this->field->getSort();
+
+        $column = $sort->shouldQualifyColumn()
+            ? $builder->qualifyColumn($sort->getColumn())
+            : $sort->getColumn();
+
+        return $builder->orderBy($column, $this->direction->value);
     }
 }

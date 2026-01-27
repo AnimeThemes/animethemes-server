@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Criteria\Sort;
 
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Enums\GraphQL\SortDirection;
+use App\Enums\GraphQL\Sort\SortDirection;
 use App\GraphQL\Schema\Fields\Field;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\List\Playlist;
 
-use App\GraphQL\Schema\Fields\Base\ExistsField;
+use App\GraphQL\Schema\Fields\Base\Aggregate\ExistsField;
 use App\Models\List\Playlist;
 
 class PlaylistTracksExistsField extends ExistsField

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Filter;
 
-use App\Enums\GraphQL\TrashedFilter;
+use App\Enums\GraphQL\Filter\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 class TrashedFilterCriteria extends FilterCriteria

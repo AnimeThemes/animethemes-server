@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Filter;
 
+use App\Enums\GraphQL\Filter\Clause;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FilterArgument;
@@ -20,6 +21,7 @@ abstract class Filter
     public function __construct(
         protected readonly string $fieldName,
         protected readonly ?string $column = null,
+        protected readonly Clause $clause = Clause::WHERE,
     ) {}
 
     public function getFieldName(): string
@@ -30,6 +32,11 @@ abstract class Filter
     public function getColumn(): string
     {
         return $this->column ?? $this->getFieldName();
+    }
+
+    public function getClause(): Clause
+    {
+        return $this->clause;
     }
 
     /**

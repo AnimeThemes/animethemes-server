@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\List;
 
+use App\GraphQL\Schema\Fields\Base\Aggregate\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistDescriptionField;

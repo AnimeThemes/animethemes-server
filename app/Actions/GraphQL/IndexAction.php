@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\GraphQL;
 
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
+use App\Concerns\Actions\GraphQL\FieldSelection;
 use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
-use App\Enums\GraphQL\SortType;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Sort\RelationSortCriteria;
 use App\GraphQL\Criteria\Sort\SortCriteria;
@@ -26,11 +26,14 @@ use Illuminate\Support\Facades\Validator;
 class IndexAction
 {
     use ConstrainsEagerLoads;
+    use FieldSelection;
     use PaginatesModels;
     use SortsModels;
 
     public function index(Builder $builder, array $args, BaseType $type, ResolveInfo $resolveInfo): Paginator
     {
+        $this->withAggregates($builder, $args, $this->getSelection($resolveInfo), $type);
+
         $this->filter($builder, $args, $type);
 
         $this->sort($builder, $args, $type);
@@ -46,6 +49,8 @@ class IndexAction
 
         $searchBuilder = Search::search($builder->getModel(), $criteria)
             ->passToEloquentBuilder(function (Builder $builder) use ($args, $type, $resolveInfo): void {
+                $this->withAggregates($builder, $args, $this->getSelection($resolveInfo), $type);
+
                 $this->filter($builder, $args, $type);
 
                 $this->sort($builder, $args, $type);
@@ -81,21 +86,18 @@ class IndexAction
 
             $column = $criterion->getField()->getColumn();
             $direction = $criterion->getDirection();
-            $sortType = $criterion->getField()->sortType();
             $isString = $criterion->getField() instanceof StringField;
-
-            if ($sortType === SortType::ROOT) {
-                $sortsRaw[$column] = [
-                    'direction' => $direction,
-                    'isString' => $isString,
-                ];
-            }
 
             if ($criterion instanceof RelationSortCriteria) {
                 $sortsRaw[$column] = [
                     'direction' => $direction->value,
                     'isString' => $isString,
                     'relation' => $criterion->relation,
+                ];
+            } else {
+                $sortsRaw[$column] = [
+                    'direction' => $direction,
+                    'isString' => $isString,
                 ];
             }
         }
