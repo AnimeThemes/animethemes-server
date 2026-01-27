@@ -35,8 +35,8 @@ class PageType extends EloquentType implements SubmitableType
             new PageNameField(),
             new PageSlugField(),
             new PageBodyField(),
-            new CreatedAtField(),
-            new UpdatedAtField(),
+            new CreatedAtField(false),
+            new UpdatedAtField(false),
             new DeletedAtField(),
         ];
     }

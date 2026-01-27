@@ -62,8 +62,8 @@ class MeType extends EloquentType
             new MeEmailField(),
             new MeEmailVerifiedAtField(),
             new MeTwoFactorConfirmedAtField(),
-            new CreatedAtField(),
-            new UpdatedAtField(),
+            new CreatedAtField(false),
+            new UpdatedAtField(false),
         ];
     }
 
