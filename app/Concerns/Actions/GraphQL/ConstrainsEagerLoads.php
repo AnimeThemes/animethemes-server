@@ -112,7 +112,7 @@ trait ConstrainsEagerLoads
 
         $args = Arr::get($selection, 'args');
 
-        $this->withAggregates($builder, $args, $selection, $type);
+        $this->withAggregates($builder, $args, Arr::get($selection, 'selectionSet'), $type);
 
         $this->filter($builder, $args, $type);
 
