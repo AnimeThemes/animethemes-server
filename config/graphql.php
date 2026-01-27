@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\GraphQL\Schema\Schemas\V1Schema;
 use App\GraphQL\Schema\Types\Base\PaginationInfoType;
+use App\Http\Middleware\GraphQL\DenyGraphiqlCookies;
 use App\Http\Middleware\GraphQL\RateLimitPerQuery;
 use App\Http\Middleware\GraphQL\SetServingGraphQL;
 
@@ -21,6 +22,8 @@ return [
 
         // This middleware will apply to all schemas
         'middleware' => [
+            'web',
+
             // Set the serving context to graphql.
             SetServingGraphQL::class,
             // Rate limiting GraphQL to prevent abuse.
