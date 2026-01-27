@@ -11,7 +11,7 @@ class RoleColorField extends StringField
 {
     public function __construct()
     {
-        parent::__construct(Role::ATTRIBUTE_COLOR, nullable: false);
+        parent::__construct(Role::ATTRIBUTE_COLOR);
     }
 
     public function description(): string

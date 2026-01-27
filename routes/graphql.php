@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/sandbox', fn (): Factory|View => view('graphql.sandbox', [
-    'endpoint' => route('graphql'),
-]));
+Route::middleware('web')
+    ->get('/sandbox', fn (): Factory|View => view('graphql.sandbox', [
+        'endpoint' => route('graphql'),
+    ]));
