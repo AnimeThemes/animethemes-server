@@ -26,7 +26,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
 
     public function __construct(
         Schema $schema,
-        protected readonly string $relation,
+        public readonly string $relation,
         protected readonly AggregateFunction $function,
         protected readonly string $aggregateColumn
     ) {

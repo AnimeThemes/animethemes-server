@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Wiki\Video;
 
 use App\Contracts\GraphQL\Fields\DeprecatedField;
-use App\GraphQL\Schema\Fields\Base\CountAggregateField;
+use App\GraphQL\Schema\Fields\Base\Aggregate\CountAggregateField;
 use App\Models\Wiki\Video;
 
 class VideoViewsCountField extends CountAggregateField implements DeprecatedField

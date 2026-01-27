@@ -7,7 +7,7 @@ namespace App\GraphQL\Schema\Fields;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Enums\GraphQL\SortType;
+use App\GraphQL\Criteria\Sort\Sort;
 use App\GraphQL\Filter\BooleanFilter;
 use GraphQL\Type\Definition\Type;
 
@@ -29,8 +29,8 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
             ->useEq();
     }
 
-    public function sortType(): SortType
+    public function getSort(): Sort
     {
-        return SortType::ROOT;
+        return new Sort($this->getName(), $this->getColumn());
     }
 }

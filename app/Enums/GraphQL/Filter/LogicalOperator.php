@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enums\GraphQL;
+namespace App\Enums\GraphQL\Filter;
 
 use App\Concerns\Enums\CoercesInstances;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\List\Playlist;
 
-use App\GraphQL\Schema\Fields\Base\CountField;
+use App\GraphQL\Schema\Fields\Base\Aggregate\CountField;
 use App\Models\List\Playlist;
 
 class PlaylistTracksCountField extends CountField

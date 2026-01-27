@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Filter;
 
-use App\Enums\GraphQL\TrashedFilter as TrashedFilterEnum;
+use App\Enums\GraphQL\Filter\TrashedFilter as TrashedFilterEnum;
 use App\GraphQL\Argument\Argument;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 

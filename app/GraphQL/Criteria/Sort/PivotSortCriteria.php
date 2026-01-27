@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Criteria\Sort;
 
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\Enums\GraphQL\SortDirection;
+use App\Enums\GraphQL\Sort\SortDirection;
 use App\GraphQL\Schema\Fields\Field;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -44,9 +44,10 @@ class PivotSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        return $builder->orderBy(
-            $this->relation?->qualifyPivotColumn($this->field->getColumn()),
-            $this->direction->value
-        );
+        $column = $this->field->getSort()->shouldQualifyColumn()
+            ? $this->relation?->qualifyPivotColumn($this->field->getColumn())
+            : $this->field->getColumn();
+
+        return $builder->orderBy($column, $this->direction->value);
     }
 }

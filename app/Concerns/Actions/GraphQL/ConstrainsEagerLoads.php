@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
-use App\GraphQL\ResolveInfo as CustomResolveInfo;
 use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
@@ -17,6 +16,8 @@ use Illuminate\Support\Arr;
 
 trait ConstrainsEagerLoads
 {
+    use AggregatesFields;
+    use FieldSelection;
     use FiltersModels;
     use SortsModels;
 
@@ -25,12 +26,7 @@ trait ConstrainsEagerLoads
      */
     protected function constrainEagerLoads(Builder $query, ResolveInfo $resolveInfo, BaseType $type, string $fieldName = 'data'): void
     {
-        $resolveInfo = new CustomResolveInfo($resolveInfo);
-
-        $selection = Arr::get($resolveInfo->getFieldSelectionWithAliases(100), "{$fieldName}.{$fieldName}.selectionSet")
-            ?? $resolveInfo->getFieldSelectionWithAliases(100);
-
-        $this->processEagerLoadForType($query, $selection, $type);
+        $this->processEagerLoadForType($query, $this->getSelection($resolveInfo, $fieldName), $type);
     }
 
     /**
@@ -115,6 +111,8 @@ trait ConstrainsEagerLoads
         $builder = $relation->getQuery();
 
         $args = Arr::get($selection, 'args');
+
+        $this->withAggregates($builder, $args, $selection, $type);
 
         $this->filter($builder, $args, $type);
 
