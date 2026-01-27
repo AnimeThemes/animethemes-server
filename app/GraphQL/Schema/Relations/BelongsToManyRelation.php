@@ -52,7 +52,7 @@ class BelongsToManyRelation extends Relation
             ];
         }
 
-        return [];
+        return parent::arguments();
     }
 
     /**
