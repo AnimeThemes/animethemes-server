@@ -55,7 +55,7 @@
         "staudenmeir/belongs-to-through": "^2.17",
         "staudenmeir/eloquent-has-many-deep": "1.21.1",
         "staudenmeir/laravel-adjacency-list": "^1.25.2",
-        "symfony/http-client": "^6.4.31",
+        "symfony/http-client": "^6.4.32",
         "symfony/mailgun-mailer": "^6.4.24",
         "vinkla/hashids": "^13.0"
     },
