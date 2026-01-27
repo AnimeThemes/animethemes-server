@@ -31,8 +31,8 @@ class DumpType extends EloquentType
             new IdField(Dump::ATTRIBUTE_ID, Dump::class),
             new DumpPathField(),
             new DumpLinkField(),
-            new CreatedAtField(),
-            new UpdatedAtField(),
+            new CreatedAtField(false),
+            new UpdatedAtField(false),
         ];
     }
 }

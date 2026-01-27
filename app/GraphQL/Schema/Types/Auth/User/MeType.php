@@ -15,6 +15,7 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Relations\HasManyRelation;
 use App\GraphQL\Schema\Relations\MorphManyRelation;
+use App\GraphQL\Schema\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\Auth\PermissionType;
 use App\GraphQL\Schema\Types\Auth\RoleType;
@@ -41,8 +42,8 @@ class MeType extends EloquentType
         return [
             new MorphManyRelation(new NotificationUnion(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
-            new BelongsToManyRelation($this, RoleType::class, User::RELATION_ROLES),
-            new BelongsToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
+            new MorphToManyRelation($this, RoleType::class, User::RELATION_ROLES),
+            new MorphToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
             new BelongsToManyRelation($this, AnimeThemeEntryType::class, 'likedentries'),
             new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
         ];
@@ -61,8 +62,8 @@ class MeType extends EloquentType
             new MeEmailField(),
             new MeEmailVerifiedAtField(),
             new MeTwoFactorConfirmedAtField(),
-            new CreatedAtField(),
-            new UpdatedAtField(),
+            new CreatedAtField(false),
+            new UpdatedAtField(false),
         ];
     }
 

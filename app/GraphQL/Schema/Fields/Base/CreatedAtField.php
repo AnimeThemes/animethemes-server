@@ -9,9 +9,9 @@ use App\Models\BaseModel;
 
 class CreatedAtField extends DateTimeTzField
 {
-    public function __construct()
+    public function __construct(bool $nullable = true)
     {
-        parent::__construct(BaseModel::ATTRIBUTE_CREATED_AT);
+        parent::__construct(BaseModel::ATTRIBUTE_CREATED_AT, nullable: $nullable);
     }
 
     public function description(): string

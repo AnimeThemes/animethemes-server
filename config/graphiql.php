@@ -22,7 +22,7 @@ return [
     'routes' => [
         $path.'/graphiql' => [
             'name' => 'graphiql',
-            // 'middleware' => ['web'],
+            'middleware' => ['web'],
             'prefix' => env('GRAPHQL_PREFIX', null),
             'domain' => env('GRAPHQL_URL', env('APP_URL')),
 
