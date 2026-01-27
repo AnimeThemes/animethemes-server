@@ -120,7 +120,7 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
         $fieldName = Arr::get($value, 'field');
         $fieldValue = Arr::get($value, 'value');
 
-        if ($fieldName && $fieldValue) {
+        if (filled($fieldName) && filled($fieldValue)) {
             $field = $this->filterableFields->get($fieldName);
             if ($field instanceof Field && $field->getName() === $this->getName()) {
                 return true;
