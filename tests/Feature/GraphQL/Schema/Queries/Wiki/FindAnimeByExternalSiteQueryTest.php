@@ -8,12 +8,10 @@ use App\Pivots\Morph\Resourceable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-use function Pest\Laravel\post;
-
 test('fails without id or link', function () {
     $resourceSite = Arr::random(ResourceSite::cases());
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($site: ResourceSite!) {
                 findAnimeByExternalSite(site: $site) {
@@ -35,7 +33,7 @@ test('fails without id or link', function () {
 test('fails with for than 100 ids', function () {
     $resourceSite = Arr::random(ResourceSite::cases());
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($site: ResourceSite!, ids: [Int!]) {
                 findAnimeByExternalSite(site: $site, id: $ids) {
@@ -70,7 +68,7 @@ test('passes with id', function () {
         ->first()
         ->getAttribute(ExternalResource::ATTRIBUTE_SITE);
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($site: ResourceSite!, $externalId: [Int!]) {
                 findAnimeByExternalSite(site: $site, id: $externalId) {
@@ -107,7 +105,7 @@ test('passes with link', function () {
         ->first()
         ->getAttribute(ExternalResource::ATTRIBUTE_SITE);
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($site: ResourceSite!, $link: String) {
                 findAnimeByExternalSite(site: $site, link: $link) {

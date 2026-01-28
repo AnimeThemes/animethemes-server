@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Config;
 
-use function Pest\Laravel\post;
-
 test('searches attributes', function () {
     Config::set('scout.driver', 'collection');
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($search: String!) {
                 search(search: $search) {

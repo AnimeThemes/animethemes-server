@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
-use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\Auth;
 
-use function Pest\Laravel\post;
+use function Pest\Laravel\actingAs;
 
 test('client with no forwarded ip not rate limited', function () {
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '{ animePagination(first: 1) { data { id } } }',
     ]);
 
@@ -20,9 +20,9 @@ test('client with no forwarded ip not rate limited', function () {
 test('user with bypass not rate limited', function () {
     $user = User::factory()->withPermissions(SpecialPermission::BYPASS_GRAPHQL_RATE_LIMITER->value)->createOne();
 
-    Sanctum::actingAs($user);
+    actingAs($user);
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '{ animePagination(first: 1) { data { id } } }',
     ]);
 
@@ -42,7 +42,7 @@ test('forwarded ip rate limited per query', function () {
     $query .= '}';
 
     $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())
-        ->post(route('graphql'), [
+        ->postJson(route('graphql'), [
             'query' => $query,
         ]);
 
@@ -56,7 +56,7 @@ test('forwarded ip rate limited per query', function () {
 test('user without bypass rate limited per query', function () {
     $user = User::factory()->createOne();
 
-    Sanctum::actingAs($user);
+    actingAs($user);
 
     $count = fake()->numberBetween(1, 10);
 
@@ -70,7 +70,7 @@ test('user without bypass rate limited per query', function () {
 
     $response = $this->withServerVariables([
         'REMOTE_ADDR' => fake()->ipv4(),
-    ])->post(route('graphql'), [
+    ])->postJson(route('graphql'), [
         'query' => $query,
     ]);
 

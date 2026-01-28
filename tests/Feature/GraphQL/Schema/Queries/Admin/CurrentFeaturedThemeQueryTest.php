@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use App\Models\Admin\FeaturedTheme;
 
-use function Pest\Laravel\post;
-
 test('current featured theme', function () {
     FeaturedTheme::factory()
         ->sequence(fn () => [
@@ -17,7 +15,7 @@ test('current featured theme', function () {
 
     $featuredTheme = FeaturedTheme::factory()->create();
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query {
                 currentfeaturedtheme {
