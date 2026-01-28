@@ -14,9 +14,7 @@ class RequiresContentType
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! $request->isJson()) {
-            abort(422, 'Content-Type: application/json header is required.');
-        }
+        abort_unless($request->isJson(), 422, 'Content-Type: application/json header is required.');
 
         return $next($request);
     }
