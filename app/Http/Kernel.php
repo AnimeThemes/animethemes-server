@@ -7,6 +7,9 @@ namespace App\Http;
 use App\Http\Middleware\Api\SetAcceptJsonHeader;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Auth\RedirectIfAuthenticated;
+use App\Http\Middleware\GraphQL\RateLimitPerQuery;
+use App\Http\Middleware\GraphQL\RequiresContentType;
+use App\Http\Middleware\GraphQL\SetServingGraphQL;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\ThrottleRequestsWithService;
 use App\Http\Middleware\TrimStrings;
@@ -87,6 +90,20 @@ class Kernel extends HttpKernel
             'throttle:api',
             SubstituteBindings::class,
             LogRequest::class,
+        ],
+
+        'graphql' => [
+            RequiresContentType::class,
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            SubstituteBindings::class,
+
+            // Set the serving context to graphql.
+            SetServingGraphQL::class,
+            // Rate limiting GraphQL to prevent abuse.
+            RateLimitPerQuery::class,
         ],
     ];
 
