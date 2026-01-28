@@ -7,7 +7,7 @@ namespace App\GraphQL\Schema\Mutations\Models\List\ExternalProfile;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Features\AllowExternalProfileManagement;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Controllers\List\SyncExternalProfileController;
+use App\GraphQL\Resolvers\List\SyncExternalProfileResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
@@ -88,7 +88,7 @@ class SyncExternalProfileMutation extends BaseMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(SyncExternalProfileController::class)
+        return App::make(SyncExternalProfileResolver::class)
             ->store($root, $args);
     }
 }

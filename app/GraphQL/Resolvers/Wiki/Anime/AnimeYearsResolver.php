@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controllers\Wiki\Anime;
+namespace App\GraphQL\Resolvers\Wiki\Anime;
 
 use App\Actions\GraphQL\IndexAction;
-use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonsField;
@@ -21,9 +21,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * @extends BaseController<Anime>
+ * @extends BaseResolver<Anime>
  */
-class AnimeYearsController extends BaseController
+class AnimeYearsResolver extends BaseResolver
 {
     /**
      * @param  array<string, mixed>  $args

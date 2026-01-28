@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controllers\List;
+namespace App\GraphQL\Resolvers\List;
 
-use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\CreatePlaylistMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
 use App\Models\List\Playlist;
@@ -12,9 +12,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @extends BaseController<Playlist>
+ * @extends BaseResolver<Playlist>
  */
-class PlaylistController extends BaseController
+class PlaylistResolver extends BaseResolver
 {
     /**
      * @param  array<string, mixed>  $args

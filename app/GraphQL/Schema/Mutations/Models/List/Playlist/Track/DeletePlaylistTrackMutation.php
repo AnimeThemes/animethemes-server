@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Mutations\Models\List\Playlist\Track;
 
-use App\GraphQL\Controllers\List\Playlist\PlaylistTrackController;
+use App\GraphQL\Resolvers\List\Playlist\PlaylistTrackResolver;
 use App\GraphQL\Schema\Mutations\Models\DeleteMutation;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Schema\Types\MessageResponseType;
@@ -44,7 +44,7 @@ class DeletePlaylistTrackMutation extends DeleteMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(PlaylistTrackController::class)
+        return App::make(PlaylistTrackResolver::class)
             ->destroy($root, $args);
     }
 }

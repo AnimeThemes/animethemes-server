@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
+use App\GraphQL\Resolvers\Wiki\Anime\AnimeYearsResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -57,7 +57,7 @@ class AnimeYearSeasonField extends Field implements DisplayableField
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(AnimeYearsController::class)
+        return App::make(AnimeYearsResolver::class)
             ->resolveSeasonField($root, $args, $context, $resolveInfo);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\GraphQL\Fields;
 
-use App\GraphQL\Criteria\Sort\Sort;
+use App\GraphQL\Sort\Sort;
 
 interface SortableField
 {

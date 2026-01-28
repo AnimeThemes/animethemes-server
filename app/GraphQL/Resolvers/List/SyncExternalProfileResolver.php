@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controllers\List;
+namespace App\GraphQL\Resolvers\List;
 
 use App\Exceptions\GraphQL\ClientForbiddenException;
-use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Resolvers\BaseResolver;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
-class SyncExternalProfileController extends BaseController
+class SyncExternalProfileResolver extends BaseResolver
 {
     /**
      * Start a new sync job.

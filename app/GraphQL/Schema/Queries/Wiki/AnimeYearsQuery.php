@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Wiki;
 
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Controllers\Wiki\Anime\AnimeYearsController;
+use App\GraphQL\Resolvers\Wiki\Anime\AnimeYearsResolver;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYearType;
 use App\Models\Wiki\Anime;
@@ -69,7 +69,7 @@ class AnimeYearsQuery extends BaseQuery
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
-        return App::make(AnimeYearsController::class)
+        return App::make(AnimeYearsResolver::class)
             ->index($root, $args, $context, $resolveInfo);
     }
 }

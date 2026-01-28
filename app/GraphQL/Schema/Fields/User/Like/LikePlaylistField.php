@@ -7,7 +7,7 @@ namespace App\GraphQL\Schema\Fields\User\Like;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\DeletableField;
-use App\GraphQL\Controllers\User\LikeController;
+use App\GraphQL\Resolvers\User\LikeResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
@@ -47,9 +47,9 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     public function getCreationRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_ENTRY)->__toString(),
+            Str::of('prohibits:')->append(LikeResolver::ATTRIBUTE_ENTRY)->__toString(),
             'required_without_all:'.implode(',', [
-                LikeController::ATTRIBUTE_ENTRY,
+                LikeResolver::ATTRIBUTE_ENTRY,
             ]),
         ];
     }
@@ -60,9 +60,9 @@ class LikePlaylistField extends Field implements BindableField, CreatableField, 
     public function getDeleteRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_ENTRY)->__toString(),
+            Str::of('prohibits:')->append(LikeResolver::ATTRIBUTE_ENTRY)->__toString(),
             'required_without_all:'.implode(',', [
-                LikeController::ATTRIBUTE_ENTRY,
+                LikeResolver::ATTRIBUTE_ENTRY,
             ]),
         ];
     }

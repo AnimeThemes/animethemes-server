@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controllers;
+namespace App\GraphQL\Resolvers;
 
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 /**
  * @template TModel of \Illuminate\Database\Eloquent\Model
  */
-abstract class BaseController
+abstract class BaseResolver
 {
     final public const MODEL = 'model';
 

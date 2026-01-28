@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controllers\User;
+namespace App\GraphQL\Resolvers\User;
 
 use App\Contracts\Models\Likeable;
-use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\User\LikeMutation;
 use App\GraphQL\Schema\Mutations\Models\User\UnlikeMutation;
 use App\Models\User\Like;
@@ -14,9 +14,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @extends BaseController<Like>
+ * @extends BaseResolver<Like>
  */
-class LikeController extends BaseController
+class LikeResolver extends BaseResolver
 {
     final public const string ATTRIBUTE_ENTRY = 'entry';
     final public const string ATTRIBUTE_PLAYLIST = 'playlist';
