@@ -8,7 +8,7 @@ use App\Models\Auth\User;
 use Illuminate\Testing\TestResponse;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\post;
+use function Pest\Laravel\postJson;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +84,5 @@ function getViewPage(string $resource): string
 
 function graphql(array $data): TestResponse
 {
-    return post(route('graphql'), $data, [
-        'Content-Type' => 'application/json'
-    ]);
+    return postJson(route('graphql'), $data);
 }
