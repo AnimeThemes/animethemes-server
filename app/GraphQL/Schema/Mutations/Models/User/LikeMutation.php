@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Mutations\Models\User;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Controllers\User\LikeController;
+use App\GraphQL\Resolvers\User\LikeResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\User\LikeType;
@@ -77,7 +77,7 @@ class LikeMutation extends BaseMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(LikeController::class)
+        return App::make(LikeResolver::class)
             ->store($root, $args);
     }
 }

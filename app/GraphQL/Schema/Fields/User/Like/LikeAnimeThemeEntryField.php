@@ -7,7 +7,7 @@ namespace App\GraphQL\Schema\Fields\User\Like;
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\DeletableField;
-use App\GraphQL\Controllers\User\LikeController;
+use App\GraphQL\Resolvers\User\LikeResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use GraphQL\Type\Definition\Type;
@@ -47,9 +47,9 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     public function getCreationRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_PLAYLIST)->__toString(),
+            Str::of('prohibits:')->append(LikeResolver::ATTRIBUTE_PLAYLIST)->__toString(),
             'required_without_all:'.implode(',', [
-                LikeController::ATTRIBUTE_PLAYLIST,
+                LikeResolver::ATTRIBUTE_PLAYLIST,
             ]),
         ];
     }
@@ -60,9 +60,9 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     public function getDeleteRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeController::ATTRIBUTE_PLAYLIST)->__toString(),
+            Str::of('prohibits:')->append(LikeResolver::ATTRIBUTE_PLAYLIST)->__toString(),
             'required_without_all:'.implode(',', [
-                LikeController::ATTRIBUTE_PLAYLIST,
+                LikeResolver::ATTRIBUTE_PLAYLIST,
             ]),
         ];
     }

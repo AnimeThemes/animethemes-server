@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Controllers\List\Playlist;
+namespace App\GraphQL\Resolvers\List\Playlist;
 
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
-use App\GraphQL\Controllers\BaseController;
+use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\Models\List\Playlist;
@@ -15,9 +15,9 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
 
 /**
- * @extends BaseController<PlaylistTrack>
+ * @extends BaseResolver<PlaylistTrack>
  */
-class PlaylistTrackController extends BaseController
+class PlaylistTrackResolver extends BaseResolver
 {
     /**
      * @param  array<string, mixed>  $args

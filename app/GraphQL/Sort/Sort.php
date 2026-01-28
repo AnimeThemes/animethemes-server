@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Criteria\Sort;
+namespace App\GraphQL\Sort;
 
 use App\Enums\GraphQL\QualifyColumn;
 

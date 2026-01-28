@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Mutations\Models\List\Playlist;
 
-use App\GraphQL\Controllers\List\PlaylistController;
+use App\GraphQL\Resolvers\List\PlaylistResolver;
 use App\GraphQL\Schema\Mutations\Models\CreateMutation;
 use App\GraphQL\Schema\Types\List\PlaylistType;
 use App\Models\List\Playlist;
@@ -36,7 +36,7 @@ class CreatePlaylistMutation extends CreateMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(PlaylistController::class)
+        return App::make(PlaylistResolver::class)
             ->store($root, $args);
     }
 }

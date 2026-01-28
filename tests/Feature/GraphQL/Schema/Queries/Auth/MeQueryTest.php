@@ -5,10 +5,9 @@ declare(strict_types=1);
 use App\Models\Auth\User;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\post;
 
 test('unauthenticated returns null', function () {
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query {
                 me {
@@ -31,7 +30,7 @@ test('authenticated returns user', function () {
 
     actingAs($user);
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query {
                 me {

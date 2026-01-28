@@ -7,8 +7,8 @@ namespace App\GraphQL\Schema\Fields;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\SortableField;
-use App\GraphQL\Criteria\Sort\Sort;
 use App\GraphQL\Filter\BooleanFilter;
+use App\GraphQL\Sort\Sort;
 use GraphQL\Type\Definition\Type;
 
 abstract class BooleanField extends Field implements DisplayableField, FilterableField, SortableField

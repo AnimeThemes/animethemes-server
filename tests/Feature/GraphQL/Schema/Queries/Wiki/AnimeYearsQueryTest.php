@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
 
-use function Pest\Laravel\post;
-
 test('query season & seasons field', function () {
     $animes = Anime::factory()
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($season: AnimeSeason!) {
                 animeyears {
@@ -49,7 +47,7 @@ test('fails query season anime field without year', function () {
         ->count(fake()->randomDigitNotNull())
         ->create();
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($season: AnimeSeason!) {
                 animeyears {
@@ -93,7 +91,7 @@ test('query season anime field with year', function () {
 
     $random = $animes->random();
 
-    $response = post(route('graphql'), [
+    $response = graphql([
         'query' => '
             query($season: AnimeSeason!, $year: [Int!]) {
                 animeyears(year: $year) {

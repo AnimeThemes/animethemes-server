@@ -94,14 +94,16 @@ class Kernel extends HttpKernel
 
         'graphql' => [
             RequiresContentType::class,
+
+            // Set the serving context to graphql.
+            SetServingGraphQL::class,
+
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
             SubstituteBindings::class,
 
-            // Set the serving context to graphql.
-            SetServingGraphQL::class,
             // Rate limiting GraphQL to prevent abuse.
             RateLimitPerQuery::class,
         ],
