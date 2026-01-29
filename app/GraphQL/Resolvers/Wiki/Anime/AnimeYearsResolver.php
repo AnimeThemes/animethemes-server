@@ -13,6 +13,7 @@ use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearYearField;
 use App\GraphQL\Schema\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
 use App\Models\Wiki\Anime;
+use App\Rules\GraphQL\Resolver\AnimeYearRule;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,21 +35,8 @@ class AnimeYearsResolver extends BaseResolver
 
         $fieldSelection = $resolveInfo->getFieldSelection(1);
 
-        // Restrict 'animes' field to a unique year.
-        Validator::make(
-            [
-                'year' => $year,
-            ],
-            [
-                'year' => [
-                    function ($attribute, $value, $fail) use ($fieldSelection): void {
-                        if (($value === null || count($value) > 1) && (Arr::get($fieldSelection, 'season.anime') || Arr::get($fieldSelection, 'seasons.anime'))) {
-                            $fail('Exactly one year is required when requesting anime.');
-                        }
-                    },
-                ],
-            ]
-        )->validate();
+        Validator::make(['year' => $year], [new AnimeYearRule($fieldSelection)])
+            ->validate();
 
         return Anime::query()
             ->distinct([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])

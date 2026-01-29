@@ -14,13 +14,13 @@ use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Fields\StringField;
 use App\GraphQL\Schema\Types\BaseType;
+use App\Rules\GraphQL\Argument\FirstArgumentRule;
 use App\Search\Criteria;
 use App\Search\Search;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 class IndexAction
@@ -58,20 +58,12 @@ class IndexAction
                 $this->constrainEagerLoads($builder, $resolveInfo, $type);
             });
 
+        // Note: First for searching must not be too high.
         $first = min(100, Arr::get($args, 'first'));
         $page = Arr::get($args, 'page', 1);
 
-        $maxCount = Config::get('graphql.pagination_values.max_count');
-
         Validator::make(['first' => $first], [
-            'first' => [
-                'required', 'integer', 'min:1',
-                function ($attribute, $value, $fail) use ($maxCount, $first): void {
-                    if ($maxCount !== null && $value > $maxCount) {
-                        $fail("You may request at most {$maxCount} items. Got {$first}. Fetch in smaller chuncks.");
-                    }
-                },
-            ],
+            'first' => ['required', 'integer', 'min:1', new FirstArgumentRule()],
         ])->validate();
 
         $searchBuilder->withPagination($first, $page);
