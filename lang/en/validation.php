@@ -183,6 +183,10 @@ return [
     'ulid' => 'The :attribute must be a valid ULID.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+    'graphql' => [
+        'anime_year_query' => 'Exactly one year is required when requesting anime.'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
