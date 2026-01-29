@@ -19,7 +19,7 @@ readonly class FirstArgumentRule implements ValidationRule
         $maxCount = Config::get('graphql.pagination_values.max_count');
         $maxCount = 10;
 
-        if ($maxCount !== null && $value > $maxCount) {
+        if ($value > $maxCount) {
             $fail(__('validation.max.numeric', ['max' => $maxCount]));
         }
     }

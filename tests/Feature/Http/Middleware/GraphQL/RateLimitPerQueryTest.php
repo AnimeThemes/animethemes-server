@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
-use Illuminate\Support\Facades\Auth;
 
 use function Pest\Laravel\actingAs;
 

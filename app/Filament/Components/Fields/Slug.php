@@ -10,9 +10,9 @@ class Slug extends TextInput
     {
         parent::setUp();
 
-         $this->required();
-         $this->maxLength(192);
-         $this->unique();
-         $this->alphaDash();
+        $this->required();
+        $this->maxLength(192);
+        $this->unique();
+        $this->alphaDash();
     }
 }
