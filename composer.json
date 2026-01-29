@@ -62,7 +62,6 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16.5",
         "driftingly/rector-laravel": "^2.1.9",
-        "filament/upgrade": "5.0",
         "laravel/pint": "^1.27.0",
         "laravel/sail": "^1.52.0",
         "mockery/mockery": "^1.6.12",
