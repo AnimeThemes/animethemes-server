@@ -11,6 +11,7 @@ use App\Contracts\Models\HasResources;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
+use App\Events\Wiki\Artist\ArtistForceDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
@@ -110,6 +111,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
     protected $dispatchesEvents = [
         'created' => ArtistCreated::class,
         'deleted' => ArtistDeleted::class,
+        'forceDeleted' => ArtistForceDeleted::class,
         'restored' => ArtistRestored::class,
         'updated' => ArtistUpdated::class,
     ];

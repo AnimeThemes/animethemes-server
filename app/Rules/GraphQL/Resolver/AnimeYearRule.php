@@ -11,7 +11,7 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 readonly class AnimeYearRule implements ValidationRule
 {
-    protected function __construct(protected array $fieldSelection) {}
+    public function __construct(protected array $fieldSelection) {}
 
     /**
      * Restrict 'animes' field to a unique year.
