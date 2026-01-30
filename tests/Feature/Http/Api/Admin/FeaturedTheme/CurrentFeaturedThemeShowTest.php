@@ -52,17 +52,11 @@ test('not found if theme end at before now', function () {
 
 test('default', function () {
     Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
-            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 year', '+2 years'),
-        ]);
+        FeaturedTheme::factory()->future()->create();
     });
 
     Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('-2 years', '-1 year'),
-            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-1 year', '-1 day'),
-        ]);
+        FeaturedTheme::factory()->past()->create();
     });
 
     $currentTheme = FeaturedTheme::factory()->create();

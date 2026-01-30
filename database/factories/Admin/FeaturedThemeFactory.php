@@ -35,4 +35,26 @@ class FeaturedThemeFactory extends Factory
             FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
         ];
     }
+
+    /**
+     * Set the featured theme time to past.
+     */
+    public function past(): static
+    {
+        return $this->state([
+            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-2 years', '-1 year')->format(AllowedDateFormat::YMDHISU->value),
+            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('-3 years', '-2 years')->format(AllowedDateFormat::YMDHISU->value),
+        ]);
+    }
+
+    /**
+     * Set the featured theme time to future.
+     */
+    public function future(): static
+    {
+        return $this->state([
+            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 year', '+2 years')->format(AllowedDateFormat::YMDHISU->value),
+            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
+        ]);
+    }
 }
