@@ -14,7 +14,7 @@ use App\Models\Wiki\Song\Performance;
 /**
  * @extends WikiDeletedEvent<Artist>
  */
-class ArtistDeleted extends WikiDeletedEvent implements CascadesDeletesEvent
+class ArtistForceDeleted extends WikiDeletedEvent implements CascadesDeletesEvent
 {
     protected function getDiscordMessageDescription(): string
     {
@@ -23,7 +23,7 @@ class ArtistDeleted extends WikiDeletedEvent implements CascadesDeletesEvent
 
     protected function getNotificationMessage(): string
     {
-        return "Artist '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
+        return "Artist '{$this->getModel()->getName()}' has been deleted.";
     }
 
     protected function getFilamentNotificationUrl(): string
@@ -39,18 +39,18 @@ class ArtistDeleted extends WikiDeletedEvent implements CascadesDeletesEvent
             Artist::RELATION_GROUPSHIPS_PERFORMANCES,
         ]);
 
-        $this->getModel()->performances->each(fn (Performance $performance) => $performance->delete());
+        $this->getModel()->performances->each(fn (Performance $performance) => $performance->forceDelete());
 
         $this->getModel()->memberships->each(function (Membership $membership) {
-            $membership->performances->each(fn (Performance $performance) => $performance->delete());
+            $membership->performances->each(fn (Performance $performance) => $performance->forceDelete());
 
-            $membership->delete();
+            $membership->forceDelete();
         });
 
         $this->getModel()->groupships->each(function (Membership $membership) {
-            $membership->performances->each(fn (Performance $performance) => $performance->delete());
+            $membership->performances->each(fn (Performance $performance) => $performance->forceDelete());
 
-            $membership->delete();
+            $membership->forceDelete();
         });
     }
 }

@@ -34,11 +34,9 @@ class FeaturedThemeEndAtField extends DateTimeTzField implements CreatableField,
 
         return [
             'required',
+            'after:'.FeaturedTheme::ATTRIBUTE_START_AT,
             Str::of('date_format:')
                 ->append(implode(',', $allowedDateFormats))
-                ->__toString(),
-            Str::of('after:')
-                ->append(Arr::get($args, FeaturedTheme::ATTRIBUTE_START_AT))
                 ->__toString(),
         ];
     }
@@ -53,11 +51,9 @@ class FeaturedThemeEndAtField extends DateTimeTzField implements CreatableField,
         return [
             'sometimes',
             'required',
+            'after:'.FeaturedTheme::ATTRIBUTE_START_AT,
             Str::of('date_format:')
                 ->append(implode(',', $allowedDateFormats))
-                ->__toString(),
-            Str::of('after:')
-                ->append(Arr::get($args, FeaturedTheme::ATTRIBUTE_START_AT))
                 ->__toString(),
         ];
     }
