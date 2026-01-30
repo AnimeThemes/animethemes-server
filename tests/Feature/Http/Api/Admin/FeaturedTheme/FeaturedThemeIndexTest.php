@@ -46,12 +46,7 @@ test('default', function () {
     Collection::times(fake()->randomDigitNotNull(), function () {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
-        ]);
-    });
-
-    Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => null,
+            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+2 years', '+3 years'),
         ]);
     });
 
