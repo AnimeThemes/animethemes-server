@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->id('theme_id');
                 $table->timestamps(6);
                 $table->softDeletes(precision: 6);
-                $table->integer('type')->nullable();
+                $table->integer('type');
                 $table->integer('sequence')->nullable();
                 $table->string('slug');
 

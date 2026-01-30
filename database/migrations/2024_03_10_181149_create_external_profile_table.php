@@ -19,10 +19,10 @@ return new class extends Migration
                 $table->id('profile_id');
                 $table->string('name');
                 $table->integer('site');
-                $table->integer('visibility')->default(1);
+                $table->integer('visibility');
 
                 $table->unsignedBigInteger('user_id')->nullable();
-                $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+                $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
 
                 $table->timestamp('synced_at', 6)->nullable();
                 $table->integer('external_user_id')->nullable();

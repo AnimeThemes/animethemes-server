@@ -28,7 +28,7 @@ return new class extends Migration
                 $table->boolean('subbed')->default(false);
                 $table->boolean('lyrics')->default(false);
                 $table->boolean('uncen')->default(false);
-                $table->integer('overlap')->default(0);
+                $table->integer('overlap');
                 $table->integer('source')->nullable();
             });
         }

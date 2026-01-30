@@ -30,7 +30,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property string $artist_type
  * @property int $artist_id
  * @property Artist|Membership $artist
- * @property int|null $relevance
+ * @property int $relevance
  * @property Song $song
  *
  * @method static PerformanceFactory factory(...$parameters)
@@ -98,6 +98,15 @@ class Performance extends BaseModel implements Auditable, SoftDeletable
         Performance::ATTRIBUTE_ALIAS,
         Performance::ATTRIBUTE_AS,
         Performance::ATTRIBUTE_RELEVANCE,
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        Performance::ATTRIBUTE_RELEVANCE => 1,
     ];
 
     public function getName(): string

@@ -13,7 +13,7 @@ class PerformanceRelevanceField extends IntField implements CreatableField, Upda
 {
     public function __construct()
     {
-        parent::__construct(Performance::ATTRIBUTE_RELEVANCE);
+        parent::__construct(Performance::ATTRIBUTE_RELEVANCE, nullable: false);
     }
 
     public function description(): string

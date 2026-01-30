@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Artist $member
  * @property int $member_id
  * @property string|null $notes
- * @property int|null $relevance
+ * @property int $relevance
  *
  * @method static ArtistMemberFactory factory(...$parameters)
  */
@@ -70,6 +70,15 @@ class ArtistMember extends BasePivot
         ArtistMember::ATTRIBUTE_MEMBER,
         ArtistMember::ATTRIBUTE_NOTES,
         ArtistMember::ATTRIBUTE_RELEVANCE,
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        ArtistMember::ATTRIBUTE_RELEVANCE => 1,
     ];
 
     /**

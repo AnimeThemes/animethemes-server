@@ -57,7 +57,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  * @property Collection<int, ExternalResource> $resources
  * @property bool $spoiler
  * @property int $theme_id
- * @property int|null $version
+ * @property int $version
  * @property Collection<int, Video> $videos
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
@@ -138,6 +138,15 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     ];
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        AnimeThemeEntry::ATTRIBUTE_VERSION => 1,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -176,7 +185,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
         $array['theme'] = $theme->toSearchableArray();
 
         // Overwrite version with readable format "v{#}"
-        $array['version'] = Str::of(blank($this->version) ? '1' : $this->version)->prepend('v')->__toString();
+        $array['version'] = Str::of(strval($this->version))->prepend('v')->__toString();
 
         return $array;
     }

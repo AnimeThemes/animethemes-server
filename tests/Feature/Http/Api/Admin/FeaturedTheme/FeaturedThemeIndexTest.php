@@ -44,15 +44,7 @@ test('default', function () {
     $featuredThemes = FeaturedTheme::factory()->count($publicCount)->create();
 
     Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
-        ]);
-    });
-
-    Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => null,
-        ]);
+        FeaturedTheme::factory()->future();
     });
 
     $response = get(route('api.featuredtheme.index'));

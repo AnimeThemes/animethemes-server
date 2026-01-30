@@ -20,6 +20,7 @@ use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\SongFactory;
+use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -131,6 +132,7 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     /**
      * @return BelongsToMany<Artist, $this, ArtistSong>
      */
+    #[Deprecated]
     public function artists(): BelongsToMany
     {
         return $this->belongsToMany(Artist::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_SONG, ArtistSong::ATTRIBUTE_ARTIST)

@@ -46,7 +46,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property DiscordThread|null $discordthread
  * @property Collection<int, ExternalEntry> $externalentries
  * @property Collection<int, Image> $images
- * @property AnimeMediaFormat $media_format
+ * @property AnimeMediaFormat|null $media_format
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
  * @property AnimeSeason|null $season

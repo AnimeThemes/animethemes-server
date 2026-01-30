@@ -24,7 +24,6 @@ return [
         ActionLogStatus::FINISHED->name => 'Finished',
     ],
     AnimeMediaFormat::class => [
-        AnimeMediaFormat::UNKNOWN->name => 'Unknown',
         AnimeMediaFormat::TV->name => 'TV',
         AnimeMediaFormat::TV_SHORT->name => 'TV Short',
         AnimeMediaFormat::OVA->name => 'OVA',

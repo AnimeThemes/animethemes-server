@@ -18,8 +18,8 @@ return new class extends Migration
                 $table->bigIncrements('id');
                 $table->string('batch_id');
 
-                $table->unsignedBigInteger('user_id');
-                $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
 
                 $table->string('name');
                 $table->morphs('actionable');

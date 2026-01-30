@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->id('entry_id');
                 $table->timestamps(6);
                 $table->softDeletes(precision: 6);
-                $table->integer('version')->nullable();
+                $table->integer('version');
                 $table->string('episodes')->nullable();
                 $table->boolean('nsfw')->default(false);
                 $table->boolean('spoiler')->default(false);

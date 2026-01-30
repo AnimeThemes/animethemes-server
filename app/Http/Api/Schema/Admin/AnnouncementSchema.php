@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\Admin;
 
 use App\Http\Api\Field\Admin\Announcement\AnnouncementContentField;
+use App\Http\Api\Field\Admin\Announcement\AnnouncementEndAtField;
+use App\Http\Api\Field\Admin\Announcement\AnnouncementStartAtField;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Base\UpdatedAtField;
@@ -38,6 +40,8 @@ class AnnouncementSchema extends EloquentSchema
             new CreatedAtField($this),
             new UpdatedAtField($this),
             new IdField($this, Announcement::ATTRIBUTE_ID),
+            new AnnouncementStartAtField($this),
+            new AnnouncementEndAtField($this),
             new AnnouncementContentField($this),
         ];
     }

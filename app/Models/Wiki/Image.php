@@ -28,7 +28,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
- * @property ImageFacet|null $facet
+ * @property ImageFacet $facet
  * @property int $image_id
  * @property string $link
  * @property string $mimetype

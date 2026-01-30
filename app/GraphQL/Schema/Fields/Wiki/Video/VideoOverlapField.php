@@ -16,7 +16,7 @@ class VideoOverlapField extends EnumField implements CreatableField, RequiredOnC
 {
     public function __construct()
     {
-        parent::__construct(Video::ATTRIBUTE_OVERLAP, VideoOverlap::class);
+        parent::__construct(Video::ATTRIBUTE_OVERLAP, VideoOverlap::class, nullable: false);
     }
 
     public function description(): string

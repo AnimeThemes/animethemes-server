@@ -13,7 +13,7 @@ class ImageableDepthField extends IntField implements CreatableField, UpdatableF
 {
     public function __construct()
     {
-        parent::__construct(Imageable::ATTRIBUTE_DEPTH);
+        parent::__construct(Imageable::ATTRIBUTE_DEPTH, nullable: false);
     }
 
     public function description(): string

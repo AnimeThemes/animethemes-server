@@ -11,7 +11,7 @@ class RolePriorityField extends IntField
 {
     public function __construct()
     {
-        parent::__construct(Role::ATTRIBUTE_PRIORITY);
+        parent::__construct(Role::ATTRIBUTE_PRIORITY, nullable: false);
     }
 
     public function description(): string

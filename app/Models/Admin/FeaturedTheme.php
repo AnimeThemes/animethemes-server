@@ -21,11 +21,11 @@ use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * @property Carbon|null $end_at
+ * @property Carbon $end_at
  * @property AnimeThemeEntry|null $animethemeentry
  * @property int $entry_id
  * @property int $feature_id
- * @property Carbon|null $start_at
+ * @property Carbon $start_at
  * @property User|null $user
  * @property int|null $user_id
  * @property Video|null $video

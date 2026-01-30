@@ -30,26 +30,6 @@ test('not found if no featured themes', function () {
     $response->assertNotFound();
 });
 
-test('not found if theme start at null', function () {
-    FeaturedTheme::factory()->create([
-        FeaturedTheme::ATTRIBUTE_START_AT => null,
-    ]);
-
-    $response = get(route('api.featuredtheme.current.show'));
-
-    $response->assertNotFound();
-});
-
-test('not found if theme end at null', function () {
-    FeaturedTheme::factory()->create([
-        FeaturedTheme::ATTRIBUTE_END_AT => null,
-    ]);
-
-    $response = get(route('api.featuredtheme.current.show'));
-
-    $response->assertNotFound();
-});
-
 test('not found if theme start at after now', function () {
     FeaturedTheme::factory()->create([
         FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
@@ -72,27 +52,11 @@ test('not found if theme end at before now', function () {
 
 test('default', function () {
     Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => null,
-        ]);
+        FeaturedTheme::factory()->future()->create();
     });
 
     Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_END_AT => null,
-        ]);
-    });
-
-    Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween('+1 day', '+1 year'),
-        ]);
-    });
-
-    Collection::times(fake()->randomDigitNotNull(), function () {
-        FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('-1 year', '-1 day'),
-        ]);
+        FeaturedTheme::factory()->past()->create();
     });
 
     $currentTheme = FeaturedTheme::factory()->create();

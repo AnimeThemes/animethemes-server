@@ -20,8 +20,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @property int $announcement_id
  * @property string $content
- * @property Carbon|null $end_at
- * @property Carbon|null $start_at
+ * @property Carbon $end_at
+ * @property Carbon $start_at
  *
  * @method static AnnouncementFactory factory(...$parameters)
  * @method static Builder<Announcement> current()

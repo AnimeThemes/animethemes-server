@@ -20,7 +20,7 @@ return new class extends Migration
                 $table->string('name');
 
                 $table->unsignedBigInteger('anime_id');
-                $table->foreign('anime_id')->references('anime_id')->on('anime')->cascadeOnDelete();
+                $table->foreign('anime_id')->references('anime_id')->on('anime');
             });
         }
     }

@@ -160,6 +160,15 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
     ];
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

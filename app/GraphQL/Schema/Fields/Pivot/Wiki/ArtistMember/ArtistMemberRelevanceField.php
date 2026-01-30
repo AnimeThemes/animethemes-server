@@ -13,7 +13,7 @@ class ArtistMemberRelevanceField extends IntField implements CreatableField, Upd
 {
     public function __construct()
     {
-        parent::__construct(ArtistMember::ATTRIBUTE_RELEVANCE);
+        parent::__construct(ArtistMember::ATTRIBUTE_RELEVANCE, nullable: false);
     }
 
     public function description(): string
