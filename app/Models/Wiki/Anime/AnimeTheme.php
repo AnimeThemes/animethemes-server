@@ -47,7 +47,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Song|null $song
  * @property int|null $song_id
  * @property int $theme_id
- * @property ThemeType|null $type
+ * @property ThemeType $type
  *
  * @method static AnimeThemeFactory factory(...$parameters)
  */

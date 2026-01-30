@@ -28,9 +28,9 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
  * @property int|null $external_id
- * @property Uri|null $link
+ * @property Uri $link
  * @property int $resource_id
- * @property ResourceSite|null $site
+ * @property ResourceSite $site
  * @property Collection<int, Song> $songs
  * @property Collection<int, Studio> $studios
  *

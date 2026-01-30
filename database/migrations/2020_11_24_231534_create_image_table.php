@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->timestamps(6);
                 $table->softDeletes(precision: 6);
                 $table->string('path');
-                $table->integer('facet')->nullable();
+                $table->integer('facet');
             });
         }
     }

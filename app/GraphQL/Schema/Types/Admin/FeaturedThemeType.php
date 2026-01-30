@@ -33,10 +33,8 @@ class FeaturedThemeType extends EloquentType
     public function relations(): array
     {
         return [
-            new BelongsToRelation(new AnimeThemeEntryType(), FeaturedTheme::RELATION_ENTRY)
-                ->notNullable(),
-            new BelongsToRelation(new VideoType(), FeaturedTheme::RELATION_VIDEO)
-                ->notNullable(),
+            new BelongsToRelation(new AnimeThemeEntryType(), FeaturedTheme::RELATION_ENTRY),
+            new BelongsToRelation(new VideoType(), FeaturedTheme::RELATION_VIDEO),
             new BelongsToRelation(new UserType(), FeaturedTheme::RELATION_USER),
         ];
     }

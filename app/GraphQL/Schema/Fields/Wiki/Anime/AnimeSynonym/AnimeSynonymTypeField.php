@@ -16,7 +16,7 @@ class AnimeSynonymTypeField extends EnumField implements CreatableField, Require
 {
     public function __construct()
     {
-        parent::__construct(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::class);
+        parent::__construct(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::class, nullable: false);
     }
 
     public function description(): string

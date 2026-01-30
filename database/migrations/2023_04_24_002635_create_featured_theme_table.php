@@ -17,8 +17,8 @@ return new class extends Migration
             Schema::create('featured_themes', function (Blueprint $table) {
                 $table->id('featured_theme_id');
                 $table->timestamps(6);
-                $table->timestamp('start_at', 6)->nullable();
-                $table->timestamp('end_at', 6)->nullable();
+                $table->timestamp('start_at', 6);
+                $table->timestamp('end_at', 6);
 
                 $table->unsignedBigInteger('user_id')->nullable();
                 $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();

@@ -18,8 +18,8 @@ return new class extends Migration
                 $table->id('resource_id');
                 $table->timestamps(6);
                 $table->softDeletes(precision: 6);
-                $table->integer('site')->nullable();
-                $table->string('link')->nullable();
+                $table->integer('site');
+                $table->string('link');
                 $table->integer('external_id')->nullable();
             });
         }

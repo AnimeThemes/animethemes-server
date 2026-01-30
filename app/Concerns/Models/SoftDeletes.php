@@ -21,7 +21,7 @@ trait SoftDeletes
 
     public const ATTRIBUTE_DELETED_AT = ModelConstants::ATTRIBUTE_DELETED_AT;
 
-    public function restore(): ?bool
+    public function restore(): bool
     {
         // If the restoring event does not return false, we will proceed with this
         // restore operation. Otherwise, we bail out so the developer will stop

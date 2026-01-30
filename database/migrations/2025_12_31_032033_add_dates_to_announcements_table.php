@@ -15,8 +15,8 @@ return new class extends Migration
     {
         if (! Schema::hasColumns('announcements', ['start_at', 'end_at'])) {
             Schema::table('announcements', function (Blueprint $table) {
-                $table->timestamp('start_at', 6)->nullable()->after('updated_at');
-                $table->timestamp('end_at', 6)->nullable()->after('start_at');
+                $table->timestamp('start_at', 6)->after('updated_at');
+                $table->timestamp('end_at', 6)->after('start_at');
             });
         }
     }

@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('name');
                 $table->integer('year')->nullable();
                 $table->integer('season')->nullable();
-                $table->integer('media_format')->default(0);
+                $table->integer('media_format')->nullable();
                 $table->text('synopsis')->nullable();
             });
         }

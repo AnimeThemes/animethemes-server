@@ -10,7 +10,6 @@ use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\GraphQL\Schema\Fields\DateTimeTzField;
 use App\Models\Admin\FeaturedTheme;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class FeaturedThemeStartAtField extends DateTimeTzField implements CreatableField, RequiredOnCreation, UpdatableField

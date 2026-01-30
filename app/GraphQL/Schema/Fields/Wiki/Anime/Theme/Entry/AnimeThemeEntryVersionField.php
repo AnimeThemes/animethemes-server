@@ -13,7 +13,7 @@ class AnimeThemeEntryVersionField extends IntField implements CreatableField, Up
 {
     public function __construct()
     {
-        parent::__construct(AnimeThemeEntry::ATTRIBUTE_VERSION);
+        parent::__construct(AnimeThemeEntry::ATTRIBUTE_VERSION, nullable: false);
     }
 
     public function description(): string

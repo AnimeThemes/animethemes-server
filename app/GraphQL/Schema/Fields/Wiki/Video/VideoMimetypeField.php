@@ -11,7 +11,7 @@ class VideoMimetypeField extends StringField
 {
     public function __construct()
     {
-        parent::__construct(Video::ATTRIBUTE_MIMETYPE);
+        parent::__construct(Video::ATTRIBUTE_MIMETYPE, nullable: false);
     }
 
     public function description(): string

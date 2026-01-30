@@ -11,7 +11,7 @@ class VideoSizeField extends IntField
 {
     public function __construct()
     {
-        parent::__construct(Video::ATTRIBUTE_SIZE);
+        parent::__construct(Video::ATTRIBUTE_SIZE, nullable: false);
     }
 
     public function description(): string

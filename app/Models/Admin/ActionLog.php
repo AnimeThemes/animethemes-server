@@ -40,8 +40,8 @@ use Throwable;
  * @property Carbon|null $finished_at
  * @property ActionLogStatus $status
  * @property Model $target
- * @property int $user_id
- * @property User $user
+ * @property int|null $user_id
+ * @property User|null $user
  */
 #[ObservedBy(ActionLogObserver::class)]
 class ActionLog extends Model implements Nameable

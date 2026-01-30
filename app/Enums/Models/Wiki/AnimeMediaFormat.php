@@ -11,11 +11,10 @@ enum AnimeMediaFormat: int implements HasLabel
 {
     use LocalizesName;
 
-    case UNKNOWN = 0;
-    case TV = 1;
-    case TV_SHORT = 2;
-    case OVA = 3;
-    case MOVIE = 4;
-    case SPECIAL = 5;
-    case ONA = 6;
+    case TV = 0;
+    case TV_SHORT = 1;
+    case OVA = 2;
+    case MOVIE = 3;
+    case SPECIAL = 4;
+    case ONA = 5;
 }

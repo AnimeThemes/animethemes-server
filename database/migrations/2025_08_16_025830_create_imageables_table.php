@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->foreign('image_id')->references('image_id')->on('images')->cascadeOnDelete();
 
                 $table->morphs('imageable');
-                $table->integer('depth')->nullable();
+                $table->integer('depth');
 
                 $table->timestamps(6);
 

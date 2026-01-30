@@ -33,17 +33,17 @@ class ArtistRestored extends WikiRestoredEvent implements CascadesRestoresEvent
             ->performances()
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->get()
-            ->each(fn (Performance $performance) => $performance->restore());
+            ->each(fn (Performance $performance): bool => $performance->restore());
 
         $this->getModel()
             ->memberships()
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->get()
-            ->each(function (Membership $membership) {
+            ->each(function (Membership $membership): void {
                 $membership->performances()
                     ->withoutGlobalScope(SoftDeletingScope::class)
                     ->get()
-                    ->each(fn (Performance $performance) => $performance->restore());
+                    ->each(fn (Performance $performance): bool => $performance->restore());
 
                 $membership->restore();
             });
@@ -52,11 +52,11 @@ class ArtistRestored extends WikiRestoredEvent implements CascadesRestoresEvent
             ->groupships()
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->get()
-            ->each(function (Membership $membership) {
+            ->each(function (Membership $membership): void {
                 $membership->performances()
                     ->withoutGlobalScope(SoftDeletingScope::class)
                     ->get()
-                    ->each(fn (Performance $performance) => $performance->restore());
+                    ->each(fn (Performance $performance): bool => $performance->restore());
 
                 $membership->restore();
             });

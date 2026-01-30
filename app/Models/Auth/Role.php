@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role as BaseRole;
 
 /**
- * @property string $color
+ * @property string|null $color
  * @property bool $default
  * @property Carbon $created_at
  * @property string $guard_name

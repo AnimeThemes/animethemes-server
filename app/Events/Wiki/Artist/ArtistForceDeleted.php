@@ -41,13 +41,13 @@ class ArtistForceDeleted extends WikiDeletedEvent implements CascadesDeletesEven
 
         $this->getModel()->performances->each(fn (Performance $performance) => $performance->forceDelete());
 
-        $this->getModel()->memberships->each(function (Membership $membership) {
+        $this->getModel()->memberships->each(function (Membership $membership): void {
             $membership->performances->each(fn (Performance $performance) => $performance->forceDelete());
 
             $membership->forceDelete();
         });
 
-        $this->getModel()->groupships->each(function (Membership $membership) {
+        $this->getModel()->groupships->each(function (Membership $membership): void {
             $membership->performances->each(fn (Performance $performance) => $performance->forceDelete());
 
             $membership->forceDelete();

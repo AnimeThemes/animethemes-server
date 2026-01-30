@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property Model&HasImages&Nameable $imageable
  * @property string $imageable_type
  * @property int $imageable_id
- * @property int|null $depth
+ * @property int $depth
  * @property Image $image
  * @property int $image_id
  *
@@ -84,6 +84,15 @@ class Imageable extends BaseMorphPivot
         Imageable::ATTRIBUTE_IMAGE,
         Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
         Imageable::ATTRIBUTE_IMAGEABLE_ID,
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        Imageable::ATTRIBUTE_DEPTH => 1,
     ];
 
     /**

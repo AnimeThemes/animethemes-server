@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->timestamps(6);
                 $table->softDeletes(precision: 6);
                 $table->string('text')->nullable();
-                $table->integer('type')->default(0);
+                $table->integer('type');
 
                 $table->unsignedBigInteger('anime_id');
                 $table->foreign('anime_id')->references('anime_id')->on('anime')->cascadeOnDelete();

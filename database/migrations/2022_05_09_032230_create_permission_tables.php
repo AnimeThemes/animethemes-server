@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
             $table->boolean('default')->default(false);
             $table->string('color')->nullable();
-            $table->integer('priority')->nullable();
+            $table->integer('priority');
             $table->timestamps();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
