@@ -15,7 +15,7 @@ return new class extends Migration
     {
         if (! Schema::hasColumn('performances', 'relevance')) {
             Schema::table('performances', function (Blueprint $table) {
-                $table->integer('relevance')->after('as');
+                $table->integer('relevance')->default(1)->after('as');
             });
         }
     }

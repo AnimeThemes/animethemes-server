@@ -562,7 +562,7 @@ return [
                 'name' => 'Spoiler',
             ],
             'version' => [
-                'help' => 'The Version number of the Theme. Can be left blank if there is only one version. Version is only required if there exist at least 2 in the sequence.',
+                'help' => 'The Version number of the Theme.',
                 'name' => 'Version',
             ],
             'youtube' => [

@@ -122,8 +122,7 @@ class UploadVideoAction extends UploadAction
                                         Select::make(Video::ATTRIBUTE_SOURCE)
                                             ->label(__('filament.fields.video.source.name'))
                                             ->helperText(__('filament.fields.video.source.help'))
-                                            ->options(VideoSource::class)
-                                            ->required(),
+                                            ->options(VideoSource::class),
                                     ]),
 
                                 Section::make(__('filament.resources.singularLabel.video_script'))

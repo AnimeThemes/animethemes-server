@@ -11,7 +11,6 @@ use App\Http\Api\Field\DateField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Admin\Announcement;
-use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

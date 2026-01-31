@@ -36,15 +36,6 @@ class Role extends BaseRole implements Nameable
     final public const string RELATION_USERS = 'users';
 
     /**
-     * The model's default values for attributes.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        Role::ATTRIBUTE_PRIORITY => 0,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

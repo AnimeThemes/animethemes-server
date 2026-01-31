@@ -27,7 +27,6 @@ class AnimeThemeEntryVersionField extends IntField implements CreatableField, Up
     public function getCreationRules(array $args): array
     {
         return [
-            'sometimes',
             'required',
             'integer',
             'min:0',

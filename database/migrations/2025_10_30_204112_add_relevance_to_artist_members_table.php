@@ -15,7 +15,7 @@ return new class extends Migration
     {
         if (! Schema::hasColumn('artist_member', 'relevance')) {
             Schema::table('artist_member', function (Blueprint $table) {
-                $table->integer('relevance')->nullable();
+                $table->integer('relevance')->default(1)->nullable();
             });
         }
     }
