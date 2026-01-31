@@ -100,15 +100,6 @@ class Performance extends BaseModel implements Auditable, SoftDeletable
         Performance::ATTRIBUTE_RELEVANCE,
     ];
 
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        Performance::ATTRIBUTE_RELEVANCE => 1,
-    ];
-
     public function getName(): string
     {
         return strval($this->getKey());

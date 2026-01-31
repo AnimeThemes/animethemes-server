@@ -87,15 +87,6 @@ class Imageable extends BaseMorphPivot
     ];
 
     /**
-     * The model's default values for attributes.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        Imageable::ATTRIBUTE_DEPTH => 1,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

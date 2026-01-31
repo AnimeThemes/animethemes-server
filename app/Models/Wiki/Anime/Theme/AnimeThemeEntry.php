@@ -138,15 +138,6 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     ];
 
     /**
-     * The model's default values for attributes.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        AnimeThemeEntry::ATTRIBUTE_VERSION => 1,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

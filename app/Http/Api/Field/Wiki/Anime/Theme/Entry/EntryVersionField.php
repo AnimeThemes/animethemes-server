@@ -21,7 +21,6 @@ class EntryVersionField extends IntField implements CreatableField, UpdatableFie
     public function getCreationRules(Request $request): array
     {
         return [
-            'sometimes',
             'required',
             'integer',
             'min:0',

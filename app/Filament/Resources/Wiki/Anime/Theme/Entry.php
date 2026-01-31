@@ -137,7 +137,9 @@ class Entry extends BaseResource
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.version.help'))
-                    ->integer(),
+                    ->default(1)
+                    ->integer()
+                    ->required(),
 
                 TextInput::make(EntryModel::ATTRIBUTE_EPISODES)
                     ->label(__('filament.fields.anime_theme_entry.episodes.name'))

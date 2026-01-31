@@ -113,13 +113,13 @@ class Video extends BaseResource
                 Select::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
                     ->helperText(__('filament.fields.video.overlap.help'))
-                    ->options(VideoOverlap::class),
+                    ->options(VideoOverlap::class)
+                    ->required(),
 
                 Select::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
                     ->helperText(__('filament.fields.video.source.help'))
-                    ->options(VideoSource::class)
-                    ->required(),
+                    ->options(VideoSource::class),
 
                 Select::make(VideoModel::ATTRIBUTE_AUDIO)
                     ->label(__('filament.resources.singularLabel.audio'))

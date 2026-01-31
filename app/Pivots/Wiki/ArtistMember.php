@@ -73,15 +73,6 @@ class ArtistMember extends BasePivot
     ];
 
     /**
-     * The model's default values for attributes.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        ArtistMember::ATTRIBUTE_RELEVANCE => 1,
-    ];
-
-    /**
      * Get the composite primary key for the pivot.
      *
      * @return string[]

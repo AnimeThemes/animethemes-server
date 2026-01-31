@@ -75,15 +75,6 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
-     * The model's default values for attributes.
-     *
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::OTHER->value,
-    ];
-
-    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
