@@ -12,6 +12,7 @@ use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Models\Wiki\VideoOverlap;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -92,6 +93,9 @@ class UploadVideoAction extends UploadAction
             Video::ATTRIBUTE_SIZE => $this->file->getSize(),
         ];
 
+        $overlap = Arr::get($this->attributes, Video::ATTRIBUTE_OVERLAP, VideoOverlap::NONE);
+        $attributes[Video::ATTRIBUTE_OVERLAP] = $overlap instanceof BackedEnum ? $overlap->value : $overlap;
+
         if (Arr::has($this->attributes, Video::ATTRIBUTE_NC)) {
             $attributes[Video::ATTRIBUTE_NC] = Arr::get($this->attributes, Video::ATTRIBUTE_NC);
         }
@@ -103,10 +107,6 @@ class UploadVideoAction extends UploadAction
         }
         if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
             $attributes[Video::ATTRIBUTE_UNCEN] = Arr::get($this->attributes, Video::ATTRIBUTE_UNCEN);
-        }
-        if (Arr::has($this->attributes, Video::ATTRIBUTE_OVERLAP)) {
-            $overlap = Arr::get($this->attributes, Video::ATTRIBUTE_OVERLAP);
-            $attributes[Video::ATTRIBUTE_OVERLAP] = $overlap instanceof BackedEnum ? $overlap->value : $overlap;
         }
         if (Arr::has($this->attributes, Video::ATTRIBUTE_SOURCE)) {
             $source = Arr::get($this->attributes, Video::ATTRIBUTE_SOURCE);
