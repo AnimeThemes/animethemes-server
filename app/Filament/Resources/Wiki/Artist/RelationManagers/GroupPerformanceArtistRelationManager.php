@@ -6,7 +6,6 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song\Performance;
 use Filament\Tables\Table;
 
 class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
@@ -14,14 +13,11 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
     /**
      * The relationship the relation manager corresponds to.
      */
-    protected static string $relationship = Artist::RELATION_GROUP_PERFORMANCES;
+    protected static string $relationship = Artist::RELATION_UNIQUE_GROUPSHIPS_PERFORMANCES;
 
     public function table(Table $table): Table
     {
-        return parent::table(
-            $table
-                ->inverseRelationship(Performance::RELATION_SONG)
-        )
+        return parent::table($table)
             ->heading(__('filament.resources.label.group_performances'))
             ->modelLabel(__('filament.resources.singularLabel.group_performance'));
     }

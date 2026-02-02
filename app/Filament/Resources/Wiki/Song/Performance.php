@@ -198,7 +198,7 @@ class Performance extends BaseResource
                             ->label(__('filament.fields.performance.as.name'))
                             ->hidden(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
                     ])
-                    ->columns(fn ($livewire) => $livewire instanceof ViewTheme ? 3 : 2),
+                    ->columns(fn ($livewire): int => $livewire instanceof ViewTheme ? 3 : 2),
 
                 TimestampSection::make()
                     ->hiddenOn(ViewTheme::class),
