@@ -28,6 +28,7 @@ use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
@@ -110,32 +111,34 @@ class Performance extends BaseResource
                         isIndividual: true
                     ),
 
-                TextColumn::make('member')
+                BelongsToColumn::make(PerformanceModel::RELATION_MEMBER, ArtistResource::class, true)
                     ->label(__('filament.fields.membership.member'))
-                    ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class])
-                    ->state(function ($record) {
-                        if ($record->artist instanceof Membership) {
-                            return $record->artist->member->name;
-                        }
-
-                        return null;
-                    }),
+                    ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class]),
 
                 TextColumn::make(PerformanceModel::RELATION_ARTIST)
                     ->label(__('filament.fields.performance.artist'))
                     ->hiddenOn([PerformanceArtistRelationManager::class])
-                    ->state(function ($record) {
+                    ->color('related-link')
+                    ->weight(FontWeight::SemiBold)
+                    ->state(function (PerformanceModel $record) {
                         if ($record->artist instanceof Membership) {
                             return $record->artist->group->name;
                         }
 
                         return $record->artist->name;
+                    })
+                    ->url(function (PerformanceModel $record): string {
+                        $related = $record->artist instanceof Membership
+                            ? $record->artist->group
+                            : $record->artist;
+
+                        return ArtistResource::getUrl('view', ['record' => $related]);
                     }),
 
-                TextColumn::make('alias')
-                    ->label(__('filament.fields.membership.alias.name'))
+                TextColumn::make(PerformanceModel::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.performance.alias.name'))
                     ->hiddenOn(GroupPerformanceArtistRelationManager::class)
-                    ->state(function ($record) {
+                    ->state(function (PerformanceModel $record) {
                         if ($record->artist instanceof Membership) {
                             return $record->artist->alias;
                         }
@@ -143,10 +146,10 @@ class Performance extends BaseResource
                         return $record->alias;
                     }),
 
-                TextColumn::make('as')
-                    ->label(__('filament.fields.membership.as.name'))
+                TextColumn::make(PerformanceModel::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.performance.as.name'))
                     ->hiddenOn(GroupPerformanceArtistRelationManager::class)
-                    ->state(function ($record) {
+                    ->state(function (PerformanceModel $record) {
                         if ($record->artist instanceof Membership) {
                             return $record->artist->as;
                         }
@@ -170,11 +173,11 @@ class Performance extends BaseResource
                         BelongsToEntry::make(PerformanceModel::RELATION_ARTIST, ArtistResource::class)
                             ->hidden(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
 
-                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_GROUP, ArtistResource::class)
+                        BelongsToEntry::make(PerformanceModel::RELATION_GROUP, ArtistResource::class)
                             ->label(__('filament.fields.performance.artist'))
                             ->hidden(fn ($state): bool => is_null($state)),
 
-                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_MEMBER, ArtistResource::class, true)
+                        BelongsToEntry::make(PerformanceModel::RELATION_MEMBER, ArtistResource::class, true)
                             ->label(__('filament.fields.membership.member'))
                             ->hidden(fn ($state): bool => is_null($state)),
 
