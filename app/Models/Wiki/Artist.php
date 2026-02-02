@@ -74,7 +74,6 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
     final public const string RELATION_ANIMETHEMES = 'songs.animethemes';
     final public const string RELATION_GROUPS = 'groups';
     final public const string RELATION_GROUPSHIPS = 'groupships';
-    final public const string RELATION_GROUP_PERFORMANCES = 'groupperformances';
     final public const string RELATION_GROUPSHIPS_PERFORMANCES = 'groupships.performances';
     final public const string RELATION_IMAGES = 'images';
     final public const string RELATION_MEMBERS = 'members';
@@ -86,6 +85,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_SONGS = 'songs';
     final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
+    final public const string RELATION_UNIQUE_GROUPSHIPS_PERFORMANCES = 'uniquegroupshipperformances';
 
     /**
      * The table associated with the model.
@@ -205,23 +205,15 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
      * Relation for filament.
      * Groups performances of the memberships of this group.
      */
-    public function groupperformances(): HasManyDeep
+    public function uniquegroupshipperformances(): HasManyDeep
     {
-        $sub = Performance::query()
-            ->selectRaw('MAX(performance_id) as performance_id')
-            ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Relation::getMorphAlias(Membership::class))
-            ->groupBy(Performance::ATTRIBUTE_SONG);
-
-        return $this->hasManyDeep(
-            Performance::class,
-            [Membership::class],
-            [Membership::ATTRIBUTE_ARTIST, [Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID]],
-            [Artist::ATTRIBUTE_ID, Membership::ATTRIBUTE_ID]
-        )
-            ->joinSub($sub, 'latest_performance', function ($join): void {
-                $join->on(new Performance()->qualifyColumn(Performance::ATTRIBUTE_ID), '=', 'latest_performance.performance_id');
-            })
-            ->where(new Performance()->qualifyColumn(Performance::ATTRIBUTE_ARTIST_TYPE), Relation::getMorphAlias(Membership::class));
+        return $this->hasManyDeepFromRelations($this->groupships(), new Membership()->performances())
+            ->whereIn(
+                'performances.performance_id',
+                Performance::query()->selectRaw('MAX(performance_id)')
+                    ->where('artist_type', Relation::getMorphAlias(Membership::class))
+                    ->groupBy('song_id')
+            );
     }
 
     /**

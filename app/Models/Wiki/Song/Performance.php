@@ -54,7 +54,9 @@ class Performance extends BaseModel implements Auditable, SoftDeletable
     final public const string ATTRIBUTE_RELEVANCE = 'relevance';
 
     final public const string RELATION_ARTIST = 'artist';
+    final public const string RELATION_GROUP = 'artist.group';
     final public const string RELATION_MEMBERSHIP = self::RELATION_ARTIST;
+    final public const string RELATION_MEMBER = 'artist.member';
     final public const string RELATION_SONG = 'song';
 
     /**
