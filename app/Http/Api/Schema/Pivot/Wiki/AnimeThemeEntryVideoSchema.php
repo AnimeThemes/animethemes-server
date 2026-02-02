@@ -13,14 +13,14 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
 class AnimeThemeEntryVideoSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return AnimeThemeEntryVideoResource::$wrap;
+        return AnimeThemeEntryVideoJsonResource::$wrap;
     }
 
     /**

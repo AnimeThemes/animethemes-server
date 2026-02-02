@@ -19,7 +19,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeThemeEntryVideoSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeThemeEntryVideoCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -123,7 +123,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeThemeEntryVideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeThemeEntryVideoJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

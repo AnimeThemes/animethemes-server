@@ -13,14 +13,14 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Pivots\Wiki\AnimeStudio;
 
 class AnimeStudioSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return AnimeStudioResource::$wrap;
+        return AnimeStudioJsonResource::$wrap;
     }
 
     /**

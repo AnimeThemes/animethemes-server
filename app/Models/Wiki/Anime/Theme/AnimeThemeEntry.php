@@ -20,7 +20,7 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
@@ -225,7 +225,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
             AnimeThemeEntryVideo::ATTRIBUTE_VIDEO
         )
             ->using(AnimeThemeEntryVideo::class)
-            ->as(AnimeThemeEntryVideoResource::$wrap)
+            ->as(AnimeThemeEntryVideoJsonResource::$wrap)
             ->withTimestamps();
     }
 

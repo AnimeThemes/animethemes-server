@@ -16,8 +16,8 @@ use App\Events\Wiki\Anime\AnimeDeleted;
 use App\Events\Wiki\Anime\AnimeDeleting;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread;
 use App\Models\List\External\ExternalEntry;
@@ -211,7 +211,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Sof
     {
         return $this->belongsToMany(Series::class, AnimeSeries::TABLE, AnimeSeries::ATTRIBUTE_ANIME, AnimeSeries::ATTRIBUTE_SERIES)
             ->using(AnimeSeries::class)
-            ->as(AnimeSeriesResource::$wrap)
+            ->as(AnimeSeriesJsonResource::$wrap)
             ->withTimestamps();
     }
 
@@ -253,7 +253,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Sof
     {
         return $this->belongsToMany(Studio::class, AnimeStudio::TABLE, AnimeStudio::ATTRIBUTE_ANIME, AnimeStudio::ATTRIBUTE_STUDIO)
             ->using(AnimeStudio::class)
-            ->as(AnimeStudioResource::$wrap)
+            ->as(AnimeStudioJsonResource::$wrap)
             ->withTimestamps();
     }
 

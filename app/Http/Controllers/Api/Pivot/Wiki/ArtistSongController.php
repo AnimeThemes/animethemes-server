@@ -16,7 +16,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\ArtistSongCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
@@ -41,7 +41,7 @@ class ArtistSongController extends PivotController
     /**
      * @param  StoreAction<ArtistSong>  $action
      */
-    public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): ArtistSongResource
+    public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): ArtistSongJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -53,10 +53,10 @@ class ArtistSongController extends PivotController
 
         $artistSong = $action->store(ArtistSong::query(), $validated);
 
-        return new ArtistSongResource($artistSong, new Query());
+        return new ArtistSongJsonResource($artistSong, new Query());
     }
 
-    public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): ArtistSongResource
+    public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): ArtistSongJsonResource
     {
         $artistSong = ArtistSong::query()
             ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -67,10 +67,10 @@ class ArtistSongController extends PivotController
 
         $show = $action->show($artistSong, $query, $request->schema());
 
-        return new ArtistSongResource($show, $query);
+        return new ArtistSongJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): ArtistSongResource
+    public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): ArtistSongJsonResource
     {
         $artistSong = ArtistSong::query()
             ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -81,7 +81,7 @@ class ArtistSongController extends PivotController
 
         $updated = $action->update($artistSong, $request->validated());
 
-        return new ArtistSongResource($updated, $query);
+        return new ArtistSongJsonResource($updated, $query);
     }
 
     public function destroy(Artist $artist, Song $song, DestroyAction $action): JsonResponse

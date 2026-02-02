@@ -19,7 +19,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeSeriesSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeSeriesCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\BasePivot;
@@ -121,7 +121,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeSeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeSeriesJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

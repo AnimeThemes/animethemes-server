@@ -17,7 +17,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\ArtistSongCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
@@ -118,7 +118,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ArtistSongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ArtistSongJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

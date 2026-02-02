@@ -8,7 +8,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
@@ -39,7 +39,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistSongResource($artistSong, new Query())
+                new ArtistSongJsonResource($artistSong, new Query())
                     ->response()
                     ->getData()
             ),
@@ -73,7 +73,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistSongResource($artistSong, new Query($parameters))
+                new ArtistSongJsonResource($artistSong, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -91,7 +91,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ArtistSongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ArtistSongJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -107,7 +107,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistSongResource($artistSong, new Query($parameters))
+                new ArtistSongJsonResource($artistSong, new Query($parameters))
                     ->response()
                     ->getData()
             ),

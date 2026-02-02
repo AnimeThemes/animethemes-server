@@ -14,7 +14,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeSeriesCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
@@ -39,7 +39,7 @@ class AnimeSeriesController extends PivotController
     /**
      * @param  StoreAction<AnimeSeries>  $action
      */
-    public function store(StoreRequest $request, Anime $anime, Series $series, StoreAction $action): AnimeSeriesResource
+    public function store(StoreRequest $request, Anime $anime, Series $series, StoreAction $action): AnimeSeriesJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -51,10 +51,10 @@ class AnimeSeriesController extends PivotController
 
         $animeSeries = $action->store(AnimeSeries::query(), $validated);
 
-        return new AnimeSeriesResource($animeSeries, new Query());
+        return new AnimeSeriesJsonResource($animeSeries, new Query());
     }
 
-    public function show(ShowRequest $request, Anime $anime, Series $series, ShowAction $action): AnimeSeriesResource
+    public function show(ShowRequest $request, Anime $anime, Series $series, ShowAction $action): AnimeSeriesJsonResource
     {
         $animeSeries = AnimeSeries::query()
             ->where(AnimeSeries::ATTRIBUTE_ANIME, $anime->getKey())
@@ -65,7 +65,7 @@ class AnimeSeriesController extends PivotController
 
         $show = $action->show($animeSeries, $query, $request->schema());
 
-        return new AnimeSeriesResource($show, $query);
+        return new AnimeSeriesJsonResource($show, $query);
     }
 
     public function destroy(Anime $anime, Series $series, DestroyAction $action): JsonResponse

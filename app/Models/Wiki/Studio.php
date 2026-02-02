@@ -13,7 +13,7 @@ use App\Events\Wiki\Studio\StudioCreated;
 use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Models\BaseModel;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
@@ -119,7 +119,7 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     {
         return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, AnimeStudio::ATTRIBUTE_STUDIO, AnimeStudio::ATTRIBUTE_ANIME)
             ->using(AnimeStudio::class)
-            ->as(AnimeStudioResource::$wrap)
+            ->as(AnimeStudioJsonResource::$wrap)
             ->withTimestamps();
     }
 

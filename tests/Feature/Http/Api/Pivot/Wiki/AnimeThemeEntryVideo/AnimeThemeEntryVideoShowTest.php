@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeThemeEntryVideoSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -49,7 +49,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query())
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query())
                     ->response()
                     ->getData()
             ),
@@ -83,7 +83,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -101,7 +101,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeThemeEntryVideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeThemeEntryVideoJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -117,7 +117,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -152,7 +152,7 @@ test('entry by nsfw', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -187,7 +187,7 @@ test('entry by spoiler', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -222,7 +222,7 @@ test('entry by version', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -257,7 +257,7 @@ test('video by lyrics', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -292,7 +292,7 @@ test('video by nc', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -327,7 +327,7 @@ test('video by overlap', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -362,7 +362,7 @@ test('video by resolution', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -397,7 +397,7 @@ test('video by source', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -432,7 +432,7 @@ test('video by subbed', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -467,7 +467,7 @@ test('video by uncen', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
+                new AnimeThemeEntryVideoJsonResource($entryVideo, new Query($parameters))
                     ->response()
                     ->getData()
             ),
