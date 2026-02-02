@@ -12,6 +12,7 @@ use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
@@ -197,9 +198,10 @@ class Performance extends BaseResource
                             ->label(__('filament.fields.performance.as.name'))
                             ->hidden(fn (PerformanceModel $record): bool => $record->artist instanceof Membership),
                     ])
-                    ->columns(2),
+                    ->columns(fn ($livewire) => $livewire instanceof ViewTheme ? 3 : 2),
 
-                TimestampSection::make(),
+                TimestampSection::make()
+                    ->hiddenOn(ViewTheme::class),
             ]);
     }
 

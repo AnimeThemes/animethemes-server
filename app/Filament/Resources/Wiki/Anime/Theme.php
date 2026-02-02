@@ -22,9 +22,9 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
-use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
+use App\Filament\Resources\Wiki\Song\Performance;
 use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
@@ -232,9 +232,9 @@ class Theme extends BaseResource
 
                 Section::make(__('filament.resources.singularLabel.song'))
                     ->schema([
-                        RepeatableEntry::make(ThemeModel::RELATION_ARTISTS)
+                        RepeatableEntry::make(ThemeModel::RELATION_PERFORMANCES)
                             ->label('')
-                            ->schema(ArtistResource::infolist($schema)->getComponents())
+                            ->schema(Performance::infolist($schema)->getComponents())
                             ->columnSpanFull(),
                     ]),
 
