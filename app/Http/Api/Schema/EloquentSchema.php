@@ -22,8 +22,8 @@ abstract class EloquentSchema extends Schema
     {
         $resourceClass = Str::of(static::class)
             ->replace('Api\\Schema', 'Resources')
-            ->replace('Schema', 'Resource')
-            ->replaceLast('\\', '\\JsonResource\\')
+            ->replace('Schema', 'JsonResource')
+            ->replaceLast('\\', '\\Resource\\')
             ->__toString();
 
         return new $resourceClass($resource, $query);
