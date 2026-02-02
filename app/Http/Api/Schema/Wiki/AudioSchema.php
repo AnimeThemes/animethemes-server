@@ -15,14 +15,14 @@ use App\Http\Api\Field\Wiki\Audio\AudioSizeField;
 use App\Http\Api\Field\Wiki\Audio\AudioViewCountField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Wiki\Resource\AudioResource;
+use App\Http\Resources\Wiki\Resource\AudioJsonResource;
 use App\Models\Wiki\Audio;
 
 class AudioSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return AudioResource::$wrap;
+        return AudioJsonResource::$wrap;
     }
 
     /**

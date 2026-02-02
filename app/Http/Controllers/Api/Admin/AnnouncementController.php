@@ -16,7 +16,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
-use App\Http\Resources\Admin\Resource\AnnouncementResource;
+use App\Http\Resources\Admin\Resource\AnnouncementJsonResource;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\JsonResponse;
 
@@ -40,27 +40,27 @@ class AnnouncementController extends BaseController
     /**
      * @param  StoreAction<Announcement>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): AnnouncementResource
+    public function store(StoreRequest $request, StoreAction $action): AnnouncementJsonResource
     {
         $announcement = $action->store(Announcement::query(), $request->validated());
 
-        return new AnnouncementResource($announcement, new Query());
+        return new AnnouncementJsonResource($announcement, new Query());
     }
 
-    public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): AnnouncementResource
+    public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): AnnouncementJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($announcement, $query, $request->schema());
 
-        return new AnnouncementResource($show, $query);
+        return new AnnouncementJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): AnnouncementResource
+    public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): AnnouncementJsonResource
     {
         $updated = $action->update($announcement, $request->validated());
 
-        return new AnnouncementResource($updated, new Query());
+        return new AnnouncementJsonResource($updated, new Query());
     }
 
     public function destroy(Announcement $announcement, DestroyAction $action): JsonResponse

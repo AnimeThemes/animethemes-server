@@ -24,7 +24,7 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,7 +38,7 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
 
     public function type(): string
     {
-        return ThemeResource::$wrap;
+        return ThemeJsonResource::$wrap;
     }
 
     /**

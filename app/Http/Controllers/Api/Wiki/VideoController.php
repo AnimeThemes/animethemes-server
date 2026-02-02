@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use App\Http\Resources\Wiki\Resource\VideoResource;
+use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class VideoController extends BaseController
     /**
      * @param  StoreAction<Video>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): VideoResource
+    public function store(StoreRequest $request, StoreAction $action): VideoJsonResource
     {
         $video = $action->store(Video::query(), $request->validated());
 
-        return new VideoResource($video, new Query());
+        return new VideoJsonResource($video, new Query());
     }
 
-    public function show(ShowRequest $request, Video $video, ShowAction $action): VideoResource
+    public function show(ShowRequest $request, Video $video, ShowAction $action): VideoJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($video, $query, $request->schema());
 
-        return new VideoResource($show, $query);
+        return new VideoJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Video $video, UpdateAction $action): VideoResource
+    public function update(UpdateRequest $request, Video $video, UpdateAction $action): VideoJsonResource
     {
         $updated = $action->update($video, $request->validated());
 
-        return new VideoResource($updated, new Query());
+        return new VideoJsonResource($updated, new Query());
     }
 
-    public function destroy(Video $video, DestroyAction $action): VideoResource
+    public function destroy(Video $video, DestroyAction $action): VideoJsonResource
     {
         $deleted = $action->destroy($video);
 
-        return new VideoResource($deleted, new Query());
+        return new VideoJsonResource($deleted, new Query());
     }
 
-    public function restore(Video $video, RestoreAction $action): VideoResource
+    public function restore(Video $video, RestoreAction $action): VideoJsonResource
     {
         $restored = $action->restore($video);
 
-        return new VideoResource($restored, new Query());
+        return new VideoJsonResource($restored, new Query());
     }
 
     public function forceDelete(Video $video, ForceDeleteAction $action): JsonResponse

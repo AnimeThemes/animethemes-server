@@ -12,7 +12,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\GroupSchema;
-use App\Http\Resources\Wiki\Resource\GroupResource;
+use App\Http\Resources\Wiki\Resource\GroupJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Group;
@@ -33,7 +33,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query())
+                new GroupJsonResource($group, new Query())
                     ->response()
                     ->getData()
             ),
@@ -52,7 +52,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query())
+                new GroupJsonResource($group, new Query())
                     ->response()
                     ->getData()
             ),
@@ -83,7 +83,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -101,7 +101,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            GroupResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            GroupJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -112,7 +112,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -155,7 +155,7 @@ test('themes by sequence', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -189,7 +189,7 @@ test('themes by type', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -223,7 +223,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -257,7 +257,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -301,7 +301,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new GroupResource($group, new Query($parameters))
+                new GroupJsonResource($group, new Query($parameters))
                     ->response()
                     ->getData()
             ),

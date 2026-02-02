@@ -6,7 +6,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\DumpSchema;
-use App\Http\Resources\Admin\Resource\DumpResource;
+use App\Http\Resources\Admin\Resource\DumpJsonResource;
 use App\Models\Admin\Dump;
 
 use function Pest\Laravel\get;
@@ -21,7 +21,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new DumpResource($dump, new Query())
+                new DumpJsonResource($dump, new Query())
                     ->response()
                     ->getData()
             ),
@@ -47,7 +47,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            DumpResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            DumpJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -58,7 +58,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new DumpResource($dump, new Query($parameters))
+                new DumpJsonResource($dump, new Query($parameters))
                     ->response()
                     ->getData()
             ),

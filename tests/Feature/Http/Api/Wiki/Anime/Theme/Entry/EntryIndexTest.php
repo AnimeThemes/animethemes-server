@@ -23,7 +23,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
-use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
+use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -119,7 +119,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            EntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            EntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

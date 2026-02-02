@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class SynonymController extends BaseController
     /**
      * @param  StoreAction<AnimeSynonym>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): SynonymResource
+    public function store(StoreRequest $request, StoreAction $action): SynonymJsonResource
     {
         $synonym = $action->store(AnimeSynonym::query(), $request->validated());
 
-        return new SynonymResource($synonym, new Query());
+        return new SynonymJsonResource($synonym, new Query());
     }
 
-    public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): SynonymResource
+    public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): SynonymJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($animesynonym, $query, $request->schema());
 
-        return new SynonymResource($show, $query);
+        return new SynonymJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): SynonymResource
+    public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): SynonymJsonResource
     {
         $updated = $action->update($animesynonym, $request->validated());
 
-        return new SynonymResource($updated, new Query());
+        return new SynonymJsonResource($updated, new Query());
     }
 
-    public function destroy(AnimeSynonym $animesynonym, DestroyAction $action): SynonymResource
+    public function destroy(AnimeSynonym $animesynonym, DestroyAction $action): SynonymJsonResource
     {
         $deleted = $action->destroy($animesynonym);
 
-        return new SynonymResource($deleted, new Query());
+        return new SynonymJsonResource($deleted, new Query());
     }
 
-    public function restore(AnimeSynonym $animesynonym, RestoreAction $action): SynonymResource
+    public function restore(AnimeSynonym $animesynonym, RestoreAction $action): SynonymJsonResource
     {
         $restored = $action->restore($animesynonym);
 
-        return new SynonymResource($restored, new Query());
+        return new SynonymJsonResource($restored, new Query());
     }
 
     public function forceDelete(AnimeSynonym $animesynonym, ForceDeleteAction $action): JsonResponse

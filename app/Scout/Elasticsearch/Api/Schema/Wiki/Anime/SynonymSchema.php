@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Schema\Wiki\Anime;
 
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -18,7 +18,7 @@ class SynonymSchema extends Schema
 {
     public function type(): string
     {
-        return SynonymResource::$wrap;
+        return SynonymJsonResource::$wrap;
     }
 
     /**

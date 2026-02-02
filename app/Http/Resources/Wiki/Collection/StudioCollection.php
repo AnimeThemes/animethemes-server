@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Http\Resources\Wiki\Resource\StudioJsonResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class StudioCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Studio $studio): StudioResource => new StudioResource($studio, $this->query))->all();
+        return $this->collection->map(fn (Studio $studio): StudioJsonResource => new StudioJsonResource($studio, $this->query))->all();
     }
 }

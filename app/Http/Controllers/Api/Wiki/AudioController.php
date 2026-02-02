@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\AudioCollection;
-use App\Http\Resources\Wiki\Resource\AudioResource;
+use App\Http\Resources\Wiki\Resource\AudioJsonResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\JsonResponse;
 
@@ -41,41 +41,41 @@ class AudioController extends BaseController
     /**
      * @param  StoreAction<Audio>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): AudioResource
+    public function store(StoreRequest $request, StoreAction $action): AudioJsonResource
     {
         $audio = $action->store(Audio::query(), $request->validated());
 
-        return new AudioResource($audio, new Query());
+        return new AudioJsonResource($audio, new Query());
     }
 
-    public function show(ShowRequest $request, Audio $audio, ShowAction $action): AudioResource
+    public function show(ShowRequest $request, Audio $audio, ShowAction $action): AudioJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($audio, $query, $request->schema());
 
-        return new AudioResource($show, $query);
+        return new AudioJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): AudioResource
+    public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): AudioJsonResource
     {
         $updated = $action->update($audio, $request->validated());
 
-        return new AudioResource($updated, new Query());
+        return new AudioJsonResource($updated, new Query());
     }
 
-    public function destroy(Audio $audio, DestroyAction $action): AudioResource
+    public function destroy(Audio $audio, DestroyAction $action): AudioJsonResource
     {
         $deleted = $action->destroy($audio);
 
-        return new AudioResource($deleted, new Query());
+        return new AudioJsonResource($deleted, new Query());
     }
 
-    public function restore(Audio $audio, RestoreAction $action): AudioResource
+    public function restore(Audio $audio, RestoreAction $action): AudioJsonResource
     {
         $restored = $action->restore($audio);
 
-        return new AudioResource($restored, new Query());
+        return new AudioJsonResource($restored, new Query());
     }
 
     public function forceDelete(Audio $audio, ForceDeleteAction $action): JsonResponse

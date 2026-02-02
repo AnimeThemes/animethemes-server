@@ -12,14 +12,14 @@ use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Admin\Resource\FeatureResource;
+use App\Http\Resources\Admin\Resource\FeatureJsonResource;
 use App\Models\Admin\Feature;
 
 class FeatureSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return FeatureResource::$wrap;
+        return FeatureJsonResource::$wrap;
     }
 
     /**

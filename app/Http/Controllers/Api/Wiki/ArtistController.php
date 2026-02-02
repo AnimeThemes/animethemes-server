@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class ArtistController extends BaseController
     /**
      * @param  StoreAction<Artist>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): ArtistResource
+    public function store(StoreRequest $request, StoreAction $action): ArtistJsonResource
     {
         $artist = $action->store(Artist::query(), $request->validated());
 
-        return new ArtistResource($artist, new Query());
+        return new ArtistJsonResource($artist, new Query());
     }
 
-    public function show(ShowRequest $request, Artist $artist, ShowAction $action): ArtistResource
+    public function show(ShowRequest $request, Artist $artist, ShowAction $action): ArtistJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($artist, $query, $request->schema());
 
-        return new ArtistResource($show, $query);
+        return new ArtistJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): ArtistResource
+    public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): ArtistJsonResource
     {
         $updated = $action->update($artist, $request->validated());
 
-        return new ArtistResource($updated, new Query());
+        return new ArtistJsonResource($updated, new Query());
     }
 
-    public function destroy(Artist $artist, DestroyAction $action): ArtistResource
+    public function destroy(Artist $artist, DestroyAction $action): ArtistJsonResource
     {
         $deleted = $action->destroy($artist);
 
-        return new ArtistResource($deleted, new Query());
+        return new ArtistJsonResource($deleted, new Query());
     }
 
-    public function restore(Artist $artist, RestoreAction $action): ArtistResource
+    public function restore(Artist $artist, RestoreAction $action): ArtistJsonResource
     {
         $restored = $action->restore($artist);
 
-        return new ArtistResource($restored, new Query());
+        return new ArtistJsonResource($restored, new Query());
     }
 
     public function forceDelete(Artist $artist, ForceDeleteAction $action): JsonResponse

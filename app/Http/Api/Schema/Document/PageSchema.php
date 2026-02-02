@@ -11,14 +11,14 @@ use App\Http\Api\Field\Document\Page\PageSlugField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Document\Resource\PageResource;
+use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\Document\Page;
 
 class PageSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return PageResource::$wrap;
+        return PageJsonResource::$wrap;
     }
 
     /**

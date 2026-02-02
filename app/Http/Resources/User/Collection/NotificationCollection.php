@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\User\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\User\Resource\NotificationResource;
+use App\Http\Resources\User\Resource\NotificationJsonResource;
 use App\Models\User\Notification;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class NotificationCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Notification $notification): NotificationResource => new NotificationResource($notification, $this->query))->all();
+        return $this->collection->map(fn (Notification $notification): NotificationJsonResource => new NotificationJsonResource($notification, $this->query))->all();
     }
 }

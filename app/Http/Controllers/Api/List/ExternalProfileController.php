@@ -20,7 +20,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Collection\ExternalProfileCollection;
-use App\Http\Resources\List\Resource\ExternalProfileResource;
+use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -61,19 +61,19 @@ class ExternalProfileController extends BaseController
         return new ExternalProfileCollection($externalprofiles, $query);
     }
 
-    public function show(ShowRequest $request, ExternalProfile $externalprofile, ShowAction $action): ExternalProfileResource
+    public function show(ShowRequest $request, ExternalProfile $externalprofile, ShowAction $action): ExternalProfileJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($externalprofile, $query, $request->schema());
 
-        return new ExternalProfileResource($show, $query);
+        return new ExternalProfileJsonResource($show, $query);
     }
 
     /**
      * @param  StoreAction<ExternalProfile>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): ExternalProfileResource
+    public function store(StoreRequest $request, StoreAction $action): ExternalProfileJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -82,14 +82,14 @@ class ExternalProfileController extends BaseController
 
         $profile = $action->store(ExternalProfile::query(), $validated);
 
-        return new ExternalProfileResource($profile, new Query());
+        return new ExternalProfileJsonResource($profile, new Query());
     }
 
-    public function update(UpdateRequest $request, ExternalProfile $externalprofile, UpdateAction $action): ExternalProfileResource
+    public function update(UpdateRequest $request, ExternalProfile $externalprofile, UpdateAction $action): ExternalProfileJsonResource
     {
         $updated = $action->update($externalprofile, $request->validated());
 
-        return new ExternalProfileResource($updated, new Query());
+        return new ExternalProfileJsonResource($updated, new Query());
     }
 
     public function destroy(ExternalProfile $externalprofile, DestroyAction $action): JsonResponse

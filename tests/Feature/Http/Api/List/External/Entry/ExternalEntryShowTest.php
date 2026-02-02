@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\External\ExternalEntrySchema;
-use App\Http\Resources\List\External\Resource\ExternalEntryResource;
+use App\Http\Resources\List\External\Resource\ExternalEntryJsonResource;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -138,7 +138,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalEntryResource($entry, new Query())
+                new ExternalEntryJsonResource($entry, new Query())
                     ->response()
                     ->getData()
             ),
@@ -177,7 +177,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalEntryResource($entry, new Query($parameters))
+                new ExternalEntryJsonResource($entry, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -195,7 +195,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalEntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalEntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -215,7 +215,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalEntryResource($entry, new Query($parameters))
+                new ExternalEntryJsonResource($entry, new Query($parameters))
                     ->response()
                     ->getData()
             ),

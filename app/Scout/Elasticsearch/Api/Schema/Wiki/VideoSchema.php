@@ -7,7 +7,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
-use App\Http\Resources\Wiki\Resource\VideoResource;
+use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Video;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -31,7 +31,7 @@ class VideoSchema extends Schema
 {
     public function type(): string
     {
-        return VideoResource::$wrap;
+        return VideoJsonResource::$wrap;
     }
 
     /**

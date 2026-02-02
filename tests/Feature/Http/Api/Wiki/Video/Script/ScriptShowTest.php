@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
-use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
+use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,7 +29,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query())
+                new ScriptJsonResource($script, new Query())
                     ->response()
                     ->getData()
             ),
@@ -46,7 +46,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query())
+                new ScriptJsonResource($script, new Query())
                     ->response()
                     ->getData()
             ),
@@ -77,7 +77,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -95,7 +95,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ScriptResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ScriptJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -106,7 +106,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -140,7 +140,7 @@ test('videos by lyrics', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -174,7 +174,7 @@ test('videos by nc', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -208,7 +208,7 @@ test('videos by overlap', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -247,7 +247,7 @@ test('videos by resolution', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -281,7 +281,7 @@ test('videos by source', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -315,7 +315,7 @@ test('videos by subbed', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -349,7 +349,7 @@ test('videos by uncen', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ScriptResource($script, new Query($parameters))
+                new ScriptJsonResource($script, new Query($parameters))
                     ->response()
                     ->getData()
             ),

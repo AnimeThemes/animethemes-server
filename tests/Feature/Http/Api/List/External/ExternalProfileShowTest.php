@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\ExternalProfileSchema;
-use App\Http\Resources\List\Resource\ExternalProfileResource;
+use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -99,7 +99,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalProfileResource($profile, new Query())
+                new ExternalProfileJsonResource($profile, new Query())
                     ->response()
                     ->getData()
             ),
@@ -135,7 +135,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalProfileResource($profile, new Query($parameters))
+                new ExternalProfileJsonResource($profile, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -155,7 +155,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalProfileResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalProfileJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -169,7 +169,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalProfileResource($profile, new Query($parameters))
+                new ExternalProfileJsonResource($profile, new Query($parameters))
                     ->response()
                     ->getData()
             ),

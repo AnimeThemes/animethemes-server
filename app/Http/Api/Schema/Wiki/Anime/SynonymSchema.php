@@ -13,7 +13,7 @@ use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymTypeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +21,7 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return SynonymResource::$wrap;
+        return SynonymJsonResource::$wrap;
     }
 
     /**

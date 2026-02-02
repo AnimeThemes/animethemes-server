@@ -6,7 +6,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
-use App\Http\Resources\Admin\Resource\AnnouncementResource;
+use App\Http\Resources\Admin\Resource\AnnouncementJsonResource;
 use App\Models\Admin\Announcement;
 
 use function Pest\Laravel\get;
@@ -21,7 +21,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnnouncementResource($announcement, new Query())
+                new AnnouncementJsonResource($announcement, new Query())
                     ->response()
                     ->getData()
             ),
@@ -55,7 +55,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnnouncementJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -66,7 +66,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnnouncementResource($announcement, new Query($parameters))
+                new AnnouncementJsonResource($announcement, new Query($parameters))
                     ->response()
                     ->getData()
             ),

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class AnimeCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Anime $anime): AnimeResource => new AnimeResource($anime, $this->query))->all();
+        return $this->collection->map(fn (Anime $anime): AnimeJsonResource => new AnimeJsonResource($anime, $this->query))->all();
     }
 }

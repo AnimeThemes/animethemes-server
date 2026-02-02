@@ -12,7 +12,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\Wiki\Resource\VideoResource;
+use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -36,7 +36,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query())
+                new VideoJsonResource($video, new Query())
                     ->response()
                     ->getData()
             ),
@@ -53,7 +53,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query())
+                new VideoJsonResource($video, new Query())
                     ->response()
                     ->getData()
             ),
@@ -90,7 +90,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -108,7 +108,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            VideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            VideoJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -119,7 +119,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -157,7 +157,7 @@ test('entries by nsfw', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -195,7 +195,7 @@ test('entries by spoiler', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -238,7 +238,7 @@ test('entries by version', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -283,7 +283,7 @@ test('themes by sequence', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -321,7 +321,7 @@ test('themes by type', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -359,7 +359,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -397,7 +397,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -444,7 +444,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new VideoResource($video, new Query($parameters))
+                new VideoJsonResource($video, new Query($parameters))
                     ->response()
                     ->getData()
             ),

@@ -21,7 +21,7 @@ use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\Wiki\Artist;
 
 class ArtistSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
@@ -41,7 +41,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
 
     public function type(): string
     {
-        return ArtistResource::$wrap;
+        return ArtistJsonResource::$wrap;
     }
 
     /**

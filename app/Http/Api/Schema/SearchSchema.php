@@ -22,13 +22,13 @@ use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\SearchResource;
+use App\Http\Resources\SearchJsonResource;
 
 class SearchSchema extends Schema
 {
     public function type(): string
     {
-        return SearchResource::$wrap;
+        return SearchJsonResource::$wrap;
     }
 
     /**

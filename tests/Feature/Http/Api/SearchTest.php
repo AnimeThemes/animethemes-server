@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Resources\List\Collection\PlaylistCollection;
-use App\Http\Resources\SearchResource;
+use App\Http\Resources\SearchJsonResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -41,7 +41,7 @@ test('search attributes', function () {
     $response = get(route('api.search.show', $parameters));
 
     $response->assertJson([
-        SearchResource::$wrap => [
+        SearchJsonResource::$wrap => [
             AnimeCollection::$wrap => [],
             ThemeCollection::$wrap => [],
             ArtistCollection::$wrap => [],
@@ -78,13 +78,13 @@ test('search sparse fieldsets', function () {
     $parameters = [
         SearchParser::param() => $q,
         FieldParser::param() => [
-            SearchResource::$wrap => implode(',', $includedFields),
+            SearchJsonResource::$wrap => implode(',', $includedFields),
         ],
     ];
 
     $response = get(route('api.search.show', $parameters));
 
     $response->assertJsonStructure([
-        SearchResource::$wrap => $includedFields,
+        SearchJsonResource::$wrap => $includedFields,
     ]);
 });

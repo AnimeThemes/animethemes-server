@@ -10,18 +10,18 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\SearchSchema;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SearchRequest;
-use App\Http\Resources\SearchResource;
+use App\Http\Resources\SearchJsonResource;
 
 class SearchController extends Controller implements InteractsWithSchema
 {
     /**
      * Search resource.
      */
-    public function show(SearchRequest $request): SearchResource
+    public function show(SearchRequest $request): SearchJsonResource
     {
         $query = new Query($request->validated());
 
-        return new SearchResource($query);
+        return new SearchJsonResource($query);
     }
 
     /**

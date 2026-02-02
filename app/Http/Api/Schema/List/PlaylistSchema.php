@@ -28,14 +28,14 @@ use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\List\Resource\PlaylistResource;
+use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\List\Playlist;
 
 class PlaylistSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return PlaylistResource::$wrap;
+        return PlaylistJsonResource::$wrap;
     }
 
     /**

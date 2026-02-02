@@ -8,7 +8,7 @@ use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Query\Query;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\BaseResource;
+use App\Http\Resources\BaseJsonResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -18,7 +18,7 @@ abstract class EloquentSchema extends Schema
     /**
      * Get the resource of the schema.
      */
-    public function resource(mixed $resource, Query $query): BaseResource
+    public function resource(mixed $resource, Query $query): BaseJsonResource
     {
         $resourceClass = Str::of(static::class)
             ->replace('Api\\Schema', 'Resources')

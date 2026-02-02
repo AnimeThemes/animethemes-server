@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\List\External\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\List\External\Resource\ExternalEntryResource;
+use App\Http\Resources\List\External\Resource\ExternalEntryJsonResource;
 use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ExternalEntryCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (ExternalEntry $entry): ExternalEntryResource => new ExternalEntryResource($entry, $this->query))->all();
+        return $this->collection->map(fn (ExternalEntry $entry): ExternalEntryJsonResource => new ExternalEntryJsonResource($entry, $this->query))->all();
     }
 }

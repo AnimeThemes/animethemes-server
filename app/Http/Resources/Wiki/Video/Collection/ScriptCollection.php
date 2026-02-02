@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Video\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
+use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ScriptCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (VideoScript $script): ScriptResource => new ScriptResource($script, $this->query))->all();
+        return $this->collection->map(fn (VideoScript $script): ScriptJsonResource => new ScriptJsonResource($script, $this->query))->all();
     }
 }

@@ -29,14 +29,14 @@ use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
-use App\Http\Resources\Wiki\Resource\VideoResource;
+use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Video;
 
 class VideoSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return VideoResource::$wrap;
+        return VideoJsonResource::$wrap;
     }
 
     /**

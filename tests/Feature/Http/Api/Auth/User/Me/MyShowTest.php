@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Api\Query\Query;
-use App\Http\Resources\Auth\Resource\UserResource;
+use App\Http\Resources\Auth\Resource\UserJsonResource;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 
@@ -27,7 +27,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new UserResource($user, new Query())
+                new UserJsonResource($user, new Query())
                     ->response()
                     ->getData()
             ),

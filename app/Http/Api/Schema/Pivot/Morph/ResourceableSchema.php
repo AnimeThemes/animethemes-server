@@ -20,11 +20,11 @@ use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Pivot\Morph\Resource\AnimeResourceableResource;
-use App\Http\Resources\Pivot\Morph\Resource\ArtistResourceableResource;
-use App\Http\Resources\Pivot\Morph\Resource\SongResourceableResource;
-use App\Http\Resources\Pivot\Morph\Resource\StudioResourceableResource;
+use App\Http\Resources\BaseJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\AnimeResourceableJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\ArtistResourceableJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\SongResourceableJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\StudioResourceableJsonResource;
 use App\Pivots\Morph\Resourceable;
 use Exception;
 
@@ -71,13 +71,13 @@ class ResourceableSchema extends EloquentSchema
     /**
      * Get the resource of the schema.
      */
-    public function resource(mixed $resource, Query $query): BaseResource
+    public function resource(mixed $resource, Query $query): BaseJsonResource
     {
         return match (true) {
-            $this->resourceableSchema instanceof AnimeSchema => new AnimeResourceableResource($resource, $query),
-            $this->resourceableSchema instanceof ArtistSchema => new ArtistResourceableResource($resource, $query),
-            $this->resourceableSchema instanceof SongSchema => new SongResourceableResource($resource, $query),
-            $this->resourceableSchema instanceof StudioSchema => new StudioResourceableResource($resource, $query),
+            $this->resourceableSchema instanceof AnimeSchema => new AnimeResourceableJsonResource($resource, $query),
+            $this->resourceableSchema instanceof ArtistSchema => new ArtistResourceableJsonResource($resource, $query),
+            $this->resourceableSchema instanceof SongSchema => new SongResourceableJsonResource($resource, $query),
+            $this->resourceableSchema instanceof StudioSchema => new StudioResourceableJsonResource($resource, $query),
             default => new Exception('Resource not defined for schema '.class_basename($this->resourceableSchema)),
         };
     }

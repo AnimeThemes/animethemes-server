@@ -12,7 +12,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
-use App\Http\Resources\List\Playlist\Resource\TrackResource;
+use App\Http\Resources\List\Playlist\Resource\TrackJsonResource;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -162,7 +162,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new TrackResource($track, new Query())
+                new TrackJsonResource($track, new Query())
                     ->response()
                     ->getData()
             ),
@@ -205,7 +205,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new TrackResource($track, new Query($parameters))
+                new TrackJsonResource($track, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -225,7 +225,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            TrackResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            TrackJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -245,7 +245,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new TrackResource($track, new Query($parameters))
+                new TrackJsonResource($track, new Query($parameters))
                     ->response()
                     ->getData()
             ),

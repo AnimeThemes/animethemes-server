@@ -13,14 +13,14 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\BaseResource;
+use App\Http\Resources\BaseJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 class UuidField extends Field implements FilterableField, RenderableField, SelectableField
 {
     public function __construct(Schema $schema, string $column)
     {
-        parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
+        parent::__construct($schema, BaseJsonResource::ATTRIBUTE_ID, $column);
     }
 
     public function getFilter(): Filter

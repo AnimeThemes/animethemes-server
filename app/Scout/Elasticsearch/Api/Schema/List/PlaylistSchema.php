@@ -8,7 +8,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
-use App\Http\Resources\List\Resource\PlaylistResource;
+use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\List\Playlist;
 use App\Scout\Elasticsearch\Api\Field\Base\CreatedAtField;
 use App\Scout\Elasticsearch\Api\Field\Base\UpdatedAtField;
@@ -23,7 +23,7 @@ class PlaylistSchema extends Schema
 {
     public function type(): string
     {
-        return PlaylistResource::$wrap;
+        return PlaylistJsonResource::$wrap;
     }
 
     /**

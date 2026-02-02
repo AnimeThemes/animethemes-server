@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme;
 
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
+use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryJsonResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -23,7 +23,7 @@ class EntrySchema extends Schema
 {
     public function type(): string
     {
-        return EntryResource::$wrap;
+        return EntryJsonResource::$wrap;
     }
 
     /**

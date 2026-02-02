@@ -11,7 +11,7 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\ShowRequest;
-use App\Http\Resources\Auth\User\Resource\MyResource;
+use App\Http\Resources\Auth\User\Resource\MyJsonResource;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +25,7 @@ class MyController extends BaseController
         $this->middleware(Authenticate::using('sanctum'));
     }
 
-    public function show(ShowRequest $request, ShowAction $action): MyResource
+    public function show(ShowRequest $request, ShowAction $action): MyJsonResource
     {
         $query = new Query($request->validated());
 
@@ -34,7 +34,7 @@ class MyController extends BaseController
 
         $show = $action->show($user, $query, $request->schema());
 
-        return new MyResource($show, $query);
+        return new MyJsonResource($show, $query);
     }
 
     /**

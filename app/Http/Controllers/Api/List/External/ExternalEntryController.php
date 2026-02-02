@@ -12,7 +12,7 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\List\External\Collection\ExternalEntryCollection;
-use App\Http\Resources\List\External\Resource\ExternalEntryResource;
+use App\Http\Resources\List\External\Resource\ExternalEntryJsonResource;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 
@@ -36,12 +36,12 @@ class ExternalEntryController extends BaseController
         return new ExternalEntryCollection($resources, $query);
     }
 
-    public function show(ShowRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, ShowAction $action): ExternalEntryResource
+    public function show(ShowRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, ShowAction $action): ExternalEntryJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($externalentry, $query, $request->schema());
 
-        return new ExternalEntryResource($show, $query);
+        return new ExternalEntryJsonResource($show, $query);
     }
 }

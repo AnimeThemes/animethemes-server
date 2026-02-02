@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\AudioResource;
+use App\Http\Resources\Wiki\Resource\AudioJsonResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class AudioCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Audio $audio): AudioResource => new AudioResource($audio, $this->query))->all();
+        return $this->collection->map(fn (Audio $audio): AudioJsonResource => new AudioJsonResource($audio, $this->query))->all();
     }
 }

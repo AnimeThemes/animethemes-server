@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Document\Collection\PageCollection;
-use App\Http\Resources\Document\Resource\PageResource;
+use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\Document\Page;
 use Illuminate\Http\JsonResponse;
 
@@ -41,41 +41,41 @@ class PageController extends BaseController
     /**
      * @param  StoreAction<Page>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): PageResource
+    public function store(StoreRequest $request, StoreAction $action): PageJsonResource
     {
         $page = $action->store(Page::query(), $request->validated());
 
-        return new PageResource($page, new Query());
+        return new PageJsonResource($page, new Query());
     }
 
-    public function show(ShowRequest $request, Page $page, ShowAction $action): PageResource
+    public function show(ShowRequest $request, Page $page, ShowAction $action): PageJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($page, $query, $request->schema());
 
-        return new PageResource($show, $query);
+        return new PageJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Page $page, UpdateAction $action): PageResource
+    public function update(UpdateRequest $request, Page $page, UpdateAction $action): PageJsonResource
     {
         $updated = $action->update($page, $request->validated());
 
-        return new PageResource($updated, new Query());
+        return new PageJsonResource($updated, new Query());
     }
 
-    public function destroy(Page $page, DestroyAction $action): PageResource
+    public function destroy(Page $page, DestroyAction $action): PageJsonResource
     {
         $deleted = $action->destroy($page);
 
-        return new PageResource($deleted, new Query());
+        return new PageJsonResource($deleted, new Query());
     }
 
-    public function restore(Page $page, RestoreAction $action): PageResource
+    public function restore(Page $page, RestoreAction $action): PageJsonResource
     {
         $restored = $action->restore($page);
 
-        return new PageResource($restored, new Query());
+        return new PageJsonResource($restored, new Query());
     }
 
     public function forceDelete(Page $page, ForceDeleteAction $action): JsonResponse

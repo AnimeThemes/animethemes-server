@@ -17,7 +17,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\FeaturedThemeSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Collection\FeaturedThemeCollection;
-use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
+use App\Http\Resources\Admin\Resource\FeaturedThemeJsonResource;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
@@ -127,7 +127,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeaturedThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeaturedThemeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

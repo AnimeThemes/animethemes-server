@@ -17,7 +17,7 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\User\NotificationSchema;
-use App\Http\Resources\Auth\User\Resource\MyResource;
+use App\Http\Resources\Auth\User\Resource\MyJsonResource;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +25,7 @@ class MySchema extends EloquentSchema
 {
     public function type(): string
     {
-        return MyResource::$wrap;
+        return MyJsonResource::$wrap;
     }
 
     /**

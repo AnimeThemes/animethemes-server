@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Anime\Theme\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
+use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryJsonResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class EntryCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (AnimeThemeEntry $entry): EntryResource => new EntryResource($entry, $this->query))->all();
+        return $this->collection->map(fn (AnimeThemeEntry $entry): EntryJsonResource => new EntryJsonResource($entry, $this->query))->all();
     }
 }

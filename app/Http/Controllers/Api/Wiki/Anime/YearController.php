@@ -11,7 +11,7 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Wiki\Anime\YearShowRequest;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
@@ -53,7 +53,7 @@ class YearController extends Controller implements InteractsWithSchema
 
         $anime = collect($anime->toArray($request));
 
-        $anime = $anime->groupBy(fn (AnimeResource $anime) => Str::lower($anime->season->localize()));
+        $anime = $anime->groupBy(fn (AnimeJsonResource $anime) => Str::lower($anime->season->localize()));
 
         return new JsonResponse($anime);
     }

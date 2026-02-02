@@ -15,7 +15,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\DumpSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Collection\DumpCollection;
-use App\Http\Resources\Admin\Resource\DumpResource;
+use App\Http\Resources\Admin\Resource\DumpJsonResource;
 use App\Models\Admin\Dump;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
@@ -89,7 +89,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            DumpResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            DumpJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

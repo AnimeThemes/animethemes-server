@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Song\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Song\Resource\PerformanceResource;
+use App\Http\Resources\Wiki\Song\Resource\PerformanceJsonResource;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class PerformanceCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Performance $performance): PerformanceResource => new PerformanceResource($performance, $this->query))->all();
+        return $this->collection->map(fn (Performance $performance): PerformanceJsonResource => new PerformanceJsonResource($performance, $this->query))->all();
     }
 }

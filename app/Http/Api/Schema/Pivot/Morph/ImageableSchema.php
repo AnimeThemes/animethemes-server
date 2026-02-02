@@ -20,11 +20,11 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
-use App\Http\Resources\BaseResource;
-use App\Http\Resources\Pivot\Morph\Resource\AnimeImageableResource;
-use App\Http\Resources\Pivot\Morph\Resource\ArtistImageableResource;
-use App\Http\Resources\Pivot\Morph\Resource\PlaylistImageableResource;
-use App\Http\Resources\Pivot\Morph\Resource\StudioImageableResource;
+use App\Http\Resources\BaseJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\AnimeImageableJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\ArtistImageableJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\PlaylistImageableJsonResource;
+use App\Http\Resources\Pivot\Morph\Resource\StudioImageableJsonResource;
 use App\Pivots\Morph\Imageable;
 use Exception;
 
@@ -71,13 +71,13 @@ class ImageableSchema extends EloquentSchema
     /**
      * Get the resource of the schema.
      */
-    public function resource(mixed $resource, Query $query): BaseResource
+    public function resource(mixed $resource, Query $query): BaseJsonResource
     {
         return match (true) {
-            $this->imageableSchema instanceof PlaylistSchema => new PlaylistImageableResource($resource, $query),
-            $this->imageableSchema instanceof AnimeSchema => new AnimeImageableResource($resource, $query),
-            $this->imageableSchema instanceof ArtistSchema => new ArtistImageableResource($resource, $query),
-            $this->imageableSchema instanceof StudioSchema => new StudioImageableResource($resource, $query),
+            $this->imageableSchema instanceof PlaylistSchema => new PlaylistImageableJsonResource($resource, $query),
+            $this->imageableSchema instanceof AnimeSchema => new AnimeImageableJsonResource($resource, $query),
+            $this->imageableSchema instanceof ArtistSchema => new ArtistImageableJsonResource($resource, $query),
+            $this->imageableSchema instanceof StudioSchema => new StudioImageableJsonResource($resource, $query),
             default => new Exception('Resource not defined for schema '.class_basename($this->imageableSchema)),
         };
     }

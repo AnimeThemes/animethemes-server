@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Auth\Collection;
 
-use App\Http\Resources\Auth\Resource\RoleResource;
+use App\Http\Resources\Auth\Resource\RoleJsonResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Auth\Role;
 use Illuminate\Http\Request;
@@ -26,6 +26,6 @@ class RoleCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Role $role): RoleResource => new RoleResource($role, $this->query))->all();
+        return $this->collection->map(fn (Role $role): RoleJsonResource => new RoleJsonResource($role, $this->query))->all();
     }
 }

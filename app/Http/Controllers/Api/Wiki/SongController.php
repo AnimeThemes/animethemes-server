@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\SongCollection;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class SongController extends BaseController
     /**
      * @param  StoreAction<Song>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): SongResource
+    public function store(StoreRequest $request, StoreAction $action): SongJsonResource
     {
         $song = $action->store(Song::query(), $request->validated());
 
-        return new SongResource($song, new Query());
+        return new SongJsonResource($song, new Query());
     }
 
-    public function show(ShowRequest $request, Song $song, ShowAction $action): SongResource
+    public function show(ShowRequest $request, Song $song, ShowAction $action): SongJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($song, $query, $request->schema());
 
-        return new SongResource($show, $query);
+        return new SongJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Song $song, UpdateAction $action): SongResource
+    public function update(UpdateRequest $request, Song $song, UpdateAction $action): SongJsonResource
     {
         $updated = $action->update($song, $request->validated());
 
-        return new SongResource($updated, new Query());
+        return new SongJsonResource($updated, new Query());
     }
 
-    public function destroy(Song $song, DestroyAction $action): SongResource
+    public function destroy(Song $song, DestroyAction $action): SongJsonResource
     {
         $deleted = $action->destroy($song);
 
-        return new SongResource($deleted, new Query());
+        return new SongJsonResource($deleted, new Query());
     }
 
-    public function restore(Song $song, RestoreAction $action): SongResource
+    public function restore(Song $song, RestoreAction $action): SongJsonResource
     {
         $restored = $action->restore($song);
 
-        return new SongResource($restored, new Query());
+        return new SongJsonResource($restored, new Query());
     }
 
     public function forceDelete(Song $song, ForceDeleteAction $action): JsonResponse

@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Video\Collection\ScriptCollection;
-use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
+use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\JsonResponse;
 
@@ -41,41 +41,41 @@ class ScriptController extends BaseController
     /**
      * @param  StoreAction<VideoScript>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): ScriptResource
+    public function store(StoreRequest $request, StoreAction $action): ScriptJsonResource
     {
         $script = $action->store(VideoScript::query(), $request->validated());
 
-        return new ScriptResource($script, new Query());
+        return new ScriptJsonResource($script, new Query());
     }
 
-    public function show(ShowRequest $request, VideoScript $videoscript, ShowAction $action): ScriptResource
+    public function show(ShowRequest $request, VideoScript $videoscript, ShowAction $action): ScriptJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($videoscript, $query, $request->schema());
 
-        return new ScriptResource($show, $query);
+        return new ScriptJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, VideoScript $videoscript, UpdateAction $action): ScriptResource
+    public function update(UpdateRequest $request, VideoScript $videoscript, UpdateAction $action): ScriptJsonResource
     {
         $updated = $action->update($videoscript, $request->validated());
 
-        return new ScriptResource($updated, new Query());
+        return new ScriptJsonResource($updated, new Query());
     }
 
-    public function destroy(VideoScript $videoscript, DestroyAction $action): ScriptResource
+    public function destroy(VideoScript $videoscript, DestroyAction $action): ScriptJsonResource
     {
         $deleted = $action->destroy($videoscript);
 
-        return new ScriptResource($deleted, new Query());
+        return new ScriptJsonResource($deleted, new Query());
     }
 
-    public function restore(VideoScript $videoscript, RestoreAction $action): ScriptResource
+    public function restore(VideoScript $videoscript, RestoreAction $action): ScriptJsonResource
     {
         $restored = $action->restore($videoscript);
 
-        return new ScriptResource($restored, new Query());
+        return new ScriptJsonResource($restored, new Query());
     }
 
     public function forceDelete(VideoScript $videoscript, ForceDeleteAction $action): JsonResponse

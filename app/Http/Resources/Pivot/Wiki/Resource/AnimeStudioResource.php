@@ -6,9 +6,9 @@ namespace App\Http\Resources\Pivot\Wiki\Resource;
 
 use App\Http\Api\Schema\Pivot\Wiki\AnimeStudioSchema;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\BaseResource;
+use App\Http\Resources\BaseJsonResource;
 
-class AnimeStudioResource extends BaseResource
+class AnimeStudioResource extends BaseJsonResource
 {
     /**
      * The "data" wrapper that should be applied.

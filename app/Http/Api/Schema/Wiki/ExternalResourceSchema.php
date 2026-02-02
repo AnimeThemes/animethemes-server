@@ -13,7 +13,7 @@ use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
-use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
+use App\Http\Resources\Wiki\Resource\ExternalResourceJsonResource;
 use App\Models\Wiki\ExternalResource;
 
 class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivots
@@ -33,7 +33,7 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
 
     public function type(): string
     {
-        return ExternalResourceResource::$wrap;
+        return ExternalResourceJsonResource::$wrap;
     }
 
     /**

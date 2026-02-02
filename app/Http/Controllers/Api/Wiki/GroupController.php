@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\GroupCollection;
-use App\Http\Resources\Wiki\Resource\GroupResource;
+use App\Http\Resources\Wiki\Resource\GroupJsonResource;
 use App\Models\Wiki\Group;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class GroupController extends BaseController
     /**
      * @param  StoreAction<Group>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): GroupResource
+    public function store(StoreRequest $request, StoreAction $action): GroupJsonResource
     {
         $group = $action->store(Group::query(), $request->validated());
 
-        return new GroupResource($group, new Query());
+        return new GroupJsonResource($group, new Query());
     }
 
-    public function show(ShowRequest $request, Group $group, ShowAction $action): GroupResource
+    public function show(ShowRequest $request, Group $group, ShowAction $action): GroupJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($group, $query, $request->schema());
 
-        return new GroupResource($show, $query);
+        return new GroupJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Group $group, UpdateAction $action): GroupResource
+    public function update(UpdateRequest $request, Group $group, UpdateAction $action): GroupJsonResource
     {
         $updated = $action->update($group, $request->validated());
 
-        return new GroupResource($updated, new Query());
+        return new GroupJsonResource($updated, new Query());
     }
 
-    public function destroy(Group $group, DestroyAction $action): GroupResource
+    public function destroy(Group $group, DestroyAction $action): GroupJsonResource
     {
         $deleted = $action->destroy($group);
 
-        return new GroupResource($deleted, new Query());
+        return new GroupJsonResource($deleted, new Query());
     }
 
-    public function restore(Group $group, RestoreAction $action): GroupResource
+    public function restore(Group $group, RestoreAction $action): GroupJsonResource
     {
         $restored = $action->restore($group);
 
-        return new GroupResource($restored, new Query());
+        return new GroupJsonResource($restored, new Query());
     }
 
     public function forceDelete(Group $group, ForceDeleteAction $action): JsonResponse

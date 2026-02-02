@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Collection;
 
-use App\Http\Resources\Admin\Resource\FeatureResource;
+use App\Http\Resources\Admin\Resource\FeatureJsonResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\Feature;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class FeatureCollection extends BaseCollection
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (Feature $feature): FeatureResource => new FeatureResource($feature, $this->query)
+            fn (Feature $feature): FeatureJsonResource => new FeatureJsonResource($feature, $this->query)
         )->all();
     }
 }

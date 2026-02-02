@@ -6,7 +6,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Document\PageSchema;
-use App\Http\Resources\Document\Resource\PageResource;
+use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\Document\Page;
 
 use function Pest\Laravel\get;
@@ -21,7 +21,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PageResource($page, new Query())
+                new PageJsonResource($page, new Query())
                     ->response()
                     ->getData()
             ),
@@ -40,7 +40,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PageResource($page, new Query())
+                new PageJsonResource($page, new Query())
                     ->response()
                     ->getData()
             ),
@@ -58,7 +58,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PageJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -69,7 +69,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PageResource($page, new Query($parameters))
+                new PageJsonResource($page, new Query($parameters))
                     ->response()
                     ->getData()
             ),

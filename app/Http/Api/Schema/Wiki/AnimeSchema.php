@@ -22,7 +22,7 @@ use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 
 class AnimeSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
@@ -39,7 +39,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
 
     public function type(): string
     {
-        return AnimeResource::$wrap;
+        return AnimeJsonResource::$wrap;
     }
 
     /**

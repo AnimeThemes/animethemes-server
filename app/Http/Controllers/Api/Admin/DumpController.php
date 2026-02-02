@@ -16,7 +16,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\DumpCollection;
-use App\Http\Resources\Admin\Resource\DumpResource;
+use App\Http\Resources\Admin\Resource\DumpJsonResource;
 use App\Models\Admin\Dump;
 use Illuminate\Http\JsonResponse;
 
@@ -40,27 +40,27 @@ class DumpController extends BaseController
     /**
      * @param  StoreAction<Dump>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): DumpResource
+    public function store(StoreRequest $request, StoreAction $action): DumpJsonResource
     {
         $dump = $action->store(Dump::query(), $request->validated());
 
-        return new DumpResource($dump, new Query());
+        return new DumpJsonResource($dump, new Query());
     }
 
-    public function show(ShowRequest $request, Dump $dump, ShowAction $action): DumpResource
+    public function show(ShowRequest $request, Dump $dump, ShowAction $action): DumpJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($dump, $query, $request->schema());
 
-        return new DumpResource($show, $query);
+        return new DumpJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Dump $dump, UpdateAction $action): DumpResource
+    public function update(UpdateRequest $request, Dump $dump, UpdateAction $action): DumpJsonResource
     {
         $updated = $action->update($dump, $request->validated());
 
-        return new DumpResource($updated, new Query());
+        return new DumpJsonResource($updated, new Query());
     }
 
     public function destroy(Dump $dump, DestroyAction $action): JsonResponse

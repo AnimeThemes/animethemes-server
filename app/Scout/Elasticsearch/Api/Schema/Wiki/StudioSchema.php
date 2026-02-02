@@ -7,7 +7,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
-use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Http\Resources\Wiki\Resource\StudioJsonResource;
 use App\Models\Wiki\Studio;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -19,7 +19,7 @@ class StudioSchema extends Schema
 {
     public function type(): string
     {
-        return StudioResource::$wrap;
+        return StudioJsonResource::$wrap;
     }
 
     /**

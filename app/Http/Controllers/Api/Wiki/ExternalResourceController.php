@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
-use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
+use App\Http\Resources\Wiki\Resource\ExternalResourceJsonResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\JsonResponse;
 
@@ -41,41 +41,41 @@ class ExternalResourceController extends BaseController
     /**
      * @param  StoreAction<ExternalResource>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): ExternalResourceResource
+    public function store(StoreRequest $request, StoreAction $action): ExternalResourceJsonResource
     {
         $externalResource = $action->store(ExternalResource::query(), $request->validated());
 
-        return new ExternalResourceResource($externalResource, new Query());
+        return new ExternalResourceJsonResource($externalResource, new Query());
     }
 
-    public function show(ShowRequest $request, ExternalResource $resource, ShowAction $action): ExternalResourceResource
+    public function show(ShowRequest $request, ExternalResource $resource, ShowAction $action): ExternalResourceJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($resource, $query, $request->schema());
 
-        return new ExternalResourceResource($show, $query);
+        return new ExternalResourceJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, ExternalResource $resource, UpdateAction $action): ExternalResourceResource
+    public function update(UpdateRequest $request, ExternalResource $resource, UpdateAction $action): ExternalResourceJsonResource
     {
         $updated = $action->update($resource, $request->validated());
 
-        return new ExternalResourceResource($updated, new Query());
+        return new ExternalResourceJsonResource($updated, new Query());
     }
 
-    public function destroy(ExternalResource $resource, DestroyAction $action): ExternalResourceResource
+    public function destroy(ExternalResource $resource, DestroyAction $action): ExternalResourceJsonResource
     {
         $deleted = $action->destroy($resource);
 
-        return new ExternalResourceResource($deleted, new Query());
+        return new ExternalResourceJsonResource($deleted, new Query());
     }
 
-    public function restore(ExternalResource $resource, RestoreAction $action): ExternalResourceResource
+    public function restore(ExternalResource $resource, RestoreAction $action): ExternalResourceJsonResource
     {
         $restored = $action->restore($resource);
 
-        return new ExternalResourceResource($restored, new Query());
+        return new ExternalResourceJsonResource($restored, new Query());
     }
 
     public function forceDelete(ExternalResource $resource, ForceDeleteAction $action): JsonResponse

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Document\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Document\Resource\PageResource;
+use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
 
@@ -27,7 +27,7 @@ class PageCollection extends BaseCollection
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (Page $page): PageResource => new PageResource($page, $this->query)
+            fn (Page $page): PageJsonResource => new PageJsonResource($page, $this->query)
         )->all();
     }
 }

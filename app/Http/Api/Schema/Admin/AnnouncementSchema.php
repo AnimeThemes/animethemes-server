@@ -13,14 +13,14 @@ use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Admin\Resource\AnnouncementResource;
+use App\Http\Resources\Admin\Resource\AnnouncementJsonResource;
 use App\Models\Admin\Announcement;
 
 class AnnouncementSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return AnnouncementResource::$wrap;
+        return AnnouncementJsonResource::$wrap;
     }
 
     /**

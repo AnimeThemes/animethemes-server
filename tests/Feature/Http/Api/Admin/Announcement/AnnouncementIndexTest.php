@@ -15,7 +15,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
-use App\Http\Resources\Admin\Resource\AnnouncementResource;
+use App\Http\Resources\Admin\Resource\AnnouncementJsonResource;
 use App\Models\Admin\Announcement;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
@@ -113,7 +113,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnnouncementResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnnouncementJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

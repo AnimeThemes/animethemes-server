@@ -22,14 +22,14 @@ use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\List\Resource\ExternalProfileResource;
+use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\List\ExternalProfile;
 
 class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return ExternalProfileResource::$wrap;
+        return ExternalProfileJsonResource::$wrap;
     }
 
     /**

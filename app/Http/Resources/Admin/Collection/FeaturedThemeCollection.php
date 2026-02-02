@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Admin\Collection;
 
-use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
+use App\Http\Resources\Admin\Resource\FeaturedThemeJsonResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class FeaturedThemeCollection extends BaseCollection
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (FeaturedTheme $featuredTheme): FeaturedThemeResource => new FeaturedThemeResource($featuredTheme, $this->query)
+            fn (FeaturedTheme $featuredTheme): FeaturedThemeJsonResource => new FeaturedThemeJsonResource($featuredTheme, $this->query)
         )->all();
     }
 }

@@ -15,14 +15,14 @@ use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Auth\Resource\RoleResource;
+use App\Http\Resources\Auth\Resource\RoleJsonResource;
 use App\Models\Auth\Role;
 
 class RoleSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return RoleResource::$wrap;
+        return RoleJsonResource::$wrap;
     }
 
     /**

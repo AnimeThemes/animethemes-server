@@ -18,14 +18,14 @@ use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Resources\List\External\Resource\ExternalEntryResource;
+use App\Http\Resources\List\External\Resource\ExternalEntryJsonResource;
 use App\Models\List\External\ExternalEntry;
 
 class ExternalEntrySchema extends EloquentSchema
 {
     public function type(): string
     {
-        return ExternalEntryResource::$wrap;
+        return ExternalEntryJsonResource::$wrap;
     }
 
     /**

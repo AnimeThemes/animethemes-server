@@ -22,7 +22,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Video\Collection\ScriptCollection;
-use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
+use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
@@ -112,7 +112,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ScriptResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ScriptJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

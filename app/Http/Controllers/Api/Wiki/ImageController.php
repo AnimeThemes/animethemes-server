@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
-use App\Http\Resources\Wiki\Resource\ImageResource;
+use App\Http\Resources\Wiki\Resource\ImageJsonResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\JsonResponse;
 
@@ -38,41 +38,41 @@ class ImageController extends BaseController
         return new ImageCollection($images, $query);
     }
 
-    public function store(StoreRequest $request, StoreImageAction $action): ImageResource
+    public function store(StoreRequest $request, StoreImageAction $action): ImageJsonResource
     {
         $image = $action->store(Image::query(), $request->validated());
 
-        return new ImageResource($image, new Query());
+        return new ImageJsonResource($image, new Query());
     }
 
-    public function show(ShowRequest $request, Image $image, ShowAction $action): ImageResource
+    public function show(ShowRequest $request, Image $image, ShowAction $action): ImageJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($image, $query, $request->schema());
 
-        return new ImageResource($show, $query);
+        return new ImageJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Image $image, UpdateAction $action): ImageResource
+    public function update(UpdateRequest $request, Image $image, UpdateAction $action): ImageJsonResource
     {
         $updated = $action->update($image, $request->validated());
 
-        return new ImageResource($updated, new Query());
+        return new ImageJsonResource($updated, new Query());
     }
 
-    public function destroy(Image $image, DestroyAction $action): ImageResource
+    public function destroy(Image $image, DestroyAction $action): ImageJsonResource
     {
         $deleted = $action->destroy($image);
 
-        return new ImageResource($deleted, new Query());
+        return new ImageJsonResource($deleted, new Query());
     }
 
-    public function restore(Image $image, RestoreAction $action): ImageResource
+    public function restore(Image $image, RestoreAction $action): ImageJsonResource
     {
         $restored = $action->restore($image);
 
-        return new ImageResource($restored, new Query());
+        return new ImageJsonResource($restored, new Query());
     }
 
     public function forceDelete(Image $image, ForceDeleteAction $action): JsonResponse

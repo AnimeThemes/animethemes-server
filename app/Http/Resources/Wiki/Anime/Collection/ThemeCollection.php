@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Anime\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ThemeCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (AnimeTheme $theme): ThemeResource => new ThemeResource($theme, $this->query))->all();
+        return $this->collection->map(fn (AnimeTheme $theme): ThemeJsonResource => new ThemeJsonResource($theme, $this->query))->all();
     }
 }
