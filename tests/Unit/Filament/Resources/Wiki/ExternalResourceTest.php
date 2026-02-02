@@ -8,7 +8,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\ExternalResource;
+use App\Filament\Resources\Wiki\ExternalResourceResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use Filament\Actions\Testing\TestAction;
@@ -29,10 +29,10 @@ test('render index page', function () {
 
     $records = ExternalResourceModel::factory()->count(10)->create();
 
-    get(ExternalResource::getUrl('index'))
+    get(ExternalResourceResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(ExternalResource::class))
+    Livewire::test(getIndexPage(ExternalResourceResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -48,7 +48,7 @@ test('render view page', function () {
 
     $record = ExternalResourceModel::factory()->createOne();
 
-    get(ExternalResource::getUrl('view', ['record' => $record]))
+    get(ExternalResourceResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -64,7 +64,7 @@ test('mount edit action', function () {
 
     $record = ExternalResourceModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(ExternalResource::class))
+    Livewire::test(getIndexPage(ExternalResourceResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
@@ -73,14 +73,14 @@ test('mount edit action', function () {
 test('user cannot edit record', function () {
     $record = ExternalResourceModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(ExternalResource::class))
+    Livewire::test(getIndexPage(ExternalResourceResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = ExternalResourceModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(ExternalResource::class))
+    Livewire::test(getIndexPage(ExternalResourceResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -89,7 +89,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(ExternalResource::class))
+    Livewire::test(getIndexPage(ExternalResourceResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -97,6 +97,6 @@ test('user cannot restore record', function () {
 test('user cannot force delete record', function () {
     $record = ExternalResourceModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(ExternalResource::class))
+    Livewire::test(getIndexPage(ExternalResourceResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

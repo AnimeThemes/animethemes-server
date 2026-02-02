@@ -20,7 +20,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\AudioCollection;
-use App\Http\Resources\Wiki\Resource\AudioResource;
+use App\Http\Resources\Wiki\Resource\AudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
@@ -109,7 +109,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

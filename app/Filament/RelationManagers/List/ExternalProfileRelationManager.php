@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\List;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\ExternalProfile as ExternalProfileResource;
+use App\Filament\Resources\List\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Filament\Tables\Table;
 

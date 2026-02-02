@@ -14,8 +14,8 @@ use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistForceDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
@@ -189,7 +189,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
         return $this->belongsToMany(Song::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_ARTIST, ArtistSong::ATTRIBUTE_SONG)
             ->using(ArtistSong::class)
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
-            ->as(ArtistSongResource::$wrap)
+            ->as(ArtistSongJsonResource::$wrap)
             ->withTimestamps();
     }
 
@@ -244,7 +244,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER)
             ->using(ArtistMember::class)
             ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES, ArtistMember::ATTRIBUTE_RELEVANCE])
-            ->as(ArtistMemberResource::$wrap)
+            ->as(ArtistMemberJsonResource::$wrap)
             ->withTimestamps();
     }
 
@@ -256,7 +256,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_MEMBER, ArtistMember::ATTRIBUTE_ARTIST)
             ->using(ArtistMember::class)
             ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
-            ->as(ArtistMemberResource::$wrap)
+            ->as(ArtistMemberJsonResource::$wrap)
             ->withTimestamps();
     }
 

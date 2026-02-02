@@ -15,9 +15,9 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -42,7 +42,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query())
+                new AnimeJsonResource($anime, new Query())
                     ->response()
                     ->getData()
             ),
@@ -61,7 +61,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query())
+                new AnimeJsonResource($anime, new Query())
                     ->response()
                     ->getData()
             ),
@@ -90,7 +90,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -108,7 +108,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -119,7 +119,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -133,7 +133,7 @@ test('synonyms by type', function () {
 
     $parameters = [
         FilterParser::param() => [
-            SynonymResource::$wrap => [
+            SynonymJsonResource::$wrap => [
                 AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],
@@ -155,7 +155,7 @@ test('synonyms by type', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -197,7 +197,7 @@ test('themes by sequence', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -211,7 +211,7 @@ test('themes by type', function () {
 
     $parameters = [
         FilterParser::param() => [
-            ThemeResource::$wrap => [
+            ThemeJsonResource::$wrap => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],
@@ -233,7 +233,7 @@ test('themes by type', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -271,7 +271,7 @@ test('entries by nsfw', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -309,7 +309,7 @@ test('entries by spoiler', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -355,7 +355,7 @@ test('entries by version', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -389,7 +389,7 @@ test('resources by site', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -423,7 +423,7 @@ test('images by facet', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -455,7 +455,7 @@ test('videos by lyrics', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -487,7 +487,7 @@ test('videos by nc', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -519,7 +519,7 @@ test('videos by overlap', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -569,7 +569,7 @@ test('videos by resolution', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -601,7 +601,7 @@ test('videos by source', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -633,7 +633,7 @@ test('videos by subbed', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -665,7 +665,7 @@ test('videos by uncen', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeResource($anime, new Query($parameters))
+                new AnimeJsonResource($anime, new Query($parameters))
                     ->response()
                     ->getData()
             ),

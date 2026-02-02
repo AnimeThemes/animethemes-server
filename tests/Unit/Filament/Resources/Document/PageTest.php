@@ -9,7 +9,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Document\Page;
+use App\Filament\Resources\Document\PageResource;
 use App\Models\Auth\User;
 use App\Models\Document\Page as PageModel;
 use Filament\Actions\Testing\TestAction;
@@ -30,10 +30,10 @@ test('render index page', function () {
 
     $records = PageModel::factory()->count(10)->create();
 
-    get(Page::getUrl('index'))
+    get(PageResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -49,7 +49,7 @@ test('render view page', function () {
 
     $record = PageModel::factory()->createOne();
 
-    get(Page::getUrl('view', ['record' => $record]))
+    get(PageResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -63,7 +63,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -80,28 +80,28 @@ test('mount edit action', function () {
 
     $record = PageModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function () {
     $record = PageModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = PageModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -110,7 +110,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -118,6 +118,6 @@ test('user cannot restore record', function () {
 test('user cannot force delete record', function () {
     $record = PageModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Page::class))
+    Livewire::test(getIndexPage(PageResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

@@ -14,7 +14,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -43,7 +43,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query())
+                new ThemeJsonResource($theme, new Query())
                     ->response()
                     ->getData()
             ),
@@ -65,7 +65,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query())
+                new ThemeJsonResource($theme, new Query())
                     ->response()
                     ->getData()
             ),
@@ -104,7 +104,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -122,7 +122,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ThemeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -138,7 +138,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -172,7 +172,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -206,7 +206,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -246,7 +246,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -283,7 +283,7 @@ test('images by facet', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -318,7 +318,7 @@ test('entries by nsfw', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -353,7 +353,7 @@ test('entries by spoiler', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -396,7 +396,7 @@ test('entries by version', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -435,7 +435,7 @@ test('videos by lyrics', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -474,7 +474,7 @@ test('videos by nc', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -513,7 +513,7 @@ test('videos by overlap', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -560,7 +560,7 @@ test('videos by resolution', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -599,7 +599,7 @@ test('videos by source', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -638,7 +638,7 @@ test('videos by subbed', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -677,7 +677,7 @@ test('videos by uncen', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ThemeResource($theme, new Query($parameters))
+                new ThemeJsonResource($theme, new Query($parameters))
                     ->response()
                     ->getData()
             ),

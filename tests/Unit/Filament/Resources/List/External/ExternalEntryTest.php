@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\List\External\ExternalEntry;
+use App\Filament\Resources\List\External\ExternalEntryResource;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use App\Models\List\ExternalProfile;
@@ -38,10 +38,10 @@ test('render index page', function () {
 
     $records = $profile->externalentries;
 
-    get(ExternalEntry::getUrl('index'))
+    get(ExternalEntryResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(ExternalEntry::class))
+    Livewire::test(getIndexPage(ExternalEntryResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -60,7 +60,7 @@ test('render view page', function () {
 
     $record = $profile->externalentries->first();
 
-    get(ExternalEntry::getUrl('view', ['record' => $record]))
+    get(ExternalEntryResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -79,7 +79,7 @@ test('mount edit action', function () {
 
     $record = $profile->externalentries->first();
 
-    Livewire::test(getIndexPage(ExternalEntry::class))
+    Livewire::test(getIndexPage(ExternalEntryResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();

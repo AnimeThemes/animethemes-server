@@ -15,13 +15,13 @@ use App\Http\Api\Field\User\Notification\NotificationReadAtField;
 use App\Http\Api\Field\User\Notification\NotificationTypeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\User\Resource\NotificationResource;
+use App\Http\Resources\User\Resource\NotificationJsonResource;
 
 class NotificationSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return NotificationResource::$wrap;
+        return NotificationJsonResource::$wrap;
     }
 
     /**

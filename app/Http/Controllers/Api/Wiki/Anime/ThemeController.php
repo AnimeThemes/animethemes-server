@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class ThemeController extends BaseController
     /**
      * @param  StoreAction<AnimeTheme>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): ThemeResource
+    public function store(StoreRequest $request, StoreAction $action): ThemeJsonResource
     {
         $theme = $action->store(AnimeTheme::query(), $request->validated());
 
-        return new ThemeResource($theme, new Query());
+        return new ThemeJsonResource($theme, new Query());
     }
 
-    public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): ThemeResource
+    public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): ThemeJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($animetheme, $query, $request->schema());
 
-        return new ThemeResource($show, $query);
+        return new ThemeJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): ThemeResource
+    public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): ThemeJsonResource
     {
         $updated = $action->update($animetheme, $request->validated());
 
-        return new ThemeResource($updated, new Query());
+        return new ThemeJsonResource($updated, new Query());
     }
 
-    public function destroy(AnimeTheme $animetheme, DestroyAction $action): ThemeResource
+    public function destroy(AnimeTheme $animetheme, DestroyAction $action): ThemeJsonResource
     {
         $deleted = $action->destroy($animetheme);
 
-        return new ThemeResource($deleted, new Query());
+        return new ThemeJsonResource($deleted, new Query());
     }
 
-    public function restore(AnimeTheme $animetheme, RestoreAction $action): ThemeResource
+    public function restore(AnimeTheme $animetheme, RestoreAction $action): ThemeJsonResource
     {
         $restored = $action->restore($animetheme);
 
-        return new ThemeResource($restored, new Query());
+        return new ThemeJsonResource($restored, new Query());
     }
 
     public function forceDelete(AnimeTheme $animetheme, ForceDeleteAction $action): JsonResponse

@@ -18,7 +18,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Document\Collection\PageCollection;
-use App\Http\Resources\Document\Resource\PageResource;
+use App\Http\Resources\Document\Resource\PageJsonResource;
 use App\Models\BaseModel;
 use App\Models\Document\Page;
 use Illuminate\Support\Arr;
@@ -68,7 +68,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PageJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

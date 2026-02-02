@@ -27,10 +27,10 @@ use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -119,7 +119,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -465,7 +465,7 @@ test('synonyms by type', function () {
 
     $parameters = [
         FilterParser::param() => [
-            SynonymResource::$wrap => [
+            SynonymJsonResource::$wrap => [
                 AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],
@@ -547,7 +547,7 @@ test('themes by type', function () {
 
     $parameters = [
         FilterParser::param() => [
-            ThemeResource::$wrap => [
+            ThemeJsonResource::$wrap => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],

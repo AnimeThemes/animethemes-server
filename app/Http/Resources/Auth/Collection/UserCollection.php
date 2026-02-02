@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Auth\Collection;
 
-use App\Http\Resources\Auth\Resource\UserResource;
+use App\Http\Resources\Auth\Resource\UserJsonResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Auth\User;
 use Illuminate\Http\Request;
@@ -26,6 +26,6 @@ class UserCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (User $user): UserResource => new UserResource($user, $this->query))->all();
+        return $this->collection->map(fn (User $user): UserJsonResource => new UserJsonResource($user, $this->query))->all();
     }
 }

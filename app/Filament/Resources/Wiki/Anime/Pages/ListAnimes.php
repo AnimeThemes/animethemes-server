@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Anime;
+use App\Filament\Resources\Wiki\AnimeResource;
 use App\Filament\Tabs\Anime\AnimeStreamingResourceTab;
 use App\Filament\Tabs\Anime\Image\AnimeLargeCoverTab;
 use App\Filament\Tabs\Anime\Image\AnimeSmallCoverTab;
@@ -20,7 +20,7 @@ use App\Filament\Tabs\Anime\Resource\AnimePlanetResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeXResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeYoutubeResourceTab;
 use App\Filament\Tabs\Anime\Studio\AnimeStudioTab;
-use App\Models\Wiki\Anime as AnimeModel;
+use App\Models\Wiki\Anime;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -28,14 +28,14 @@ class ListAnimes extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Anime::class;
+    protected static string $resource = AnimeResource::class;
 
     /**
      * Using Laravel Scout to search.
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {
-        return $this->makeScout($query, AnimeModel::class);
+        return $this->makeScout($query, Anime::class);
     }
 
     /**

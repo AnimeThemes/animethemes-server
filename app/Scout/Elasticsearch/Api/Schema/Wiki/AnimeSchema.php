@@ -10,7 +10,7 @@ use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -29,7 +29,7 @@ class AnimeSchema extends Schema
 {
     public function type(): string
     {
-        return AnimeResource::$wrap;
+        return AnimeJsonResource::$wrap;
     }
 
     /**

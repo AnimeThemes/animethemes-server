@@ -7,7 +7,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\Discord\DiscordThread;
+use App\Filament\Resources\Discord\DiscordThreadResource;
 use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
@@ -32,10 +32,10 @@ test('render index page', function () {
         ->count(10)
         ->create();
 
-    get(DiscordThread::getUrl('index'))
+    get(DiscordThreadResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(DiscordThread::class))
+    Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -53,7 +53,7 @@ test('render view page', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    get(DiscordThread::getUrl('view', ['record' => $record]))
+    get(DiscordThreadResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -67,7 +67,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(DiscordThread::class))
+    Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -86,14 +86,14 @@ test('mount edit action', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(DiscordThread::class))
+    Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(DiscordThread::class))
+    Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
@@ -102,7 +102,7 @@ test('user cannot edit record', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(DiscordThread::class))
+    Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
@@ -111,6 +111,6 @@ test('user cannot delete record', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(DiscordThread::class))
+    Livewire::test(getIndexPage(DiscordThreadResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

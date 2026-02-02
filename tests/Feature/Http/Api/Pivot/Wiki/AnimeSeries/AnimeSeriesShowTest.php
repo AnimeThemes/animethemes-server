@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeSeriesSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
@@ -44,7 +44,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeSeriesResource($animeSeries, new Query())
+                new AnimeSeriesJsonResource($animeSeries, new Query())
                     ->response()
                     ->getData()
             ),
@@ -78,7 +78,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeSeriesResource($animeSeries, new Query($parameters))
+                new AnimeSeriesJsonResource($animeSeries, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -96,7 +96,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeSeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeSeriesJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -112,7 +112,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeSeriesResource($animeSeries, new Query($parameters))
+                new AnimeSeriesJsonResource($animeSeries, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -147,7 +147,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeSeriesResource($animeSeries, new Query($parameters))
+                new AnimeSeriesJsonResource($animeSeries, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -182,7 +182,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeSeriesResource($animeSeries, new Query($parameters))
+                new AnimeSeriesJsonResource($animeSeries, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -223,7 +223,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AnimeSeriesResource($animeSeries, new Query($parameters))
+                new AnimeSeriesJsonResource($animeSeries, new Query($parameters))
                     ->response()
                     ->getData()
             ),

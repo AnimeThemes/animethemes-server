@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Audio\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Audio;
+use App\Filament\Resources\Wiki\AudioResource;
 use App\Filament\Tabs\Audio\AudioVideoTab;
 use Filament\Schemas\Components\Tabs\Tab;
 
@@ -14,7 +14,7 @@ class ListAudios extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Audio::class;
+    protected static string $resource = AudioResource::class;
 
     /**
      * Get the tabs available.

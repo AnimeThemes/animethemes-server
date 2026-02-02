@@ -15,14 +15,14 @@ use App\Http\Api\Field\Wiki\Song\Performance\PerformanceSongIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
-use App\Http\Resources\Wiki\Song\Resource\PerformanceResource;
+use App\Http\Resources\Wiki\Song\Resource\PerformanceJsonResource;
 use App\Models\Wiki\Song\Performance;
 
 class PerformanceSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return PerformanceResource::$wrap;
+        return PerformanceJsonResource::$wrap;
     }
 
     /**

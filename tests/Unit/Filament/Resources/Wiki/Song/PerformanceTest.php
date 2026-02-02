@@ -9,7 +9,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\Song\Performance;
+use App\Filament\Resources\Wiki\Song\PerformanceResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
@@ -36,10 +36,10 @@ test('render index page', function () {
         ->artist(Artist::factory()->createOne())
         ->create();
 
-    get(Performance::getUrl('index'))
+    get(PerformanceResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->assertCanSeeTableRecords(collect([$records]));
 });
 
@@ -58,7 +58,7 @@ test('render view page', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    get(Performance::getUrl('view', ['record' => $record]))
+    get(PerformanceResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -72,7 +72,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -96,14 +96,14 @@ test('mount edit action', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
@@ -113,7 +113,7 @@ test('user cannot edit record', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
@@ -123,7 +123,7 @@ test('user cannot delete record', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -135,7 +135,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -146,6 +146,6 @@ test('user cannot force delete record', function () {
         ->artist(Artist::factory()->createOne())
         ->createOne();
 
-    Livewire::test(getIndexPage(Performance::class))
+    Livewire::test(getIndexPage(PerformanceResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

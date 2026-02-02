@@ -23,14 +23,14 @@ use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
+use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryJsonResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 class EntrySchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return EntryResource::$wrap;
+        return EntryJsonResource::$wrap;
     }
 
     /**

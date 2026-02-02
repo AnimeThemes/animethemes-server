@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
+use App\Http\Resources\Wiki\Resource\SeriesJsonResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class SeriesController extends BaseController
     /**
      * @param  StoreAction<Series>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): SeriesResource
+    public function store(StoreRequest $request, StoreAction $action): SeriesJsonResource
     {
         $series = $action->store(Series::query(), $request->validated());
 
-        return new SeriesResource($series, new Query());
+        return new SeriesJsonResource($series, new Query());
     }
 
-    public function show(ShowRequest $request, Series $series, ShowAction $action): SeriesResource
+    public function show(ShowRequest $request, Series $series, ShowAction $action): SeriesJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($series, $query, $request->schema());
 
-        return new SeriesResource($show, $query);
+        return new SeriesJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Series $series, UpdateAction $action): SeriesResource
+    public function update(UpdateRequest $request, Series $series, UpdateAction $action): SeriesJsonResource
     {
         $updated = $action->update($series, $request->validated());
 
-        return new SeriesResource($updated, new Query());
+        return new SeriesJsonResource($updated, new Query());
     }
 
-    public function destroy(Series $series, DestroyAction $action): SeriesResource
+    public function destroy(Series $series, DestroyAction $action): SeriesJsonResource
     {
         $deleted = $action->destroy($series);
 
-        return new SeriesResource($deleted, new Query());
+        return new SeriesJsonResource($deleted, new Query());
     }
 
-    public function restore(Series $series, RestoreAction $action): SeriesResource
+    public function restore(Series $series, RestoreAction $action): SeriesJsonResource
     {
         $restored = $action->restore($series);
 
-        return new SeriesResource($restored, new Query());
+        return new SeriesJsonResource($restored, new Query());
     }
 
     public function forceDelete(Series $series, ForceDeleteAction $action): JsonResponse

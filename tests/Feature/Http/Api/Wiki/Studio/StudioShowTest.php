@@ -13,7 +13,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\StudioSchema;
-use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Http\Resources\Wiki\Resource\StudioJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
@@ -34,7 +34,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query())
+                new StudioJsonResource($studio, new Query())
                     ->response()
                     ->getData()
             ),
@@ -53,7 +53,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query())
+                new StudioJsonResource($studio, new Query())
                     ->response()
                     ->getData()
             ),
@@ -84,7 +84,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -102,7 +102,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            StudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -113,7 +113,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -147,7 +147,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -181,7 +181,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -223,7 +223,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -257,7 +257,7 @@ test('resources by site', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -291,7 +291,7 @@ test('images by facet', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new StudioResource($studio, new Query($parameters))
+                new StudioJsonResource($studio, new Query($parameters))
                     ->response()
                     ->getData()
             ),

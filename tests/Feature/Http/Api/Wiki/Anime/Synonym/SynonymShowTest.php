@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,7 +31,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query())
+                new SynonymJsonResource($synonym, new Query())
                     ->response()
                     ->getData()
             ),
@@ -53,7 +53,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query())
+                new SynonymJsonResource($synonym, new Query())
                     ->response()
                     ->getData()
             ),
@@ -82,7 +82,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query($parameters))
+                new SynonymJsonResource($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -100,7 +100,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SynonymResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SynonymJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -113,7 +113,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query($parameters))
+                new SynonymJsonResource($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -145,7 +145,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query($parameters))
+                new SynonymJsonResource($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -177,7 +177,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query($parameters))
+                new SynonymJsonResource($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -217,7 +217,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymResource($synonym, new Query($parameters))
+                new SynonymJsonResource($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),

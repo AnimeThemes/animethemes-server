@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki\Video;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Script as ScriptResource;
+use App\Filament\Resources\Wiki\Video\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Filament\Tables\Table;
 

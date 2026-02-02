@@ -15,14 +15,14 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Pivots\Wiki\ArtistSong;
 
 class ArtistSongSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return ArtistSongResource::$wrap;
+        return ArtistSongJsonResource::$wrap;
     }
 
     /**

@@ -7,7 +7,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\Admin\Announcement;
+use App\Filament\Resources\Admin\AnnouncementResource;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Models\Auth\User;
 use Filament\Actions\Testing\TestAction;
@@ -28,28 +28,28 @@ test('render index page', function () {
 
     $records = AnnouncementModel::factory()->count(10)->create();
 
-    get(Announcement::getUrl('index'))
+    get(AnnouncementResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Announcement::class))
+    Livewire::test(getIndexPage(AnnouncementResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(Announcement::class))
+    Livewire::test(getIndexPage(AnnouncementResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function () {
     $record = AnnouncementModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Announcement::class))
+    Livewire::test(getIndexPage(AnnouncementResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = AnnouncementModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Announcement::class))
+    Livewire::test(getIndexPage(AnnouncementResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

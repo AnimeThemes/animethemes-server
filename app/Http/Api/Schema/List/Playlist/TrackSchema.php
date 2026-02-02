@@ -25,7 +25,7 @@ use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\List\Playlist\Resource\TrackResource;
+use App\Http\Resources\List\Playlist\Resource\TrackJsonResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +33,7 @@ class TrackSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return TrackResource::$wrap;
+        return TrackJsonResource::$wrap;
     }
 
     /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Document\Page;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Document\Page as PageFilament;
+use App\Filament\Resources\Document\PageResource as PageFilament;
 use App\Models\Document\Page;
 
 /**

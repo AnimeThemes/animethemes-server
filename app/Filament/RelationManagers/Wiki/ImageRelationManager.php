@@ -7,7 +7,7 @@ namespace App\Filament\RelationManagers\Wiki;
 use App\Filament\Actions\Models\Wiki\Image\AttachImageAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Image as ImageResource;
+use App\Filament\Resources\Wiki\ImageResource;
 use App\Models\Wiki\Image;
 use App\Pivots\Morph\Imageable;
 use Filament\Tables\Table;

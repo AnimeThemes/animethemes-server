@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\GroupResource;
+use App\Http\Resources\Wiki\Resource\GroupJsonResource;
 use App\Models\Wiki\Group;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class GroupCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Group $group): GroupResource => new GroupResource($group, $this->query))->all();
+        return $this->collection->map(fn (Group $group): GroupJsonResource => new GroupJsonResource($group, $this->query))->all();
     }
 }

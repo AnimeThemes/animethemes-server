@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
-use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
+use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryJsonResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class EntryController extends BaseController
     /**
      * @param  StoreAction<AnimeThemeEntry>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): EntryResource
+    public function store(StoreRequest $request, StoreAction $action): EntryJsonResource
     {
         $entry = $action->store(AnimeThemeEntry::query(), $request->validated());
 
-        return new EntryResource($entry, new Query());
+        return new EntryJsonResource($entry, new Query());
     }
 
-    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, ShowAction $action): EntryResource
+    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, ShowAction $action): EntryJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($animethemeentry, $query, $request->schema());
 
-        return new EntryResource($show, $query);
+        return new EntryJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, AnimeThemeEntry $animethemeentry, UpdateAction $action): EntryResource
+    public function update(UpdateRequest $request, AnimeThemeEntry $animethemeentry, UpdateAction $action): EntryJsonResource
     {
         $updated = $action->update($animethemeentry, $request->validated());
 
-        return new EntryResource($updated, new Query());
+        return new EntryJsonResource($updated, new Query());
     }
 
-    public function destroy(AnimeThemeEntry $animethemeentry, DestroyAction $action): EntryResource
+    public function destroy(AnimeThemeEntry $animethemeentry, DestroyAction $action): EntryJsonResource
     {
         $deleted = $action->destroy($animethemeentry);
 
-        return new EntryResource($deleted, new Query());
+        return new EntryJsonResource($deleted, new Query());
     }
 
-    public function restore(AnimeThemeEntry $animethemeentry, RestoreAction $action): EntryResource
+    public function restore(AnimeThemeEntry $animethemeentry, RestoreAction $action): EntryJsonResource
     {
         $restored = $action->restore($animethemeentry);
 
-        return new EntryResource($restored, new Query());
+        return new EntryJsonResource($restored, new Query());
     }
 
     public function forceDelete(AnimeThemeEntry $animethemeentry, ForceDeleteAction $action): JsonResponse

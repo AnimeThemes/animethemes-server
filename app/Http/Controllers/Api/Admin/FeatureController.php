@@ -14,7 +14,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\FeatureCollection;
-use App\Http\Resources\Admin\Resource\FeatureResource;
+use App\Http\Resources\Admin\Resource\FeatureJsonResource;
 use App\Models\Admin\Feature;
 
 class FeatureController extends BaseController
@@ -35,19 +35,19 @@ class FeatureController extends BaseController
         return new FeatureCollection($features, $query);
     }
 
-    public function show(ShowRequest $request, Feature $feature, ShowAction $action): FeatureResource
+    public function show(ShowRequest $request, Feature $feature, ShowAction $action): FeatureJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($feature, $query, $request->schema());
 
-        return new FeatureResource($show, $query);
+        return new FeatureJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Feature $feature, UpdateAction $action): FeatureResource
+    public function update(UpdateRequest $request, Feature $feature, UpdateAction $action): FeatureJsonResource
     {
         $updated = $action->update($feature, $request->validated());
 
-        return new FeatureResource($updated, new Query());
+        return new FeatureJsonResource($updated, new Query());
     }
 }

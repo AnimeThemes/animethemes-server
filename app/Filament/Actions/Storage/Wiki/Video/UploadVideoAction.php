@@ -16,7 +16,7 @@ use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkActio
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Auth\User as UserResource;
+use App\Filament\Resources\Auth\UserResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Models\Auth\User;

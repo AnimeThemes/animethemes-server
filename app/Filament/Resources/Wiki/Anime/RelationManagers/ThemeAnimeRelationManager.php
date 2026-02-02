@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\Anime\ThemeRelationManager;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Filament\Tables\Table;
 
 class ThemeAnimeRelationManager extends ThemeRelationManager
@@ -20,7 +20,7 @@ class ThemeAnimeRelationManager extends ThemeRelationManager
     {
         return parent::table(
             $table
-                ->inverseRelationship(ThemeModel::RELATION_ANIME)
+                ->inverseRelationship(AnimeTheme::RELATION_ANIME)
         );
     }
 }

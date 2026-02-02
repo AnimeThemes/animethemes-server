@@ -22,7 +22,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
+use App\Http\Resources\Wiki\Resource\SeriesJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
@@ -109,7 +109,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SeriesJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

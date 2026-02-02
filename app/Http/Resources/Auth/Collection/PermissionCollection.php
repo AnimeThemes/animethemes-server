@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Auth\Collection;
 
-use App\Http\Resources\Auth\Resource\PermissionResource;
+use App\Http\Resources\Auth\Resource\PermissionJsonResource;
 use App\Http\Resources\BaseCollection;
 use App\Models\Auth\Permission;
 use Illuminate\Http\Request;
@@ -26,6 +26,6 @@ class PermissionCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Permission $permission): PermissionResource => new PermissionResource($permission, $this->query))->all();
+        return $this->collection->map(fn (Permission $permission): PermissionJsonResource => new PermissionJsonResource($permission, $this->query))->all();
     }
 }

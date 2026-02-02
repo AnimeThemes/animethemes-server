@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
+use App\Http\Resources\Wiki\Resource\SeriesJsonResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class SeriesCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Series $series): SeriesResource => new SeriesResource($series, $this->query))->all();
+        return $this->collection->map(fn (Series $series): SeriesJsonResource => new SeriesJsonResource($series, $this->query))->all();
     }
 }

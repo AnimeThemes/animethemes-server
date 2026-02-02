@@ -10,14 +10,14 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
-use App\Http\Resources\Auth\Resource\UserResource;
+use App\Http\Resources\Auth\Resource\UserJsonResource;
 use App\Models\Auth\User;
 
 class UserSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return UserResource::$wrap;
+        return UserJsonResource::$wrap;
     }
 
     /**

@@ -15,14 +15,14 @@ use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberMemberIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
 use App\Pivots\Wiki\ArtistMember;
 
 class ArtistMemberSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return ArtistMemberResource::$wrap;
+        return ArtistMemberJsonResource::$wrap;
     }
 
     /**

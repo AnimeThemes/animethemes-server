@@ -23,7 +23,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
-use App\Http\Resources\Wiki\Resource\ImageResource;
+use App\Http\Resources\Wiki\Resource\ImageJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -113,7 +113,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ImageResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ImageJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

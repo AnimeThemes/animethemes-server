@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Pivot\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioJsonResource;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class AnimeStudioCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (AnimeStudio $animeStudio): AnimeStudioResource => new AnimeStudioResource($animeStudio, $this->query))->all();
+        return $this->collection->map(fn (AnimeStudio $animeStudio): AnimeStudioJsonResource => new AnimeStudioJsonResource($animeStudio, $this->query))->all();
     }
 }

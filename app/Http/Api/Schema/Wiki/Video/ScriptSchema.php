@@ -12,7 +12,7 @@ use App\Http\Api\Field\Wiki\Video\Script\ScriptVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
+use App\Http\Resources\Wiki\Video\Resource\ScriptJsonResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +20,7 @@ class ScriptSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return ScriptResource::$wrap;
+        return ScriptJsonResource::$wrap;
     }
 
     /**

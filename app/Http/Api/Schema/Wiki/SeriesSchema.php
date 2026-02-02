@@ -12,14 +12,14 @@ use App\Http\Api\Field\Wiki\Series\SeriesSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
+use App\Http\Resources\Wiki\Resource\SeriesJsonResource;
 use App\Models\Wiki\Series;
 
 class SeriesSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return SeriesResource::$wrap;
+        return SeriesJsonResource::$wrap;
     }
 
     /**

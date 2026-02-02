@@ -8,13 +8,13 @@ use App\Http\Api\Criteria\Include\Criteria;
 use App\Http\Api\Field\IntField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\BaseResource;
+use App\Http\Resources\BaseJsonResource;
 
 class IdField extends IntField
 {
     public function __construct(Schema $schema, string $column)
     {
-        parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
+        parent::__construct($schema, BaseJsonResource::ATTRIBUTE_ID, $column);
     }
 
     public function shouldSelect(Query $query, Schema $schema): bool

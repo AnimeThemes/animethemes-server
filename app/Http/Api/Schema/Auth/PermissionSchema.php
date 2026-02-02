@@ -12,14 +12,14 @@ use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Auth\Resource\PermissionResource;
+use App\Http\Resources\Auth\Resource\PermissionJsonResource;
 use App\Models\Auth\Permission;
 
 class PermissionSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return PermissionResource::$wrap;
+        return PermissionJsonResource::$wrap;
     }
 
     /**

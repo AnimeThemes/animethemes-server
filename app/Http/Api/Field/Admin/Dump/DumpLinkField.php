@@ -9,14 +9,14 @@ use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Admin\Resource\DumpResource;
+use App\Http\Resources\Admin\Resource\DumpJsonResource;
 use Illuminate\Database\Eloquent\Model;
 
 class DumpLinkField extends Field implements RenderableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, DumpResource::ATTRIBUTE_LINK);
+        parent::__construct($schema, DumpJsonResource::ATTRIBUTE_LINK);
     }
 
     public function shouldRender(Query $query): bool

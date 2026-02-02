@@ -19,7 +19,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Collection\PlaylistCollection;
-use App\Http\Resources\List\Resource\PlaylistResource;
+use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +57,7 @@ class PlaylistController extends BaseController
     /**
      * @param  StoreAction<Playlist>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): PlaylistResource
+    public function store(StoreRequest $request, StoreAction $action): PlaylistJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -66,23 +66,23 @@ class PlaylistController extends BaseController
 
         $playlist = $action->store(Playlist::query(), $validated);
 
-        return new PlaylistResource($playlist, new Query());
+        return new PlaylistJsonResource($playlist, new Query());
     }
 
-    public function show(ShowRequest $request, Playlist $playlist, ShowAction $action): PlaylistResource
+    public function show(ShowRequest $request, Playlist $playlist, ShowAction $action): PlaylistJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($playlist, $query, $request->schema());
 
-        return new PlaylistResource($show, $query);
+        return new PlaylistJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Playlist $playlist, UpdateAction $action): PlaylistResource
+    public function update(UpdateRequest $request, Playlist $playlist, UpdateAction $action): PlaylistJsonResource
     {
         $updated = $action->update($playlist, $request->validated());
 
-        return new PlaylistResource($updated, new Query());
+        return new PlaylistJsonResource($updated, new Query());
     }
 
     public function destroy(Playlist $playlist, DestroyAction $action): JsonResponse

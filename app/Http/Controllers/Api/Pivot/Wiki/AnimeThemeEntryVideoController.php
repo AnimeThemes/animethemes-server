@@ -14,7 +14,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeThemeEntryVideoCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoJsonResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -39,7 +39,7 @@ class AnimeThemeEntryVideoController extends PivotController
     /**
      * @param  StoreAction<AnimeThemeEntryVideo>  $action
      */
-    public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): AnimeThemeEntryVideoResource
+    public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): AnimeThemeEntryVideoJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -51,10 +51,10 @@ class AnimeThemeEntryVideoController extends PivotController
 
         $entryVideo = $action->store(AnimeThemeEntryVideo::query(), $validated);
 
-        return new AnimeThemeEntryVideoResource($entryVideo, new Query());
+        return new AnimeThemeEntryVideoJsonResource($entryVideo, new Query());
     }
 
-    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, Video $video, ShowAction $action): AnimeThemeEntryVideoResource
+    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, Video $video, ShowAction $action): AnimeThemeEntryVideoJsonResource
     {
         $entryVideo = AnimeThemeEntryVideo::query()
             ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $animethemeentry->getKey())
@@ -65,7 +65,7 @@ class AnimeThemeEntryVideoController extends PivotController
 
         $show = $action->show($entryVideo, $query, $request->schema());
 
-        return new AnimeThemeEntryVideoResource($show, $query);
+        return new AnimeThemeEntryVideoJsonResource($show, $query);
     }
 
     public function destroy(AnimeThemeEntry $animethemeentry, Video $video, DestroyAction $action): JsonResponse

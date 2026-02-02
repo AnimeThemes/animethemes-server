@@ -20,7 +20,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\Playlist\ForwardBackwardSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
-use App\Http\Resources\List\Playlist\Resource\TrackResource;
+use App\Http\Resources\List\Playlist\Resource\TrackJsonResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
@@ -222,7 +222,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            TrackResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            TrackJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

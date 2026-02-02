@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class AnimeController extends BaseController
     /**
      * @param  StoreAction<Anime>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): AnimeResource
+    public function store(StoreRequest $request, StoreAction $action): AnimeJsonResource
     {
         $anime = $action->store(Anime::query(), $request->validated());
 
-        return new AnimeResource($anime, new Query());
+        return new AnimeJsonResource($anime, new Query());
     }
 
-    public function show(ShowRequest $request, Anime $anime, ShowAction $action): AnimeResource
+    public function show(ShowRequest $request, Anime $anime, ShowAction $action): AnimeJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($anime, $query, $request->schema());
 
-        return new AnimeResource($show, $query);
+        return new AnimeJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): AnimeResource
+    public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): AnimeJsonResource
     {
         $updated = $action->update($anime, $request->validated());
 
-        return new AnimeResource($updated, new Query());
+        return new AnimeJsonResource($updated, new Query());
     }
 
-    public function destroy(Anime $anime, DestroyAction $action): AnimeResource
+    public function destroy(Anime $anime, DestroyAction $action): AnimeJsonResource
     {
         $deleted = $action->destroy($anime);
 
-        return new AnimeResource($deleted, new Query());
+        return new AnimeJsonResource($deleted, new Query());
     }
 
-    public function restore(Anime $anime, RestoreAction $action): AnimeResource
+    public function restore(Anime $anime, RestoreAction $action): AnimeJsonResource
     {
         $restored = $action->restore($anime);
 
-        return new AnimeResource($restored, new Query());
+        return new AnimeJsonResource($restored, new Query());
     }
 
     public function forceDelete(Anime $anime, ForceDeleteAction $action): JsonResponse

@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
-use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Http\Resources\Wiki\Resource\StudioJsonResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class StudioController extends BaseController
     /**
      * @param  StoreAction<Studio>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): StudioResource
+    public function store(StoreRequest $request, StoreAction $action): StudioJsonResource
     {
         $studio = $action->store(Studio::query(), $request->validated());
 
-        return new StudioResource($studio, new Query());
+        return new StudioJsonResource($studio, new Query());
     }
 
-    public function show(ShowRequest $request, Studio $studio, ShowAction $action): StudioResource
+    public function show(ShowRequest $request, Studio $studio, ShowAction $action): StudioJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($studio, $query, $request->schema());
 
-        return new StudioResource($show, $query);
+        return new StudioJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): StudioResource
+    public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): StudioJsonResource
     {
         $updated = $action->update($studio, $request->validated());
 
-        return new StudioResource($updated, new Query());
+        return new StudioJsonResource($updated, new Query());
     }
 
-    public function destroy(Studio $studio, DestroyAction $action): StudioResource
+    public function destroy(Studio $studio, DestroyAction $action): StudioJsonResource
     {
         $deleted = $action->destroy($studio);
 
-        return new StudioResource($deleted, new Query());
+        return new StudioJsonResource($deleted, new Query());
     }
 
-    public function restore(Studio $studio, RestoreAction $action): StudioResource
+    public function restore(Studio $studio, RestoreAction $action): StudioJsonResource
     {
         $restored = $action->restore($studio);
 
-        return new StudioResource($restored, new Query());
+        return new StudioJsonResource($restored, new Query());
     }
 
     public function forceDelete(Studio $studio, ForceDeleteAction $action): JsonResponse

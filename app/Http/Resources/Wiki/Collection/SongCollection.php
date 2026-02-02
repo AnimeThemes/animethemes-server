@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class SongCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Song $song): SongResource => new SongResource($song, $this->query))->all();
+        return $this->collection->map(fn (Song $song): SongJsonResource => new SongJsonResource($song, $this->query))->all();
     }
 }

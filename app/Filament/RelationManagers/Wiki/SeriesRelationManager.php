@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Series as SeriesResource;
+use App\Filament\Resources\Wiki\SeriesResource;
 use App\Models\Wiki\Series;
 use Filament\Tables\Table;
 

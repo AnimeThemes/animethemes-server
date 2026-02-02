@@ -25,7 +25,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -117,7 +117,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ArtistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ArtistJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

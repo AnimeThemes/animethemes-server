@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Pivot\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ArtistSongCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (ArtistSong $artistSong): ArtistSongResource => new ArtistSongResource($artistSong, $this->query))->all();
+        return $this->collection->map(fn (ArtistSong $artistSong): ArtistSongJsonResource => new ArtistSongJsonResource($artistSong, $this->query))->all();
     }
 }

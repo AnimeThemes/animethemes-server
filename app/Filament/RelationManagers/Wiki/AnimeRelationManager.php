@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime as AnimeResource;
+use App\Filament\Resources\Wiki\AnimeResource;
 use App\Models\Wiki\Anime;
 use Filament\Tables\Table;
 

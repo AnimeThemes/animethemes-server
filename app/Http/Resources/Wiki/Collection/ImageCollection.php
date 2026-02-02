@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\ImageResource;
+use App\Http\Resources\Wiki\Resource\ImageJsonResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ImageCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Image $image): ImageResource => new ImageResource($image, $this->query))->all();
+        return $this->collection->map(fn (Image $image): ImageJsonResource => new ImageJsonResource($image, $this->query))->all();
     }
 }

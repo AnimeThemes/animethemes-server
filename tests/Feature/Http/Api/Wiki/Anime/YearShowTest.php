@@ -10,7 +10,7 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Resource\AnimeResource;
+use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Str;
 
@@ -143,7 +143,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AnimeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

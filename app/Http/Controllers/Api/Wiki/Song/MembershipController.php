@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Song\Collection\MembershipCollection;
-use App\Http\Resources\Wiki\Song\Resource\MembershipResource;
+use App\Http\Resources\Wiki\Song\Resource\MembershipJsonResource;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class MembershipController extends BaseController
     /**
      * @param  StoreAction<Membership>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): MembershipResource
+    public function store(StoreRequest $request, StoreAction $action): MembershipJsonResource
     {
         $membership = $action->store(Membership::query(), $request->validated());
 
-        return new MembershipResource($membership, new Query());
+        return new MembershipJsonResource($membership, new Query());
     }
 
-    public function show(ShowRequest $request, Membership $membership, ShowAction $action): MembershipResource
+    public function show(ShowRequest $request, Membership $membership, ShowAction $action): MembershipJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($membership, $query, $request->schema());
 
-        return new MembershipResource($show, $query);
+        return new MembershipJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Membership $membership, UpdateAction $action): MembershipResource
+    public function update(UpdateRequest $request, Membership $membership, UpdateAction $action): MembershipJsonResource
     {
         $updated = $action->update($membership, $request->validated());
 
-        return new MembershipResource($updated, new Query());
+        return new MembershipJsonResource($updated, new Query());
     }
 
-    public function destroy(Membership $membership, DestroyAction $action): MembershipResource
+    public function destroy(Membership $membership, DestroyAction $action): MembershipJsonResource
     {
         $deleted = $action->destroy($membership);
 
-        return new MembershipResource($deleted, new Query());
+        return new MembershipJsonResource($deleted, new Query());
     }
 
-    public function restore(Membership $membership, RestoreAction $action): MembershipResource
+    public function restore(Membership $membership, RestoreAction $action): MembershipJsonResource
     {
         $restored = $action->restore($membership);
 
-        return new MembershipResource($restored, new Query());
+        return new MembershipJsonResource($restored, new Query());
     }
 
     public function forceDelete(Membership $membership, ForceDeleteAction $action): JsonResponse

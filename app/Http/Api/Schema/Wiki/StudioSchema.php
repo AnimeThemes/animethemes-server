@@ -13,7 +13,7 @@ use App\Http\Api\Field\Wiki\Studio\StudioSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
-use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Http\Resources\Wiki\Resource\StudioJsonResource;
 use App\Models\Wiki\Studio;
 
 class StudioSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
@@ -30,7 +30,7 @@ class StudioSchema extends EloquentSchema implements InteractsWithPivots, Search
 
     public function type(): string
     {
-        return StudioResource::$wrap;
+        return StudioJsonResource::$wrap;
     }
 
     /**

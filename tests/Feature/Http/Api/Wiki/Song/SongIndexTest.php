@@ -23,7 +23,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\SongCollection;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -114,7 +114,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SongJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

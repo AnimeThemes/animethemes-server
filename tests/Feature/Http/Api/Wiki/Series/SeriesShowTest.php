@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SeriesSchema;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
+use App\Http\Resources\Wiki\Resource\SeriesJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -30,7 +30,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query())
+                new SeriesJsonResource($series, new Query())
                     ->response()
                     ->getData()
             ),
@@ -49,7 +49,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query())
+                new SeriesJsonResource($series, new Query())
                     ->response()
                     ->getData()
             ),
@@ -80,7 +80,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query($parameters))
+                new SeriesJsonResource($series, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -98,7 +98,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SeriesResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SeriesJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -109,7 +109,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query($parameters))
+                new SeriesJsonResource($series, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -143,7 +143,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query($parameters))
+                new SeriesJsonResource($series, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -177,7 +177,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query($parameters))
+                new SeriesJsonResource($series, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -219,7 +219,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SeriesResource($series, new Query($parameters))
+                new SeriesJsonResource($series, new Query($parameters))
                     ->response()
                     ->getData()
             ),

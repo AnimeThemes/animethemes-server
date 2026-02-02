@@ -24,14 +24,14 @@ use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
-use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
+use App\Http\Resources\Admin\Resource\FeaturedThemeJsonResource;
 use App\Models\Admin\FeaturedTheme;
 
 class FeaturedThemeSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return FeaturedThemeResource::$wrap;
+        return FeaturedThemeJsonResource::$wrap;
     }
 
     /**

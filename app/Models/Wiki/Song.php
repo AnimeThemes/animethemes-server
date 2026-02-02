@@ -13,7 +13,7 @@ use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song\Performance;
@@ -138,7 +138,7 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
         return $this->belongsToMany(Artist::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_SONG, ArtistSong::ATTRIBUTE_ARTIST)
             ->using(ArtistSong::class)
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
-            ->as(ArtistSongResource::$wrap)
+            ->as(ArtistSongJsonResource::$wrap)
             ->withTimestamps();
     }
 

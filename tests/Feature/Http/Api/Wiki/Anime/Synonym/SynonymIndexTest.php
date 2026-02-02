@@ -22,7 +22,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -116,7 +116,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SynonymResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SynonymJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

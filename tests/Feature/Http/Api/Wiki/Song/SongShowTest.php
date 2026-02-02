@@ -12,7 +12,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SongSchema;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
@@ -34,7 +34,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query())
+                new SongJsonResource($song, new Query())
                     ->response()
                     ->getData()
             ),
@@ -53,7 +53,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query())
+                new SongJsonResource($song, new Query())
                     ->response()
                     ->getData()
             ),
@@ -85,7 +85,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -103,7 +103,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            SongJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -114,7 +114,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -157,7 +157,7 @@ test('themes by sequence', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -191,7 +191,7 @@ test('themes by type', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -225,7 +225,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -259,7 +259,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -303,7 +303,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SongResource($song, new Query($parameters))
+                new SongJsonResource($song, new Query($parameters))
                     ->response()
                     ->getData()
             ),

@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Artist\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Artist;
+use App\Filament\Resources\Wiki\ArtistResource;
 use App\Filament\Tabs\Artist\Image\ArtistLargeCoverTab;
 use App\Filament\Tabs\Artist\Image\ArtistSmallCoverTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnidbResourceTab;
@@ -19,7 +19,7 @@ use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistXResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
 use App\Filament\Tabs\Artist\Song\ArtistPerformanceTab;
-use App\Models\Wiki\Artist as ArtistModel;
+use App\Models\Wiki\Artist;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -27,14 +27,14 @@ class ListArtists extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Artist::class;
+    protected static string $resource = ArtistResource::class;
 
     /**
      * Using Laravel Scout to search.
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {
-        return $this->makeScout($query, ArtistModel::class);
+        return $this->makeScout($query, Artist::class);
     }
 
     /**

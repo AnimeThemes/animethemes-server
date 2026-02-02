@@ -8,7 +8,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\FeaturedThemeSchema;
-use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
+use App\Http\Resources\Admin\Resource\FeaturedThemeJsonResource;
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -66,7 +66,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new FeaturedThemeResource($currentTheme, new Query())
+                new FeaturedThemeJsonResource($currentTheme, new Query())
                     ->response()
                     ->getData()
             ),
@@ -106,7 +106,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new FeaturedThemeResource($currentTheme, new Query($parameters))
+                new FeaturedThemeJsonResource($currentTheme, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -124,7 +124,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeaturedThemeResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeaturedThemeJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -135,7 +135,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new FeaturedThemeResource($currentTheme, new Query($parameters))
+                new FeaturedThemeJsonResource($currentTheme, new Query($parameters))
                     ->response()
                     ->getData()
             ),

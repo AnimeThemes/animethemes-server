@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\VideoResource;
+use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class VideoCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Video $video): VideoResource => new VideoResource($video, $this->query))->all();
+        return $this->collection->map(fn (Video $video): VideoJsonResource => new VideoJsonResource($video, $this->query))->all();
     }
 }

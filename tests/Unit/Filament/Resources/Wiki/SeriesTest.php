@@ -9,7 +9,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\Series;
+use App\Filament\Resources\Wiki\SeriesResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series as SeriesModel;
 use Filament\Actions\Testing\TestAction;
@@ -30,10 +30,10 @@ test('render index page', function () {
 
     $records = SeriesModel::factory()->count(10)->create();
 
-    get(Series::getUrl('index'))
+    get(SeriesResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -49,7 +49,7 @@ test('render view page', function () {
 
     $record = SeriesModel::factory()->createOne();
 
-    get(Series::getUrl('view', ['record' => $record]))
+    get(SeriesResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -63,7 +63,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -80,28 +80,28 @@ test('mount edit action', function () {
 
     $record = SeriesModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function () {
     $record = SeriesModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = SeriesModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -110,7 +110,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -118,6 +118,6 @@ test('user cannot restore record', function () {
 test('user cannot force delete record', function () {
     $record = SeriesModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Series::class))
+    Livewire::test(getIndexPage(SeriesResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

@@ -13,7 +13,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
-use App\Http\Resources\List\Resource\PlaylistResource;
+use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -118,7 +118,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PlaylistResource($playlist, new Query())
+                new PlaylistJsonResource($playlist, new Query())
                     ->response()
                     ->getData()
             ),
@@ -157,7 +157,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PlaylistResource($playlist, new Query($parameters))
+                new PlaylistJsonResource($playlist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -177,7 +177,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PlaylistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PlaylistJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -191,7 +191,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PlaylistResource($playlist, new Query($parameters))
+                new PlaylistJsonResource($playlist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -229,7 +229,7 @@ test('images by facet', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new PlaylistResource($playlist, new Query($parameters))
+                new PlaylistJsonResource($playlist, new Query($parameters))
                     ->response()
                     ->getData()
             ),

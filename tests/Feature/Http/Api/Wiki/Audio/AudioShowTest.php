@@ -8,7 +8,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AudioSchema;
-use App\Http\Resources\Wiki\Resource\AudioResource;
+use App\Http\Resources\Wiki\Resource\AudioJsonResource;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 
@@ -24,7 +24,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AudioResource($audio, new Query())
+                new AudioJsonResource($audio, new Query())
                     ->response()
                     ->getData()
             ),
@@ -41,7 +41,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AudioResource($audio, new Query())
+                new AudioJsonResource($audio, new Query())
                     ->response()
                     ->getData()
             ),
@@ -72,7 +72,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AudioResource($audio, new Query($parameters))
+                new AudioJsonResource($audio, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -90,7 +90,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            AudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -101,7 +101,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new AudioResource($audio, new Query($parameters))
+                new AudioJsonResource($audio, new Query($parameters))
                     ->response()
                     ->getData()
             ),

@@ -23,7 +23,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
-use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
+use App\Http\Resources\Wiki\Resource\ExternalResourceJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -113,7 +113,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalResourceJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

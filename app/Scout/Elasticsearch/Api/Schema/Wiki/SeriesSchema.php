@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
-use App\Http\Resources\Wiki\Resource\SeriesResource;
+use App\Http\Resources\Wiki\Resource\SeriesJsonResource;
 use App\Models\Wiki\Series;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -17,7 +17,7 @@ class SeriesSchema extends Schema
 {
     public function type(): string
     {
-        return SeriesResource::$wrap;
+        return SeriesJsonResource::$wrap;
     }
 
     /**

@@ -17,7 +17,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\FeaturedThemeCollection;
-use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
+use App\Http\Resources\Admin\Resource\FeaturedThemeJsonResource;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Date;
@@ -45,27 +45,27 @@ class FeaturedThemeController extends BaseController
     /**
      * @param  StoreAction<FeaturedTheme>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): FeaturedThemeResource
+    public function store(StoreRequest $request, StoreAction $action): FeaturedThemeJsonResource
     {
         $featuredtheme = $action->store(FeaturedTheme::query(), $request->validated());
 
-        return new FeaturedThemeResource($featuredtheme, new Query());
+        return new FeaturedThemeJsonResource($featuredtheme, new Query());
     }
 
-    public function show(ShowRequest $request, FeaturedTheme $featuredtheme, ShowAction $action): FeaturedThemeResource
+    public function show(ShowRequest $request, FeaturedTheme $featuredtheme, ShowAction $action): FeaturedThemeJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($featuredtheme, $query, $request->schema());
 
-        return new FeaturedThemeResource($show, $query);
+        return new FeaturedThemeJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, FeaturedTheme $featuredtheme, UpdateAction $action): FeaturedThemeResource
+    public function update(UpdateRequest $request, FeaturedTheme $featuredtheme, UpdateAction $action): FeaturedThemeJsonResource
     {
         $updated = $action->update($featuredtheme, $request->validated());
 
-        return new FeaturedThemeResource($updated, new Query());
+        return new FeaturedThemeJsonResource($updated, new Query());
     }
 
     public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): JsonResponse

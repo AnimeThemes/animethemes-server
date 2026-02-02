@@ -6,7 +6,7 @@ namespace App\Events\Wiki\Song\Performance;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceFilament;
+use App\Filament\Resources\Wiki\Song\PerformanceResource as PerformanceFilament;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;

@@ -16,7 +16,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\FeatureSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Collection\FeatureCollection;
-use App\Http\Resources\Admin\Resource\FeatureResource;
+use App\Http\Resources\Admin\Resource\FeatureJsonResource;
 use App\Models\Admin\Feature;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
@@ -96,7 +96,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeatureJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
         SortParser::param() => new IdField($schema, Feature::ATTRIBUTE_ID)->getSort()->format(Direction::ASCENDING),
     ];

@@ -25,7 +25,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use App\Http\Resources\Wiki\Resource\VideoResource;
+use App\Http\Resources\Wiki\Resource\VideoJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -127,7 +127,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            VideoResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            VideoJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

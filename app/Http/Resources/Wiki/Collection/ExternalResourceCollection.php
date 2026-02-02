@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
+use App\Http\Resources\Wiki\Resource\ExternalResourceJsonResource;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
 
@@ -27,7 +27,7 @@ class ExternalResourceCollection extends BaseCollection
     public function toArray(Request $request): array
     {
         return $this->collection->map(
-            fn (ExternalResource $resource): ExternalResourceResource => new ExternalResourceResource($resource, $this->query)
+            fn (ExternalResource $resource): ExternalResourceJsonResource => new ExternalResourceJsonResource($resource, $this->query)
         )->all();
     }
 }

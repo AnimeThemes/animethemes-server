@@ -6,7 +6,7 @@ namespace App\Events\Wiki\Anime\Synonym;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Anime\Synonym as SynonymFilament;
+use App\Filament\Resources\Wiki\Anime\SynonymResource as SynonymFilament;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;

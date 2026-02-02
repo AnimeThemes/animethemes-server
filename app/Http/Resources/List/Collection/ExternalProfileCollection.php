@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\List\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\List\Resource\ExternalProfileResource;
+use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ExternalProfileCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (ExternalProfile $profile): ExternalProfileResource => new ExternalProfileResource($profile, $this->query))->all();
+        return $this->collection->map(fn (ExternalProfile $profile): ExternalProfileJsonResource => new ExternalProfileJsonResource($profile, $this->query))->all();
     }
 }

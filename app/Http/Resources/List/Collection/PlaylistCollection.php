@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\List\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\List\Resource\PlaylistResource;
+use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class PlaylistCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Playlist $playlist): PlaylistResource => new PlaylistResource($playlist, $this->query))->all();
+        return $this->collection->map(fn (Playlist $playlist): PlaylistJsonResource => new PlaylistJsonResource($playlist, $this->query))->all();
     }
 }

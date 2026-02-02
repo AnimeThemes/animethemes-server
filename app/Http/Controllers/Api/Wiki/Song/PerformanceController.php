@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Song\Collection\PerformanceCollection;
-use App\Http\Resources\Wiki\Song\Resource\PerformanceResource;
+use App\Http\Resources\Wiki\Song\Resource\PerformanceJsonResource;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\JsonResponse;
 
@@ -43,41 +43,41 @@ class PerformanceController extends BaseController
     /**
      * @param  StoreAction<Performance>  $action
      */
-    public function store(StoreRequest $request, StoreAction $action): PerformanceResource
+    public function store(StoreRequest $request, StoreAction $action): PerformanceJsonResource
     {
         $performance = $action->store(Performance::query(), $request->validated());
 
-        return new PerformanceResource($performance, new Query());
+        return new PerformanceJsonResource($performance, new Query());
     }
 
-    public function show(ShowRequest $request, Performance $performance, ShowAction $action): PerformanceResource
+    public function show(ShowRequest $request, Performance $performance, ShowAction $action): PerformanceJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($performance, $query, $request->schema());
 
-        return new PerformanceResource($show, $query);
+        return new PerformanceJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Performance $performance, UpdateAction $action): PerformanceResource
+    public function update(UpdateRequest $request, Performance $performance, UpdateAction $action): PerformanceJsonResource
     {
         $updated = $action->update($performance, $request->validated());
 
-        return new PerformanceResource($updated, new Query());
+        return new PerformanceJsonResource($updated, new Query());
     }
 
-    public function destroy(Performance $performance, DestroyAction $action): PerformanceResource
+    public function destroy(Performance $performance, DestroyAction $action): PerformanceJsonResource
     {
         $deleted = $action->destroy($performance);
 
-        return new PerformanceResource($deleted, new Query());
+        return new PerformanceJsonResource($deleted, new Query());
     }
 
-    public function restore(Performance $performance, RestoreAction $action): PerformanceResource
+    public function restore(Performance $performance, RestoreAction $action): PerformanceJsonResource
     {
         $restored = $action->restore($performance);
 
-        return new PerformanceResource($restored, new Query());
+        return new PerformanceJsonResource($restored, new Query());
     }
 
     public function forceDelete(Performance $performance, ForceDeleteAction $action): JsonResponse

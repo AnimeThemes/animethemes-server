@@ -14,7 +14,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
@@ -39,7 +39,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query())
+                new ArtistJsonResource($artist, new Query())
                     ->response()
                     ->getData()
             ),
@@ -58,7 +58,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query())
+                new ArtistJsonResource($artist, new Query())
                     ->response()
                     ->getData()
             ),
@@ -87,7 +87,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -105,7 +105,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ArtistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ArtistJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -116,7 +116,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -163,7 +163,7 @@ test('themes by sequence', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -205,7 +205,7 @@ test('themes by type', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -247,7 +247,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -289,7 +289,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -337,7 +337,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -371,7 +371,7 @@ test('resources by site', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -405,7 +405,7 @@ test('images by facet', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ArtistResource($artist, new Query($parameters))
+                new ArtistJsonResource($artist, new Query($parameters))
                     ->response()
                     ->getData()
             ),

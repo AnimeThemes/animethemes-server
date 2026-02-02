@@ -12,13 +12,13 @@ use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Resources\Admin\Resource\DumpResource;
+use App\Http\Resources\Admin\Resource\DumpJsonResource;
 
 class DumpSchema extends EloquentSchema
 {
     public function type(): string
     {
-        return DumpResource::$wrap;
+        return DumpJsonResource::$wrap;
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\Wiki\Artist;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -22,7 +22,7 @@ class ArtistSchema extends Schema
 {
     public function type(): string
     {
-        return ArtistResource::$wrap;
+        return ArtistJsonResource::$wrap;
     }
 
     /**

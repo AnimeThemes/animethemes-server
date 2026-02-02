@@ -7,7 +7,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki\Anime;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -33,7 +33,7 @@ class ThemeSchema extends Schema
 
     public function type(): string
     {
-        return ThemeResource::$wrap;
+        return ThemeJsonResource::$wrap;
     }
 
     /**

@@ -14,14 +14,14 @@ use App\Http\Api\Field\Wiki\Song\Membership\MembershipMemberIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
-use App\Http\Resources\Wiki\Song\Resource\MembershipResource;
+use App\Http\Resources\Wiki\Song\Resource\MembershipJsonResource;
 use App\Models\Wiki\Song\Membership;
 
 class MembershipSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return MembershipResource::$wrap;
+        return MembershipJsonResource::$wrap;
     }
 
     /**

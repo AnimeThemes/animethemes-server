@@ -11,7 +11,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
-use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
+use App\Http\Resources\Wiki\Resource\ExternalResourceJsonResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
@@ -30,7 +30,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query())
+                new ExternalResourceJsonResource($resource, new Query())
                     ->response()
                     ->getData()
             ),
@@ -49,7 +49,7 @@ test('soft delete', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query())
+                new ExternalResourceJsonResource($resource, new Query())
                     ->response()
                     ->getData()
             ),
@@ -81,7 +81,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query($parameters))
+                new ExternalResourceJsonResource($resource, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -99,7 +99,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalResourceJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -110,7 +110,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query($parameters))
+                new ExternalResourceJsonResource($resource, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -144,7 +144,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query($parameters))
+                new ExternalResourceJsonResource($resource, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -178,7 +178,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query($parameters))
+                new ExternalResourceJsonResource($resource, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -219,7 +219,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new ExternalResourceResource($resource, new Query($parameters))
+                new ExternalResourceJsonResource($resource, new Query($parameters))
                     ->response()
                     ->getData()
             ),

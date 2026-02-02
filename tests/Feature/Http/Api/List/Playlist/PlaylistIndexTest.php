@@ -19,7 +19,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\List\Collection\PlaylistCollection;
-use App\Http\Resources\List\Resource\PlaylistResource;
+use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
@@ -135,7 +135,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            PlaylistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            PlaylistJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

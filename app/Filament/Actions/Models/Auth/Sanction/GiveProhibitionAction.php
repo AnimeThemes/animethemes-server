@@ -6,7 +6,7 @@ namespace App\Filament\Actions\Models\Auth\Sanction;
 
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Resources\Auth\Prohibition as ProhibitionResource;
+use App\Filament\Resources\Auth\ProhibitionResource;
 use App\Models\Auth\Prohibition;
 use App\Models\Auth\Sanction;
 use Filament\Schemas\Schema;

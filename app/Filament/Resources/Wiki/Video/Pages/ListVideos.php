@@ -6,11 +6,11 @@ namespace App\Filament\Resources\Wiki\Video\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Video;
+use App\Filament\Resources\Wiki\VideoResource;
 use App\Filament\Tabs\Video\VideoAudioTab;
 use App\Filament\Tabs\Video\VideoScriptTab;
 use App\Filament\Tabs\Video\VideoUnlinkedTab;
-use App\Models\Wiki\Video as VideoModel;
+use App\Models\Wiki\Video;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,14 +18,14 @@ class ListVideos extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Video::class;
+    protected static string $resource = VideoResource::class;
 
     /**
      * Using Laravel Scout to search.
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {
-        return $this->makeScout($query, VideoModel::class);
+        return $this->makeScout($query, Video::class);
     }
 
     /**

@@ -6,7 +6,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\GroupSchema;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Song;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
@@ -19,7 +19,7 @@ class SongSchema extends Schema
 {
     public function type(): string
     {
-        return SongResource::$wrap;
+        return SongJsonResource::$wrap;
     }
 
     /**

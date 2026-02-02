@@ -6,7 +6,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\FeatureSchema;
-use App\Http\Resources\Admin\Resource\FeatureResource;
+use App\Http\Resources\Admin\Resource\FeatureJsonResource;
 use App\Models\Admin\Feature;
 
 use function Pest\Laravel\get;
@@ -21,7 +21,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new FeatureResource($feature, new Query())
+                new FeatureJsonResource($feature, new Query())
                     ->response()
                     ->getData()
             ),
@@ -49,7 +49,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            FeatureResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            FeatureJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -60,7 +60,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new FeatureResource($feature, new Query($parameters))
+                new FeatureJsonResource($feature, new Query($parameters))
                     ->response()
                     ->getData()
             ),

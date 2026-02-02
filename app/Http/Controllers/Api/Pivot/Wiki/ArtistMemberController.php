@@ -16,7 +16,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\ArtistMemberCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Http\JsonResponse;
@@ -40,7 +40,7 @@ class ArtistMemberController extends PivotController
     /**
      * @param  StoreAction<ArtistMember>  $action
      */
-    public function store(StoreRequest $request, Artist $artist, Artist $member, StoreAction $action): ArtistMemberResource
+    public function store(StoreRequest $request, Artist $artist, Artist $member, StoreAction $action): ArtistMemberJsonResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -52,10 +52,10 @@ class ArtistMemberController extends PivotController
 
         $artistMember = $action->store(ArtistMember::query(), $validated);
 
-        return new ArtistMemberResource($artistMember, new Query());
+        return new ArtistMemberJsonResource($artistMember, new Query());
     }
 
-    public function show(ShowRequest $request, Artist $artist, Artist $member, ShowAction $action): ArtistMemberResource
+    public function show(ShowRequest $request, Artist $artist, Artist $member, ShowAction $action): ArtistMemberJsonResource
     {
         $artistMember = ArtistMember::query()
             ->where(ArtistMember::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -66,10 +66,10 @@ class ArtistMemberController extends PivotController
 
         $show = $action->show($artistMember, $query, $request->schema());
 
-        return new ArtistMemberResource($show, $query);
+        return new ArtistMemberJsonResource($show, $query);
     }
 
-    public function update(UpdateRequest $request, Artist $artist, Artist $member, UpdateAction $action): ArtistMemberResource
+    public function update(UpdateRequest $request, Artist $artist, Artist $member, UpdateAction $action): ArtistMemberJsonResource
     {
         $artistMember = ArtistMember::query()
             ->where(ArtistMember::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -80,7 +80,7 @@ class ArtistMemberController extends PivotController
 
         $updated = $action->update($artistMember, $request->validated());
 
-        return new ArtistMemberResource($updated, $query);
+        return new ArtistMemberJsonResource($updated, $query);
     }
 
     public function destroy(Artist $artist, Artist $member, DestroyAction $action): JsonResponse

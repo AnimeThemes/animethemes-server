@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Collection;
 
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,6 @@ class ArtistCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn (Artist $artist): ArtistResource => new ArtistResource($artist, $this->query))->all();
+        return $this->collection->map(fn (Artist $artist): ArtistJsonResource => new ArtistJsonResource($artist, $this->query))->all();
     }
 }

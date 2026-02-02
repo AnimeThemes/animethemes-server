@@ -18,7 +18,7 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
-use App\Http\Resources\List\Playlist\Resource\TrackResource;
+use App\Http\Resources\List\Playlist\Resource\TrackJsonResource;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
@@ -55,33 +55,33 @@ class TrackController extends BaseController
     /**
      * @throws Exception
      */
-    public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): TrackResource
+    public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): TrackJsonResource
     {
         $track = $action->store($playlist, PlaylistTrack::query(), $request->validated());
 
-        return new TrackResource($track, new Query());
+        return new TrackJsonResource($track, new Query());
     }
 
     /**
      * @noinspection PhpUnusedParameterInspection
      */
-    public function show(ShowRequest $request, Playlist $playlist, PlaylistTrack $track, ShowAction $action): TrackResource
+    public function show(ShowRequest $request, Playlist $playlist, PlaylistTrack $track, ShowAction $action): TrackJsonResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($track, $query, $request->schema());
 
-        return new TrackResource($show, $query);
+        return new TrackJsonResource($show, $query);
     }
 
     /**
      * @throws Exception
      */
-    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): TrackResource
+    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): TrackJsonResource
     {
         $updated = $action->update($playlist, $track, $request->validated());
 
-        return new TrackResource($updated, new Query());
+        return new TrackJsonResource($updated, new Query());
     }
 
     /**

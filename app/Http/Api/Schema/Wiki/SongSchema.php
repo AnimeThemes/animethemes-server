@@ -15,8 +15,8 @@ use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
+use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Song;
 
 class SongSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
@@ -27,14 +27,14 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
     public function allowedPivots(): array
     {
         return [
-            new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
+            new AllowedInclude(new ArtistSongSchema(), ArtistSongJsonResource::$wrap),
             new AllowedInclude(new ResourceableSchema($this, 'songresource'), 'songresource'),
         ];
     }
 
     public function type(): string
     {
-        return SongResource::$wrap;
+        return SongJsonResource::$wrap;
     }
 
     /**

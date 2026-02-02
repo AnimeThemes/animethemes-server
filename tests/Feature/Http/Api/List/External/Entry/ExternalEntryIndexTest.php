@@ -20,7 +20,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\External\ExternalEntrySchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\List\External\Collection\ExternalEntryCollection;
-use App\Http\Resources\List\External\Resource\ExternalEntryResource;
+use App\Http\Resources\List\External\Resource\ExternalEntryJsonResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
@@ -207,7 +207,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalEntryResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalEntryJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

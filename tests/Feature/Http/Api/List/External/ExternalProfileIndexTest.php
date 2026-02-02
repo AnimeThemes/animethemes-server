@@ -18,7 +18,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\List\Collection\ExternalProfileCollection;
-use App\Http\Resources\List\Resource\ExternalProfileResource;
+use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
@@ -123,7 +123,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            ExternalProfileResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ExternalProfileJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

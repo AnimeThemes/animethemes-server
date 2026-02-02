@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\ExternalResource;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceFilament;
+use App\Filament\Resources\Wiki\ExternalResourceResource as ExternalResourceFilament;
 use App\Models\Wiki\ExternalResource;
 
 /**

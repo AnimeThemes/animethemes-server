@@ -6,7 +6,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\List\Playlist\Track;
+use App\Filament\Resources\List\Playlist\TrackResource;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack as PlaylistTrackModel;
@@ -39,10 +39,10 @@ test('render index page', function () {
 
     $records = $playlist->tracks;
 
-    get(Track::getUrl('index'))
+    get(TrackResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Track::class))
+    Livewire::test(getIndexPage(TrackResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -61,7 +61,7 @@ test('render view page', function () {
 
     $record = $playlist->tracks->first();
 
-    get(Track::getUrl('view', ['record' => $record]))
+    get(TrackResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -76,7 +76,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Track::class))
+    Livewire::test(getIndexPage(TrackResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -96,7 +96,7 @@ test('mount edit action', function () {
 
     $record = $playlist->tracks->first();
 
-    Livewire::test(getIndexPage(Track::class))
+    Livewire::test(getIndexPage(TrackResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();

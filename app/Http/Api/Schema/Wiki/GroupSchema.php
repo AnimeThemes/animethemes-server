@@ -12,14 +12,14 @@ use App\Http\Api\Field\Wiki\Group\GroupSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Resources\Wiki\Resource\GroupResource;
+use App\Http\Resources\Wiki\Resource\GroupJsonResource;
 use App\Models\Wiki\Group;
 
 class GroupSchema extends EloquentSchema implements SearchableSchema
 {
     public function type(): string
     {
-        return GroupResource::$wrap;
+        return GroupJsonResource::$wrap;
     }
 
     /**

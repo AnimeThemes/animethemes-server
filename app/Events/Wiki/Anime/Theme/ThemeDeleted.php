@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime\Theme;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Anime\Theme as ThemeFilament;
+use App\Filament\Resources\Wiki\Anime\ThemeResource as ThemeFilament;
 use App\Models\Wiki\Anime\AnimeTheme;
 
 /**

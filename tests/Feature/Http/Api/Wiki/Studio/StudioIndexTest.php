@@ -24,7 +24,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
-use App\Http\Resources\Wiki\Resource\StudioResource;
+use App\Http\Resources\Wiki\Resource\StudioJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -113,7 +113,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            StudioResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            StudioJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 

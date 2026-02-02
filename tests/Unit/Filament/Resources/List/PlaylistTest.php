@@ -6,7 +6,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\List\Playlist;
+use App\Filament\Resources\List\PlaylistResource;
 use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
 use Filament\Actions\Testing\TestAction;
@@ -36,10 +36,10 @@ test('render index page', function () {
 
     $records = PlaylistModel::factory()->count(10)->create();
 
-    get(Playlist::getUrl('index'))
+    get(PlaylistResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Playlist::class))
+    Livewire::test(getIndexPage(PlaylistResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -56,7 +56,7 @@ test('render view page', function () {
 
     $record = PlaylistModel::factory()->createOne();
 
-    get(Playlist::getUrl('view', ['record' => $record]))
+    get(PlaylistResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -71,7 +71,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Playlist::class))
+    Livewire::test(getIndexPage(PlaylistResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -89,7 +89,7 @@ test('mount edit action', function () {
 
     $record = PlaylistModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Playlist::class))
+    Livewire::test(getIndexPage(PlaylistResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
