@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Image\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Image;
+use App\Filament\Resources\Wiki\ImageResource;
 use App\Filament\Tabs\Image\ImageUnlinkedTab;
 use Filament\Schemas\Components\Tabs\Tab;
 
@@ -14,7 +14,7 @@ class ListImages extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Image::class;
+    protected static string $resource = ImageResource::class;
 
     /**
      * Get the tabs available.

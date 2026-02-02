@@ -7,7 +7,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\Admin\FeaturedTheme;
+use App\Filament\Resources\Admin\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -30,10 +30,10 @@ test('render index page', function () {
 
     $records = FeaturedThemeModel::factory()->count(10)->create();
 
-    get(FeaturedTheme::getUrl('index'))
+    get(FeaturedThemeResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(FeaturedTheme::class))
+    Livewire::test(getIndexPage(FeaturedThemeResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -49,7 +49,7 @@ test('render view page', function () {
 
     $record = FeaturedThemeModel::factory()->createOne();
 
-    get(FeaturedTheme::getUrl('view', ['record' => $record]))
+    get(FeaturedThemeResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -63,7 +63,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(FeaturedTheme::class))
+    Livewire::test(getIndexPage(FeaturedThemeResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -83,27 +83,27 @@ test('mount edit action', function () {
         ->for(Video::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(FeaturedTheme::class))
+    Livewire::test(getIndexPage(FeaturedThemeResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(FeaturedTheme::class))
+    Livewire::test(getIndexPage(FeaturedThemeResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function () {
     $record = FeaturedThemeModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(FeaturedTheme::class))
+    Livewire::test(getIndexPage(FeaturedThemeResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = FeaturedThemeModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(FeaturedTheme::class))
+    Livewire::test(getIndexPage(FeaturedThemeResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

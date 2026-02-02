@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Studio;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Studio as StudioFilament;
+use App\Filament\Resources\Wiki\StudioResource as StudioFilament;
 use App\Models\Wiki\Studio;
 
 /**

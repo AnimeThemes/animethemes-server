@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Auth;
 
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Auth\User as UserResource;
+use App\Filament\Resources\Auth\UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User;
 use Filament\Tables\Table;

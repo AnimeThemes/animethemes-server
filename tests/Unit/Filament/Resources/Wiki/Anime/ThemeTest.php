@@ -9,7 +9,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\Anime\Theme;
+use App\Filament\Resources\Wiki\Anime\ThemeResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme as AnimeThemeModel;
@@ -33,10 +33,10 @@ test('render index page', function () {
         ->for(Anime::factory())
         ->count(10)->create();
 
-    get(Theme::getUrl('index'))
+    get(ThemeResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -54,7 +54,7 @@ test('render view page', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    get(Theme::getUrl('view', ['record' => $record]))
+    get(ThemeResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -68,7 +68,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -87,14 +87,14 @@ test('mount edit action', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
@@ -103,7 +103,7 @@ test('user cannot edit record', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
@@ -112,7 +112,7 @@ test('user cannot delete record', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -123,7 +123,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -133,6 +133,6 @@ test('user cannot force delete record', function () {
         ->for(Anime::factory())
         ->createOne();
 
-    Livewire::test(getIndexPage(Theme::class))
+    Livewire::test(getIndexPage(ThemeResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

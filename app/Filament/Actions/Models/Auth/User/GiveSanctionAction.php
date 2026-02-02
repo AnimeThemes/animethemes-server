@@ -7,7 +7,7 @@ namespace App\Filament\Actions\Models\Auth\User;
 use App\Events\Auth\Sanction\ModelSanctioned;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Resources\Auth\Sanction as SanctionResource;
+use App\Filament\Resources\Auth\SanctionResource;
 use App\Models\Auth\Sanction;
 use App\Models\Auth\User;
 use Filament\Schemas\Schema;

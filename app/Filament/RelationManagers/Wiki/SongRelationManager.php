@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Song as SongResource;
+use App\Filament\Resources\Wiki\SongResource;
 use App\Models\Wiki\Song;
 use Filament\Tables\Table;
 

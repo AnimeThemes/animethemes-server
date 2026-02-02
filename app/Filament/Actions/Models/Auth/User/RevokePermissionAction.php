@@ -6,7 +6,7 @@ namespace App\Filament\Actions\Models\Auth\User;
 
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Resources\Auth\Permission as PermissionResource;
+use App\Filament\Resources\Auth\PermissionResource;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Filament\Schemas\Schema;

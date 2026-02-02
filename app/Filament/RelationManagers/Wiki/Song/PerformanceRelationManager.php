@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki\Song;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\PerformanceResource;
 use App\Models\Wiki\Song\Performance;
 use Filament\Tables\Table;
 

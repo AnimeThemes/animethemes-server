@@ -6,7 +6,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\Resources\Admin\Dump;
+use App\Filament\Resources\Admin\DumpResource;
 use App\Models\Admin\Dump as DumpModel;
 use App\Models\Auth\User;
 use Filament\Actions\Testing\TestAction;
@@ -27,23 +27,23 @@ test('render index page', function () {
 
     $records = DumpModel::factory()->count(10)->create();
 
-    get(Dump::getUrl('index'))
+    get(DumpResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Dump::class))
+    Livewire::test(getIndexPage(DumpResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
 test('user cannot edit record', function () {
     $record = DumpModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Dump::class))
+    Livewire::test(getIndexPage(DumpResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = DumpModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Dump::class))
+    Livewire::test(getIndexPage(DumpResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });

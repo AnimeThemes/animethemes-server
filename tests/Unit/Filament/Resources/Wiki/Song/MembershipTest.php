@@ -9,7 +9,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\Song\Membership;
+use App\Filament\Resources\Wiki\Song\MembershipResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership as MembershipModel;
@@ -35,10 +35,10 @@ test('render index page', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->create();
 
-    get(Membership::getUrl('index'))
+    get(MembershipResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -57,7 +57,7 @@ test('render view page', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
-    get(Membership::getUrl('view', ['record' => $record]))
+    get(MembershipResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -71,7 +71,7 @@ test('mount create action', function () {
 
     actingAs($user);
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->mountAction(CreateAction::class)
         ->assertActionMounted(CreateAction::class);
 });
@@ -91,14 +91,14 @@ test('mount edit action', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
 });
 
 test('user cannot create record', function () {
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->assertActionHidden(CreateAction::class);
 });
 
@@ -108,7 +108,7 @@ test('user cannot edit record', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
@@ -118,7 +118,7 @@ test('user cannot delete record', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -130,7 +130,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -141,6 +141,6 @@ test('user cannot force delete record', function () {
         ->for(Artist::factory(), MembershipModel::RELATION_MEMBER)
         ->createOne();
 
-    Livewire::test(getIndexPage(Membership::class))
+    Livewire::test(getIndexPage(MembershipResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

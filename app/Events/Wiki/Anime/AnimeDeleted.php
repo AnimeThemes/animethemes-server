@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Anime;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Anime as AnimeFilament;
+use App\Filament\Resources\Wiki\AnimeResource as AnimeFilament;
 use App\Models\Wiki\Anime;
 
 /**

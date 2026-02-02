@@ -6,7 +6,7 @@ namespace App\Filament\Actions\Models\Auth\User;
 
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Resources\Auth\Role as RoleResource;
+use App\Filament\Resources\Auth\RoleResource;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Filament\Schemas\Schema;

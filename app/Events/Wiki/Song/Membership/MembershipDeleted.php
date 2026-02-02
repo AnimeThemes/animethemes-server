@@ -6,7 +6,7 @@ namespace App\Events\Wiki\Song\Membership;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Song\Membership as MembershipFilament;
+use App\Filament\Resources\Wiki\Song\MembershipResource as MembershipFilament;
 use App\Models\Wiki\Song\Membership;
 
 /**

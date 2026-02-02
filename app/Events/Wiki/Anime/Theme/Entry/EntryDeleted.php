@@ -6,7 +6,7 @@ namespace App\Events\Wiki\Anime\Theme\Entry;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryFilament;
+use App\Filament\Resources\Wiki\Anime\Theme\EntryResource as EntryFilament;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 

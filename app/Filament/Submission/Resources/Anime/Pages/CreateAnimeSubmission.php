@@ -9,26 +9,26 @@ use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\SubmissionBelongsTo;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Resources\Wiki\Anime as AnimeModel;
-use App\Filament\Resources\Wiki\Anime\Synonym;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry;
+use App\Filament\Resources\Wiki\Anime\SynonymResource;
+use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
-use App\Filament\Resources\Wiki\Artist as ArtistResource;
-use App\Filament\Resources\Wiki\ExternalResource;
-use App\Filament\Resources\Wiki\Group;
-use App\Filament\Resources\Wiki\Series as SeriesResource;
-use App\Filament\Resources\Wiki\Song;
+use App\Filament\Resources\Wiki\AnimeResource;
+use App\Filament\Resources\Wiki\ArtistResource;
+use App\Filament\Resources\Wiki\ExternalResourceResource;
+use App\Filament\Resources\Wiki\GroupResource;
+use App\Filament\Resources\Wiki\SeriesResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
-use App\Filament\Resources\Wiki\Studio as StudioResource;
+use App\Filament\Resources\Wiki\SongResource;
+use App\Filament\Resources\Wiki\StudioResource;
 use App\Filament\Submission\Resources\AnimeSubmissionResource;
 use App\Models\User\Submission;
 use App\Models\User\Submission\SubmissionStage;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Series;
-use App\Models\Wiki\Song as SongModel;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
@@ -66,7 +66,7 @@ class CreateAnimeSubmission extends CreateRecord
                             ->statePath('anime')
                             ->label(__('filament.resources.label.anime'))
                             ->columns(2)
-                            ->schema(AnimeModel::form($schema)->getComponents()),
+                            ->schema(AnimeResource::form($schema)->getComponents()),
 
                         Tab::make(Anime::RELATION_SYNONYMS)
                             ->label(__('filament.resources.label.anime_synonyms'))
@@ -75,7 +75,7 @@ class CreateAnimeSubmission extends CreateRecord
                                     ->label(__('filament.resources.label.anime_synonyms'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_synonym')]))
                                     ->defaultItems(0)
-                                    ->schema(Synonym::form($schema)->getComponents()),
+                                    ->schema(SynonymResource::form($schema)->getComponents()),
                             ]),
 
                         Tab::make(Anime::RELATION_THEMES)
@@ -94,7 +94,7 @@ class CreateAnimeSubmission extends CreateRecord
                                                         ThemeForm::sequenceField(),
 
                                                         SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_GROUP)
-                                                            ->resource(Group::class)
+                                                            ->resource(GroupResource::class)
                                                             ->showCreateOption(),
                                                     ]),
 
@@ -102,7 +102,7 @@ class CreateAnimeSubmission extends CreateRecord
                                                     ->label(__('filament.resources.singularLabel.song'))
                                                     ->schema([
                                                         SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_SONG)
-                                                            ->resource(Song::class)
+                                                            ->resource(SongResource::class)
                                                             ->showCreateOption()
                                                             ->live()
                                                             ->hintAction(LoadArtistsAction::make()),
@@ -119,8 +119,8 @@ class CreateAnimeSubmission extends CreateRecord
                                                             ->reorderableWithDragAndDrop(false)
                                                             ->reorderableWithButtons()
                                                             ->formatStateUsing(function (Get $get): array {
-                                                                /** @var SongModel|null $song */
-                                                                $song = SongModel::query()->find($get(Performance::ATTRIBUTE_SONG));
+                                                                /** @var Song|null $song */
+                                                                $song = Song::query()->find($get(Performance::ATTRIBUTE_SONG));
 
                                                                 return PerformanceSongRelationManager::formatArtists($song);
                                                             })
@@ -173,7 +173,7 @@ class CreateAnimeSubmission extends CreateRecord
                                                         Repeater::make(AnimeTheme::RELATION_ENTRIES)
                                                             ->label(__('filament.resources.label.anime_theme_entries'))
                                                             ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme_entry')]))
-                                                            ->schema(Entry::form($schema)->getComponents()),
+                                                            ->schema(EntryResource::form($schema)->getComponents()),
                                                     ]),
                                             ]),
                                     ]),
@@ -202,8 +202,8 @@ class CreateAnimeSubmission extends CreateRecord
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.external_resource')]))
                                     ->defaultItems(0)
                                     ->schema([
-                                        SubmissionBelongsTo::make(ExternalResourceModel::ATTRIBUTE_ID)
-                                            ->resource(ExternalResource::class)
+                                        SubmissionBelongsTo::make(ExternalResource::ATTRIBUTE_ID)
+                                            ->resource(ExternalResourceResource::class)
                                             ->showCreateOption()
                                             ->required(),
                                     ]),

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Group;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Group as GroupFilament;
+use App\Filament\Resources\Wiki\GroupResource as GroupFilament;
 use App\Models\Wiki\Group;
 
 /**

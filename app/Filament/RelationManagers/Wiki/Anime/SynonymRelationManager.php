@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki\Anime;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\Synonym as SynonymResource;
+use App\Filament\Resources\Wiki\Anime\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Filament\Tables\Table;
 

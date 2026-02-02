@@ -6,7 +6,7 @@ namespace App\Events\Wiki\Song;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Song as SongFilament;
+use App\Filament\Resources\Wiki\SongResource as SongFilament;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;

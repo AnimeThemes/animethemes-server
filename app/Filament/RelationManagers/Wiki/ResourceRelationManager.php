@@ -8,7 +8,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
+use App\Filament\Resources\Wiki\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Morph\Resourceable;
 use Filament\Schemas\Components\Component;

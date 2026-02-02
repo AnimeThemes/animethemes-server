@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Series;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Series as SeriesFilament;
+use App\Filament\Resources\Wiki\SeriesResource as SeriesFilament;
 use App\Models\Wiki\Series;
 
 /**

@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry;
+use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
 use App\Filament\Tabs\Anime\Theme\Entry\AnimeThemeEntryVideoTab;
 use App\Filament\Tabs\Anime\Theme\Entry\Resource\AnimeThemeEntryYoutubeResourceTab;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -17,7 +17,7 @@ class ListEntries extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Entry::class;
+    protected static string $resource = EntryResource::class;
 
     /**
      * Using Laravel Scout to search.

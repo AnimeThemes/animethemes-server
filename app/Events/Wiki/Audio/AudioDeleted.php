@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Audio;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Audio as AudioFilament;
+use App\Filament\Resources\Wiki\AudioResource as AudioFilament;
 use App\Models\Wiki\Audio;
 
 /**

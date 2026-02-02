@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\User;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\User\Submission\SubmissionStage as SubmissionStageResource;
+use App\Filament\Resources\User\Submission\SubmissionStageResource;
 use App\Models\User\Submission\SubmissionStage;
 use Filament\Tables\Table;
 

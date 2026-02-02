@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\List\External;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\External\ExternalEntry as ExternalEntryResource;
+use App\Filament\Resources\List\External\ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use Filament\Tables\Table;
 

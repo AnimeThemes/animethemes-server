@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki\Anime\Theme;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
+use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Filament\Tables\Table;
 

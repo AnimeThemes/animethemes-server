@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Artist as ArtistResource;
+use App\Filament\Resources\Wiki\ArtistResource;
 use App\Models\Wiki\Artist;
 use Filament\Tables\Table;
 

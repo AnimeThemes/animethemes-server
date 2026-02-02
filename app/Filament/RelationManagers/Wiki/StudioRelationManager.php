@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Studio as StudioResource;
+use App\Filament\Resources\Wiki\StudioResource;
 use App\Models\Wiki\Studio;
 use Filament\Tables\Table;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Auth;
 
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Auth\Role as RoleResource;
+use App\Filament\Resources\Auth\RoleResource;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Role;
 use Filament\Tables\Table;

@@ -6,7 +6,7 @@ namespace App\Filament\RelationManagers\List\Playlist;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\Playlist\Track as TrackResource;
+use App\Filament\Resources\List\Playlist\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Tables\Table;
 

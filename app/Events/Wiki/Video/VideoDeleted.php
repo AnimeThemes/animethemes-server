@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Video;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Video as VideoFilament;
+use App\Filament\Resources\Wiki\VideoResource as VideoFilament;
 use App\Models\Wiki\Video;
 
 /**

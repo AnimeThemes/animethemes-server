@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Auth;
 
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Auth\Sanction as SanctionResource;
+use App\Filament\Resources\Auth\SanctionResource;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Sanction;
 use Filament\Tables\Table;

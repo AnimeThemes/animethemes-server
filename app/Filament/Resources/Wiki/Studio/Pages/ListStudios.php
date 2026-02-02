@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Studio\Pages;
 
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Resources\Wiki\Studio;
+use App\Filament\Resources\Wiki\StudioResource;
 use App\Filament\Tabs\Studio\Image\StudioLargeCoverTab;
 use App\Filament\Tabs\Studio\Image\StudioSmallCoverTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnidbResourceTab;
@@ -15,7 +15,7 @@ use App\Filament\Tabs\Studio\Resource\StudioAnimePlanetResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnnResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioMalResourceTab;
 use App\Filament\Tabs\Studio\StudioUnlinkedTab;
-use App\Models\Wiki\Studio as StudioModel;
+use App\Models\Wiki\Studio;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -23,14 +23,14 @@ class ListStudios extends BaseListResources
 {
     use HasTabs;
 
-    protected static string $resource = Studio::class;
+    protected static string $resource = StudioResource::class;
 
     /**
      * Using Laravel Scout to search.
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {
-        return $this->makeScout($query, StudioModel::class);
+        return $this->makeScout($query, Studio::class);
     }
 
     /**

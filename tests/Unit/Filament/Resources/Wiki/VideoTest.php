@@ -8,7 +8,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\Resources\Wiki\Video;
+use App\Filament\Resources\Wiki\VideoResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Actions\Testing\TestAction;
@@ -29,10 +29,10 @@ test('render index page', function () {
 
     $records = VideoModel::factory()->count(10)->create();
 
-    get(Video::getUrl('index'))
+    get(VideoResource::getUrl('index'))
         ->assertSuccessful();
 
-    Livewire::test(getIndexPage(Video::class))
+    Livewire::test(getIndexPage(VideoResource::class))
         ->assertCanSeeTableRecords($records);
 });
 
@@ -48,7 +48,7 @@ test('render view page', function () {
 
     $record = VideoModel::factory()->createOne();
 
-    get(Video::getUrl('view', ['record' => $record]))
+    get(VideoResource::getUrl('view', ['record' => $record]))
         ->assertSuccessful();
 });
 
@@ -64,7 +64,7 @@ test('mount edit action', function () {
 
     $record = VideoModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Video::class))
+    Livewire::test(getIndexPage(VideoResource::class))
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
@@ -73,14 +73,14 @@ test('mount edit action', function () {
 test('user cannot edit record', function () {
     $record = VideoModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Video::class))
+    Livewire::test(getIndexPage(VideoResource::class))
         ->assertActionDoesNotExist(TestAction::make(EditAction::getDefaultName())->table($record));
 });
 
 test('user cannot delete record', function () {
     $record = VideoModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Video::class))
+    Livewire::test(getIndexPage(VideoResource::class))
         ->assertActionDoesNotExist(TestAction::make(DeleteAction::getDefaultName())->table($record));
 });
 
@@ -89,7 +89,7 @@ test('user cannot restore record', function () {
 
     $record->delete();
 
-    Livewire::test(getIndexPage(Video::class))
+    Livewire::test(getIndexPage(VideoResource::class))
         ->filterTable('trashed', 0)
         ->assertActionDoesNotExist(TestAction::make(RestoreAction::getDefaultName())->table($record));
 });
@@ -97,6 +97,6 @@ test('user cannot restore record', function () {
 test('user cannot force delete record', function () {
     $record = VideoModel::factory()->createOne();
 
-    Livewire::test(getIndexPage(Video::class))
+    Livewire::test(getIndexPage(VideoResource::class))
         ->assertActionDoesNotExist(TestAction::make(ForceDeleteAction::getDefaultName())->table($record));
 });

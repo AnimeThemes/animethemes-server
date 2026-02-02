@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Auth;
 
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Auth\Prohibition as ProhibitionResource;
+use App\Filament\Resources\Auth\ProhibitionResource;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Prohibition;
 use Filament\Tables\Table;

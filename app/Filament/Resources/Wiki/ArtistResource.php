@@ -1,0 +1,224 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\Wiki;
+
+use App\Enums\Filament\NavigationGroup;
+use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Slug;
+use App\Filament\Components\Fields\TextInput;
+use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\Wiki\ImageRelationManager;
+use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
+use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
+use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
+use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
+use App\Models\Wiki\Artist;
+use App\Pivots\Wiki\ArtistSong;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\QueryBuilder\Constraints\TextConstraint;
+use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+
+class ArtistResource extends BaseResource
+{
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var class-string<Model>|null
+     */
+    protected static ?string $model = Artist::class;
+
+    public static function getModelLabel(): string
+    {
+        return __('filament.resources.singularLabel.artist');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('filament.resources.label.artists');
+    }
+
+    public static function getNavigationGroup(): NavigationGroup
+    {
+        return NavigationGroup::CONTENT;
+    }
+
+    public static function getNavigationIcon(): Heroicon
+    {
+        return Heroicon::OutlinedUserCircle;
+    }
+
+    public static function canGloballySearch(): bool
+    {
+        return true;
+    }
+
+    public static function getRecordSlug(): string
+    {
+        return 'artists';
+    }
+
+    public static function getRecordTitleAttribute(): string
+    {
+        return Artist::ATTRIBUTE_NAME;
+    }
+
+    public static function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                TextInput::make(Artist::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.artist.name.name'))
+                    ->helperText(__('filament.fields.artist.name.help'))
+                    ->required()
+                    ->maxLength(192)
+                    ->afterStateUpdatedJs(<<<'JS'
+                        $set('slug', slug($state ?? ''));
+                    JS),
+
+                Slug::make(Artist::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.artist.slug.name'))
+                    ->helperText(__('filament.fields.artist.slug.help'))
+                    ->unique(Artist::TABLE, Artist::ATTRIBUTE_SLUG, fn (?Artist $record): ?Artist => $record),
+
+                MarkdownEditor::make(Artist::ATTRIBUTE_INFORMATION)
+                    ->label(__('filament.fields.artist.information.name'))
+                    ->helperText(__('filament.fields.artist.information.help'))
+                    ->columnSpan(2)
+                    ->maxLength(65535),
+            ])
+            ->columns(2);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return parent::table($table)
+            ->columns([
+                TextColumn::make(Artist::ATTRIBUTE_ID)
+                    ->label(__('filament.fields.base.id')),
+
+                TextColumn::make(Artist::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.artist.name.name'))
+                    ->copyableWithMessage(),
+
+                TextColumn::make(Artist::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.artist.slug.name')),
+            ])
+            ->searchable();
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
+                    ->schema([
+                        TextEntry::make(Artist::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(Artist::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.artist.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(Artist::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.artist.slug.name')),
+
+                        TextEntry::make(Artist::ATTRIBUTE_INFORMATION)
+                            ->label(__('filament.fields.artist.information.name'))
+                            ->markdown()
+                            ->hidden(fn ($livewire): bool => $livewire instanceof ViewTheme)
+                            ->columnSpanFull(),
+
+                        TextEntry::make('artistsong.'.ArtistSong::ATTRIBUTE_AS)
+                            ->label(__('filament.fields.artist.songs.as.name'))
+                            ->visible(fn (TextEntry $component): bool => $component->getLivewire() instanceof ViewTheme),
+
+                        TextEntry::make('artistsong.'.ArtistSong::ATTRIBUTE_ALIAS)
+                            ->label(__('filament.fields.artist.songs.alias.name'))
+                            ->visible(fn (TextEntry $component): bool => $component->getLivewire() instanceof ViewTheme),
+                    ])
+                    ->columns(3),
+
+                TimestampSection::make()
+                    ->visible(fn (Section $component): bool => $component->getLivewire() instanceof ViewArtist),
+            ]);
+    }
+
+    /**
+     * @return \Filament\Tables\Filters\BaseFilter[]
+     */
+    public static function getFilters(): array
+    {
+        return [
+            QueryBuilder::make()
+                ->constraints([
+                    TextConstraint::make(Artist::ATTRIBUTE_NAME)
+                        ->label(__('filament.fields.artist.name.name')),
+
+                    TextConstraint::make(Artist::ATTRIBUTE_SLUG)
+                        ->label(__('filament.fields.artist.slug.name')),
+
+                    TextConstraint::make(Artist::ATTRIBUTE_INFORMATION)
+                        ->label(__('filament.fields.artist.information.name')),
+
+                    ...parent::getConstraints(),
+                ]),
+
+            ...parent::getFilters(),
+        ];
+    }
+
+    /**
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            AttachArtistResourceAction::make(),
+        ];
+    }
+
+    /**
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make(static::getModelLabel(), [
+                PerformanceArtistRelationManager::class,
+                GroupPerformanceArtistRelationManager::class,
+                ResourceRelationManager::class,
+                MemberArtistRelationManager::class,
+                GroupArtistRelationManager::class,
+                ImageRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
+        ];
+    }
+
+    /**
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     */
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListArtists::route('/'),
+            'view' => ViewArtist::route('/{record:artist_id}'),
+        ];
+    }
+}

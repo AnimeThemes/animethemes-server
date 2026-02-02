@@ -6,7 +6,7 @@ namespace App\Events\Wiki\Artist;
 
 use App\Contracts\Events\CascadesDeletesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
-use App\Filament\Resources\Wiki\Artist as ArtistFilament;
+use App\Filament\Resources\Wiki\ArtistResource as ArtistFilament;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;

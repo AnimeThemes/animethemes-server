@@ -7,13 +7,13 @@ namespace App\Filament\Resources\Wiki\Song\Performance\Schemas;
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
-use App\Filament\Resources\Wiki\Song;
+use App\Filament\Resources\Wiki\ArtistResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
+use App\Filament\Resources\Wiki\SongResource;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song as SongModel;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Repeater;
@@ -22,7 +22,7 @@ use Filament\Schemas\Schema;
 
 class PerformanceForm
 {
-    final public const string REPEATER_PERFORMANCES = SongModel::RELATION_PERFORMANCES;
+    final public const string REPEATER_PERFORMANCES = Song::RELATION_PERFORMANCES;
     final public const string REPEATER_MEMBERSHIPS = 'memberships';
 
     /**
@@ -33,7 +33,7 @@ class PerformanceForm
         return $schema
             ->components([
                 BelongsTo::make(Performance::ATTRIBUTE_SONG)
-                    ->resource(Song::class)
+                    ->resource(SongResource::class)
                     ->required()
                     ->hiddenOn([PerformanceSongRelationManager::class])
                     ->disabledOn('edit')
@@ -65,10 +65,10 @@ class PerformanceForm
                 ->reorderableWithDragAndDrop(false)
                 ->reorderableWithButtons()
                 ->formatStateUsing(function ($livewire, Get $get): array {
-                    /** @var SongModel|null $song */
+                    /** @var Song|null $song */
                     $song = $livewire instanceof PerformanceSongRelationManager
                         ? $livewire->getOwnerRecord()
-                        : SongModel::query()->find($get(Performance::ATTRIBUTE_SONG));
+                        : Song::query()->find($get(Performance::ATTRIBUTE_SONG));
 
                     return PerformanceSongRelationManager::formatArtists($song);
                 })
