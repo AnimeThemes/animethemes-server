@@ -152,7 +152,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
                 $performance->toArray(),
                 ['membership_alias' => $membership->alias],
                 ['membership_as' => $membership->as],
-            ))
+            ))->all()
         );
 
         $array['performances'] = $directPerformances->concat($membershipPerformances)->all();
