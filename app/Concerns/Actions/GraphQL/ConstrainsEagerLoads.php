@@ -119,6 +119,7 @@ trait ConstrainsEagerLoads
         $this->sort($builder, $args, $type, $relation, $graphqlRelation);
 
         $fields = Arr::get($selection, 'selectionSet.data.data.selectionSet')
+            ?? Arr::get($selection, 'selectionSet.edges.edges.selectionSet.node.node.selectionSet')
             ?? Arr::get($selection, 'selectionSet.nodes.nodes.selectionSet')
             ?? Arr::get($selection, 'selectionSet', []);
 
