@@ -100,10 +100,10 @@ class SortableColumns extends EnumType
     private function getRelations(BaseType $type): Collection
     {
         return collect($type->relations())
-            ->filter(fn (Relation $relation): bool => $relation instanceof BelongsToRelation && $relation->getBaseType() instanceof BaseType)
+            ->filter(fn (Relation $relation): bool => $relation instanceof BelongsToRelation && $relation->baseType() instanceof BaseType)
             ->mapWithKeys(
                 fn (Relation $relation): array => [
-                    $relation->getName() => collect($relation->getBaseType()->fieldClasses())
+                    $relation->getName() => collect($relation->baseType()->fieldClasses())
                         ->filter(fn (Field $field): bool => $field instanceof SortableField),
                 ],
             );

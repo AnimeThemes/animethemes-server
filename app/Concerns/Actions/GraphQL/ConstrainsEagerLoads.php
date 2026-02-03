@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\GraphQL;
 
+use App\GraphQL\Schema\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Types\EdgeType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Unions\BaseUnion;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation as EloquentRelation;
 use Illuminate\Support\Arr;
@@ -46,7 +49,7 @@ trait ConstrainsEagerLoads
 
             $relationSelection = Arr::get($selection, "{$name}.{$name}");
 
-            $relationType = $relation->getBaseType();
+            $relationType = $relation->baseType();
 
             $eagerLoadRelations[$relation->getRelationName()] = function (EloquentRelation $eloquentRelation) use ($relationSelection, $relationType, $relation): void {
                 match (true) {
@@ -123,6 +126,39 @@ trait ConstrainsEagerLoads
             ?? Arr::get($selection, 'selectionSet.nodes.nodes.selectionSet')
             ?? Arr::get($selection, 'selectionSet', []);
 
+        $edgeSelection = Arr::get($selection, 'selectionSet.edges.edges.selectionSet');
+
+        if ($edgeSelection && $graphqlRelation instanceof BelongsToManyRelation) {
+            $this->processPivotRelation($edgeSelection, $graphqlRelation->getEdgeType(), $relation);
+        }
+
         $this->processEagerLoadForType($builder, $fields, $type);
+    }
+
+    /**
+     * Process a pivot relation for a pivot model.
+     */
+    private function processPivotRelation(array $edgeSelection, EdgeType $edgeType, EloquentRelation $relation): void
+    {
+        if (! $relation instanceof BelongsToMany) {
+            return;
+        }
+
+        $pivotRelations = collect($edgeType->relations())
+            ->filter(fn (Relation $rel) => Arr::has($edgeSelection, $rel->getName()))
+            ->all();
+
+        foreach ($pivotRelations as $graphRelation) {
+            $name = $graphRelation->getName();
+            $relationSelection = Arr::get($edgeSelection, "{$name}.{$name}");
+            $relationType = $graphRelation->baseType();
+            $eloquentName = $graphRelation->getRelationName();
+
+            $accessor = $relation->getPivotAccessor();
+
+            $relation->with("{$accessor}.{$eloquentName}", function (EloquentRelation $query) use ($relationSelection, $relationType, $graphRelation): void {
+                $this->processGenericRelation($relationSelection, $relationType, $query, $graphRelation);
+            });
+        }
     }
 }

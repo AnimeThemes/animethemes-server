@@ -98,7 +98,7 @@ class ConnectionType extends RebingType
 
                 if ($name === 'node') {
                     $edges['node'] = $item;
-                } else {
+                } elseif ($relation instanceof Model) {
                     $edges[$column] = $relation->getAttribute($column);
                 }
             }

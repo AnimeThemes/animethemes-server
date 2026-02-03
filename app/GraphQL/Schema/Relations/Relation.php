@@ -30,6 +30,7 @@ abstract class Relation
 
     protected ?string $field = null;
     protected ?bool $nullable = true;
+    protected bool $asPivot = false;
     protected Type $type;
 
     public function __construct(
@@ -60,6 +61,16 @@ abstract class Relation
     }
 
     /**
+     * Mark the relation as a relation of the pivot model.
+     */
+    public function asPivot(): static
+    {
+        $this->asPivot = true;
+
+        return $this;
+    }
+
+    /**
      * Get the name used to query through the type.
      * By default, the relation name is used.
      */
@@ -74,6 +85,11 @@ abstract class Relation
     public function getRelationName(): string
     {
         return $this->relationName;
+    }
+
+    public function isPivot(): bool
+    {
+        return $this->asPivot;
     }
 
     /**
@@ -105,7 +121,7 @@ abstract class Relation
         return Arr::flatten($arguments);
     }
 
-    public function getBaseType(): BaseType|BaseUnion
+    public function baseType(): BaseType|BaseUnion
     {
         return $this->baseType;
     }
