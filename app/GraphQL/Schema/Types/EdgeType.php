@@ -6,12 +6,12 @@ namespace App\GraphQL\Schema\Types;
 
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Pivot\Base\NodeField;
+use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
-use Rebing\GraphQL\Support\Type as RebingType;
 
-class EdgeType extends RebingType
+class EdgeType extends BaseType
 {
     protected ?PivotType $pivotType;
 
@@ -33,8 +33,24 @@ class EdgeType extends RebingType
         ];
     }
 
+    public function relations(): array
+    {
+        return collect($this->getPivotType()?->relations() ?? [])
+            ->filter(fn (Relation $relation): bool => $relation->isPivot())
+            ->all();
+    }
+
     public function fields(): array
     {
+        $relations = collect($this->relations())
+            ->flatMap(fn (Relation $relation): array => [
+                $relation->getName() => [
+                    'type' => $relation->type(),
+                    'alias' => $relation->getRelationName(),
+                    'resolve' => $relation->resolve(...),
+                ],
+            ]);
+
         return collect($this->getPivotType()?->fieldClasses() ?? [])
             ->prepend(new NodeField($this->nodeType))
             ->flatMap(fn (Field $field): array => [
@@ -42,9 +58,11 @@ class EdgeType extends RebingType
                     'type' => $field->baseType(),
                     'description' => $field->description(),
                     'alias' => $field->getColumn(),
+                    'args' => $field->args(),
                     'resolve' => $field->resolve(...),
                 ],
             ])
+            ->merge($relations)
             ->all();
     }
 

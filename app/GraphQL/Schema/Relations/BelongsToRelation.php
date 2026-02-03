@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Relations;
 
 use App\Enums\GraphQL\PaginationType;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class BelongsToRelation extends Relation
 {
@@ -24,9 +24,9 @@ class BelongsToRelation extends Relation
      *
      * @param  array<string, mixed>  $args
      */
-    public function resolve(Model $root, array $args): mixed
+    public function resolve($root, array $args): mixed
     {
-        return $root->{$this->relationName};
+        return Arr::get($root, $this->getRelationName());
     }
 
     /**
