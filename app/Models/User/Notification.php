@@ -6,6 +6,7 @@ namespace App\Models\User;
 
 use App\Models\List\ExternalProfile;
 use Database\Factories\User\NotificationFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\DatabaseNotification;
@@ -33,9 +34,9 @@ class Notification extends DatabaseNotification
     /**
      * Virtual attribute to use in relations.
      */
-    protected function getProfileIdAttribute(): ?int
+    protected function profileId(): Attribute
     {
-        return Arr::get($this->getAttribute(self::ATTRIBUTE_DATA), 'profileId');
+        return Attribute::make(fn () => Arr::get($this->getAttribute(self::ATTRIBUTE_DATA), 'profileId'));
     }
 
     /**

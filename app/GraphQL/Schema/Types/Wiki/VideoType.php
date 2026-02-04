@@ -22,6 +22,7 @@ use App\GraphQL\Schema\Fields\Wiki\Video\VideoMimetypeField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoNcField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoOverlapField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoPathField;
+use App\GraphQL\Schema\Fields\Wiki\Video\VideoPriorityField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoResolutionField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoSizeField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoSourceField;
@@ -59,6 +60,7 @@ class VideoType extends EloquentType implements SubmitableType
             new VideoOverlapField(),
             new LocalizedEnumField(new VideoOverlapField()),
             new VideoPathField(),
+            new VideoPriorityField(),
             new VideoResolutionField(),
             new VideoSizeField(),
             new VideoSourceField(),

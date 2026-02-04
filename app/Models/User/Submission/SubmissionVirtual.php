@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Observers\User\Submission\SubmissionVirtualObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -75,12 +76,9 @@ class SubmissionVirtual extends BaseModel
         return strval($this->getKey());
     }
 
-    /**
-     * @return class-string<Model>
-     */
-    protected function getModelAttribute(): string
+    protected function model(): Attribute
     {
-        return Relation::getMorphedModel($this->model_type) ?? $this->model_type;
+        return Attribute::make(fn () => Relation::getMorphedModel($this->model_type) ?? $this->model_type);
     }
 
     /**

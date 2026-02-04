@@ -28,6 +28,7 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\VideoFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -49,6 +50,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property bool $nc
  * @property VideoOverlap $overlap
  * @property string $path
+ * @property int $priority
  * @property Collection<int, PlaylistTrack> $tracks
  * @property int|null $resolution
  * @property VideoScript|null $videoscript
@@ -82,6 +84,7 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
     final public const string ATTRIBUTE_NC = 'nc';
     final public const string ATTRIBUTE_OVERLAP = 'overlap';
     final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_PRIORITY = 'priority';
     final public const string ATTRIBUTE_RESOLUTION = 'resolution';
     final public const string ATTRIBUTE_SIZE = 'size';
     final public const string ATTRIBUTE_SOURCE = 'source';
@@ -156,6 +159,7 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
      */
     protected $appends = [
         Video::ATTRIBUTE_LINK,
+        Video::ATTRIBUTE_PRIORITY,
         Video::ATTRIBUTE_TAGS,
     ];
 
@@ -177,21 +181,47 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
         ];
     }
 
-    protected function getLinkAttribute(): ?string
+    protected function link(): Attribute
     {
-        if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
-            return route('video.show', $this);
+        return Attribute::make(function (): ?string {
+            if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
+                return route('video.show', $this);
+            }
+
+            return null;
+        });
+    }
+
+    /**
+     * Get the priority score for the video.
+     * Higher scores increase the likelihood of the video to be the source of an audio track.
+     */
+    protected function priority(): Attribute
+    {
+        $priority = intval($this->source?->getPriority());
+
+        // Videos that play over the episode will likely have compressed audio
+        if ($this->overlap === VideoOverlap::OVER) {
+            $priority -= 8;
         }
 
-        return null;
+        // Videos that transition to or from the episode may have compressed audio
+        if ($this->overlap === VideoOverlap::TRANS) {
+            $priority -= 5;
+        }
+
+        // De-prioritize hardsubbed videos
+        if ($this->lyrics || $this->subbed) {
+            $priority--;
+        }
+
+        return Attribute::make(fn (): int => $priority);
     }
 
     /**
      * The array of tags used to uniquely identify the video within the context of a theme.
-     *
-     * @return string[]
      */
-    protected function getTagsAttribute(): array
+    protected function tags(): Attribute
     {
         $tags = [];
 
@@ -211,33 +241,7 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
             $tags[] = 'Lyrics';
         }
 
-        return $tags;
-    }
-
-    /**
-     * Get the priority score for the video.
-     * Higher scores increase the likelihood of the video to be the source of an audio track.
-     */
-    public function getSourcePriority(): int
-    {
-        $priority = intval($this->source?->getPriority());
-
-        // Videos that play over the episode will likely have compressed audio
-        if ($this->overlap === VideoOverlap::OVER) {
-            $priority -= 8;
-        }
-
-        // Videos that transition to or from the episode may have compressed audio
-        if ($this->overlap === VideoOverlap::TRANS) {
-            $priority -= 5;
-        }
-
-        // De-prioritize hardsubbed videos
-        if ($this->lyrics || $this->subbed) {
-            $priority--;
-        }
-
-        return $priority;
+        return Attribute::make(fn (): array => $tags);
     }
 
     /**

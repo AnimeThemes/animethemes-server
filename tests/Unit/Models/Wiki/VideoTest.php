@@ -165,7 +165,7 @@ test('source priority', function (array $a, array $b) {
 
     $second = Video::factory()->createOne($b);
 
-    $this->assertGreaterThan($first->getSourcePriority(), $second->getSourcePriority());
+    $this->assertGreaterThan($first->getAttribute(Video::ATTRIBUTE_PRIORITY), $second->getAttribute(Video::ATTRIBUTE_PRIORITY));
 })->with('priorityProvider');
 test('entries', function () {
     $entryCount = fake()->randomDigitNotNull();

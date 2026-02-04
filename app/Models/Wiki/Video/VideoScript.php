@@ -16,6 +16,7 @@ use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Database\Factories\Wiki\Video\VideoScriptFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Auditable as HasAudits;
@@ -93,14 +94,16 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
         VideoScript::ATTRIBUTE_LINK,
     ];
 
-    protected function getLinkAttribute(): ?string
+    protected function link(): Attribute
     {
-        // Necessary for 'make' factories.
-        if ($this->hasAttribute(VideoScript::ATTRIBUTE_ID)) {
-            return route('videoscript.show', $this);
-        }
+        return Attribute::make(function (): ?string {
+            // Necessary for 'make' factories.
+            if ($this->hasAttribute(VideoScript::ATTRIBUTE_ID)) {
+                return route('videoscript.show', $this);
+            }
 
-        return null;
+            return null;
+        });
     }
 
     public function getName(): string

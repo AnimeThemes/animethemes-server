@@ -17,6 +17,7 @@ use App\Events\Wiki\Audio\AudioRestored;
 use App\Events\Wiki\Audio\AudioUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Wiki\AudioFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -118,13 +119,15 @@ class Audio extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
         ];
     }
 
-    protected function getLinkAttribute(): ?string
+    protected function link(): Attribute
     {
-        if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
-            return route('audio.show', $this);
-        }
+        return Attribute::make(function (): ?string {
+            if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
+                return route('audio.show', $this);
+            }
 
-        return null;
+            return null;
+        });
     }
 
     /**

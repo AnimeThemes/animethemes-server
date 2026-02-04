@@ -128,7 +128,7 @@ class BackfillAudioAction extends BackfillAction
     {
         // Allow bypassing of source video derivation
         if ($this->replaceRelatedAudio()) {
-            $sourceVideo = $this->getSourceVideo('<');
+            $sourceVideo = $this->getSourceVideo(false);
         } elseif ($this->deriveSourceVideo()) {
             $sourceVideo = $this->getSourceVideo();
         } else {
@@ -177,23 +177,12 @@ class BackfillAudioAction extends BackfillAction
         return $audio;
     }
 
-    protected function getSourceVideo(string $operation = '>'): ?Video
+    protected function getSourceVideo(bool $descending = true): ?Video
     {
-        $source = null;
-
-        $sourceCandidates = $this->getAdjacentVideos();
-
-        foreach ($sourceCandidates as $sourceCandidate) {
-            if ($operation === '>' && (! $source instanceof Video || $sourceCandidate->getSourcePriority() > $source->getSourcePriority())) {
-                $source = $sourceCandidate;
-            }
-
-            if ($operation === '<' && (! $source instanceof Video || $sourceCandidate->getSourcePriority() < $source->getSourcePriority())) {
-                $source = $sourceCandidate;
-            }
-        }
-
-        return $source;
+        return $this->getAdjacentVideos()->sortBy(
+            fn (Video $video) => $video->getAttribute(Video::ATTRIBUTE_PRIORITY),
+            descending: $descending
+        )->first();
     }
 
     /**
