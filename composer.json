@@ -31,7 +31,7 @@
         "bepsvpt/secure-headers": "^7.5",
         "elemind/filament-echarts": "^1.1",
         "fakerphp/faker": "^1.24.1",
-        "filament/filament": "^5.1.3",
+        "filament/filament": "^5.2.0",
         "flowframe/laravel-trend": ">=0.4",
         "guzzlehttp/guzzle": "^7.10.0",
         "kyrch/laravel-prohibitions": "^1.1.0",
