@@ -12,9 +12,8 @@ use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalProfileNameField;
 use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalProfileSiteField;
 use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\External\ExternalEntryType;
@@ -25,19 +24,6 @@ class ExternalProfileType extends EloquentType
     public function description(): string
     {
         return 'Represents a user profile on the external site like MAL.';
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new HasManyRelation(new ExternalEntryType(), ExternalProfile::RELATION_EXTERNAL_ENTRIES),
-            new BelongsToRelation(new UserType(), ExternalProfile::RELATION_USER),
-        ];
     }
 
     /**
@@ -56,6 +42,9 @@ class ExternalProfileType extends EloquentType
             new LocalizedEnumField(new ExternalProfileVisibilityField()),
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new HasManyRelation(new ExternalEntryType(), ExternalProfile::RELATION_EXTERNAL_ENTRIES),
+            new BelongsToRelation(new UserType(), ExternalProfile::RELATION_USER),
         ];
     }
 }

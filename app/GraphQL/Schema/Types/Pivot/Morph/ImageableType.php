@@ -9,9 +9,8 @@ use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Pivot\Morph\Imageable\ImageableDepthField;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\MorphToRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToRelation;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Types\Wiki\ImageType;
 use App\GraphQL\Schema\Unions\ImageableUnion;
@@ -25,21 +24,6 @@ class ImageableType extends PivotType implements SubmitableType
     }
 
     /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new ImageType(), Imageable::RELATION_IMAGE)
-                ->notNullable(),
-            new MorphToRelation(new ImageableUnion(), Imageable::RELATION_IMAGEABLE)
-                ->notNullable(),
-        ];
-    }
-
-    /**
      * The fields of the type.
      *
      * @return Field[]
@@ -50,6 +34,11 @@ class ImageableType extends PivotType implements SubmitableType
             new ImageableDepthField(),
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new BelongsToRelation(new ImageType(), Imageable::RELATION_IMAGE)
+                ->nonNullable(),
+            new MorphToRelation(new ImageableUnion(), Imageable::RELATION_IMAGEABLE)
+                ->nonNullable(),
         ];
     }
 }

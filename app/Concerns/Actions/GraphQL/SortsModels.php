@@ -7,7 +7,7 @@ namespace App\Concerns\Actions\GraphQL;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\SortableColumns;
-use App\GraphQL\Schema\Relations\Relation as GraphQLRelation;
+use App\GraphQL\Schema\Fields\Relations\Relation as GraphQLRelation;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
 use Illuminate\Database\Eloquent\Builder;

@@ -9,10 +9,9 @@ use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Relations\HasOneRelation;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoScript\VideoScriptLinkField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoScript\VideoScriptPathField;
-use App\GraphQL\Schema\Relations\HasOneRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\Models\Wiki\Video\VideoScript;
@@ -22,19 +21,6 @@ class VideoScriptType extends EloquentType
     public function description(): string
     {
         return "Represents an encoding script used to produce a video.\n\nFor example, the 2009/Summer/Bakemonogatari-OP1.txt video script represents the encoding script of the Bakemonogatari-OP1.webm video.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new HasOneRelation(new VideoType(), VideoScript::RELATION_VIDEO)
-                ->notNullable(),
-        ];
     }
 
     /**
@@ -51,6 +37,9 @@ class VideoScriptType extends EloquentType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new HasOneRelation(new VideoType(), VideoScript::RELATION_VIDEO)
+                ->nonNullable(),
         ];
     }
 }

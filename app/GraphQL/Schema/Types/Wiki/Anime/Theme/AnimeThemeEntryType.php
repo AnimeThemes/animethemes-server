@@ -11,16 +11,15 @@ use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryEpisodesField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNotesField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNsfwField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntrySpoilerField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryTracksCountField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryVersionField;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
@@ -34,21 +33,6 @@ class AnimeThemeEntryType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents a version of an anime theme.\n\nFor example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new AnimeThemeType(), AnimeThemeEntry::RELATION_THEME)
-                ->notNullable(),
-            new BelongsToManyRelation($this, VideoType::class, AnimeThemeEntry::RELATION_VIDEOS, AnimeThemeEntryVideoType::class),
-            new MorphToManyRelation($this, ExternalResourceType::class, AnimeThemeEntry::RELATION_RESOURCES, ResourceableType::class),
-        ];
     }
 
     /**
@@ -70,6 +54,11 @@ class AnimeThemeEntryType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new BelongsToRelation(new AnimeThemeType(), AnimeThemeEntry::RELATION_THEME)
+                ->nonNullable(),
+            new BelongsToManyRelation($this, VideoType::class, AnimeThemeEntry::RELATION_VIDEOS, AnimeThemeEntryVideoType::class),
+            new MorphToManyRelation($this, ExternalResourceType::class, AnimeThemeEntry::RELATION_RESOURCES, ResourceableType::class),
         ];
     }
 }

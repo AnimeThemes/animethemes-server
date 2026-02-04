@@ -10,11 +10,10 @@ use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Song\SongTitleField;
 use App\GraphQL\Schema\Fields\Wiki\Song\SongTitleNativeField;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
@@ -26,20 +25,6 @@ class SongType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents the composition that accompanies an AnimeTheme.\n\nFor example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new HasManyRelation(new AnimeThemeType(), Song::RELATION_ANIMETHEMES),
-            new HasManyRelation(new PerformanceType(), Song::RELATION_PERFORMANCES),
-            new MorphToManyRelation($this, ExternalResourceType::class, Song::RELATION_RESOURCES, ResourceableType::class),
-        ];
     }
 
     /**
@@ -56,6 +41,10 @@ class SongType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new HasManyRelation(new AnimeThemeType(), Song::RELATION_ANIMETHEMES),
+            new HasManyRelation(new PerformanceType(), Song::RELATION_PERFORMANCES),
+            new MorphToManyRelation($this, ExternalResourceType::class, Song::RELATION_RESOURCES, ResourceableType::class),
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Schema\Relations;
+namespace App\GraphQL\Schema\Fields\Relations;
 
 use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Argument\Argument;
@@ -40,7 +40,7 @@ class BelongsToManyRelation extends Relation
      *
      * @return Argument[]
      */
-    protected function arguments(): array
+    public function arguments(): array
     {
         $pivotType = $this->pivotType;
 

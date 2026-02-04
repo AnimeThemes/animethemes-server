@@ -12,8 +12,7 @@ use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryIs
 use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryScoreField;
 use App\GraphQL\Schema\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
@@ -24,21 +23,6 @@ class ExternalEntryType extends EloquentType
     public function description(): string
     {
         return "Represents an anime entry on the external profile.\n\nFor example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new ExternalProfileType(), ExternalEntry::RELATION_PROFILE)
-                ->notNullable(),
-            new BelongsToRelation(new AnimeType(), ExternalEntry::RELATION_ANIME)
-                ->notNullable(),
-        ];
     }
 
     /**
@@ -56,6 +40,11 @@ class ExternalEntryType extends EloquentType
             new LocalizedEnumField(new ExternalEntryWatchStatusField()),
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new BelongsToRelation(new ExternalProfileType(), ExternalEntry::RELATION_PROFILE)
+                ->nonNullable(),
+            new BelongsToRelation(new AnimeType(), ExternalEntry::RELATION_ANIME)
+                ->nonNullable(),
         ];
     }
 }

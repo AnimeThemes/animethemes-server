@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Types;
 
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Pivot\Base\NodeField;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\Relation;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -52,10 +52,11 @@ class EdgeType extends BaseType
             ]);
 
         return collect($this->getPivotType()?->fieldClasses() ?? [])
+            ->reject(fn (Field $field): bool => $field instanceof Relation)
             ->prepend(new NodeField($this->nodeType))
             ->flatMap(fn (Field $field): array => [
                 $field->getName() => [
-                    'type' => $field->baseType(),
+                    'type' => $field->type(),
                     'description' => $field->description(),
                     'alias' => $field->getColumn(),
                     'args' => $field->args(),

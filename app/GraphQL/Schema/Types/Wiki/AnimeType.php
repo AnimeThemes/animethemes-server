@@ -11,16 +11,15 @@ use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
+use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeMediaFormatField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeNameField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSeasonField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSlugField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSynopsisField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYearField;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
@@ -35,23 +34,6 @@ class AnimeType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents a production with at least one opening or ending sequence.\n\nFor example, Bakemonogatari is an anime production with five opening sequences and one ending sequence.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
-            new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
-            new MorphToManyRelation($this, ExternalResourceType::class, Anime::RELATION_RESOURCES, ResourceableType::class),
-            new MorphToManyRelation($this, ImageType::class, Anime::RELATION_IMAGES, ImageableType::class),
-            new BelongsToManyRelation($this, SeriesType::class, Anime::RELATION_SERIES, AnimeSeriesType::class),
-            new BelongsToManyRelation($this, StudioType::class, Anime::RELATION_STUDIOS, AnimeStudioType::class),
-        ];
     }
 
     /**
@@ -74,6 +56,13 @@ class AnimeType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
+            new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
+            new MorphToManyRelation($this, ExternalResourceType::class, Anime::RELATION_RESOURCES, ResourceableType::class),
+            new MorphToManyRelation($this, ImageType::class, Anime::RELATION_IMAGES, ImageableType::class),
+            new BelongsToManyRelation($this, SeriesType::class, Anime::RELATION_SERIES, AnimeSeriesType::class),
+            new BelongsToManyRelation($this, StudioType::class, Anime::RELATION_STUDIOS, AnimeStudioType::class),
         ];
     }
 }

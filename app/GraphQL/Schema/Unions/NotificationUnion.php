@@ -13,15 +13,6 @@ use RuntimeException;
 
 class NotificationUnion extends BaseUnion
 {
-    /**
-     * The name of the union type.
-     * By default, it will be the class name.
-     */
-    public function getName(): string
-    {
-        return 'Notification';
-    }
-
     public function description(): string
     {
         return 'Represents the notification types.';

@@ -12,11 +12,10 @@ use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Types\Auth\PermissionType;
 use App\GraphQL\Schema\Types\Auth\RoleType;
 use App\GraphQL\Schema\Types\EloquentType;
@@ -30,23 +29,6 @@ class MeType extends EloquentType
     public function description(): string
     {
         return 'Represents the currently authenticated user.';
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new MorphManyRelation(new NotificationUnion(), User::RELATION_NOTIFICATIONS),
-            new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
-            new MorphToManyRelation($this, RoleType::class, User::RELATION_ROLES),
-            new MorphToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
-            new BelongsToManyRelation($this, AnimeThemeEntryType::class, 'likedentries'),
-            new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
-        ];
     }
 
     /**
@@ -64,6 +46,13 @@ class MeType extends EloquentType
             new MeTwoFactorConfirmedAtField(),
             new CreatedAtField(false),
             new UpdatedAtField(false),
+
+            new MorphManyRelation(new NotificationUnion(), User::RELATION_NOTIFICATIONS),
+            new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
+            new MorphToManyRelation($this, RoleType::class, User::RELATION_ROLES),
+            new MorphToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
+            new BelongsToManyRelation($this, AnimeThemeEntryType::class, 'likedentries'),
+            new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
         ];
     }
 
