@@ -9,6 +9,7 @@ use App\Filament\Components\Fields\TextInput;
 use App\Filament\Providers\GlobalSearchScoutProvider;
 use Awcodes\Recently\RecentlyPlugin;
 use Elemind\FilamentECharts\FilamentEChartsPlugin;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -44,6 +45,10 @@ class FilamentPanelProvider extends PanelProvider
     public function register(): void
     {
         parent::register();
+
+        Action::configureUsing(function (Action $action): void {
+            $action->overlayParentActions();
+        });
 
         Column::configureUsing(function (Column $column): void {
             $column->placeholder('-');
