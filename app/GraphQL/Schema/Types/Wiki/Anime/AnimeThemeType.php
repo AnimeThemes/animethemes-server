@@ -11,12 +11,12 @@ use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
+use App\GraphQL\Schema\Fields\Relations\Relation;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\AnimeThemeSequenceField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\AnimeThemeSlugField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\Theme\AnimeThemeTypeField;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
@@ -40,7 +40,7 @@ class AnimeThemeType extends EloquentType implements SubmitableType
     {
         return [
             new BelongsToRelation(new AnimeType(), AnimeTheme::RELATION_ANIME)
-                ->notNullable(),
+                ->nonNullable(),
             new HasManyRelation(new AnimeThemeEntryType(), AnimeTheme::RELATION_ENTRIES),
             new BelongsToRelation(new ThemeGroupType(), AnimeTheme::RELATION_GROUP),
             new BelongsToRelation(new SongType(), AnimeTheme::RELATION_SONG),

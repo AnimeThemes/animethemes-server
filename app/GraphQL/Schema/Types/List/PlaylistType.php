@@ -15,10 +15,9 @@ use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTracksCountField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTracksExistsField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistVisibilityField;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\HasManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
@@ -31,23 +30,6 @@ class PlaylistType extends EloquentType
     public function description(): string
     {
         return "Represents a list of ordered tracks intended for continuous playback.\n\nFor example, a \"/r/anime's Best OPs and EDs of 2022\" playlist may contain a collection of tracks allowing the continuous playback of Best OP and ED nominations for the /r/anime Awards.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_FIRST),
-            new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
-            new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
-                ->notNullable(),
-            new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new MorphToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, ImageableType::class),
-        ];
     }
 
     /**
@@ -68,6 +50,13 @@ class PlaylistType extends EloquentType
             new LikesCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_FIRST),
+            new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
+            new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
+                ->nonNullable(),
+            new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
+            new MorphToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, ImageableType::class),
         ];
     }
 }

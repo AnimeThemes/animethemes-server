@@ -11,11 +11,10 @@ use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Image\ImageFacetField;
 use App\GraphQL\Schema\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Schema\Fields\Wiki\Image\ImagePathField;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\Models\Wiki\Image;
@@ -25,20 +24,6 @@ class ImageType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents a visual component for another resource such as an anime or artist.\n\nFor example, the Bakemonogatari anime has two images to represent small and large cover images.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new MorphToManyRelation($this, AnimeType::class, Image::RELATION_ANIME, ImageableType::class),
-            new MorphToManyRelation($this, ArtistType::class, Image::RELATION_ARTISTS, ImageableType::class),
-            new MorphToManyRelation($this, StudioType::class, Image::RELATION_STUDIOS, ImageableType::class),
-        ];
     }
 
     /**
@@ -57,6 +42,10 @@ class ImageType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new MorphToManyRelation($this, AnimeType::class, Image::RELATION_ANIME, ImageableType::class),
+            new MorphToManyRelation($this, ArtistType::class, Image::RELATION_ARTISTS, ImageableType::class),
+            new MorphToManyRelation($this, StudioType::class, Image::RELATION_STUDIOS, ImageableType::class),
         ];
     }
 }

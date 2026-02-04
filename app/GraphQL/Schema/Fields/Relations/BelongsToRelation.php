@@ -2,29 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Schema\Relations;
+namespace App\GraphQL\Schema\Fields\Relations;
 
 use App\Enums\GraphQL\PaginationType;
-use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Arr;
 
 class BelongsToRelation extends Relation
 {
-    public function type(): Type
-    {
-        if (! $this->nullable) {
-            return Type::nonNull($this->type);
-        }
-
-        return $this->type;
-    }
-
     /**
      * Resolve the relation.
      *
      * @param  array<string, mixed>  $args
      */
-    public function resolve($root, array $args): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return Arr::get($root, $this->getRelationName());
     }

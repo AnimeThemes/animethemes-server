@@ -10,11 +10,10 @@ use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Studio\StudioNameField;
 use App\GraphQL\Schema\Fields\Wiki\Studio\StudioSlugField;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\MorphToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
@@ -26,20 +25,6 @@ class StudioType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents a company that produces anime.\n\nFor example, Shaft is the studio that produced the anime Bakemonogatari.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToManyRelation($this, AnimeType::class, Studio::RELATION_ANIME, AnimeStudioType::class),
-            new MorphToManyRelation($this, ImageType::class, Studio::RELATION_IMAGES, ImageableType::class),
-            new MorphToManyRelation($this, ExternalResourceType::class, Studio::RELATION_RESOURCES, ResourceableType::class),
-        ];
     }
 
     /**
@@ -56,6 +41,10 @@ class StudioType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new BelongsToManyRelation($this, AnimeType::class, Studio::RELATION_ANIME, AnimeStudioType::class),
+            new MorphToManyRelation($this, ImageType::class, Studio::RELATION_IMAGES, ImageableType::class),
+            new MorphToManyRelation($this, ExternalResourceType::class, Studio::RELATION_RESOURCES, ResourceableType::class),
         ];
     }
 }

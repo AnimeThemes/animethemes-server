@@ -11,6 +11,9 @@ use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
+use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\HasOneRelation;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoBasenameField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoFilenameField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoLinkField;
@@ -26,10 +29,6 @@ use App\GraphQL\Schema\Fields\Wiki\Video\VideoSubbedField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoTagsField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoUncenField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoViewsCountField;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\HasOneRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
@@ -41,20 +40,6 @@ class VideoType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents a WebM of an anime theme.\n\nFor example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new AudioType(), Video::RELATION_AUDIO),
-            new BelongsToManyRelation($this, AnimeThemeEntryType::class, Video::RELATION_ANIMETHEMEENTRIES, AnimeThemeEntryVideoType::class),
-            new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
-        ];
     }
 
     /**
@@ -86,6 +71,10 @@ class VideoType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new BelongsToRelation(new AudioType(), Video::RELATION_AUDIO),
+            new BelongsToManyRelation($this, AnimeThemeEntryType::class, Video::RELATION_ANIMETHEMEENTRIES, AnimeThemeEntryVideoType::class),
+            new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
         ];
     }
 }

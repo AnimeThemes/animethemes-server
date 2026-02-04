@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Schema\Relations;
+namespace App\GraphQL\Schema\Fields\Relations;
 
 use App\Enums\GraphQL\PaginationType;
 use GraphQL\Type\Definition\Type;

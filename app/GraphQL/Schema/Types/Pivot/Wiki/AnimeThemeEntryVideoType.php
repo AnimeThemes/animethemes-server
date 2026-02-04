@@ -8,8 +8,7 @@ use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
@@ -23,21 +22,6 @@ class AnimeThemeEntryVideoType extends PivotType implements SubmitableType
     }
 
     /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new AnimeThemeEntryType(), AnimeThemeEntryVideo::RELATION_ENTRY)
-                ->notNullable(),
-            new BelongsToRelation(new VideoType(), AnimeThemeEntryVideo::RELATION_VIDEO)
-                ->notNullable(),
-        ];
-    }
-
-    /**
      * The fields of the type.
      *
      * @return Field[]
@@ -47,6 +31,11 @@ class AnimeThemeEntryVideoType extends PivotType implements SubmitableType
         return [
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new BelongsToRelation(new AnimeThemeEntryType(), AnimeThemeEntryVideo::RELATION_ENTRY)
+                ->nonNullable(),
+            new BelongsToRelation(new VideoType(), AnimeThemeEntryVideo::RELATION_VIDEO)
+                ->nonNullable(),
         ];
     }
 }

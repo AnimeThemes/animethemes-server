@@ -7,7 +7,7 @@ namespace App\GraphQL\Schema\Types;
 use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\Relation;
 use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Type as RebingType;
 
@@ -48,7 +48,9 @@ abstract class BaseType extends RebingType
      */
     public function relations(): array
     {
-        return [];
+        return collect($this->fieldClasses())
+            ->filter(fn (Field $field): bool => $field instanceof Relation)
+            ->all();
     }
 
     /**
@@ -78,6 +80,7 @@ abstract class BaseType extends RebingType
             ]);
 
         $fields = collect($this->fieldClasses())
+            ->reject(fn (Field $field): bool => $field instanceof Relation)
             ->filter(fn (Field $field): bool => $field instanceof DisplayableField && $field->canBeDisplayed())
             ->mapWithKeys(fn (Field $field): array => [
                 $field->getName() => [

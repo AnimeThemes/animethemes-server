@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Schema\Relations;
+namespace App\GraphQL\Schema\Fields\Relations;
 
 use App\Concerns\Actions\GraphQL\FiltersModels;
-use App\Concerns\GraphQL\ResolvesArguments;
 use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FirstArgument;
@@ -13,31 +12,27 @@ use App\GraphQL\Argument\PageArgument;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Filter\FilterCriteria;
 use App\GraphQL\Filter\Filter;
+use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Unions\BaseUnion;
-use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 
-abstract class Relation
+abstract class Relation extends Field
 {
     use FiltersModels;
-    use ResolvesArguments;
 
-    protected ?string $field = null;
-    protected ?bool $nullable = true;
     protected bool $asPivot = false;
-    protected Type $type;
 
     public function __construct(
         protected BaseType|BaseUnion $baseType,
         protected string $relationName,
     ) {
-        $this->type = GraphQL::type($baseType->getName());
+        parent::__construct($relationName);
     }
 
     /**
@@ -45,15 +40,15 @@ abstract class Relation
      */
     public function renameTo(string $name): static
     {
-        $this->field = $name;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Mark the relation as not nullable.
+     * Mark the relation as non-nullable.
      */
-    public function notNullable(): static
+    public function nonNullable(): static
     {
         $this->nullable = false;
 
@@ -71,20 +66,11 @@ abstract class Relation
     }
 
     /**
-     * Get the name used to query through the type.
-     * By default, the relation name is used.
-     */
-    public function getName(): string
-    {
-        return $this->field ?? $this->relationName;
-    }
-
-    /**
      * Get the relation name in the model.
      */
     public function getRelationName(): string
     {
-        return $this->relationName;
+        return $this->getColumn();
     }
 
     public function isPivot(): bool
@@ -97,7 +83,7 @@ abstract class Relation
      *
      * @return Argument[]
      */
-    protected function arguments(): array
+    public function arguments(): array
     {
         $arguments = [];
 
@@ -121,7 +107,10 @@ abstract class Relation
         return Arr::flatten($arguments);
     }
 
-    public function baseType(): BaseType|BaseUnion
+    /**
+     * @return BaseType|BaseUnion
+     */
+    public function baseType()
     {
         return $this->baseType;
     }
@@ -137,9 +126,10 @@ abstract class Relation
     /**
      * Resolve the relation.
      *
+     * @param  Model  $root
      * @param  array<string, mixed>  $args
      */
-    public function resolve(Model $root, array $args): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         /** @var Collection $collection */
         $collection = $root->{$this->getRelationName()};
@@ -154,8 +144,6 @@ abstract class Relation
             $page
         );
     }
-
-    abstract public function type(): Type;
 
     /**
      * The pagination type.

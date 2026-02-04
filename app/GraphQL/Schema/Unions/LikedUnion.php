@@ -10,15 +10,6 @@ use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
 class LikedUnion extends BaseUnion
 {
-    /**
-     * The name of the union type.
-     * By default, it will be the class name.
-     */
-    public function getName(): string
-    {
-        return 'Liked';
-    }
-
     public function description(): string
     {
         return 'Represents the resources that can be liked';

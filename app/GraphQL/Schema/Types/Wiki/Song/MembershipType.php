@@ -10,11 +10,10 @@ use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Song\Membership\MembershipAliasField;
 use App\GraphQL\Schema\Fields\Wiki\Song\Membership\MembershipAsField;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\MorphManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\ArtistType;
 use App\Models\Wiki\Song\Membership;
@@ -24,22 +23,6 @@ class MembershipType extends EloquentType implements SubmitableType
     public function description(): string
     {
         return "Represents the link between an artist and a group related to the song credits.\n\nFor example, Sayuri Date is a member of Liella and has performed using the membership.";
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new ArtistType(), Membership::RELATION_GROUP)
-                ->notNullable(),
-            new BelongsToRelation(new ArtistType(), Membership::RELATION_MEMBER)
-                ->notNullable(),
-            new MorphManyRelation(new PerformanceType(), Membership::RELATION_PERFORMANCES),
-        ];
     }
 
     /**
@@ -56,6 +39,12 @@ class MembershipType extends EloquentType implements SubmitableType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
+
+            new BelongsToRelation(new ArtistType(), Membership::RELATION_GROUP)
+                ->nonNullable(),
+            new BelongsToRelation(new ArtistType(), Membership::RELATION_MEMBER)
+                ->nonNullable(),
+            new MorphManyRelation(new PerformanceType(), Membership::RELATION_PERFORMANCES),
         ];
     }
 }

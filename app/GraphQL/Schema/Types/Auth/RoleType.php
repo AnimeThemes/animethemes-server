@@ -13,8 +13,7 @@ use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Relations\BelongsToManyRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\Models\Auth\Role;
 
@@ -23,18 +22,6 @@ class RoleType extends EloquentType
     public function description(): string
     {
         return 'Represents an assignable label for users that provides a configured group of permissions.';
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToManyRelation($this, PermissionType::class, Role::RELATION_PERMISSIONS),
-        ];
     }
 
     /**
@@ -53,6 +40,8 @@ class RoleType extends EloquentType
             new RolePriorityField(),
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new BelongsToManyRelation($this, PermissionType::class, Role::RELATION_PERMISSIONS),
         ];
     }
 }

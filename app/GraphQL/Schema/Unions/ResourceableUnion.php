@@ -12,15 +12,6 @@ use App\GraphQL\Schema\Types\Wiki\StudioType;
 
 class ResourceableUnion extends BaseUnion
 {
-    /**
-     * The name of the union type.
-     * By default, it will be the class name.
-     */
-    public function getName(): string
-    {
-        return 'Resourceable';
-    }
-
     public function description(): string
     {
         return 'Represents the types that have resources';

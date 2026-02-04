@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields;
 
+use App\Concerns\GraphQL\ResolvesArguments;
+use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Types\BaseType;
+use App\GraphQL\Schema\Unions\BaseUnion;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
@@ -13,6 +16,8 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class Field
 {
+    use ResolvesArguments;
+
     public function __construct(
         protected string $column,
         protected ?string $name = null,
@@ -38,7 +43,10 @@ abstract class Field
         return '';
     }
 
-    public function args(): array
+    /**
+     * @return Argument[]
+     */
+    public function arguments(): array
     {
         return [];
     }
@@ -47,7 +55,7 @@ abstract class Field
     {
         $baseType = $this->baseType();
 
-        $type = $baseType instanceof BaseType
+        $type = $baseType instanceof BaseType || $baseType instanceof BaseUnion
             ? GraphQL::type($baseType->getName())
             : $baseType;
 
@@ -58,7 +66,10 @@ abstract class Field
         return $type;
     }
 
-    abstract public function baseType(): Type|BaseType;
+    /**
+     * @return Type|BaseType
+     */
+    abstract public function baseType();
 
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {

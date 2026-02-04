@@ -10,8 +10,7 @@ use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Relations\Relation;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
@@ -23,20 +22,6 @@ class FeaturedThemeType extends EloquentType
     public function description(): string
     {
         return 'Represents a video to be featured on the homepage of the site for a specified amount of time.';
-    }
-
-    /**
-     * The relations of the type.
-     *
-     * @return Relation[]
-     */
-    public function relations(): array
-    {
-        return [
-            new BelongsToRelation(new AnimeThemeEntryType(), FeaturedTheme::RELATION_ENTRY),
-            new BelongsToRelation(new VideoType(), FeaturedTheme::RELATION_VIDEO),
-            new BelongsToRelation(new UserType(), FeaturedTheme::RELATION_USER),
-        ];
     }
 
     /**
@@ -52,6 +37,10 @@ class FeaturedThemeType extends EloquentType
             new FeaturedThemeEndAtField(),
             new CreatedAtField(),
             new UpdatedAtField(),
+
+            new BelongsToRelation(new AnimeThemeEntryType(), FeaturedTheme::RELATION_ENTRY),
+            new BelongsToRelation(new VideoType(), FeaturedTheme::RELATION_VIDEO),
+            new BelongsToRelation(new UserType(), FeaturedTheme::RELATION_USER),
         ];
     }
 }
