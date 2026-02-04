@@ -17,6 +17,7 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Pivots\Morph\Imageable;
 use Database\Factories\Wiki\ImageFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
@@ -128,16 +129,18 @@ class Image extends BaseModel implements Auditable, SoftDeletable
         return $this->path;
     }
 
-    protected function getLinkAttribute(): ?string
+    protected function link(): Attribute
     {
-        if ($this->hasAttribute(Image::ATTRIBUTE_PATH) && $this->exists) {
-            /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-            $fs = Storage::disk(Config::get('image.disk'));
+        return Attribute::make(function () {
+            if ($this->hasAttribute(Image::ATTRIBUTE_PATH) && $this->exists) {
+                /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
+                $fs = Storage::disk(Config::get('image.disk'));
 
-            return $fs->url($this->getAttribute(Image::ATTRIBUTE_PATH));
-        }
+                return $fs->url($this->getAttribute(Image::ATTRIBUTE_PATH));
+            }
 
-        return null;
+            return null;
+        });
     }
 
     /**

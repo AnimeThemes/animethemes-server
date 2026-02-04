@@ -14,6 +14,7 @@ use App\Models\BaseModel;
 use Database\Factories\Admin\DumpFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -81,13 +82,15 @@ class Dump extends BaseModel
     /**
      * The link of the dump.
      */
-    protected function getLinkAttribute(): ?string
+    protected function link(): Attribute
     {
-        if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
-            return route('dump.show', $this);
-        }
+        return Attribute::make(function (): ?string {
+            if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
+                return route('dump.show', $this);
+            }
 
-        return null;
+            return null;
+        });
     }
 
     public function getName(): string

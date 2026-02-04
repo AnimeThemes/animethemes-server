@@ -22,7 +22,6 @@ enum VideoSource: int implements HasLabel
 
     /**
      * Score sources to help prioritize videos.
-     * TODO: This should be refactored into attributes.
      */
     public function getPriority(): int
     {
