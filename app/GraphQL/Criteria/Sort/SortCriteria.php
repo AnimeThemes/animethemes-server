@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Sort;
 
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\Sort\SortDirection;
-use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Stringable;
@@ -14,18 +13,24 @@ use Stringable;
 abstract class SortCriteria implements Stringable
 {
     public function __construct(
-        protected Field&SortableField $field,
-        protected SortDirection $direction = SortDirection::ASC
+        protected Sort $sort,
+        protected SortDirection $direction = SortDirection::ASC,
+        protected bool $isStringField = false,
     ) {}
 
-    public function getField(): Field&SortableField
+    public function getSort(): Sort
     {
-        return $this->field;
+        return $this->sort;
     }
 
     public function getDirection(): SortDirection
     {
         return $this->direction;
+    }
+
+    public function isStringField(): bool
+    {
+        return $this->isStringField;
     }
 
     /**
@@ -35,7 +40,7 @@ abstract class SortCriteria implements Stringable
      */
     public function __toString(): string
     {
-        $name = Str::of($this->field->getName())
+        $name = Str::of($this->getSort()->getName())
             ->snake()
             ->upper();
 

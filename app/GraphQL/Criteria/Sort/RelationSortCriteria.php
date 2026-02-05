@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Sort;
 
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\Sort\SortDirection;
-use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class RelationSortCriteria extends SortCriteria
 {
     public function __construct(
-        protected Field&SortableField $field,
-        public string $relation,
-        protected SortDirection $direction = SortDirection::ASC
+        protected Sort $sort,
+        protected string $relation,
+        protected SortDirection $direction = SortDirection::ASC,
+        protected bool $isStringField = false,
     ) {
-        parent::__construct($field, $direction);
+        parent::__construct($sort, $direction, $isStringField);
+    }
+
+    public function getRelation(): string
+    {
+        return $this->relation;
     }
 
     /**
@@ -27,9 +32,9 @@ class RelationSortCriteria extends SortCriteria
      */
     public function __toString(): string
     {
-        $name = Str::of($this->relation)
+        $name = Str::of($this->getRelation())
             ->append('_')
-            ->append($this->field->getName())
+            ->append($this->getSort()->getName())
             ->snake()
             ->upper();
 
@@ -44,8 +49,8 @@ class RelationSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        $column = $this->field->getColumn();
+        $column = $this->getSort()->getColumn();
 
-        return $builder->orderBy("{$this->relation}_$column", $this->direction->value);
+        return $builder->orderBy("{$this->getRelation()}_$column", $this->direction->value);
     }
 }

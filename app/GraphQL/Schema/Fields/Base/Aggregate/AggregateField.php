@@ -58,7 +58,7 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
         $sortCriteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
         $sorts = Arr::get($args, 'sort', []);
         foreach ($sortCriteria as $sortCriterion) {
-            if (in_array($sortCriterion->__toString(), $sorts) && $sortCriterion->getField()->getName() === $this->getName()) {
+            if (in_array($sortCriterion->__toString(), $sorts) && $sortCriterion->getSort()->getName() === $this->getName()) {
                 return true;
             }
         }

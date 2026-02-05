@@ -9,7 +9,7 @@ use App\Enums\GraphQL\QualifyColumn;
 class Sort
 {
     public function __construct(
-        protected readonly string $key,
+        protected readonly string $name,
         protected readonly ?string $column = null,
         protected readonly QualifyColumn $qualifyColumn = QualifyColumn::YES
     ) {}
@@ -17,9 +17,9 @@ class Sort
     /**
      * Get sort key value.
      */
-    public function getKey(): string
+    public function getName(): string
     {
-        return $this->key;
+        return $this->name;
     }
 
     /**
@@ -27,7 +27,7 @@ class Sort
      */
     public function getColumn(): string
     {
-        return $this->column ?? $this->key;
+        return $this->column ?? $this->getName();
     }
 
     /**

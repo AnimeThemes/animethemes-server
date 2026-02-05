@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\Wiki\Song;
 
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -32,6 +33,8 @@ class MembershipFactory extends Factory
         return [
             Membership::ATTRIBUTE_ALIAS => fake()->text(),
             Membership::ATTRIBUTE_AS => fake()->text(),
+            Membership::ATTRIBUTE_ARTIST => Artist::factory(),
+            Membership::ATTRIBUTE_MEMBER => Artist::factory(),
         ];
     }
 }
