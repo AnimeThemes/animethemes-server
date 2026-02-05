@@ -12,7 +12,6 @@ use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Sort\RelationSortCriteria;
 use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\SortableColumns;
-use App\GraphQL\Schema\Fields\StringField;
 use App\GraphQL\Schema\Types\BaseType;
 use App\Rules\GraphQL\Argument\FirstArgumentRule;
 use App\Search\Criteria;
@@ -76,15 +75,15 @@ class IndexAction
             /** @var SortCriteria $criterion */
             $criterion = Arr::get($criteria, $sort);
 
-            $column = $criterion->getField()->getColumn();
+            $column = $criterion->getSort()->getColumn();
             $direction = $criterion->getDirection();
-            $isString = $criterion->getField() instanceof StringField;
+            $isString = $criterion->isStringField();
 
             if ($criterion instanceof RelationSortCriteria) {
                 $sortsRaw[$column] = [
                     'direction' => $direction->value,
                     'isString' => $isString,
-                    'relation' => $criterion->relation,
+                    'relation' => $criterion->getRelation(),
                 ];
             } else {
                 $sortsRaw[$column] = [

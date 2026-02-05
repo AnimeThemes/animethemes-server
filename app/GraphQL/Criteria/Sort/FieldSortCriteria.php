@@ -13,7 +13,7 @@ class FieldSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        $sort = $this->field->getSort();
+        $sort = $this->getSort();
 
         $column = $sort->shouldQualifyColumn()
             ? $builder->qualifyColumn($sort->getColumn())

@@ -14,6 +14,7 @@ use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Fields\Relations\Relation;
+use App\GraphQL\Schema\Fields\StringField;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -69,9 +70,9 @@ class SortableColumns extends EnumType
     private function getFieldSortCriteria(): Collection
     {
         return $this->getSortableFields()
-            ->map(fn (Field $field): array => [
-                new FieldSortCriteria($field),
-                new FieldSortCriteria($field, SortDirection::DESC),
+            ->map(fn (Field&SortableField $field): array => [
+                new FieldSortCriteria($field->getSort(), SortDirection::ASC, $field instanceof StringField),
+                new FieldSortCriteria($field->getSort(), SortDirection::DESC, $field instanceof StringField),
             ])
             ->flatten();
     }
@@ -80,9 +81,9 @@ class SortableColumns extends EnumType
     {
         return collect($this->pivotType?->fieldClasses() ?? [])
             ->filter(fn (Field $field): bool => $field instanceof SortableField)
-            ->map(fn (Field $field): array => [
-                new PivotSortCriteria($field, SortDirection::ASC, $this->relation),
-                new PivotSortCriteria($field, SortDirection::DESC, $this->relation),
+            ->map(fn (Field&SortableField $field): array => [
+                new PivotSortCriteria($field->getSort(), SortDirection::ASC, $this->relation, $field instanceof StringField),
+                new PivotSortCriteria($field->getSort(), SortDirection::DESC, $this->relation, $field instanceof StringField),
             ])
             ->flatten();
     }
@@ -91,8 +92,8 @@ class SortableColumns extends EnumType
     {
         return $this->getRelations($this->type)
             ->flatMap(fn (Collection $fields, $relation) => $fields->map(fn (Field&SortableField $field): array => [
-                new RelationSortCriteria($field, $relation),
-                new RelationSortCriteria($field, $relation, SortDirection::DESC),
+                new RelationSortCriteria($field->getSort(), $relation, SortDirection::ASC, $field instanceof StringField),
+                new RelationSortCriteria($field->getSort(), $relation, SortDirection::DESC, $field instanceof StringField),
             ]))
             ->flatten();
     }

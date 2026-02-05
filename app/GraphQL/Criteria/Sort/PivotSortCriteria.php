@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Criteria\Sort;
 
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\Sort\SortDirection;
-use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
@@ -14,11 +13,12 @@ use Illuminate\Support\Str;
 class PivotSortCriteria extends SortCriteria
 {
     public function __construct(
-        protected Field&SortableField $field,
+        protected Sort $sort,
         protected SortDirection $direction = SortDirection::ASC,
         protected ?BelongsToMany $relation = null,
+        protected bool $isStringField = false,
     ) {
-        parent::__construct($field, $direction);
+        parent::__construct($sort, $direction, $isStringField);
     }
 
     /**
@@ -28,12 +28,12 @@ class PivotSortCriteria extends SortCriteria
      */
     public function __toString(): string
     {
-        $name = Str::of($this->field->getName())
+        $name = Str::of($this->getSort()->getName())
             ->snake()
             ->upper()
             ->prepend('PIVOT_');
 
-        return (string) match ($this->direction) {
+        return (string) match ($this->getDirection()) {
             SortDirection::ASC => $name,
             SortDirection::DESC => $name->append('_DESC'),
         };
@@ -44,10 +44,12 @@ class PivotSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        $column = $this->field->getSort()->shouldQualifyColumn()
-            ? $this->relation?->qualifyPivotColumn($this->field->getColumn())
-            : $this->field->getColumn();
+        $sort = $this->getSort();
 
-        return $builder->orderBy($column, $this->direction->value);
+        $column = $sort->shouldQualifyColumn()
+            ? $this->relation?->qualifyPivotColumn($sort->getColumn())
+            : $sort->getColumn();
+
+        return $builder->orderBy($column, $this->getDirection()->value);
     }
 }
