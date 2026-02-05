@@ -72,7 +72,7 @@ test('performances', function () {
     $performanceCount = fake()->randomDigitNotNull();
 
     $song = Song::factory()
-        ->has(Performance::factory()->count($performanceCount)->artist(Artist::factory()->createOne()))
+        ->has(Performance::factory()->count($performanceCount))
         ->createOne();
 
     $this->assertInstanceOf(HasMany::class, $song->performances());

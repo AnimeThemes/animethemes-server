@@ -65,7 +65,8 @@ test('performances', function () {
 
     Performance::factory()
         ->artist($artist)
-        ->count($performanceCount);
+        ->count($performanceCount)
+        ->create();
 
     $this->assertInstanceOf(MorphMany::class, $artist->performances());
     $this->assertEquals($performanceCount, $artist->performances()->count());
