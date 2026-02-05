@@ -24,6 +24,13 @@ class SendDiscordNotificationJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    /**
+     * The number of seconds to wait before retrying the queued listener.
+     *
+     * @var int
+     */
+    public $backoff = 60;
+
     public function __construct(protected readonly DiscordMessageEvent $event) {}
 
     public function handle(): void
