@@ -26,6 +26,13 @@ class SyncExternalProfileJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
+    /**
+     * The number of seconds to wait before retrying the queued listener.
+     *
+     * @var int
+     */
+    public $backoff = 120;
+
     public function __construct(public readonly ExternalProfile $profile)
     {
         $this->onQueue("sync-external-profile-{$profile->site->name}");
