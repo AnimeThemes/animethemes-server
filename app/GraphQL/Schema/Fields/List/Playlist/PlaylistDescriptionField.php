@@ -8,7 +8,6 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\List\Playlist;
-use App\Rules\ModerationRule;
 
 class PlaylistDescriptionField extends StringField implements CreatableField, UpdatableField
 {
@@ -31,7 +30,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
             'nullable',
             'string',
             'max:1000',
-            new ModerationRule(),
         ];
     }
 
@@ -44,7 +42,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
             'nullable',
             'string',
             'max:1000',
-            new ModerationRule(),
         ];
     }
 }
