@@ -195,7 +195,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
             ->append(' ')
             ->append($theme->type->localize())
             ->when($theme->type !== ThemeType::IN, fn (Stringable $str) => $str->append(strval($theme->sequence ?? 1)))
-            ->when(filled($this->version), fn (Stringable $str) => $str->append('v'.$this->version))
+            ->when($this->version !== 1, fn (Stringable $str) => $str->append('v'.$this->version))
             ->when($theme->group !== null, fn (Stringable $str) => $str->append('-'.$theme->group->slug))
             ->__toString();
     }
