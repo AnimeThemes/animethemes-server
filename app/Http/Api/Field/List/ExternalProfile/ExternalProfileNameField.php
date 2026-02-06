@@ -8,7 +8,6 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\ExternalProfile;
-use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
 class ExternalProfileNameField extends StringField implements CreatableField
@@ -24,7 +23,6 @@ class ExternalProfileNameField extends StringField implements CreatableField
             'required',
             'string',
             'max:192',
-            new ModerationRule(),
         ];
     }
 }

@@ -25,7 +25,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
             'nullable',
             'string',
             'max:1000',
-            new ModerationRule(),
         ];
     }
 
@@ -35,7 +34,6 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
             'nullable',
             'string',
             'max:1000',
-            new ModerationRule(),
         ];
     }
 }
