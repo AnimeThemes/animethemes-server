@@ -2,20 +2,27 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Elastic\ConfiguresTextAnalyzers;
 use Elastic\Adapter\Indices\Mapping;
+use Elastic\Adapter\Indices\Settings;
 use Elastic\Migrations\Facades\Index;
 use Elastic\Migrations\MigrationInterface;
 
 final class CreateVideoIndex implements MigrationInterface
 {
+    use ConfiguresTextAnalyzers;
+
     /**
      * Run the migration.
      */
     public function up(): void
     {
-        Index::createIfNotExists('videos', function (Mapping $mapping) {
+        Index::createIfNotExists('videos', function (Mapping $mapping, Settings $settings) {
+            $this->configureTextAnalyzers($settings);
+
             $mapping->text('anime_slug');
             $mapping->text('basename', [
+                'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [
                         'type' => 'keyword',
@@ -58,6 +65,7 @@ final class CreateVideoIndex implements MigrationInterface
                                     'name' => [
                                         'type' => 'text',
                                         'copy_to' => ['anime_slug'],
+                                        'analyzer' => 'name_search',
                                     ],
                                     'season' => [
                                         'type' => 'long',
@@ -80,6 +88,7 @@ final class CreateVideoIndex implements MigrationInterface
                                             'text' => [
                                                 'type' => 'text',
                                                 'copy_to' => ['synonym_slug'],
+                                                'analyzer' => 'name_search',
                                             ],
                                             'type' => [
                                                 'type' => 'long',
@@ -152,6 +161,11 @@ final class CreateVideoIndex implements MigrationInterface
                                     ],
                                     'title' => [
                                         'type' => 'text',
+                                        'analyzer' => 'name_search',
+                                    ],
+                                    'title_native' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'name_search',
                                     ],
                                     'updated_at' => [
                                         'type' => 'date',
@@ -190,6 +204,7 @@ final class CreateVideoIndex implements MigrationInterface
                 ],
             ]);
             $mapping->text('filename', [
+                'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [
                         'type' => 'keyword',

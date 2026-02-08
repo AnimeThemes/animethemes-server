@@ -136,6 +136,10 @@ class VideoResource extends BaseResource
                 TextColumn::make(Video::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
+                TextColumn::make(Video::ATTRIBUTE_FILENAME)
+                    ->label(__('filament.fields.video.filename.name'))
+                    ->copyableWithMessage(),
+
                 TextColumn::make(Video::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name')),
 
@@ -163,9 +167,9 @@ class VideoResource extends BaseResource
                     ->label(__('filament.fields.video.source.name'))
                     ->formatStateUsing(fn (VideoSource $state): ?string => $state->localize()),
 
-                TextColumn::make(Video::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.fields.video.filename.name'))
-                    ->copyableWithMessage(),
+                TextColumn::make(Video::ATTRIBUTE_TAGS)
+                    ->label(__('filament.fields.video.tags.name'))
+                    ->sortable(false),
             ])
             ->searchable();
     }
@@ -178,6 +182,9 @@ class VideoResource extends BaseResource
                     ->schema([
                         TextEntry::make(Video::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(Video::ATTRIBUTE_TAGS)
+                            ->label(__('filament.fields.video.tags.name')),
 
                         TextEntry::make(Video::ATTRIBUTE_OVERLAP)
                             ->label(__('filament.fields.video.overlap.name'))

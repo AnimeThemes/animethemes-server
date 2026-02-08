@@ -28,8 +28,6 @@ class VideoTagsField extends Field implements RenderableField
 
     public function render(Model $model): string
     {
-        $tags = $model->getAttribute($this->getColumn());
-
-        return implode('', $tags);
+        return $model->getAttribute($this->getColumn());
     }
 }

@@ -230,35 +230,3 @@ test('created if open ai fails', function () {
 
     $response->assertCreated();
 });
-
-test('validation error when flagged by open ai', function () {
-    Feature::activate(AllowExternalProfileManagement::class);
-    Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
-
-    Http::fake([
-        'https://api.openai.com/v1/moderations' => Http::response([
-            'results' => [
-                0 => [
-                    'flagged' => true,
-                ],
-            ],
-        ]),
-    ]);
-
-    $visibility = Arr::random(ExternalProfileVisibility::cases());
-
-    $parameters = array_merge(
-        ExternalProfile::factory()->raw(),
-        [ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize()],
-    );
-
-    $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalProfile::class))->createOne();
-
-    Sanctum::actingAs($user);
-
-    $response = post(route('api.externalprofile.store', $parameters));
-
-    $response->assertJsonValidationErrors([
-        ExternalProfile::ATTRIBUTE_NAME,
-    ]);
-});

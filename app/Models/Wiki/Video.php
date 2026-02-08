@@ -198,24 +198,26 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
      */
     protected function priority(): Attribute
     {
-        $priority = intval($this->source?->getPriority());
+        return Attribute::make(function (): int {
+            $priority = intval($this->source?->getPriority());
 
-        // Videos that play over the episode will likely have compressed audio
-        if ($this->overlap === VideoOverlap::OVER) {
-            $priority -= 8;
-        }
+            // Videos that play over the episode will likely have compressed audio
+            if ($this->overlap === VideoOverlap::OVER) {
+                $priority -= 8;
+            }
 
-        // Videos that transition to or from the episode may have compressed audio
-        if ($this->overlap === VideoOverlap::TRANS) {
-            $priority -= 5;
-        }
+            // Videos that transition to or from the episode may have compressed audio
+            if ($this->overlap === VideoOverlap::TRANS) {
+                $priority -= 5;
+            }
 
-        // De-prioritize hardsubbed videos
-        if ($this->lyrics || $this->subbed) {
-            $priority--;
-        }
+            // De-prioritize hardsubbed videos
+            if ($this->lyrics || $this->subbed) {
+                $priority--;
+            }
 
-        return Attribute::make(fn (): int => $priority);
+            return $priority;
+        });
     }
 
     /**
@@ -223,25 +225,27 @@ class Video extends BaseModel implements Auditable, HasAggregateViews, SoftDelet
      */
     protected function tags(): Attribute
     {
-        $tags = [];
+        return Attribute::make(function (): string {
+            $tags = [];
 
-        if ($this->nc) {
-            $tags[] = 'NC';
-        }
-        if ($this->source === VideoSource::BD || $this->source === VideoSource::DVD) {
-            $tags[] = $this->source->localize();
-        }
-        if (filled($this->resolution) && $this->resolution !== 720) {
-            $tags[] = strval($this->resolution);
-        }
+            if ($this->nc) {
+                $tags[] = 'NC';
+            }
+            if ($this->source === VideoSource::BD || $this->source === VideoSource::DVD) {
+                $tags[] = $this->source->localize();
+            }
+            if (filled($this->resolution) && $this->resolution !== 720) {
+                $tags[] = strval($this->resolution);
+            }
 
-        if ($this->subbed) {
-            $tags[] = 'Subbed';
-        } elseif ($this->lyrics) {
-            $tags[] = 'Lyrics';
-        }
+            if ($this->subbed) {
+                $tags[] = 'Subbed';
+            } elseif ($this->lyrics) {
+                $tags[] = 'Lyrics';
+            }
 
-        return Attribute::make(fn (): array => $tags);
+            return implode('', $tags);
+        });
     }
 
     /**

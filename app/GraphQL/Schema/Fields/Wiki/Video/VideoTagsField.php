@@ -28,6 +28,6 @@ class VideoTagsField extends StringField
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return implode('', $root->getAttribute($this->getColumn()));
+        return $root->getAttribute($this->getColumn());
     }
 }

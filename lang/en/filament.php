@@ -1002,6 +1002,9 @@ return [
                 'help' => 'Set if this video has subtitles of dialogue.',
                 'name' => 'Subbed',
             ],
+            'tags' => [
+                'name' => 'Tags',
+            ],
             'uncen' => [
                 'help' => 'Set if this video is an uncensored version of a censored sequence.',
                 'name' => 'Uncensored',
