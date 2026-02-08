@@ -7,6 +7,8 @@ namespace App\Http\Api\Schema\Document;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Document\Page\PageBodyField;
 use App\Http\Api\Field\Document\Page\PageNameField;
+use App\Http\Api\Field\Document\Page\PageNextIdField;
+use App\Http\Api\Field\Document\Page\PagePreviousIdField;
 use App\Http\Api\Field\Document\Page\PageSlugField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -26,7 +28,10 @@ class PageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return $this->withIntermediatePaths([]);
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new PageSchema(), Page::RELATION_NEXT),
+            new AllowedInclude(new PageSchema(), Page::RELATION_PREVIOUS),
+        ]);
     }
 
     /**
@@ -41,6 +46,8 @@ class PageSchema extends EloquentSchema
                 new PageNameField($this),
                 new PageSlugField($this),
                 new PageBodyField($this),
+                new PageNextIdField($this),
+                new PagePreviousIdField($this),
             ],
         );
     }

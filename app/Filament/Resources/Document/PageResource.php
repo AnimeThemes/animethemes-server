@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Document;
 
 use App\Enums\Filament\NavigationGroup;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\TextInput;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
@@ -80,6 +83,16 @@ class PageResource extends BaseResource
                     ->helperText(__('filament.fields.page.slug.help'))
                     ->regex('/^[\pL\pM\pN\/_-]+$/u'),
 
+                BelongsTo::make(Page::ATTRIBUTE_PREVIOUS)
+                    ->resource(static::class)
+                    ->label(__('filament.fields.page.previous.name'))
+                    ->helperText(__('filament.fields.page.previous.help')),
+
+                BelongsTo::make(Page::ATTRIBUTE_NEXT)
+                    ->resource(static::class)
+                    ->label(__('filament.fields.page.next.name'))
+                    ->helperText(__('filament.fields.page.next.help')),
+
                 MarkdownEditor::make(Page::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
                     ->helperText(__('filament.fields.page.body.help'))
@@ -107,9 +120,11 @@ class PageResource extends BaseResource
                     ->label(__('filament.fields.page.slug.name'))
                     ->copyableWithMessage(),
 
-                TextColumn::make(Page::ATTRIBUTE_BODY)
-                    ->label(__('filament.fields.page.body.name'))
-                    ->hidden(),
+                BelongsToColumn::make(Page::RELATION_PREVIOUS, static::class)
+                    ->label(__('filament.fields.page.previous.name')),
+
+                BelongsToColumn::make(Page::RELATION_NEXT, static::class)
+                    ->label(__('filament.fields.page.next.name')),
             ]);
     }
 
@@ -130,12 +145,18 @@ class PageResource extends BaseResource
                             ->label(__('filament.fields.page.slug.name'))
                             ->copyableWithMessage(),
 
+                        BelongsToEntry::make(Page::RELATION_PREVIOUS, static::class)
+                            ->label(__('filament.fields.page.previous.name')),
+
+                        BelongsToEntry::make(Page::RELATION_NEXT, static::class)
+                            ->label(__('filament.fields.page.next.name')),
+
                         TextEntry::make(Page::ATTRIBUTE_BODY)
                             ->label(__('filament.fields.page.body.name'))
                             ->markdown()
                             ->columnSpanFull(),
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 TimestampSection::make(),
             ]);

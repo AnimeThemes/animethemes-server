@@ -13,6 +13,7 @@ use App\GraphQL\Schema\Fields\Document\Page\PageBodyField;
 use App\GraphQL\Schema\Fields\Document\Page\PageNameField;
 use App\GraphQL\Schema\Fields\Document\Page\PageSlugField;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\Models\Document\Page;
 
@@ -38,6 +39,9 @@ class PageType extends EloquentType implements SubmitableType
             new CreatedAtField(false),
             new UpdatedAtField(false),
             new DeletedAtField(),
+
+            new BelongsToRelation(new PageType(), Page::RELATION_NEXT),
+            new BelongsToRelation(new PageType(), Page::RELATION_PREVIOUS),
         ];
     }
 }
