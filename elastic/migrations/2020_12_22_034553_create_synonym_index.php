@@ -2,18 +2,24 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Elastic\ConfiguresTextAnalyzers;
 use Elastic\Adapter\Indices\Mapping;
+use Elastic\Adapter\Indices\Settings;
 use Elastic\Migrations\Facades\Index;
 use Elastic\Migrations\MigrationInterface;
 
 final class CreateSynonymIndex implements MigrationInterface
 {
+    use ConfiguresTextAnalyzers;
+
     /**
      * Run the migration.
      */
     public function up(): void
     {
-        Index::createIfNotExists('anime_synonyms', function (Mapping $mapping) {
+        Index::createIfNotExists('anime_synonyms', function (Mapping $mapping, Settings $settings) {
+            $this->configureTextAnalyzers($settings);
+
             $mapping->nested('anime', [
                 'properties' => [
                     'anime_id' => [
@@ -24,6 +30,7 @@ final class CreateSynonymIndex implements MigrationInterface
                     ],
                     'name' => [
                         'type' => 'text',
+                        'analyzer' => 'name_search',
                     ],
                     'media_format' => [
                         'type' => 'long',
@@ -49,6 +56,7 @@ final class CreateSynonymIndex implements MigrationInterface
             $mapping->date('created_at');
             $mapping->long('synonym_id');
             $mapping->text('text', [
+                'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [
                         'type' => 'keyword',

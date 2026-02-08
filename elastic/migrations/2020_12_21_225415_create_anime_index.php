@@ -2,21 +2,28 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Elastic\ConfiguresTextAnalyzers;
 use Elastic\Adapter\Indices\Mapping;
+use Elastic\Adapter\Indices\Settings;
 use Elastic\Migrations\Facades\Index;
 use Elastic\Migrations\MigrationInterface;
 
 final class CreateAnimeIndex implements MigrationInterface
 {
+    use ConfiguresTextAnalyzers;
+
     /**
      * Run the migration.
      */
     public function up(): void
     {
-        Index::createIfNotExists('anime', function (Mapping $mapping) {
+        Index::create('anime', function (Mapping $mapping, Settings $settings) {
+            $this->configureTextAnalyzers($settings);
+
             $mapping->long('anime_id');
             $mapping->date('created_at');
             $mapping->text('name', [
+                'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [
                         'type' => 'keyword',
@@ -45,6 +52,7 @@ final class CreateAnimeIndex implements MigrationInterface
                     ],
                     'text' => [
                         'type' => 'text',
+                        'analyzer' => 'name_search',
                     ],
                     'type' => [
                         'type' => 'long',

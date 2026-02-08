@@ -2,18 +2,24 @@
 
 declare(strict_types=1);
 
+use App\Concerns\Elastic\ConfiguresTextAnalyzers;
 use Elastic\Adapter\Indices\Mapping;
+use Elastic\Adapter\Indices\Settings;
 use Elastic\Migrations\Facades\Index;
 use Elastic\Migrations\MigrationInterface;
 
 final class CreateEntryIndex implements MigrationInterface
 {
+    use ConfiguresTextAnalyzers;
+
     /**
      * Run the migration.
      */
     public function up(): void
     {
-        Index::createIfNotExists('anime_theme_entries', function (Mapping $mapping) {
+        Index::createIfNotExists('anime_theme_entries', function (Mapping $mapping, Settings $settings) {
+            $this->configureTextAnalyzers($settings);
+
             $mapping->text('anime_slug');
             $mapping->date('created_at');
             $mapping->long('entry_id');
@@ -48,6 +54,7 @@ final class CreateEntryIndex implements MigrationInterface
                             'name' => [
                                 'type' => 'text',
                                 'copy_to' => ['anime_slug'],
+                                'analyzer' => 'name_search',
                             ],
                             'season' => [
                                 'type' => 'long',
@@ -70,6 +77,7 @@ final class CreateEntryIndex implements MigrationInterface
                                     'text' => [
                                         'type' => 'text',
                                         'copy_to' => ['synonym_slug'],
+                                        'analyzer' => 'name_search',
                                     ],
                                     'type' => [
                                         'type' => 'long',
@@ -141,6 +149,11 @@ final class CreateEntryIndex implements MigrationInterface
                             ],
                             'title' => [
                                 'type' => 'text',
+                                'analyzer' => 'name_search',
+                            ],
+                            'title_native' => [
+                                'type' => 'text',
+                                'analyzer' => 'name_search',
                             ],
                             'updated_at' => [
                                 'type' => 'date',
