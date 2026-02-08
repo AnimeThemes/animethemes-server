@@ -26,12 +26,21 @@ class ImportModelsSeeder extends Seeder
      */
     public function run(): void
     {
+        if (Config::get('app.env') === 'staging') {
+            $this->command->alert('This seeder is not allowed in staging environments.');
+
+            return;
+        }
+
         $driver = Config::get('scout.driver');
         if (blank($driver)) {
             $this->command->info('No driver configured for Scout. Skipping models importing.');
 
             return;
         }
+
+        $this->command->info('Running elastic migrations');
+        Artisan::call('elastic:migrate');
 
         $this->scoutImport(Playlist::class);
         $this->scoutImport(Anime::class);
