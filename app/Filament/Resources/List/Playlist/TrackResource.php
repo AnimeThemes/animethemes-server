@@ -143,8 +143,7 @@ class TrackResource extends BaseResource
                 BelongsTo::make(PlaylistTrack::ATTRIBUTE_PREVIOUS)
                     ->resource(TrackResource::class)
                     ->label(__('filament.fields.playlist_track.previous.name'))
-                    ->helperText(__('filament.fields.playlist_track.previous.help'))
-                    ->searchable(),
+                    ->helperText(__('filament.fields.playlist_track.previous.help')),
 
                 BelongsTo::make(PlaylistTrack::ATTRIBUTE_NEXT)
                     ->resource(TrackResource::class)

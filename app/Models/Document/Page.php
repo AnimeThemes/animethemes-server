@@ -14,13 +14,18 @@ use App\Events\Document\Page\PageUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Document\PageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property string $body
  * @property string $name
+ * @property int|null $next_id
+ * @property Page|null $next
  * @property int $page_id
+ * @property int|null $previous_id
+ * @property Page|null $previous
  * @property string $slug
  *
  * @method static PageFactory factory(...$parameters)
@@ -37,7 +42,12 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     final public const string ATTRIBUTE_BODY = 'body';
     final public const string ATTRIBUTE_ID = 'page_id';
     final public const string ATTRIBUTE_NAME = 'name';
+    final public const string ATTRIBUTE_NEXT = 'next_id';
+    final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
     final public const string ATTRIBUTE_SLUG = 'slug';
+
+    final public const string RELATION_NEXT = 'next';
+    final public const string RELATION_PREVIOUS = 'previous';
 
     /**
      * The table associated with the model.
@@ -75,6 +85,8 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     protected $fillable = [
         Page::ATTRIBUTE_BODY,
         Page::ATTRIBUTE_NAME,
+        Page::ATTRIBUTE_NEXT,
+        Page::ATTRIBUTE_PREVIOUS,
         Page::ATTRIBUTE_SLUG,
     ];
 
@@ -105,5 +117,21 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     public function getSubtitle(): string
     {
         return $this->slug;
+    }
+
+    /**
+     * @return BelongsTo<Page, $this>
+     */
+    public function next(): BelongsTo
+    {
+        return $this->belongsTo(Page::class, Page::ATTRIBUTE_NEXT);
+    }
+
+    /**
+     * @return BelongsTo<Page, $this>
+     */
+    public function previous(): BelongsTo
+    {
+        return $this->belongsTo(Page::class, Page::ATTRIBUTE_PREVIOUS);
     }
 }

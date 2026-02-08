@@ -816,6 +816,14 @@ return [
                 'help' => 'The display title of the Page.',
                 'name' => 'Name',
             ],
+            'next' => [
+                'help' => 'The next page of this page.',
+                'name' => 'Next',
+            ],
+            'previous' => [
+                'help' => 'The previous page of this page.',
+                'name' => 'Previous',
+            ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces.',
                 'name' => 'Slug',
