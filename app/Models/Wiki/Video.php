@@ -57,7 +57,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property int $size
  * @property VideoSource|null $source
  * @property bool $subbed
- * @property array<int, string> $tags
+ * @property string $tags
  * @property bool $uncen
  * @property int $video_id
  *

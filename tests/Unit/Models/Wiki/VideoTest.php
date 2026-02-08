@@ -80,7 +80,7 @@ test('nc tag', function () {
         Video::ATTRIBUTE_NC => true,
     ]);
 
-    $this->assertContains('NC', $video->tags);
+    $this->assertStringContainsString('NC', $video->tags);
 });
 
 test('no nc tag', function () {
@@ -88,7 +88,7 @@ test('no nc tag', function () {
         Video::ATTRIBUTE_NC => false,
     ]);
 
-    $this->assertNotContains('NC', $video->tags);
+    $this->assertStringNotContainsString('NC', $video->tags);
 });
 
 test('dvd tag', function () {
@@ -98,7 +98,7 @@ test('dvd tag', function () {
         Video::ATTRIBUTE_SOURCE => $source->value,
     ]);
 
-    $this->assertContains($source->localize(), $video->tags);
+    $this->assertStringContainsString($source->localize(), $video->tags);
 });
 
 test('bd tag', function () {
@@ -108,7 +108,7 @@ test('bd tag', function () {
         Video::ATTRIBUTE_SOURCE => $source->value,
     ]);
 
-    $this->assertContains($source->localize(), $video->tags);
+    $this->assertStringContainsString($source->localize(), $video->tags);
 });
 
 test('other source tag', function () {
@@ -124,13 +124,13 @@ test('other source tag', function () {
         Video::ATTRIBUTE_SOURCE => $source->value,
     ]);
 
-    $this->assertNotContains($source->localize(), $video->tags);
+    $this->assertStringNotContainsString($source->localize(), $video->tags);
 });
 
 test('resolution tag', function () {
     $video = Video::factory()->createOne();
 
-    $this->assertContains(strval($video->resolution), $video->tags);
+    $this->assertStringContainsString(strval($video->resolution), $video->tags);
 });
 
 test('no720 resolution tag', function () {
@@ -138,7 +138,7 @@ test('no720 resolution tag', function () {
         Video::ATTRIBUTE_RESOLUTION => 720,
     ]);
 
-    $this->assertNotContains(strval($video->resolution), $video->tags);
+    $this->assertStringNotContainsString(strval($video->resolution), $video->tags);
 });
 
 test('subbed tag', function () {
@@ -146,8 +146,8 @@ test('subbed tag', function () {
         Video::ATTRIBUTE_SUBBED => true,
     ]);
 
-    $this->assertContains('Subbed', $video->tags);
-    $this->assertNotContains('Lyrics', $video->tags);
+    $this->assertStringContainsString('Subbed', $video->tags);
+    $this->assertStringNotContainsString('Lyrics', $video->tags);
 });
 
 test('lyrics tag', function () {
@@ -156,8 +156,8 @@ test('lyrics tag', function () {
         Video::ATTRIBUTE_LYRICS => true,
     ]);
 
-    $this->assertNotContains('Subbed', $video->tags);
-    $this->assertContains('Lyrics', $video->tags);
+    $this->assertStringNotContainsString('Subbed', $video->tags);
+    $this->assertStringContainsString('Lyrics', $video->tags);
 });
 
 test('source priority', function (array $a, array $b) {
