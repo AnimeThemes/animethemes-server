@@ -13,6 +13,7 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
+use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
 use App\GraphQL\Schema\Fields\Relations\HasOneRelation;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoBasenameField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoFilenameField;
@@ -31,6 +32,7 @@ use App\GraphQL\Schema\Fields\Wiki\Video\VideoTagsField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoUncenField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoViewsCountField;
 use App\GraphQL\Schema\Types\EloquentType;
+use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
@@ -76,6 +78,7 @@ class VideoType extends EloquentType implements SubmitableType
 
             new BelongsToRelation(new AudioType(), Video::RELATION_AUDIO),
             new BelongsToManyRelation($this, AnimeThemeEntryType::class, Video::RELATION_ANIMETHEMEENTRIES, AnimeThemeEntryVideoType::class),
+            new HasManyRelation(new PlaylistTrackType(), Video::RELATION_TRACKS),
             new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
         ];
     }
