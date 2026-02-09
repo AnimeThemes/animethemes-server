@@ -32,7 +32,7 @@ class DumpController extends BaseController
         $query = new Query($request->validated());
 
         /** @phpstan-ignore-next-line */
-        $dumps = $action->index(Dump::query()->onlySafeDumps(), $query, $request->schema());
+        $dumps = $action->index(Dump::query()->public(), $query, $request->schema());
 
         return new DumpCollection($dumps, $query);
     }

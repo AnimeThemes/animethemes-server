@@ -12,7 +12,6 @@ use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class DumpPolicy extends BasePolicy
 {
@@ -31,7 +30,7 @@ class DumpPolicy extends BasePolicy
             return Response::allow();
         }
 
-        return Str::contains($dump->path, Dump::safeDumps())
+        return $dump->public === true
             ? Response::allow()
             : Response::deny();
     }

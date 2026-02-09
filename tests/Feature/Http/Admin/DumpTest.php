@@ -27,11 +27,11 @@ test('dump downloading not allowed forbidden', function () {
     $response->assertForbidden();
 });
 
-test('dump downloading forbidden for unsafe dumps', function () {
+test('dump downloading forbidden for private dumps', function () {
     Feature::activate(AllowDumpDownloading::class);
 
     $dump = Dump::factory()
-        ->unsafe()
+        ->private()
         ->createOne();
 
     $response = get(route('dump.show', ['dump' => $dump]));

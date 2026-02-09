@@ -7,7 +7,6 @@ namespace App\Actions\Storage\Admin\Dump;
 use App\Actions\Storage\Base\PruneAction;
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Constants\Config\DumpConstants;
-use App\Models\Admin\Dump;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
@@ -24,7 +23,7 @@ class PruneDumpAction extends PruneAction
 
     protected function shouldBePruned(string $path, Carbon $lastModified): bool
     {
-        if (Str::contains($path, Dump::safeDumps())) {
+        if (Str::contains($path, ['content', 'wiki'])) {
             return true;
         }
 
