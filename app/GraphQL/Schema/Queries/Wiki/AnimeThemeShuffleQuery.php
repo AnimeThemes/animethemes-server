@@ -65,6 +65,7 @@ class AnimeThemeShuffleQuery extends BaseQuery
             new Argument(self::ATTRIBUTE_YEAR_GTE, Type::int()),
 
             new Argument(self::ATTRIBUTE_SPOILER, Type::boolean())
+                ->required()
                 ->withDefaultValue(false),
         ];
     }
