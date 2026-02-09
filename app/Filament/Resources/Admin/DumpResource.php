@@ -17,9 +17,11 @@ use App\Filament\Resources\Admin\Dump\Pages\ManageDumps;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Dump;
 use Filament\Actions\ActionGroup;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -87,6 +89,10 @@ class DumpResource extends BaseResource
                     ->label(__('filament.fields.dump.path'))
                     ->searchable()
                     ->copyableWithMessage(),
+
+                IconColumn::make(Dump::ATTRIBUTE_PUBLIC)
+                    ->label(__('filament.fields.dump.public'))
+                    ->boolean(),
             ]);
     }
 
@@ -102,6 +108,10 @@ class DumpResource extends BaseResource
                         TextEntry::make(Dump::ATTRIBUTE_PATH)
                             ->label(__('filament.fields.dump.path'))
                             ->copyableWithMessage(),
+
+                        IconEntry::make(Dump::ATTRIBUTE_PUBLIC)
+                            ->label(__('filament.fields.dump.public'))
+                            ->boolean(),
                     ])
                     ->columns(3),
 

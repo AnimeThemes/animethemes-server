@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Admin;
 
-use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
-use App\Actions\Storage\Admin\Dump\DumpWikiAction;
-use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
 use App\Events\Admin\Dump\DumpUpdated;
@@ -20,9 +17,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @property int $dump_id
  * @property string $path
+ * @property bool $public
  *
  * @method static DumpFactory factory(...$parameters)
- * @method static Builder onlySafeDumps()
+ * @method static Builder public()
  */
 class Dump extends BaseModel
 {
@@ -32,6 +30,7 @@ class Dump extends BaseModel
 
     final public const string ATTRIBUTE_ID = 'dump_id';
     final public const string ATTRIBUTE_PATH = 'path';
+    final public const string ATTRIBUTE_PUBLIC = 'public';
     final public const string ATTRIBUTE_LINK = 'link';
 
     /**
@@ -68,6 +67,7 @@ class Dump extends BaseModel
      */
     protected $fillable = [
         Dump::ATTRIBUTE_PATH,
+        Dump::ATTRIBUTE_PUBLIC,
     ];
 
     /**
@@ -78,6 +78,18 @@ class Dump extends BaseModel
     protected $appends = [
         Dump::ATTRIBUTE_LINK,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Dump::ATTRIBUTE_PUBLIC => 'bool',
+        ];
+    }
 
     /**
      * The link of the dump.
@@ -104,28 +116,11 @@ class Dump extends BaseModel
     }
 
     /**
-     * Get the available safe dumps.
-     *
-     * @return string[]
-     */
-    public static function safeDumps(): array
-    {
-        return [
-            DumpDocumentAction::FILENAME_PREFIX,
-            DumpWikiAction::FILENAME_PREFIX,
-        ];
-    }
-
-    /**
-     * Scope a query to only include safe dumps.
+     * Scope a query to only include public dumps.
      */
     #[Scope]
-    protected function onlySafeDumps(Builder $query): void
+    protected function public(Builder $query): void
     {
-        $query->where(function (Builder $query): void {
-            foreach (Dump::safeDumps() as $path) {
-                $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
-            }
-        });
+        $query->where(Dump::ATTRIBUTE_PUBLIC, true);
     }
 }

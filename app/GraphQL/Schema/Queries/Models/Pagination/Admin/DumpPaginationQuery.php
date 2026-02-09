@@ -31,6 +31,6 @@ class DumpPaginationQuery extends EloquentPaginationQuery
     protected function query(Builder $builder, array $args): Builder
     {
         /** @phpstan-ignore-next-line */
-        return $builder->onlySafeDumps();
+        return $builder->public();
     }
 }

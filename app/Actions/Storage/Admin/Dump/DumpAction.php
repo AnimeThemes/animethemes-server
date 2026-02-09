@@ -72,6 +72,7 @@ abstract class DumpAction
 
         Dump::query()->create([
             Dump::ATTRIBUTE_PATH => $path,
+            Dump::ATTRIBUTE_PUBLIC => $this->isPublic(),
         ]);
 
         return new ActionResult(
@@ -253,6 +254,14 @@ abstract class DumpAction
     protected function option(string $key): mixed
     {
         return Arr::get($this->options, $key);
+    }
+
+    /**
+     * Determine wheter the dump should be public.
+     */
+    protected function isPublic(): bool
+    {
+        return false;
     }
 
     /**

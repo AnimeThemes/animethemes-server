@@ -30,8 +30,8 @@ test('default', function () {
     );
 });
 
-test('cannot view unsafe', function () {
-    $dump = Dump::factory()->unsafe()->create();
+test('cannot view private', function () {
+    $dump = Dump::factory()->private()->create();
 
     $response = get(route('api.dump.show', ['dump' => $dump]));
 

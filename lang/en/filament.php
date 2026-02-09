@@ -710,6 +710,7 @@ return [
         ],
         'dump' => [
             'path' => 'Path',
+            'public' => 'Public',
         ],
         'external_entry' => [
             'is_favorite' => [

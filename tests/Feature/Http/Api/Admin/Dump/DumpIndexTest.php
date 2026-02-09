@@ -44,9 +44,9 @@ test('default', function () {
     );
 });
 
-test('unsafe', function () {
+test('private', function () {
     Dump::factory()
-        ->unsafe()
+        ->private()
         ->count(fake()->randomDigitNotNull())
         ->create();
 
