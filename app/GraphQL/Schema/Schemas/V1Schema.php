@@ -46,6 +46,7 @@ use App\GraphQL\Schema\Queries\Models\Singular\Wiki\SeriesQuery;
 use App\GraphQL\Schema\Queries\Models\Singular\Wiki\StudioQuery;
 use App\GraphQL\Schema\Queries\Models\Singular\Wiki\VideoQuery;
 use App\GraphQL\Schema\Queries\SearchQuery;
+use App\GraphQL\Schema\Queries\Wiki\AnimeThemeShuffleQuery;
 use App\GraphQL\Schema\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Schema\Queries\Wiki\FindAnimeByExternalSiteQuery;
 use App\GraphQL\Schema\Types\Admin\AnnouncementType;
@@ -148,6 +149,7 @@ class V1Schema implements ConfigConvertible
                 VideoScriptPaginationQuery::class,
 
                 // Others
+                AnimeThemeShuffleQuery::class,
                 AnimeYearsQuery::class,
                 FindAnimeByExternalSiteQuery::class,
                 SearchQuery::class,
