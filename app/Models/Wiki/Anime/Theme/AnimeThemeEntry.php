@@ -30,7 +30,6 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -169,11 +168,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     {
         $array = $this->toArray();
 
-        $theme = is_null($this->animetheme)
-            ? $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first()
-            : $this->animetheme;
-
-        $array['theme'] = $theme->toSearchableArray();
+        $array['theme'] = $this->animetheme->toSearchableArray();
 
         // Overwrite version with readable format "v{#}"
         $array['version'] = Str::of(strval($this->version))->prepend('v')->__toString();
@@ -183,13 +178,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
 
     public function getName(): string
     {
-        $theme = is_null($this->animetheme)
-            ? $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first()
-            : $this->animetheme;
-
-        if (is_null($theme)) {
-            return strval($this->getKey());
-        }
+        $theme = $this->animetheme;
 
         return Str::of($this->anime->name)
             ->append(' ')

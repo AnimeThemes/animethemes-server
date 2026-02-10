@@ -17,7 +17,6 @@ use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
-use App\Scopes\WithoutInsertSongScope;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -160,7 +159,6 @@ abstract class BaseResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-                WithoutInsertSongScope::class,
             ]);
     }
 
