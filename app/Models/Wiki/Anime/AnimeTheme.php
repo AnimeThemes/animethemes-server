@@ -15,7 +15,7 @@ use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Middleware\GraphQL\SetServingGraphQL;
+use App\Http\Middleware\Api\SetServingJsonApi;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -89,7 +89,7 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     {
         parent::boot();
 
-        if (! SetServingGraphQL::$isServing) {
+        if (SetServingJsonApi::$isServing) {
             static::addGlobalScope(new WithoutInsertSongScope);
         }
     }

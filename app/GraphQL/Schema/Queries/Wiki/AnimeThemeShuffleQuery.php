@@ -64,9 +64,7 @@ class AnimeThemeShuffleQuery extends BaseQuery
 
             new Argument(self::ATTRIBUTE_YEAR_GTE, Type::int()),
 
-            new Argument(self::ATTRIBUTE_SPOILER, Type::boolean())
-                ->required()
-                ->withDefaultValue(false),
+            new Argument(self::ATTRIBUTE_SPOILER, Type::boolean()),
         ];
     }
 
@@ -100,7 +98,11 @@ class AnimeThemeShuffleQuery extends BaseQuery
             }
         });
 
-        $builder->whereRelation(AnimeTheme::RELATION_ENTRIES, AnimeThemeEntry::ATTRIBUTE_SPOILER, Arr::boolean($args, self::ATTRIBUTE_SPOILER));
+        $builder->whereHas(AnimeTheme::RELATION_VIDEOS);
+
+        if (is_bool($spoiler = Arr::get($args, self::ATTRIBUTE_SPOILER))) {
+            $builder->whereRelation(AnimeTheme::RELATION_ENTRIES, AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoiler);
+        }
 
         $builder->inRandomOrder();
 
