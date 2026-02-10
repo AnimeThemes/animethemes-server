@@ -29,7 +29,7 @@ abstract class Relation extends Field
     protected bool $asPivot = false;
 
     public function __construct(
-        protected BaseType|BaseUnion $baseType,
+        protected BaseType|BaseUnion $relatedType,
         protected string $relationName,
     ) {
         parent::__construct($relationName);
@@ -87,7 +87,7 @@ abstract class Relation extends Field
     {
         $arguments = [];
 
-        $type = $this->baseType;
+        $type = $this->relatedType;
 
         if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType) {
             $arguments[] = FilterCriteria::getFilters($type)
@@ -112,7 +112,7 @@ abstract class Relation extends Field
      */
     public function baseType()
     {
-        return $this->baseType;
+        return $this->relatedType;
     }
 
     /**

@@ -13,15 +13,11 @@ use Illuminate\Support\Stringable;
 
 class EdgeType extends BaseType
 {
-    protected ?PivotType $pivotType;
-
     public function __construct(
         protected EloquentType $parentType,
-        protected string $nodeType,
-        ?string $pivotType = null,
-    ) {
-        $this->pivotType = class_exists($pivotType ?? '') ? new $pivotType : null;
-    }
+        protected EloquentType $nodeType,
+        protected ?PivotType $pivotType = null,
+    ) {}
 
     /**
      * @return array<string,mixed>
@@ -84,10 +80,8 @@ class EdgeType extends BaseType
 
     /**
      * Get the node type of the edge.
-     *
-     * @return class-string<EloquentType> $nodeType
      */
-    public function getNodeType(): string
+    public function getNodeType(): EloquentType
     {
         return $this->nodeType;
     }

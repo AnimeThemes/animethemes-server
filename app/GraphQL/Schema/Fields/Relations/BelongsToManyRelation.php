@@ -21,9 +21,9 @@ class BelongsToManyRelation extends Relation
 
     public function __construct(
         protected EloquentType $ownerType,
-        protected string $nodeType,
+        protected EloquentType $nodeType,
         protected string $relationName,
-        protected PivotType|string|null $pivotType = null,
+        protected ?PivotType $pivotType = null,
     ) {
         $this->edgeType = new EdgeType($ownerType, $nodeType, $pivotType);
         $this->connectionType = new ConnectionType($this->edgeType);
@@ -31,8 +31,6 @@ class BelongsToManyRelation extends Relation
         GraphQL::addType($this->connectionType, $this->connectionType->getName());
 
         parent::__construct(new $nodeType, $relationName);
-
-        $this->pivotType = class_exists($pivotType ?? '') ? new $pivotType : null;
     }
 
     /**
@@ -48,7 +46,7 @@ class BelongsToManyRelation extends Relation
             return [
                 ...parent::arguments(),
 
-                new SortArgument($this->baseType, $pivotType),
+                new SortArgument($this->baseType(), $pivotType),
             ];
         }
 

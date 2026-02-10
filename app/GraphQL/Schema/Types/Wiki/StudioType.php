@@ -42,9 +42,9 @@ class StudioType extends EloquentType implements SubmitableType
             new UpdatedAtField(),
             new DeletedAtField(),
 
-            new BelongsToManyRelation($this, AnimeType::class, Studio::RELATION_ANIME, AnimeStudioType::class),
-            new MorphToManyRelation($this, ImageType::class, Studio::RELATION_IMAGES, ImageableType::class),
-            new MorphToManyRelation($this, ExternalResourceType::class, Studio::RELATION_RESOURCES, ResourceableType::class),
+            new BelongsToManyRelation($this, new AnimeType(), Studio::RELATION_ANIME, new AnimeStudioType()),
+            new MorphToManyRelation($this, new ImageType(), Studio::RELATION_IMAGES, new ImageableType()),
+            new MorphToManyRelation($this, new ExternalResourceType(), Studio::RELATION_RESOURCES, new ResourceableType()),
         ];
     }
 }

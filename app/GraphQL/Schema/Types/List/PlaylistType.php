@@ -56,7 +56,7 @@ class PlaylistType extends EloquentType
             new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
                 ->nonNullable(),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new MorphToManyRelation($this, ImageType::class, Playlist::RELATION_IMAGES, ImageableType::class),
+            new MorphToManyRelation($this, new ImageType(), Playlist::RELATION_IMAGES, new ImageableType()),
         ];
     }
 }

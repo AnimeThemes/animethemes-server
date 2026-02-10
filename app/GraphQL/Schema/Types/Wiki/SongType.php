@@ -44,7 +44,7 @@ class SongType extends EloquentType implements SubmitableType
 
             new HasManyRelation(new AnimeThemeType(), Song::RELATION_ANIMETHEMES),
             new HasManyRelation(new PerformanceType(), Song::RELATION_PERFORMANCES),
-            new MorphToManyRelation($this, ExternalResourceType::class, Song::RELATION_RESOURCES, ResourceableType::class),
+            new MorphToManyRelation($this, new ExternalResourceType(), Song::RELATION_RESOURCES, new ResourceableType()),
         ];
     }
 }

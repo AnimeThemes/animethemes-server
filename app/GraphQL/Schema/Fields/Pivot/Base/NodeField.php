@@ -13,11 +13,8 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class NodeField extends Field implements DisplayableField
 {
-    /**
-     * @param  class-string<EloquentType>  $nodeType
-     */
     public function __construct(
-        protected string $nodeType,
+        protected EloquentType $nodeType,
     ) {
         parent::__construct('node', nullable: false);
     }

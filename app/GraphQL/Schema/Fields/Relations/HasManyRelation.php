@@ -12,7 +12,7 @@ class HasManyRelation extends Relation
 {
     public function type(): Type
     {
-        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->baseType->getName()))));
+        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->baseType()->getName()))));
     }
 
     /**

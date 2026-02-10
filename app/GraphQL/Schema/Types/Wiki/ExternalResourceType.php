@@ -43,10 +43,10 @@ class ExternalResourceType extends EloquentType implements SubmitableType
             new UpdatedAtField(),
             new DeletedAtField(),
 
-            new MorphToManyRelation($this, AnimeType::class, ExternalResource::RELATION_ANIME, ResourceableType::class),
-            new MorphToManyRelation($this, ArtistType::class, ExternalResource::RELATION_ARTISTS, ResourceableType::class),
-            new MorphToManyRelation($this, SongType::class, ExternalResource::RELATION_SONGS, ResourceableType::class),
-            new MorphToManyRelation($this, StudioType::class, ExternalResource::RELATION_STUDIOS, ResourceableType::class),
+            new MorphToManyRelation($this, new AnimeType(), ExternalResource::RELATION_ANIME, new ResourceableType()),
+            new MorphToManyRelation($this, new ArtistType(), ExternalResource::RELATION_ARTISTS, new ResourceableType()),
+            new MorphToManyRelation($this, new SongType(), ExternalResource::RELATION_SONGS, new ResourceableType()),
+            new MorphToManyRelation($this, new StudioType(), ExternalResource::RELATION_STUDIOS, new ResourceableType()),
         ];
     }
 }

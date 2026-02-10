@@ -57,8 +57,8 @@ class AnimeThemeEntryType extends EloquentType implements SubmitableType
 
             new BelongsToRelation(new AnimeThemeType(), AnimeThemeEntry::RELATION_THEME)
                 ->nonNullable(),
-            new BelongsToManyRelation($this, VideoType::class, AnimeThemeEntry::RELATION_VIDEOS, AnimeThemeEntryVideoType::class),
-            new MorphToManyRelation($this, ExternalResourceType::class, AnimeThemeEntry::RELATION_RESOURCES, ResourceableType::class),
+            new BelongsToManyRelation($this, new VideoType(), AnimeThemeEntry::RELATION_VIDEOS, new AnimeThemeEntryVideoType()),
+            new MorphToManyRelation($this, new ExternalResourceType(), AnimeThemeEntry::RELATION_RESOURCES, new ResourceableType()),
         ];
     }
 }

@@ -59,10 +59,10 @@ class AnimeType extends EloquentType implements SubmitableType
 
             new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
             new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
-            new MorphToManyRelation($this, ExternalResourceType::class, Anime::RELATION_RESOURCES, ResourceableType::class),
-            new MorphToManyRelation($this, ImageType::class, Anime::RELATION_IMAGES, ImageableType::class),
-            new BelongsToManyRelation($this, SeriesType::class, Anime::RELATION_SERIES, AnimeSeriesType::class),
-            new BelongsToManyRelation($this, StudioType::class, Anime::RELATION_STUDIOS, AnimeStudioType::class),
+            new MorphToManyRelation($this, new ExternalResourceType(), Anime::RELATION_RESOURCES, new ResourceableType()),
+            new MorphToManyRelation($this, new ImageType(), Anime::RELATION_IMAGES, new ImageableType()),
+            new BelongsToManyRelation($this, new SeriesType(), Anime::RELATION_SERIES, new AnimeSeriesType()),
+            new BelongsToManyRelation($this, new StudioType(), Anime::RELATION_STUDIOS, new AnimeStudioType()),
         ];
     }
 }
