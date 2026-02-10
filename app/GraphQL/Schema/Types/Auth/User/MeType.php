@@ -49,10 +49,10 @@ class MeType extends EloquentType
 
             new MorphManyRelation(new NotificationUnion(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
-            new MorphToManyRelation($this, RoleType::class, User::RELATION_ROLES),
-            new MorphToManyRelation($this, PermissionType::class, User::RELATION_PERMISSIONS),
-            new BelongsToManyRelation($this, AnimeThemeEntryType::class, 'likedentries'),
-            new BelongsToManyRelation($this, PlaylistType::class, 'likedplaylists'),
+            new MorphToManyRelation($this, new RoleType(), User::RELATION_ROLES),
+            new MorphToManyRelation($this, new PermissionType(), User::RELATION_PERMISSIONS),
+            new BelongsToManyRelation($this, new AnimeThemeEntryType(), 'likedentries'),
+            new BelongsToManyRelation($this, new PlaylistType(), 'likedplaylists'),
         ];
     }
 

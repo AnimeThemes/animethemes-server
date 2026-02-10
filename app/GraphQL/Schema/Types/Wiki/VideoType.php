@@ -77,7 +77,7 @@ class VideoType extends EloquentType implements SubmitableType
             new DeletedAtField(),
 
             new BelongsToRelation(new AudioType(), Video::RELATION_AUDIO),
-            new BelongsToManyRelation($this, AnimeThemeEntryType::class, Video::RELATION_ANIMETHEMEENTRIES, AnimeThemeEntryVideoType::class),
+            new BelongsToManyRelation($this, new AnimeThemeEntryType(), Video::RELATION_ANIMETHEMEENTRIES, new AnimeThemeEntryVideoType()),
             new HasManyRelation(new PlaylistTrackType(), Video::RELATION_TRACKS),
             new HasOneRelation(new VideoScriptType(), Video::RELATION_SCRIPT),
         ];

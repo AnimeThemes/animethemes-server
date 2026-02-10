@@ -41,7 +41,7 @@ class RoleType extends EloquentType
             new CreatedAtField(),
             new UpdatedAtField(),
 
-            new BelongsToManyRelation($this, PermissionType::class, Role::RELATION_PERMISSIONS),
+            new BelongsToManyRelation($this, new PermissionType(), Role::RELATION_PERMISSIONS),
         ];
     }
 }

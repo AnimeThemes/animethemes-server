@@ -43,9 +43,9 @@ class ImageType extends EloquentType implements SubmitableType
             new UpdatedAtField(),
             new DeletedAtField(),
 
-            new MorphToManyRelation($this, AnimeType::class, Image::RELATION_ANIME, ImageableType::class),
-            new MorphToManyRelation($this, ArtistType::class, Image::RELATION_ARTISTS, ImageableType::class),
-            new MorphToManyRelation($this, StudioType::class, Image::RELATION_STUDIOS, ImageableType::class),
+            new MorphToManyRelation($this, new AnimeType(), Image::RELATION_ANIME, new ImageableType()),
+            new MorphToManyRelation($this, new ArtistType(), Image::RELATION_ARTISTS, new ImageableType()),
+            new MorphToManyRelation($this, new StudioType(), Image::RELATION_STUDIOS, new ImageableType()),
         ];
     }
 }

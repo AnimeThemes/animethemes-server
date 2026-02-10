@@ -39,7 +39,7 @@ class SeriesType extends EloquentType implements SubmitableType
             new UpdatedAtField(),
             new DeletedAtField(),
 
-            new BelongsToManyRelation($this, AnimeType::class, Series::RELATION_ANIME, AnimeSeriesType::class),
+            new BelongsToManyRelation($this, new AnimeType(), Series::RELATION_ANIME, new AnimeSeriesType()),
         ];
     }
 }
