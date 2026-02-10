@@ -7,7 +7,6 @@ namespace App\Filament\Submission\Resources;
 use App\Contracts\Models\SoftDeletable;
 use App\Filament\Actions\Base\ViewAction;
 use App\Models\BaseModel;
-use App\Scopes\WithoutInsertSongScope;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Panel;
@@ -123,7 +122,6 @@ abstract class BaseSubmissionResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-                WithoutInsertSongScope::class,
             ]);
     }
 
