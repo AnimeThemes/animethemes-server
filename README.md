@@ -20,9 +20,9 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 - [Pre Setup](#pre-setup)
   - [PHP](#php)
 - [Setup](#setup)
+  - [Web Server](#web-server)
   - [Running](#running)
 - [Extra Configuration](#extra-configuration)
-  - [Web Server](#web-server)
   - [Feature Flags](#feature-flags)
   - [Users](#users)
   - [Elasticsearch](#elasticsearch)
@@ -76,14 +76,6 @@ mysql -h localhost -u root -p -e "CREATE DATABASE IF NOT EXISTS ``animethemes`` 
 composer setup
 ```
 
-### Running
-
-After installation, restart the web server to apply the configuration.
-
-If all went well, AnimeThemes should be live at `http://animethemes.test` (or whatever set the server name is set to).
-
-## Extra Configuration
-
 ### Web Server
 
 #### Laravel Herd
@@ -92,6 +84,14 @@ If all went well, AnimeThemes should be live at `http://animethemes.test` (or wh
 # Run the following in the project directory:
 herd link animethemes.test
 ```
+
+### Running
+
+After installation, restart the web server to apply the configuration.
+
+If all went well, AnimeThemes should be live at `http://animethemes.test` (or whatever set the server name is set to).
+
+## Extra Configuration
 
 ### Feature Flags
 
