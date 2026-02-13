@@ -17,22 +17,25 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 # Installation
 
 - [Prerequisites](#prerequisites)
-- [Setup](#setup)
-  - [Web Server](#web-server)
-  - [Database](#database)
+- [Pre Setup](#pre-setup)
   - [PHP](#php)
-- [Configuration](#configuration)
-- [Users](#users)
-- [Elasticsearch](#elasticsearch)
-- [Local Storage](#local-storage)
-- [Running](#running)
+- [Setup](#setup)
+  - [Running](#running)
+- [Extra Configuration](#extra-configuration)
+  - [Web Server](#web-server)
+  - [Feature Flags](#feature-flags)
+  - [Users](#users)
+  - [Elasticsearch](#elasticsearch)
+  - [Local Storage](#local-storage)
+- [Contributing](#contributing)
+- [Resources](#resources)
 
 ## Prerequisites
 
 * [Laravel Herd](https://herd.laravel.com/) or a webserver such as [Apache](https://httpd.apache.org/download.cgi) or
 [Nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
 * PHP 8.5
-* MySQL
+* MySQL 8+
 * [composer](https://getcomposer.org/download/) for vendor dependencies
 
 A LAMP stack, such as [XAMPP](https://www.apachefriends.org/download.html), can
@@ -41,40 +44,11 @@ also be used to set up Apache, MySQL, and PHP.
 Alternatively, you may use [Laravel Herd](https://herd.laravel.com), which
 provides a simple local development environment with PHP and a web server.
 
-## Setup
-
-```bash
-# Clone the repository
-git clone git@github.com:AnimeThemes/animethemes-server.git
-cd animethemes-server
-
-# Copy the contents of the `.env.example` file to a new file `.env`.
-cp .env.example .env
-
-# Install vendor dependencies
-composer install
-
-# Set a value for `APP_KEY`
-php artisan key:generate
-
-# Create the database
-mysql -h localhost -u root -p -e "CREATE DATABASE IF NOT EXISTS ``animethemes`` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-
-# Import dumps automatically, migrate the database and run seeders
-php artisan db:sync
-```
-
-### Web Server
-
-Next, we will configure our web server [here](/AnimeThemes/animethemes-server/wiki/Server-Setup) to serve the application.
-
-If you are using a local development environment such as **Laravel Herd**, the web server and PHP runtime are already configured for you, and you can skip most of the manual web server setup steps. Database support is a paid feature, but you can install MySQL separately.
+## Pre Setup
 
 ### PHP
 
-#### Required Configuration in `php.ini`
-
-We should ensure that we have the following extensions enabled for php.
+We should ensure that we have the following extensions enabled for php in `php.ini`.
 
 `fileinfo` - Needed to detect MIME type of files during seeding.
 
@@ -88,17 +62,35 @@ Set `post_max_size` to `200M`.
 
 Set `upload_max_filesize` to `200M`.
 
-### Database
+## Setup
 
-Here we will create the database for our development environment. We will assume that we have installed MySQL.
+```bash
+# Clone the repository
+git clone git@github.com:AnimeThemes/animethemes-server.git
+cd animethemes-server
 
-**Remark:** Version 8+ is required.
+# Create the database
+mysql -h localhost -u root -p -e "CREATE DATABASE IF NOT EXISTS ``animethemes`` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
-**Remark:** Ensure that the `pdo_mysql` php extension is enabled in your `php.ini`.
+# Install dependencies, migrate the database, run seeders and import dumps
+composer setup
+```
 
-If we have installed mysql on our server, we simply create the database using the MySQL command-line client.
+### Running
 
-## Configuration
+After installation, restart the web server to apply the configuration.
+
+If all went well, AnimeThemes should be live at `http://animethemes.test` (or whatever set the server name is set to).
+
+## Extra Configuration
+
+### Web Server
+
+Next, we will configure our web server [here](/AnimeThemes/animethemes-server/wiki/Server-Setup) to serve the application.
+
+If you are using a local development environment such as **Laravel Herd**, the web server and PHP runtime are already configured for you, and you can skip most of the manual web server setup steps. Database support is a paid feature, but you can install MySQL separately.
+
+### Feature Flags
 
 Features that require external services are disabled by default. Here we will review the configuration options for enabling additional features.
 
@@ -106,7 +98,7 @@ Development needs will vary depending on the work being done. The list of custom
 
 If we want to enable video streams, we need to set the `App\Features\AllowVideoStreams` value on DB to `true`. We recommend setting up a local archive for the `videos_local` disk.
 
-## Users
+### Users
 
 ```sh
 # Open the terminal of tinker
@@ -120,7 +112,7 @@ $user = User::factory()->create(['name' => 'User Name', 'email' => 'example@exam
 $user->assignRole('Admin');
 ```
 
-## Elasticsearch
+### Elasticsearch
 
 If we want to enable scout, we need to configure [Elasticsearch](/AnimeThemes/animethemes-server/wiki/Elasticsearch).
 
@@ -134,7 +126,7 @@ php artisan elastic:migrate
 php artisan db:seed --class="Database\Seeders\Scout\ImportModelsSeeder"
 ```
 
-## Local Storage
+### Local Storage
 
 We are not required to set up s3 buckets in order to interact with media. We have the option to configure local filesystems that we can stream audio/video from and download scripts/dumps from.
 
@@ -176,12 +168,6 @@ Create symbolic links to target storage directories.
 ```php
 php artisan storage:link
 ```
-
-## Running
-
-After installation, restart the web server to apply the configuration.
-
-If all went well, AnimeThemes should be live at `http://animethemes.test` (or whatever set the server name is set to).
 
 # Contributing
 
