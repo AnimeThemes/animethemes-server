@@ -43,12 +43,6 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->everyFifteenMinutes();
 
-        $schedule->command(DocumentDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->daily();
-
         $schedule->command(WikiDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
@@ -68,6 +62,12 @@ class Kernel extends ConsoleKernel
             ->weeklyOn(Schedule::MONDAY);
 
         $schedule->command(DiscordDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->weeklyOn(Schedule::MONDAY);
+
+        $schedule->command(DocumentDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
