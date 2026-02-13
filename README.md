@@ -86,17 +86,18 @@ If all went well, AnimeThemes should be live at `http://animethemes.test` (or wh
 
 ### Web Server
 
-Next, we will configure our web server [here](/AnimeThemes/animethemes-server/wiki/Server-Setup) to serve the application.
+#### Laravel Herd
 
-If you are using a local development environment such as **Laravel Herd**, the web server and PHP runtime are already configured for you, and you can skip most of the manual web server setup steps. Database support is a paid feature, but you can install MySQL separately.
+```sh
+# Run the following in the project directory:
+herd link animethemes.test
+```
 
 ### Feature Flags
 
 Features that require external services are disabled by default. Here we will review the configuration options for enabling additional features.
 
-Development needs will vary depending on the work being done. The list of custom configuration options can be found [here](/AnimeThemes/animethemes-server/wiki/Configuration) for review.
-
-If we want to enable video streams, we need to set the `App\Features\AllowVideoStreams` value on DB to `true`. We recommend setting up a local archive for the `videos_local` disk.
+For example, if we want to enable video streams, we need to set the `App\Features\AllowVideoStreams` value on DB to `true`. We recommend setting up a local archive for the `videos_local` disk.
 
 ### Users
 
@@ -114,9 +115,9 @@ $user->assignRole('Admin');
 
 ### Elasticsearch
 
-If we want to enable scout, we need to configure [Elasticsearch](/AnimeThemes/animethemes-server/wiki/Elasticsearch).
+If we want to enable scout, we need to configure Elasticsearch.
 
-If we have configured Elasticsearch, migrate and import models into our indices using:
+If we have installed Elasticsearch, migrate and import models into our indices using:
 
 ```sh
 # Run the elastic migrations
