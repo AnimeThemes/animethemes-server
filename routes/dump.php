@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Features\AllowDumpDownloading;
 use App\Http\Controllers\Admin\DumpController;
-use App\Http\Controllers\Admin\LatestDocumentDumpController;
 use App\Http\Controllers\Admin\LatestWikiDumpController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -14,10 +13,6 @@ $isDumpDownloadingAllowed = Str::of(EnsureFeaturesAreActive::class)
     ->append(':')
     ->append(AllowDumpDownloading::class)
     ->__toString();
-
-Route::get('/latest/document', [LatestDocumentDumpController::class, 'show'])
-    ->name('dump.latest.document.show')
-    ->middleware($isDumpDownloadingAllowed);
 
 Route::get('/latest/wiki', [LatestWikiDumpController::class, 'show'])
     ->name('dump.latest.wiki.show')

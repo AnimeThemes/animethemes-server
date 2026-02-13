@@ -92,7 +92,7 @@ Set `upload_max_filesize` to `200M`.
 
 Here we will create the database for our development environment. We will assume that we have installed MySQL.
 
-**Remark:** Version 5.7+ is required.
+**Remark:** Version 8+ is required.
 
 **Remark:** Ensure that the `pdo_mysql` php extension is enabled in your `php.ini`.
 
@@ -106,8 +106,6 @@ Development needs will vary depending on the work being done. The list of custom
 
 If we want to enable video streams, we need to set the `App\Features\AllowVideoStreams` value on DB to `true`. We recommend setting up a local archive for the `videos_local` disk.
 
-If we want to enable discord notifications, we need to set the `allow_discord_notifications` value on DB to `true`. We will need to configure a [Queue](/AnimeThemes/animethemes-server/wiki/Configuration#queue) to process the dispatched events through a worker. Finally, we will need to create a [Discord application](https://discord.com/developers/applications) and register it `config/services.php`.
-
 ## Users
 
 ```sh
@@ -115,7 +113,7 @@ If we want to enable discord notifications, we need to set the `allow_discord_no
 php artisan tinker
 
 # Create the user
-$user = App\Models\Auth\User::factory()->create(['name' => 'User Name', 'email' => 'example@example.com', 'password' => 'password', 'email_verified_at' => now()]);
+$user = User::factory()->create(['name' => 'User Name', 'email' => 'example@example.com', 'password' => 'password', 'email_verified_at' => now()]);
 
 # It is useful to create a user with the Admin role with permissions to all actions
 # Assign the Admin role to the user
