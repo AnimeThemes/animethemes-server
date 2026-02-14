@@ -42,7 +42,7 @@ enum Role: string
     /**
      * Get the priority value for the role.
      */
-    public function priority(): ?int
+    public function priority(): int
     {
         return match ($this) {
             Role::ADMIN => 250000,
@@ -52,7 +52,7 @@ enum Role: string
             Role::PATRON => 75000,
             Role::CONTRIBUTOR => 50000,
             Role::PANEL_VIEWER => 25000,
-            default => null,
+            default => 0,
         };
     }
 }

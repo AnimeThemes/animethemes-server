@@ -39,9 +39,11 @@ class SortableColumns extends EnumType
      */
     public function attributes(): array
     {
+        $typeName = $this->type->getName();
+
         $name = $this->pivotType instanceof PivotType
-            ? $this->pivotType->getName()
-            : $this->type->getName();
+            ? $typeName.$this->pivotType->getName()
+            : $typeName;
 
         return [
             'name' => $name.self::SUFFIX,

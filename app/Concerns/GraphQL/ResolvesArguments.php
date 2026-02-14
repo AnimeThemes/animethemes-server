@@ -45,7 +45,7 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field): bool => $field instanceof CreatableField)
             ->map(
-                fn (Field $field): Argument => new Argument($field->getColumn(), $field->baseType())
+                fn (Field $field): Argument => new Argument($field->getName(), $field->baseType())
                     ->required($field instanceof RequiredOnCreation)
             )
             ->flatten()
@@ -63,7 +63,7 @@ trait ResolvesArguments
         return collect($fields)
             ->filter(fn (Field $field): bool => $field instanceof UpdatableField)
             ->map(
-                fn (Field $field): Argument => new Argument($field->getColumn(), $field->baseType())
+                fn (Field $field): Argument => new Argument($field->getName(), $field->baseType())
                     ->required($field instanceof RequiredOnUpdate)
             )
             ->flatten()

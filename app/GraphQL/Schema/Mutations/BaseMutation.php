@@ -61,6 +61,11 @@ abstract class BaseMutation extends Mutation
      */
     abstract public function arguments(): array;
 
+    public function type(): Type
+    {
+        return $this->toType();
+    }
+
     /**
      * Convert the rebing type to a GraphQL type.
      */

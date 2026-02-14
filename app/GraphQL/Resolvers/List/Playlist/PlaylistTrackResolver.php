@@ -19,12 +19,20 @@ use Illuminate\Support\Arr;
  */
 class PlaylistTrackResolver extends BaseResolver
 {
+    final public const string ATTRIBUTE_ENTRY = 'entryId';
+    final public const string ATTRIBUTE_VIDEO = 'videoId';
+
     /**
      * @param  array<string, mixed>  $args
      */
     public function store($root, array $args): PlaylistTrack
     {
         $validated = $this->validated($args, CreatePlaylistTrackMutation::class);
+
+        $validated += [
+            PlaylistTrack::ATTRIBUTE_ENTRY => Arr::integer($validated, 'entryId'),
+            PlaylistTrack::ATTRIBUTE_VIDEO => Arr::integer($validated, 'videoId'),
+        ];
 
         /** @var Playlist $playlist */
         $playlist = Arr::pull($validated, 'playlist');
@@ -40,6 +48,11 @@ class PlaylistTrackResolver extends BaseResolver
     public function update($root, array $args): PlaylistTrack
     {
         $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
+
+        $validated += [
+            PlaylistTrack::ATTRIBUTE_ENTRY => Arr::integer($validated, 'entryId'),
+            PlaylistTrack::ATTRIBUTE_VIDEO => Arr::integer($validated, 'videoId'),
+        ];
 
         /** @var PlaylistTrack $track */
         $track = Arr::pull($validated, self::MODEL);

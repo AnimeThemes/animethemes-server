@@ -243,6 +243,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Sof
         return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
             ->using(Imageable::class)
             ->as('animeimage')
+            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
             ->withTimestamps();
     }
 

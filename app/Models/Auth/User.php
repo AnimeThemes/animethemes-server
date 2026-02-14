@@ -20,6 +20,7 @@ use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Submission;
+use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
@@ -97,6 +98,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const string RELATION_SUBMISSIONS = 'submissions';
     final public const string RELATION_ROLES = 'roles';
     final public const string RELATION_ROLES_PERMISSIONS = 'roles.permissions';
+    final public const string RELATION_WATCH_HISTORY = 'watchHistory';
 
     /**
      * The table associated with the model.
@@ -288,6 +290,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
         }
 
         return $notifications->whereNot(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
+    }
+
+    /**
+     * @return HasMany<WatchHistory, $this>
+     */
+    public function watchHistory(): HasMany
+    {
+        return $this->hasMany(WatchHistory::class, WatchHistory::ATTRIBUTE_USER);
     }
 
     /**

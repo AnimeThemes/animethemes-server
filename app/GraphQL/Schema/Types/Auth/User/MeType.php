@@ -20,6 +20,7 @@ use App\GraphQL\Schema\Types\Auth\PermissionType;
 use App\GraphQL\Schema\Types\Auth\RoleType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
+use App\GraphQL\Schema\Types\User\WatchHistoryType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Unions\NotificationUnion;
 use App\Models\Auth\User;
@@ -53,6 +54,7 @@ class MeType extends EloquentType
             new MorphToManyRelation($this, new PermissionType(), User::RELATION_PERMISSIONS),
             new BelongsToManyRelation($this, new AnimeThemeEntryType(), 'likedentries'),
             new BelongsToManyRelation($this, new PlaylistType(), 'likedplaylists'),
+            new HasManyRelation(new WatchHistoryType(), User::RELATION_WATCH_HISTORY),
         ];
     }
 
@@ -64,5 +66,15 @@ class MeType extends EloquentType
     public function model(): string
     {
         return User::class;
+    }
+
+    public function hasSortableColumns(): bool
+    {
+        return false;
+    }
+
+    public function hasFilterableColumns(): bool
+    {
+        return false;
     }
 }

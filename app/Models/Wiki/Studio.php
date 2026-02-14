@@ -143,6 +143,7 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
         return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
             ->using(Imageable::class)
             ->as('studioimage')
+            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
             ->withTimestamps();
     }
 }

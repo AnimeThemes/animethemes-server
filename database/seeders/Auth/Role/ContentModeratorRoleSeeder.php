@@ -17,6 +17,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\User\Like;
 use App\Models\User\Notification;
+use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -63,8 +64,9 @@ class ContentModeratorRoleSeeder extends RoleSeeder
         $this->configureResource($role, PlaylistTrack::class, CrudPermission::cases());
 
         // User Resources
-        $this->configureResource($role, Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);
-        $this->configureResource($role, Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->configureResource($role, Like::class, CrudPermission::cases());
+        $this->configureResource($role, Notification::class, CrudPermission::cases());
+        $this->configureResource($role, WatchHistory::class, CrudPermission::cases());
 
         $extendedCrudPermissions = array_merge(
             CrudPermission::cases(),

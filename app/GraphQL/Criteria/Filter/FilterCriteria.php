@@ -82,7 +82,7 @@ abstract class FilterCriteria
                 continue;
             }
 
-            if ($filter instanceof WhereConditionsFilter && $type instanceof EloquentType) {
+            if ($filter instanceof WhereConditionsFilter && $type instanceof EloquentType && $type->hasFilterableColumns()) {
                 $criteria[] = new WhereConditionsFilterCriteria($filter, $value, $type);
                 continue;
             }

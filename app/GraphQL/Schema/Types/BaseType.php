@@ -6,6 +6,8 @@ namespace App\GraphQL\Schema\Types;
 
 use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\Contracts\GraphQL\Fields\DisplayableField;
+use App\Contracts\GraphQL\Fields\FilterableField;
+use App\Contracts\GraphQL\Fields\SortableField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Relations\Relation;
 use Illuminate\Support\Str;
@@ -97,5 +99,15 @@ abstract class BaseType extends RebingType
             ]);
 
         return $fields->merge($relations)->all();
+    }
+
+    public function hasSortableColumns(): bool
+    {
+        return array_any($this->fieldClasses(), fn (Field $field): bool => $field instanceof SortableField);
+    }
+
+    public function hasFilterableColumns(): bool
+    {
+        return array_any($this->fieldClasses(), fn (Field $field): bool => $field instanceof FilterableField);
     }
 }
