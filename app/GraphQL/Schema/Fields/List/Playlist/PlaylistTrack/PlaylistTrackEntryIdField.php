@@ -7,6 +7,7 @@ namespace App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Resolvers\List\Playlist\PlaylistTrackResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -42,7 +43,7 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
             'integer',
             Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
             Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, Arr::get($args, PlaylistTrack::ATTRIBUTE_VIDEO)),
+                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, Arr::get($args, PlaylistTrackResolver::ATTRIBUTE_VIDEO)),
         ];
     }
 
@@ -51,7 +52,7 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
      */
     public function getUpdateRules(array $args): array
     {
-        $videoId = Arr::get($args, PlaylistTrack::ATTRIBUTE_VIDEO);
+        $videoId = Arr::get($args, PlaylistTrackResolver::ATTRIBUTE_VIDEO);
 
         return [
             'sometimes',

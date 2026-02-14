@@ -19,6 +19,9 @@ use Illuminate\Support\Arr;
  */
 class PlaylistTrackResolver extends BaseResolver
 {
+    final public const string ATTRIBUTE_ENTRY = 'entryId';
+    final public const string ATTRIBUTE_VIDEO = 'videoId';
+
     /**
      * @param  array<string, mixed>  $args
      */
