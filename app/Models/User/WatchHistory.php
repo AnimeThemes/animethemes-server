@@ -8,6 +8,8 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use Database\Factories\User\WatchHistoryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -16,10 +18,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property User $user
  * @property int $user_id
  * @property Video $video
- * @property int $video
+ * @property int $video_id
+ *
+ * @method static WatchHistoryFactory factory(...$parameters)
  */
 class WatchHistory extends BaseModel
 {
+    use HasFactory;
+
     final public const string TABLE = 'watch_history';
 
     final public const string ATTRIBUTE_ID = 'id';
