@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Fields\User\WatchHistory;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
+use App\GraphQL\Resolvers\User\WatchResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\User\WatchHistory;
 use App\Models\Wiki\Video;
@@ -41,7 +42,7 @@ class WatchHistoryVideoIdField extends Field implements CreatableField, Required
             'integer',
             Rule::exists(Video::class, Video::ATTRIBUTE_ID),
             Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Arr::get($args, WatchHistory::ATTRIBUTE_ENTRY)),
+                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Arr::get($args, WatchResolver::ATTRIBUTE_ENTRY)),
         ];
     }
 }

@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Auth;
 /**
  * @extends BaseResolver<WatchHistory>
  */
-class WatchHistoryResolver extends BaseResolver
+class WatchResolver extends BaseResolver
 {
-    final public const string ATTRIBUTE_ENTRY = 'entry';
+    final public const string ATTRIBUTE_ENTRY = 'entryId';
+    final public const string ATTRIBUTE_VIDEO = 'videoId';
 
     /**
      * @param  array<string, mixed>  $args
