@@ -6,6 +6,8 @@ namespace App\Models\User;
 
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use Database\Factories\User\LikeFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -16,9 +18,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property Model $likeable
  * @property string $likeable_type
  * @property int $likeable_id
+ *
+ * @method static LikeFactory factory(...$parameters)
  */
 class Like extends BaseModel
 {
+    use HasFactory;
+
     final public const string TABLE = 'likes';
 
     final public const string ATTRIBUTE_ID = 'like_id';

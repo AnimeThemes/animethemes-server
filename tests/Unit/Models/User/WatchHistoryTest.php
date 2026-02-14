@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Auth\User;
 use App\Models\User\WatchHistory;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -25,7 +26,7 @@ test('entry', function () {
     $history = WatchHistory::factory()->createOne();
 
     $this->assertInstanceOf(BelongsTo::class, $history->animethemeentry());
-    $this->assertInstanceOf(WatchHistory::class, $history->animethemeentry()->first());
+    $this->assertInstanceOf(AnimeThemeEntry::class, $history->animethemeentry()->first());
 });
 
 test('user', function () {
