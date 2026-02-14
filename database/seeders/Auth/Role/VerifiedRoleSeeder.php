@@ -12,6 +12,8 @@ use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\User\Like;
+use App\Models\User\Notification;
+use App\Models\User\WatchHistory;
 
 class VerifiedRoleSeeder extends RoleSeeder
 {
@@ -28,7 +30,9 @@ class VerifiedRoleSeeder extends RoleSeeder
         $role = Role::findOrCreate($roleEnum->value);
 
         // User Resources
-        $this->configureResource($role, Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);
+        $this->configureResource($role, Like::class, CrudPermission::cases());
+        $this->configureResource($role, Notification::class, CrudPermission::cases());
+        $this->configureResource($role, WatchHistory::class, CrudPermission::cases());
 
         // List Resources
         $this->configureResource($role, ExternalEntry::class, [CrudPermission::VIEW]);

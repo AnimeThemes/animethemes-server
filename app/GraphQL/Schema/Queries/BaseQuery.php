@@ -75,11 +75,11 @@ abstract class BaseQuery extends Query
             $arguments[] = new PageArgument();
         }
 
-        if ($baseType instanceof BaseType) {
+        if ($baseType instanceof BaseType && $baseType->hasFilterableColumns()) {
             $arguments[] = FilterCriteria::getFilters($baseType)->map(fn (Filter $filter): array => $filter->getArguments())->flatten();
         }
 
-        if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery) {
+        if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery && $baseType->hasSortableColumns()) {
             $arguments[] = new SortArgument($baseType);
         }
 

@@ -89,7 +89,7 @@ abstract class Relation extends Field
 
         $type = $this->relatedType;
 
-        if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType) {
+        if ($this->paginationType() !== PaginationType::NONE && $type instanceof BaseType && $type->hasFilterableColumns()) {
             $arguments[] = FilterCriteria::getFilters($type)
                 ->map(fn (Filter $filter): array => $filter->getArguments())
                 ->flatten();
@@ -99,7 +99,7 @@ abstract class Relation extends Field
             $arguments[] = new FirstArgument(true);
             $arguments[] = new PageArgument();
 
-            if ($type instanceof BaseType) {
+            if ($type instanceof BaseType && $type->hasSortableColumns()) {
                 $arguments[] = new SortArgument($type);
             }
         }

@@ -11,6 +11,7 @@ use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackM
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\DeletePlaylistTrackMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
+use App\GraphQL\Schema\Mutations\Models\User\WatchMutation;
 use App\GraphQL\Schema\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Schema\Queries\Auth\MeQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Admin\AnnouncementPaginationQuery;
@@ -63,8 +64,15 @@ use App\GraphQL\Schema\Types\List\ExternalProfileType;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
 use App\GraphQL\Schema\Types\MessageResponseType;
+use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
+use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
+use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeSeriesType;
+use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
+use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
+use App\GraphQL\Schema\Types\Pivot\Wiki\ArtistMemberType;
 use App\GraphQL\Schema\Types\SearchType;
 use App\GraphQL\Schema\Types\User\Notification\ExternalProfileSyncedNotificationType;
+use App\GraphQL\Schema\Types\User\WatchHistoryType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonsType;
@@ -163,6 +171,8 @@ class V1Schema implements ConfigConvertible
                 CreatePlaylistTrackMutation::class,
                 UpdatePlaylistTrackMutation::class,
                 DeletePlaylistTrackMutation::class,
+
+                WatchMutation::class,
             ],
 
             'types' => [
@@ -189,6 +199,7 @@ class V1Schema implements ConfigConvertible
 
                 // User
                 ExternalProfileSyncedNotificationType::class,
+                WatchHistoryType::class,
 
                 // Wiki
                 AnimeType::class,
@@ -216,10 +227,16 @@ class V1Schema implements ConfigConvertible
                 SearchType::class,
 
                 // Pivot
-                // ResourceableType::class,
+                // These are needed to build related types like
+                // {Type}SortableColumns and {Type}FilterableColumns.
+                ImageableType::class,
+                ResourceableType::class,
+                AnimeSeriesType::class,
+                AnimeStudioType::class,
+                AnimeThemeEntryVideoType::class,
+                ArtistMemberType::class,
 
                 // Unions
-
                 ImageableUnion::class,
                 LikedUnion::class,
                 NotificationUnion::class,

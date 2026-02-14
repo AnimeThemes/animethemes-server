@@ -70,7 +70,7 @@ abstract class UpdateMutation extends BaseMutation
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field): bool => $field instanceof UpdatableField)
-                ->mapWithKeys(fn (Field&UpdatableField $field): array => [$field->getColumn() => $field->getUpdateRules($args)])
+                ->mapWithKeys(fn (Field&UpdatableField $field): array => [$field->getName() => $field->getUpdateRules($args)])
                 ->all();
         }
 

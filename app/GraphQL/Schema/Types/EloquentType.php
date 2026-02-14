@@ -9,15 +9,6 @@ use Illuminate\Support\Str;
 
 abstract class EloquentType extends BaseType
 {
-    public static array $typesToLoad = [];
-
-    public function __construct()
-    {
-        if (! in_array($this, static::$typesToLoad)) {
-            static::$typesToLoad[] = $this;
-        }
-    }
-
     /**
      * @return array<string, mixed>
      */

@@ -7,18 +7,18 @@ namespace App\Policies\User;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\User;
-use App\Models\User\Like;
+use App\Models\User\WatchHistory;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 
-class LikePolicy extends BasePolicy
+class WatchHistoryPolicy extends BasePolicy
 {
     /**
-     * @param  Like  $like
+     * @param  WatchHistory  $watchHistory
      */
-    public function delete(User $user, Model $like): Response
+    public function delete(User $user, Model $watchHistory): Response
     {
         if (Filament::isServing()) {
             return $user->hasRole(Role::ADMIN->value)
@@ -26,7 +26,7 @@ class LikePolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $like->user()->is($user) && $user->can(CrudPermission::DELETE->format(static::getModel()))
+        return $watchHistory->user()->is($user) && $user->can(CrudPermission::DELETE->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }

@@ -37,4 +37,14 @@ class UserType extends EloquentType
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
         ];
     }
+
+    public function hasSortableColumns(): bool
+    {
+        return false;
+    }
+
+    public function hasFilterableColumns(): bool
+    {
+        return false;
+    }
 }

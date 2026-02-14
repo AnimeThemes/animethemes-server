@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Database;
 
-use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Console\Commands\BaseCommand;
 use Database\Seeders\Admin\Feature\FeatureSeeder;
@@ -46,7 +45,6 @@ class DatabaseSyncCommand extends BaseCommand
         if (! $this->option('drop')) {
             Schema::withoutForeignKeyConstraints(function (): void {
                 foreach ([
-                    ...DumpDocumentAction::allowedTables(),
                     ...DumpWikiAction::allowedTables(),
                 ] as $table) {
                     $this->info("Truncating table {$table}");
@@ -60,10 +58,6 @@ class DatabaseSyncCommand extends BaseCommand
         $this->info('Importing wiki dump');
         $wiki = Http::get('https://dump.animethemes.moe/latest/wiki')->body();
         DB::unprepared($wiki);
-
-        $this->info('Importing document dump');
-        $document = Http::get('https://dump.animethemes.moe/latest/document')->body();
-        DB::unprepared($document);
 
         $this->info('Migrating database');
         Artisan::call('migrate');

@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Models\Pagination;
 
 use App\Actions\GraphQL\IndexAction;
-use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Queries\Models\EloquentQuery;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Schema\Types\EloquentType;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -21,18 +19,9 @@ use RuntimeException;
 
 abstract class EloquentPaginationQuery extends EloquentQuery
 {
-    protected static bool $typesLoaded = false;
-
     public function __construct(protected string $name)
     {
         parent::__construct($name, false, true);
-
-        if (static::$typesLoaded === false) {
-            static::$typesLoaded = true;
-            foreach (EloquentType::$typesToLoad as $type) {
-                GraphQL::addType(new SortableColumns($type));
-            }
-        }
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
