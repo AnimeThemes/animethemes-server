@@ -8,7 +8,7 @@ use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
 use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
-class LikedUnion extends BaseUnion
+class LikeableUnion extends BaseUnion
 {
     public function description(): string
     {

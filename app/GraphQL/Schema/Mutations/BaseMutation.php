@@ -32,6 +32,11 @@ abstract class BaseMutation extends Mutation
         );
     }
 
+    public function description(): string
+    {
+        return '';
+    }
+
     public function getAuthorizationMessage(): string
     {
         return $this->response->message() ?? 'Unauthorized';
@@ -63,14 +68,6 @@ abstract class BaseMutation extends Mutation
 
     public function type(): Type
     {
-        return $this->toType();
-    }
-
-    /**
-     * Convert the rebing type to a GraphQL type.
-     */
-    public function toType(): Type
-    {
         return GraphQL::type($this->baseType()->getName());
     }
 
@@ -81,8 +78,6 @@ abstract class BaseMutation extends Mutation
     {
         return null;
     }
-
-    abstract public function description(): string;
 
     /**
      * @param  array<string, mixed>  $args

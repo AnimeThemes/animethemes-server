@@ -41,7 +41,7 @@ class SyncExternalProfileMutation extends BaseMutation
 
     public function description(): string
     {
-        return 'Sync an external profile';
+        return 'Sync the entries of an external profile with an external tracking site.';
     }
 
     /**
@@ -66,21 +66,13 @@ class SyncExternalProfileMutation extends BaseMutation
 
         return collect($type->fieldClasses())
             ->filter(fn (Field $field): bool => $field instanceof BindableField)
-            ->mapWithKeys(fn (Field&BindableField $field): array => [$field->getColumn() => ['required']])
+            ->mapWithKeys(fn (Field&BindableField $field): array => [$field->getName() => ['required']])
             ->all();
-    }
-
-    /**
-     * The base return type of the mutation.
-     */
-    public function toType(): Type
-    {
-        return Type::string();
     }
 
     public function type(): Type
     {
-        return Type::nonNull($this->toType());
+        return Type::nonNull(Type::string());
     }
 
     /**

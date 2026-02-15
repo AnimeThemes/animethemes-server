@@ -6,15 +6,14 @@ namespace App\GraphQL\Schema\Fields\User\Like;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\Contracts\GraphQL\Fields\DeletableField;
-use App\GraphQL\Resolvers\User\LikeResolver;
+use App\GraphQL\Resolvers\User\ToggleLikeResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class LikeAnimeThemeEntryField extends Field implements BindableField, CreatableField, DeletableField
+class LikeAnimeThemeEntryField extends Field implements BindableField, CreatableField
 {
     public function __construct()
     {
@@ -37,7 +36,7 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     public function bindResolver(array $args): AnimeThemeEntry
     {
         return AnimeThemeEntry::query()
-            ->where(AnimeThemeEntry::ATTRIBUTE_ID, Arr::get($args, $this->getName()))
+            ->where(AnimeThemeEntry::ATTRIBUTE_ID, Arr::get($args, ToggleLikeResolver::ATTRIBUTE_ENTRY))
             ->firstOrFail();
     }
 
@@ -47,22 +46,9 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     public function getCreationRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(LikeResolver::ATTRIBUTE_PLAYLIST)->__toString(),
+            Str::of('prohibits:')->append(ToggleLikeResolver::ATTRIBUTE_PLAYLIST)->__toString(),
             'required_without_all:'.implode(',', [
-                LikeResolver::ATTRIBUTE_PLAYLIST,
-            ]),
-        ];
-    }
-
-    /**
-     * @param  array<string, mixed>  $args
-     */
-    public function getDeleteRules(array $args): array
-    {
-        return [
-            Str::of('prohibits:')->append(LikeResolver::ATTRIBUTE_PLAYLIST)->__toString(),
-            'required_without_all:'.implode(',', [
-                LikeResolver::ATTRIBUTE_PLAYLIST,
+                ToggleLikeResolver::ATTRIBUTE_PLAYLIST,
             ]),
         ];
     }

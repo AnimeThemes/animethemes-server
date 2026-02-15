@@ -18,11 +18,6 @@ class CreatePlaylistTrackMutation extends CreateMutation
         parent::__construct(PlaylistTrack::class);
     }
 
-    public function description(): string
-    {
-        return 'Create playlist track';
-    }
-
     /**
      * The base return type of the query.
      */

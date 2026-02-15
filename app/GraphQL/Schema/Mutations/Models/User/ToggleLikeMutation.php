@@ -6,7 +6,7 @@ namespace App\GraphQL\Schema\Mutations\Models\User;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Resolvers\User\LikeResolver;
+use App\GraphQL\Resolvers\User\ToggleLikeResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\User\LikeType;
@@ -15,22 +15,18 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class LikeMutation extends BaseMutation
+class ToggleLikeMutation extends BaseMutation
 {
     public function __construct()
     {
-        parent::__construct('like');
-    }
-
-    public function description(): string
-    {
-        return 'Like a model';
+        parent::__construct('ToggleLike');
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, $selectFields = null): bool
     {
-        return ($this->response = Gate::inspect('create', [Like::class, ...[]]))->allowed();
+        return ($this->response = Gate::inspect('create', [Like::class]))->allowed();
     }
 
     /**
@@ -55,7 +51,7 @@ class LikeMutation extends BaseMutation
 
         return collect($type->fieldClasses())
             ->filter(fn (Field $field): bool => $field instanceof CreatableField)
-            ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getColumn() => $field->getCreationRules($args)])
+            ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getName() => $field->getCreationRules($args)])
             ->all();
     }
 
@@ -69,7 +65,7 @@ class LikeMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull($this->toType());
+        return GraphQL::type($this->baseType()->getName());
     }
 
     /**
@@ -77,7 +73,7 @@ class LikeMutation extends BaseMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(LikeResolver::class)
+        return App::make(ToggleLikeResolver::class)
             ->store($root, $args);
     }
 }
