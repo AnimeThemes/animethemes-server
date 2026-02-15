@@ -5,37 +5,19 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Mutations\Models\List\ExternalProfile;
 
 use App\Contracts\GraphQL\Fields\BindableField;
-use App\Features\AllowExternalProfileManagement;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Resolvers\List\SyncExternalProfileResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
-use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
-use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class SyncExternalProfileMutation extends BaseMutation
 {
-    protected $middleware = [
-        EnabledOnlyOnLocalhost::class,
-    ];
-
     public function __construct()
     {
-        $this->middleware = array_merge(
-            $this->middleware,
-            [
-                Str::of(EnsureFeaturesAreActive::class)
-                    ->append(':')
-                    ->append(AllowExternalProfileManagement::class)
-                    ->__toString(),
-            ]
-        );
-
         parent::__construct('SyncExternalProfile');
     }
 

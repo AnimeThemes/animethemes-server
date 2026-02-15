@@ -25,9 +25,9 @@ test('fails without id or link', function () {
     ]);
 
     $response->assertOk();
-    $response->assertJsonStructure([
-        'errors' => [['message']],
-    ]);
+    $response->assertJsonPath('errors.0.extensions.category', 'validation');
+    $this->assertArrayHasKey('id', $response->json('errors.0.extensions.validation'));
+    $this->assertArrayHasKey('link', $response->json('errors.0.extensions.validation'));
 });
 
 test('fails with for than 100 ids', function () {
@@ -35,7 +35,7 @@ test('fails with for than 100 ids', function () {
 
     $response = graphql([
         'query' => '
-            query($site: ResourceSite!, ids: [Int!]) {
+            query($site: ResourceSite!, $ids: [Int!]) {
                 findAnimeByExternalSite(site: $site, id: $ids) {
                     id
                 }
@@ -48,9 +48,8 @@ test('fails with for than 100 ids', function () {
     ]);
 
     $response->assertOk();
-    $response->assertJsonStructure([
-        'errors' => [['message']],
-    ]);
+    $response->assertJsonPath('errors.0.extensions.category', 'validation');
+    $this->assertArrayHasKey('id', $response->json('errors.0.extensions.validation'));
 });
 
 test('passes with id', function () {

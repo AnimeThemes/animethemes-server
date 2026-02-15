@@ -35,7 +35,7 @@ class AnimeYearsResolver extends BaseResolver
 
         $fieldSelection = $resolveInfo->getFieldSelection(1);
 
-        Validator::make(['year' => $year], [new AnimeYearRule($fieldSelection)])
+        Validator::make(['year' => $year], ['year' => new AnimeYearRule($fieldSelection)])
             ->validate();
 
         return Anime::query()

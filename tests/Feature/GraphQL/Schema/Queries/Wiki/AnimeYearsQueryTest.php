@@ -4,6 +4,45 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
 
+test('fails query season anime field without year', function () {
+    $animes = Anime::factory()
+        ->count(fake()->randomDigitNotNull())
+        ->create();
+
+    $response = graphql([
+        'query' => '
+            query($season: AnimeSeason!) {
+                animeyears {
+                    year
+                    season(season: $season) {
+                        season
+                        anime {
+                            data {
+                                id
+                            }
+                        }
+                    }
+                    seasons {
+                        season
+                        anime {
+                            data {
+                                id
+                            }
+                        }
+                    }
+                }
+            }
+        ',
+        'variables' => [
+            'season' => $animes->random()->getAttribute(Anime::ATTRIBUTE_SEASON)->name,
+        ],
+    ]);
+
+    $response->assertOk();
+    $response->assertJsonPath('errors.0.extensions.category', 'validation');
+    $this->assertArrayHasKey('year', $response->json('errors.0.extensions.validation'));
+});
+
 test('query season & seasons field', function () {
     $animes = Anime::factory()
         ->count(fake()->randomDigitNotNull())
@@ -29,7 +68,6 @@ test('query season & seasons field', function () {
     ]);
 
     $response->assertOk();
-
     $response->assertJsonStructure([
         'data' => [
             'animeyears' => [[
@@ -39,48 +77,6 @@ test('query season & seasons field', function () {
                 ],
             ]],
         ],
-    ]);
-});
-
-test('fails query season anime field without year', function () {
-    $animes = Anime::factory()
-        ->count(fake()->randomDigitNotNull())
-        ->create();
-
-    $response = graphql([
-        'query' => '
-            query($season: AnimeSeason!) {
-                animeyears {
-                    year
-                    season(season: $season) {
-                        season
-                        anime {
-                            data {
-                                id
-                            }
-                        }
-                    }
-                    seasons {
-                        season {
-                            anime {
-                                data {
-                                    id
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        ',
-        'variables' => [
-            'season' => $animes->random()->getAttribute(Anime::ATTRIBUTE_SEASON)->name,
-        ],
-    ]);
-
-    $response->assertOk();
-    $response->assertJsonCount(1, 'errors');
-    $response->assertJsonStructure([
-        'errors' => [['message']],
     ]);
 });
 

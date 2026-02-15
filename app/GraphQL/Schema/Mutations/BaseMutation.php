@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Mutations;
 
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\GraphQL\Argument\Argument;
+use App\GraphQL\Middleware\AuthMutation;
 use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
@@ -27,6 +28,7 @@ abstract class BaseMutation extends Mutation
         $this->middleware = array_merge(
             $this->middleware,
             [
+                AuthMutation::class,
                 ResolveBindableArgs::class,
             ],
         );
