@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
+use Illuminate\Support\Facades\Event;
 
 use function Pest\Laravel\actingAs;
 
@@ -31,13 +33,15 @@ test('protected', function () {
 });
 
 test('forbidden', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
     actingAs(User::factory()->createOne());
 
     $response = graphql([
         'query' => $this->mutation,
         'variables' => [
             // Needed for the bind resolver.
-            'id' => Playlist::factory([Playlist::ATTRIBUTE_HASHID => fake()->word()])->createOne()->hashid,
+            'id' => Playlist::factory()->createOne()->hashid,
         ],
     ]);
 
@@ -46,21 +50,18 @@ test('forbidden', function () {
 });
 
 test('forbidden if not owner', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
     $user = User::factory()
         ->withPermissions(CrudPermission::DELETE->format(Playlist::class))
         ->createOne();
 
     actingAs($user);
 
-    $playlist = Playlist::factory()
-        ->createOne([
-            Playlist::ATTRIBUTE_HASHID => fake()->word(),
-        ]);
-
     $response = graphql([
         'query' => $this->mutation,
         'variables' => [
-            'id' => $playlist->hashid,
+            'id' => Playlist::factory()->createOne()->hashid,
         ],
     ]);
 
@@ -69,6 +70,8 @@ test('forbidden if not owner', function () {
 });
 
 it('deletes', function () {
+    Event::fakeExcept(PlaylistCreated::class);
+
     $user = User::factory()
         ->withPermissions(CrudPermission::DELETE->format(Playlist::class))
         ->createOne();
@@ -77,9 +80,7 @@ it('deletes', function () {
 
     $playlist = Playlist::factory()
         ->for($user)
-        ->createOne([
-            Playlist::ATTRIBUTE_HASHID => fake()->word(),
-        ]);
+        ->createOne();
 
     $response = graphql([
         'query' => $this->mutation,
@@ -88,6 +89,7 @@ it('deletes', function () {
         ],
     ]);
 
+    $this->assertDatabaseCount(Playlist::class, 0);
     $response->assertOk();
     $this->assertIsString($response->json('data.DeletePlaylist.message'));
 });

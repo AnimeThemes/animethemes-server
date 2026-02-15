@@ -67,7 +67,7 @@ class PlaylistTrackPolicy extends BasePolicy
     }
 
     /**
-     * @param  Playlist  $playlist
+     * @param  Playlist|null  $playlist
      */
     public function create(User $user, $playlist = null): Response
     {
@@ -87,8 +87,9 @@ class PlaylistTrackPolicy extends BasePolicy
 
     /**
      * @param  PlaylistTrack  $track
+     * @param  Playlist|null  $playlist
      */
-    public function update(User $user, Model $track): Response
+    public function update(User $user, Model $track, $playlist = null): Response
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value)
@@ -97,7 +98,7 @@ class PlaylistTrackPolicy extends BasePolicy
         }
 
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist ??= request()->route('playlist');
 
         return $playlist?->user()->is($user) && parent::update($user, $track)->allowed()
             ? Response::allow()
@@ -106,8 +107,9 @@ class PlaylistTrackPolicy extends BasePolicy
 
     /**
      * @param  PlaylistTrack  $track
+     * @param  Playlist|null  $playlist
      */
-    public function delete(User $user, Model $track): Response
+    public function delete(User $user, Model $track, $playlist = null): Response
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value)
@@ -116,7 +118,7 @@ class PlaylistTrackPolicy extends BasePolicy
         }
 
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist ??= request()->route('playlist');
 
         return $playlist?->user()->is($user) && parent::delete($user, $track)->allowed()
             ? Response::allow()

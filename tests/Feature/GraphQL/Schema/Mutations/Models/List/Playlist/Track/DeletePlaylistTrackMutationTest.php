@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
 use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\Track\TrackCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Facades\Event;
 
 use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
     $this->mutation = '
-        mutation($id: String!, $name: String, $visibility: PlaylistVisibility, $description: String) {
-            UpdatePlaylist(id: $id, name: $name, visibility: $visibility, description: $description) {
-                name
-                visibility
-                description
+        mutation($playlist: String!, $id: String!) {
+            DeletePlaylistTrack(playlist: $playlist, id: $id) {
+                message
             }
         }
     ';
@@ -26,6 +26,7 @@ test('protected', function () {
     $response = graphql([
         'query' => $this->mutation,
         'variables' => [
+            'playlist' => fake()->word(),
             'id' => fake()->word(),
         ],
     ]);
@@ -35,15 +36,18 @@ test('protected', function () {
 });
 
 test('forbidden', function () {
-    Event::fakeExcept(PlaylistCreated::class);
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     actingAs(User::factory()->createOne());
+
+    $playlist = Playlist::factory()->createOne();
 
     $response = graphql([
         'query' => $this->mutation,
         'variables' => [
             // Needed for the bind resolver.
-            'id' => Playlist::factory()->createOne()->hashid,
+            'playlist' => $playlist->hashid,
+            'id' => PlaylistTrack::factory()->for($playlist)->createOne()->hashid,
         ],
     ]);
 
@@ -52,18 +56,23 @@ test('forbidden', function () {
 });
 
 test('forbidden if not owner', function () {
-    Event::fakeExcept(PlaylistCreated::class);
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()
-        ->withPermissions(CrudPermission::UPDATE->format(Playlist::class))
+        ->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))
         ->createOne();
 
     actingAs($user);
 
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory())
+        ->createOne();
+
     $response = graphql([
         'query' => $this->mutation,
         'variables' => [
-            'id' => Playlist::factory()->createOne()->hashid,
+            'playlist' => $track->playlist->hashid,
+            'id' => $track->hashid,
         ],
     ]);
 
@@ -71,39 +80,28 @@ test('forbidden if not owner', function () {
     $response->assertJsonPath('errors.0.extensions.category', 'authorization');
 });
 
-it('updates', function () {
-    Event::fakeExcept(PlaylistCreated::class);
+it('deletes', function () {
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()
-        ->withPermissions(CrudPermission::UPDATE->format(Playlist::class))
+        ->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))
         ->createOne();
 
     actingAs($user);
 
-    $playlist = Playlist::factory()
-        ->for($user)
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory()->for($user))
         ->createOne();
-
-    $newPlaylist = Playlist::factory()->makeOne();
 
     $response = graphql([
         'query' => $this->mutation,
         'variables' => [
-            'id' => $playlist->hashid,
-            'name' => $newPlaylist->name,
-            'visibility' => $newPlaylist->visibility->name,
-            'description' => $newPlaylist->description,
+            'playlist' => $track->playlist->hashid,
+            'id' => $track->hashid,
         ],
     ]);
 
+    $this->assertDatabaseCount(PlaylistTrack::class, 0);
     $response->assertOk();
-    $response->assertJson([
-        'data' => [
-            'UpdatePlaylist' => [
-                'name' => $newPlaylist->name,
-                'visibility' => $newPlaylist->visibility->name,
-                'description' => $newPlaylist->description,
-            ],
-        ],
-    ]);
+    $this->assertIsString($response->json('data.DeletePlaylistTrack.message'));
 });
