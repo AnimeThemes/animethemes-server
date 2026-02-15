@@ -10,8 +10,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 
 use function Pest\Laravel\actingAs;
 
-pest()->only();
-
 beforeEach(function () {
     $this->mutation = '
         mutation($entryId: Int, $playlistId: String) {
