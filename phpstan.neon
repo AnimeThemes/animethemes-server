@@ -54,3 +54,6 @@ parameters:
         -
             message: '#Call to method assertActionDoesNotExist\(\) on an unknown class static.#'
             path: tests/Unit/Filament/*
+        -
+            message: '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$mutation.#'
+            path: tests/Feature/GraphQL/*
