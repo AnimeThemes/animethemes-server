@@ -18,11 +18,6 @@ class UpdatePlaylistMutation extends UpdateMutation
         parent::__construct(Playlist::class);
     }
 
-    public function description(): string
-    {
-        return 'Update playlist';
-    }
-
     /**
      * The base return type of the query.
      */

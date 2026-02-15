@@ -11,22 +11,21 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait InteractsWithLikes
 {
-    public function like(User $user): Like
+    public function toggleLike(User $user): ?Like
     {
-        return Like::query()
-            ->create([
-                Like::ATTRIBUTE_USER => $user->getKey(),
-                Like::ATTRIBUTE_LIKEABLE_TYPE => Relation::getMorphAlias($this->getMorphClass()),
-                Like::ATTRIBUTE_LIKEABLE_ID => $this->getKey(),
-            ]);
-    }
-
-    public function unlike(User $user): mixed
-    {
-        return Like::query()
+        $builder = Like::query()
             ->whereBelongsTo($user, Like::RELATION_USER)
-            ->whereMorphedTo(Like::RELATION_LIKEABLE, $this)
-            ->delete();
+            ->whereMorphedTo(Like::RELATION_LIKEABLE, $this);
+
+        if ($builder->delete() > 0) {
+            return null;
+        }
+
+        return Like::query()->create([
+            Like::ATTRIBUTE_USER => $user->getKey(),
+            Like::ATTRIBUTE_LIKEABLE_TYPE => Relation::getMorphAlias($this->getMorphClass()),
+            Like::ATTRIBUTE_LIKEABLE_ID => $this->getKey(),
+        ]);
     }
 
     public function likes(): MorphMany

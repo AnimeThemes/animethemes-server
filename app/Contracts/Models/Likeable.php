@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 interface Likeable
 {
-    public function like(User $user): Like;
-
-    public function unlike(User $user): mixed;
+    public function toggleLike(User $user): ?Like;
 
     public function likes(): MorphMany;
 }

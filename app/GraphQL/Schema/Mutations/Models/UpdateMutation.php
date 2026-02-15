@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 abstract class UpdateMutation extends BaseMutation
 {
@@ -79,6 +80,6 @@ abstract class UpdateMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull($this->toType());
+        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
     }
 }

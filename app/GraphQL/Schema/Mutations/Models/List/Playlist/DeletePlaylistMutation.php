@@ -21,11 +21,6 @@ class DeletePlaylistMutation extends DeleteMutation
         parent::__construct(Playlist::class);
     }
 
-    public function description(): string
-    {
-        return 'Delete playlist';
-    }
-
     /**
      * The base return type of the query.
      */

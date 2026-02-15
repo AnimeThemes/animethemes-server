@@ -11,6 +11,7 @@ use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackM
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\DeletePlaylistTrackMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\UpdatePlaylistMutation;
+use App\GraphQL\Schema\Mutations\Models\User\ToggleLikeMutation;
 use App\GraphQL\Schema\Mutations\Models\User\WatchMutation;
 use App\GraphQL\Schema\Queries\Admin\CurrentFeaturedThemeQuery;
 use App\GraphQL\Schema\Queries\Auth\MeQuery;
@@ -71,6 +72,7 @@ use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\ArtistMemberType;
 use App\GraphQL\Schema\Types\SearchType;
+use App\GraphQL\Schema\Types\User\LikeType;
 use App\GraphQL\Schema\Types\User\Notification\ExternalProfileSyncedNotificationType;
 use App\GraphQL\Schema\Types\User\WatchHistoryType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeSynonymType;
@@ -93,7 +95,7 @@ use App\GraphQL\Schema\Types\Wiki\ThemeGroupType;
 use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\GraphQL\Schema\Unions\ImageableUnion;
-use App\GraphQL\Schema\Unions\LikedUnion;
+use App\GraphQL\Schema\Unions\LikeableUnion;
 use App\GraphQL\Schema\Unions\NotificationUnion;
 use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\GraphQL\Schema\Unions\ResourceableUnion;
@@ -172,6 +174,7 @@ class V1Schema implements ConfigConvertible
                 UpdatePlaylistTrackMutation::class,
                 DeletePlaylistTrackMutation::class,
 
+                ToggleLikeMutation::class,
                 WatchMutation::class,
             ],
 
@@ -199,6 +202,7 @@ class V1Schema implements ConfigConvertible
 
                 // User
                 ExternalProfileSyncedNotificationType::class,
+                LikeType::class,
                 WatchHistoryType::class,
 
                 // Wiki
@@ -238,7 +242,7 @@ class V1Schema implements ConfigConvertible
 
                 // Unions
                 ImageableUnion::class,
-                LikedUnion::class,
+                LikeableUnion::class,
                 NotificationUnion::class,
                 PerformanceArtistUnion::class,
                 ResourceableUnion::class,

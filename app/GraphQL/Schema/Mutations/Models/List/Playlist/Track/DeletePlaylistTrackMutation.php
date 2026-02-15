@@ -21,11 +21,6 @@ class DeletePlaylistTrackMutation extends DeleteMutation
         parent::__construct(PlaylistTrack::class);
     }
 
-    public function description(): string
-    {
-        return 'Delete playlist track';
-    }
-
     /**
      * The base return type of the query.
      */

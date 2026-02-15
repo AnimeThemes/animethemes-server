@@ -11,7 +11,7 @@ use App\GraphQL\Schema\Fields\User\Like\LikeAnimeThemeEntryField;
 use App\GraphQL\Schema\Fields\User\Like\LikePlaylistField;
 use App\GraphQL\Schema\Types\Auth\UserType;
 use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Unions\LikedUnion;
+use App\GraphQL\Schema\Unions\LikeableUnion;
 use App\Models\User\Like;
 
 class LikeType extends EloquentType
@@ -33,8 +33,7 @@ class LikeType extends EloquentType
             new LikePlaylistField(),
 
             new BelongsToRelation(new UserType(), Like::RELATION_USER),
-            new MorphToRelation(new LikedUnion(), Like::RELATION_LIKEABLE)
-                ->renameTo('liked'),
+            new MorphToRelation(new LikeableUnion(), Like::RELATION_LIKEABLE),
         ];
     }
 }
