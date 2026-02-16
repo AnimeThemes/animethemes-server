@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
-            $user = $request->user('sanctum');
+            $user = $request->user();
             $ip = $request->ip();
             $forwardedIp = $request->header('x-forwarded-ip');
 

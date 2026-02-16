@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
+use Illuminate\Support\Facades\Config;
 
 use function Pest\Laravel\actingAs;
 
@@ -48,8 +49,10 @@ test('forwarded ip rate limited per query', function () {
     $response->assertHeader('X-RateLimit-Limit');
     $response->assertHeader('X-RateLimit-Remaining');
 
+    $rateLimit = Config::integer('graphql.rate_limit');
+
     expect((int) $response->headers->get('X-RateLimit-Remaining'))
-        ->toBe(80 - $count);
+        ->toBe($rateLimit - $count);
 });
 
 test('user without bypass rate limited per query', function () {
@@ -76,6 +79,8 @@ test('user without bypass rate limited per query', function () {
     $response->assertHeader('X-RateLimit-Limit');
     $response->assertHeader('X-RateLimit-Remaining');
 
+    $rateLimit = Config::integer('graphql.rate_limit');
+
     expect((int) $response->headers->get('X-RateLimit-Remaining'))
-        ->toBe(80 - $count);
+        ->toBe($rateLimit - $count);
 });
