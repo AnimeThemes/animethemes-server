@@ -6,17 +6,13 @@ use App\Events\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoCreated;
 use App\Events\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoDeleted;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
 
 test('anime theme entry video created event dispatched', function () {
     $video = Video::factory()->createOne();
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
-        ->createOne();
+    $entry = AnimeThemeEntry::factory()->createOne();
 
     $video->animethemeentries()->attach($entry);
 
@@ -25,9 +21,7 @@ test('anime theme entry video created event dispatched', function () {
 
 test('anime theme entry video deleted event dispatched', function () {
     $video = Video::factory()->createOne();
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
-        ->createOne();
+    $entry = AnimeThemeEntry::factory()->createOne();
 
     $video->animethemeentries()->attach($entry);
     $video->animethemeentries()->detach($entry);
@@ -37,16 +31,14 @@ test('anime theme entry video deleted event dispatched', function () {
 
 test('anime theme entry video created event update playlist tracks', function () {
     $video = Video::factory()->createOne();
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
-        ->createOne();
-
-    $video->animethemeentries()->attach($entry);
+    $entry = AnimeThemeEntry::factory()->createOne();
 
     $track = PlaylistTrack::factory()
         ->for(Playlist::factory())
         ->for($video)
         ->createOne();
+
+    $video->animethemeentries()->attach($entry);
 
     Event::assertDispatched(AnimeThemeEntryVideoCreated::class, function (AnimeThemeEntryVideoCreated $event) use ($entry, $track) {
         $event->updatePlaylistTracks();
@@ -58,13 +50,9 @@ test('anime theme entry video created event update playlist tracks', function ()
 test('anime theme entry video deleted event update playlist tracks', function () {
     $video = Video::factory()->createOne();
 
-    $entry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
-        ->createOne();
+    $entry = AnimeThemeEntry::factory()->createOne();
 
-    $secondEntry = AnimeThemeEntry::factory()
-        ->for(AnimeTheme::factory()->for(Anime::factory()))
-        ->createOne();
+    $secondEntry = AnimeThemeEntry::factory()->createOne();
 
     $video->animethemeentries()->attach($entry);
 
