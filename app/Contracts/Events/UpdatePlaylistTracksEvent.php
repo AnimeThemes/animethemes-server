@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Contracts\Events;
 
-interface UpdatePlaylistTracksEvent
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+
+interface UpdatePlaylistTracksEvent extends ShouldHandleEventsAfterCommit
 {
     public function updatePlaylistTracks(): void;
 }
