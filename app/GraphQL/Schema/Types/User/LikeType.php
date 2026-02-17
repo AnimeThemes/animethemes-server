@@ -32,8 +32,10 @@ class LikeType extends EloquentType
             new LikeAnimeThemeEntryField(),
             new LikePlaylistField(),
 
-            new BelongsToRelation(new UserType(), Like::RELATION_USER),
-            new MorphToRelation(new LikeableUnion(), Like::RELATION_LIKEABLE),
+            new BelongsToRelation(new UserType(), Like::RELATION_USER)
+                ->nonNullable(),
+            new MorphToRelation(new LikeableUnion(), Like::RELATION_LIKEABLE)
+                ->nonNullable(),
         ];
     }
 }

@@ -6,10 +6,12 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\User\Like;
 use App\Models\Wiki\Image;
 use App\Pivots\Morph\Imageable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
 
@@ -144,4 +146,13 @@ test('tracks', function () {
     $this->assertInstanceOf(HasMany::class, $playlist->tracks());
     $this->assertEquals($trackCount, $playlist->tracks()->count());
     $this->assertInstanceOf(PlaylistTrack::class, $playlist->tracks()->first());
+});
+
+test('likes', function () {
+    $playlist = Playlist::factory()
+        ->for(Like::factory()->for(User::factory()))
+        ->createOne();
+
+    $this->assertInstanceOf(MorphMany::class, $playlist->likes());
+    $this->assertInstanceOf(Like::class, $playlist->likes()->first());
 });

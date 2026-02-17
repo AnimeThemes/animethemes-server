@@ -14,9 +14,6 @@ trait AggregatesLike
      */
     public function likeAggregate(): MorphOne
     {
-        return $this->morphOne(
-            LikeAggregate::class,
-            LikeAggregate::ATTRIBUTE_LIKEABLE,
-        );
+        return $this->morphOne(LikeAggregate::class, LikeAggregate::ATTRIBUTE_LIKEABLE);
     }
 }

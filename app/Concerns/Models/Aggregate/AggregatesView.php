@@ -16,9 +16,6 @@ trait AggregatesView
      */
     public function viewAggregate(): MorphOne
     {
-        return $this->morphOne(
-            ViewAggregate::class,
-            ViewAggregate::ATTRIBUTE_VIEWABLE,
-        );
+        return $this->morphOne(ViewAggregate::class, ViewAggregate::ATTRIBUTE_VIEWABLE);
     }
 }

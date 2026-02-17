@@ -7,7 +7,6 @@ namespace App\Concerns\Filament\ActionLogs;
 use App\Models\Admin\ActionLog;
 use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -46,9 +45,9 @@ trait HasActionLogs
     public function updateLog(Model $relatedModel, Model $pivot): void
     {
         $this->actionLog->update([
-            ActionLog::ATTRIBUTE_TARGET_TYPE => Relation::getMorphAlias($relatedModel->getMorphClass()),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => $relatedModel->getMorphClass(),
             ActionLog::ATTRIBUTE_TARGET_ID => $relatedModel->getKey(),
-            ActionLog::ATTRIBUTE_MODEL_TYPE => Relation::getMorphAlias($pivot->getMorphClass()),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => $pivot->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
         ]);
     }

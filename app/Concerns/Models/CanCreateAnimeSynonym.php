@@ -23,10 +23,9 @@ trait CanCreateAnimeSynonym
 
         Log::info("Creating {$text} for Anime {$anime->getName()}");
 
-        AnimeSynonym::query()->create([
+        $anime->animesynonyms()->create([
             AnimeSynonym::ATTRIBUTE_TEXT => $text,
             AnimeSynonym::ATTRIBUTE_TYPE => $type,
-            AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey(),
         ]);
     }
 }

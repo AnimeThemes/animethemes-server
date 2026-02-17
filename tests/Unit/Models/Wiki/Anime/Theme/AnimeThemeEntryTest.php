@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\Auth\User;
+use App\Models\User\Like;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -11,6 +13,7 @@ use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Znck\Eloquent\Relations\BelongsToThrough;
@@ -93,4 +96,13 @@ test('anime', function () {
 
     $this->assertInstanceOf(BelongsToThrough::class, $entry->anime());
     $this->assertInstanceOf(Anime::class, $entry->anime()->first());
+});
+
+test('likes', function () {
+    $entry = AnimeThemeEntry::factory()
+        ->for(Like::factory()->for(User::factory()))
+        ->createOne();
+
+    $this->assertInstanceOf(MorphMany::class, $entry->likes());
+    $this->assertInstanceOf(Like::class, $entry->likes()->first());
 });
