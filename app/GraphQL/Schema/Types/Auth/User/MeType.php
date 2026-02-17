@@ -12,7 +12,6 @@ use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
-use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
 use App\GraphQL\Schema\Fields\Relations\MorphManyRelation;
 use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
@@ -20,8 +19,8 @@ use App\GraphQL\Schema\Types\Auth\PermissionType;
 use App\GraphQL\Schema\Types\Auth\RoleType;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
+use App\GraphQL\Schema\Types\User\LikeType;
 use App\GraphQL\Schema\Types\User\WatchHistoryType;
-use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Unions\NotificationUnion;
 use App\Models\Auth\User;
 
@@ -50,11 +49,10 @@ class MeType extends EloquentType
 
             new MorphManyRelation(new NotificationUnion(), User::RELATION_NOTIFICATIONS),
             new HasManyRelation(new PlaylistType(), User::RELATION_PLAYLISTS),
+            new HasManyRelation(new LikeType(), User::RELATION_LIKES),
+            new HasManyRelation(new WatchHistoryType(), User::RELATION_WATCH_HISTORY),
             new MorphToManyRelation($this, new RoleType(), User::RELATION_ROLES),
             new MorphToManyRelation($this, new PermissionType(), User::RELATION_PERMISSIONS),
-            new BelongsToManyRelation($this, new AnimeThemeEntryType(), 'likedentries'),
-            new BelongsToManyRelation($this, new PlaylistType(), 'likedplaylists'),
-            new HasManyRelation(new WatchHistoryType(), User::RELATION_WATCH_HISTORY),
         ];
     }
 

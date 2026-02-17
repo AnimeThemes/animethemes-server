@@ -21,7 +21,6 @@ use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Submission;
 use App\Models\User\WatchHistory;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
@@ -31,10 +30,8 @@ use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -52,7 +49,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $email_verified_at
  * @property Collection<int, ExternalProfile> $externalprofiles
  * @property int $id
- * @property Collection<int, Submission> $managedsubmissions
+ * @property Collection<int, Like> $likes
+ * @property Collection<int, Submission> $managedSubmissions
  * @property string $name
  * @property string $password
  * @property Collection<int, Playlist> $playlists
@@ -89,7 +87,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const string ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     final public const string RELATION_EXTERNAL_PROFILES = 'externalprofiles';
-    final public const string RELATION_MANAGED_SUBMISSIONS = 'managedsubmissions';
+    final public const string RELATION_LIKES = 'likes';
+    final public const string RELATION_MANAGED_SUBMISSIONS = 'managedSubmissions';
     final public const string RELATION_NOTIFICATIONS = 'notifications';
     final public const string RELATION_PERMISSIONS = 'permissions';
     final public const string RELATION_PROHIBITIONS = 'prohibitions';
@@ -215,41 +214,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     }
 
     /**
-     * Get the liked entries of the user.
-     *
-     * @return BelongsToMany<AnimeThemeEntry, $this>
+     * @return HasMany<Like, $this>
      */
-    public function likedentries(): BelongsToMany
+    public function likes(): HasMany
     {
-        return $this->belongsToMany(
-            AnimeThemeEntry::class,
-            Like::TABLE,
-            Like::ATTRIBUTE_USER,
-            Like::ATTRIBUTE_LIKEABLE_ID,
-            null,
-            AnimeThemeEntry::ATTRIBUTE_ID
-        )
-            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(AnimeThemeEntry::class))
-            ->withTimestamps();
-    }
-
-    /**
-     * Get the liked playlists of the user.
-     *
-     * @return BelongsToMany<Playlist, $this>
-     */
-    public function likedplaylists(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Playlist::class,
-            Like::TABLE,
-            Like::ATTRIBUTE_USER,
-            Like::ATTRIBUTE_LIKEABLE_ID,
-            null,
-            Playlist::ATTRIBUTE_ID
-        )
-            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Relation::getMorphAlias(Playlist::class))
-            ->withTimestamps();
+        return $this->hasMany(Like::class, Like::ATTRIBUTE_USER);
     }
 
     /**
@@ -263,7 +232,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     /**
      * Get the submissions that the admin managed.
      */
-    public function managedsubmissions(): HasMany
+    public function managedSubmissions(): HasMany
     {
         return $this->hasMany(Submission::class, Submission::ATTRIBUTE_MODERATOR);
     }

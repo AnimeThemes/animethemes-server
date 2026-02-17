@@ -47,9 +47,6 @@ class PerformanceFactory extends Factory
      */
     public function artist(Artist|Membership $artist): static
     {
-        return $this->state([
-            Performance::ATTRIBUTE_ARTIST_TYPE => Relation::getMorphAlias($artist->getMorphClass()),
-            Performance::ATTRIBUTE_ARTIST_ID => $artist->getKey(),
-        ]);
+        return $this->for($artist, Performance::RELATION_ARTIST);
     }
 }
