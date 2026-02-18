@@ -14,7 +14,7 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Synonym\SynonymTypeField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 
-class SynonymSchema extends Schema
+class AnimeSynonymSchema extends Schema
 {
     public function type(): string
     {
@@ -44,10 +44,5 @@ class SynonymSchema extends Schema
                 new SynonymTypeField($this),
             ],
         );
-    }
-
-    public function model(): AnimeSynonym
-    {
-        return new AnimeSynonym();
     }
 }

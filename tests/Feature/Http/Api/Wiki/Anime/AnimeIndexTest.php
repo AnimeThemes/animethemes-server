@@ -8,9 +8,9 @@ use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -27,17 +27,17 @@ use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Wiki\Anime\Resource\AnimeSynonymJsonResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
+use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -461,25 +461,25 @@ test('deleted at filter', function () {
 });
 
 test('synonyms by type', function () {
-    $typeFilter = Arr::random(AnimeSynonymType::cases());
+    $typeFilter = Arr::random(SynonymType::cases());
 
     $parameters = [
         FilterParser::param() => [
-            AnimeSynonymJsonResource::$wrap => [
-                AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
+            SynonymJsonResource::$wrap => [
+                Synonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],
         IncludeParser::param() => Anime::RELATION_ANIMESYNONYMS,
     ];
 
     Anime::factory()
-        ->has(AnimeSynonym::factory()->count(fake()->randomDigitNotNull()))
+        ->has(Synonym::factory()->count(fake()->randomDigitNotNull()))
         ->count(fake()->randomDigitNotNull())
         ->create();
 
     $anime = Anime::with([
         Anime::RELATION_ANIMESYNONYMS => function (HasMany $query) use ($typeFilter) {
-            $query->where(AnimeSynonym::ATTRIBUTE_TYPE, $typeFilter->value);
+            $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ])
         ->get();

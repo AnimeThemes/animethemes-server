@@ -21,7 +21,7 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSlugField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSynopsisField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeYearField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\SynonymSchema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\AnimeSynonymSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 
@@ -48,7 +48,7 @@ class AnimeSchema extends Schema
             new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
             new AllowedInclude(new SongSchema(), Anime::RELATION_SONG),
             new AllowedInclude(new StudioSchema(), Anime::RELATION_STUDIOS),
-            new AllowedInclude(new SynonymSchema(), Anime::RELATION_ANIMESYNONYMS),
+            new AllowedInclude(new AnimeSynonymSchema(), Anime::RELATION_ANIMESYNONYMS),
             new AllowedInclude(new ThemeSchema(), Anime::RELATION_THEMES),
             new AllowedInclude(new VideoSchema(), Anime::RELATION_VIDEOS),
         ]);

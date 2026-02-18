@@ -21,15 +21,13 @@ test('synonym created sends discord notification', function () {
     Bus::fake(SendDiscordNotificationJob::class);
     Event::fakeExcept(SynonymCreated::class);
 
-    Synonym::factory()->for($anime)->createOne();
+    Synonym::factory()->forAnime()->createOne();
 
     Bus::assertDispatched(SendDiscordNotificationJob::class);
 });
 
 test('synonym deleted sends discord notification', function () {
-    $synonym = Synonym::factory()
-        ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
-        ->createOne();
+    $synonym = Synonym::factory()->forAnime()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
@@ -41,9 +39,7 @@ test('synonym deleted sends discord notification', function () {
 });
 
 test('synonym restored sends discord notification', function () {
-    $synonym = Synonym::factory()
-        ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
-        ->createOne();
+    $synonym = Synonym::factory()->forAnime()->createOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
@@ -55,13 +51,9 @@ test('synonym restored sends discord notification', function () {
 });
 
 test('synonym updated sends discord notification', function () {
-    $synonym = Synonym::factory()
-        ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
-        ->createOne();
+    $synonym = Synonym::factory()->forAnime()->createOne();
 
-    $changes = Synonym::factory()
-        ->for(Anime::factory(), Synonym::RELATION_SYNONYMABLE)
-        ->makeOne();
+    $changes = Synonym::factory()->forAnime()->makeOne();
 
     Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     Bus::fake(SendDiscordNotificationJob::class);
