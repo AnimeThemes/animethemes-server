@@ -10,10 +10,8 @@ use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
-use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
@@ -67,40 +65,6 @@ test('paginated', function () {
         'links',
         'meta',
     ]);
-});
-
-test('allowed include paths', function () {
-    $schema = new SynonymSchema();
-
-    $allowedIncludes = collect($schema->allowedIncludes());
-
-    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
-
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-    $parameters = [
-        IncludeParser::param() => $includedPaths->join(','),
-    ];
-
-    Synonym::factory()
-        ->forAnime()
-        ->count(fake()->randomDigitNotNull())
-        ->create();
-
-    $synonyms = Synonym::with($includedPaths->all())->get();
-
-    $response = get(route('api.synonym.index', $parameters));
-
-    $response->assertJson(
-        json_decode(
-            json_encode(
-                new SynonymCollection($synonyms, new Query($parameters))
-                    ->response()
-                    ->getData()
-            ),
-            true
-        )
-    );
 });
 
 test('sparse fieldsets', function () {

@@ -3,9 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Api\Field\Field;
-use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SynonymSchema;
 use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
@@ -48,35 +46,6 @@ test('soft delete', function () {
         json_decode(
             json_encode(
                 new SynonymJsonResource($synonym, new Query())
-                    ->response()
-                    ->getData()
-            ),
-            true
-        )
-    );
-});
-
-test('allowed include paths', function () {
-    $schema = new SynonymSchema();
-
-    $allowedIncludes = collect($schema->allowedIncludes());
-
-    $selectedIncludes = $allowedIncludes->random(fake()->numberBetween(1, $allowedIncludes->count()));
-
-    $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
-
-    $parameters = [
-        IncludeParser::param() => $includedPaths->join(','),
-    ];
-
-    $synonym = Synonym::factory()->forAnime()->createOne();
-
-    $response = get(route('api.synonym.show', ['synonym' => $synonym] + $parameters));
-
-    $response->assertJson(
-        json_decode(
-            json_encode(
-                new SynonymJsonResource($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),

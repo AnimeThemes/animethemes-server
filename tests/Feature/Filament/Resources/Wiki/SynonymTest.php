@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
-use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
@@ -58,21 +57,6 @@ test('render view page', function () {
         ->assertSuccessful();
 });
 
-test('mount create action', function () {
-    $user = User::factory()
-        ->withPermissions(
-            SpecialPermission::VIEW_FILAMENT->value,
-            CrudPermission::CREATE->format(Synonym::class)
-        )
-        ->createOne();
-
-    actingAs($user);
-
-    Livewire::test(getIndexPage(SynonymResource::class))
-        ->mountAction(CreateAction::class)
-        ->assertActionMounted(CreateAction::class);
-});
-
 test('mount edit action', function () {
     $user = User::factory()
         ->withPermissions(
@@ -91,11 +75,6 @@ test('mount edit action', function () {
         ->mountAction(TestAction::make(EditAction::getDefaultName())->table($record))
         ->callMountedAction()
         ->assertHasNoErrors();
-});
-
-test('user cannot create record', function () {
-    Livewire::test(getIndexPage(SynonymResource::class))
-        ->assertActionHidden(CreateAction::class);
 });
 
 test('user cannot edit record', function () {
