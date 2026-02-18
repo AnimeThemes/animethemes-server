@@ -150,7 +150,7 @@ test('tracks', function () {
 
 test('likes', function () {
     $playlist = Playlist::factory()
-        ->for(Like::factory()->for(User::factory()))
+        ->has(Like::factory()->for(User::factory()))
         ->createOne();
 
     $this->assertInstanceOf(MorphMany::class, $playlist->likes());

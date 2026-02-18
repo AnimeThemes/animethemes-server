@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
-use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -20,7 +19,7 @@ use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
 use App\Models\Wiki\Studio;
 
-class StudioType extends EloquentType implements SubmitableType
+class StudioType extends EloquentType
 {
     public function description(): string
     {

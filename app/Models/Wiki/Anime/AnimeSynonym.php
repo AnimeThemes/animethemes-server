@@ -8,13 +8,8 @@ use App\Concerns\Models\SoftDeletes;
 use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\AnimeSynonymType;
-use App\Events\Wiki\Anime\Synonym\SynonymCreated;
-use App\Events\Wiki\Anime\Synonym\SynonymDeleted;
-use App\Events\Wiki\Anime\Synonym\SynonymRestored;
-use App\Events\Wiki\Anime\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
-use Database\Factories\Wiki\Anime\AnimeSynonymFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,7 +23,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property string|null $text
  * @property AnimeSynonymType $type
  *
- * @method static AnimeSynonymFactory factory(...$parameters)
+ * @deprecated Use Synonym instead.
  */
 class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
 {
@@ -72,20 +67,6 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
         AnimeSynonym::ATTRIBUTE_ANIME,
         AnimeSynonym::ATTRIBUTE_TEXT,
         AnimeSynonym::ATTRIBUTE_TYPE,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => SynonymCreated::class,
-        'deleted' => SynonymDeleted::class,
-        'restored' => SynonymRestored::class,
-        'updated' => SynonymUpdated::class,
     ];
 
     /**

@@ -17,6 +17,7 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -59,6 +60,7 @@ class GraphQLServiceProvider extends ServiceProvider
         GraphQL::addType(new EnumType(AnimeSynonymType::class));
         GraphQL::addType(new EnumType(ImageFacet::class));
         GraphQL::addType(new EnumType(ResourceSite::class));
+        GraphQL::addType(new EnumType(SynonymType::class));
         GraphQL::addType(new EnumType(ThemeType::class));
         GraphQL::addType(new EnumType(VideoOverlap::class));
         GraphQL::addType(new EnumType(VideoSource::class));

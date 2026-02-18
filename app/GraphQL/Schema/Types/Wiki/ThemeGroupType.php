@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
-use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -17,7 +16,7 @@ use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Group;
 
-class ThemeGroupType extends EloquentType implements SubmitableType
+class ThemeGroupType extends EloquentType
 {
     public function description(): string
     {

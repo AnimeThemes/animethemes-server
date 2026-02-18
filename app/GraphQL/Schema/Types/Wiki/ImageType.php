@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
-use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -19,7 +18,7 @@ use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\Models\Wiki\Image;
 
-class ImageType extends EloquentType implements SubmitableType
+class ImageType extends EloquentType
 {
     public function description(): string
     {

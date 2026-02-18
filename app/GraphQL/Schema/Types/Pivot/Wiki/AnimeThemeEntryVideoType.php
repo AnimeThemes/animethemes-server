@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Pivot\Wiki;
 
-use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -14,7 +13,7 @@ use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 
-class AnimeThemeEntryVideoType extends PivotType implements SubmitableType
+class AnimeThemeEntryVideoType extends PivotType
 {
     public function description(): string
     {

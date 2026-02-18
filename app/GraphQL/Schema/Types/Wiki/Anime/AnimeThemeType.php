@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki\Anime;
 
-use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -24,7 +23,7 @@ use App\GraphQL\Schema\Types\Wiki\SongType;
 use App\GraphQL\Schema\Types\Wiki\ThemeGroupType;
 use App\Models\Wiki\Anime\AnimeTheme;
 
-class AnimeThemeType extends EloquentType implements SubmitableType
+class AnimeThemeType extends EloquentType
 {
     public function description(): string
     {

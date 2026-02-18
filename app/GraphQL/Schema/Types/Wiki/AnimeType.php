@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
-use App\Contracts\GraphQL\Types\SubmitableType;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -13,6 +12,7 @@ use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
 use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
+use App\GraphQL\Schema\Fields\Relations\MorphManyRelation;
 use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeMediaFormatField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeNameField;
@@ -29,7 +29,7 @@ use App\GraphQL\Schema\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Anime;
 
-class AnimeType extends EloquentType implements SubmitableType
+class AnimeType extends EloquentType
 {
     public function description(): string
     {
@@ -57,7 +57,9 @@ class AnimeType extends EloquentType implements SubmitableType
             new UpdatedAtField(),
             new DeletedAtField(),
 
-            new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_SYNONYMS),
+            new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_ANIMESYNONYMS)
+                ->deprecate('Use synonyms instead.'),
+            new MorphManyRelation(new SynonymType(), Anime::RELATION_SYNONYMS),
             new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
             new MorphToManyRelation($this, new ExternalResourceType(), Anime::RELATION_RESOURCES, new ResourceableType()),
             new MorphToManyRelation($this, new ImageType(), Anime::RELATION_IMAGES, new ImageableType()),

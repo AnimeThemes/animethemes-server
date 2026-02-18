@@ -140,7 +140,7 @@ class PlaylistResource extends BaseResource
                 TextColumn::make(Playlist::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
                     ->limit(40)
-                    ->tooltip(fn (TextColumn $column): mixed => $column->getState())
+                    ->tooltip(fn (string $state): string => $state)
                     ->copyableWithMessage(),
 
                 TextColumn::make(Playlist::ATTRIBUTE_VISIBILITY)

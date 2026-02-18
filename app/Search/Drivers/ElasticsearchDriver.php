@@ -14,10 +14,11 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\List\PlaylistQuery;
-use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
+use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery as AnimeSynonymQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\ThemeQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\AnimeQuery;
@@ -25,6 +26,7 @@ use App\Scout\Elasticsearch\Api\Query\Wiki\ArtistQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\SeriesQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\SongQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\StudioQuery;
+use App\Scout\Elasticsearch\Api\Query\Wiki\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\VideoQuery;
 use App\Search\Criteria;
 use Closure;
@@ -137,13 +139,14 @@ class ElasticsearchDriver implements SearchDriver
         return match ($model) {
             Playlist::class => new PlaylistQuery(),
             AnimeThemeEntry::class => new EntryQuery(),
-            AnimeSynonym::class => new SynonymQuery(),
+            AnimeSynonym::class => new AnimeSynonymQuery(),
             AnimeTheme::class => new ThemeQuery(),
             Anime::class => new AnimeQuery(),
             Artist::class => new ArtistQuery(),
             Series::class => new SeriesQuery(),
             Song::class => new SongQuery(),
             Studio::class => new StudioQuery(),
+            Synonym::class => new SynonymQuery(),
             Video::class => new VideoQuery(),
             default => throw new RuntimeException("No ElasticQuery defined for model: {$model}"),
         };

@@ -100,7 +100,7 @@ test('anime', function () {
 
 test('likes', function () {
     $entry = AnimeThemeEntry::factory()
-        ->for(Like::factory()->for(User::factory()))
+        ->has(Like::factory()->for(User::factory()))
         ->createOne();
 
     $this->assertInstanceOf(MorphMany::class, $entry->likes());

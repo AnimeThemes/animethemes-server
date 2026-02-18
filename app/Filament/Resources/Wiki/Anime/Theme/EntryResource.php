@@ -206,7 +206,7 @@ class EntryResource extends BaseResource
                 TextColumn::make(AnimeThemeEntry::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->limit(50)
-                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
+                    ->tooltip(fn (string $state): string => $state),
 
                 BelongsToColumn::make(AnimeThemeEntry::RELATION_SONG_SHALLOW, SongResource::class)
                     ->hiddenOn(EntryThemeRelationManager::class)

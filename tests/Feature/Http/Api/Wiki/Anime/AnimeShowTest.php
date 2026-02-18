@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
@@ -15,15 +15,15 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
+use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -129,24 +129,24 @@ test('sparse fieldsets', function () {
 });
 
 test('synonyms by type', function () {
-    $typeFilter = Arr::random(AnimeSynonymType::cases());
+    $typeFilter = Arr::random(SynonymType::cases());
 
     $parameters = [
         FilterParser::param() => [
             SynonymJsonResource::$wrap => [
-                AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                Synonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],
-        IncludeParser::param() => Anime::RELATION_SYNONYMS,
+        IncludeParser::param() => Anime::RELATION_ANIMESYNONYMS,
     ];
 
     $anime = Anime::factory()
-        ->has(AnimeSynonym::factory()->count(fake()->randomDigitNotNull()))
+        ->has(Synonym::factory()->count(fake()->randomDigitNotNull()))
         ->createOne();
 
     $anime->unsetRelations()->load([
-        Anime::RELATION_SYNONYMS => function (HasMany $query) use ($typeFilter) {
-            $query->where(AnimeSynonym::ATTRIBUTE_TYPE, $typeFilter->value);
+        Anime::RELATION_ANIMESYNONYMS => function (HasMany $query) use ($typeFilter) {
+            $query->where(Synonym::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ]);
 

@@ -11,14 +11,15 @@ use App\Actions\Models\Wiki\Anime\ExternalApi\AniZipAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\JikanAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\LivechartAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\MalAnimeExternalApiAction;
-use App\Concerns\Models\CanCreateAnimeSynonym;
 use App\Concerns\Models\CanCreateStudio;
+use App\Concerns\Models\CanCreateSynonym;
+use App\Concerns\Models\HasLabel;
 use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Contracts\Actions\Models\Wiki\BackfillStudios;
 use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Actions\ActionStatus;
-use App\Enums\Models\Wiki\AnimeSynonymType;
+use App\Enums\Models\Wiki\SynonymType;
 use App\Models\Wiki\Anime;
 use Exception;
 use Illuminate\Support\Arr;
@@ -27,8 +28,9 @@ use Illuminate\Support\Facades\Log;
 
 class BackfillAnimeAction extends BackfillWikiAction
 {
-    use CanCreateAnimeSynonym;
     use CanCreateStudio;
+    use CanCreateSynonym;
+    use HasLabel;
 
     final public const string STUDIOS = 'studios';
     final public const string SYNONYMS = 'synonyms';
@@ -147,16 +149,16 @@ class BackfillAnimeAction extends BackfillWikiAction
 
         $texts = [];
         foreach ($api->getSynonyms() as $type => $text) {
-            if ($type === AnimeSynonymType::OTHER->value && in_array($text, $texts)) {
-                Log::info("Skipping duplicate synonym '$text' for Anime {$this->getModel()->getName()}");
+            if ($type === SynonymType::OTHER->value && in_array($text, $texts)) {
+                Log::info("Skipping duplicate synonym '$text' for {$this->privateLabel($this->getModel())} {$this->getModel()->getName()}");
                 continue;
             }
 
-            $this->createAnimeSynonym($text, $type, $this->getModel());
+            $this->createSynonym($text, $type, $this->getModel());
             $texts[] = $text;
         }
 
-        if ($this->getModel()->animesynonyms()->exists()) {
+        if ($this->getModel()->synonyms()->exists()) {
             $this->toBackfill[self::SYNONYMS] = false;
         }
     }

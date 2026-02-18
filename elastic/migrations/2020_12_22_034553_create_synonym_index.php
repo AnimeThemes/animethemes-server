@@ -8,7 +8,7 @@ use Elastic\Adapter\Indices\Settings;
 use Elastic\Migrations\Facades\Index;
 use Elastic\Migrations\MigrationInterface;
 
-final class CreateSynonymIndex implements MigrationInterface
+final class CreateAnimeSynonymIndex implements MigrationInterface
 {
     use ConfiguresTextAnalyzers;
 

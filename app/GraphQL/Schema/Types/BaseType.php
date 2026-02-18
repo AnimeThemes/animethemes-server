@@ -78,6 +78,7 @@ abstract class BaseType extends RebingType
                     'type' => $relation->type(),
                     'args' => $relation->args(),
                     'resolve' => $relation->resolve(...),
+                    'deprecationReason' => $relation instanceof DeprecatedField ? $relation->deprecationReason() : $relation->deprecationReason,
                 ],
             ]);
 
@@ -91,10 +92,8 @@ abstract class BaseType extends RebingType
                     'alias' => $field->getColumn(),
                     'args' => $field->args(),
                     'resolve' => $field->resolve(...),
-
+                    'deprecationReason' => $field instanceof DeprecatedField ? $field->deprecationReason() : $field->deprecationReason,
                     'fieldClass' => $field,
-
-                    ...($field instanceof DeprecatedField ? ['deprecationReason' => $field->deprecationReason()] : []),
                 ],
             ]);
 

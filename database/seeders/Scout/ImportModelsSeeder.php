@@ -13,6 +13,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
@@ -51,6 +52,7 @@ class ImportModelsSeeder extends Seeder
         $this->scoutImport(Series::class);
         $this->scoutImport(Song::class);
         $this->scoutImport(Studio::class);
+        $this->scoutImport(Synonym::class);
         $this->scoutImport(Video::class);
     }
 

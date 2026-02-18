@@ -36,6 +36,7 @@ use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Song\MembershipPaginationQ
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Song\PerformancePaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\SongPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\StudioPaginationQuery;
+use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\SynonymPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\ThemeGroupPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Video\VideoScriptPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\VideoPaginationQuery;
@@ -91,6 +92,7 @@ use App\GraphQL\Schema\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
 use App\GraphQL\Schema\Types\Wiki\SongType;
 use App\GraphQL\Schema\Types\Wiki\StudioType;
+use App\GraphQL\Schema\Types\Wiki\SynonymType;
 use App\GraphQL\Schema\Types\Wiki\ThemeGroupType;
 use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
@@ -99,6 +101,7 @@ use App\GraphQL\Schema\Unions\LikeableUnion;
 use App\GraphQL\Schema\Unions\NotificationUnion;
 use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\GraphQL\Schema\Unions\ResourceableUnion;
+use App\GraphQL\Schema\Unions\SynonymableUnion;
 use App\Http\Middleware\GraphQL\LogGraphQLRequest;
 use App\Http\Middleware\GraphQL\MaxCount;
 use Illuminate\Support\Facades\Config;
@@ -153,6 +156,7 @@ class V1Schema implements ConfigConvertible
                 SongPaginationQuery::class,
                 StudioQuery::class,
                 StudioPaginationQuery::class,
+                SynonymPaginationQuery::class,
                 ThemeGroupPaginationQuery::class,
                 VideoQuery::class,
                 VideoPaginationQuery::class,
@@ -219,6 +223,7 @@ class V1Schema implements ConfigConvertible
                 SeriesType::class,
                 SongType::class,
                 StudioType::class,
+                SynonymType::class,
                 ThemeGroupType::class,
                 VideoType::class,
                 VideoScriptType::class,
@@ -246,6 +251,7 @@ class V1Schema implements ConfigConvertible
                 NotificationUnion::class,
                 PerformanceArtistUnion::class,
                 ResourceableUnion::class,
+                SynonymableUnion::class,
 
                 // Scalars
                 MixedScalar::class,

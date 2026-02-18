@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\User\Submission\Anime;
 
 use App\Actions\Models\User\Submission\SubmissionAction;
-use App\Concerns\Models\CanCreateAnimeSynonym;
+use App\Concerns\Models\CanCreateSynonym;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Models\User\Submission\SubmissionStage;
 use App\Models\Wiki\Anime;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class ManageAnimeSubmissionAction extends SubmissionAction
 {
-    use CanCreateAnimeSynonym;
+    use CanCreateSynonym;
 
     /**
      * Approve the submission stage.
@@ -47,7 +47,7 @@ class ManageAnimeSubmissionAction extends SubmissionAction
     protected function createSynonyms(array $synonyms, Anime $anime): void
     {
         foreach ($synonyms as $synonym) {
-            $this->createAnimeSynonym(
+            $this->createSynonym(
                 Arr::get($synonym, 'text'),
                 Arr::get($synonym, 'type'),
                 $anime

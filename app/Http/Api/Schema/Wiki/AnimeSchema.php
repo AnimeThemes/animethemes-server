@@ -18,7 +18,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
-use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
+use App\Http\Api\Schema\Wiki\Anime\AnimeSynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
@@ -58,6 +58,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
             new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
             new AllowedInclude(new SongSchema(), Anime::RELATION_SONG),
             new AllowedInclude(new StudioSchema(), Anime::RELATION_STUDIOS),
+            new AllowedInclude(new AnimeSynonymSchema(), Anime::RELATION_ANIMESYNONYMS),
             new AllowedInclude(new SynonymSchema(), Anime::RELATION_SYNONYMS),
             new AllowedInclude(new ThemeSchema(), Anime::RELATION_THEMES),
             new AllowedInclude(new VideoSchema(), Anime::RELATION_VIDEOS),

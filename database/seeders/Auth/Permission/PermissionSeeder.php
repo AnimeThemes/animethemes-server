@@ -40,6 +40,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Seeder;
@@ -100,6 +101,7 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Series::class, $extendedCrudPermissions);
         $this->registerResource(Song::class, $extendedCrudPermissions);
         $this->registerResource(Studio::class, $extendedCrudPermissions);
+        $this->registerResource(Synonym::class, $extendedCrudPermissions);
         $this->registerResource(Video::class, $extendedCrudPermissions);
         $this->registerResource(VideoScript::class, $extendedCrudPermissions);
 

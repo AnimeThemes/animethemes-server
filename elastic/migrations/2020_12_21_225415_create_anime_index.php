@@ -41,7 +41,10 @@ final class CreateAnimeIndex implements MigrationInterface
             ]);
             $mapping->nested('synonyms', [
                 'properties' => [
-                    'anime_id' => [
+                    'synonymable_type' => [
+                        'type' => 'keyword',
+                    ],
+                    'synonymable_id' => [
                         'type' => 'long',
                     ],
                     'created_at' => [

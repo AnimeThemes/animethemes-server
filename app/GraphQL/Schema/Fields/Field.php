@@ -18,6 +18,8 @@ abstract class Field
 {
     use ResolvesArguments;
 
+    public ?string $deprecationReason = null;
+
     public function __construct(
         protected string $column,
         protected ?string $name = null,
@@ -64,6 +66,13 @@ abstract class Field
         }
 
         return $type;
+    }
+
+    public function deprecate(string $reason): self
+    {
+        $this->deprecationReason = $reason;
+
+        return $this;
     }
 
     /**

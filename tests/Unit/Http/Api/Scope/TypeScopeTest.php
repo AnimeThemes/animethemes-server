@@ -17,9 +17,9 @@ test('global scope is not within scope', function () {
 });
 
 test('type scope is not within scope', function () {
-    $scope = new TypeScope(fake()->word());
+    $scope = new TypeScope(fake()->unique()->word());
 
-    $otherScope = new TypeScope(fake()->word());
+    $otherScope = new TypeScope(fake()->unique()->word());
 
     $this->assertFalse($scope->isWithinScope($otherScope));
 });

@@ -7,7 +7,6 @@ namespace Database\Factories\Wiki;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
@@ -63,11 +62,6 @@ class AnimeFactory extends Factory
     {
         return $this->afterCreating(
             function (Anime $anime): void {
-                AnimeSynonym::factory()
-                    ->for($anime)
-                    ->count(fake()->numberBetween(1, 3))
-                    ->create();
-
                 AnimeTheme::factory()
                     ->for($anime)
                     ->for(Song::factory())
