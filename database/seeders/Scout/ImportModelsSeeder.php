@@ -40,9 +40,6 @@ class ImportModelsSeeder extends Seeder
             return;
         }
 
-        $this->command->info('Running elastic migrations');
-        Artisan::call('elastic:migrate');
-
         $this->scoutImport(Playlist::class);
         $this->scoutImport(Anime::class);
         $this->scoutImport(AnimeSynonym::class);
