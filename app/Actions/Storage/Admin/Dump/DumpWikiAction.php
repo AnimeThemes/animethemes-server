@@ -19,6 +19,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Morph\Imageable;
@@ -65,6 +66,7 @@ class DumpWikiAction extends DumpAction
             Series::TABLE,
             Song::TABLE,
             Studio::TABLE,
+            Synonym::TABLE,
             Video::TABLE,
             VideoScript::TABLE,
         ];

@@ -16,7 +16,6 @@ use App\GraphQL\Schema\Fields\Wiki\Audio\AudioLinkField;
 use App\GraphQL\Schema\Fields\Wiki\Audio\AudioMimetypeField;
 use App\GraphQL\Schema\Fields\Wiki\Audio\AudioPathField;
 use App\GraphQL\Schema\Fields\Wiki\Audio\AudioSizeField;
-use App\GraphQL\Schema\Fields\Wiki\Audio\AudioViewsCountField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\Models\Wiki\Audio;
 
@@ -42,7 +41,6 @@ class AudioType extends EloquentType
             new AudioSizeField(),
             new AudioPathField(),
             new AudioLinkField(),
-            new AudioViewsCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
