@@ -19,7 +19,6 @@ use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Wiki\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Resource\SynonymJsonResource;
-use App\Models\Wiki\Anime\synonym;
 use App\Models\Wiki\Synonym;
 use Illuminate\Http\JsonResponse;
 

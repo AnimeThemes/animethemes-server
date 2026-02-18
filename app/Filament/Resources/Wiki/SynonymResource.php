@@ -15,11 +15,8 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Synonym\Pages\ViewSynonym;
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\Synonym;
 use Filament\Facades\Filament;
-use Filament\Forms\Components\MorphToSelect;
-use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -83,15 +80,6 @@ class SynonymResource extends BaseResource
     {
         return $schema
             ->components([
-                MorphToSelect::make(Synonym::RELATION_SYNONYMABLE)
-                    ->label(__('filament.fields.synonym.synonymable.name'))
-                    ->hiddenOn(SynonymAnimeRelationManager::class)
-                    ->types([
-                        Type::make(Anime::class)
-                            ->titleAttribute(Anime::ATTRIBUTE_NAME),
-                    ])
-                    ->required(),
-
                 Select::make(Synonym::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.synonym.type.name'))
                     ->helperText(__('filament.fields.synonym.type.help'))
@@ -204,6 +192,11 @@ class SynonymResource extends BaseResource
                 ...parent::getBaseRelations(),
             ]),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     /**
