@@ -12,7 +12,6 @@ use App\Http\Api\Field\Wiki\Audio\AudioLinkField;
 use App\Http\Api\Field\Wiki\Audio\AudioMimeTypeField;
 use App\Http\Api\Field\Wiki\Audio\AudioPathField;
 use App\Http\Api\Field\Wiki\Audio\AudioSizeField;
-use App\Http\Api\Field\Wiki\Audio\AudioViewCountField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Wiki\Resource\AudioJsonResource;
@@ -50,7 +49,6 @@ class AudioSchema extends EloquentSchema
                 new AudioPathField($this),
                 new AudioSizeField($this),
                 new AudioLinkField($this),
-                new AudioViewCountField($this),
             ],
         );
     }

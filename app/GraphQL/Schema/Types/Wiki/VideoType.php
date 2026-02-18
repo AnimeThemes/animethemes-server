@@ -29,7 +29,6 @@ use App\GraphQL\Schema\Fields\Wiki\Video\VideoSourceField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoSubbedField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoTagsField;
 use App\GraphQL\Schema\Fields\Wiki\Video\VideoUncenField;
-use App\GraphQL\Schema\Fields\Wiki\Video\VideoViewsCountField;
 use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
@@ -70,7 +69,6 @@ class VideoType extends EloquentType
             new VideoUncenField(),
             new VideoTagsField(),
             new VideoLinkField(),
-            new VideoViewsCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

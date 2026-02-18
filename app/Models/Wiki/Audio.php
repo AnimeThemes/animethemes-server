@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Concerns\Models\Aggregate\AggregatesView;
 use App\Concerns\Models\SoftDeletes;
 use App\Concerns\Models\Submitable;
-use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\SoftDeletable;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;
@@ -36,9 +34,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel implements Auditable, HasAggregateViews, SoftDeletable, Streamable
+class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
 {
-    use AggregatesView;
     use HasAudits;
     use HasFactory;
     use SoftDeletes;
