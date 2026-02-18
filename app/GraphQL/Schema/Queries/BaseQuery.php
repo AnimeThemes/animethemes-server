@@ -7,6 +7,7 @@ namespace App\GraphQL\Schema\Queries;
 use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FirstArgument;
 use App\GraphQL\Argument\PageArgument;
@@ -49,6 +50,7 @@ abstract class BaseQuery extends Query
             'name' => $this->getName(),
             'description' => $this->description(),
             'baseType' => $this->baseType(),
+            'deprecationReason' => $this instanceof DeprecatedField ? $this->deprecationReason() : null,
         ];
     }
 

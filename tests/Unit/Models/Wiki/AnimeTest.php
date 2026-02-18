@@ -5,18 +5,19 @@ declare(strict_types=1);
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 
@@ -66,12 +67,12 @@ test('synonyms', function () {
     $synonymCount = fake()->randomDigitNotNull();
 
     $anime = Anime::factory()
-        ->has(AnimeSynonym::factory()->count($synonymCount))
+        ->has(Synonym::factory()->count($synonymCount))
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $anime->animesynonyms());
-    $this->assertEquals($synonymCount, $anime->animesynonyms()->count());
-    $this->assertInstanceOf(AnimeSynonym::class, $anime->animesynonyms()->first());
+    $this->assertInstanceOf(MorphMany::class, $anime->synonyms());
+    $this->assertEquals($synonymCount, $anime->synonyms()->count());
+    $this->assertInstanceOf(Synonym::class, $anime->synonyms()->first());
 });
 
 test('series', function () {

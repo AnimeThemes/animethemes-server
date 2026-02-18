@@ -76,7 +76,10 @@ final class CreateVideoIndex implements MigrationInterface
                                     'synonyms' => [
                                         'type' => 'nested',
                                         'properties' => [
-                                            'anime_id' => [
+                                            'synonymable_type' => [
+                                                'type' => 'keyword',
+                                            ],
+                                            'synonymable_id' => [
                                                 'type' => 'long',
                                             ],
                                             'created_at' => [

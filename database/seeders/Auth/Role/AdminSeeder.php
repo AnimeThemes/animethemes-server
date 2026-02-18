@@ -41,6 +41,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Arr;
@@ -108,6 +109,7 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, Series::class, $extendedCrudPermissions);
         $this->configureResource($role, Song::class, $extendedCrudPermissions);
         $this->configureResource($role, Studio::class, $extendedCrudPermissions);
+        $this->configureResource($role, Synonym::class, $extendedCrudPermissions);
         $this->configureResource($role, Video::class, $extendedCrudPermissions);
         $this->configureResource($role, VideoScript::class, $extendedCrudPermissions);
 

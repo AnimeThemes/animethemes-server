@@ -19,10 +19,10 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
+use App\Http\Api\Schema\Wiki\Anime\AnimeSynonymSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
+use App\Http\Resources\Wiki\Anime\Collection\AnimeSynonymCollection;
+use App\Http\Resources\Wiki\Anime\Resource\AnimeSynonymJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -49,7 +49,7 @@ test('default', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, new Query())
+                new AnimeSynonymCollection($synonyms, new Query())
                     ->response()
                     ->getData()
             ),
@@ -67,14 +67,14 @@ test('paginated', function () {
     $response = get(route('api.animesynonym.index'));
 
     $response->assertJsonStructure([
-        SynonymCollection::$wrap,
+        AnimeSynonymCollection::$wrap,
         'links',
         'meta',
     ]);
 });
 
 test('allowed include paths', function () {
-    $schema = new SynonymSchema();
+    $schema = new AnimeSynonymSchema();
 
     $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -98,7 +98,7 @@ test('allowed include paths', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, new Query($parameters))
+                new AnimeSynonymCollection($synonyms, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -108,7 +108,7 @@ test('allowed include paths', function () {
 });
 
 test('sparse fieldsets', function () {
-    $schema = new SynonymSchema();
+    $schema = new AnimeSynonymSchema();
 
     $fields = collect($schema->fields());
 
@@ -116,7 +116,7 @@ test('sparse fieldsets', function () {
 
     $parameters = [
         FieldParser::param() => [
-            SynonymJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            AnimeSynonymJsonResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
         ],
     ];
 
@@ -132,7 +132,7 @@ test('sparse fieldsets', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, new Query($parameters))
+                new AnimeSynonymCollection($synonyms, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -142,7 +142,7 @@ test('sparse fieldsets', function () {
 });
 
 test('sorts', function () {
-    $schema = new SynonymSchema();
+    $schema = new AnimeSynonymSchema();
 
     /** @var Sort $sort */
     $sort = collect($schema->fields())
@@ -168,7 +168,7 @@ test('sorts', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, $query)
+                new AnimeSynonymCollection($synonyms, $query)
                     ->response()
                     ->getData()
             ),
@@ -211,7 +211,7 @@ test('created at filter', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonym, new Query($parameters))
+                new AnimeSynonymCollection($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -254,7 +254,7 @@ test('updated at filter', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonym, new Query($parameters))
+                new AnimeSynonymCollection($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -291,7 +291,7 @@ test('without trashed filter', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonym, new Query($parameters))
+                new AnimeSynonymCollection($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -328,7 +328,7 @@ test('with trashed filter', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonym, new Query($parameters))
+                new AnimeSynonymCollection($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -365,7 +365,7 @@ test('only trashed filter', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonym, new Query($parameters))
+                new AnimeSynonymCollection($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -409,7 +409,7 @@ test('deleted at filter', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonym, new Query($parameters))
+                new AnimeSynonymCollection($synonym, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -445,7 +445,7 @@ test('anime by media format', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, new Query($parameters))
+                new AnimeSynonymCollection($synonyms, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -481,7 +481,7 @@ test('anime by season', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, new Query($parameters))
+                new AnimeSynonymCollection($synonyms, new Query($parameters))
                     ->response()
                     ->getData()
             ),
@@ -523,7 +523,7 @@ test('anime by year', function () {
     $response->assertJson(
         json_decode(
             json_encode(
-                new SynonymCollection($synonyms, new Query($parameters))
+                new AnimeSynonymCollection($synonyms, new Query($parameters))
                     ->response()
                     ->getData()
             ),

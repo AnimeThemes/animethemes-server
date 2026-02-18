@@ -7,9 +7,9 @@ namespace App\Events\Wiki\Anime;
 use App\Contracts\Events\CascadesRestoresEvent;
 use App\Events\Base\Wiki\WikiRestoredEvent;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -27,8 +27,8 @@ class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
     {
         $anime = $this->getModel();
 
-        $anime->animesynonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (AnimeSynonym $synonym): void {
-            AnimeSynonym::withoutEvents(function () use ($synonym): void {
+        $anime->synonyms()->withoutGlobalScope(SoftDeletingScope::class)->get()->each(function (Synonym $synonym): void {
+            Synonym::withoutEvents(function () use ($synonym): void {
                 $synonym->restore();
                 $synonym->searchable();
             });

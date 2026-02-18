@@ -534,16 +534,6 @@ return [
             'finished_at' => 'Finished At',
             'exception' => 'Exception',
         ],
-        'anime_synonym' => [
-            'text' => [
-                'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings.',
-                'name' => 'Text',
-            ],
-            'type' => [
-                'help' => 'The title type.',
-                'name' => 'Type',
-            ],
-        ],
         'anime_theme_entry' => [
             'episodes' => [
                 'help' => 'The range(s) of episodes that the theme entry is used. Can be left blank if used for all episodes or if there are not episodes as with movies. Ex: "1-", "1-11", "1-2, 10, 12".',
@@ -906,6 +896,16 @@ return [
             'moderator_notes' => 'Moderator Notes',
             'notes' => 'Notes',
         ],
+        'synonym' => [
+            'text' => [
+                'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings.',
+                'name' => 'Text',
+            ],
+            'type' => [
+                'help' => 'The title type.',
+                'name' => 'Type',
+            ],
+        ],
         'resourceable' => [
             'as' => [
                 'help' => 'Used to distinguish resources that map to the same model. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
@@ -1032,7 +1032,6 @@ return [
     'resources' => [
         'label' => [
             'action_logs' => 'Action Logs',
-            'anime_synonyms' => 'Anime Synonyms',
             'anime_theme_entries' => 'Anime Theme Entries',
             'anime_themes' => 'Anime Themes',
             'anime' => 'Anime',
@@ -1064,13 +1063,13 @@ return [
             'series' => 'Series',
             'songs' => 'Songs',
             'studios' => 'Studios',
+            'synonyms' => 'Synonyms',
             'users' => 'Users',
             'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
         ],
         'singularLabel' => [
             'action_log' => 'Action Log',
-            'anime_synonym' => 'Anime Synonym',
             'anime_theme_entry' => 'Anime Theme Entry',
             'anime_theme' => 'Anime Theme',
             'anime' => 'Anime',
@@ -1102,6 +1101,7 @@ return [
             'series' => 'Series',
             'song' => 'Song',
             'studio' => 'Studio',
+            'synonym' => 'Synonym',
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',

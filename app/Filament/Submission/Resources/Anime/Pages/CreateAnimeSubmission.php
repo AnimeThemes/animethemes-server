@@ -9,7 +9,6 @@ use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\SubmissionBelongsTo;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Resources\Wiki\Anime\SynonymResource;
 use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
 use App\Filament\Resources\Wiki\AnimeResource;
@@ -20,6 +19,7 @@ use App\Filament\Resources\Wiki\SeriesResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\SongResource;
 use App\Filament\Resources\Wiki\StudioResource;
+use App\Filament\Resources\Wiki\SynonymResource;
 use App\Filament\Submission\Resources\AnimeSubmissionResource;
 use App\Models\User\Submission;
 use App\Models\User\Submission\SubmissionStage;
@@ -69,11 +69,11 @@ class CreateAnimeSubmission extends CreateRecord
                             ->schema(AnimeResource::form($schema)->getComponents()),
 
                         Tab::make(Anime::RELATION_SYNONYMS)
-                            ->label(__('filament.resources.label.anime_synonyms'))
+                            ->label(__('filament.resources.label.synonyms'))
                             ->schema([
                                 Repeater::make(Anime::RELATION_SYNONYMS)
-                                    ->label(__('filament.resources.label.anime_synonyms'))
-                                    ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_synonym')]))
+                                    ->label(__('filament.resources.label.synonyms'))
+                                    ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.synonym')]))
                                     ->defaultItems(0)
                                     ->schema(SynonymResource::form($schema)->getComponents()),
                             ]),

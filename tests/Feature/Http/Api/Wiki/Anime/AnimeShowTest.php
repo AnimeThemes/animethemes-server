@@ -15,7 +15,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Resources\Wiki\Anime\Resource\SynonymJsonResource;
+use App\Http\Resources\Wiki\Anime\Resource\AnimeSynonymJsonResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeJsonResource;
 use App\Http\Resources\Wiki\Resource\AnimeJsonResource;
 use App\Models\Wiki\Anime;
@@ -133,11 +133,11 @@ test('synonyms by type', function () {
 
     $parameters = [
         FilterParser::param() => [
-            SynonymJsonResource::$wrap => [
+            AnimeSynonymJsonResource::$wrap => [
                 AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
         ],
-        IncludeParser::param() => Anime::RELATION_SYNONYMS,
+        IncludeParser::param() => Anime::RELATION_ANIMESYNONYMS,
     ];
 
     $anime = Anime::factory()
@@ -145,7 +145,7 @@ test('synonyms by type', function () {
         ->createOne();
 
     $anime->unsetRelations()->load([
-        Anime::RELATION_SYNONYMS => function (HasMany $query) use ($typeFilter) {
+        Anime::RELATION_ANIMESYNONYMS => function (HasMany $query) use ($typeFilter) {
             $query->where(AnimeSynonym::ATTRIBUTE_TYPE, $typeFilter->value);
         },
     ]);

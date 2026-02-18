@@ -48,7 +48,7 @@ class AnimeSchema extends Schema
             new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
             new AllowedInclude(new SongSchema(), Anime::RELATION_SONG),
             new AllowedInclude(new StudioSchema(), Anime::RELATION_STUDIOS),
-            new AllowedInclude(new SynonymSchema(), Anime::RELATION_SYNONYMS),
+            new AllowedInclude(new SynonymSchema(), Anime::RELATION_ANIMESYNONYMS),
             new AllowedInclude(new ThemeSchema(), Anime::RELATION_THEMES),
             new AllowedInclude(new VideoSchema(), Anime::RELATION_VIDEOS),
         ]);

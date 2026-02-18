@@ -97,7 +97,7 @@ class BackfillAnimeAction extends BaseAction
             return $schema;
         }
 
-        $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
+        $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_ANIMESYNONYMS]);
 
         $resources = $anime->resources->pluck(ExternalResource::ATTRIBUTE_SITE)->keyBy(fn (ResourceSite $site) => $site->value)->keys();
         $images = $anime->images->pluck(Image::ATTRIBUTE_FACET)->keyBy(fn (ImageFacet $facet) => $facet->value)->keys();
@@ -173,7 +173,7 @@ class BackfillAnimeAction extends BaseAction
                         Checkbox::make(self::BACKFILL_SYNONYMS)
                             ->label(__('filament.actions.anime.backfill.fields.synonyms.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.synonyms.help'))
-                            ->default(fn () => $anime->animesynonyms->isEmpty()),
+                            ->default(fn () => $anime->synonyms->isEmpty()),
                     ]),
             ]);
     }

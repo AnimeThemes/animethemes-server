@@ -146,12 +146,12 @@ class AnimeResource extends BaseResource
                     ->label(__('filament.fields.anime.name.name'))
                     ->copyableWithMessage()
                     ->limit(50)
-                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
+                    ->tooltip(fn (string $state): string => $state),
 
                 TextColumn::make(Anime::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
                     ->limit(20)
-                    ->tooltip(fn (TextColumn $column): mixed => $column->getState()),
+                    ->tooltip(fn (string $state): string => $state),
 
                 TextColumn::make(Anime::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name')),

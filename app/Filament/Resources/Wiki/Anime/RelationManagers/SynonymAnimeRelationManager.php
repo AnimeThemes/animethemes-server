@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\RelationManagers;
 
-use App\Filament\RelationManagers\Wiki\Anime\SynonymRelationManager;
+use App\Filament\RelationManagers\Wiki\SynonymRelationManager;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Synonym;
 use Filament\Tables\Table;
 
 class SynonymAnimeRelationManager extends SynonymRelationManager
@@ -20,7 +20,7 @@ class SynonymAnimeRelationManager extends SynonymRelationManager
     {
         return parent::table(
             $table
-                ->inverseRelationship(AnimeSynonym::RELATION_ANIME)
+                ->inverseRelationship(Synonym::RELATION_SYNONYMABLE)
         );
     }
 }

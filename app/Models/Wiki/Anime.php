@@ -8,6 +8,7 @@ use App\Concerns\Models\SoftDeletes;
 use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
+use App\Contracts\Models\HasSynonyms;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -28,12 +29,14 @@ use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use Database\Factories\Wiki\AnimeFactory;
+use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use OwenIt\Auditing\Auditable as HasAudits;
@@ -41,7 +44,6 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property int $anime_id
- * @property Collection<int, AnimeSynonym> $animesynonyms
  * @property Collection<int, AnimeTheme> $animethemes
  * @property DiscordThread|null $discordthread
  * @property Collection<int, ExternalEntry> $externalentries
@@ -53,12 +55,13 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Collection<int, Series> $series
  * @property string $slug
  * @property Collection<int, Studio> $studios
+ * @property Collection<int, Synonym> $synonyms
  * @property string|null $synopsis
  * @property int|null $year
  *
  * @method static AnimeFactory factory(...$parameters)
  */
-class Anime extends BaseModel implements Auditable, HasImages, HasResources, SoftDeletable
+class Anime extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
     use HasAudits;
     use HasFactory;
@@ -88,7 +91,8 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Sof
     final public const string RELATION_SERIES = 'series';
     final public const string RELATION_SONG = 'animethemes.song';
     final public const string RELATION_STUDIOS = 'studios';
-    final public const string RELATION_SYNONYMS = 'animesynonyms';
+    final public const string RELATION_ANIMESYNONYMS = 'animesynonyms';
+    final public const string RELATION_SYNONYMS = 'synonyms';
     final public const string RELATION_THEMES = 'animethemes';
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
@@ -163,7 +167,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Sof
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['synonyms'] = $this->animesynonyms->toArray();
+        $array['synonyms'] = $this->synonyms->toArray();
 
         return $array;
     }
@@ -191,9 +195,20 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Sof
     /**
      * @return HasMany<AnimeSynonym, $this>
      */
+    #[Deprecated('Use synonyms() instead.')]
     public function animesynonyms(): HasMany
     {
         return $this->hasMany(AnimeSynonym::class, AnimeSynonym::ATTRIBUTE_ANIME);
+    }
+
+    /**
+     * Get the synonyms for the owner model.
+     *
+     * @return MorphMany<Synonym, $this>
+     */
+    public function synonyms(): MorphMany
+    {
+        return $this->morphMany(Synonym::class, Synonym::RELATION_SYNONYMABLE);
     }
 
     /**

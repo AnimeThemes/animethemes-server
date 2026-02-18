@@ -8,8 +8,8 @@ use App\Contracts\Events\CascadesDeletesEvent;
 use App\Events\BaseEvent;
 use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Synonym;
 use Illuminate\Support\Facades\Event;
 
 /**
@@ -27,8 +27,8 @@ class AnimeDeleting extends BaseEvent implements CascadesDeletesEvent
 
         $anime->discordthread?->delete();
 
-        $anime->animesynonyms->each(function (AnimeSynonym $synonym): void {
-            AnimeSynonym::withoutEvents(function () use ($synonym): void {
+        $anime->synonyms->each(function (Synonym $synonym): void {
+            Synonym::withoutEvents(function () use ($synonym): void {
                 $synonym->unsearchable();
                 $synonym->delete();
             });

@@ -31,6 +31,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
+use App\Models\Wiki\Synonym;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
@@ -78,6 +79,7 @@ class PatronRoleSeeder extends RoleSeeder
         $this->configureResource($role, Series::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Song::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Studio::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Synonym::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Video::class, [CrudPermission::VIEW]);
         $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW]);
 
