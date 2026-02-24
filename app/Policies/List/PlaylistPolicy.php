@@ -25,7 +25,7 @@ class PlaylistPolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $user?->can(CrudPermission::VIEW->format(Playlist::class))
+        return ! $user instanceof User || $user->can(CrudPermission::VIEW->format(Playlist::class))
             ? Response::allow()
             : Response::deny();
     }

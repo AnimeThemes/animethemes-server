@@ -24,7 +24,7 @@ class ExternalProfilePolicy extends BasePolicy
                 : Response::deny();
         }
 
-        return $user?->can(CrudPermission::VIEW->format(ExternalProfile::class))
+        return ! $user instanceof User || $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
             ? Response::allow()
             : Response::deny();
     }
