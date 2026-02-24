@@ -61,14 +61,14 @@ class PagePolicy extends BasePolicy
     /**
      * @param  Page  $page
      */
-    public function forceDelete(User $user, ?Model $page = null): Response
+    public function forceDelete(User $user, Model $page): Response
     {
         if ($user->hasRole(Role::ADMIN->value) || $page->editorRoles()->doesntExist()) {
-            return parent::forceDelete($user);
+            return parent::forceDelete($user, $page);
         }
 
         /** @phpstan-ignore-next-line */
-        return parent::forceDelete($user) && $user->hasAnyRole($page->editorRoles)
+        return parent::forceDelete($user, $page) && $user->hasAnyRole($page->editorRoles)
             ? Response::allow()
             : Response::deny();
     }

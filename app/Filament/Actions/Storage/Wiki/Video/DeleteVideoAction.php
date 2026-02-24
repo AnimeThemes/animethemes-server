@@ -23,7 +23,7 @@ class DeleteVideoAction extends DeleteAction
 
         $this->label(__('filament.actions.video.delete.name'));
 
-        $this->visible(Gate::allows('forceDelete', Video::class));
+        $this->visible(Gate::allows('forceDeleteAny', Video::class));
     }
 
     /**

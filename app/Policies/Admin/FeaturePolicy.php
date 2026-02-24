@@ -20,12 +20,13 @@ class FeaturePolicy extends BasePolicy
     public function view(?User $user, Model $feature): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->can(CrudPermission::VIEW->format(Feature::class))
+            return $user?->can(CrudPermission::VIEW->format(Feature::class))
                 ? Response::allow()
                 : Response::deny();
         }
 
-        return $feature->isNullScope()
+        /** @phpstan-ignore-next-line */
+        return parent::view($user, $feature) && $feature->isNullScope()
             ? Response::allow()
             : Response::deny();
     }

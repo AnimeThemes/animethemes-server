@@ -18,7 +18,7 @@ class SubmissionPolicy extends BasePolicy
     public function viewAny(?User $user, mixed $value = null): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
+            return $user?->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
@@ -32,7 +32,7 @@ class SubmissionPolicy extends BasePolicy
     public function view(?User $user, Model $submission): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
+            return $user?->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }

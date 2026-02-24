@@ -20,12 +20,14 @@ class AnnouncementPolicy extends BasePolicy
     public function view(?User $user, Model $announcement): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            return $user?->can(CrudPermission::VIEW->format(static::getModel()))
                 ? Response::allow()
                 : Response::deny();
         }
 
-        return $announcement->start_at->isPast()
+        /** @phpstan-ignore-next-line */
+        return parent::view($user, $announcement)
+            && $announcement->start_at->isPast()
             && $announcement->end_at->isFuture()
             ? Response::allow()
             : Response::deny();
