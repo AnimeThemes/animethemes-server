@@ -820,6 +820,12 @@ return [
                 'name' => 'Slug',
             ],
         ],
+        'page_role' => [
+            'type' => [
+                'help' => 'The role of the user for this page. Ex: Viewer, Editor.',
+                'name' => 'Type',
+            ],
+        ],
         'performance' => [
             'alias' => [
                 'help' => 'Used in place of the Artist name if the performance is using an alias.',

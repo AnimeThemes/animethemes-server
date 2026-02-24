@@ -26,7 +26,7 @@ pest()->extend(Tests\TestCase::class)
     ->in('Feature', 'Unit');
 
 pest()
-    ->in('Unit/Filament/Resources')
+    ->in('Feature/Filament/Resources')
     ->beforeEach(function () {
         $user = User::factory()
             ->withPermissions(SpecialPermission::VIEW_FILAMENT->value)

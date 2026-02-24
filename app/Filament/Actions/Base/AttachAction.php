@@ -55,7 +55,7 @@ class AttachAction extends BaseAttachAction
 
             if ($this->shouldShowCreateOption($model)) {
                 return $select
-                    ->createOptionForm(fn (Schema $schema) => Filament::getModelResource($model)::form($schema)->getComponents())
+                    ->manageOptionForm(fn (Schema $schema) => Filament::getModelResource($model)::form($schema)->getComponents())
                     ->createOptionUsing(function (array $data) use ($model) {
                         $created = $model::query()->create($data);
 
