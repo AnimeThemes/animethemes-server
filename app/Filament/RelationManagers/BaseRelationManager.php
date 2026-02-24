@@ -68,7 +68,9 @@ abstract class BaseRelationManager extends RelationManager
 
                 TextColumn::make('pivot.created_at')
                     ->label(__('filament.fields.base.attached_at'))
-                    ->hidden(fn ($livewire): bool => ! ($livewire->getRelationship() instanceof BelongsToMany))
+                    // There doesn't seem to be a way to get pivot timestamps when the table allows duplicates.
+                    // Related Discord Thread: https://discord.com/channels/883083792112300104/1447640872668758157
+                    ->hidden(fn ($livewire, Table $table): bool => ! ($livewire->getRelationship() instanceof BelongsToMany) || $table->allowsDuplicates())
                     ->state(function (Model $record): string {
                         $pivot = current($record->getRelations());
 
@@ -82,7 +84,7 @@ abstract class BaseRelationManager extends RelationManager
 
                 TextColumn::make('pivot.updated_at')
                     ->label(__('filament.fields.base.updated_at'))
-                    ->hidden(fn ($livewire): bool => ! ($livewire->getRelationship() instanceof BelongsToMany))
+                    ->hidden(fn ($livewire, Table $table): bool => ! ($livewire->getRelationship() instanceof BelongsToMany) || $table->allowsDuplicates())
                     ->state(function (Model $record): string {
                         $pivot = current($record->getRelations());
                         $updatedAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT);

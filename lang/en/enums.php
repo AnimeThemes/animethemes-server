@@ -16,6 +16,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Enums\Pivots\Document\PageRoleType;
 
 return [
     ActionLogStatus::class => [
@@ -67,6 +68,10 @@ return [
         ImageFacet::DOCUMENT->name => 'Document',
         ImageFacet::AVATAR->name => 'Avatar',
         ImageFacet::BANNER->name => 'Banner',
+    ],
+    PageRoleType::class => [
+        PageRoleType::VIEWER->name => 'Viewer',
+        PageRoleType::EDITOR->name => 'Editor',
     ],
     PlaylistVisibility::class => [
         PlaylistVisibility::PUBLIC->name => 'Public',

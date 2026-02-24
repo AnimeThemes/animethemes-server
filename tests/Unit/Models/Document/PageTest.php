@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Models\Auth\Role;
 use App\Models\Document\Page;
+use App\Pivots\Document\PageRole;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 test('nameable', function () {
     $page = Page::factory()->createOne();
@@ -33,4 +36,24 @@ test('next', function () {
 
     $this->assertInstanceOf(BelongsTo::class, $page->next());
     $this->assertInstanceOf(Page::class, $page->next()->first());
+});
+
+test('roles', function () {
+    $roleCount = fake()->randomDigitNotNull();
+
+    $page = Page::factory()->createOne();
+
+    /** @var Role $role */
+    $role = Role::findOrCreate(fake()->word());
+
+    PageRole::factory()
+        ->for($page, PageRole::RELATION_PAGE)
+        ->for($role, PageRole::RELATION_ROLE)
+        ->count($roleCount)
+        ->create();
+
+    $this->assertInstanceOf(BelongsToMany::class, $page->roles());
+    $this->assertEquals($roleCount, $page->roles()->count());
+    $this->assertInstanceOf(Role::class, $page->roles()->first());
+    $this->assertEquals(PageRole::class, $page->roles()->getPivotClass());
 });

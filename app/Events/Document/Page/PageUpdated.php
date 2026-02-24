@@ -6,13 +6,13 @@ namespace App\Events\Document\Page;
 
 use App\Actions\Models\Document\UpdatePageRelations;
 use App\Contracts\Events\UpdateRelationsEvent;
-use App\Events\Base\Wiki\WikiUpdatedEvent;
+use App\Events\Base\Document\DocumentUpdatedEvent;
 use App\Models\Document\Page;
 
 /**
- * @extends WikiUpdatedEvent<Page>
+ * @extends DocumentUpdatedEvent<Page>
  */
-class PageUpdated extends WikiUpdatedEvent implements UpdateRelationsEvent
+class PageUpdated extends DocumentUpdatedEvent implements UpdateRelationsEvent
 {
     public function __construct(Page $page)
     {

@@ -25,8 +25,7 @@ class SubmissionBelongsTo extends BelongsTo
     {
         $model = $this->modelResource;
 
-        $this->createOptionForm(fn (Schema $schema): array => $this->resource::form($schema)->getComponents())
-            ->editOptionForm(fn (Schema $schema): array => $this->resource::form($schema)->getComponents())
+        $this->manageOptionForm(fn (Schema $schema): array => $this->resource::form($schema)->getComponents())
             ->editOptionAction(fn (Action $action, $state): Action => $action->visible($state < 0))
             ->createOptionUsing(function (array $data, SubmissionBelongsTo $component): int {
                 $virtual = SubmissionVirtual::query()

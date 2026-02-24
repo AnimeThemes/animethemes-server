@@ -7,26 +7,35 @@ namespace App\Models\Document;
 use App\Concerns\Models\SoftDeletes;
 use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
+use App\Enums\Pivots\Document\PageRoleType;
 use App\Events\Document\Page\PageCreated;
 use App\Events\Document\Page\PageDeleted;
 use App\Events\Document\Page\PageRestored;
 use App\Events\Document\Page\PageUpdated;
+use App\Models\Auth\Role;
 use App\Models\BaseModel;
+use App\Pivots\Document\PageRole;
+use App\Scopes\ReadablePagesScope;
 use Database\Factories\Document\PageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property string $body
+ * @property Collection<int, Role> $editorRoles
  * @property string $name
  * @property int|null $next_id
  * @property Page|null $next
  * @property int $page_id
  * @property int|null $previous_id
  * @property Page|null $previous
+ * @property Collection<int, Role> $roles
  * @property string $slug
+ * @property Collection<int, Role> $viewerRoles
  *
  * @method static PageFactory factory(...$parameters)
  */
@@ -46,8 +55,11 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
     final public const string ATTRIBUTE_SLUG = 'slug';
 
+    final public const string RELATION_EDITOR_ROLES = 'editorRoles';
     final public const string RELATION_NEXT = 'next';
     final public const string RELATION_PREVIOUS = 'previous';
+    final public const string RELATION_ROLES = 'roles';
+    final public const string RELATION_VIEWER_ROLES = 'viewerRoles';
 
     /**
      * The table associated with the model.
@@ -100,6 +112,16 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
+     * The "boot" method of the model.
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ReadablePagesScope);
+    }
+
+    /**
      * Get the route key for the model.
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -119,6 +141,11 @@ class Page extends BaseModel implements Auditable, SoftDeletable
         return $this->slug;
     }
 
+    public function isPublic(): bool
+    {
+        return $this->viewerRoles()->doesntExist();
+    }
+
     /**
      * @return BelongsTo<Page, $this>
      */
@@ -133,5 +160,32 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     public function previous(): BelongsTo
     {
         return $this->belongsTo(Page::class, Page::ATTRIBUTE_PREVIOUS);
+    }
+
+    /**
+     * @return BelongsToMany<Role, $this, PageRole>
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, PageRole::TABLE, PageRole::ATTRIBUTE_PAGE, PageRole::ATTRIBUTE_ROLE)
+            ->using(PageRole::class)
+            ->withPivot([PageRole::ATTRIBUTE_ID, PageRole::ATTRIBUTE_TYPE])
+            ->withTimestamps();
+    }
+
+    /**
+     * @return BelongsToMany<Role, $this, PageRole>
+     */
+    public function viewerRoles(): BelongsToMany
+    {
+        return $this->roles()->wherePivot(PageRole::ATTRIBUTE_TYPE, PageRoleType::VIEWER->value);
+    }
+
+    /**
+     * @return BelongsToMany<Role, $this, PageRole>
+     */
+    public function editorRoles(): BelongsToMany
+    {
+        return $this->roles()->wherePivot(PageRole::ATTRIBUTE_TYPE, PageRoleType::EDITOR->value);
     }
 }

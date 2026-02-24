@@ -15,6 +15,7 @@ use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\ListPages;
 use App\Filament\Resources\Document\Page\Pages\ViewPage;
+use App\Filament\Resources\Document\Page\RelationManagers\RolePageRelationManager;
 use App\Models\Document\Page;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\QueryBuilder\Constraints\TextConstraint;
@@ -193,6 +194,8 @@ class PageResource extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
+                RolePageRelationManager::class,
+
                 ...parent::getBaseRelations(),
             ]),
         ];

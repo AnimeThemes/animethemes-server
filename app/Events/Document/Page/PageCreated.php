@@ -6,13 +6,13 @@ namespace App\Events\Document\Page;
 
 use App\Actions\Models\Document\UpdatePageRelations;
 use App\Contracts\Events\UpdateRelationsEvent;
-use App\Events\Base\Wiki\WikiCreatedEvent;
+use App\Events\Base\Document\DocumentCreatedEvent;
 use App\Models\Document\Page;
 
 /**
- * @extends WikiCreatedEvent<Page>
+ * @extends DocumentCreatedEvent<Page>
  */
-class PageCreated extends WikiCreatedEvent implements UpdateRelationsEvent
+class PageCreated extends DocumentCreatedEvent implements UpdateRelationsEvent
 {
     protected function getDiscordMessageDescription(): string
     {
