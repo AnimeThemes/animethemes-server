@@ -17,7 +17,7 @@ class PermissionPolicy extends BasePolicy
 {
     public function viewAny(?User $user, mixed $value = null): Response
     {
-        return $user instanceof User && $user->can(CrudPermission::VIEW->format(Permission::class))
+        return $user?->can(CrudPermission::VIEW->format(Permission::class))
             ? Response::allow()
             : Response::deny();
     }
@@ -27,37 +27,7 @@ class PermissionPolicy extends BasePolicy
      */
     public function view(?User $user, Model $permission): Response
     {
-        return $user instanceof User && $user->can(CrudPermission::VIEW->format(Permission::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    /**
-     * @param  Permission  $permission
-     */
-    public function update(User $user, Model $permission): Response
-    {
-        return $user->can(CrudPermission::UPDATE->format(Permission::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    /**
-     * @param  Permission  $permission
-     */
-    public function delete(User $user, Model $permission): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Permission::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    /**
-     * @param  Permission  $permission
-     */
-    public function restore(User $user, Model $permission): Response
-    {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(Permission::class))
+        return $user?->can(CrudPermission::VIEW->format(Permission::class))
             ? Response::allow()
             : Response::deny();
     }

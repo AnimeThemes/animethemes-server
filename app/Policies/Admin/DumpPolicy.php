@@ -21,7 +21,7 @@ class DumpPolicy extends BasePolicy
     public function view(?User $user, Model $dump): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            return $user?->can(CrudPermission::VIEW->format(static::getModel()))
                 ? Response::allow()
                 : Response::deny();
         }
@@ -30,7 +30,8 @@ class DumpPolicy extends BasePolicy
             return Response::allow();
         }
 
-        return $dump->public === true
+        /** @phpstan-ignore-next-line */
+        return parent::view($user, $dump) && $dump->public
             ? Response::allow()
             : Response::deny();
     }

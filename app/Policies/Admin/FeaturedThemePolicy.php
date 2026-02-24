@@ -20,12 +20,13 @@ class FeaturedThemePolicy extends BasePolicy
     public function view(?User $user, Model $featuredtheme): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class))
+            return $user?->can(CrudPermission::VIEW->format(FeaturedTheme::class))
                 ? Response::allow()
                 : Response::deny();
         }
 
-        return $featuredtheme->start_at->isPast()
+        /** @phpstan-ignore-next-line */
+        return parent::view($user, $featuredtheme) && $featuredtheme->start_at->isPast()
             ? Response::allow()
             : Response::deny();
     }

@@ -17,47 +17,17 @@ class ProhibitionPolicy extends BasePolicy
 {
     public function viewAny(?User $user, mixed $value = null): Response
     {
-        return $user instanceof User && $user->can(CrudPermission::VIEW->format(Prohibition::class))
+        return $user?->can(CrudPermission::VIEW->format(Prohibition::class))
             ? Response::allow()
             : Response::deny();
     }
 
     /**
-     * @param  Prohibition  $Prohibition
+     * @param  Prohibition  $prohibition
      */
-    public function view(?User $user, Model $Prohibition): Response
+    public function view(?User $user, Model $prohibition): Response
     {
-        return $user instanceof User && $user->can(CrudPermission::VIEW->format(Prohibition::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    /**
-     * @param  Prohibition  $Prohibition
-     */
-    public function update(User $user, Model $Prohibition): Response
-    {
-        return $user->can(CrudPermission::UPDATE->format(Prohibition::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    /**
-     * @param  Prohibition  $Prohibition
-     */
-    public function delete(User $user, Model $Prohibition): Response
-    {
-        return $user->can(CrudPermission::DELETE->format(Prohibition::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    /**
-     * @param  Prohibition  $Prohibition
-     */
-    public function restore(User $user, Model $Prohibition): Response
-    {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(Prohibition::class))
+        return $user?->can(CrudPermission::VIEW->format(Prohibition::class))
             ? Response::allow()
             : Response::deny();
     }

@@ -23,7 +23,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function viewAny(?User $user, $playlist = null): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->hasRole(RoleEnum::ADMIN->value)
+            return $user?->hasRole(RoleEnum::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
@@ -50,7 +50,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function view(?User $user, Model $track, $playlist = null): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->hasRole(RoleEnum::ADMIN->value)
+            return $user?->hasRole(RoleEnum::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }

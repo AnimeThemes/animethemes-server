@@ -58,7 +58,7 @@ abstract class BasePolicy
     public function viewAny(?User $user): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            return $user?->can(CrudPermission::VIEW->format(static::getModel()))
                 ? Response::allow()
                 : Response::deny();
         }
@@ -69,7 +69,7 @@ abstract class BasePolicy
     public function view(?User $user, Model $model): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            return $user?->can(CrudPermission::VIEW->format(static::getModel()))
                 ? Response::allow()
                 : Response::deny();
         }
@@ -120,7 +120,7 @@ abstract class BasePolicy
             : Response::deny();
     }
 
-    public function forceDelete(User $user): Response
+    public function forceDelete(User $user, Model $model): Response
     {
         return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(static::getModel()))
             ? Response::allow()

@@ -23,7 +23,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function viewAny(?User $user, $profile = null): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
+            return $user?->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
@@ -50,7 +50,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function view(?User $user, Model $entry, $profile = null): Response
     {
         if (Filament::isServing()) {
-            return $user instanceof User && $user->hasRole(Role::ADMIN->value)
+            return $user?->hasRole(Role::ADMIN->value)
                 ? Response::allow()
                 : Response::deny();
         }
