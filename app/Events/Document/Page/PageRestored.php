@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Events\Document\Page;
 
-use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Events\Base\Document\DocumentRestoredEvent;
 use App\Models\Document\Page;
 
 /**
- * @extends WikiRestoredEvent<Page>
+ * @extends DocumentRestoredEvent<Page>
  */
-class PageRestored extends WikiRestoredEvent
+class PageRestored extends DocumentRestoredEvent
 {
     protected function getDiscordMessageDescription(): string
     {
