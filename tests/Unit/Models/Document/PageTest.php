@@ -43,9 +43,12 @@ test('roles', function () {
 
     $page = Page::factory()->createOne();
 
+    /** @var Role $role */
+    $role = Role::findOrCreate(fake()->word());
+
     PageRole::factory()
         ->for($page, PageRole::RELATION_PAGE)
-        ->for(Role::factory(), PageRole::RELATION_ROLE)
+        ->for($role, PageRole::RELATION_ROLE)
         ->count($roleCount)
         ->create();
 

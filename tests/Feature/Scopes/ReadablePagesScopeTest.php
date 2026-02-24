@@ -14,9 +14,12 @@ use function Pest\Laravel\actingAs;
 test('only public pages are readable by guests', function () {
     $publicPage = Page::factory()->createOne();
 
+    /** @var Role $role */
+    $role = Role::findOrCreate(fake()->word());
+
     PageRole::factory()
         ->for(Page::factory(), PageRole::RELATION_PAGE)
-        ->for(Role::findOrCreate(fake()->word()), PageRole::RELATION_ROLE)
+        ->for($role, PageRole::RELATION_ROLE)
         ->count(fake()->randomDigitNotNull())
         ->create([
             PageRole::ATTRIBUTE_TYPE => PageRoleType::VIEWER->value,
@@ -36,10 +39,12 @@ test('admin can see all pages', function () {
     // Create pages with roles one by one to ensure they're separate
     $roleCount = fake()->randomDigitNotNull();
     foreach (range(1, $roleCount) as $i) {
-        $page = Page::factory()->createOne();
+        /** @var Role $role */
+        $role = Role::findOrCreate(fake()->unique()->word());
+
         PageRole::factory()
-            ->for($page, PageRole::RELATION_PAGE)
-            ->for(Role::findOrCreate(fake()->unique()->word()), PageRole::RELATION_ROLE)
+            ->for(Page::factory(), PageRole::RELATION_PAGE)
+            ->for($role, PageRole::RELATION_ROLE)
             ->createOne([
                 PageRole::ATTRIBUTE_TYPE => PageRoleType::VIEWER->value,
             ]);
@@ -54,6 +59,8 @@ test('admin can see all pages', function () {
 
 test('user with role can see pages with that role', function () {
     $user = User::factory()->createOne();
+
+    /** @var Role $role */
     $role = Role::findOrCreate(RoleEnum::ENCODER->value);
 
     $user->assignRole($role);
@@ -71,12 +78,13 @@ test('user with role can see pages with that role', function () {
             ]);
     }
 
-    // Create pages with different role
+    /** @var Role $role */
+    $role = Role::findOrCreate(RoleEnum::CONTENT_MODERATOR->value);
     $otherCount = fake()->randomDigitNotNull();
     foreach (range(1, $otherCount) as $i) {
         PageRole::factory()
             ->for(Page::factory(), PageRole::RELATION_PAGE)
-            ->for(Role::findOrCreate(RoleEnum::CONTENT_MODERATOR->value), PageRole::RELATION_ROLE)
+            ->for($role, PageRole::RELATION_ROLE)
             ->createOne([
                 PageRole::ATTRIBUTE_TYPE => PageRoleType::VIEWER->value,
             ]);
