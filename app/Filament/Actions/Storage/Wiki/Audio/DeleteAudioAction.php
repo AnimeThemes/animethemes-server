@@ -23,7 +23,7 @@ class DeleteAudioAction extends DeleteAction
 
         $this->label(__('filament.actions.audio.delete.name'));
 
-        $this->visible(Gate::allows('forceDelete', Audio::class));
+        $this->visible(Gate::allows('forceDeleteAny', Audio::class));
     }
 
     /**
