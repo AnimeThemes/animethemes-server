@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Resolvers\List\Playlist\PlaylistTrackResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -16,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class PlaylistTrackEntryIdField extends Field implements CreatableField, RequiredOnCreation, UpdatableField
+class PlaylistTrackEntryIdField extends Field implements CreatableField, FilterableField, RequiredOnCreation, UpdatableField
 {
     public function __construct()
     {
@@ -31,6 +33,11 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Require
     public function baseType(): Type
     {
         return Type::int();
+    }
+
+    public function getFilter(): IntFilter
+    {
+        return new IntFilter($this->getName(), $this->getColumn());
     }
 
     /**
