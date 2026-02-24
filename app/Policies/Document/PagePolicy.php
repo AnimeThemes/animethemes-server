@@ -18,12 +18,12 @@ class PagePolicy extends BasePolicy
      */
     public function view(?User $user, Model $page): Response
     {
-        if ($user->hasRole(Role::ADMIN->value) || $page->isPublic()) {
+        if ($user?->hasRole(Role::ADMIN->value) || $page->isPublic()) {
             return parent::view($user, $page);
         }
 
         /** @phpstan-ignore-next-line */
-        return parent::view($user, $page) && $user->hasAnyRole($page->roles)
+        return parent::view($user, $page) && $user?->hasAnyRole($page->roles)
             ? Response::allow()
             : Response::deny();
     }
@@ -31,7 +31,7 @@ class PagePolicy extends BasePolicy
     /**
      * @param  Page  $page
      */
-    public function update(?User $user, Model $page): Response
+    public function update(User $user, Model $page): Response
     {
         if ($user->hasRole(Role::ADMIN->value) || $page->editorRoles()->doesntExist()) {
             return parent::update($user, $page);
@@ -46,7 +46,7 @@ class PagePolicy extends BasePolicy
     /**
      * @param  Page  $page
      */
-    public function delete(?User $user, Model $page): Response
+    public function delete(User $user, Model $page): Response
     {
         if ($user->hasRole(Role::ADMIN->value) || $page->editorRoles()->doesntExist()) {
             return parent::delete($user, $page);
@@ -61,7 +61,7 @@ class PagePolicy extends BasePolicy
     /**
      * @param  Page  $page
      */
-    public function forceDelete(?User $user, ?Model $page = null): Response
+    public function forceDelete(User $user, ?Model $page = null): Response
     {
         if ($user->hasRole(Role::ADMIN->value) || $page->editorRoles()->doesntExist()) {
             return parent::forceDelete($user);
@@ -76,7 +76,7 @@ class PagePolicy extends BasePolicy
     /**
      * @param  Page  $page
      */
-    public function restore(?User $user, Model $page): Response
+    public function restore(User $user, Model $page): Response
     {
         if ($user->hasRole(Role::ADMIN->value) || $page->editorRoles()->doesntExist()) {
             return parent::restore($user, $page);
