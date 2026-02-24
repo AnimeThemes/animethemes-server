@@ -33,8 +33,7 @@ class PageController extends BaseController
     {
         $query = new Query($request->validated());
 
-        /** @phpstan-ignore-next-line */
-        $pages = $action->index(Page::query()->public(), $query, $request->schema());
+        $pages = $action->index(Page::query(), $query, $request->schema());
 
         return new PageCollection($pages, $query);
     }

@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Queries\Models\Pagination\Document;
 
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Document\PageType;
-use Illuminate\Database\Eloquent\Builder;
 
 class PagePaginationQuery extends EloquentPaginationQuery
 {
@@ -26,11 +25,5 @@ class PagePaginationQuery extends EloquentPaginationQuery
     public function baseType(): PageType
     {
         return new PageType();
-    }
-
-    protected function query(Builder $builder, array $args): Builder
-    {
-        /** @phpstan-ignore-next-line */
-        return $builder->public();
     }
 }

@@ -17,7 +17,6 @@ use App\Models\BaseModel;
 use App\Pivots\Document\PageRole;
 use App\Scopes\ReadablePagesScope;
 use Database\Factories\Document\PageFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -39,7 +38,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Collection<int, Role> $viewerRoles
  *
  * @method static PageFactory factory(...$parameters)
- * @method static Builder<Page> public()
  */
 class Page extends BaseModel implements Auditable, SoftDeletable
 {
