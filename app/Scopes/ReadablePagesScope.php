@@ -31,17 +31,17 @@ class ReadablePagesScope implements Scope
         }
 
         $builder->where(function (Builder $query): void {
-            // Public pages.
-            $query->whereDoesntHave(Page::RELATION_VIEWER_ROLES);
-
-            // Pages the user can view via their roles.
-            $query->orWhereHas(
-                Page::RELATION_ROLES,
-                fn (Builder $query) => $query->whereIn(
-                    new Role()->getQualifiedKeyName(),
-                    Auth::user()->roles()->pluck(Role::ATTRIBUTE_ID)
-                )
-            );
+            $query
+                // Public pages.
+                ->whereDoesntHave(Page::RELATION_VIEWER_ROLES)
+                // Pages the user can view via their roles.
+                ->orWhereHas(
+                    Page::RELATION_VIEWER_ROLES,
+                    fn (Builder $relationQuery) => $relationQuery->whereIn(
+                        Role::TABLE.'.'.Role::ATTRIBUTE_ID,
+                        Auth::user()->roles()->select(Role::ATTRIBUTE_ID)
+                    )
+                );
         });
     }
 }

@@ -8,6 +8,7 @@ use App\Enums\Pivots\Document\PageRoleType;
 use App\Models\Auth\Role;
 use App\Models\Document\Page;
 use App\Pivots\BasePivot;
+use Database\Factories\Pivots\Document\PageRoleFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Role $role
  * @property int $role_id
  * @property PageRoleType $type
+ *
+ * @method static PageRoleFactory factory(...$parameters)
  */
 class PageRole extends BasePivot
 {
