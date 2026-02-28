@@ -16,6 +16,9 @@ return new class extends Migration
         if (! Schema::hasColumn('playlist_tracks', 'position')) {
             Schema::table('playlist_tracks', function (Blueprint $table) {
                 $table->integer('position')->default(1);
+
+                $table->index('position');
+                $table->index(['playlist_id', 'position']);
             });
         }
     }
