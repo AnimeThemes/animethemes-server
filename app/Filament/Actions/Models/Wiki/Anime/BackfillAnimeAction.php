@@ -97,7 +97,7 @@ class BackfillAnimeAction extends BaseAction
             return $schema;
         }
 
-        $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_ANIMESYNONYMS]);
+        $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
 
         $resources = $anime->resources->pluck(ExternalResource::ATTRIBUTE_SITE)->keyBy(fn (ResourceSite $site) => $site->value)->keys();
         $images = $anime->images->pluck(Image::ATTRIBUTE_FACET)->keyBy(fn (ImageFacet $facet) => $facet->value)->keys();

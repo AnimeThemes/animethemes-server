@@ -79,7 +79,7 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     final public const string RELATION_PERFORMANCES = 'song.performances';
     final public const string RELATION_PERFORMANCES_ARTISTS = 'song.performances.artist';
     final public const string RELATION_SONG = 'song';
-    final public const string RELATION_SYNONYMS = 'anime.animesynonyms';
+    final public const string RELATION_SYNONYMS = 'anime.synonyms';
     final public const string RELATION_VIDEOS = 'animethemeentries.videos';
 
     /**
@@ -157,7 +157,6 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
         return $query->with([
-            AnimeTheme::RELATION_GROUP,
             AnimeTheme::RELATION_SYNONYMS,
             AnimeTheme::RELATION_SONG,
         ]);
@@ -168,10 +167,11 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
      */
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
+        $array = $this->attributesToArray();
         $array['anime'] = $this->anime->toSearchableArray();
+
         if ($this->song !== null) {
-            $array['song'] = $this->song->toSearchableArray() + ['title_keyword' => $this->song->title];
+            $array['song'] = $this->song->toSearchableArray();
         }
 
         return $array;

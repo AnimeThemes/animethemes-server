@@ -46,7 +46,7 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     final public const string ATTRIBUTE_SLUG = 'slug';
 
     final public const string RELATION_ANIME = 'anime';
-    final public const string RELATION_ANIME_SYNONYMS = 'anime.animesynonyms';
+    final public const string RELATION_ANIME_SYNONYMS = 'anime.synonyms';
 
     /**
      * The table associated with the model.
@@ -99,7 +99,7 @@ class Series extends BaseModel implements Auditable, SoftDeletable
      */
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
+        $array = $this->attributesToArray();
         $array['anime'] = $this->anime->map(
             fn (Anime $anime): array => $anime->toSearchableArray()
         )->toArray();
