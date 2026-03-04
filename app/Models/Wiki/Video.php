@@ -90,7 +90,7 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     final public const string ATTRIBUTE_UNCEN = 'uncen';
 
     final public const string RELATION_ANIME = 'animethemeentries.animetheme.anime';
-    final public const string RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
+    final public const string RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.synonyms';
     final public const string RELATION_ANIMETHEME = 'animethemeentries.animetheme';
     final public const string RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
     final public const string RELATION_GROUP = 'animethemeentries.animetheme.group';
@@ -263,7 +263,7 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
      */
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
+        $array = $this->attributesToArray();
 
         $array['entries'] = $this->animethemeentries->map(
             fn (AnimeThemeEntry $entry): array => $entry->toSearchableArray()

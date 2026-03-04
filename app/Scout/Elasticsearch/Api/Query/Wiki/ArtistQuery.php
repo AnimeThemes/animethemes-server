@@ -26,25 +26,13 @@ class ArtistQuery extends ElasticQuery
                         [
                             'bool' => [
                                 'boost' => 0.8,
-                                'should' => $this->createNestedTextQuery('performances', 'alias', $criteria->getTerm()),
+                                'should' => $this->createTextQuery('aliases', $criteria->getTerm()),
                             ],
                         ],
                         [
                             'bool' => [
                                 'boost' => 0.8 * 0.85,
-                                'should' => $this->createNestedTextQuery('performances', 'as', $criteria->getTerm()),
-                            ],
-                        ],
-                        [
-                            'bool' => [
-                                'boost' => 0.8,
-                                'should' => $this->createNestedTextQuery('performances', 'membership_alias', $criteria->getTerm()),
-                            ],
-                        ],
-                        [
-                            'bool' => [
-                                'boost' => 0.8 * 0.85,
-                                'should' => $this->createNestedTextQuery('performances', 'membership_as', $criteria->getTerm()),
+                                'should' => $this->createTextQuery('as', $criteria->getTerm()),
                             ],
                         ],
                     ],

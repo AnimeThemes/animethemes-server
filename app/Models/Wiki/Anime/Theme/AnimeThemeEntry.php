@@ -166,7 +166,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
      */
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
+        $array = $this->attributesToArray();
 
         $array['theme'] = $this->animetheme->toSearchableArray();
 

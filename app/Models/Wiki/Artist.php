@@ -133,8 +133,8 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
         return $query->with([
-            Artist::RELATION_PERFORMANCES_SONGS,
-            Artist::RELATION_MEMBERSHIPS_PERFORMANCES_SONGS,
+            Artist::RELATION_PERFORMANCES,
+            Artist::RELATION_MEMBERSHIPS,
         ]);
     }
 
@@ -143,19 +143,23 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
      */
     public function toSearchableArray(): array
     {
-        $array = $this->toArray();
+        $array = $this->attributesToArray();
 
-        $directPerformances = $this->performances->map(fn (Performance $performance) => $performance->toArray());
+        $array['aliases'] = $this->performances->map(fn (Performance $performance) => $performance->alias)
+            ->toBase()
+            ->concat($this->memberships->map(fn (Membership $membership) => $membership->alias))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
 
-        $membershipPerformances = $this->memberships->flatMap(
-            fn (Membership $membership) => $membership->performances->map(fn (Performance $performance): array => array_merge(
-                $performance->toArray(),
-                ['membership_alias' => $membership->alias],
-                ['membership_as' => $membership->as],
-            ))->all()
-        );
-
-        $array['performances'] = $directPerformances->concat($membershipPerformances)->all();
+        $array['as'] = $this->performances->map(fn (Performance $performance) => $performance->as)
+            ->toBase()
+            ->concat($this->memberships->map(fn (Membership $membership) => $membership->as))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
 
         return $array;
     }

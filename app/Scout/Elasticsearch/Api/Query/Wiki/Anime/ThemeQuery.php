@@ -30,19 +30,19 @@ class ThemeQuery extends ElasticQuery
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.85,
+                                            'boost' => 0.9,
                                             'should' => $this->createNestedTextQuery('song', 'title_native', $criteria->getTerm()),
                                         ],
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.5,
+                                            'boost' => 0.95,
                                             'should' => $this->createNestedTextQuery('anime', 'name', $criteria->getTerm()),
                                         ],
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.5 * 0.85,
+                                            'boost' => 0.9 * 0.85,
                                             'should' => $this->createNestedTextQuery('anime.synonyms', 'text', $criteria->getTerm()),
                                         ],
                                     ],
@@ -51,7 +51,7 @@ class ThemeQuery extends ElasticQuery
                         ],
                         [
                             'bool' => [
-                                'boost' => 0.75,
+                                'boost' => 0.85,
                                 'should' => $this->createTextQuery('slug', $criteria->getTerm()),
                             ],
                         ],
