@@ -6,6 +6,7 @@ namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Models\Document\Page;
+use App\Pivots\Document\PageRole;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,6 +24,7 @@ class DumpDocumentAction extends DumpAction
     {
         return [
             Page::TABLE,
+            PageRole::TABLE,
         ];
     }
 

@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Admin;
 
 use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Repositories\Storage\Admin\Dump\ReconcileDumpAction;
+use App\Filament\Actions\Storage\Admin\DownloadDumpAction;
 use App\Filament\Actions\Storage\Admin\DumpDocumentAction;
 use App\Filament\Actions\Storage\Admin\DumpWikiAction;
 use App\Filament\Actions\Storage\Admin\PruneDumpAction;
@@ -117,6 +118,16 @@ class DumpResource extends BaseResource
 
                 TimestampSection::make(),
             ]);
+    }
+
+    /**
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     */
+    public static function getRecordActions(): array
+    {
+        return [
+            DownloadDumpAction::make(),
+        ];
     }
 
     /**
