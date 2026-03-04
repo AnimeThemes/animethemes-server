@@ -93,6 +93,7 @@ return [
             'copied' => 'Copied',
             'delete' => 'Delete',
             'detach' => 'Detach',
+            'download' => 'Download',
             'edit' => 'Edit',
             'forcedelete' => 'Force Delete',
             'move_all' => 'Move All',
