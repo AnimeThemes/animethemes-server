@@ -37,6 +37,11 @@ class RemoveTrackAction
             $track->previous()->disassociate();
             $track->next()->disassociate()->save();
 
+            PlaylistTrack::query()
+                ->whereBelongsTo($playlist)
+                ->where(PlaylistTrack::ATTRIBUTE_POSITION, '>', $track->position)
+                ->decrement(PlaylistTrack::ATTRIBUTE_POSITION);
+
             DB::commit();
         } catch (Exception $e) {
             Log::error($e->getMessage());

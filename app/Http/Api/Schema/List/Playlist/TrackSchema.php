@@ -13,6 +13,7 @@ use App\Http\Api\Field\List\Playlist\Track\TrackIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackNextHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackNextIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPlaylistIdField;
+use App\Http\Api\Field\List\Playlist\Track\TrackPositionField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPreviousHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPreviousIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
@@ -27,7 +28,6 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackJsonResource;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Database\Eloquent\Model;
 
 class TrackSchema extends EloquentSchema
 {
@@ -67,6 +67,7 @@ class TrackSchema extends EloquentSchema
             new TrackNextIdField($this),
             new TrackNextHashidsField($this),
             new TrackPlaylistIdField($this),
+            new TrackPositionField($this),
             new TrackPreviousIdField($this),
             new TrackPreviousHashidsField($this),
             new TrackEntryIdField($this),

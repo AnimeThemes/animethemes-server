@@ -11,6 +11,7 @@ use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackEntryIdFi
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackIdField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackNextField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
+use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPositionField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPreviousField;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackVideoIdField;
 use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
@@ -36,6 +37,7 @@ class PlaylistTrackType extends EloquentType
     {
         return [
             new PlaylistTrackIdField(),
+            new PlaylistTrackPositionField(),
             new PlaylistTrackEntryIdField(),
             new PlaylistTrackVideoIdField(),
             new PlaylistTrackNextField(),
@@ -50,8 +52,10 @@ class PlaylistTrackType extends EloquentType
                 ->nonNullable(),
             new BelongsToRelation(new VideoType(), PlaylistTrack::RELATION_VIDEO)
                 ->nonNullable(),
-            new BelongsToRelation(new PlaylistTrackType(), PlaylistTrack::RELATION_NEXT),
-            new BelongsToRelation(new PlaylistTrackType(), PlaylistTrack::RELATION_PREVIOUS),
+            new BelongsToRelation(new PlaylistTrackType(), PlaylistTrack::RELATION_NEXT)
+                ->deprecate('No longer used'),
+            new BelongsToRelation(new PlaylistTrackType(), PlaylistTrack::RELATION_PREVIOUS)
+                ->deprecate('No longer used'),
         ];
     }
 }

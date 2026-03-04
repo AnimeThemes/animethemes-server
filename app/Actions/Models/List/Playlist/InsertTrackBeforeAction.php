@@ -33,6 +33,8 @@ class InsertTrackBeforeAction
             $next->previous()->associate($track)->save();
             $track->next()->associate($next)->save();
 
+            $track->moveBefore($next);
+
             DB::commit();
         } catch (Exception $e) {
             Log::error($e->getMessage());

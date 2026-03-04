@@ -10,15 +10,17 @@ use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
 use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
-use App\Http\Api\Schema\Schema;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 /**
@@ -28,6 +30,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  * @property int $next_id
  * @property int $playlist_id
  * @property Playlist $playlist
+ * @property int $position
  * @property PlaylistTrack|null $previous
  * @property int $previous_id
  * @property int $track_id
@@ -36,10 +39,11 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  *
  * @method static PlaylistTrackFactory factory(...$parameters)
  */
-class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
+class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema, Sortable
 {
     use HasFactory;
     use HasRecursiveRelationships;
+    use SortableTrait;
 
     final public const string TABLE = 'playlist_tracks';
 
@@ -47,6 +51,7 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     final public const string ATTRIBUTE_ENTRY = 'entry_id';
     final public const string ATTRIBUTE_NEXT = 'next_id';
     final public const string ATTRIBUTE_PLAYLIST = 'playlist_id';
+    final public const string ATTRIBUTE_POSITION = 'position';
     final public const string ATTRIBUTE_PREVIOUS = 'previous_id';
     final public const string ATTRIBUTE_VIDEO = 'video_id';
 
@@ -95,8 +100,21 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     protected $fillable = [
         PlaylistTrack::ATTRIBUTE_ENTRY,
         PlaylistTrack::ATTRIBUTE_PLAYLIST,
+        PlaylistTrack::ATTRIBUTE_POSITION,
         PlaylistTrack::ATTRIBUTE_VIDEO,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            PlaylistTrack::ATTRIBUTE_POSITION => 'int',
+        ];
+    }
 
     /**
      * Get the route key for the model.
@@ -136,6 +154,11 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
         }
 
         return $subtitle->append($this->playlist->getName())->__toString();
+    }
+
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->whereBelongsTo($this->playlist);
     }
 
     /**

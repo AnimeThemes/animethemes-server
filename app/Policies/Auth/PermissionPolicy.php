@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\Auth;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
