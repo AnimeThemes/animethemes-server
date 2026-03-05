@@ -30,7 +30,7 @@ class PlaylistTrackFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            PlaylistTrack::ATTRIBUTE_POSITION => fake()->randomDigitNotNull(),
         ];
     }
 }
