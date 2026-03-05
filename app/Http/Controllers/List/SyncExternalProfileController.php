@@ -37,9 +37,6 @@ class SyncExternalProfileController extends Controller
         // TODO
     }
 
-    /**
-     * Start a new sync job.
-     */
     public function update(ExternalProfile $externalProfile): JsonResponse
     {
         $externalProfile->dispatchSyncJob();
