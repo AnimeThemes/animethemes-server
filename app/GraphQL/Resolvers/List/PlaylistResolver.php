@@ -30,6 +30,7 @@ class PlaylistResolver extends BaseResolver
 
     /**
      * @param  array<string, mixed>  $args
+     * @param  StoreAction<Playlist>  $action
      */
     public function store(array $args, StoreAction $action): Playlist
     {
@@ -47,6 +48,7 @@ class PlaylistResolver extends BaseResolver
 
     /**
      * @param  array<string, mixed>  $args
+     * @param  UpdateAction<Playlist>  $action
      */
     public function update(array $args, UpdateAction $action): Playlist
     {
@@ -62,6 +64,7 @@ class PlaylistResolver extends BaseResolver
 
     /**
      * @param  array<string, mixed>  $args
+     * @param  DestroyAction<Playlist>  $action
      */
     public function destroy(array $args, DestroyAction $action): array
     {

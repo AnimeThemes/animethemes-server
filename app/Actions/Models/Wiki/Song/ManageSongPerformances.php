@@ -24,7 +24,7 @@ class ManageSongPerformances
     /** @var Collection<int, array{alias: string|null, as: string|null}> */
     protected Collection $groups;
 
-    /** @var Collection<int, array<string, mixed>> */
+    /** @var Collection<int, non-empty-array<string, mixed>> */
     protected Collection $performances;
 
     /** @var Collection<int, array<string, mixed>> */
@@ -99,7 +99,10 @@ class ManageSongPerformances
             DB::beginTransaction();
 
             $this->performances = $this->performances->map(
-                fn (array $performance): array => $performance + [$performance[Performance::ATTRIBUTE_SONG] = $this->song->getKey()]
+                fn (array $performance) => [
+                    ...$performance,
+                    Performance::ATTRIBUTE_SONG => $this->song->getKey(),
+                ]
             );
 
             // Multiple queries because upsert does not dispatch an event.

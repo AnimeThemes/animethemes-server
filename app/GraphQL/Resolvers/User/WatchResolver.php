@@ -22,9 +22,9 @@ class WatchResolver extends BaseResolver
 
     /**
      * @param  array<string, mixed>  $args
-     * @return WatchHistory
+     * @param  StoreAction<WatchHistory>  $action
      */
-    public function store(array $args, StoreAction $action): Model
+    public function store(array $args, StoreAction $action): WatchHistory
     {
         $validated = $this->validated($args, WatchMutation::class);
 
