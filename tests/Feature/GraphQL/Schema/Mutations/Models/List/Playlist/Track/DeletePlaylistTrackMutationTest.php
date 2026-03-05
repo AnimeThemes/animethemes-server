@@ -85,6 +85,8 @@ test('forbidden if feature flag is disabled', function () {
 });
 
 test('forbidden if not owner', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()
@@ -110,6 +112,8 @@ test('forbidden if not owner', function () {
 });
 
 it('deletes', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()

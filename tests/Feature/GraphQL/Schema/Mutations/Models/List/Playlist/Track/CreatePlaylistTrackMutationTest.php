@@ -85,6 +85,8 @@ test('forbidden if feature flag is disabled', function () {
 });
 
 it('fails if no entry video link', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()
@@ -116,6 +118,8 @@ it('fails if no entry video link', function () {
 });
 
 it('creates', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()
