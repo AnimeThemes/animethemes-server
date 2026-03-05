@@ -10,6 +10,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\Track\TrackEntryIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackIdField;
+use App\Http\Api\Field\List\Playlist\Track\TrackPositionField;
 use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -55,6 +56,7 @@ class ForwardBackwardSchema extends EloquentSchema
             new TrackHashidsField($this),
             new TrackEntryIdField($this),
             new TrackVideoIdField($this),
+            new TrackPositionField($this),
         ];
     }
 
