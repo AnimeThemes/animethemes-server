@@ -6,8 +6,8 @@ namespace App\Features;
 
 use App\Constants\FeatureConstants;
 use App\Enums\Auth\SpecialPermission;
-use App\Models\Admin\Feature;
 use App\Models\Auth\User;
+use Laravel\Pennant\Feature;
 
 class AllowDumpDownloading
 {
@@ -17,9 +17,6 @@ class AllowDumpDownloading
             return true;
         }
 
-        return (bool) Feature::query()
-            ->where(Feature::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE)
-            ->where(Feature::ATTRIBUTE_NAME, static::class)
-            ->value(Feature::ATTRIBUTE_VALUE);
+        return Feature::driver()->get(static::class, null);
     }
 }
