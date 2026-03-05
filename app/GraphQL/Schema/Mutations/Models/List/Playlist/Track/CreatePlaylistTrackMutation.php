@@ -9,6 +9,7 @@ use App\GraphQL\Schema\Mutations\Models\CreateMutation;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist\PlaylistTrack;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
 class CreatePlaylistTrackMutation extends CreateMutation
@@ -32,7 +33,7 @@ class CreatePlaylistTrackMutation extends CreateMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::call(
-            [App::make(PlaylistTrackResolver::class), 'store'],
+            [App::make(PlaylistTrackResolver::class, ['playlist' => Arr::get($args, 'playlist')]), 'store'],
             ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
         );
     }

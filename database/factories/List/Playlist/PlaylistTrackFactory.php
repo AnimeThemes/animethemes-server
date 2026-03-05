@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Factories\List\Playlist;
 
-use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -7,14 +7,11 @@ namespace Database\Factories\List;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 /**
  * @method Playlist createOne($attributes = [])

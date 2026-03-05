@@ -12,9 +12,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 
-/**
- * @template TModel of \Illuminate\Database\Eloquent\Model
- */
 abstract class BaseResolver
 {
     final public const MODEL = 'model';

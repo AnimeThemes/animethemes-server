@@ -17,9 +17,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * @extends BaseResolver<Playlist>
- */
 class PlaylistResolver extends BaseResolver
 {
     public function __construct()

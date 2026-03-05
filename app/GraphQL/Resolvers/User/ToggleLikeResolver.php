@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @extends BaseResolver<Like>
- */
 class ToggleLikeResolver extends BaseResolver
 {
     final public const string ATTRIBUTE_ENTRY = 'entry';
@@ -25,6 +22,8 @@ class ToggleLikeResolver extends BaseResolver
      */
     public function store(array $args): ?Like
     {
+        $this->runMiddleware();
+
         $validated = $this->validated($args, ToggleLikeMutation::class);
 
         /** @var Model&Likeable $likeable */

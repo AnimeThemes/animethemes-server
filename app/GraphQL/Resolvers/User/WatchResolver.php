@@ -11,9 +11,6 @@ use App\Models\User\WatchHistory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @extends BaseResolver<WatchHistory>
- */
 class WatchResolver extends BaseResolver
 {
     final public const string ATTRIBUTE_ENTRY = 'entryId';
@@ -25,6 +22,8 @@ class WatchResolver extends BaseResolver
      */
     public function store(array $args, StoreAction $action): WatchHistory
     {
+        $this->runMiddleware();
+
         $validated = $this->validated($args, WatchMutation::class);
 
         $validated += [

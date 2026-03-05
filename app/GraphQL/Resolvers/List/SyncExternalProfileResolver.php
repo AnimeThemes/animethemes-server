@@ -25,6 +25,8 @@ class SyncExternalProfileResolver extends BaseResolver
      */
     public function update(array $args): array
     {
+        $this->runMiddleware();
+
         /** @var ExternalProfile $profile */
         $profile = Arr::pull($args, self::MODEL);
 
