@@ -31,6 +31,7 @@ use App\Pivots\Wiki\ArtistSong;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\AdminSeeder;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
@@ -39,6 +40,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -47,6 +49,8 @@ class AppServiceProvider extends ServiceProvider
         $this->setupModels();
 
         DB::prohibitDestructiveCommands(app()->isProduction());
+
+        EnsureFeaturesAreActive::whenInactive(fn () => throw new AuthorizationException(code: 403));
 
         ParallelTesting::setUpTestDatabase(function (string $database, int $token): void {
             Artisan::call('db:seed', ['--class' => PermissionSeeder::class]);

@@ -8,7 +8,6 @@ use App\Actions\Http\Api\StoreAction;
 use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\User\WatchMutation;
 use App\Models\User\WatchHistory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 

@@ -32,8 +32,7 @@ class CreatePlaylistTrackMutation extends CreateMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::call(
-            [
-                App::make(PlaylistTrackResolver::class), 'store'],
+            [App::make(PlaylistTrackResolver::class), 'store'],
             ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
         );
     }

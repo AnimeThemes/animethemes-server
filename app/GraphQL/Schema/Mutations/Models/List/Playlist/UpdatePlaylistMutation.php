@@ -32,8 +32,7 @@ class UpdatePlaylistMutation extends UpdateMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::call(
-            [
-                App::make(PlaylistResolver::class), 'update'],
+            [App::make(PlaylistResolver::class), 'update'],
             ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
         );
     }

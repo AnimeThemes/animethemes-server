@@ -99,7 +99,7 @@ class ManageSongPerformances
             DB::beginTransaction();
 
             $this->performances = $this->performances->map(
-                fn (array $performance) => [
+                fn (array $performance): array => [
                     ...$performance,
                     Performance::ATTRIBUTE_SONG => $this->song->getKey(),
                 ]

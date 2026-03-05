@@ -44,8 +44,7 @@ class WatchMutation extends CreateMutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
         return App::call(
-            [
-                App::make(WatchResolver::class), 'store'],
+            [App::make(WatchResolver::class), 'store'],
             ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
         );
     }

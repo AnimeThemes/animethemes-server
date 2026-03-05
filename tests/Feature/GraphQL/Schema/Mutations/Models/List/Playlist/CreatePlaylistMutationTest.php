@@ -5,10 +5,12 @@ declare(strict_types=1);
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
@@ -52,7 +54,30 @@ test('forbidden', function () {
     $response->assertJsonPath('errors.0.extensions.category', 'authorization');
 });
 
+test('forbidden if feature flag is disabled', function () {
+    Feature::deactivate(AllowPlaylistManagement::class);
+
+    $user = User::factory()
+        ->withPermissions(CrudPermission::CREATE->format(Playlist::class))
+        ->createOne();
+
+    actingAs($user);
+
+    $response = graphql([
+        'query' => $this->mutation,
+        'variables' => [
+            'name' => fake()->word(),
+            'visibility' => Arr::random(PlaylistVisibility::cases())->name,
+        ],
+    ]);
+
+    $response->assertOk();
+    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+});
+
 it('creates', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept(PlaylistCreated::class);
 
     $user = User::factory()

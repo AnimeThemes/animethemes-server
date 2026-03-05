@@ -5,12 +5,14 @@ declare(strict_types=1);
 use App\Enums\Auth\CrudPermission;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\Track\TrackCreated;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
@@ -42,6 +44,31 @@ test('forbidden', function () {
     Event::fakeExcept(PlaylistCreated::class);
 
     actingAs(User::factory()->createOne());
+
+    $response = graphql([
+        'query' => $this->mutation,
+        'variables' => [
+            // Needed for the bind resolver.
+            'playlist' => Playlist::factory()->createOne()->hashid,
+            'entryId' => AnimeThemeEntry::factory()->createOne()->getKey(),
+            'videoId' => Video::factory()->createOne()->getKey(),
+        ],
+    ]);
+
+    $response->assertOk();
+    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+});
+
+test('forbidden if feature flag is disabled', function () {
+    Feature::deactivate(AllowPlaylistManagement::class);
+
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
+    $user = User::factory()
+        ->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))
+        ->createOne();
+
+    actingAs($user);
 
     $response = graphql([
         'query' => $this->mutation,

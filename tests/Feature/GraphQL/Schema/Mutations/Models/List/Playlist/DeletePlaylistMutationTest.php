@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 use App\Enums\Auth\CrudPermission;
 use App\Events\List\Playlist\PlaylistCreated;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
@@ -36,6 +38,29 @@ test('forbidden', function () {
     Event::fakeExcept(PlaylistCreated::class);
 
     actingAs(User::factory()->createOne());
+
+    $response = graphql([
+        'query' => $this->mutation,
+        'variables' => [
+            // Needed for the bind resolver.
+            'id' => Playlist::factory()->createOne()->hashid,
+        ],
+    ]);
+
+    $response->assertOk();
+    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+});
+
+test('forbidden if feature flag is disabled', function () {
+    Feature::deactivate(AllowPlaylistManagement::class);
+
+    Event::fakeExcept(PlaylistCreated::class);
+
+    $user = User::factory()
+        ->withPermissions(CrudPermission::DELETE->format(Playlist::class))
+        ->createOne();
+
+    actingAs($user);
 
     $response = graphql([
         'query' => $this->mutation,
