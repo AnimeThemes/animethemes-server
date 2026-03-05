@@ -197,7 +197,7 @@ test('allowed include paths', function () {
 
     $response = get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
 
-    $tracks = PlaylistTrack::with($includedPaths->all())->get();
+    $tracks = $playlist->tracks()->with($includedPaths->all())->get();
 
     $response->assertJson(
         json_decode(
