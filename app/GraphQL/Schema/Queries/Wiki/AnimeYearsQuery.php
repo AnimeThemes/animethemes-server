@@ -69,7 +69,9 @@ class AnimeYearsQuery extends BaseQuery
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
-        return App::make(AnimeYearsResolver::class)
-            ->index($root, $args, $context, $resolveInfo);
+        return App::call(
+            [App::make(AnimeYearsResolver::class), 'index'],
+            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        );
     }
 }

@@ -7,26 +7,38 @@ namespace App\GraphQL\Resolvers\List\Playlist;
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
+use App\Features\AllowPlaylistManagement;
 use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackMutation;
 use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
+use App\Http\Middleware\Models\List\PlaylistExceedsTrackLimit;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-/**
- * @extends BaseResolver<PlaylistTrack>
- */
 class PlaylistTrackResolver extends BaseResolver
 {
     final public const string ATTRIBUTE_ENTRY = 'entryId';
     final public const string ATTRIBUTE_VIDEO = 'videoId';
 
+    public static Playlist $playlist;
+
+    public function __construct(Playlist $playlist)
+    {
+        static::$playlist = $playlist;
+
+        $this->middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class))->only(['store', 'update', 'destroy']);
+        $this->middleware(PlaylistExceedsTrackLimit::class)->only(['store']);
+    }
+
     /**
      * @param  array<string, mixed>  $args
      */
-    public function store($root, array $args): PlaylistTrack
+    public function store(array $args, StoreTrackAction $action): PlaylistTrack
     {
+        $this->runMiddleware();
+
         $validated = $this->validated($args, CreatePlaylistTrackMutation::class);
 
         $validated += [
@@ -37,16 +49,16 @@ class PlaylistTrackResolver extends BaseResolver
         /** @var Playlist $playlist */
         $playlist = Arr::pull($validated, 'playlist');
 
-        $action = new StoreTrackAction();
-
         return $action->store($playlist, PlaylistTrack::query(), $validated);
     }
 
     /**
      * @param  array<string, mixed>  $args
      */
-    public function update($root, array $args): PlaylistTrack
+    public function update(array $args, UpdateTrackAction $action): PlaylistTrack
     {
+        $this->runMiddleware();
+
         $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
 
         $validated += [
@@ -57,20 +69,18 @@ class PlaylistTrackResolver extends BaseResolver
         /** @var PlaylistTrack $track */
         $track = Arr::pull($validated, self::MODEL);
 
-        $action = new UpdateTrackAction();
-
         return $action->update($track->playlist, $track, $validated);
     }
 
     /**
      * @param  array<string, mixed>  $args
      */
-    public function destroy($root, array $args): array
+    public function destroy(array $args, DestroyTrackAction $action): array
     {
+        $this->runMiddleware();
+
         /** @var PlaylistTrack $track */
         $track = Arr::get($args, self::MODEL);
-
-        $action = new DestroyTrackAction();
 
         $message = $action->destroy($track->playlist, $track);
 

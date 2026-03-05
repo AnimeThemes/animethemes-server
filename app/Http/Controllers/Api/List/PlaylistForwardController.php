@@ -31,7 +31,9 @@ class PlaylistForwardController extends BaseController
             $query->where(PlaylistTrack::ATTRIBUTE_ID, $playlist->first_id);
         };
 
-        $builder = ForwardPlaylistTrack::query()->treeOf($constraint);
+        $builder = ForwardPlaylistTrack::query()
+            ->treeOf($constraint)
+            ->orderBy(PlaylistTrack::ATTRIBUTE_POSITION);
 
         $resources = $action->index($builder, $query, $request->schema());
 

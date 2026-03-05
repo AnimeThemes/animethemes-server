@@ -57,7 +57,9 @@ class AnimeYearSeasonField extends Field implements DisplayableField
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(AnimeYearsResolver::class)
-            ->resolveSeasonField($root, $args, $context, $resolveInfo);
+        return App::call(
+            [App::make(AnimeYearsResolver::class), 'resolveSeasonField'],
+            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        );
     }
 }

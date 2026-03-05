@@ -73,7 +73,9 @@ class ToggleLikeMutation extends BaseMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(ToggleLikeResolver::class)
-            ->store($root, $args);
+        return App::call(
+            [App::make(ToggleLikeResolver::class), 'store'],
+            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        );
     }
 }

@@ -11,6 +11,7 @@ use App\GraphQL\Schema\Types\MessageResponseType;
 use App\Models\List\Playlist\PlaylistTrack;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
@@ -39,7 +40,9 @@ class DeletePlaylistTrackMutation extends DeleteMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(PlaylistTrackResolver::class)
-            ->destroy($root, $args);
+        return App::call(
+            [App::make(PlaylistTrackResolver::class, ['playlist' => Arr::get($args, 'playlist')]), 'destroy'],
+            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        );
     }
 }

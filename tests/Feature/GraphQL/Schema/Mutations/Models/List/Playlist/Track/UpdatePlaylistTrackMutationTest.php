@@ -5,12 +5,14 @@ declare(strict_types=1);
 use App\Enums\Auth\CrudPermission;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\Track\TrackCreated;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
@@ -62,7 +64,36 @@ test('forbidden', function () {
     $response->assertJsonPath('errors.0.extensions.category', 'authorization');
 });
 
+test('forbidden if feature flag is disabled', function () {
+    Feature::deactivate(AllowPlaylistManagement::class);
+
+    Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
+    $user = User::factory()
+        ->withPermissions(CrudPermission::UPDATE->format(PlaylistTrack::class))
+        ->createOne();
+
+    actingAs($user);
+
+    $track = PlaylistTrack::factory()
+        ->for(Playlist::factory()->for($user))
+        ->createOne();
+
+    $response = graphql([
+        'query' => $this->mutation,
+        'variables' => [
+            'playlist' => $track->playlist->hashid,
+            'id' => $track->hashid,
+        ],
+    ]);
+
+    $response->assertOk();
+    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+});
+
 test('forbidden if not owner', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()
@@ -88,6 +119,8 @@ test('forbidden if not owner', function () {
 });
 
 it('updates', function () {
+    Feature::activate(AllowPlaylistManagement::class);
+
     Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
     $user = User::factory()

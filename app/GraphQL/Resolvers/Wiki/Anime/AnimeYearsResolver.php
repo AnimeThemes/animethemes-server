@@ -21,15 +21,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
-/**
- * @extends BaseResolver<Anime>
- */
 class AnimeYearsResolver extends BaseResolver
 {
     /**
      * @param  array<string, mixed>  $args
      */
-    public function index(null $root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    public function index(array $args, ResolveInfo $resolveInfo): mixed
     {
         $year = Arr::get($args, AnimeYearsQuery::ARGUMENT_YEAR);
 
@@ -64,7 +61,7 @@ class AnimeYearsResolver extends BaseResolver
      *
      * @param  array<string, mixed>  $args
      */
-    public function resolveSeasonField(array $root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    public function resolveSeasonField(array $root, array $args): mixed
     {
         $season = Arr::get($args, AnimeYearSeasonField::ARGUMENT_SEASON);
         $year = Arr::get($root, AnimeYearsQuery::ARGUMENT_YEAR);
@@ -85,7 +82,7 @@ class AnimeYearsResolver extends BaseResolver
     /**
      * Resolve the AnimeYearSeasonAnimeField.
      */
-    public function resolveAnimeField(array $root, array $args, $context, ResolveInfo $resolveInfo): Paginator
+    public function resolveAnimeField(array $root, array $args, ResolveInfo $resolveInfo, IndexAction $action): Paginator
     {
         $season = Arr::get($root, AnimeYearSeasonSeasonField::FIELD);
         $year = Arr::get($root, 'year');
@@ -94,8 +91,6 @@ class AnimeYearsResolver extends BaseResolver
             // season filter applies only on the 'season' field.
             ->when($season !== null, fn (Builder $query) => $query->where(Anime::ATTRIBUTE_SEASON, $season->value))
             ->where(Anime::ATTRIBUTE_YEAR, $year);
-
-        $action = new IndexAction();
 
         return $action->index($builder, $args, new AnimeType(), $resolveInfo);
     }

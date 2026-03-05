@@ -21,7 +21,7 @@ class UserExceedsPlaylistLimit
         $playlistLimit = intval(Config::get(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED));
 
         /** @var User|null $user */
-        $user = $request->user('sanctum');
+        $user = $request->user();
 
         abort_if(intval($user?->playlists()?->count()) >= $playlistLimit
         && $user?->cannot(SpecialPermission::BYPASS_FEATURE_FLAGS->value), 403, "User cannot have more than '$playlistLimit' playlists.");

@@ -9,6 +9,7 @@ use App\GraphQL\Schema\Mutations\Models\UpdateMutation;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\Models\List\Playlist\PlaylistTrack;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
 class UpdatePlaylistTrackMutation extends UpdateMutation
@@ -31,7 +32,9 @@ class UpdatePlaylistTrackMutation extends UpdateMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(PlaylistTrackResolver::class)
-            ->update($root, $args);
+        return App::call(
+            [App::make(PlaylistTrackResolver::class, ['playlist' => Arr::get($args, 'playlist')]), 'update'],
+            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        );
     }
 }

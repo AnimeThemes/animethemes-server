@@ -10,6 +10,7 @@ use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error as GraphQLError;
 use GraphQL\Error\FormattedError;
 use GraphQL\Server\RequestError;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Config;
@@ -90,6 +91,11 @@ class ErrorHandler
 
             if ($previous instanceof ValidationError) {
                 $error['extensions']['validation'] = $previous->getValidatorMessages()->getMessages();
+            }
+
+            if ($previous instanceof AuthorizationException) {
+                $error['message'] = $previous->getMessage();
+                $error['extensions']['category'] = 'authorization';
             }
 
             if ($previous instanceof ProvidesErrorCategory) {

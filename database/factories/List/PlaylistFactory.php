@@ -7,8 +7,6 @@ namespace Database\Factories\List;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -60,7 +58,7 @@ class PlaylistFactory extends Factory
                     $last = Arr::last($tracks);
 
                     $entryVideo = AnimeThemeEntryVideo::factory()
-                        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+                        ->for(AnimeThemeEntry::factory())
                         ->for(Video::factory())
                         ->createOne();
 
@@ -71,10 +69,12 @@ class PlaylistFactory extends Factory
                         ->createOne();
 
                     if ($index === 1) {
+                        $track->moveToStart();
                         $playlist->first()->associate($track)->save();
                     }
 
                     if ($last !== null) {
+                        $track->moveAfter($last);
                         $last->next()->associate($track);
                         $last->save();
 
@@ -83,6 +83,7 @@ class PlaylistFactory extends Factory
                     }
 
                     if ($index === $count) {
+                        $track->moveToEnd();
                         $playlist->last()->associate($track);
                         $playlist->save();
                     }

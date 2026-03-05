@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Resolvers\User;
 
+use App\Actions\Http\Api\StoreAction;
 use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\User\WatchMutation;
 use App\Models\User\WatchHistory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @extends BaseResolver<WatchHistory>
- */
 class WatchResolver extends BaseResolver
 {
     final public const string ATTRIBUTE_ENTRY = 'entryId';
@@ -21,10 +18,12 @@ class WatchResolver extends BaseResolver
 
     /**
      * @param  array<string, mixed>  $args
-     * @return WatchHistory
+     * @param  StoreAction<WatchHistory>  $action
      */
-    public function store($root, array $args): Model
+    public function store(array $args, StoreAction $action): WatchHistory
     {
+        $this->runMiddleware();
+
         $validated = $this->validated($args, WatchMutation::class);
 
         $validated += [
@@ -33,6 +32,6 @@ class WatchResolver extends BaseResolver
             WatchHistory::ATTRIBUTE_USER => Auth::id(),
         ];
 
-        return $this->storeAction->store(WatchHistory::query(), $validated);
+        return $action->store(WatchHistory::query(), $validated);
     }
 }
