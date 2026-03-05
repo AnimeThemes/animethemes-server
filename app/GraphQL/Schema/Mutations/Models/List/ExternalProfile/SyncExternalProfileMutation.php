@@ -62,7 +62,10 @@ class SyncExternalProfileMutation extends BaseMutation
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::make(SyncExternalProfileResolver::class)
-            ->store($root, $args);
+        return App::call(
+            [
+                App::make(SyncExternalProfileResolver::class), 'store'],
+            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        );
     }
 }

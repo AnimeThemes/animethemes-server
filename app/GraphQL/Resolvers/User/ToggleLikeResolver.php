@@ -23,7 +23,7 @@ class ToggleLikeResolver extends BaseResolver
     /**
      * @param  array<string, mixed>  $args
      */
-    public function store($root, array $args): ?Like
+    public function store(array $args): ?Like
     {
         $validated = $this->validated($args, ToggleLikeMutation::class);
 

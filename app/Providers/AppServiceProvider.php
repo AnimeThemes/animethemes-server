@@ -34,14 +34,11 @@ use Database\Seeders\Auth\Role\AdminSeeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,8 +47,6 @@ class AppServiceProvider extends ServiceProvider
         $this->setupModels();
 
         DB::prohibitDestructiveCommands(app()->isProduction());
-
-        EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features): Response => new Response(status: 403));
 
         ParallelTesting::setUpTestDatabase(function (string $database, int $token): void {
             Artisan::call('db:seed', ['--class' => PermissionSeeder::class]);

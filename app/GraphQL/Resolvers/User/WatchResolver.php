@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Resolvers\User;
 
+use App\Actions\Http\Api\StoreAction;
 use App\GraphQL\Resolvers\BaseResolver;
 use App\GraphQL\Schema\Mutations\Models\User\WatchMutation;
 use App\Models\User\WatchHistory;
@@ -23,7 +24,7 @@ class WatchResolver extends BaseResolver
      * @param  array<string, mixed>  $args
      * @return WatchHistory
      */
-    public function store($root, array $args): Model
+    public function store(array $args, StoreAction $action): Model
     {
         $validated = $this->validated($args, WatchMutation::class);
 
@@ -33,6 +34,6 @@ class WatchResolver extends BaseResolver
             WatchHistory::ATTRIBUTE_USER => Auth::id(),
         ];
 
-        return $this->storeAction->store(WatchHistory::query(), $validated);
+        return $action->store(WatchHistory::query(), $validated);
     }
 }

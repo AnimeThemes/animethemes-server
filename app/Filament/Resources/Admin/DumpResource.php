@@ -121,7 +121,7 @@ class DumpResource extends BaseResource
     }
 
     /**
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     * @return array<int, \Filament\Actions\Action|ActionGroup>
      */
     public static function getRecordActions(): array
     {

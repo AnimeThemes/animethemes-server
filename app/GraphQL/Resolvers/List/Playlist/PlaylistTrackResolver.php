@@ -25,7 +25,7 @@ class PlaylistTrackResolver extends BaseResolver
     /**
      * @param  array<string, mixed>  $args
      */
-    public function store($root, array $args): PlaylistTrack
+    public function store(array $args, StoreTrackAction $action): PlaylistTrack
     {
         $validated = $this->validated($args, CreatePlaylistTrackMutation::class);
 
@@ -37,15 +37,13 @@ class PlaylistTrackResolver extends BaseResolver
         /** @var Playlist $playlist */
         $playlist = Arr::pull($validated, 'playlist');
 
-        $action = new StoreTrackAction();
-
         return $action->store($playlist, PlaylistTrack::query(), $validated);
     }
 
     /**
      * @param  array<string, mixed>  $args
      */
-    public function update($root, array $args): PlaylistTrack
+    public function update(array $args, UpdateTrackAction $action): PlaylistTrack
     {
         $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
 
@@ -57,20 +55,16 @@ class PlaylistTrackResolver extends BaseResolver
         /** @var PlaylistTrack $track */
         $track = Arr::pull($validated, self::MODEL);
 
-        $action = new UpdateTrackAction();
-
         return $action->update($track->playlist, $track, $validated);
     }
 
     /**
      * @param  array<string, mixed>  $args
      */
-    public function destroy($root, array $args): array
+    public function destroy(array $args, DestroyTrackAction $action): array
     {
         /** @var PlaylistTrack $track */
         $track = Arr::get($args, self::MODEL);
-
-        $action = new DestroyTrackAction();
 
         $message = $action->destroy($track->playlist, $track);
 

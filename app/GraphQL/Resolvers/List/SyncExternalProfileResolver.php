@@ -16,7 +16,7 @@ class SyncExternalProfileResolver extends BaseResolver
      *
      * @param  array<string, mixed>  $args
      */
-    public function store($root, array $args): array
+    public function store(array $args): array
     {
         /** @var ExternalProfile $profile */
         $profile = Arr::pull($args, self::MODEL);

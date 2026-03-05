@@ -9,6 +9,7 @@ use App\Filament\Actions\BaseAction;
 use App\Models\Admin\Dump;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadDumpAction extends BaseAction
 {
@@ -29,6 +30,6 @@ class DownloadDumpAction extends BaseAction
 
         $this->authorize('view');
 
-        $this->action(fn (Dump $record) => new DownloadAction($record)->download());
+        $this->action(fn (Dump $record): StreamedResponse => new DownloadAction($record)->download());
     }
 }
