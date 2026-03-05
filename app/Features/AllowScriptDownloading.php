@@ -16,6 +16,6 @@ class AllowScriptDownloading
             return true;
         }
 
-        return Feature::for(null)->value(static::class);
+        return Feature::driver()->get(static::class, null);
     }
 }

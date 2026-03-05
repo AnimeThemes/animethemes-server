@@ -10,12 +10,12 @@ use Laravel\Pennant\Feature;
 
 class AllowPlaylistManagement
 {
-    public function resolve(?User $user): bool
+    public function resolve(?User $user): ?bool
     {
         if ($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value)) {
             return true;
         }
 
-        return Feature::for(null)->value(static::class);
+        return Feature::driver()->get(static::class, null);
     }
 }
