@@ -6,8 +6,8 @@ namespace App\Actions\Models;
 
 use App\Actions\ActionResult;
 use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Actions\Storage\Wiki\Image\UploadImageAction;
 use App\Concerns\Models\CanCreateExternalResource;
-use App\Concerns\Models\CanCreateImage;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ImageFacet;
@@ -22,7 +22,6 @@ use Illuminate\Support\Uri;
 abstract class BackfillWikiAction
 {
     use CanCreateExternalResource;
-    use CanCreateImage;
 
     final public const RESOURCES = 'resources';
     final public const IMAGES = 'images';
@@ -84,7 +83,7 @@ abstract class BackfillWikiAction
                 continue;
             }
 
-            $this->createImageFromUrl($url, $facet, $this->getModel());
+            UploadImageAction::createImageFromUrl($url, $facet, $this->getModel());
 
             $this->backfilled($facet, self::IMAGES);
         }

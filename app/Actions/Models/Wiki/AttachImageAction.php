@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Actions\ActionResult;
-use App\Concerns\Models\CanCreateImage;
+use App\Actions\Storage\Wiki\Image\UploadImageAction;
 use App\Contracts\Models\HasImages;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ImageFacet;
@@ -14,8 +14,6 @@ use Illuminate\Support\Arr;
 
 class AttachImageAction
 {
-    use CanCreateImage;
-
     /**
      * @param  ImageFacet[]  $facets
      */
@@ -28,7 +26,7 @@ class AttachImageAction
                 continue;
             }
 
-            $this->createImageFromFile($image, $facet, $model);
+            UploadImageAction::createImageFromFile($image, $facet, $model);
         }
 
         return new ActionResult(ActionStatus::PASSED);

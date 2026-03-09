@@ -51,16 +51,8 @@ trait CanCreateExternalResource
             ]);
         }
 
-        $this->attachResource($resource, $model);
+        $model?->resources()?->attach($resource);
 
         return $resource;
-    }
-
-    protected function attachResource(ExternalResource $resource, (BaseModel&HasResources)|null $model): void
-    {
-        if ($model !== null) {
-            Log::info("Attaching Resource {$resource->getName()} to {$this->privateLabel($model)} {$model->getName()}");
-            $model->resources()->attach($resource);
-        }
     }
 }
