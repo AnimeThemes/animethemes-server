@@ -24,7 +24,6 @@ abstract class ProhibitionRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Prohibition::ATTRIBUTE_NAME)
-                ->defaultSort(Prohibition::TABLE.'.'.Prohibition::ATTRIBUTE_ID, 'desc')
         );
     }
 

@@ -24,7 +24,6 @@ abstract class ScriptRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
-                ->defaultSort(VideoScript::TABLE.'.'.VideoScript::ATTRIBUTE_ID, 'desc')
         );
     }
 

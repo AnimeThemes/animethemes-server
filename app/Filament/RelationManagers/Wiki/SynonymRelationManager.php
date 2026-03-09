@@ -24,7 +24,6 @@ abstract class SynonymRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Synonym::ATTRIBUTE_TEXT)
-                ->defaultSort(Synonym::TABLE.'.'.Synonym::ATTRIBUTE_ID, 'desc')
         );
     }
 }

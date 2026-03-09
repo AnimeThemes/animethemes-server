@@ -24,7 +24,6 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(ExternalProfile::ATTRIBUTE_NAME)
-                ->defaultSort(ExternalProfile::TABLE.'.'.ExternalProfile::ATTRIBUTE_ID, 'desc')
         );
     }
 }

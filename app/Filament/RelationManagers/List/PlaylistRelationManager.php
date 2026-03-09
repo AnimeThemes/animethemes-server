@@ -24,7 +24,6 @@ abstract class PlaylistRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)
-                ->defaultSort(Playlist::TABLE.'.'.Playlist::ATTRIBUTE_ID, 'desc')
         );
     }
 }

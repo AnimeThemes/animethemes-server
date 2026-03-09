@@ -26,7 +26,6 @@ class ActionLogRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return parent::table($table)
-            ->defaultSort(ActionLog::ATTRIBUTE_ID, 'desc')
             ->defaultPaginationPageOption(5);
     }
 

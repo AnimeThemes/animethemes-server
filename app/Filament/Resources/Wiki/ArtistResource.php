@@ -21,6 +21,7 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManag
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\SynonymArtistRelationManager;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
@@ -199,6 +200,7 @@ class ArtistResource extends BaseResource
     {
         return [
             RelationGroup::make(static::getModelLabel(), [
+                SynonymArtistRelationManager::class,
                 PerformanceArtistRelationManager::class,
                 GroupPerformanceArtistRelationManager::class,
                 ResourceRelationManager::class,

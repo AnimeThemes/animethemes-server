@@ -24,7 +24,6 @@ abstract class AnimeRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)
-                ->defaultSort(Anime::TABLE.'.'.Anime::ATTRIBUTE_ID, 'desc')
         );
     }
 }

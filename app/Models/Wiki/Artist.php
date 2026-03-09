@@ -8,6 +8,7 @@ use App\Concerns\Models\SoftDeletes;
 use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
+use App\Contracts\Models\HasSynonyms;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
@@ -51,10 +52,11 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Collection<int, ExternalResource> $resources
  * @property string $slug
  * @property Collection<int, Song> $songs
+ * @property Collection<int, Synonym> $synonyms
  *
  * @method static ArtistFactory factory(...$parameters)
  */
-class Artist extends BaseModel implements Auditable, HasImages, HasResources, SoftDeletable
+class Artist extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
     use HasAudits;
     use HasFactory;
@@ -84,6 +86,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
     final public const string RELATION_PERFORMANCES_SONGS = 'performances.song';
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_SONGS = 'songs';
+    final public const string RELATION_SYNONYMS = 'synonyms';
     final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
     final public const string RELATION_UNIQUE_GROUPSHIPS_PERFORMANCES = 'uniquegroupshipperformances';
 
@@ -135,6 +138,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
         return $query->with([
             Artist::RELATION_PERFORMANCES,
             Artist::RELATION_MEMBERSHIPS,
+            Artist::RELATION_SYNONYMS,
         ]);
     }
 
@@ -145,14 +149,6 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
     {
         $array = $this->attributesToArray();
 
-        $array['aliases'] = $this->performances->map(fn (Performance $performance) => $performance->alias)
-            ->toBase()
-            ->concat($this->memberships->map(fn (Membership $membership) => $membership->alias))
-            ->filter()
-            ->unique()
-            ->values()
-            ->all();
-
         $array['as'] = $this->performances->map(fn (Performance $performance) => $performance->as)
             ->toBase()
             ->concat($this->memberships->map(fn (Membership $membership) => $membership->as))
@@ -160,6 +156,8 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
             ->unique()
             ->values()
             ->all();
+
+        $array['synonyms'] = $this->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all();
 
         return $array;
     }
@@ -195,6 +193,16 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, So
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongJsonResource::$wrap)
             ->withTimestamps();
+    }
+
+    /**
+     * Get the synonyms for the owner model.
+     *
+     * @return MorphMany<Synonym, $this>
+     */
+    public function synonyms(): MorphMany
+    {
+        return $this->morphMany(Synonym::class, Synonym::RELATION_SYNONYMABLE);
     }
 
     /**

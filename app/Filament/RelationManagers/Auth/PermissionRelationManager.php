@@ -24,7 +24,6 @@ abstract class PermissionRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
-                ->defaultSort(Permission::TABLE.'.'.Permission::ATTRIBUTE_ID, 'desc')
         );
     }
 

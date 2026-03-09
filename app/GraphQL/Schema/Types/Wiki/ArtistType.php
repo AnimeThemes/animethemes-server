@@ -47,6 +47,7 @@ class ArtistType extends EloquentType
             new UpdatedAtField(),
             new DeletedAtField(),
 
+            new MorphManyRelation(new SynonymType(), Artist::RELATION_SYNONYMS),
             new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_GROUPS, new ArtistMemberType()),
             new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_MEMBERS, new ArtistMemberType()),
             new MorphToManyRelation($this, new ImageType(), Artist::RELATION_IMAGES, new ImageableType()),

@@ -57,7 +57,6 @@ class ResourceRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
-                ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc')
         );
     }
 }

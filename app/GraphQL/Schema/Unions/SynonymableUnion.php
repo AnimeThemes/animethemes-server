@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Unions;
 
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
+use App\GraphQL\Schema\Types\Wiki\ArtistType;
 
 class SynonymableUnion extends BaseUnion
 {
@@ -23,6 +24,7 @@ class SynonymableUnion extends BaseUnion
     {
         return [
             new AnimeType(),
+            new ArtistType(),
         ];
     }
 }

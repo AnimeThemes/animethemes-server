@@ -24,7 +24,6 @@ abstract class SubmissionStageRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(SubmissionStageResource::getRecordTitleAttribute())
-                ->defaultSort(SubmissionStage::TABLE.'.'.SubmissionStage::ATTRIBUTE_ID, 'desc')
         );
     }
 }

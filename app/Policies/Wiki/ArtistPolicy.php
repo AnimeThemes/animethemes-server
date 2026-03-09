@@ -10,11 +10,19 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Synonym;
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\Response;
 
 class ArtistPolicy extends BasePolicy
 {
+    public function addAnySynonym(User $user): Response
+    {
+        return $user->can(CrudPermission::UPDATE->format(Synonym::class))
+            ? Response::allow()
+            : Response::deny();
+    }
+
     public function attachAnySong(User $user): Response
     {
         return $user->can(CrudPermission::CREATE->format(Artist::class)) && $user->can(CrudPermission::CREATE->format(Song::class))
