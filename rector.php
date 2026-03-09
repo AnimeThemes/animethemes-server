@@ -16,6 +16,7 @@ use RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector;
 use RectorLaravel\Rector\StaticCall\DispatchToHelperFunctionsRector;
 use RectorLaravel\Set\LaravelSetList;
 use RectorLaravel\Set\LaravelSetProvider;
+use RectorPest\Set\PestSetList;
 
 return RectorConfig::configure()
     ->withSetProviders(LaravelSetProvider::class)
@@ -30,6 +31,7 @@ return RectorConfig::configure()
         LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
         LaravelSetList::LARAVEL_IF_HELPERS,
         LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
+        PestSetList::PEST_CODE_QUALITY,
     ])
     ->withRules([
         ResponseHelperCallToJsonResponseRector::class,
