@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Features;
 
-use App\Constants\FeatureConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Laravel\Pennant\Feature;
