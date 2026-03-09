@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki\Image;
 
-use App\Concerns\Models\CanCreateImage;
+use App\Actions\Storage\Wiki\Image\UploadImageAction as ImageUploadImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UploadImageAction extends BaseAction
 {
-    use CanCreateImage;
-
     protected array $facets = [];
 
     public static function getDefaultName(): ?string
@@ -58,7 +56,7 @@ class UploadImageAction extends BaseAction
         $image = Arr::get($data, Image::ATTRIBUTE_PATH);
         $facet = Arr::get($data, Image::ATTRIBUTE_FACET);
 
-        $this->createImageFromFile($image, $facet);
+        ImageUploadImageAction::createImageFromFile($image, $facet);
     }
 
     public function getSchema(Schema $schema): Schema
