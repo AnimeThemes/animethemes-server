@@ -26,9 +26,11 @@ abstract class CreateMutation extends BaseMutation
      */
     public function __construct(
         protected string $model,
-        protected ?string $customName = null,
-    ) {
-        parent::__construct($customName ?? 'Create'.Str::pascal(class_basename($model)));
+    ) {}
+
+    public function name(): string
+    {
+        return 'Create'.Str::pascal(class_basename($this->model));
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool

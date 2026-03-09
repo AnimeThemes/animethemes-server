@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\App;
 
 class SyncExternalProfileMutation extends BaseMutation
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('SyncExternalProfile');
+        return 'SyncExternalProfile';
     }
 
     public function description(): string

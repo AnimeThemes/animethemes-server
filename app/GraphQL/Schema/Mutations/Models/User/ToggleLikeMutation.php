@@ -19,9 +19,9 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ToggleLikeMutation extends BaseMutation
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('ToggleLike');
+        return 'ToggleLike';
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, $selectFields = null): bool

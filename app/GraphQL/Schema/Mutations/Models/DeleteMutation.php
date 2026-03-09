@@ -21,9 +21,11 @@ abstract class DeleteMutation extends BaseMutation
     /**
      * @param  class-string<Model>  $model
      */
-    public function __construct(protected string $model)
+    public function __construct(protected string $model) {}
+
+    public function name(): string
     {
-        parent::__construct('Delete'.Str::pascal(class_basename($model)));
+        return 'Delete'.Str::pascal(class_basename($this->model));
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool

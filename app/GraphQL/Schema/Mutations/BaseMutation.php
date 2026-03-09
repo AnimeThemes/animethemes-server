@@ -22,9 +22,8 @@ abstract class BaseMutation extends Mutation
 
     protected Response $response;
 
-    public function __construct(
-        protected string $name,
-    ) {
+    public function __construct()
+    {
         $this->middleware = array_merge(
             $this->middleware,
             [
@@ -34,6 +33,20 @@ abstract class BaseMutation extends Mutation
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => $this->name(),
+            'description' => $this->description(),
+            'baseType' => $this->baseType(),
+        ];
+    }
+
+    abstract public function name(): string;
+
     public function description(): string
     {
         return '';
@@ -42,23 +55,6 @@ abstract class BaseMutation extends Mutation
     public function getAuthorizationMessage(): string
     {
         return $this->response->message() ?? 'Unauthorized';
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function attributes(): array
-    {
-        return [
-            'name' => $this->getName(),
-            'description' => $this->description(),
-            'baseType' => $this->baseType(),
-        ];
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
