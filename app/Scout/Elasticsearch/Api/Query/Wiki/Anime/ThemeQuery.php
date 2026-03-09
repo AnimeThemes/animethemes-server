@@ -20,7 +20,6 @@ class ThemeQuery extends ElasticQuery
                 'bool' => [
                     'should' => [
                         [
-                            // Pick the score of the best performing sub-query.
                             'dis_max' => [
                                 'queries' => [
                                     [
@@ -34,15 +33,22 @@ class ThemeQuery extends ElasticQuery
                                             'should' => $this->createNestedTextQuery('song', 'title_native', $criteria->getTerm()),
                                         ],
                                     ],
+                                ],
+                            ],
+                        ],
+                        [
+                            // Pick the score of the best performing sub-query.
+                            'dis_max' => [
+                                'queries' => [
                                     [
                                         'bool' => [
-                                            'boost' => 0.95,
+                                            'boost' => 0.8,
                                             'should' => $this->createNestedTextQuery('anime', 'name', $criteria->getTerm()),
                                         ],
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.9 * 0.85,
+                                            'boost' => 0.8 * 0.85,
                                             'should' => $this->createNestedTextQuery('anime', 'synonyms', $criteria->getTerm()),
                                         ],
                                     ],
