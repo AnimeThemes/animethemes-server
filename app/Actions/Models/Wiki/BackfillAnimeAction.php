@@ -149,7 +149,7 @@ class BackfillAnimeAction extends BackfillWikiAction
 
         $synonyms = $api->getSynonyms()
             ->reject(
-                fn (int $type, string $text): bool => $type === SynonymType::OTHER->value && Str::is($text, $this->getModel()->getName(), true)
+                fn (string $text, int $type): bool => $type === SynonymType::OTHER->value && Str::is($text, $this->getModel()->getName(), true)
             )
             ->all();
 

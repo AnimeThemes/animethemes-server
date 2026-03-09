@@ -87,7 +87,7 @@ abstract class ExternalApiAction
                 }
 
                 return $synonyms
-                    ->except(SynonymType::OTHER->value)
+                    ->except([SynonymType::OTHER->value])
                     ->containsStrict($text);
             });
     }
