@@ -7,7 +7,6 @@ namespace App\Filament\RelationManagers\Wiki\Anime;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\ThemeResource;
-use App\Models\Wiki\Anime\AnimeTheme;
 use Filament\Tables\Table;
 
 abstract class ThemeRelationManager extends BaseRelationManager

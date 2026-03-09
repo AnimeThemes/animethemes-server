@@ -60,14 +60,14 @@ class VideoQuery extends ElasticQuery
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.5,
+                                            'boost' => 0.8,
                                             'should' => $this->createNestedTextQuery('entries.theme.anime', 'name', $criteria->getTerm()),
                                         ],
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.5 * 0.85,
-                                            'should' => $this->createNestedTextQuery('entries.theme.anime.synonyms', 'text', $criteria->getTerm()),
+                                            'boost' => 0.8 * 0.85,
+                                            'should' => $this->createNestedTextQuery('entries.theme.anime', 'synonyms', $criteria->getTerm()),
                                         ],
                                     ],
                                 ],

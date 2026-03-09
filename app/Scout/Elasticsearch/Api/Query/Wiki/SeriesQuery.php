@@ -26,10 +26,7 @@ class SeriesQuery extends ElasticQuery
                         [
                             'bool' => [
                                 'boost' => 0.6,
-                                'should' => $this->createNestedQuery(
-                                    'anime',
-                                    $this->createNestedTextQuery('anime.synonyms', 'text', $criteria->getTerm())
-                                ),
+                                'should' => $this->createNestedTextQuery('anime', 'synonyms', $criteria->getTerm()),
                             ],
                         ],
                     ],

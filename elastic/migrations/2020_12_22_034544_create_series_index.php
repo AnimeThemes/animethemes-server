@@ -57,34 +57,6 @@ final class CreateSeriesIndex implements MigrationInterface
                     'slug' => [
                         'type' => 'text',
                     ],
-                    'synonyms' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'synonymable_type' => [
-                                'type' => 'keyword',
-                            ],
-                            'synonymable_id' => [
-                                'type' => 'long',
-                            ],
-                            'created_at' => [
-                                'type' => 'date',
-                            ],
-                            'synonym_id' => [
-                                'type' => 'long',
-                            ],
-                            'text' => [
-                                'type' => 'text',
-                                'copy_to' => ['synonym_slug'],
-                                'analyzer' => 'name_search',
-                            ],
-                            'type' => [
-                                'type' => 'long',
-                            ],
-                            'updated_at' => [
-                                'type' => 'date',
-                            ],
-                        ],
-                    ],
                     'synopsis' => [
                         'type' => 'text',
                     ],
@@ -94,10 +66,18 @@ final class CreateSeriesIndex implements MigrationInterface
                     'year' => [
                         'type' => 'long',
                     ],
+                    'synonyms' => [
+                        'type' => 'text',
+                        'analyzer' => 'name_search',
+                        'fields' => [
+                            'keyword' => [
+                                'type' => 'keyword',
+                            ],
+                        ],
+                    ],
                 ],
             ]);
             $mapping->text('anime_slug');
-            $mapping->text('synonym_slug');
         });
     }
 
