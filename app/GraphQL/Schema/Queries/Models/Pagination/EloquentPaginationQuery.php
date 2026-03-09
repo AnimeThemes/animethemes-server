@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Models\Pagination;
 
 use App\Actions\GraphQL\IndexAction;
+use App\GraphQL\Argument\Argument;
+use App\GraphQL\Argument\FirstArgument;
+use App\GraphQL\Argument\PageArgument;
 use App\GraphQL\Schema\Queries\Models\EloquentQuery;
-use App\GraphQL\Schema\Types\BaseType;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -15,13 +17,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use RuntimeException;
 
 abstract class EloquentPaginationQuery extends EloquentQuery
 {
-    public function __construct(protected string $name)
+    public function __construct()
     {
-        parent::__construct($name, false, true);
+        parent::__construct(false, true);
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
@@ -32,6 +33,21 @@ abstract class EloquentPaginationQuery extends EloquentQuery
             ->all();
 
         return ($this->response = Gate::inspect('viewAny', [$this->model(), ...$args]))->allowed();
+    }
+
+    /**
+     * The arguments of the class resolve as customs class helper.
+     *
+     * @return Argument[]
+     */
+    public function arguments(): array
+    {
+        return [
+            ...parent::arguments(),
+
+            new FirstArgument(),
+            new PageArgument(),
+        ];
     }
 
     /**
@@ -56,8 +72,6 @@ abstract class EloquentPaginationQuery extends EloquentQuery
     public function type(): Type
     {
         $baseType = $this->baseType();
-
-        throw_unless($baseType instanceof BaseType, RuntimeException::class, "baseType not defined for query {$this->getName()}");
 
         return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));
     }

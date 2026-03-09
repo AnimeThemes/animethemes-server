@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\ArtistType;
 
 class ArtistQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('artist');
+        return 'artist';
     }
 
     public function description(): string

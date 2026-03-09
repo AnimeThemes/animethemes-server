@@ -11,9 +11,9 @@ use App\GraphQL\Schema\Types\Wiki\SeriesType;
 
 class SeriesPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('seriesPagination');
+        return 'seriesPagination';
     }
 
     public function description(): string

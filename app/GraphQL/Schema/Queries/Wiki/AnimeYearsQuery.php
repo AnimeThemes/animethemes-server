@@ -24,7 +24,12 @@ class AnimeYearsQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('animeyears', false, true);
+        parent::__construct(false, true);
+    }
+
+    public function name(): string
+    {
+        return 'animeyears';
     }
 
     public function description(): string

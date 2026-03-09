@@ -15,9 +15,9 @@ use Illuminate\Support\Arr;
 
 class PlaylistTrackPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('playlisttrackPagination');
+        return 'playlisttrackPagination';
     }
 
     public function description(): string

@@ -11,9 +11,9 @@ use App\GraphQL\Schema\Types\Wiki\AnimeType;
 
 class AnimePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('animePagination');
+        return 'animePagination';
     }
 
     public function description(): string

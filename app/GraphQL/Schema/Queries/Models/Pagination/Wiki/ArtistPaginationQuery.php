@@ -11,9 +11,9 @@ use App\GraphQL\Schema\Types\Wiki\ArtistType;
 
 class ArtistPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('artistPagination');
+        return 'artistPagination';
     }
 
     public function description(): string

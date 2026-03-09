@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\SeriesType;
 
 class SeriesQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('series');
+        return 'series';
     }
 
     public function description(): string

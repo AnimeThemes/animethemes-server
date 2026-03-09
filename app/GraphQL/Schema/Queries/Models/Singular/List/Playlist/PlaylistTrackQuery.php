@@ -12,9 +12,9 @@ use Illuminate\Support\Arr;
 
 class PlaylistTrackQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('playlisttrack');
+        return 'playlisttrack';
     }
 
     public function description(): string

@@ -9,12 +9,9 @@ use App\Concerns\Actions\GraphQL\FiltersModels;
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Argument\FirstArgument;
-use App\GraphQL\Argument\PageArgument;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Filter\FilterCriteria;
 use App\GraphQL\Filter\Filter;
-use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Auth\Access\Response;
@@ -31,7 +28,6 @@ abstract class BaseQuery extends Query
     protected Response $response;
 
     public function __construct(
-        protected string $name,
         protected bool $nullable = true,
         protected bool $isList = false,
     ) {}
@@ -47,17 +43,14 @@ abstract class BaseQuery extends Query
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'description' => $this->description(),
             'baseType' => $this->baseType(),
             'deprecationReason' => $this instanceof DeprecatedField ? $this->deprecationReason() : null,
         ];
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
+    abstract public function name(): string;
 
     abstract public function description(): string;
 
@@ -72,16 +65,11 @@ abstract class BaseQuery extends Query
 
         $baseType = $this->baseType();
 
-        if ($this instanceof EloquentPaginationQuery) {
-            $arguments[] = new FirstArgument();
-            $arguments[] = new PageArgument();
-        }
-
-        if ($baseType instanceof BaseType && $baseType->hasFilterableColumns()) {
+        if ($baseType->hasFilterableColumns()) {
             $arguments[] = FilterCriteria::getFilters($baseType)->map(fn (Filter $filter): array => $filter->getArguments())->flatten();
         }
 
-        if ($baseType instanceof BaseType && $this instanceof EloquentPaginationQuery && $baseType->hasSortableColumns()) {
+        if ($baseType->hasSortableColumns()) {
             $arguments[] = new SortArgument($baseType);
         }
 
@@ -99,10 +87,7 @@ abstract class BaseQuery extends Query
     /**
      * The base return rebing type of the query.
      */
-    public function baseType(): ?BaseType
-    {
-        return null;
-    }
+    abstract public function baseType(): BaseType;
 
     public function type(): Type
     {

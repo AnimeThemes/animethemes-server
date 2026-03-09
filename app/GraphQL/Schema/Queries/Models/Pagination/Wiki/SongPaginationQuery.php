@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\SongType;
 
 class SongPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('songPagination');
+        return 'songPagination';
     }
 
     public function description(): string

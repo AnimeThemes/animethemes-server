@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\VideoType;
 
 class VideoQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('video');
+        return 'video';
     }
 
     public function description(): string

@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Date;
 
 class FeaturedThemePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('featuredthemePagination');
+        return 'featuredthemePagination';
     }
 
     public function description(): string

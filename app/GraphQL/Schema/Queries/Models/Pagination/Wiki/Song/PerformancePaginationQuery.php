@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
 
 class PerformancePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('performancePagination');
+        return 'performancePagination';
     }
 
     public function description(): string

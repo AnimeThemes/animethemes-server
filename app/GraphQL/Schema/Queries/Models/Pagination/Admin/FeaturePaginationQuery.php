@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FeaturePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('featurePagination');
+        return 'featurePagination';
     }
 
     public function description(): string

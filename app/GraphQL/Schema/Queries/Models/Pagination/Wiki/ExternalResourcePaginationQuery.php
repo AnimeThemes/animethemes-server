@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\ExternalResourceType;
 
 class ExternalResourcePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('externalresourcePagination');
+        return 'externalresourcePagination';
     }
 
     public function description(): string

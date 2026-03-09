@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class AnnouncementPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('announcementPagination');
+        return 'announcementPagination';
     }
 
     public function description(): string
