@@ -26,7 +26,7 @@ class ArtistQuery extends ElasticQuery
                         [
                             'bool' => [
                                 'boost' => 0.8,
-                                'should' => $this->createTextQuery('aliases', $criteria->getTerm()),
+                                'should' => $this->createTextQuery('synonyms', $criteria->getTerm()),
                             ],
                         ],
                         [

@@ -8,6 +8,7 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
+use App\Models\Wiki\Synonym;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistMember;
@@ -42,6 +43,18 @@ test('has subtitle', function () {
     $artist = Artist::factory()->createOne();
 
     $this->assertIsString($artist->getSubtitle());
+});
+
+test('synonyms', function () {
+    $synonymCount = fake()->randomDigitNotNull();
+
+    $artist = Artist::factory()
+        ->has(Synonym::factory()->count($synonymCount))
+        ->createOne();
+
+    $this->assertInstanceOf(MorphMany::class, $artist->synonyms());
+    $this->assertEquals($synonymCount, $artist->synonyms()->count());
+    $this->assertInstanceOf(Synonym::class, $artist->synonyms()->first());
 });
 
 test('songs', function () {

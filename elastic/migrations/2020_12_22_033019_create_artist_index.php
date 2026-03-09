@@ -44,7 +44,7 @@ final class CreateArtistIndex implements MigrationInterface
                     ],
                 ],
             ]);
-            $mapping->text('aliases', [
+            $mapping->text('as', [
                 'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [
@@ -52,7 +52,7 @@ final class CreateArtistIndex implements MigrationInterface
                     ],
                 ],
             ]);
-            $mapping->text('as', [
+            $mapping->text('synonyms', [
                 'analyzer' => 'name_search',
                 'fields' => [
                     'keyword' => [

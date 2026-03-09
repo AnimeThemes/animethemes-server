@@ -11,8 +11,8 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Synonym;
@@ -103,7 +103,7 @@ class SynonymResource extends BaseResource
                     ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(Synonym::RELATION_SYNONYMABLE)
-                    ->hiddenOn(SynonymAnimeRelationManager::class)
+                    ->hiddenOn(BaseRelationManager::class)
                     ->color('related-link')
                     ->weight(FontWeight::SemiBold)
                     ->state(fn (Synonym $record) => $record->synonymable->getName())
