@@ -81,7 +81,7 @@ class UploadImageAction extends BaseAction
                     ->required()
                     ->image()
                     ->imageEditor()
-                    ->imageEditorAspectRatios([null, '2:3'])
+                    ->imageEditorAspectRatioOptions([null, '2:3'])
                     ->storeFiles(false),
             ])
             ->columns(1);
