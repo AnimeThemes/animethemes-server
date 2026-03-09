@@ -37,7 +37,7 @@ class PlaylistTrackEntryIdField extends Field implements CreatableField, Filtera
 
     public function getFilter(): IntFilter
     {
-        return new IntFilter($this->getName(), $this->getColumn());
+        return new IntFilter($this->name(), $this->getColumn());
     }
 
     /**

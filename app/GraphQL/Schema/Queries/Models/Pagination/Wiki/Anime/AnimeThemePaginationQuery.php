@@ -11,9 +11,9 @@ use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 
 class AnimeThemePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('animethemePagination');
+        return 'animethemePagination';
     }
 
     public function description(): string

@@ -39,10 +39,10 @@ class SortableColumns extends EnumType
      */
     public function attributes(): array
     {
-        $typeName = $this->type->getName();
+        $typeName = $this->type->name();
 
         $name = $this->pivotType instanceof PivotType
-            ? $typeName.$this->pivotType->getName()
+            ? $typeName.$this->pivotType->name()
             : $typeName;
 
         return [
@@ -106,7 +106,7 @@ class SortableColumns extends EnumType
             ->filter(fn (Relation $relation): bool => $relation instanceof BelongsToRelation && $relation->baseType() instanceof BaseType)
             ->mapWithKeys(
                 fn (Relation $relation): array => [
-                    $relation->getName() => collect($relation->baseType()->fieldClasses())
+                    $relation->name() => collect($relation->baseType()->fieldClasses())
                         ->filter(fn (Field $field): bool => $field instanceof SortableField),
                 ],
             );

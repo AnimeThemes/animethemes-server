@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\ThemeGroupType;
 
 class ThemeGroupPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('themegroupPagination');
+        return 'themegroupPagination';
     }
 
     public function description(): string

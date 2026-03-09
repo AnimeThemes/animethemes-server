@@ -28,7 +28,7 @@ class ResolveBindableArgs extends Middleware
         }
 
         $bindableFields = collect($baseType->fieldClasses())
-            ->filter(fn (Field $field): bool => $field instanceof BindableField && Arr::has($args, $field->getName()))
+            ->filter(fn (Field $field): bool => $field instanceof BindableField && Arr::has($args, $field->name()))
             ->all();
 
         /** @var Field&BindableField $field */
@@ -37,13 +37,13 @@ class ResolveBindableArgs extends Middleware
 
             if ($resolver === null) {
                 $args['model'] = $baseType->model()::query()
-                    ->where($field->getColumn(), Arr::get($args, $field->getName()))
+                    ->where($field->getColumn(), Arr::get($args, $field->name()))
                     ->firstOrFail();
 
                 continue;
             }
 
-            $args[$field->getName()] = $resolver;
+            $args[$field->name()] = $resolver;
         }
 
         return $next($root, $args, $context, $resolveInfo);

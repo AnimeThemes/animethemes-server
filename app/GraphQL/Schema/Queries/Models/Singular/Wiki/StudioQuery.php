@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\StudioType;
 
 class StudioQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('studio');
+        return 'studio';
     }
 
     public function description(): string

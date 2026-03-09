@@ -17,7 +17,12 @@ class WatchMutation extends CreateMutation
 {
     public function __construct()
     {
-        parent::__construct(WatchHistory::class, 'Watch');
+        parent::__construct(WatchHistory::class);
+    }
+
+    public function name(): string
+    {
+        return 'Watch';
     }
 
     public function description(): string

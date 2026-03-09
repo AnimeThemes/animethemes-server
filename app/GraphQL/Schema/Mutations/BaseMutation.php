@@ -22,9 +22,8 @@ abstract class BaseMutation extends Mutation
 
     protected Response $response;
 
-    public function __construct(
-        protected string $name,
-    ) {
+    public function __construct()
+    {
         $this->middleware = array_merge(
             $this->middleware,
             [
@@ -33,6 +32,20 @@ abstract class BaseMutation extends Mutation
             ],
         );
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => $this->name(),
+            'description' => $this->description(),
+            'baseType' => $this->baseType(),
+        ];
+    }
+
+    abstract public function name(): string;
 
     public function description(): string
     {
@@ -45,23 +58,6 @@ abstract class BaseMutation extends Mutation
     }
 
     /**
-     * @return array<string, mixed>
-     */
-    public function attributes(): array
-    {
-        return [
-            'name' => $this->getName(),
-            'description' => $this->description(),
-            'baseType' => $this->baseType(),
-        ];
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * The arguments of the mutation.
      *
      * @return Argument[]
@@ -70,7 +66,7 @@ abstract class BaseMutation extends Mutation
 
     public function type(): Type
     {
-        return GraphQL::type($this->baseType()->getName());
+        return GraphQL::type($this->baseType()->name());
     }
 
     /**

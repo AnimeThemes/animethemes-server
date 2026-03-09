@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\Song\MembershipType;
 
 class MembershipPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('membershipPagination');
+        return 'membershipPagination';
     }
 
     public function description(): string

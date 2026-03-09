@@ -24,7 +24,7 @@ class SearchPlaylistsField extends Field implements DisplayableField
 
     public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(GraphQL::type(new PlaylistType()->getName())));
+        return Type::listOf(Type::nonNull(GraphQL::type(new PlaylistType()->name())));
     }
 
     public function canBeDisplayed(): bool

@@ -33,7 +33,12 @@ class AnimeThemeShuffleQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('animethemeShuffle', false, true);
+        parent::__construct(false, true);
+    }
+
+    public function name(): string
+    {
+        return 'animethemeShuffle';
     }
 
     public function description(): string

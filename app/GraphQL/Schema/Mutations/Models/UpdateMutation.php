@@ -25,7 +25,12 @@ abstract class UpdateMutation extends BaseMutation
      */
     public function __construct(protected string $model)
     {
-        parent::__construct('Update'.Str::pascal(class_basename($model)));
+        parent::__construct();
+    }
+
+    public function name(): string
+    {
+        return 'Update'.Str::pascal(class_basename($this->model));
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
@@ -71,7 +76,7 @@ abstract class UpdateMutation extends BaseMutation
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field): bool => $field instanceof UpdatableField)
-                ->mapWithKeys(fn (Field&UpdatableField $field): array => [$field->getName() => $field->getUpdateRules($args)])
+                ->mapWithKeys(fn (Field&UpdatableField $field): array => [$field->name() => $field->getUpdateRules($args)])
                 ->all();
         }
 
@@ -80,6 +85,6 @@ abstract class UpdateMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 }

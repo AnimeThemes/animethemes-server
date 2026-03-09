@@ -24,7 +24,7 @@ class SearchVideosField extends Field implements DisplayableField
 
     public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(GraphQL::type(new VideoType()->getName())));
+        return Type::listOf(Type::nonNull(GraphQL::type(new VideoType()->name())));
     }
 
     public function canBeDisplayed(): bool

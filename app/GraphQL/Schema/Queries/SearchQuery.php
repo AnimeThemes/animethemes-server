@@ -42,7 +42,12 @@ class SearchQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('search', false);
+        parent::__construct(false);
+    }
+
+    public function name(): string
+    {
+        return 'search';
     }
 
     public function description(): string

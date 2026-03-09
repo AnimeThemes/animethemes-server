@@ -29,7 +29,12 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
 
     public function __construct()
     {
-        parent::__construct('findAnimeByExternalSite', false, true);
+        parent::__construct(false, true);
+    }
+
+    public function name(): string
+    {
+        return 'findAnimeByExternalSite';
     }
 
     public function description(): string

@@ -49,7 +49,7 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
     public function shouldAggregate(array $args, array $selection, BaseType $type): bool
     {
         // If the field is being requested.
-        if (Arr::has($selection, $this->getName())) {
+        if (Arr::has($selection, $this->name())) {
             return true;
         }
 
@@ -58,7 +58,7 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
         $sortCriteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
         $sorts = Arr::get($args, 'sort', []);
         foreach ($sortCriteria as $sortCriterion) {
-            if (in_array($sortCriterion->__toString(), $sorts) && $sortCriterion->getSort()->getName() === $this->getName()) {
+            if (in_array($sortCriterion->__toString(), $sorts) && $sortCriterion->getSort()->getName() === $this->name()) {
                 return true;
             }
         }
@@ -122,7 +122,7 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
 
         if (filled($fieldName) && filled($fieldValue)) {
             $field = $this->filterableFields->get($fieldName);
-            if ($field instanceof Field && $field->getName() === $this->getName()) {
+            if ($field instanceof Field && $field->name() === $this->name()) {
                 return true;
             }
         }

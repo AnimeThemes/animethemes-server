@@ -19,9 +19,9 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ToggleLikeMutation extends BaseMutation
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('ToggleLike');
+        return 'ToggleLike';
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, $selectFields = null): bool
@@ -51,7 +51,7 @@ class ToggleLikeMutation extends BaseMutation
 
         return collect($type->fieldClasses())
             ->filter(fn (Field $field): bool => $field instanceof CreatableField)
-            ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getName() => $field->getCreationRules($args)])
+            ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->name() => $field->getCreationRules($args)])
             ->all();
     }
 
@@ -65,7 +65,7 @@ class ToggleLikeMutation extends BaseMutation
 
     public function type(): Type
     {
-        return GraphQL::type($this->baseType()->getName());
+        return GraphQL::type($this->baseType()->name());
     }
 
     /**

@@ -30,7 +30,7 @@ abstract class Field
      * Get the name of the field.
      * By default, the name will be the column in camelCase.
      */
-    public function getName(): string
+    public function name(): string
     {
         return $this->name ?? Str::camel($this->column);
     }
@@ -58,7 +58,7 @@ abstract class Field
         $baseType = $this->baseType();
 
         $type = $baseType instanceof BaseType || $baseType instanceof BaseUnion
-            ? GraphQL::type($baseType->getName())
+            ? GraphQL::type($baseType->name())
             : $baseType;
 
         if (! $this->nullable) {

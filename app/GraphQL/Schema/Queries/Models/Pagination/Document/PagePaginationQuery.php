@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Document\PageType;
 
 class PagePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('pagePagination');
+        return 'pagePagination';
     }
 
     public function description(): string

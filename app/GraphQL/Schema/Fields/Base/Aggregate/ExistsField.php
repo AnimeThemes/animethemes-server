@@ -31,6 +31,6 @@ class ExistsField extends AggregateField implements DisplayableField
 
     public function getFilter(): BooleanFilter
     {
-        return new BooleanFilter($this->getName(), $this->alias(), Clause::HAVING);
+        return new BooleanFilter($this->name(), $this->alias(), Clause::HAVING);
     }
 }

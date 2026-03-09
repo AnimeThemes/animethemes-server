@@ -7,7 +7,6 @@ namespace App\GraphQL\Schema\Queries\Models\Singular;
 use App\Actions\GraphQL\ShowAction;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\Models\EloquentQuery;
-use App\GraphQL\Schema\Types\BaseType;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -15,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use RuntimeException;
 
 abstract class EloquentSingularQuery extends EloquentQuery
 {
@@ -40,11 +38,8 @@ abstract class EloquentSingularQuery extends EloquentQuery
     public function arguments(): array
     {
         $arguments = [];
-        $baseType = $this->baseType();
 
-        if ($baseType instanceof BaseType) {
-            $arguments[] = $this->resolveBindArguments($baseType->fieldClasses());
-        }
+        $arguments[] = $this->resolveBindArguments($this->baseType()->fieldClasses());
 
         return Arr::flatten($arguments);
     }
@@ -54,11 +49,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
      */
     public function type(): Type
     {
-        $baseType = $this->baseType();
-
-        throw_unless($baseType instanceof BaseType, RuntimeException::class, "baseType not defined for query {$this->getName()}");
-
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 
     /**

@@ -25,7 +25,7 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
 
     public function getFilter(): IntFilter
     {
-        return new IntFilter($this->getName(), $this->getColumn())
+        return new IntFilter($this->name(), $this->getColumn())
             ->useEq()
             ->useLt()
             ->useGt()
@@ -35,6 +35,6 @@ abstract class IntField extends Field implements DisplayableField, FilterableFie
 
     public function getSort(): Sort
     {
-        return new Sort($this->getName(), $this->getColumn());
+        return new Sort($this->name(), $this->getColumn());
     }
 }

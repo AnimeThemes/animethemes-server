@@ -37,6 +37,6 @@ class NotificationUnion extends BaseUnion
             default => throw new RuntimeException("Type not specified for notification {$value->type}"),
         };
 
-        return GraphQL::type($type->getName());
+        return GraphQL::type($type->name());
     }
 }

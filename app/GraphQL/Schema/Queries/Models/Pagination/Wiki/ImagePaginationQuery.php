@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\ImageType;
 
 class ImagePaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('imagePagination');
+        return 'imagePagination';
     }
 
     public function description(): string

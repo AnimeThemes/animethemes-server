@@ -15,16 +15,16 @@ class WhereConditionsInput extends Input
 {
     public function __construct(protected EloquentType $type)
     {
-        $this->attributes['name'] = $this->getName();
+        $this->attributes['name'] = $this->name();
 
         GraphQL::addType($this);
 
         GraphQL::addType(new FilterableColumns($type));
     }
 
-    public function getName(): string
+    public function name(): string
     {
-        return Str::of($this->type->getName())
+        return Str::of($this->type->name())
             ->remove('Type')
             ->append('WhereConditionsInput')
             ->__toString();
@@ -37,7 +37,7 @@ class WhereConditionsInput extends Input
     {
         return [
             'field' => [
-                'type' => GraphQL::type(new FilterableColumns($this->type)->getName()),
+                'type' => GraphQL::type(new FilterableColumns($this->type)->name()),
             ],
             'value' => [
                 'type' => GraphQL::type('Mixed'),
@@ -47,10 +47,10 @@ class WhereConditionsInput extends Input
                 'defaultValue' => ComparisonOperator::EQ->name,
             ],
             'AND' => [
-                'type' => Type::listOf(Type::nonNull(GraphQL::type($this->getName()))),
+                'type' => Type::listOf(Type::nonNull(GraphQL::type($this->name()))),
             ],
             'OR' => [
-                'type' => Type::listOf(Type::nonNull(GraphQL::type($this->getName()))),
+                'type' => Type::listOf(Type::nonNull(GraphQL::type($this->name()))),
             ],
         ];
     }

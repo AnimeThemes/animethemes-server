@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Auth;
 
 class PlaylistPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('playlistPagination');
+        return 'playlistPagination';
     }
 
     public function description(): string

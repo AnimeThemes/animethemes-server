@@ -18,9 +18,9 @@ class ExternalProfilePaginationQuery extends EloquentPaginationQuery
         EnabledOnlyOnLocalhost::class,
     ];
 
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('externalprofilePagination');
+        return 'externalprofilePagination';
     }
 
     public function description(): string

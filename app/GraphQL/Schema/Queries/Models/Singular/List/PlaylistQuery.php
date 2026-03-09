@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\List\PlaylistType;
 
 class PlaylistQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('playlist');
+        return 'playlist';
     }
 
     public function description(): string

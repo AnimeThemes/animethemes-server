@@ -18,7 +18,7 @@ abstract class BaseUnion extends UnionType
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'description' => $this->description(),
         ];
     }
@@ -27,7 +27,7 @@ abstract class BaseUnion extends UnionType
      * The name of the union type.
      * By default, it will be the class name.
      */
-    public function getName(): string
+    public function name(): string
     {
         return class_basename($this);
     }
@@ -45,7 +45,7 @@ abstract class BaseUnion extends UnionType
     public function types(): array
     {
         return collect($this->baseTypes())
-            ->map(fn (BaseType $type) => GraphQL::type($type->getName()))
+            ->map(fn (BaseType $type) => GraphQL::type($type->name()))
             ->all();
     }
 
@@ -55,7 +55,7 @@ abstract class BaseUnion extends UnionType
             ->filter(fn (BaseType $type): bool => $type instanceof EloquentType)
             ->first(fn (EloquentType $type): bool => $type->model() === $value::class);
 
-        return GraphQL::type($baseType->getName());
+        return GraphQL::type($baseType->name());
     }
 
     /**

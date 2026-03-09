@@ -10,10 +10,10 @@ abstract class Input extends InputType
 {
     public function __construct()
     {
-        $this->attributes['name'] = $this->getName();
+        $this->attributes['name'] = $this->name();
     }
 
-    public function getName(): string
+    public function name(): string
     {
         return class_basename($this);
     }

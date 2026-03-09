@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Document\PageType;
 
 class PageQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('page');
+        return 'page';
     }
 
     public function description(): string

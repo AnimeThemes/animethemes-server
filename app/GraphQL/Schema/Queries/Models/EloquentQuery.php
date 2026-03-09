@@ -6,9 +6,7 @@ namespace App\GraphQL\Schema\Queries\Models;
 
 use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Queries\BaseQuery;
-use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use RuntimeException;
@@ -16,7 +14,6 @@ use RuntimeException;
 abstract class EloquentQuery extends BaseQuery
 {
     public function __construct(
-        protected string $name,
         protected bool $nullable = true,
         protected bool $isList = false,
     ) {
@@ -27,7 +24,7 @@ abstract class EloquentQuery extends BaseQuery
             ],
         );
 
-        parent::__construct($name, $nullable, $isList);
+        parent::__construct($nullable, $isList);
     }
 
     /**
@@ -47,7 +44,7 @@ abstract class EloquentQuery extends BaseQuery
      *
      * @return class-string<Model>
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function model(): string
     {
@@ -57,7 +54,7 @@ abstract class EloquentQuery extends BaseQuery
             return $baseType->model();
         }
 
-        throw new RuntimeException('The base return rebing type must be an instance of EloquentType, '.($baseType instanceof BaseType ? $baseType::class : self::class).' given.');
+        throw new RuntimeException(sprintf('The base return rebing type must be an instance of EloquentType, %s given.', $baseType::class));
     }
 
     protected function query(Builder $builder, array $args): Builder

@@ -19,7 +19,7 @@ class WhereConditionsFilter extends Filter
 
     public function getBaseType(): Type
     {
-        return Type::listOf(Type::nonNull(GraphQL::type(new WhereConditionsInput($this->type)->getName())));
+        return Type::listOf(Type::nonNull(GraphQL::type(new WhereConditionsInput($this->type)->name())));
     }
 
     /**

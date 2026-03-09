@@ -23,7 +23,12 @@ abstract class DeleteMutation extends BaseMutation
      */
     public function __construct(protected string $model)
     {
-        parent::__construct('Delete'.Str::pascal(class_basename($model)));
+        parent::__construct();
+    }
+
+    public function name(): string
+    {
+        return 'Delete'.Str::pascal(class_basename($this->model));
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
@@ -59,6 +64,6 @@ abstract class DeleteMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 }

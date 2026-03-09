@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\AudioType;
 
 class AudioPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('audioPagination');
+        return 'audioPagination';
     }
 
     public function description(): string

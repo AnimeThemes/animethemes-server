@@ -24,7 +24,7 @@ class SearchSeriesField extends Field implements DisplayableField
 
     public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(GraphQL::type(new SeriesType()->getName())));
+        return Type::listOf(Type::nonNull(GraphQL::type(new SeriesType()->name())));
     }
 
     public function canBeDisplayed(): bool

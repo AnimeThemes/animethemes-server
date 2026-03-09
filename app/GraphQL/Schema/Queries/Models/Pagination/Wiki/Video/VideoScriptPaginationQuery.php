@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 
 class VideoScriptPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('videoscriptPagination');
+        return 'videoscriptPagination';
     }
 
     public function description(): string

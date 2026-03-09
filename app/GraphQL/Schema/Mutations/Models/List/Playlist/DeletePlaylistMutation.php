@@ -31,7 +31,7 @@ class DeletePlaylistMutation extends DeleteMutation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type(new MessageResponseType()->getName()));
+        return Type::nonNull(GraphQL::type(new MessageResponseType()->name()));
     }
 
     /**

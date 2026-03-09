@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\Auth;
 
 class MeQuery extends BaseQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('me');
+        return 'me';
+    }
+
+    public function description(): string
+    {
+        return 'Returns the data of the currently authenticated user.';
     }
 
     /**
@@ -27,11 +32,6 @@ class MeQuery extends BaseQuery
     public function arguments(): array
     {
         return [];
-    }
-
-    public function description(): string
-    {
-        return 'Returns the data of the currently authenticated user.';
     }
 
     /**

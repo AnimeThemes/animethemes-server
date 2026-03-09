@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\SynonymType;
 
 class SynonymPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('synonymPagination');
+        return 'synonymPagination';
     }
 
     public function description(): string

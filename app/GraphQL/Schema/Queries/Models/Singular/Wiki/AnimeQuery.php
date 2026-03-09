@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\AnimeType;
 
 class AnimeQuery extends EloquentSingularQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('anime');
+        return 'anime';
     }
 
     public function description(): string

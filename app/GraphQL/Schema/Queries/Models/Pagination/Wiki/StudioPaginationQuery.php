@@ -11,9 +11,9 @@ use App\GraphQL\Schema\Types\Wiki\StudioType;
 
 class StudioPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('studioPagination');
+        return 'studioPagination';
     }
 
     public function description(): string

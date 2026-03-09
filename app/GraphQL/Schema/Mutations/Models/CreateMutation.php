@@ -24,11 +24,14 @@ abstract class CreateMutation extends BaseMutation
     /**
      * @param  class-string<Model>  $model
      */
-    public function __construct(
-        protected string $model,
-        protected ?string $customName = null,
-    ) {
-        parent::__construct($customName ?? 'Create'.Str::pascal(class_basename($model)));
+    public function __construct(protected string $model)
+    {
+        parent::__construct();
+    }
+
+    public function name(): string
+    {
+        return 'Create'.Str::pascal(class_basename($this->model));
     }
 
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
@@ -73,7 +76,7 @@ abstract class CreateMutation extends BaseMutation
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field): bool => $field instanceof CreatableField)
-                ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getName() => $field->getCreationRules($args)])
+                ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->name() => $field->getCreationRules($args)])
                 ->all();
         }
 
@@ -82,6 +85,6 @@ abstract class CreateMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 }

@@ -24,7 +24,7 @@ class SearchAnimeThemesField extends Field implements DisplayableField
 
     public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(GraphQL::type(new AnimeThemeType()->getName())));
+        return Type::listOf(Type::nonNull(GraphQL::type(new AnimeThemeType()->name())));
     }
 
     public function canBeDisplayed(): bool

@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 class DumpPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('dumpPagination');
+        return 'dumpPagination';
     }
 
     public function description(): string

@@ -10,9 +10,9 @@ use App\GraphQL\Schema\Types\Wiki\Anime\AnimeSynonymType;
 
 class AnimeSynonymPaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('animesynonymPagination');
+        return 'animesynonymPagination';
     }
 
     public function description(): string

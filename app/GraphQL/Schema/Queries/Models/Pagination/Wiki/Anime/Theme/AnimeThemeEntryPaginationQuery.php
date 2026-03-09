@@ -9,9 +9,9 @@ use App\GraphQL\Schema\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 
 class AnimeThemeEntryPaginationQuery extends EloquentPaginationQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('animethemeentryPagination');
+        return 'animethemeentryPagination';
     }
 
     public function description(): string

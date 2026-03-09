@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Date;
 
 class CurrentFeaturedThemeQuery extends BaseQuery
 {
-    public function __construct()
+    public function name(): string
     {
-        parent::__construct('currentfeaturedtheme');
+        return 'currentfeaturedtheme';
     }
 
     public function description(): string
