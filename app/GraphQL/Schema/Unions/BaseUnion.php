@@ -18,7 +18,7 @@ abstract class BaseUnion extends UnionType
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'description' => $this->description(),
         ];
     }
@@ -27,7 +27,7 @@ abstract class BaseUnion extends UnionType
      * The name of the union type.
      * By default, it will be the class name.
      */
-    public function getName(): string
+    public function name(): string
     {
         return class_basename($this);
     }
