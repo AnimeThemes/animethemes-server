@@ -26,12 +26,12 @@ class FilterableColumns extends EnumType
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'values' => $this->getValues()->keys()->all(),
         ];
     }
 
-    public function getName(): string
+    public function name(): string
     {
         return $this->type->name().self::SUFFIX;
     }

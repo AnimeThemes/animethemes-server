@@ -37,7 +37,7 @@ class WhereConditionsInput extends Input
     {
         return [
             'field' => [
-                'type' => GraphQL::type(new FilterableColumns($this->type)->getName()),
+                'type' => GraphQL::type(new FilterableColumns($this->type)->name()),
             ],
             'value' => [
                 'type' => GraphQL::type('Mixed'),
