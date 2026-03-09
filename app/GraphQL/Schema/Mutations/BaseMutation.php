@@ -70,7 +70,7 @@ abstract class BaseMutation extends Mutation
 
     public function type(): Type
     {
-        return GraphQL::type($this->baseType()->getName());
+        return GraphQL::type($this->baseType()->name());
     }
 
     /**

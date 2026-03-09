@@ -24,7 +24,7 @@ class SearchSongsField extends Field implements DisplayableField
 
     public function baseType(): Type
     {
-        return Type::listOf(Type::nonNull(GraphQL::type(new SongType()->getName())));
+        return Type::listOf(Type::nonNull(GraphQL::type(new SongType()->name())));
     }
 
     public function canBeDisplayed(): bool

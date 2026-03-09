@@ -73,6 +73,6 @@ abstract class EloquentPaginationQuery extends EloquentQuery
     {
         $baseType = $this->baseType();
 
-        return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::paginate($this->baseType()->name()));
     }
 }

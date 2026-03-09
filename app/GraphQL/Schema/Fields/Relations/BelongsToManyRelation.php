@@ -28,7 +28,7 @@ class BelongsToManyRelation extends Relation
         $this->edgeType = new EdgeType($ownerType, $nodeType, $pivotType);
         $this->connectionType = new ConnectionType($this->edgeType);
 
-        GraphQL::addType($this->connectionType, $this->connectionType->getName());
+        GraphQL::addType($this->connectionType, $this->connectionType->name());
 
         parent::__construct(new $nodeType, $relationName);
     }
@@ -71,7 +71,7 @@ class BelongsToManyRelation extends Relation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->connectionType->getName()));
+        return Type::nonNull(GraphQL::type($this->connectionType->name()));
     }
 
     /**

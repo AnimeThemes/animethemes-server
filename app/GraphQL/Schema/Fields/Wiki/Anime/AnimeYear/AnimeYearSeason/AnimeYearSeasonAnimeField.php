@@ -37,7 +37,7 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::paginate($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::paginate($this->baseType()->name()));
     }
 
     public function canBeDisplayed(): bool

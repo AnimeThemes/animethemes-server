@@ -25,7 +25,7 @@ class EdgeType extends BaseType
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
         ];
     }
 
@@ -40,7 +40,7 @@ class EdgeType extends BaseType
     {
         $relations = collect($this->relations())
             ->flatMap(fn (Relation $relation): array => [
-                $relation->getName() => [
+                $relation->name() => [
                     'type' => $relation->type(),
                     'alias' => $relation->getRelationName(),
                     'resolve' => $relation->resolve(...),
@@ -51,7 +51,7 @@ class EdgeType extends BaseType
             ->reject(fn (Field $field): bool => $field instanceof Relation)
             ->prepend(new NodeField($this->nodeType))
             ->flatMap(fn (Field $field): array => [
-                $field->getName() => [
+                $field->name() => [
                     'type' => $field->type(),
                     'description' => $field->description(),
                     'alias' => $field->getColumn(),
@@ -68,10 +68,10 @@ class EdgeType extends BaseType
      * Template: {parentType}{nodeType}Edge.
      * Template: {nodeType}Edge.
      */
-    public function getName(): string
+    public function name(): string
     {
         return Str::of('')
-            ->when($this->pivotType instanceof PivotType, fn (Stringable $string) => $string->append($this->parentType->getName()))
+            ->when($this->pivotType instanceof PivotType, fn (Stringable $string) => $string->append($this->parentType->name()))
             ->append(class_basename($this->nodeType))
             ->remove('Type')
             ->append('Edge')

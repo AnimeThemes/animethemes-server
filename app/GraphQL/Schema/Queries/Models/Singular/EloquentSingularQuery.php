@@ -49,7 +49,7 @@ abstract class EloquentSingularQuery extends EloquentQuery
      */
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 
     /**

@@ -24,7 +24,7 @@ class WhereConditionsInput extends Input
 
     public function getName(): string
     {
-        return Str::of($this->type->getName())
+        return Str::of($this->type->name())
             ->remove('Type')
             ->append('WhereConditionsInput')
             ->__toString();

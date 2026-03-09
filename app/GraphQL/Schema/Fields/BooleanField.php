@@ -25,12 +25,12 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
 
     public function getFilter(): BooleanFilter
     {
-        return new BooleanFilter($this->getName(), $this->getColumn())
+        return new BooleanFilter($this->name(), $this->getColumn())
             ->useEq();
     }
 
     public function getSort(): Sort
     {
-        return new Sort($this->getName(), $this->getColumn());
+        return new Sort($this->name(), $this->getColumn());
     }
 }

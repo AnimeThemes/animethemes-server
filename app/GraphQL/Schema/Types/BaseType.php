@@ -21,7 +21,7 @@ abstract class BaseType extends RebingType
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'description' => $this->description(),
             'baseType' => $this,
         ];
@@ -31,7 +31,7 @@ abstract class BaseType extends RebingType
      * The name displayed of type.
      * By default, it will base on the class name without 'Type'.
      */
-    public function getName(): string
+    public function name(): string
     {
         return Str::of(class_basename($this))
             ->remove('Type')
@@ -74,7 +74,7 @@ abstract class BaseType extends RebingType
     {
         $relations = collect($this->relations())
             ->mapWithKeys(fn (Relation $relation): array => [
-                $relation->getName() => [
+                $relation->name() => [
                     'type' => $relation->type(),
                     'args' => $relation->args(),
                     'resolve' => $relation->resolve(...),
@@ -86,7 +86,7 @@ abstract class BaseType extends RebingType
             ->reject(fn (Field $field): bool => $field instanceof Relation)
             ->filter(fn (Field $field): bool => $field instanceof DisplayableField && $field->canBeDisplayed())
             ->mapWithKeys(fn (Field $field): array => [
-                $field->getName() => [
+                $field->name() => [
                     'type' => $field->type(),
                     'description' => $field->description(),
                     'alias' => $field->getColumn(),

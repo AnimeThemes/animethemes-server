@@ -26,7 +26,7 @@ class AnimeYearSeasonsField extends Field implements DisplayableField
 
     public function baseType(): Type
     {
-        $type = GraphQL::type(new AnimeYearSeasonsType()->getName());
+        $type = GraphQL::type(new AnimeYearSeasonsType()->name());
 
         return Type::listOf(Type::nonNull($type));
     }

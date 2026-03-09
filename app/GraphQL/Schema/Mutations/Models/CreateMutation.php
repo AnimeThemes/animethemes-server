@@ -73,7 +73,7 @@ abstract class CreateMutation extends BaseMutation
         if ($baseType instanceof BaseType) {
             return collect($baseType->fieldClasses())
                 ->filter(fn (Field $field): bool => $field instanceof CreatableField)
-                ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->getName() => $field->getCreationRules($args)])
+                ->mapWithKeys(fn (Field&CreatableField $field): array => [$field->name() => $field->getCreationRules($args)])
                 ->all();
         }
 
@@ -82,6 +82,6 @@ abstract class CreateMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 }

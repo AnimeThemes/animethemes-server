@@ -46,7 +46,7 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
 
     public function getFilter(): EnumFilter
     {
-        return new EnumFilter($this->getName(), $this->enum, $this->getColumn())
+        return new EnumFilter($this->name(), $this->enum, $this->getColumn())
             ->useEq()
             ->useIn()
             ->useNotIn();
@@ -54,6 +54,6 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
 
     public function getSort(): Sort
     {
-        return new Sort($this->getName(), $this->getColumn());
+        return new Sort($this->name(), $this->getColumn());
     }
 }

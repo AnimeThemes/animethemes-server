@@ -34,6 +34,6 @@ class CountField extends AggregateField implements DisplayableField, FilterableF
 
     public function getFilter(): IntFilter
     {
-        return new IntFilter($this->getName(), $this->alias(), Clause::HAVING);
+        return new IntFilter($this->name(), $this->alias(), Clause::HAVING);
     }
 }

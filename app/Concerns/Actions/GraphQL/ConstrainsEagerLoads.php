@@ -41,11 +41,11 @@ trait ConstrainsEagerLoads
 
         /** @var array<int, Relation> $relations */
         $relations = collect($type->relations())
-            ->filter(fn (Relation $relation) => Arr::has($selection, $relation->getName()))
+            ->filter(fn (Relation $relation) => Arr::has($selection, $relation->name()))
             ->all();
 
         foreach ($relations as $relation) {
-            $name = $relation->getName();
+            $name = $relation->name();
 
             $relationSelection = Arr::get($selection, "{$name}.{$name}");
 
@@ -73,12 +73,12 @@ trait ConstrainsEagerLoads
         /** @var array<int, EloquentType> $types */
         $types = collect($union->baseTypes())
             ->filter(fn (BaseType $type): bool => $type instanceof EloquentType)
-            ->filter(fn (EloquentType $type) => Arr::has($unions, $type->getName()))
+            ->filter(fn (EloquentType $type) => Arr::has($unions, $type->name()))
             ->all();
 
         $morphConstrains = [];
         foreach ($types as $type) {
-            $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet", []);
+            $typeSelection = Arr::get($unions, "{$type->name()}.selectionSet", []);
 
             $morphConstrains[$type->model()] = function (Builder $query) use ($typeSelection, $type): void {
                 $this->processEagerLoadForType($query, $typeSelection, $type);
@@ -96,11 +96,11 @@ trait ConstrainsEagerLoads
         $unions = Arr::get($selection, 'selectionSet.data.data.unions', []);
 
         $types = collect($union->baseTypes())
-            ->filter(fn (BaseType $type) => Arr::has($unions, $type->getName()))
+            ->filter(fn (BaseType $type) => Arr::has($unions, $type->name()))
             ->all();
 
         foreach ($types as $type) {
-            $typeSelection = Arr::get($unions, "{$type->getName()}.selectionSet", []);
+            $typeSelection = Arr::get($unions, "{$type->name()}.selectionSet", []);
 
             $this->processEagerLoadForType($relation->getQuery(), $typeSelection, $type);
         }
@@ -145,11 +145,11 @@ trait ConstrainsEagerLoads
         }
 
         $pivotRelations = collect($edgeType->relations())
-            ->filter(fn (Relation $rel) => Arr::has($edgeSelection, $rel->getName()))
+            ->filter(fn (Relation $rel) => Arr::has($edgeSelection, $rel->name()))
             ->all();
 
         foreach ($pivotRelations as $graphRelation) {
-            $name = $graphRelation->getName();
+            $name = $graphRelation->name();
             $relationSelection = Arr::get($edgeSelection, "{$name}.{$name}");
             $relationType = $graphRelation->baseType();
             $eloquentName = $graphRelation->getRelationName();

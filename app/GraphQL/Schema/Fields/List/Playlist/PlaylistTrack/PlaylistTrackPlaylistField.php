@@ -40,7 +40,7 @@ class PlaylistTrackPlaylistField extends Field implements BindableField, Creatab
     public function bindResolver(array $args): Playlist
     {
         return Playlist::query()
-            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, $this->getName()))
+            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, $this->name()))
             ->firstOrFail();
     }
 

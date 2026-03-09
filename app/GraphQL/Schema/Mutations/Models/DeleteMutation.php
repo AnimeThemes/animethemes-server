@@ -59,6 +59,6 @@ abstract class DeleteMutation extends BaseMutation
 
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::type($this->baseType()->getName()));
+        return Type::nonNull(GraphQL::type($this->baseType()->name()));
     }
 }

@@ -21,7 +21,7 @@ class ConnectionType extends RebingType
 
     public function __construct(protected EdgeType $edgeType)
     {
-        GraphQL::addType($edgeType, $edgeType->getName());
+        GraphQL::addType($edgeType, $edgeType->name());
     }
 
     /**
@@ -30,7 +30,7 @@ class ConnectionType extends RebingType
     public function attributes(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
         ];
     }
 
@@ -43,12 +43,12 @@ class ConnectionType extends RebingType
     {
         return [
             'pageInfo' => [
-                'type' => Type::nonNull(GraphQL::type(new PaginationInfoType()->getName())),
+                'type' => Type::nonNull(GraphQL::type(new PaginationInfoType()->name())),
                 'description' => 'Pagination information about the list of edges.',
                 'resolve' => fn (LengthAwarePaginator $paginator): LengthAwarePaginator => $paginator,
             ],
             'edges' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->getName())))),
+                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type($this->edgeType->name())))),
                 'description' => "A list of {$this->getNodeTypeName()} edges.",
                 'resolve' => $this->edgesResolver(...),
             ],
@@ -64,9 +64,9 @@ class ConnectionType extends RebingType
      * Get the name of the connection.
      * Template: {edgeType - Edge}Connection.
      */
-    public function getName(): string
+    public function name(): string
     {
-        return Str::of($this->edgeType->getName())
+        return Str::of($this->edgeType->name())
             ->remove('Edge')
             ->append('Connection')
             ->__toString();

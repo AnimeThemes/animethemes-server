@@ -14,12 +14,12 @@ class LocalizedEnumField extends Field implements DisplayableField
     public function __construct(
         protected EnumField $field,
     ) {
-        parent::__construct($field->column, $field->getName().'Localized', $field->nullable);
+        parent::__construct($field->column, $field->name().'Localized', $field->nullable);
     }
 
     public function description(): string
     {
-        return "The formatted string value of the {$this->field->getName()} field";
+        return "The formatted string value of the {$this->field->name()} field";
     }
 
     public function baseType(): Type

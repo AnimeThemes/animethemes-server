@@ -81,7 +81,7 @@ abstract class BaseQuery extends Query
      */
     public function toType(): Type
     {
-        return GraphQL::type($this->baseType()->getName());
+        return GraphQL::type($this->baseType()->name());
     }
 
     /**

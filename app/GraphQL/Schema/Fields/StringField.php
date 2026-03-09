@@ -26,13 +26,13 @@ abstract class StringField extends Field implements DisplayableField, Filterable
 
     public function getFilter(): Filter
     {
-        return new StringFilter($this->getName(), $this->getColumn())
+        return new StringFilter($this->name(), $this->getColumn())
             ->useEq()
             ->useLike();
     }
 
     public function getSort(): Sort
     {
-        return new Sort($this->getName(), $this->getColumn());
+        return new Sort($this->name(), $this->getColumn());
     }
 }
