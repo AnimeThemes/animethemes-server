@@ -24,7 +24,6 @@ abstract class EntryRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
-                ->defaultSort(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
         );
     }
 }

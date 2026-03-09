@@ -24,7 +24,6 @@ abstract class TrackRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
-                ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc')
         );
     }
 }

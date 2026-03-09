@@ -24,7 +24,6 @@ abstract class ArtistRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)
-                ->defaultSort(Artist::TABLE.'.'.Artist::ATTRIBUTE_ID, 'desc')
         );
     }
 }

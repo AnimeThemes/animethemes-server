@@ -24,7 +24,6 @@ abstract class PerformanceRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Performance::ATTRIBUTE_ID)
-                ->defaultSort(Performance::TABLE.'.'.Performance::ATTRIBUTE_ID, 'desc')
         );
     }
 }

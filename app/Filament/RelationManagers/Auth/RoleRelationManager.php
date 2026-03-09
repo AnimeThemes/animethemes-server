@@ -24,7 +24,6 @@ abstract class RoleRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
-                ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc')
         );
     }
 

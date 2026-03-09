@@ -24,7 +24,6 @@ abstract class StudioRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
-                ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc')
         );
     }
 }

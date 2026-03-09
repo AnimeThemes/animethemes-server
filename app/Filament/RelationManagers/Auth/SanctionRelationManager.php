@@ -24,7 +24,6 @@ abstract class SanctionRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Sanction::ATTRIBUTE_NAME)
-                ->defaultSort(Sanction::TABLE.'.'.Sanction::ATTRIBUTE_ID, 'desc')
         );
     }
 

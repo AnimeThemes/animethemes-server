@@ -24,7 +24,6 @@ abstract class UserRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(User::ATTRIBUTE_NAME)
-                ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc')
         );
     }
 

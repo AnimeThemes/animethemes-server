@@ -24,7 +24,6 @@ abstract class VideoRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
-                ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc')
         );
     }
 

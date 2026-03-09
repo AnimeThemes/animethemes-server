@@ -104,7 +104,8 @@ abstract class BaseRelationManager extends RelationManager
             ->toolbarActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
             ->paginated([5, 10, 25])
-            ->defaultPaginationPageOption(10);
+            ->defaultPaginationPageOption(10)
+            ->defaultSort(fn (Builder $query) => $query->orderBy($query->getModel()->getQualifiedKeyName(), 'desc'));
     }
 
     /**

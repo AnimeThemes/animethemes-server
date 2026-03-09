@@ -24,7 +24,6 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(ExternalEntry::ATTRIBUTE_ID)
-                ->defaultSort(ExternalEntry::TABLE.'.'.ExternalEntry::ATTRIBUTE_ID, 'desc')
         );
     }
 }

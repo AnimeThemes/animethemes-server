@@ -24,7 +24,6 @@ abstract class ThemeRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitle(fn ($record) => $record->getName())
-                ->defaultSort(AnimeTheme::TABLE.'.'.AnimeTheme::ATTRIBUTE_ID, 'desc')
         );
     }
 }

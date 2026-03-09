@@ -24,7 +24,6 @@ abstract class SeriesRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
-                ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc')
         );
     }
 }
