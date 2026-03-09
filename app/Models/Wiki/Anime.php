@@ -167,7 +167,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     public function toSearchableArray(): array
     {
         $array = $this->attributesToArray();
-        $array['synonyms'] = $this->synonyms->toArray();
+        $array['synonyms'] = $this->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all();
 
         return $array;
     }

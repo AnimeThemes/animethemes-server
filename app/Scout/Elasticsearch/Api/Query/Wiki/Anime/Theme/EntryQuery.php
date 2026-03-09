@@ -43,7 +43,7 @@ class EntryQuery extends ElasticQuery
                                     [
                                         'bool' => [
                                             'boost' => 0.5 * 0.85,
-                                            'should' => $this->createNestedTextQuery('theme.anime.synonyms', 'text', $criteria->getTerm()),
+                                            'should' => $this->createNestedTextQuery('theme.anime', 'synonyms', $criteria->getTerm()),
                                         ],
                                     ],
                                 ],
@@ -59,7 +59,6 @@ class EntryQuery extends ElasticQuery
                                     ],
                                     [
                                         'bool' => [
-                                            'boost' => 0.85,
                                             'should' => $this->createTextQuery('anime_slug', $criteria->getTerm()),
                                         ],
                                     ],

@@ -28,7 +28,7 @@ class AnimeQuery extends ElasticQuery
                         [
                             'bool' => [
                                 'boost' => 0.85,
-                                'should' => $this->createNestedTextQuery('synonyms', 'text', $criteria->getTerm()),
+                                'should' => $this->createTextQuery('synonyms', 'text'),
                             ],
                         ],
                     ],
