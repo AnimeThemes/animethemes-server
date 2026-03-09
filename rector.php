@@ -7,6 +7,7 @@ use Rector\CodingStyle\Rector\ArrowFunction\ArrowFunctionDelegatingCallToFirstCl
 use Rector\CodingStyle\Rector\Closure\ClosureDelegatingCallToFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use Rector\Php85\Rector\Property\AddOverrideAttributeToOverriddenPropertiesRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector;
 use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
@@ -51,6 +52,7 @@ return RectorConfig::configure()
     ->withSkip([
         __DIR__.'/database/migrations',
         AddOverrideAttributeToOverriddenMethodsRector::class,
+        AddOverrideAttributeToOverriddenPropertiesRector::class,
         DisallowedEmptyRuleFixerRector::class,
         DispatchToHelperFunctionsRector::class,
         ConvertEnumerableToArrayToAllRector::class,
