@@ -80,7 +80,7 @@ abstract class ExternalApiAction
         }
 
         return $synonyms
-            ->filter(fn (string $text): bool => filled($text))
+            ->filter(fn (?string $text): bool => filled($text))
             ->reject(function (string $text, int $type) use ($synonyms) {
                 if ($type !== SynonymType::OTHER->value) {
                     return false;
