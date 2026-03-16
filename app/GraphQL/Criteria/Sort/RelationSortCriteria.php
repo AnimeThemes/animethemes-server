@@ -49,8 +49,10 @@ class RelationSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        $column = $this->getSort()->getColumn();
+        $relation = $builder->getRelation($this->getRelation());
 
-        return $builder->orderBy("{$this->getRelation()}_$column", $this->direction->value);
+        $orderBySubQuery = $relation->getRelationExistenceQuery($relation->getQuery(), $builder, [$this->getSort()->getColumn()]);
+
+        return $builder->orderBy($orderBySubQuery->toBase(), $this->direction->value);
     }
 }

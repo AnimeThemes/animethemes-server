@@ -88,9 +88,15 @@ final class CreateThemeIndex implements MigrationInterface
                         'type' => 'text',
                         'analyzer' => 'name_search',
                     ],
+                    'title_keyword' => [
+                        'type' => 'keyword',
+                    ],
                     'title_native' => [
                         'type' => 'text',
                         'analyzer' => 'name_search',
+                    ],
+                    'title_native_keyword' => [
+                        'type' => 'keyword',
                     ],
                     'updated_at' => [
                         'type' => 'date',
