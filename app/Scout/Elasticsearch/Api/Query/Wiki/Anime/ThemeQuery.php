@@ -72,7 +72,7 @@ class ThemeQuery extends ElasticQuery
                                         'bool' => [
                                             'boost' => 0.7,
                                             'should' => $this->createTextQuery('synonym_slug', $criteria->getTerm()),
-                                        ]
+                                        ],
                                     ],
                                 ],
                             ],

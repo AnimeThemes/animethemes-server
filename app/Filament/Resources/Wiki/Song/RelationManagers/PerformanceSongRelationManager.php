@@ -58,7 +58,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
         $song->load(Song::RELATION_PERFORMANCE_ARTISTS);
 
-        $performances = $song->performances;
+        $performances = $song->performances->sortBy(Performance::ATTRIBUTE_RELEVANCE);
 
         $artists = [];
         $memberships = [];
@@ -105,9 +105,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             return;
         }
 
-        $action = new ManageSongPerformances();
-
-        $action->forSong($song);
+        $action = new ManageSongPerformances($song);
 
         foreach ($data as $artist) {
             $groupOrArtist = intval(Arr::get($artist, Artist::ATTRIBUTE_ID));
@@ -123,11 +121,8 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
             $group = $groupOrArtist;
 
-            $action->addGroupData(
-                $group,
-                Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
-                Arr::get($artist, Performance::ATTRIBUTE_AS),
-            );
+            $groupAlias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS);
+            $groupAs = Arr::get($artist, Performance::ATTRIBUTE_AS);
 
             foreach (Arr::get($artist, PerformanceForm::REPEATER_MEMBERSHIPS) as $membership) {
                 $action->addMembership(
@@ -135,6 +130,8 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
                     intval(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),
                     Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
                     Arr::get($membership, Membership::ATTRIBUTE_AS),
+                    $groupAlias,
+                    $groupAs
                 );
             }
         }
