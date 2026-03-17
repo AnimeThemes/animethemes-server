@@ -16,12 +16,15 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use Database\Factories\Wiki\Song\PerformanceFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
 /**
  * @property int $performance_id
@@ -35,11 +38,12 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static PerformanceFactory factory(...$parameters)
  */
-class Performance extends BaseModel implements Auditable, SoftDeletable
+class Performance extends BaseModel implements Auditable, SoftDeletable, Sortable
 {
     use HasAudits;
     use HasFactory;
     use SoftDeletes;
+    use SortableTrait;
     use Submitable;
 
     final public const string TABLE = 'performances';
@@ -102,6 +106,11 @@ class Performance extends BaseModel implements Auditable, SoftDeletable
         Performance::ATTRIBUTE_RELEVANCE,
     ];
 
+    public $sortable = [
+        'order_column_name' => Performance::ATTRIBUTE_RELEVANCE,
+        'sort_when_creating' => false,
+    ];
+
     public function getName(): string
     {
         return strval($this->getKey());
@@ -115,6 +124,11 @@ class Performance extends BaseModel implements Auditable, SoftDeletable
     public function isMembership(): bool
     {
         return $this->artist_type === Relation::getMorphAlias(Membership::class);
+    }
+
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->whereBelongsTo($this->song);
     }
 
     /**
