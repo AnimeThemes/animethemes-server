@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Constants\Config\ImageConstants;
 use App\Enums\Filament\NavigationGroup;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\Models\Wiki\Image\OptimizeImageAction;
@@ -99,9 +100,10 @@ class ImageResource extends BaseResource
 
                     ImageColumn::make(Image::ATTRIBUTE_PATH)
                         ->label(__('filament.fields.image.image.name'))
-                        ->disk(Config::get('image.disk'))
+                        ->disk(Config::get(ImageConstants::DISKS_QUALIFIED))
                         ->imageWidth(100)
-                        ->imageHeight(150),
+                        ->imageHeight(150)
+                        ->visibility('public'),
                 ]),
             ])
             ->contentGrid([
@@ -125,8 +127,9 @@ class ImageResource extends BaseResource
 
                         ImageEntry::make(Image::ATTRIBUTE_PATH)
                             ->label(__('filament.fields.image.image.name'))
-                            ->disk(Config::get('image.disk'))
-                            ->columnSpanFull(),
+                            ->disk(Config::get(ImageConstants::DISKS_QUALIFIED))
+                            ->columnSpanFull()
+                            ->visibility('public'),
                     ])
                     ->columns(2),
 
