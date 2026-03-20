@@ -44,7 +44,7 @@
         "laravel/pulse": "^1.7.2",
         "laravel/sanctum": "^4.3.1",
         "laravel/scout": "^10.25.0",
-        "laravel/tinker": "^2.11.1",
+        "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.32.0",
         "mll-lab/graphql-php-scalars": "^6.4.1",
         "mll-lab/laravel-graphiql": "^4.1",
