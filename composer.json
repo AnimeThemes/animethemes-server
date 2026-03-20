@@ -47,7 +47,7 @@
         "laravel/tinker": "^2.11.1",
         "league/flysystem-aws-s3-v3": "^3.32.0",
         "mll-lab/graphql-php-scalars": "^6.4.1",
-        "mll-lab/laravel-graphiql": "^3.3.4",
+        "mll-lab/laravel-graphiql": "^4.1",
         "owen-it/laravel-auditing": "^14.0.2",
         "propaganistas/laravel-disposable-email": "^2.4.25",
         "rebing/graphql-laravel": "^9.17",
