@@ -22,7 +22,6 @@
         "php": "^8.5",
         "ext-fileinfo": "*",
         "ext-gd": "*",
-        "ext-intl": "*",
         "ext-pdo": "*",
         "ajcastro/eager-load-pivot-relations": "^0.3.0",
         "awcodes/recently": "^3.0.1",
