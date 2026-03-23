@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\Wiki\Video;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Video;
-use Flowframe\Trend\TrendValue;
+use App\Services\FlowframeTrend\TrendValue;
 
 class VideoChart extends BaseChartWidget
 {

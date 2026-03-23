@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
+use App\Services\FlowframeTrend\Trend;
 use Elemind\FilamentECharts\Widgets\EChartWidget;
-use Flowframe\Trend\Trend;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 

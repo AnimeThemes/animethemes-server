@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\Auth;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Auth\User;
-use Flowframe\Trend\TrendValue;
+use App\Services\FlowframeTrend\TrendValue;
 
 class UserChart extends BaseChartWidget
 {

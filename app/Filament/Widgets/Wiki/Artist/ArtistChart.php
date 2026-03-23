@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\Wiki\Artist;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Artist;
-use Flowframe\Trend\TrendValue;
+use App\Services\FlowframeTrend\TrendValue;
 
 class ArtistChart extends BaseChartWidget
 {
