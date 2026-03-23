@@ -15,6 +15,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\Attributes\Backoff;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
 
@@ -46,6 +47,6 @@ class SendDiscordNotificationJob implements ShouldQueue
      */
     public function retryUntil(): DateTime
     {
-        return now()->addMinutes(15);
+        return Date::now()->addMinutes(15);
     }
 }

@@ -17,6 +17,7 @@ use Illuminate\Queue\Attributes\DeleteWhenMissingModels;
 use Illuminate\Queue\Attributes\WithoutRelations;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
+use Illuminate\Support\Facades\Date;
 use Laravel\Pennant\Feature;
 
 #[Backoff(120)]
@@ -55,6 +56,6 @@ class SyncExternalProfileJob implements ShouldQueue
      */
     public function retryUntil(): DateTime
     {
-        return now()->addMinutes(15);
+        return Date::now()->addMinutes(15);
     }
 }
