@@ -11,23 +11,14 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\List\External\ExternalTokenCallbackRequest;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
+#[Middleware(EnabledOnlyOnLocalhost::class)]
+#[Middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class))]
 class ExternalTokenCallbackController extends Controller
 {
-    public function __construct()
-    {
-        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowExternalProfileManagement::class)
-            ->__toString();
-
-        $this->middleware(EnabledOnlyOnLocalhost::class);
-        $this->middleware($isExternalProfileManagementAllowed);
-    }
-
     /**
      * This is the redirect URL which is set in the external provider.
      */

@@ -11,22 +11,17 @@ use App\Http\Middleware\Models\List\ExternalProfileSyncLimit;
 use App\Http\Requests\Api\ShowRequest;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
+#[Middleware(EnabledOnlyOnLocalhost::class)]
+#[Middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class), except: ['show'])]
+#[Middleware(ExternalProfileSyncLimit::class, ['update'])]
 class SyncExternalProfileController extends Controller
 {
     public function __construct()
     {
-        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowExternalProfileManagement::class)
-            ->__toString();
-
         $this->authorizeResource(ExternalProfile::class, 'externalprofile');
-        $this->middleware(EnabledOnlyOnLocalhost::class);
-        $this->middleware($isExternalProfileManagementAllowed)->except(['show']);
-        $this->middleware(ExternalProfileSyncLimit::class)->only('update');
     }
 
     /**

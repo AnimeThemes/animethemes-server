@@ -15,14 +15,14 @@ use App\Http\Resources\List\External\Collection\ExternalEntryCollection;
 use App\Http\Resources\List\External\Resource\ExternalEntryJsonResource;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware(EnabledOnlyOnLocalhost::class)]
 class ExternalEntryController extends BaseController
 {
     public function __construct()
     {
         parent::__construct(ExternalEntry::class, 'externalentry,externalprofile');
-
-        $this->middleware(EnabledOnlyOnLocalhost::class);
     }
 
     public function index(IndexRequest $request, ExternalProfile $externalprofile, IndexAction $action): ExternalEntryCollection

@@ -23,24 +23,18 @@ use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
+#[Middleware(EnabledOnlyOnLocalhost::class)]
+#[Middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class), except: ['index', 'show'])]
+#[Middleware(UserExceedsExternalProfileLimit::class, ['store', 'restore'])]
 class ExternalProfileController extends BaseController
 {
     public function __construct()
     {
         parent::__construct(ExternalProfile::class, 'externalprofile');
-
-        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowExternalProfileManagement::class)
-            ->__toString();
-
-        $this->middleware(EnabledOnlyOnLocalhost::class);
-        $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
-        $this->middleware(UserExceedsExternalProfileLimit::class)->only(['store', 'restore']);
     }
 
     public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection

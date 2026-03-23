@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\Auth\User\Me\List;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\User\NotificationSchema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Auth\Authenticate;
@@ -15,13 +14,14 @@ use App\Http\Resources\User\Collection\NotificationCollection;
 use App\Models\Auth\User;
 use App\Models\User\Notification;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
+#[Middleware(Authenticate::using('sanctum'))]
 class MyNotificationController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware(Authenticate::using('sanctum'));
         parent::__construct(Notification::class, 'notification');
     }
 

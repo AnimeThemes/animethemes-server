@@ -23,22 +23,16 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
+#[Middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class), except: ['index', 'show'])]
+#[Middleware(PlaylistExceedsTrackLimit::class, ['store', 'restore'])]
 class TrackController extends BaseController
 {
     public function __construct()
     {
         parent::__construct(PlaylistTrack::class, 'track,playlist');
-
-        $isPlaylistManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowPlaylistManagement::class)
-            ->__toString();
-
-        $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
-        $this->middleware(PlaylistExceedsTrackLimit::class)->only(['store', 'restore']);
     }
 
     public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection

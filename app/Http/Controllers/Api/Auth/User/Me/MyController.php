@@ -7,24 +7,17 @@ namespace App\Http\Controllers\Api\Auth\User\Me;
 use App\Actions\Http\Api\ShowAction;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Auth\User\MySchema;
-use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Auth\User\Resource\MyJsonResource;
 use App\Models\Auth\User;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
+#[Middleware(Authenticate::using('sanctum'))]
 class MyController extends BaseController
 {
-    /**
-     * @noinspection PhpMissingParentConstructorInspection
-     */
-    public function __construct()
-    {
-        $this->middleware(Authenticate::using('sanctum'));
-    }
-
     public function show(ShowRequest $request, ShowAction $action): MyJsonResource
     {
         $query = new Query($request->validated());
