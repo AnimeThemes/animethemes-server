@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Queries\Models\Pagination\Admin;
 
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Admin\AnnouncementType;
+use App\Models\Admin\Announcement;
 use Illuminate\Database\Eloquent\Builder;
 
 class AnnouncementPaginationQuery extends EloquentPaginationQuery
@@ -28,9 +29,12 @@ class AnnouncementPaginationQuery extends EloquentPaginationQuery
         return new AnnouncementType();
     }
 
+    /**
+     * @param  Builder<Announcement>  $builder
+     * @return Builder<Announcement>
+     */
     protected function query(Builder $builder, array $args): Builder
     {
-        /** @phpstan-ignore-next-line */
         return $builder->current();
     }
 }

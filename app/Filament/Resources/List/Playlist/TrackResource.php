@@ -22,7 +22,6 @@ use App\Filament\Resources\List\PlaylistResource;
 use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
 use App\Filament\Resources\Wiki\VideoResource;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Closure;
@@ -127,10 +126,10 @@ class TrackResource extends BaseResource
                         ]),
                     ])
                     ->options(fn (Get $get) => Video::query()
-                        ->whereHas(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get): void {
-                            /** @phpstan-ignore-next-line */
-                            $query->where(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, $get(PlaylistTrack::ATTRIBUTE_ENTRY));
-                        })
+                        ->whereHas(
+                            Video::RELATION_ANIMETHEMEENTRIES,
+                            fn (Builder $query) => $query->whereKey($get(PlaylistTrack::ATTRIBUTE_ENTRY))
+                        )
                         ->get()
                         ->mapWithKeys(fn (Video $video): array => [$video->getKey() => $video->getName()])
                         ->toArray()),

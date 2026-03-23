@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Queries\Models\Pagination\Admin;
 
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Admin\DumpType;
+use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Builder;
 
 class DumpPaginationQuery extends EloquentPaginationQuery
@@ -28,9 +29,12 @@ class DumpPaginationQuery extends EloquentPaginationQuery
         return new DumpType();
     }
 
+    /**
+     * @param  Builder<Dump>  $builder
+     * @return Builder<Dump>
+     */
     protected function query(Builder $builder, array $args): Builder
     {
-        /** @phpstan-ignore-next-line */
         return $builder->public();
     }
 }
