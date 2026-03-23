@@ -23,18 +23,18 @@ use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-#[Middleware(EnabledOnlyOnLocalhost::class)]
-#[Middleware(EnsureFeaturesAreActive::class.':'.AllowExternalProfileManagement::class, except: ['index', 'show'])]
-#[Middleware(UserExceedsExternalProfileLimit::class, ['store', 'restore'])]
 class ExternalProfileController extends BaseController
 {
     public function __construct()
     {
         parent::__construct(ExternalProfile::class, 'externalprofile');
+
+        $this->middleware(EnabledOnlyOnLocalhost::class);
+        $this->middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class))->except(['index', 'show']);
+        $this->middleware(UserExceedsExternalProfileLimit::class)->only(['store', 'restore']);
     }
 
     public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection
@@ -43,9 +43,9 @@ class ExternalProfileController extends BaseController
 
         $builder = ExternalProfile::query()->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);
 
-        $userId = Auth::id();
-        if ($userId) {
-            $builder->orWhereBelongsTo(Auth::user());
+        $user = Auth::user();
+        if ($user) {
+            $builder->orWhereBelongsTo($user);
         }
 
         $externalprofiles = $query->hasSearchCriteria()

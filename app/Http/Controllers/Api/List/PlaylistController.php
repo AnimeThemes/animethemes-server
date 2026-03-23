@@ -22,17 +22,17 @@ use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-#[Middleware(EnsureFeaturesAreActive::class.':'.AllowPlaylistManagement::class, except: ['index', 'show'])]
-#[Middleware(UserExceedsPlaylistLimit::class, ['store', 'restore'])]
 class PlaylistController extends BaseController
 {
     public function __construct()
     {
         parent::__construct(Playlist::class, 'playlist');
+
+        $this->middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class))->except(['index', 'show']);
+        $this->middleware(UserExceedsPlaylistLimit::class)->only(['store', 'restore']);
     }
 
     public function index(IndexRequest $request, IndexAction $action): PlaylistCollection

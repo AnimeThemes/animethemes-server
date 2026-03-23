@@ -11,13 +11,16 @@ use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\List\External\ExternalTokenAuthRequest;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-#[Middleware(EnabledOnlyOnLocalhost::class)]
-#[Middleware(EnsureFeaturesAreActive::class.':'.AllowExternalProfileManagement::class)]
 class ExternalTokenAuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(EnabledOnlyOnLocalhost::class);
+        $this->middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class));
+    }
+
     /**
      * This will redirect the user to the appropriate auth service.
      */
