@@ -7,7 +7,7 @@ namespace App\Enums\Models\List;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-enum ExternalEntryWatchStatus: int implements HasLabel
+enum ExternalEntryStatus: int implements HasLabel
 {
     use LocalizesName;
 
