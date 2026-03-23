@@ -23,7 +23,6 @@ use App\Http\Resources\List\Resource\PlaylistJsonResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class PlaylistController extends BaseController
@@ -32,12 +31,7 @@ class PlaylistController extends BaseController
     {
         parent::__construct(Playlist::class, 'playlist');
 
-        $isPlaylistManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowPlaylistManagement::class)
-            ->__toString();
-
-        $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
+        $this->middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class))->except(['index', 'show']);
         $this->middleware(UserExceedsPlaylistLimit::class)->only(['store', 'restore']);
     }
 

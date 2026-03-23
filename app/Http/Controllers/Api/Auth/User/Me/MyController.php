@@ -7,13 +7,12 @@ namespace App\Http\Controllers\Api\Auth\User\Me;
 use App\Actions\Http\Api\ShowAction;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Auth\User\MySchema;
-use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Auth\User\Resource\MyJsonResource;
 use App\Models\Auth\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Container\Attributes\CurrentUser;
 
 class MyController extends BaseController
 {
@@ -25,12 +24,9 @@ class MyController extends BaseController
         $this->middleware(Authenticate::using('sanctum'));
     }
 
-    public function show(ShowRequest $request, ShowAction $action): MyJsonResource
+    public function show(ShowRequest $request, #[CurrentUser] User $user, ShowAction $action): MyJsonResource
     {
         $query = new Query($request->validated());
-
-        /** @var User $user */
-        $user = Auth::user();
 
         $show = $action->show($user, $query, $request->schema());
 

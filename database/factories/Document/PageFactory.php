@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Document;
 
 use App\Models\Document\Page;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -14,15 +15,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Page>
  */
+#[UseModel(Page::class)]
 class PageFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Page>
-     */
-    protected $model = Page::class;
-
     /**
      * Define the model's default state.
      *

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Discord;
 
 use App\Models\Discord\DiscordThread;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,15 +14,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<DiscordThread>
  */
+#[UseModel(DiscordThread::class)]
 class DiscordThreadFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<DiscordThread>
-     */
-    protected $model = DiscordThread::class;
-
     /**
      * Define the model's default state.
      *

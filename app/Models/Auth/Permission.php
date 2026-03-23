@@ -29,6 +29,19 @@ class Permission extends BasePermission implements Nameable
     final public const string RELATION_ROLES = 'roles';
     final public const string RELATION_USERS = 'users';
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Permission::ATTRIBUTE_GUARD_NAME => 'string',
+            Permission::ATTRIBUTE_NAME => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;

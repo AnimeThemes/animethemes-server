@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Console\Commands\Storage\Admin\WikiDumpCommand;
+use App\Console\Commands\Storage\Admin\ContentDumpCommand;
 use App\Constants\Config\DumpConstants;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
@@ -15,7 +15,7 @@ test('database dump output', function () {
 
     Date::setTestNow(fake()->iso8601());
 
-    $this->artisan(WikiDumpCommand::class)
+    $this->artisan(ContentDumpCommand::class)
         ->assertSuccessful()
         ->expectsOutputToContain('has been created');
 });
@@ -26,7 +26,7 @@ test('database dump file', function () {
 
     Date::setTestNow(fake()->iso8601());
 
-    $this->artisan(WikiDumpCommand::class)->run();
+    $this->artisan(ContentDumpCommand::class)->run();
 
     $this->assertEmpty($local->allFiles());
     $this->assertCount(1, $fs->allFiles());

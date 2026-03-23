@@ -15,6 +15,7 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,6 +40,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  *
  * @method static PlaylistTrackFactory factory(...$parameters)
  */
+#[Table(PlaylistTrack::TABLE, PlaylistTrack::ATTRIBUTE_ID)]
 class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema, Sortable
 {
     use HasFactory;
@@ -64,20 +66,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     final public const string RELATION_PREVIOUS = 'previous';
     final public const string RELATION_THEME_GROUP = 'animethemeentry.animetheme.group';
     final public const string RELATION_VIDEO = 'video';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = PlaylistTrack::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = PlaylistTrack::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -112,7 +100,10 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     protected function casts(): array
     {
         return [
+            PlaylistTrack::ATTRIBUTE_ENTRY => 'int',
+            PlaylistTrack::ATTRIBUTE_PLAYLIST => 'int',
             PlaylistTrack::ATTRIBUTE_POSITION => 'int',
+            PlaylistTrack::ATTRIBUTE_VIDEO => 'int',
         ];
     }
 

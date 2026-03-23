@@ -17,6 +17,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Pivots\BaseMorphPivot;
 use Database\Factories\Pivots\Morph\ResourceableFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @method static ResourceableFactory factory(...$parameters)
  */
+#[Table(Resourceable::TABLE)]
 class Resourceable extends BaseMorphPivot
 {
     final public const string TABLE = 'resourceables';
@@ -42,13 +44,6 @@ class Resourceable extends BaseMorphPivot
 
     final public const string RELATION_RESOURCE = 'resource';
     final public const string RELATION_RESOURCEABLE = 'resourceable';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Resourceable::TABLE;
 
     /**
      * The models that have resources.
@@ -99,6 +94,21 @@ class Resourceable extends BaseMorphPivot
             Resourceable::ATTRIBUTE_RESOURCE,
             Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
             Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
+        ];
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Resourceable::ATTRIBUTE_AS => 'string',
+            Resourceable::ATTRIBUTE_RESOURCE => 'int',
+            Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE => 'string',
+            Resourceable::ATTRIBUTE_RESOURCEABLE_ID => 'int',
         ];
     }
 

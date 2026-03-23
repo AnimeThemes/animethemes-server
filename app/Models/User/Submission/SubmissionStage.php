@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\User\Submission;
 use Database\Factories\User\Submission\SubmissionStageFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static SubmissionStageFactory factory(...$parameters)
  */
+#[Table(SubmissionStage::TABLE, SubmissionStage::ATTRIBUTE_ID)]
 class SubmissionStage extends BaseModel
 {
     use HasFactory;
@@ -43,20 +45,6 @@ class SubmissionStage extends BaseModel
     final public const string RELATION_SUBMISSION = 'submission';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = SubmissionStage::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = SubmissionStage::ATTRIBUTE_ID;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -70,16 +58,6 @@ class SubmissionStage extends BaseModel
         SubmissionStage::ATTRIBUTE_SUBMISSION,
     ];
 
-    public function getName(): string
-    {
-        return strval($this->getKey());
-    }
-
-    public function getSubtitle(): string
-    {
-        return strval($this->getKey());
-    }
-
     /**
      * Get the attributes that should be cast.
      *
@@ -89,8 +67,22 @@ class SubmissionStage extends BaseModel
     {
         return [
             SubmissionStage::ATTRIBUTE_FIELDS => 'array',
+            SubmissionStage::ATTRIBUTE_MODERATOR => 'int',
+            SubmissionStage::ATTRIBUTE_MODERATOR_NOTES => 'string',
+            SubmissionStage::ATTRIBUTE_NOTES => 'string',
             SubmissionStage::ATTRIBUTE_STAGE => 'int',
+            SubmissionStage::ATTRIBUTE_SUBMISSION => 'int',
         ];
+    }
+
+    public function getName(): string
+    {
+        return strval($this->getKey());
+    }
+
+    public function getSubtitle(): string
+    {
+        return strval($this->getKey());
     }
 
     /**

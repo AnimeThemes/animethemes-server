@@ -7,6 +7,7 @@ namespace Database\Factories\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Video;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -17,15 +18,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Video>
  */
+#[UseModel(Video::class)]
 class VideoFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Video>
-     */
-    protected $model = Video::class;
-
     /**
      * Define the model's default state.
      *

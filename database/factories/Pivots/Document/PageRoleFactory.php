@@ -6,6 +6,7 @@ namespace Database\Factories\Pivots\Document;
 
 use App\Enums\Pivots\Document\PageRoleType;
 use App\Pivots\Document\PageRole;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -15,15 +16,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<PageRole>
  */
+#[UseModel(PageRole::class)]
 class PageRoleFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<PageRole>
-     */
-    protected $model = PageRole::class;
-
     /**
      * Define the model's default state.
      *

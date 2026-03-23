@@ -7,7 +7,7 @@ namespace App\Enums\Models\List;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasLabel;
 
-enum ExternalEntryWatchStatus: int implements HasLabel
+enum ExternalEntryStatus: int implements HasLabel
 {
     use LocalizesName;
 
@@ -19,7 +19,7 @@ enum ExternalEntryWatchStatus: int implements HasLabel
     case REWATCHING = 5;
 
     /**
-     * Get the watch status by the MAL key.
+     * Get the status by the MAL key.
      */
     public static function getMalMapping(string $status): static
     {
@@ -34,7 +34,7 @@ enum ExternalEntryWatchStatus: int implements HasLabel
     }
 
     /**
-     * Get the watch status by the AniList key.
+     * Get the status by the AniList key.
      */
     public static function getAnilistMapping(string $status): static
     {

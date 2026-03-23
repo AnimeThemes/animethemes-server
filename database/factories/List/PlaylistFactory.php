@@ -10,6 +10,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -19,15 +20,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<Playlist>
  */
+#[UseModel(Playlist::class)]
 class PlaylistFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Playlist>
-     */
-    protected $model = Playlist::class;
-
     /**
      * Define the model's default state.
      *

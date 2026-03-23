@@ -6,16 +6,16 @@ namespace App\Console\Commands\GraphQL;
 
 use App\Console\Commands\BaseCommand;
 use GraphQL\Utils\SchemaPrinter;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
+#[Signature('graphql:print-schema {schema=v1}')]
+#[Description('Print the GraphQL schema into SDL')]
 class GraphQLPrintSchemaCommand extends BaseCommand
 {
-    protected $signature = 'graphql:print-schema {schema=v1}';
-
-    protected $description = 'Print the GraphQL schema into SDL';
-
     public function handle(): int
     {
         $schemaName = $this->argument('schema');

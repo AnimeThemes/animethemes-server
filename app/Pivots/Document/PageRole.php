@@ -9,6 +9,7 @@ use App\Models\Auth\Role;
 use App\Models\Document\Page;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Document\PageRoleFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static PageRoleFactory factory(...$parameters)
  */
+#[Table(PageRole::TABLE)]
 class PageRole extends BasePivot
 {
     final public const string TABLE = 'page_roles';
@@ -32,13 +34,6 @@ class PageRole extends BasePivot
 
     final public const string RELATION_PAGE = 'page';
     final public const string RELATION_ROLE = 'role';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = PageRole::TABLE;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +66,8 @@ class PageRole extends BasePivot
     protected function casts(): array
     {
         return [
+            PageRole::ATTRIBUTE_PAGE => 'int',
+            PageRole::ATTRIBUTE_ROLE => 'int',
             PageRole::ATTRIBUTE_TYPE => PageRoleType::class,
         ];
     }

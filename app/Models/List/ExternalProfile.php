@@ -17,6 +17,7 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\External\ExternalToken;
 use Database\Factories\List\ExternalProfileFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Prunable;
@@ -44,6 +45,7 @@ use Illuminate\Support\Uri;
  *
  * @method static ExternalProfileFactory factory(...$parameters)
  */
+#[Table(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_ID)]
 class ExternalProfile extends BaseModel
 {
     use HasFactory;
@@ -64,20 +66,6 @@ class ExternalProfile extends BaseModel
     final public const string RELATION_EXTERNAL_ENTRIES = 'externalentries';
     final public const string RELATION_EXTERNAL_TOKEN = 'externaltoken';
     final public const string RELATION_USER = 'user';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalProfile::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalProfile::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -114,8 +102,12 @@ class ExternalProfile extends BaseModel
     protected function casts(): array
     {
         return [
+            ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => 'int',
+            ExternalProfile::ATTRIBUTE_NAME => 'string',
             ExternalProfile::ATTRIBUTE_SITE => ExternalProfileSite::class,
+            ExternalProfile::ATTRIBUTE_SYNCED_AT => 'datetime',
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::class,
+            ExternalProfile::ATTRIBUTE_USER => 'int',
         ];
     }
 

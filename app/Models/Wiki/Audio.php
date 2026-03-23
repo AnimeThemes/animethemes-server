@@ -15,6 +15,8 @@ use App\Events\Wiki\Audio\AudioRestored;
 use App\Events\Wiki\Audio\AudioUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Wiki\AudioFactory;
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,6 +36,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static AudioFactory factory(...$parameters)
  */
+#[Appends([Audio::ATTRIBUTE_LINK])]
+#[Table(Audio::TABLE, Audio::ATTRIBUTE_ID)]
 class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
 {
     use HasAudits;
@@ -52,20 +56,6 @@ class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
     final public const string ATTRIBUTE_SIZE = 'size';
 
     final public const string RELATION_VIDEOS = 'videos';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Audio::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Audio::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -96,15 +86,6 @@ class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var list<string>
-     */
-    protected $appends = [
-        Audio::ATTRIBUTE_LINK,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -112,6 +93,10 @@ class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
     protected function casts(): array
     {
         return [
+            Audio::ATTRIBUTE_BASENAME => 'string',
+            Audio::ATTRIBUTE_FILENAME => 'string',
+            Audio::ATTRIBUTE_MIMETYPE => 'string',
+            Audio::ATTRIBUTE_PATH => 'string',
             Audio::ATTRIBUTE_SIZE => 'int',
         ];
     }

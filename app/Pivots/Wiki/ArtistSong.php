@@ -8,6 +8,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\ArtistSongFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static ArtistSongFactory factory(...$parameters)
  */
+#[Table(ArtistSong::TABLE)]
 class ArtistSong extends BasePivot
 {
     final public const string TABLE = 'artist_song';
@@ -31,13 +33,6 @@ class ArtistSong extends BasePivot
 
     final public const string RELATION_ARTIST = 'artist';
     final public const string RELATION_SONG = 'song';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ArtistSong::TABLE;
 
     /**
      * The attributes that are mass assignable.
@@ -61,6 +56,21 @@ class ArtistSong extends BasePivot
         return [
             ArtistSong::ATTRIBUTE_ARTIST,
             ArtistSong::ATTRIBUTE_SONG,
+        ];
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            ArtistSong::ATTRIBUTE_ALIAS => 'string',
+            ArtistSong::ATTRIBUTE_ARTIST => 'int',
+            ArtistSong::ATTRIBUTE_AS => 'string',
+            ArtistSong::ATTRIBUTE_SONG => 'int',
         ];
     }
 

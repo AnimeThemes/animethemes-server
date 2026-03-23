@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->timestamps(6);
                 $table->id('entry_id');
                 $table->float('score')->nullable();
-                $table->integer('watch_status');
+                $table->integer('status');
                 $table->boolean('is_favorite')->default(false);
 
                 $table->unsignedBigInteger('anime_id')->nullable();

@@ -24,7 +24,6 @@ use App\Http\Resources\List\Resource\ExternalProfileJsonResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class ExternalProfileController extends BaseController
@@ -33,13 +32,8 @@ class ExternalProfileController extends BaseController
     {
         parent::__construct(ExternalProfile::class, 'externalprofile');
 
-        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowExternalProfileManagement::class)
-            ->__toString();
-
         $this->middleware(EnabledOnlyOnLocalhost::class);
-        $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
+        $this->middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class))->except(['index', 'show']);
         $this->middleware(UserExceedsExternalProfileLimit::class)->only(['store', 'restore']);
     }
 
@@ -49,9 +43,9 @@ class ExternalProfileController extends BaseController
 
         $builder = ExternalProfile::query()->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);
 
-        $userId = Auth::id();
-        if ($userId) {
-            $builder->orWhereBelongsTo(Auth::user());
+        $user = Auth::user();
+        if ($user) {
+            $builder->orWhereBelongsTo($user);
         }
 
         $externalprofiles = $query->hasSearchCriteria()

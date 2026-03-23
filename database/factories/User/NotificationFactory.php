@@ -6,6 +6,7 @@ namespace Database\Factories\User;
 
 use App\Models\User\Notification;
 use App\Notifications\ExternalProfileSyncedNotification;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -15,15 +16,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Notification>
  */
+#[UseModel(Notification::class)]
 class NotificationFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Notification>
-     */
-    protected $model = Notification::class;
-
     /**
      * Define the model's default state.
      *

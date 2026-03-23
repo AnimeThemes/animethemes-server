@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\External;
 
 use App\Enums\Filament\NavigationGroup;
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -99,10 +99,10 @@ class ExternalEntryResource extends BaseResource
                     ->helperText(__('filament.fields.external_entry.score.help'))
                     ->numeric(),
 
-                Select::make(ExternalEntry::ATTRIBUTE_WATCH_STATUS)
-                    ->label(__('filament.fields.external_entry.watch_status.name'))
-                    ->helperText(__('filament.fields.external_entry.watch_status.help'))
-                    ->options(ExternalEntryWatchStatus::class)
+                Select::make(ExternalEntry::ATTRIBUTE_STATUS)
+                    ->label(__('filament.fields.external_entry.status.name'))
+                    ->helperText(__('filament.fields.external_entry.status.help'))
+                    ->options(ExternalEntryStatus::class)
                     ->required(),
 
                 Checkbox::make(ExternalEntry::ATTRIBUTE_IS_FAVORITE)
@@ -127,9 +127,9 @@ class ExternalEntryResource extends BaseResource
                 TextColumn::make(ExternalEntry::ATTRIBUTE_SCORE)
                     ->label(__('filament.fields.external_entry.score.name')),
 
-                TextColumn::make(ExternalEntry::ATTRIBUTE_WATCH_STATUS)
-                    ->label(__('filament.fields.external_entry.watch_status.name'))
-                    ->formatStateUsing(fn (ExternalEntryWatchStatus $state): ?string => $state->localize()),
+                TextColumn::make(ExternalEntry::ATTRIBUTE_STATUS)
+                    ->label(__('filament.fields.external_entry.status.name'))
+                    ->formatStateUsing(fn (ExternalEntryStatus $state): ?string => $state->localize()),
 
                 TextColumn::make(ExternalEntry::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
@@ -152,9 +152,9 @@ class ExternalEntryResource extends BaseResource
                         TextEntry::make(ExternalEntry::ATTRIBUTE_SCORE)
                             ->label(__('filament.fields.external_entry.score.name')),
 
-                        TextEntry::make(ExternalEntry::ATTRIBUTE_WATCH_STATUS)
-                            ->label(__('filament.fields.external_entry.watch_status.name'))
-                            ->formatStateUsing(fn (ExternalEntryWatchStatus $state): ?string => $state->localize()),
+                        TextEntry::make(ExternalEntry::ATTRIBUTE_STATUS)
+                            ->label(__('filament.fields.external_entry.status.name'))
+                            ->formatStateUsing(fn (ExternalEntryStatus $state): ?string => $state->localize()),
 
                         TextEntry::make(ExternalEntry::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -179,8 +179,8 @@ class ExternalEntryResource extends BaseResource
                     NumberConstraint::make(ExternalEntry::ATTRIBUTE_SCORE)
                         ->label(__('filament.fields.external_entry.score.name')),
 
-                    SelectConstraint::make(ExternalEntry::ATTRIBUTE_WATCH_STATUS)
-                        ->label(__('filament.fields.external_entry.watch_status.name'))
+                    SelectConstraint::make(ExternalEntry::ATTRIBUTE_STATUS)
+                        ->label(__('filament.fields.external_entry.status.name'))
                         ->multiple(),
 
                     ...parent::getConstraints(),

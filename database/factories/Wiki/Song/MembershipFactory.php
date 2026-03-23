@@ -6,6 +6,7 @@ namespace Database\Factories\Wiki\Song;
 
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,15 +15,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<Membership>
  */
+#[UseModel(Membership::class)]
 class MembershipFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Membership>
-     */
-    protected $model = Membership::class;
-
     /**
      * Define the model's default state.
      *

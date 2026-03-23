@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\External\Entry\Claimed;
 
 use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Client\RequestException;
@@ -37,7 +37,7 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
                     $entries[] = [
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => $entryId,
                         ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, 'score'),
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
+                        ExternalEntry::ATTRIBUTE_STATUS => ExternalEntryStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
                         ExternalEntry::ATTRIBUTE_IS_FAVORITE => Arr::get($entry, 'media.isFavourite'),
                     ];
                 }

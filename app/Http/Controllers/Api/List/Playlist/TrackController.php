@@ -23,7 +23,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class TrackController extends BaseController
@@ -32,12 +31,7 @@ class TrackController extends BaseController
     {
         parent::__construct(PlaylistTrack::class, 'track,playlist');
 
-        $isPlaylistManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowPlaylistManagement::class)
-            ->__toString();
-
-        $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
+        $this->middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class))->except(['index', 'show']);
         $this->middleware(PlaylistExceedsTrackLimit::class)->only(['store', 'restore']);
     }
 

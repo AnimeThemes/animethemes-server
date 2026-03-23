@@ -14,6 +14,7 @@ use App\Observers\Admin\ActionLogObserver;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -43,6 +44,7 @@ use Throwable;
  * @property User|null $user
  */
 #[ObservedBy(ActionLogObserver::class)]
+#[Table(ActionLog::TABLE, ActionLog::ATTRIBUTE_ID)]
 class ActionLog extends Model implements Nameable
 {
     final public const string TABLE = 'action_logs';
@@ -70,20 +72,6 @@ class ActionLog extends Model implements Nameable
 
     final public const string RELATION_USER = 'user';
     final public const string RELATION_TARGET = 'target';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ActionLog::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ActionLog::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.

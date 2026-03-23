@@ -10,6 +10,7 @@ use App\Models\BaseModel;
 use App\Models\User\Submission\SubmissionStage;
 use Database\Factories\User\SubmissionFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +35,7 @@ use Illuminate\Support\Collection;
  * @method static Builder pending()
  * @method static SubmissionFactory factory(...$parameters)
  */
+#[Table(Submission::TABLE, Submission::ATTRIBUTE_ID)]
 class Submission extends BaseModel
 {
     use HasFactory;
@@ -55,20 +57,6 @@ class Submission extends BaseModel
     final public const string RELATION_MODERATOR = 'moderator';
     final public const string RELATION_STAGES = 'stages';
     final public const string RELATION_USER = 'user';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Submission::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Submission::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -95,9 +83,15 @@ class Submission extends BaseModel
     protected function casts(): array
     {
         return [
+            Submission::ATTRIBUTE_ACTIONABLE_TYPE => 'string',
+            Submission::ATTRIBUTE_ACTIONABLE_ID => 'int',
             Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
             Submission::ATTRIBUTE_LOCKED => 'bool',
+            Submission::ATTRIBUTE_MODERATOR => 'int',
+            Submission::ATTRIBUTE_MODERATOR_NOTES => 'string',
             Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
+            Submission::ATTRIBUTE_TYPE => 'string',
+            Submission::ATTRIBUTE_USER => 'int',
         ];
     }
 

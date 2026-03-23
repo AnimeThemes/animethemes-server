@@ -22,6 +22,7 @@ use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\SongFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,6 +42,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static SongFactory factory(...$parameters)
  */
+#[Table(Song::TABLE, Song::ATTRIBUTE_ID)]
 class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
 {
     use HasAudits;
@@ -63,20 +65,6 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_THEME_GROUPS = 'animethemes.group';
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Song::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Song::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -102,6 +90,19 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
         Song::ATTRIBUTE_TITLE,
         Song::ATTRIBUTE_TITLE_NATIVE,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Song::ATTRIBUTE_TITLE => 'string',
+            Song::ATTRIBUTE_TITLE_NATIVE => 'string',
+        ];
+    }
 
     public function getName(): string
     {

@@ -25,6 +25,8 @@ use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\VideoFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,6 +63,12 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static VideoFactory factory(...$parameters)
  */
+#[Appends([
+    Video::ATTRIBUTE_LINK,
+    Video::ATTRIBUTE_PRIORITY,
+    Video::ATTRIBUTE_TAGS,
+])]
+#[Table(Video::TABLE, Video::ATTRIBUTE_ID)]
 class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
 {
     use HasAudits;
@@ -100,20 +108,6 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     final public const string RELATION_TRACKS = 'tracks';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Video::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Video::ATTRIBUTE_ID;
-
-    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
@@ -150,17 +144,6 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var list<string>
-     */
-    protected $appends = [
-        Video::ATTRIBUTE_LINK,
-        Video::ATTRIBUTE_PRIORITY,
-        Video::ATTRIBUTE_TAGS,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -168,9 +151,15 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     protected function casts(): array
     {
         return [
+            Video::ATTRIBUTE_AUDIO => 'int',
+            Video::ATTRIBUTE_BASENAME => 'string',
+            Video::ATTRIBUTE_FILENAME => 'string',
             Video::ATTRIBUTE_LYRICS => 'boolean',
+            Video::ATTRIBUTE_MIMETYPE => 'string',
             Video::ATTRIBUTE_NC => 'boolean',
             Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
+            Video::ATTRIBUTE_PATH => 'string',
+            Video::ATTRIBUTE_RESOLUTION => 'int',
             Video::ATTRIBUTE_SIZE => 'int',
             Video::ATTRIBUTE_SOURCE => VideoSource::class,
             Video::ATTRIBUTE_SUBBED => 'boolean',

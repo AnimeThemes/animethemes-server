@@ -16,6 +16,7 @@ use App\Models\BaseModel;
 use App\Pivots\Wiki\AnimeSeries;
 use Database\Factories\Wiki\SeriesFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -31,6 +32,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static SeriesFactory factory(...$parameters)
  */
+#[Table(Series::TABLE, Series::ATTRIBUTE_ID)]
 class Series extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -47,20 +49,6 @@ class Series extends BaseModel implements Auditable, SoftDeletable
 
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_ANIME_SYNONYMS = 'anime.synonyms';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Series::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Series::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -85,6 +73,19 @@ class Series extends BaseModel implements Auditable, SoftDeletable
         Series::ATTRIBUTE_NAME,
         Series::ATTRIBUTE_SLUG,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Series::ATTRIBUTE_NAME => 'string',
+            Series::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.

@@ -16,6 +16,8 @@ use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Database\Factories\Wiki\Video\VideoScriptFactory;
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +33,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static VideoScriptFactory factory(...$parameters)
  */
+#[Appends([VideoScript::ATTRIBUTE_LINK])]
+#[Table(VideoScript::TABLE, VideoScript::ATTRIBUTE_ID)]
 class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, SoftDeletable
 {
     use HasAudits;
@@ -45,20 +49,6 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
     final public const string ATTRIBUTE_VIDEO = 'video_id';
 
     final public const string RELATION_VIDEO = 'video';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = VideoScript::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = VideoScript::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -86,13 +76,17 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
     ];
 
     /**
-     * The accessors to append to the model's array form.
+     * Get the attributes that should be cast.
      *
-     * @var list<string>
+     * @return array<string, string>
      */
-    protected $appends = [
-        VideoScript::ATTRIBUTE_LINK,
-    ];
+    protected function casts(): array
+    {
+        return [
+            VideoScript::ATTRIBUTE_PATH => 'string',
+            VideoScript::ATTRIBUTE_VIDEO => 'int',
+        ];
+    }
 
     protected function link(): Attribute
     {

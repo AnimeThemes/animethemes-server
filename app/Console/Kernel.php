@@ -8,12 +8,12 @@ use App\Console\Commands\Models\SyncLikeAggregatesCommand;
 use App\Console\Commands\Repositories\Storage\Admin\DumpReconcileCommand;
 use App\Console\Commands\Storage\Admin\AdminDumpCommand;
 use App\Console\Commands\Storage\Admin\AuthDumpCommand;
+use App\Console\Commands\Storage\Admin\ContentDumpCommand;
 use App\Console\Commands\Storage\Admin\DiscordDumpCommand;
 use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
 use App\Console\Commands\Storage\Admin\DumpPruneCommand;
 use App\Console\Commands\Storage\Admin\ListDumpCommand;
 use App\Console\Commands\Storage\Admin\UserDumpCommand;
-use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Models\BaseModel;
 use Illuminate\Auth\Console\ClearResetsCommand;
 use Illuminate\Cache\Console\PruneStaleTagsCommand;
@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->everyFifteenMinutes();
 
-        $schedule->command(WikiDumpCommand::class)
+        $schedule->command(ContentDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()

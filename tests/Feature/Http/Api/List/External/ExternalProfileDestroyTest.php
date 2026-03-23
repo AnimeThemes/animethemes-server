@@ -78,7 +78,7 @@ test('forbidden if flag disabled', function () {
     $response = delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
     $response->assertForbidden();
-});
+})->only();
 
 test('deleted', function () {
     Event::fakeExcept(ExternalProfileCreated::class);

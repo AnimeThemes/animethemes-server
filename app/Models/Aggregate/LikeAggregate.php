@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Aggregate;
 
 use App\Contracts\Models\Likeable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property int $likeable_id
  * @property int $value
  */
+#[Table(LikeAggregate::TABLE, incrementing: false, timestamps: false)]
 class LikeAggregate extends Model
 {
     final public const string TABLE = 'like_aggregates';
@@ -24,25 +26,18 @@ class LikeAggregate extends Model
     final public const string ATTRIBUTE_VALUE = 'value';
 
     /**
-     * The table associated with the model.
+     * Get the attributes that should be cast.
      *
-     * @var string
+     * @return array<string, string>
      */
-    protected $table = LikeAggregate::TABLE;
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+    protected function casts(): array
+    {
+        return [
+            LikeAggregate::ATTRIBUTE_LIKEABLE_TYPE => 'string',
+            LikeAggregate::ATTRIBUTE_LIKEABLE_ID => 'int',
+            LikeAggregate::ATTRIBUTE_VALUE => 'int',
+        ];
+    }
 
     public function likeable(): MorphTo
     {

@@ -15,6 +15,7 @@ use App\Events\Wiki\Group\GroupUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Database\Factories\Wiki\GroupFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -29,6 +30,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static GroupFactory factory(...$parameters)
  */
+#[Table(Group::TABLE, Group::ATTRIBUTE_ID)]
 class Group extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -45,20 +47,6 @@ class Group extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_ANIME = 'animethemes.anime';
     final public const string RELATION_THEMES = 'animethemes';
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Group::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Group::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -84,6 +72,19 @@ class Group extends BaseModel implements Auditable, SoftDeletable
         Group::ATTRIBUTE_NAME,
         Group::ATTRIBUTE_SLUG,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Group::ATTRIBUTE_NAME => 'string',
+            Group::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
 
     public function getName(): string
     {

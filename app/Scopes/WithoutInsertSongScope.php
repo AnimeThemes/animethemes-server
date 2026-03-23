@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scopes;
 
 use App\Enums\Models\Wiki\ThemeType;
+use App\Http\Middleware\Api\SetServingJsonApi;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ class WithoutInsertSongScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (Filament::isServing()) {
+        if (Filament::isServing() || ! SetServingJsonApi::$isServing) {
             return;
         }
 

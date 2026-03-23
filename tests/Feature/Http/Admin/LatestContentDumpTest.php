@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Actions\Storage\Admin\Dump\DumpContentAction;
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
-use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Features\AllowDumpDownloading;
@@ -27,11 +27,11 @@ test('dump downloading not allowed forbidden', function () {
 
     Feature::deactivate(AllowDumpDownloading::class);
 
-    $action = new DumpWikiAction();
+    $action = new DumpContentAction();
 
     $action->handle();
 
-    $response = get(route('dump.latest.wiki.show'));
+    $response = get(route('dump.latest.content.show'));
 
     $response->assertForbidden();
 });
@@ -49,12 +49,12 @@ test('video streaming permitted for bypass', function () {
     });
 
     Collection::times(fake()->randomDigitNotNull(), function () {
-        $action = new DumpWikiAction();
+        $action = new DumpContentAction();
 
         $action->handle();
     });
 
-    $path = Str::of(DumpWikiAction::FILENAME_PREFIX)
+    $path = Str::of(DumpContentAction::FILENAME_PREFIX)
         ->append(fake()->word())
         ->append('.sql')
         ->__toString();
@@ -70,18 +70,18 @@ test('video streaming permitted for bypass', function () {
 
     Sanctum::actingAs($user);
 
-    $response = get(route('dump.latest.wiki.show'));
+    $response = get(route('dump.latest.content.show'));
 
     $response->assertDownload($dump->path);
 });
 
-test('not found if no wiki dumps', function () {
+test('not found if no content dumps', function () {
     Storage::fake('local');
     Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
     Feature::activate(AllowDumpDownloading::class);
 
-    $response = get(route('dump.latest.wiki.show'));
+    $response = get(route('dump.latest.content.show'));
 
     $response->assertNotFound();
 });
@@ -98,12 +98,12 @@ test('not found if document dumps exist', function () {
         $action->handle();
     });
 
-    $response = get(route('dump.latest.wiki.show'));
+    $response = get(route('dump.latest.content.show'));
 
     $response->assertNotFound();
 });
 
-test('latest wiki dump downloaded', function () {
+test('latest content dump downloaded', function () {
     Storage::fake('local');
     $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -116,12 +116,12 @@ test('latest wiki dump downloaded', function () {
     });
 
     Collection::times(fake()->randomDigitNotNull(), function () {
-        $action = new DumpWikiAction();
+        $action = new DumpContentAction();
 
         $action->handle();
     });
 
-    $path = Str::of(DumpWikiAction::FILENAME_PREFIX)
+    $path = Str::of(DumpContentAction::FILENAME_PREFIX)
         ->append(fake()->word())
         ->append('.sql')
         ->__toString();
@@ -133,7 +133,7 @@ test('latest wiki dump downloaded', function () {
         Dump::ATTRIBUTE_PATH => $fsFile,
     ]);
 
-    $response = get(route('dump.latest.wiki.show'));
+    $response = get(route('dump.latest.content.show'));
 
     $response->assertDownload($dump->path);
 });

@@ -10,6 +10,7 @@ use App\Events\Pivot\Wiki\ArtistMember\ArtistMemberUpdated;
 use App\Models\Wiki\Artist;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\ArtistMemberFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static ArtistMemberFactory factory(...$parameters)
  */
+#[Table(ArtistMember::TABLE)]
 class ArtistMember extends BasePivot
 {
     final public const string TABLE = 'artist_member';
@@ -37,13 +39,6 @@ class ArtistMember extends BasePivot
 
     final public const string RELATION_ARTIST = 'artist';
     final public const string RELATION_MEMBER = 'member';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ArtistMember::TABLE;
 
     /**
      * The event map for the model.
@@ -82,6 +77,23 @@ class ArtistMember extends BasePivot
         return [
             ArtistMember::ATTRIBUTE_ARTIST,
             ArtistMember::ATTRIBUTE_MEMBER,
+        ];
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            ArtistMember::ATTRIBUTE_ALIAS => 'string',
+            ArtistMember::ATTRIBUTE_ARTIST => 'int',
+            ArtistMember::ATTRIBUTE_AS => 'string',
+            ArtistMember::ATTRIBUTE_MEMBER => 'int',
+            ArtistMember::ATTRIBUTE_NOTES => 'string',
+            ArtistMember::ATTRIBUTE_RELEVANCE => 'int',
         ];
     }
 

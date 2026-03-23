@@ -12,20 +12,14 @@ use App\Http\Requests\List\External\ExternalTokenCallbackRequest;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class ExternalTokenCallbackController extends Controller
 {
     public function __construct()
     {
-        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append(AllowExternalProfileManagement::class)
-            ->__toString();
-
         $this->middleware(EnabledOnlyOnLocalhost::class);
-        $this->middleware($isExternalProfileManagementAllowed);
+        $this->middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class));
     }
 
     /**

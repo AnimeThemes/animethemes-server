@@ -6,6 +6,7 @@ namespace Database\Factories\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -15,15 +16,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<ExternalResource>
  */
+#[UseModel(ExternalResource::class)]
 class ExternalResourceFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<ExternalResource>
-     */
-    protected $model = ExternalResource::class;
-
     /**
      * Define the model's default state.
      *

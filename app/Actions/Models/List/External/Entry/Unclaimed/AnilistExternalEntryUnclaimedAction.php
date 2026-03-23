@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\External\Entry\Unclaimed;
 
 use App\Actions\Models\List\External\Entry\BaseExternalEntryUnclaimedAction;
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Client\RequestException;
@@ -37,7 +37,7 @@ class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedActi
                 $entries[] = [
                     ExternalResource::ATTRIBUTE_EXTERNAL_ID => $entryId,
                     ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, 'score'),
-                    ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
+                    ExternalEntry::ATTRIBUTE_STATUS => ExternalEntryStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
                     ExternalEntry::ATTRIBUTE_IS_FAVORITE => in_array($entryId, $favorites),
                 ];
             }

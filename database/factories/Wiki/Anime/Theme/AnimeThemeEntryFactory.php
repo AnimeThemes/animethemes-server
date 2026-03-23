@@ -7,6 +7,7 @@ namespace Database\Factories\Wiki\Anime\Theme;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,15 +16,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<AnimeThemeEntry>
  */
+#[UseModel(AnimeThemeEntry::class)]
 class AnimeThemeEntryFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<AnimeThemeEntry>
-     */
-    protected $model = AnimeThemeEntry::class;
-
     /**
      * Define the model's default state.
      *

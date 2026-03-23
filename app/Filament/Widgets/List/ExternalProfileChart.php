@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\List;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\List\ExternalProfile;
-use Flowframe\Trend\TrendValue;
+use App\Services\FlowframeTrend\TrendValue;
 
 class ExternalProfileChart extends BaseChartWidget
 {

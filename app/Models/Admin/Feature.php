@@ -10,6 +10,7 @@ use App\Events\Admin\Feature\FeatureDeleted;
 use App\Events\Admin\Feature\FeatureUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\FeatureFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
@@ -23,6 +24,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static FeatureFactory factory(...$parameters)
  */
+#[Table(Feature::TABLE, Feature::ATTRIBUTE_ID)]
 class Feature extends BaseModel
 {
     use HasFactory;
@@ -33,20 +35,6 @@ class Feature extends BaseModel
     final public const string ATTRIBUTE_NAME = 'name';
     final public const string ATTRIBUTE_SCOPE = 'scope';
     final public const string ATTRIBUTE_VALUE = 'value';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Feature::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Feature::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -69,6 +57,20 @@ class Feature extends BaseModel
     protected $fillable = [
         Feature::ATTRIBUTE_VALUE,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Feature::ATTRIBUTE_NAME => 'string',
+            Feature::ATTRIBUTE_SCOPE => 'string',
+            Feature::ATTRIBUTE_VALUE => 'string',
+        ];
+    }
 
     public function getName(): string
     {

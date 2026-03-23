@@ -12,7 +12,7 @@ class LogQueueBusy
     public function handle(QueueBusy $event): void
     {
         Log::info('QueueBusy', [
-            'connection' => $event->connection,
+            'connection' => $event->connectionName,
             'remember' => $event->queue,
             'size' => $event->size,
         ]);

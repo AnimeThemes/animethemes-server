@@ -20,6 +20,7 @@ use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
 use Database\Factories\Wiki\StudioFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -36,6 +37,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static StudioFactory factory(...$parameters)
  */
+#[Table(Studio::TABLE, Studio::ATTRIBUTE_ID)]
 class Studio extends BaseModel implements Auditable, HasImages, HasResources, SoftDeletable
 {
     use HasAudits;
@@ -53,20 +55,6 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_IMAGES = 'images';
     final public const string RELATION_RESOURCES = 'resources';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Studio::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Studio::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -91,6 +79,19 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
         Studio::ATTRIBUTE_NAME,
         Studio::ATTRIBUTE_SLUG,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Studio::ATTRIBUTE_NAME => 'string',
+            Studio::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
 
     /**
      * Get the route key for the model.

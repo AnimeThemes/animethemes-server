@@ -28,6 +28,8 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Notifications\DatabaseNotification as FilamentNotification;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -64,6 +66,13 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
+#[Hidden([
+    User::ATTRIBUTE_PASSWORD,
+    User::ATTRIBUTE_REMEMBER_TOKEN,
+    User::ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES,
+    User::ATTRIBUTE_TWO_FACTOR_SECRET,
+])]
+#[Table(User::TABLE, dateFormat: 'Y-m-d\TH:i:s.u')]
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable, SoftDeletable
 {
     use HasApiTokens;
@@ -100,13 +109,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const string RELATION_WATCH_HISTORY = 'watchHistory';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = User::TABLE;
-
-    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
@@ -133,25 +135,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        User::ATTRIBUTE_PASSWORD,
-        User::ATTRIBUTE_REMEMBER_TOKEN,
-        User::ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES,
-        User::ATTRIBUTE_TWO_FACTOR_SECRET,
-    ];
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d\TH:i:s.u';
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -159,8 +142,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     protected function casts(): array
     {
         return [
+            User::ATTRIBUTE_EMAIL => 'string',
             User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
+            User::ATTRIBUTE_NAME => 'string',
             User::ATTRIBUTE_PASSWORD => 'hashed',
+            User::ATTRIBUTE_REMEMBER_TOKEN => 'string',
         ];
     }
 

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Admin\ActionLogStatus;
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -44,13 +44,13 @@ return [
         AnimeSynonymType::ENGLISH->name => 'English',
         AnimeSynonymType::SHORT->name => 'Short',
     ],
-    ExternalEntryWatchStatus::class => [
-        ExternalEntryWatchStatus::WATCHING->name => 'Watching',
-        ExternalEntryWatchStatus::COMPLETED->name => 'Completed',
-        ExternalEntryWatchStatus::PAUSED->name => 'Paused',
-        ExternalEntryWatchStatus::DROPPED->name => 'Dropped',
-        ExternalEntryWatchStatus::PLAN_TO_WATCH->name => 'Plan to Watch',
-        ExternalEntryWatchStatus::REWATCHING->name => 'Rewatching',
+    ExternalEntryStatus::class => [
+        ExternalEntryStatus::WATCHING->name => 'Watching',
+        ExternalEntryStatus::COMPLETED->name => 'Completed',
+        ExternalEntryStatus::PAUSED->name => 'Paused',
+        ExternalEntryStatus::DROPPED->name => 'Dropped',
+        ExternalEntryStatus::PLAN_TO_WATCH->name => 'Plan to Watch',
+        ExternalEntryStatus::REWATCHING->name => 'Rewatching',
     ],
     ExternalProfileSite::class => [
         ExternalProfileSite::MAL->name => 'MyAnimeList',

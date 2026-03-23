@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Factories\List\External;
 
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Models\List\External\ExternalEntry;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -15,15 +16,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<ExternalEntry>
  */
+#[UseModel(ExternalEntry::class)]
 class ExternalEntryFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<ExternalEntry>
-     */
-    protected $model = ExternalEntry::class;
-
     /**
      * Define the model's default state.
      *
@@ -31,10 +26,10 @@ class ExternalEntryFactory extends Factory
      */
     public function definition(): array
     {
-        $watchStatus = Arr::random(ExternalEntryWatchStatus::cases());
+        $status = Arr::random(ExternalEntryStatus::cases());
 
         return [
-            ExternalEntry::ATTRIBUTE_WATCH_STATUS => $watchStatus->value,
+            ExternalEntry::ATTRIBUTE_STATUS => $status->value,
             ExternalEntry::ATTRIBUTE_SCORE => fake()->randomFloat(2),
             ExternalEntry::ATTRIBUTE_IS_FAVORITE => fake()->boolean(),
         ];

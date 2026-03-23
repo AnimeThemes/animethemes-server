@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\List\Playlist;
 
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,15 +14,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<PlaylistTrack>
  */
+#[UseModel(PlaylistTrack::class)]
 class PlaylistTrackFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<PlaylistTrack>
-     */
-    protected $model = PlaylistTrack::class;
-
     /**
      * Define the model's default state.
      *

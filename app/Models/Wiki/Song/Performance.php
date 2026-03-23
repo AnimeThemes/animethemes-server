@@ -16,6 +16,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use Database\Factories\Wiki\Song\PerformanceFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,6 +39,7 @@ use Spatie\EloquentSortable\SortableTrait;
  *
  * @method static PerformanceFactory factory(...$parameters)
  */
+#[Table(Performance::TABLE, Performance::ATTRIBUTE_ID)]
 class Performance extends BaseModel implements Auditable, SoftDeletable, Sortable
 {
     use HasAudits;
@@ -62,20 +64,6 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
     final public const string RELATION_MEMBERSHIP = self::RELATION_ARTIST;
     final public const string RELATION_MEMBER = 'artist.member';
     final public const string RELATION_SONG = 'song';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Performance::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Performance::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -110,6 +98,23 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
         'order_column_name' => Performance::ATTRIBUTE_RELEVANCE,
         'sort_when_creating' => false,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Performance::ATTRIBUTE_ALIAS => 'string',
+            Performance::ATTRIBUTE_ARTIST_TYPE => 'string',
+            Performance::ATTRIBUTE_ARTIST_ID => 'int',
+            Performance::ATTRIBUTE_AS => 'string',
+            Performance::ATTRIBUTE_RELEVANCE => 'int',
+            Performance::ATTRIBUTE_SONG => 'int',
+        ];
+    }
 
     public function getName(): string
     {

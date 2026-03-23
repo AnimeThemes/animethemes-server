@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\External\Entry\Claimed;
 
 use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
@@ -42,14 +42,14 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
                 $animeInfo = Arr::get($info, 'node');
                 $listStatus = Arr::get($info, 'list_status');
 
-                $watchStatus = Arr::get($listStatus, 'is_rewatching')
+                $status = Arr::get($listStatus, 'is_rewatching')
                     ? 'rewatching'
                     : Arr::get($listStatus, 'status');
 
                 $entries[] = [
                     ExternalResource::ATTRIBUTE_EXTERNAL_ID => Arr::get($animeInfo, 'id'),
                     ExternalEntry::ATTRIBUTE_SCORE => Arr::get($listStatus, 'score'),
-                    ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::getMalMapping($watchStatus)->value,
+                    ExternalEntry::ATTRIBUTE_STATUS => ExternalEntryStatus::getMalMapping($status)->value,
                     ExternalEntry::ATTRIBUTE_IS_FAVORITE => false,
                 ];
             }

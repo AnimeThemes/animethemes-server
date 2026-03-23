@@ -12,24 +12,20 @@ use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Attributes\Backoff;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Pennant\Feature;
 
+#[Backoff(60)]
 class SendDiscordNotificationJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-
-    /**
-     * The number of seconds to wait before retrying the queued listener.
-     *
-     * @var int
-     */
-    public $backoff = 60;
 
     public function __construct(protected readonly DiscordMessageEvent $event) {}
 
@@ -51,6 +47,6 @@ class SendDiscordNotificationJob implements ShouldQueue
      */
     public function retryUntil(): DateTime
     {
-        return now()->addMinutes(15);
+        return Date::now()->addMinutes(15);
     }
 }

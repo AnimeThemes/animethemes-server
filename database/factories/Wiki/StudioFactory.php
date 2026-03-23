@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Models\Wiki\Studio;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -14,15 +15,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Studio>
  */
+#[UseModel(Studio::class)]
 class StudioFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Studio>
-     */
-    protected $model = Studio::class;
-
     /**
      * Define the model's default state.
      *

@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\User\WatchHistory;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,15 +17,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<WatchHistory>
  */
+#[UseModel(WatchHistory::class)]
 class WatchHistoryFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<WatchHistory>
-     */
-    protected $model = WatchHistory::class;
-
     /**
      * Define the model's default state.
      *

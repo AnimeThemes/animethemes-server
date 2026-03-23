@@ -7,6 +7,7 @@ namespace App\Models\User;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Database\Factories\User\LikeFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @method static LikeFactory factory(...$parameters)
  */
+#[Table(Like::TABLE, Like::ATTRIBUTE_ID)]
 class Like extends BaseModel
 {
     use HasFactory;
@@ -38,20 +40,6 @@ class Like extends BaseModel
     final public const string RELATION_LIKEABLE = 'likeable';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Like::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Like::ATTRIBUTE_ID;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -61,6 +49,20 @@ class Like extends BaseModel
         Like::ATTRIBUTE_LIKEABLE_TYPE,
         Like::ATTRIBUTE_LIKEABLE_ID,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Like::ATTRIBUTE_LIKEABLE_TYPE => 'string',
+            Like::ATTRIBUTE_LIKEABLE_ID => 'int',
+            Like::ATTRIBUTE_USER => 'int',
+        ];
+    }
 
     public function getName(): string
     {

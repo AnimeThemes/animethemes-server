@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\Storage\Admin\Dump\DumpWikiAction;
+use App\Actions\Storage\Admin\Dump\DumpContentAction;
 use App\Console\Commands\Storage\Admin\DumpPruneCommand;
 use App\Constants\Config\DumpConstants;
 use Illuminate\Support\Collection;
@@ -28,7 +28,7 @@ test('deleted', function () {
     Collection::times($prunedCount, function () {
         Date::setTestNow(fake()->iso8601());
 
-        $action = new DumpWikiAction();
+        $action = new DumpContentAction();
 
         $action->handle();
     });

@@ -7,6 +7,7 @@ namespace Database\Factories\Wiki;
 use App\Enums\Models\Wiki\SynonymType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Synonym;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -16,15 +17,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<Synonym>
  */
+#[UseModel(Synonym::class)]
 class SynonymFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Synonym>
-     */
-    protected $model = Synonym::class;
-
     /**
      * Define the model's default state.
      *

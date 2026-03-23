@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Models\Wiki\Song;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,15 +14,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<Song>
  */
+#[UseModel(Song::class)]
 class SongFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Song>
-     */
-    protected $model = Song::class;
-
     /**
      * Define the model's default state.
      *

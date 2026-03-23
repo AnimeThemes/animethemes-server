@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\List\Playlist;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
+
+#[Table(PlaylistTrack::TABLE, PlaylistTrack::ATTRIBUTE_ID)]
 class ForwardPlaylistTrack extends PlaylistTrack
 {
     /**

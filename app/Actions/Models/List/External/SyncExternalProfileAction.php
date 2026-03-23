@@ -48,7 +48,7 @@ class SyncExternalProfileAction
                     $externalEntries[] = [
                         ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, ExternalEntry::ATTRIBUTE_SCORE),
                         ExternalEntry::ATTRIBUTE_IS_FAVORITE => Arr::get($entry, ExternalEntry::ATTRIBUTE_IS_FAVORITE),
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => Arr::get($entry, ExternalEntry::ATTRIBUTE_WATCH_STATUS),
+                        ExternalEntry::ATTRIBUTE_STATUS => Arr::get($entry, ExternalEntry::ATTRIBUTE_STATUS),
                         ExternalEntry::ATTRIBUTE_ANIME => $anime,
                         ExternalEntry::ATTRIBUTE_PROFILE => $profile->getKey(),
                     ];

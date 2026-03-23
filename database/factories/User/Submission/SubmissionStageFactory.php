@@ -6,6 +6,7 @@ namespace Database\Factories\User\Submission;
 
 use App\Models\User\Submission;
 use App\Models\User\Submission\SubmissionStage;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,15 +15,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<SubmissionStage>
  */
+#[UseModel(SubmissionStage::class)]
 class SubmissionStageFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<SubmissionStage>
-     */
-    protected $model = SubmissionStage::class;
-
     /**
      * Define the model's default state.
      *

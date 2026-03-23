@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\AnimeStudioFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static AnimeStudioFactory factory(...$parameters)
  */
+#[Table(AnimeStudio::TABLE)]
 class AnimeStudio extends BasePivot
 {
     final public const string TABLE = 'anime_studio';
@@ -29,13 +31,6 @@ class AnimeStudio extends BasePivot
 
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_STUDIO = 'studio';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeStudio::TABLE;
 
     /**
      * The event map for the model.
@@ -69,6 +64,19 @@ class AnimeStudio extends BasePivot
         return [
             AnimeStudio::ATTRIBUTE_ANIME,
             AnimeStudio::ATTRIBUTE_STUDIO,
+        ];
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            AnimeStudio::ATTRIBUTE_ANIME => 'int',
+            AnimeStudio::ATTRIBUTE_STUDIO => 'int',
         ];
     }
 

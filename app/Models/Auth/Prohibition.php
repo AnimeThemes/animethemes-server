@@ -20,6 +20,18 @@ class Prohibition extends BaseProhibition implements Nameable
     final public const string RELATION_SANCTIONS = 'sanctions';
     final public const string RELATION_USERS = 'users';
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Prohibition::ATTRIBUTE_NAME => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;

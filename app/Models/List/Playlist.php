@@ -21,6 +21,7 @@ use App\Models\Wiki\Image;
 use App\Pivots\Morph\Imageable;
 use Database\Factories\List\PlaylistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -43,6 +44,7 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
+#[Table(Playlist::TABLE, Playlist::ATTRIBUTE_ID)]
 class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasImages, Likeable
 {
     use AggregatesLike;
@@ -65,20 +67,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     final public const string RELATION_LAST = 'last';
     final public const string RELATION_TRACKS = 'tracks';
     final public const string RELATION_USER = 'user';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Playlist::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Playlist::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -123,6 +111,12 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     protected function casts(): array
     {
         return [
+            Playlist::ATTRIBUTE_DESCRIPTION => 'string',
+            Playlist::ATTRIBUTE_FIRST => 'int',
+            Playlist::ATTRIBUTE_HASHID => 'string',
+            Playlist::ATTRIBUTE_LAST => 'int',
+            Playlist::ATTRIBUTE_NAME => 'string',
+            Playlist::ATTRIBUTE_USER => 'int',
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::class,
         ];
     }

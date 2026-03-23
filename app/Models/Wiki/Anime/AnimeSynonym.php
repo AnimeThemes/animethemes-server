@@ -11,6 +11,7 @@ use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Auditable as HasAudits;
@@ -25,6 +26,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @deprecated Use Synonym instead.
  */
+#[Table(AnimeSynonym::TABLE, AnimeSynonym::ATTRIBUTE_ID)]
 class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -45,20 +47,6 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeSynonym::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = AnimeSynonym::ATTRIBUTE_ID;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -77,6 +65,8 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
+            AnimeSynonym::ATTRIBUTE_ANIME => 'int',
+            AnimeSynonym::ATTRIBUTE_TEXT => 'string',
             AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::class,
         ];
     }

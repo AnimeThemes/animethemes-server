@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Database\Factories\List\External\ExternalEntryFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,10 +21,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ExternalProfile $externalprofile
  * @property bool $is_favorite
  * @property float|null $score
- * @property ExternalEntryWatchStatus $watch_status
+ * @property ExternalEntryStatus $status
  *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
+#[Table(ExternalEntry::TABLE, ExternalEntry::ATTRIBUTE_ID)]
 class ExternalEntry extends BaseModel
 {
     use HasFactory;
@@ -35,25 +37,11 @@ class ExternalEntry extends BaseModel
     final public const string ATTRIBUTE_PROFILE = 'profile_id';
     final public const string ATTRIBUTE_IS_FAVORITE = 'is_favorite';
     final public const string ATTRIBUTE_SCORE = 'score';
-    final public const string ATTRIBUTE_WATCH_STATUS = 'watch_status';
+    final public const string ATTRIBUTE_STATUS = 'status';
 
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_PROFILE = 'externalprofile';
     final public const string RELATION_USER = 'externalprofile.user';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalEntry::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalEntry::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -65,7 +53,7 @@ class ExternalEntry extends BaseModel
         ExternalEntry::ATTRIBUTE_PROFILE,
         ExternalEntry::ATTRIBUTE_IS_FAVORITE,
         ExternalEntry::ATTRIBUTE_SCORE,
-        ExternalEntry::ATTRIBUTE_WATCH_STATUS,
+        ExternalEntry::ATTRIBUTE_STATUS,
     ];
 
     /**
@@ -76,8 +64,11 @@ class ExternalEntry extends BaseModel
     protected function casts(): array
     {
         return [
+            ExternalEntry::ATTRIBUTE_ANIME => 'int',
+            ExternalEntry::ATTRIBUTE_PROFILE => 'int',
             ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
-            ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::class,
+            ExternalEntry::ATTRIBUTE_SCORE => 'float',
+            ExternalEntry::ATTRIBUTE_STATUS => ExternalEntryStatus::class,
         ];
     }
 
@@ -101,7 +92,7 @@ class ExternalEntry extends BaseModel
         return [
             ExternalEntry::ATTRIBUTE_IS_FAVORITE,
             ExternalEntry::ATTRIBUTE_SCORE,
-            ExternalEntry::ATTRIBUTE_WATCH_STATUS,
+            ExternalEntry::ATTRIBUTE_STATUS,
         ];
     }
 

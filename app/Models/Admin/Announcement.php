@@ -10,6 +10,7 @@ use App\Events\Admin\Announcement\AnnouncementUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\AnnouncementFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
@@ -26,6 +27,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @method static AnnouncementFactory factory(...$parameters)
  * @method static Builder<static> current()
  */
+#[Table(Announcement::TABLE, Announcement::ATTRIBUTE_ID)]
 class Announcement extends BaseModel implements Auditable
 {
     use HasAudits;
@@ -37,20 +39,6 @@ class Announcement extends BaseModel implements Auditable
     final public const string ATTRIBUTE_END_AT = 'end_at';
     final public const string ATTRIBUTE_ID = 'announcement_id';
     final public const string ATTRIBUTE_START_AT = 'start_at';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Announcement::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Announcement::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -84,6 +72,7 @@ class Announcement extends BaseModel implements Auditable
     protected function casts(): array
     {
         return [
+            Announcement::ATTRIBUTE_CONTENT => 'string',
             Announcement::ATTRIBUTE_END_AT => 'datetime',
             Announcement::ATTRIBUTE_START_AT => 'datetime',
         ];

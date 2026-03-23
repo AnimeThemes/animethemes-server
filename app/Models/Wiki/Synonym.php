@@ -17,6 +17,7 @@ use App\Events\Wiki\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Wiki\SynonymFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -33,6 +34,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static SynonymFactory factory(...$parameters)
  */
+#[Table(Synonym::TABLE, Synonym::ATTRIBUTE_ID)]
 class Synonym extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -50,20 +52,6 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     final public const string ATTRIBUTE_TYPE = 'type';
 
     final public const string RELATION_SYNONYMABLE = 'synonymable';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Synonym::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Synonym::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.
@@ -99,6 +87,9 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
+            Synonym::ATTRIBUTE_SYNONYMABLE_TYPE => 'string',
+            Synonym::ATTRIBUTE_SYNONYMABLE_ID => 'int',
+            Synonym::ATTRIBUTE_TEXT => 'string',
             Synonym::ATTRIBUTE_TYPE => SynonymType::class,
         ];
     }
