@@ -30,6 +30,7 @@
         "babenkoivan/elastic-scout-driver": "^5",
         "babenkoivan/elastic-scout-driver-plus": "^6.1",
         "bepsvpt/secure-headers": "^7.5",
+        "cweagans/composer-patches": ">=2",
         "elemind/filament-echarts": "^1.1",
         "fakerphp/faker": "^1.24.1",
         "filament/filament": "^5.4.1",
@@ -71,7 +72,8 @@
         "pestphp/pest": "^4.4.3",
         "pestphp/pest-plugin-laravel": "^4.1",
         "predis/predis": "^2.4.1",
-        "rector/rector": "^2.3.9"
+        "rector/rector": "^2.3.9",
+        "symplify/vendor-patches": ">=12.0.6"
     },
     "config": {
         "optimize-autoloader": true,
@@ -82,11 +84,20 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
+            "cweagans/composer-patches": true,
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },
     "extra": {
+        "patches": {
+            "babenkoivan/elastic-scout-driver": [
+                "patches/babenkoivan-elastic-scout-driver-src-serviceprovider-php.patch"
+            ],
+            "babenkoivan/elastic-scout-driver-plus": [
+                "patches/babenkoivan-elastic-scout-driver-plus-src-serviceprovider-php.patch"
+            ]
+        },
         "laravel": {
             "dont-discover": []
         }

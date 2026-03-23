@@ -1,0 +1,29 @@
+{
+    "_hash": "1c80ed72127d830f5a240dc7670a7197b06a8a0e995d476c873e9aeb0417909f",
+    "patches": {
+        "babenkoivan/elastic-scout-driver": [
+            {
+                "package": "babenkoivan/elastic-scout-driver",
+                "description": "0",
+                "url": "patches/babenkoivan-elastic-scout-driver-src-serviceprovider-php.patch",
+                "sha256": "dd01d6940a0bf8428e21d8f700f39fe08ade7cff748428c43259d98ba29613b5",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "babenkoivan/elastic-scout-driver-plus": [
+            {
+                "package": "babenkoivan/elastic-scout-driver-plus",
+                "description": "0",
+                "url": "patches/babenkoivan-elastic-scout-driver-plus-src-serviceprovider-php.patch",
+                "sha256": "a69ab2cfc3633dd907fa884091d78957fceca3958152d1144bffeb7d4810d520",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}
