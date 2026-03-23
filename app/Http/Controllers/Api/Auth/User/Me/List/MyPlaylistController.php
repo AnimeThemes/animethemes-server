@@ -14,13 +14,12 @@ use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 
-#[Middleware(Authenticate::class.':sanctum')]
 class MyPlaylistController extends BaseController
 {
     public function __construct()
     {
+        $this->middleware(Authenticate::using('sanctum'));
         parent::__construct(Playlist::class, 'playlist');
     }
 

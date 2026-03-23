@@ -13,11 +13,17 @@ use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Auth\User\Resource\MyJsonResource;
 use App\Models\Auth\User;
 use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 
-#[Middleware(Authenticate::class.':sanctum')]
 class MyController extends BaseController
 {
+    /**
+     * @noinspection PhpMissingParentConstructorInspection
+     */
+    public function __construct()
+    {
+        $this->middleware(Authenticate::using('sanctum'));
+    }
+
     public function show(ShowRequest $request, #[CurrentUser] User $user, ShowAction $action): MyJsonResource
     {
         $query = new Query($request->validated());

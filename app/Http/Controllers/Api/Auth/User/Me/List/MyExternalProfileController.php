@@ -14,13 +14,12 @@ use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 
-#[Middleware(Authenticate::class.':sanctum')]
 class MyExternalProfileController extends BaseController
 {
     public function __construct()
     {
+        $this->middleware(Authenticate::using('sanctum'));
         parent::__construct(ExternalProfile::class, 'externalprofile');
     }
 

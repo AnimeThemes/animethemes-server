@@ -15,14 +15,13 @@ use App\Models\Auth\User;
 use App\Models\User\Notification;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
-#[Middleware(Authenticate::class.':sanctum')]
 class MyNotificationController extends BaseController
 {
     public function __construct()
     {
+        $this->middleware(Authenticate::using('sanctum'));
         parent::__construct(Notification::class, 'notification');
     }
 
