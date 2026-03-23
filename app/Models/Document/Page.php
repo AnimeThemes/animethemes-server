@@ -17,7 +17,9 @@ use App\Models\BaseModel;
 use App\Pivots\Document\PageRole;
 use App\Scopes\ReadablePagesScope;
 use Database\Factories\Document\PageFactory;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -40,7 +42,9 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static PageFactory factory(...$parameters)
  */
+#[Hidden([Page::ATTRIBUTE_BODY])]
 #[ScopedBy(ReadablePagesScope::class)]
+#[Table(Page::TABLE, Page::ATTRIBUTE_ID)]
 class Page extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -62,20 +66,6 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_PREVIOUS = 'previous';
     final public const string RELATION_ROLES = 'roles';
     final public const string RELATION_VIEWER_ROLES = 'viewerRoles';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Page::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Page::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -102,15 +92,6 @@ class Page extends BaseModel implements Auditable, SoftDeletable
         Page::ATTRIBUTE_NEXT,
         Page::ATTRIBUTE_PREVIOUS,
         Page::ATTRIBUTE_SLUG,
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        Page::ATTRIBUTE_BODY,
     ];
 
     /**

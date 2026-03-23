@@ -16,6 +16,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Pivots\Morph\Resourceable;
 use Database\Factories\Wiki\ExternalResourceFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -36,6 +37,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static ExternalResourceFactory factory(...$parameters)
  */
+#[Table(ExternalResource::TABLE, ExternalResource::ATTRIBUTE_ID)]
 class ExternalResource extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -55,20 +57,6 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_ARTISTS = 'artists';
     final public const string RELATION_SONGS = 'songs';
     final public const string RELATION_STUDIOS = 'studios';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalResource::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalResource::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.

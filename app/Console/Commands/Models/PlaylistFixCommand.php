@@ -7,15 +7,15 @@ namespace App\Console\Commands\Models;
 use App\Actions\Models\List\Playlist\FixPlaylistAction;
 use App\Console\Commands\BaseCommand;
 use App\Models\List\Playlist;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
+#[Signature('playlist:fix {playlistId}')]
+#[Description('Fix playlist tracks to remove cycles')]
 class PlaylistFixCommand extends BaseCommand
 {
-    protected $signature = 'playlist:fix {playlistId}';
-
-    protected $description = 'Fix playlist tracks to remove cycles';
-
     public function handle(): int
     {
         $playlistId = $this->argument('playlistId');

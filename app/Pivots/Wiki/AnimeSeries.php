@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\AnimeSeriesFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static AnimeSeriesFactory factory(...$parameters)
  */
+#[Table(AnimeSeries::TABLE)]
 class AnimeSeries extends BasePivot
 {
     final public const string TABLE = 'anime_series';
@@ -29,13 +31,6 @@ class AnimeSeries extends BasePivot
 
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_SERIES = 'series';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeSeries::TABLE;
 
     /**
      * The event map for the model.

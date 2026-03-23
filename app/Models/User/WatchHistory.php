@@ -9,6 +9,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\User\WatchHistoryFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static WatchHistoryFactory factory(...$parameters)
  */
+#[Table(WatchHistory::TABLE, WatchHistory::ATTRIBUTE_ID)]
 class WatchHistory extends BaseModel
 {
     use HasFactory;
@@ -36,20 +38,6 @@ class WatchHistory extends BaseModel
     final public const string RELATION_ENTRY = 'animethemeentry';
     final public const string RELATION_USER = 'user';
     final public const string RELATION_VIDEO = 'video';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = WatchHistory::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = WatchHistory::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.

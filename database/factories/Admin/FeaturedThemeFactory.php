@@ -6,6 +6,7 @@ namespace Database\Factories\Admin;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Admin\FeaturedTheme;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,15 +15,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<FeaturedTheme>
  */
+#[UseModel(FeaturedTheme::class)]
 class FeaturedThemeFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<FeaturedTheme>
-     */
-    protected $model = FeaturedTheme::class;
-
     /**
      * Define the model's default state.
      *

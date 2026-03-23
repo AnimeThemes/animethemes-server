@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Admin;
 
 use App\Models\Admin\Dump;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -14,15 +15,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Dump>
  */
+#[UseModel(Dump::class)]
 class DumpFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Dump>
-     */
-    protected $model = Dump::class;
-
     /**
      * Define the model's default state.
      *

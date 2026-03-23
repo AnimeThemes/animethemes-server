@@ -10,6 +10,7 @@ use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -19,15 +20,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<ExternalProfile>
  */
+#[UseModel(ExternalProfile::class)]
 class ExternalProfileFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<ExternalProfile>
-     */
-    protected $model = ExternalProfile::class;
-
     /**
      * Define the model's default state.
      *

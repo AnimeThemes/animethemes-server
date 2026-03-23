@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\Storage\Admin\Dump\DumpWikiAction;
+use App\Actions\Storage\Admin\Dump\DumpContentAction;
 use App\Actions\Storage\Admin\Dump\PruneDumpAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
@@ -36,7 +36,7 @@ test('pruned', function () {
     Collection::times($prunedCount, function () {
         Date::setTestNow(fake()->iso8601());
 
-        $action = new DumpWikiAction();
+        $action = new DumpContentAction();
 
         $action->handle();
     });

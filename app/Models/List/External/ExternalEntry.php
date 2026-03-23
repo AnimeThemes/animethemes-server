@@ -9,6 +9,7 @@ use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Database\Factories\List\External\ExternalEntryFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
+#[Table(ExternalEntry::TABLE, ExternalEntry::ATTRIBUTE_ID)]
 class ExternalEntry extends BaseModel
 {
     use HasFactory;
@@ -40,20 +42,6 @@ class ExternalEntry extends BaseModel
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_PROFILE = 'externalprofile';
     final public const string RELATION_USER = 'externalprofile.user';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalEntry::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalEntry::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.

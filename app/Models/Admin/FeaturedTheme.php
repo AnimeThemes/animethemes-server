@@ -13,6 +13,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\Admin\FeaturedThemeFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -33,6 +34,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static FeaturedThemeFactory factory(...$parameters)
  */
+#[Table(FeaturedTheme::TABLE, FeaturedTheme::ATTRIBUTE_ID)]
 class FeaturedTheme extends BaseModel implements Auditable
 {
     use HasAudits;
@@ -56,20 +58,6 @@ class FeaturedTheme extends BaseModel implements Auditable
     final public const string RELATION_THEME = 'animethemeentry.animetheme';
     final public const string RELATION_USER = 'user';
     final public const string RELATION_VIDEO = 'video';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = FeaturedTheme::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = FeaturedTheme::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.

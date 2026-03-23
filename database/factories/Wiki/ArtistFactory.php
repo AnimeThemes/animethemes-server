@@ -10,6 +10,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -19,15 +20,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Artist>
  */
+#[UseModel(Artist::class)]
 class ArtistFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Artist>
-     */
-    protected $model = Artist::class;
-
     /**
      * Define the model's default state.
      *

@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Studio;
 use App\Pivots\Morph\Imageable;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,15 +19,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<Imageable>
  */
+#[UseModel(Imageable::class)]
 class ImageableFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Imageable>
-     */
-    protected $model = Imageable::class;
-
     /**
      * Define the model's default state.
      *

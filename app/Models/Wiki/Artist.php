@@ -27,6 +27,7 @@ use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\ArtistFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -56,6 +57,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  *
  * @method static ArtistFactory factory(...$parameters)
  */
+#[Table(Artist::TABLE, Artist::ATTRIBUTE_ID)]
 class Artist extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
     use HasAudits;
@@ -89,20 +91,6 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     final public const string RELATION_SYNONYMS = 'synonyms';
     final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
     final public const string RELATION_UNIQUE_GROUPSHIPS_PERFORMANCES = 'uniquegroupshipperformances';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Artist::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Artist::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.

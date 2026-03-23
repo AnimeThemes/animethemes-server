@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,15 +17,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<Like>
  */
+#[UseModel(Like::class)]
 class LikeFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Like>
-     */
-    protected $model = Like::class;
-
     /**
      * Define the model's default state.
      *

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Features\AllowDumpDownloading;
 use App\Http\Controllers\Admin\DumpController;
-use App\Http\Controllers\Admin\LatestWikiDumpController;
+use App\Http\Controllers\Admin\LatestContentDumpController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -14,8 +14,8 @@ $isDumpDownloadingAllowed = Str::of(EnsureFeaturesAreActive::class)
     ->append(AllowDumpDownloading::class)
     ->__toString();
 
-Route::get('/latest/wiki', [LatestWikiDumpController::class, 'show'])
-    ->name('dump.latest.wiki.show')
+Route::get('/latest/wiki', [LatestContentDumpController::class, 'show'])
+    ->name('dump.latest.content.show')
     ->middleware($isDumpDownloadingAllowed);
 
 Route::get('/{dump}', [DumpController::class, 'show'])

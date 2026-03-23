@@ -7,6 +7,7 @@ namespace Database\Factories\Auth;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
@@ -20,15 +21,9 @@ use Spatie\Permission\PermissionRegistrar;
  *
  * @extends Factory<User>
  */
+#[UseModel(User::class)]
 class UserFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<User>
-     */
-    protected $model = User::class;
-
     /**
      * Define the model's default state.
      *

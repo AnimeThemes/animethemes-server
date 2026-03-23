@@ -15,7 +15,6 @@ use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Middleware\Api\SetServingJsonApi;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -26,6 +25,8 @@ use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -52,6 +53,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @method static AnimeThemeFactory factory(...$parameters)
  */
 #[ObservedBy(AnimeThemeObserver::class)]
+#[ScopedBy(WithoutInsertSongScope::class)]
+#[Table(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_ID)]
 class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, SoftDeletable
 {
     use HasAudits;
@@ -81,32 +84,6 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     final public const string RELATION_SONG = 'song';
     final public const string RELATION_SYNONYMS = 'anime.synonyms';
     final public const string RELATION_VIDEOS = 'animethemeentries.videos';
-
-    /**
-     * The "boot" method of the model.
-     */
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        if (SetServingJsonApi::$isServing) {
-            static::addGlobalScope(new WithoutInsertSongScope);
-        }
-    }
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeTheme::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = AnimeTheme::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.

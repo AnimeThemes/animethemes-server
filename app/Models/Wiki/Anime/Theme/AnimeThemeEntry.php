@@ -32,6 +32,7 @@ use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,6 +62,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
+#[Table(AnimeThemeEntry::TABLE, AnimeThemeEntry::ATTRIBUTE_ID)]
 class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes, HasResources, InteractsWithSchema, Likeable, SoftDeletable
 {
     use AggregatesLike;
@@ -92,20 +94,6 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     final public const string RELATION_THEME_GROUP = 'animetheme.group';
     final public const string RELATION_TRACKS = 'tracks';
     final public const string RELATION_VIDEOS = 'videos';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeThemeEntry::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = AnimeThemeEntry::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.

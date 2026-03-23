@@ -6,15 +6,15 @@ namespace App\Console\Commands\Models;
 
 use App\Actions\Models\Aggregate\SyncLikeAggregatesAction;
 use App\Console\Commands\BaseCommand;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
+#[Signature('like:sync-aggregates')]
+#[Description('Synchronizes likes in the aggregates table')]
 class SyncLikeAggregatesCommand extends BaseCommand
 {
-    protected $signature = 'like:sync-aggregates';
-
-    protected $description = 'Synchronizes likes in the aggregates table';
-
     public function handle(): int
     {
         $action = new SyncLikeAggregatesAction();

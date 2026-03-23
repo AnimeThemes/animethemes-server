@@ -181,8 +181,8 @@ return [
                     ],
                 ],
                 'name' => [
+                    'content' => 'Dump Content Tables',
                     'document' => 'Dump Document Tables',
-                    'wiki' => 'Dump Wiki Tables',
                 ],
             ],
             'prune' => [

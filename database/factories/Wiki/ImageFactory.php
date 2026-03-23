@@ -6,6 +6,7 @@ namespace Database\Factories\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -16,15 +17,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Image>
  */
+#[UseModel(Image::class)]
 class ImageFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Image>
-     */
-    protected $model = Image::class;
-
     /**
      * Define the model's default state.
      *

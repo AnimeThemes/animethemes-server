@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class DumpWikiAction extends DumpAction
+class DumpContentAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
@@ -82,7 +82,7 @@ class DumpWikiAction extends DumpAction
         $filesystem = Storage::disk('local');
 
         return Str::of($filesystem->path(''))
-            ->append(DumpWikiAction::FILENAME_PREFIX)
+            ->append(DumpContentAction::FILENAME_PREFIX)
             ->append(strval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();

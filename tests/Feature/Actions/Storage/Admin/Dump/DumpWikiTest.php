@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\Storage\Admin\Dump\DumpWikiAction;
+use App\Actions\Storage\Admin\Dump\DumpContentAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
@@ -18,7 +18,7 @@ test('database dump output', function () {
 
     Date::setTestNow(fake()->iso8601());
 
-    $action = new DumpWikiAction();
+    $action = new DumpContentAction();
 
     $result = $action->handle();
 

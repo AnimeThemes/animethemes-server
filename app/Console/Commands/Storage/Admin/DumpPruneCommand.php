@@ -7,11 +7,11 @@ namespace App\Console\Commands\Storage\Admin;
 use App\Actions\Storage\Admin\Dump\PruneDumpAction;
 use App\Actions\Storage\Base\PruneAction;
 use App\Console\Commands\Storage\Base\PruneCommand;
+use Illuminate\Console\Attributes\Signature;
 
+#[Signature('prune:dump {--H|hours=72 : The number of hours to retain dumps}')]
 class DumpPruneCommand extends PruneCommand
 {
-    protected $signature = 'prune:dump {--H|hours=72 : The number of hours to retain dumps}';
-
     protected function getAction(): PruneAction
     {
         $hours = $this->option('hours');

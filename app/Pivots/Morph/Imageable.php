@@ -16,6 +16,7 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\BaseMorphPivot;
 use Database\Factories\Pivots\Morph\ImageableFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @method static ImageableFactory factory(...$parameters)
  */
+#[Table(Imageable::TABLE)]
 class Imageable extends BaseMorphPivot
 {
     final public const string TABLE = 'imageables';
@@ -41,13 +43,6 @@ class Imageable extends BaseMorphPivot
 
     final public const string RELATION_IMAGE = 'image';
     final public const string RELATION_IMAGEABLE = 'imageable';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Imageable::TABLE;
 
     /**
      * The models that have images.

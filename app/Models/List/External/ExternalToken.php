@@ -8,6 +8,8 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use Database\Factories\List\External\ExternalTokenFactory;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Znck\Eloquent\Relations\BelongsToThrough;
@@ -24,6 +26,11 @@ use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
  *
  * @method static ExternalTokenFactory factory(...$parameters)
  */
+#[Hidden([
+    ExternalToken::ATTRIBUTE_ACCESS_TOKEN,
+    ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
+])]
+#[Table(ExternalToken::TABLE, ExternalToken::ATTRIBUTE_ID)]
 class ExternalToken extends BaseModel
 {
     use HasFactory;
@@ -41,20 +48,6 @@ class ExternalToken extends BaseModel
     final public const string RELATION_USER_SHALLOW = 'user';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = ExternalToken::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = ExternalToken::ATTRIBUTE_ID;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -62,16 +55,6 @@ class ExternalToken extends BaseModel
     protected $fillable = [
         ExternalToken::ATTRIBUTE_ACCESS_TOKEN,
         ExternalToken::ATTRIBUTE_PROFILE,
-        ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        ExternalToken::ATTRIBUTE_ACCESS_TOKEN,
         ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
     ];
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Storage\Admin;
 
-use App\Actions\Storage\Admin\Dump\DumpListAction;
+use App\Actions\Storage\Admin\Dump\DumpContentAction;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 
 #[Signature(
-    'db:dump-list
+    'db:dump-content
     {--comments : Write additional information in the MySQL dump such as program version, server version and host}
     {--data-only : Dump only the data without the schema in PostgreSQL dump}
     {--default-character-set=utf8 : Specify default character set in MySQL dump}
@@ -26,11 +26,11 @@ use Illuminate\Console\Attributes\Signature;
     {--skip-lock-tables : Turn off locking tables before dumping to MySQL dump}
     {--skip-quick : Do not retrieve rows for a table from the server one row at a time in MySQL dump}'
 )]
-#[Description('Produces sanitized database dump, targeting list-related tables for seeding purposes')]
-class ListDumpCommand extends DumpCommand
+#[Description('Produces sanitized database dump, targeting content-related tables for seeding purposes')]
+class ContentDumpCommand extends DumpCommand
 {
-    protected function action(): DumpListAction
+    protected function action(): DumpContentAction
     {
-        return new DumpListAction($this->options());
+        return new DumpContentAction($this->options());
     }
 }

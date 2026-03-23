@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\List\External;
 
 use App\Models\List\External\ExternalToken;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,15 +15,9 @@ use Illuminate\Support\Facades\Hash;
  *
  * @extends Factory<ExternalToken>
  */
+#[UseModel(ExternalToken::class)]
 class ExternalTokenFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<ExternalToken>
-     */
-    protected $model = ExternalToken::class;
-
     /**
      * Define the model's default state.
      *

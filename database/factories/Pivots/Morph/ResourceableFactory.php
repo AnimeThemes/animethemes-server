@@ -9,6 +9,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Pivots\Morph\Resourceable;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,15 +19,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Resourceable>
  */
+#[UseModel(Resourceable::class)]
 class ResourceableFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Resourceable>
-     */
-    protected $model = Resourceable::class;
-
     /**
      * Define the model's default state.
      *

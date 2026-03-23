@@ -7,7 +7,9 @@ namespace App\Models\User\Submission;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Observers\User\Submission\SubmissionVirtualObserver;
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +24,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @property int $user_id
  * @property User $user
  */
+#[Appends(['model'])]
 #[ObservedBy(SubmissionVirtualObserver::class)]
+#[Table(SubmissionVirtual::TABLE, SubmissionVirtual::ATTRIBUTE_ID)]
 class SubmissionVirtual extends BaseModel
 {
     final public const string TABLE = 'submission_virtuals';
@@ -37,20 +41,6 @@ class SubmissionVirtual extends BaseModel
     final public const string RELATION_USER = 'user';
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = SubmissionVirtual::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = SubmissionVirtual::ATTRIBUTE_ID;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -60,10 +50,6 @@ class SubmissionVirtual extends BaseModel
         SubmissionVirtual::ATTRIBUTE_FIELDS,
         SubmissionVirtual::ATTRIBUTE_MODEL_TYPE,
         SubmissionVirtual::ATTRIBUTE_USER,
-    ];
-
-    protected $appends = [
-        'model',
     ];
 
     public function getName(): string

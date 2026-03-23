@@ -17,6 +17,8 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Pivots\Morph\Imageable;
 use Database\Factories\Wiki\ImageFactory;
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -40,6 +42,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static ImageFactory factory(...$parameters)
  */
+#[Appends([Image::ATTRIBUTE_LINK])]
+#[Table(Image::TABLE, Image::ATTRIBUTE_ID)]
 class Image extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -58,20 +62,6 @@ class Image extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_ARTISTS = 'artists';
     final public const string RELATION_PLAYLISTS = 'playlists';
     final public const string RELATION_STUDIOS = 'studios';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Image::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Image::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -96,15 +86,6 @@ class Image extends BaseModel implements Auditable, SoftDeletable
     protected $fillable = [
         Image::ATTRIBUTE_FACET,
         Image::ATTRIBUTE_PATH,
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var list<string>
-     */
-    protected $appends = [
-        Image::ATTRIBUTE_LINK,
     ];
 
     /**

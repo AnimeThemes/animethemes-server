@@ -9,7 +9,9 @@ use App\Events\Admin\Dump\DumpDeleted;
 use App\Events\Admin\Dump\DumpUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\DumpFactory;
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +24,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static DumpFactory factory(...$parameters)
  * @method static Builder public()
  */
+#[Appends([Dump::ATTRIBUTE_LINK])]
+#[Table(Dump::TABLE, Dump::ATTRIBUTE_ID)]
 class Dump extends BaseModel
 {
     use HasFactory;
@@ -32,20 +36,6 @@ class Dump extends BaseModel
     final public const string ATTRIBUTE_PATH = 'path';
     final public const string ATTRIBUTE_PUBLIC = 'public';
     final public const string ATTRIBUTE_LINK = 'link';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Dump::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Dump::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
@@ -68,15 +58,6 @@ class Dump extends BaseModel
     protected $fillable = [
         Dump::ATTRIBUTE_PATH,
         Dump::ATTRIBUTE_PUBLIC,
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var list<string>
-     */
-    protected $appends = [
-        Dump::ATTRIBUTE_LINK,
     ];
 
     /**

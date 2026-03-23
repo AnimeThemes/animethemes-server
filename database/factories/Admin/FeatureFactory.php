@@ -6,6 +6,7 @@ namespace Database\Factories\Admin;
 
 use App\Constants\FeatureConstants;
 use App\Models\Admin\Feature;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,15 +15,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  *
  * @extends Factory<Feature>
  */
+#[UseModel(Feature::class)]
 class FeatureFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Feature>
-     */
-    protected $model = Feature::class;
-
     /**
      * Define the model's default state.
      *

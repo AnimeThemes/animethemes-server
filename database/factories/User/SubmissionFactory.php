@@ -6,6 +6,7 @@ namespace Database\Factories\User;
 
 use App\Enums\Models\User\SubmissionStatus;
 use App\Models\User\Submission;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -15,15 +16,9 @@ use Illuminate\Support\Arr;
  *
  * @extends Factory<Submission>
  */
+#[UseModel(Submission::class)]
 class SubmissionFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Submission>
-     */
-    protected $model = Submission::class;
-
     /**
      * Define the model's default state.
      *

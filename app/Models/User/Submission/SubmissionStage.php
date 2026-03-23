@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\User\Submission;
 use Database\Factories\User\Submission\SubmissionStageFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static SubmissionStageFactory factory(...$parameters)
  */
+#[Table(SubmissionStage::TABLE, SubmissionStage::ATTRIBUTE_ID)]
 class SubmissionStage extends BaseModel
 {
     use HasFactory;
@@ -41,20 +43,6 @@ class SubmissionStage extends BaseModel
 
     final public const string RELATION_MODERATOR = 'moderator';
     final public const string RELATION_SUBMISSION = 'submission';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = SubmissionStage::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = SubmissionStage::ATTRIBUTE_ID;
 
     /**
      * The attributes that are mass assignable.

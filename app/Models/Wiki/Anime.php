@@ -31,6 +31,7 @@ use App\Pivots\Wiki\AnimeStudio;
 use Database\Factories\Wiki\AnimeFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -61,6 +62,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
+#[Table(Anime::TABLE, Anime::ATTRIBUTE_ID)]
 class Anime extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
     use HasAudits;
@@ -95,20 +97,6 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     final public const string RELATION_SYNONYMS = 'synonyms';
     final public const string RELATION_THEMES = 'animethemes';
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Anime::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Anime::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.

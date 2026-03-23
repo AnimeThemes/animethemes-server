@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\AnimeThemeEntryVideoFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static AnimeThemeEntryVideoFactory factory(...$parameters)
  */
+#[Table(AnimeThemeEntryVideo::TABLE)]
 class AnimeThemeEntryVideo extends BasePivot
 {
     final public const string TABLE = 'anime_theme_entry_video';
@@ -33,13 +35,6 @@ class AnimeThemeEntryVideo extends BasePivot
     final public const string RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
     final public const string RELATION_SONG = 'animethemeentry.animetheme.song';
     final public const string RELATION_VIDEO = 'video';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = AnimeThemeEntryVideo::TABLE;
 
     /**
      * The event map for the model.

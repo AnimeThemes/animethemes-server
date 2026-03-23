@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Models\Wiki\Series;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -14,15 +15,9 @@ use Illuminate\Support\Str;
  *
  * @extends Factory<Series>
  */
+#[UseModel(Series::class)]
 class SeriesFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Series>
-     */
-    protected $model = Series::class;
-
     /**
      * Define the model's default state.
      *

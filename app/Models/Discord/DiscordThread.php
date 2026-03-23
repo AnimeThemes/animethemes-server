@@ -11,6 +11,7 @@ use App\Models\Wiki\Anime;
 use App\Observers\Discord\DiscordThreadObserver;
 use Database\Factories\Discord\DiscordThreadFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static DiscordThreadFactory factory(...$parameters)
  */
 #[ObservedBy(DiscordThreadObserver::class)]
+#[Table(DiscordThread::TABLE, DiscordThread::ATTRIBUTE_ID, 'string', false)]
 class DiscordThread extends BaseModel
 {
     use HasFactory;
@@ -34,34 +36,6 @@ class DiscordThread extends BaseModel
     final public const string ATTRIBUTE_NAME = 'name';
 
     final public const string RELATION_ANIME = 'anime';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = DiscordThread::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = DiscordThread::ATTRIBUTE_ID;
-
-    /**
-     * Indicates if the model's ID is auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * The data type of the primary key ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
 
     /**
      * The event map for the model.

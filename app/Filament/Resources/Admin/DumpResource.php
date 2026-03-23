@@ -7,8 +7,8 @@ namespace App\Filament\Resources\Admin;
 use App\Enums\Filament\NavigationGroup;
 use App\Filament\Actions\Repositories\Storage\Admin\Dump\ReconcileDumpAction;
 use App\Filament\Actions\Storage\Admin\DownloadDumpAction;
+use App\Filament\Actions\Storage\Admin\DumpContentAction;
 use App\Filament\Actions\Storage\Admin\DumpDocumentAction;
-use App\Filament\Actions\Storage\Admin\DumpWikiAction;
 use App\Filament\Actions\Storage\Admin\PruneDumpAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
@@ -137,7 +137,7 @@ class DumpResource extends BaseResource
     {
         return [
             ActionGroup::make([
-                DumpWikiAction::make(),
+                DumpContentAction::make(),
 
                 DumpDocumentAction::make(),
 

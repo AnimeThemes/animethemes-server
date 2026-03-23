@@ -12,12 +12,14 @@ use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Attributes\Backoff;
 use Illuminate\Queue\Attributes\DeleteWhenMissingModels;
 use Illuminate\Queue\Attributes\WithoutRelations;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Laravel\Pennant\Feature;
 
+#[Backoff(120)]
 #[DeleteWhenMissingModels]
 #[WithoutRelations]
 class SyncExternalProfileJob implements ShouldQueue
@@ -25,13 +27,6 @@ class SyncExternalProfileJob implements ShouldQueue
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
-
-    /**
-     * The number of seconds to wait before retrying the queued listener.
-     *
-     * @var int
-     */
-    public $backoff = 120;
 
     public function __construct(public readonly ExternalProfile $profile)
     {

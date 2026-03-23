@@ -8,6 +8,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -17,15 +18,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  *
  * @extends Factory<Performance>
  */
+#[UseModel(Performance::class)]
 class PerformanceFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var class-string<Performance>
-     */
-    protected $model = Performance::class;
-
     /**
      * Define the model's default state.
      *

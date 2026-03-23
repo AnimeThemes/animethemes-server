@@ -15,6 +15,7 @@ use App\Events\Wiki\Song\Membership\MembershipUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use Database\Factories\Wiki\Song\MembershipFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -34,6 +35,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static MembershipFactory factory(...$parameters)
  */
+#[Table(Membership::TABLE, Membership::ATTRIBUTE_ID)]
 class Membership extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -52,20 +54,6 @@ class Membership extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_GROUP = 'group';
     final public const string RELATION_MEMBER = 'member';
     final public const string RELATION_PERFORMANCES = 'performances';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = Membership::TABLE;
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = Membership::ATTRIBUTE_ID;
 
     /**
      * The event map for the model.
