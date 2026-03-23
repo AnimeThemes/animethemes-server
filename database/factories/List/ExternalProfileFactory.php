@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\List;
 
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalEntry;
@@ -55,7 +55,7 @@ class ExternalProfileFactory extends Factory
 
                     $entry->is_favorite = fake()->boolean();
                     $entry->score = fake()->numberBetween(1, 10);
-                    $entry->watch_status = Arr::random(ExternalEntryWatchStatus::cases())->value;
+                    $entry->status = Arr::random(ExternalEntryStatus::cases())->value;
                     $entry->save();
                 }
             }
@@ -79,7 +79,7 @@ class ExternalProfileFactory extends Factory
 
                     $entry->is_favorite = fake()->boolean();
                     $entry->score = fake()->numberBetween(1, 10);
-                    $entry->watch_status = Arr::random(ExternalEntryWatchStatus::cases())->value;
+                    $entry->status = Arr::random(ExternalEntryStatus::cases())->value;
                     $entry->save();
                 }
             }

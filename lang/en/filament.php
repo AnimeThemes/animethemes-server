@@ -712,9 +712,9 @@ return [
                 'help' => 'The anime score of the user.',
                 'name' => 'Score',
             ],
-            'watch_status' => [
-                'help' => 'The watch status of the anime.',
-                'name' => 'Watch Status',
+            'status' => [
+                'help' => 'The current status of the anime for the user.',
+                'name' => 'Status',
             ],
         ],
         'external_profile' => [

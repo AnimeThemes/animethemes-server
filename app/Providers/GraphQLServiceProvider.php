@@ -7,7 +7,7 @@ namespace App\Providers;
 use App\Enums\GraphQL\Filter\ComparisonOperator;
 use App\Enums\GraphQL\Filter\TrashedFilter;
 use App\Enums\GraphQL\Sort\SortDirection;
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -50,7 +50,7 @@ class GraphQLServiceProvider extends ServiceProvider
         GraphQL::addType(new EnumType(ComparisonOperator::class));
         GraphQL::addType(new EnumType(TrashedFilter::class));
         GraphQL::addType(new EnumType(SortDirection::class));
-        GraphQL::addType(new EnumType(ExternalEntryWatchStatus::class));
+        GraphQL::addType(new EnumType(ExternalEntryStatus::class));
         GraphQL::addType(new EnumType(ExternalProfileSite::class));
         GraphQL::addType(new EnumType(ExternalProfileVisibility::class));
         GraphQL::addType(new EnumType(PlaylistVisibility::class));

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
-use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Enums\Models\List\ExternalEntryStatus;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ExternalProfile $externalprofile
  * @property bool $is_favorite
  * @property float|null $score
- * @property ExternalEntryWatchStatus $watch_status
+ * @property ExternalEntryStatus $status
  *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
@@ -37,7 +37,7 @@ class ExternalEntry extends BaseModel
     final public const string ATTRIBUTE_PROFILE = 'profile_id';
     final public const string ATTRIBUTE_IS_FAVORITE = 'is_favorite';
     final public const string ATTRIBUTE_SCORE = 'score';
-    final public const string ATTRIBUTE_WATCH_STATUS = 'watch_status';
+    final public const string ATTRIBUTE_STATUS = 'status';
 
     final public const string RELATION_ANIME = 'anime';
     final public const string RELATION_PROFILE = 'externalprofile';
@@ -53,7 +53,7 @@ class ExternalEntry extends BaseModel
         ExternalEntry::ATTRIBUTE_PROFILE,
         ExternalEntry::ATTRIBUTE_IS_FAVORITE,
         ExternalEntry::ATTRIBUTE_SCORE,
-        ExternalEntry::ATTRIBUTE_WATCH_STATUS,
+        ExternalEntry::ATTRIBUTE_STATUS,
     ];
 
     /**
@@ -68,7 +68,7 @@ class ExternalEntry extends BaseModel
             ExternalEntry::ATTRIBUTE_PROFILE => 'int',
             ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
             ExternalEntry::ATTRIBUTE_SCORE => 'float',
-            ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::class,
+            ExternalEntry::ATTRIBUTE_STATUS => ExternalEntryStatus::class,
         ];
     }
 
@@ -92,7 +92,7 @@ class ExternalEntry extends BaseModel
         return [
             ExternalEntry::ATTRIBUTE_IS_FAVORITE,
             ExternalEntry::ATTRIBUTE_SCORE,
-            ExternalEntry::ATTRIBUTE_WATCH_STATUS,
+            ExternalEntry::ATTRIBUTE_STATUS,
         ];
     }
 
