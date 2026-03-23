@@ -12,18 +12,15 @@ use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Auth\User\Resource\MyJsonResource;
 use App\Models\Auth\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 #[Middleware(Authenticate::using('sanctum'))]
 class MyController extends BaseController
 {
-    public function show(ShowRequest $request, ShowAction $action): MyJsonResource
+    public function show(ShowRequest $request, #[CurrentUser] User $user, ShowAction $action): MyJsonResource
     {
         $query = new Query($request->validated());
-
-        /** @var User $user */
-        $user = Auth::user();
 
         $show = $action->show($user, $query, $request->schema());
 

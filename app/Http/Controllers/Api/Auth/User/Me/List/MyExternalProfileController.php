@@ -13,8 +13,8 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 #[Middleware(Authenticate::using('sanctum'))]
 class MyExternalProfileController extends BaseController
@@ -24,12 +24,9 @@ class MyExternalProfileController extends BaseController
         parent::__construct(ExternalProfile::class, 'externalprofile');
     }
 
-    public function index(IndexRequest $request, IndexAction $action): ExternalProfileCollection
+    public function index(IndexRequest $request, #[CurrentUser] User $user, IndexAction $action): ExternalProfileCollection
     {
         $query = new Query($request->validated());
-
-        /** @var User $user */
-        $user = Auth::user();
 
         $builder = $user->externalprofiles()->getQuery();
 

@@ -13,6 +13,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\User\Collection\NotificationCollection;
 use App\Models\Auth\User;
 use App\Models\User\Notification;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
@@ -25,12 +26,9 @@ class MyNotificationController extends BaseController
         parent::__construct(Notification::class, 'notification');
     }
 
-    public function index(IndexRequest $request, IndexAction $action): NotificationCollection
+    public function index(IndexRequest $request, #[CurrentUser] User $user, IndexAction $action): NotificationCollection
     {
         $query = new Query($request->validated());
-
-        /** @var User $user */
-        $user = Auth::user();
 
         $builder = $user->notifications()->getQuery();
 

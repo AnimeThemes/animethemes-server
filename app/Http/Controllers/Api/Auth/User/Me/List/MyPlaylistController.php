@@ -13,8 +13,8 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 #[Middleware(Authenticate::using('sanctum'))]
 class MyPlaylistController extends BaseController
@@ -24,12 +24,9 @@ class MyPlaylistController extends BaseController
         parent::__construct(Playlist::class, 'playlist');
     }
 
-    public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
+    public function index(IndexRequest $request, #[CurrentUser] User $user, IndexAction $action): PlaylistCollection
     {
         $query = new Query($request->validated());
-
-        /** @var User $user */
-        $user = Auth::user();
 
         $builder = $user->playlists()->getQuery();
 
