@@ -14,8 +14,12 @@ $isDumpDownloadingAllowed = Str::of(EnsureFeaturesAreActive::class)
     ->append(AllowDumpDownloading::class)
     ->__toString();
 
-Route::get('/latest/wiki', [LatestContentDumpController::class, 'show'])
+Route::get('/latest/content', [LatestContentDumpController::class, 'show'])
     ->name('dump.latest.content.show')
+    ->middleware($isDumpDownloadingAllowed);
+
+Route::get('/latest/wiki', [LatestContentDumpController::class, 'show'])
+    ->name('dump.latest.wiki.show')
     ->middleware($isDumpDownloadingAllowed);
 
 Route::get('/{dump}', [DumpController::class, 'show'])

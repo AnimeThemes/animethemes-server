@@ -57,9 +57,9 @@ class DatabaseSyncCommand extends BaseCommand
 
         DB::statement("USE `{$database}`");
 
-        $this->info('Importing wiki dump');
-        $wiki = Http::get('https://dump.animethemes.moe/latest/wiki')->body();
-        DB::unprepared($wiki);
+        $this->info('Importing content dump');
+        $content = Http::get('https://dump.animethemes.moe/latest/content')->body();
+        DB::unprepared($content);
 
         $this->info('Migrating database');
         Artisan::call('migrate');
