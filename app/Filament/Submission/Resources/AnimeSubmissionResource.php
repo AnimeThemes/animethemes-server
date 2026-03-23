@@ -63,7 +63,6 @@ class AnimeSubmissionResource extends BaseSubmissionResource
         $query->whereBelongsTo(Auth::user(), Submission::RELATION_USER);
 
         // Necessary to prevent lazy loading when loading related resources
-        /** @phpstan-ignore-next-line */
         return $query->with([
             Submission::RELATION_STAGES,
         ]);

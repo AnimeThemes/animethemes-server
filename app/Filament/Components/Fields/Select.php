@@ -27,9 +27,7 @@ class Select extends ComponentsSelect
                 ->searchable()
                 ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($modelClass::query()->find($state)))
                 ->getSearchResultsUsing(
-                    fn (string $search) =>
-                    /** @phpstan-ignore-next-line */
-                    collect(
+                    fn (string $search) => collect(
                         Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
                             ->passToEloquentBuilder(function (Builder $query) use ($loadRelation, $livewire): void {
                                 $query->with($loadRelation ?? []);

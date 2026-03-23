@@ -31,7 +31,6 @@ class AnnouncementController extends BaseController
     {
         $query = new Query($request->validated());
 
-        /** @phpstan-ignore-next-line */
         $announcements = $action->index(Announcement::query()->current(), $query, $request->schema());
 
         return new AnnouncementCollection($announcements, $query);

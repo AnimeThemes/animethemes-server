@@ -17,6 +17,7 @@ use App\Models\BaseModel;
 use App\Pivots\Document\PageRole;
 use App\Scopes\ReadablePagesScope;
 use Database\Factories\Document\PageFactory;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -39,6 +40,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static PageFactory factory(...$parameters)
  */
+#[ScopedBy(ReadablePagesScope::class)]
 class Page extends BaseModel implements Auditable, SoftDeletable
 {
     use HasAudits;
@@ -110,16 +112,6 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     protected $hidden = [
         Page::ATTRIBUTE_BODY,
     ];
-
-    /**
-     * The "boot" method of the model.
-     */
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        static::addGlobalScope(new ReadablePagesScope);
-    }
 
     /**
      * Get the route key for the model.

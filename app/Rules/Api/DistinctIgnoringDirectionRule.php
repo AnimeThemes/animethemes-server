@@ -18,14 +18,11 @@ class DistinctIgnoringDirectionRule implements ValidationRule
     {
         $values = Str::of($value)->explode(',');
 
-        $duplicateValues = $values->duplicates(function (mixed $sort) {
-            /** @phpstan-ignore-next-line */
-            if (Str::startsWith($sort, '-')) {
-                return Str::replaceFirst('-', '', $sort);
-            }
-
-            return $sort;
-        });
+        $duplicateValues = $values->duplicates(
+            fn (mixed $sort) => Str::startsWith($sort, '-')
+                ? Str::replaceFirst('-', '', $sort)
+                : $sort
+        );
 
         if ($duplicateValues->isNotEmpty()) {
             $fail(__('validation.distinct'));

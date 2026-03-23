@@ -24,7 +24,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Carbon $start_at
  *
  * @method static AnnouncementFactory factory(...$parameters)
- * @method static Builder<Announcement> current()
+ * @method static Builder<static> current()
  */
 class Announcement extends BaseModel implements Auditable
 {
