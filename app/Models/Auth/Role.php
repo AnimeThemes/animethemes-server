@@ -47,7 +47,10 @@ class Role extends BaseRole implements Nameable
     protected function casts(): array
     {
         return [
+            Role::ATTRIBUTE_COLOR => 'string',
             Role::ATTRIBUTE_DEFAULT => 'boolean',
+            Role::ATTRIBUTE_GUARD_NAME => 'string',
+            Role::ATTRIBUTE_NAME => 'string',
             Role::ATTRIBUTE_PRIORITY => 'int',
         ];
     }

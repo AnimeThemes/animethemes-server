@@ -50,6 +50,20 @@ class WatchHistory extends BaseModel
         WatchHistory::ATTRIBUTE_VIDEO,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            WatchHistory::ATTRIBUTE_ENTRY => 'int',
+            WatchHistory::ATTRIBUTE_USER => 'int',
+            WatchHistory::ATTRIBUTE_VIDEO => 'int',
+        ];
+    }
+
     public function getName(): string
     {
         return strval($this->getKey());

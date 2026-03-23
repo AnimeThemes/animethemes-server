@@ -58,16 +58,6 @@ class SubmissionStage extends BaseModel
         SubmissionStage::ATTRIBUTE_SUBMISSION,
     ];
 
-    public function getName(): string
-    {
-        return strval($this->getKey());
-    }
-
-    public function getSubtitle(): string
-    {
-        return strval($this->getKey());
-    }
-
     /**
      * Get the attributes that should be cast.
      *
@@ -77,8 +67,22 @@ class SubmissionStage extends BaseModel
     {
         return [
             SubmissionStage::ATTRIBUTE_FIELDS => 'array',
+            SubmissionStage::ATTRIBUTE_MODERATOR => 'int',
+            SubmissionStage::ATTRIBUTE_MODERATOR_NOTES => 'string',
+            SubmissionStage::ATTRIBUTE_NOTES => 'string',
             SubmissionStage::ATTRIBUTE_STAGE => 'int',
+            SubmissionStage::ATTRIBUTE_SUBMISSION => 'int',
         ];
+    }
+
+    public function getName(): string
+    {
+        return strval($this->getKey());
+    }
+
+    public function getSubtitle(): string
+    {
+        return strval($this->getKey());
     }
 
     /**

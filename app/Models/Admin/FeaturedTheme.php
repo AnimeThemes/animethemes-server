@@ -94,7 +94,10 @@ class FeaturedTheme extends BaseModel implements Auditable
     {
         return [
             FeaturedTheme::ATTRIBUTE_END_AT => 'datetime',
+            FeaturedTheme::ATTRIBUTE_ENTRY => 'int',
             FeaturedTheme::ATTRIBUTE_START_AT => 'datetime',
+            FeaturedTheme::ATTRIBUTE_USER => 'int',
+            FeaturedTheme::ATTRIBUTE_VIDEO => 'int',
         ];
     }
 

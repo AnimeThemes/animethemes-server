@@ -75,6 +75,19 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
         VideoScript::ATTRIBUTE_VIDEO,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            VideoScript::ATTRIBUTE_PATH => 'string',
+            VideoScript::ATTRIBUTE_VIDEO => 'int',
+        ];
+    }
+
     protected function link(): Attribute
     {
         return Attribute::make(function (): ?string {

@@ -93,6 +93,10 @@ class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
     protected function casts(): array
     {
         return [
+            Audio::ATTRIBUTE_BASENAME => 'string',
+            Audio::ATTRIBUTE_FILENAME => 'string',
+            Audio::ATTRIBUTE_MIMETYPE => 'string',
+            Audio::ATTRIBUTE_PATH => 'string',
             Audio::ATTRIBUTE_SIZE => 'int',
         ];
     }

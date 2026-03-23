@@ -81,6 +81,19 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     ];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Studio::ATTRIBUTE_NAME => 'string',
+            Studio::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
+
+    /**
      * Get the route key for the model.
      *
      * @noinspection PhpMissingParentCallCommonInspection

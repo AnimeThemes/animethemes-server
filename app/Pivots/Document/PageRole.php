@@ -66,6 +66,8 @@ class PageRole extends BasePivot
     protected function casts(): array
     {
         return [
+            PageRole::ATTRIBUTE_PAGE => 'int',
+            PageRole::ATTRIBUTE_ROLE => 'int',
             PageRole::ATTRIBUTE_TYPE => PageRoleType::class,
         ];
     }

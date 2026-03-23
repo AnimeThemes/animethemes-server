@@ -20,6 +20,18 @@ class Sanction extends BaseSanction implements Nameable
     final public const string RELATION_PROHIBITIONS = 'prohibitions';
     final public const string RELATION_USERS = 'users';
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Sanction::ATTRIBUTE_NAME => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;

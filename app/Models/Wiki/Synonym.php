@@ -87,6 +87,9 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
+            Synonym::ATTRIBUTE_SYNONYMABLE_TYPE => 'string',
+            Synonym::ATTRIBUTE_SYNONYMABLE_ID => 'int',
+            Synonym::ATTRIBUTE_TEXT => 'string',
             Synonym::ATTRIBUTE_TYPE => SynonymType::class,
         ];
     }

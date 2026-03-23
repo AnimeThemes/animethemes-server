@@ -68,6 +68,7 @@ class Dump extends BaseModel
     protected function casts(): array
     {
         return [
+            Dump::ATTRIBUTE_PATH => 'string',
             Dump::ATTRIBUTE_PUBLIC => 'bool',
         ];
     }

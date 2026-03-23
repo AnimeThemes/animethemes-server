@@ -58,6 +58,20 @@ class ExternalToken extends BaseModel
         ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            ExternalToken::ATTRIBUTE_ACCESS_TOKEN => 'string',
+            ExternalToken::ATTRIBUTE_PROFILE => 'int',
+            ExternalToken::ATTRIBUTE_REFRESH_TOKEN => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return strval($this->getKey());

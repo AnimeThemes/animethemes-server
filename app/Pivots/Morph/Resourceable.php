@@ -98,6 +98,21 @@ class Resourceable extends BaseMorphPivot
     }
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Resourceable::ATTRIBUTE_AS => 'string',
+            Resourceable::ATTRIBUTE_RESOURCE => 'int',
+            Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE => 'string',
+            Resourceable::ATTRIBUTE_RESOURCEABLE_ID => 'int',
+        ];
+    }
+
+    /**
      * Gets the resource that owns the resourceable.
      *
      * @return BelongsTo<ExternalResource, $this>

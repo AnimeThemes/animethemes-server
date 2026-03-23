@@ -65,6 +65,8 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
     protected function casts(): array
     {
         return [
+            AnimeSynonym::ATTRIBUTE_ANIME => 'int',
+            AnimeSynonym::ATTRIBUTE_TEXT => 'string',
             AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::class,
         ];
     }

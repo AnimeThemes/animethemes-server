@@ -95,6 +95,22 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Page::ATTRIBUTE_BODY => 'string',
+            Page::ATTRIBUTE_NAME => 'string',
+            Page::ATTRIBUTE_NEXT => 'int',
+            Page::ATTRIBUTE_PREVIOUS => 'int',
+            Page::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
+
+    /**
      * Get the route key for the model.
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -142,8 +142,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     protected function casts(): array
     {
         return [
+            User::ATTRIBUTE_EMAIL => 'string',
             User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
+            User::ATTRIBUTE_NAME => 'string',
             User::ATTRIBUTE_PASSWORD => 'hashed',
+            User::ATTRIBUTE_REMEMBER_TOKEN => 'string',
         ];
     }
 

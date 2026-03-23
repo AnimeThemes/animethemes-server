@@ -111,6 +111,12 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     protected function casts(): array
     {
         return [
+            Playlist::ATTRIBUTE_DESCRIPTION => 'string',
+            Playlist::ATTRIBUTE_FIRST => 'int',
+            Playlist::ATTRIBUTE_HASHID => 'string',
+            Playlist::ATTRIBUTE_LAST => 'int',
+            Playlist::ATTRIBUTE_NAME => 'string',
+            Playlist::ATTRIBUTE_USER => 'int',
             Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::class,
         ];
     }

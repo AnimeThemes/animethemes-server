@@ -60,6 +60,19 @@ class DiscordThread extends BaseModel
         DiscordThread::ATTRIBUTE_NAME,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            DiscordThread::ATTRIBUTE_ANIME => 'int',
+            DiscordThread::ATTRIBUTE_NAME => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;

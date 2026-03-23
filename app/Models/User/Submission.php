@@ -83,9 +83,15 @@ class Submission extends BaseModel
     protected function casts(): array
     {
         return [
+            Submission::ATTRIBUTE_ACTIONABLE_TYPE => 'string',
+            Submission::ATTRIBUTE_ACTIONABLE_ID => 'int',
             Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
             Submission::ATTRIBUTE_LOCKED => 'bool',
+            Submission::ATTRIBUTE_MODERATOR => 'int',
+            Submission::ATTRIBUTE_MODERATOR_NOTES => 'string',
             Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
+            Submission::ATTRIBUTE_TYPE => 'string',
+            Submission::ATTRIBUTE_USER => 'int',
         ];
     }
 

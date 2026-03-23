@@ -102,8 +102,12 @@ class ExternalProfile extends BaseModel
     protected function casts(): array
     {
         return [
+            ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => 'int',
+            ExternalProfile::ATTRIBUTE_NAME => 'string',
             ExternalProfile::ATTRIBUTE_SITE => ExternalProfileSite::class,
+            ExternalProfile::ATTRIBUTE_SYNCED_AT => 'datetime',
             ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::class,
+            ExternalProfile::ATTRIBUTE_USER => 'int',
         ];
     }
 

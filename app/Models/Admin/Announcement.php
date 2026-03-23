@@ -72,6 +72,7 @@ class Announcement extends BaseModel implements Auditable
     protected function casts(): array
     {
         return [
+            Announcement::ATTRIBUTE_CONTENT => 'string',
             Announcement::ATTRIBUTE_END_AT => 'datetime',
             Announcement::ATTRIBUTE_START_AT => 'datetime',
         ];

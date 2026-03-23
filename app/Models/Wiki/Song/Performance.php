@@ -99,6 +99,23 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
         'sort_when_creating' => false,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Performance::ATTRIBUTE_ALIAS => 'string',
+            Performance::ATTRIBUTE_ARTIST_TYPE => 'string',
+            Performance::ATTRIBUTE_ARTIST_ID => 'int',
+            Performance::ATTRIBUTE_AS => 'string',
+            Performance::ATTRIBUTE_RELEVANCE => 'int',
+            Performance::ATTRIBUTE_SONG => 'int',
+        ];
+    }
+
     public function getName(): string
     {
         return strval($this->getKey());

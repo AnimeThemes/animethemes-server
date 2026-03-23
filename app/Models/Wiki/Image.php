@@ -97,6 +97,7 @@ class Image extends BaseModel implements Auditable, SoftDeletable
     {
         return [
             Image::ATTRIBUTE_FACET => ImageFacet::class,
+            Image::ATTRIBUTE_PATH => 'string',
         ];
     }
 

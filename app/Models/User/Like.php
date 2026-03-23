@@ -50,6 +50,20 @@ class Like extends BaseModel
         Like::ATTRIBUTE_LIKEABLE_ID,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Like::ATTRIBUTE_LIKEABLE_TYPE => 'string',
+            Like::ATTRIBUTE_LIKEABLE_ID => 'int',
+            Like::ATTRIBUTE_USER => 'int',
+        ];
+    }
+
     public function getName(): string
     {
         return strval($this->getKey());

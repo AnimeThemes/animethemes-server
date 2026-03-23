@@ -132,8 +132,11 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     protected function casts(): array
     {
         return [
+            AnimeThemeEntry::ATTRIBUTE_EPISODES => 'string',
+            AnimeThemeEntry::ATTRIBUTE_NOTES => 'string',
             AnimeThemeEntry::ATTRIBUTE_NSFW => 'boolean',
             AnimeThemeEntry::ATTRIBUTE_SPOILER => 'boolean',
+            AnimeThemeEntry::ATTRIBUTE_THEME => 'int',
             AnimeThemeEntry::ATTRIBUTE_VERSION => 'int',
         ];
     }

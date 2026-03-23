@@ -151,9 +151,15 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     protected function casts(): array
     {
         return [
+            Video::ATTRIBUTE_AUDIO => 'int',
+            Video::ATTRIBUTE_BASENAME => 'string',
+            Video::ATTRIBUTE_FILENAME => 'string',
             Video::ATTRIBUTE_LYRICS => 'boolean',
+            Video::ATTRIBUTE_MIMETYPE => 'string',
             Video::ATTRIBUTE_NC => 'boolean',
             Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
+            Video::ATTRIBUTE_PATH => 'string',
+            Video::ATTRIBUTE_RESOLUTION => 'int',
             Video::ATTRIBUTE_SIZE => 'int',
             Video::ATTRIBUTE_SOURCE => VideoSource::class,
             Video::ATTRIBUTE_SUBBED => 'boolean',

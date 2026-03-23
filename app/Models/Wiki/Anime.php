@@ -135,9 +135,12 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     protected function casts(): array
     {
         return [
-            Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
-            Anime::ATTRIBUTE_YEAR => 'int',
+            Anime::ATTRIBUTE_NAME => 'string',
             Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class,
+            Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
+            Anime::ATTRIBUTE_SLUG => 'string',
+            Anime::ATTRIBUTE_SYNOPSIS => 'string',
+            Anime::ATTRIBUTE_YEAR => 'int',
         ];
     }
 

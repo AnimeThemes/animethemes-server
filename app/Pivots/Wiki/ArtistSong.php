@@ -60,6 +60,21 @@ class ArtistSong extends BasePivot
     }
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            ArtistSong::ATTRIBUTE_ALIAS => 'string',
+            ArtistSong::ATTRIBUTE_ARTIST => 'int',
+            ArtistSong::ATTRIBUTE_AS => 'string',
+            ArtistSong::ATTRIBUTE_SONG => 'int',
+        ];
+    }
+
+    /**
      * Gets the artist that owns the artist song.
      *
      * @return BelongsTo<Artist, $this>

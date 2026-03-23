@@ -25,6 +25,20 @@ class LikeAggregate extends Model
     final public const string ATTRIBUTE_LIKEABLE_ID = 'likeable_id';
     final public const string ATTRIBUTE_VALUE = 'value';
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            LikeAggregate::ATTRIBUTE_LIKEABLE_TYPE => 'string',
+            LikeAggregate::ATTRIBUTE_LIKEABLE_ID => 'int',
+            LikeAggregate::ATTRIBUTE_VALUE => 'int',
+        ];
+    }
+
     public function likeable(): MorphTo
     {
         return $this->morphTo();

@@ -58,6 +58,20 @@ class Feature extends BaseModel
         Feature::ATTRIBUTE_VALUE,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Feature::ATTRIBUTE_NAME => 'string',
+            Feature::ATTRIBUTE_SCOPE => 'string',
+            Feature::ATTRIBUTE_VALUE => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;

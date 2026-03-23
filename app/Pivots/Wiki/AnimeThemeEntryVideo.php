@@ -72,6 +72,19 @@ class AnimeThemeEntryVideo extends BasePivot
     }
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            AnimeThemeEntryVideo::ATTRIBUTE_ENTRY => 'int',
+            AnimeThemeEntryVideo::ATTRIBUTE_VIDEO => 'int',
+        ];
+    }
+
+    /**
      * Gets the video that owns the video entry.
      *
      * @return BelongsTo<Video, $this>

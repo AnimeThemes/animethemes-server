@@ -68,6 +68,19 @@ class AnimeStudio extends BasePivot
     }
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            AnimeStudio::ATTRIBUTE_ANIME => 'int',
+            AnimeStudio::ATTRIBUTE_STUDIO => 'int',
+        ];
+    }
+
+    /**
      * Gets the anime that owns the anime studio.
      *
      * @return BelongsTo<Anime, $this>

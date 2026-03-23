@@ -90,6 +90,9 @@ class Imageable extends BaseMorphPivot
     {
         return [
             Imageable::ATTRIBUTE_DEPTH => 'int',
+            Imageable::ATTRIBUTE_IMAGE => 'int',
+            Imageable::ATTRIBUTE_IMAGEABLE_TYPE => 'string',
+            Imageable::ATTRIBUTE_IMAGEABLE_ID => 'int',
         ];
     }
 

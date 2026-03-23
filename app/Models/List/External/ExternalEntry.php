@@ -64,7 +64,10 @@ class ExternalEntry extends BaseModel
     protected function casts(): array
     {
         return [
+            ExternalEntry::ATTRIBUTE_ANIME => 'int',
+            ExternalEntry::ATTRIBUTE_PROFILE => 'int',
             ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
+            ExternalEntry::ATTRIBUTE_SCORE => 'float',
             ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::class,
         ];
     }

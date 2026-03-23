@@ -122,7 +122,10 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     protected function casts(): array
     {
         return [
+            AnimeTheme::ATTRIBUTE_ANIME => 'int',
+            AnimeTheme::ATTRIBUTE_GROUP => 'int',
             AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
+            AnimeTheme::ATTRIBUTE_SLUG => 'string',
             AnimeTheme::ATTRIBUTE_SONG => 'int',
             AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
         ];

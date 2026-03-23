@@ -75,6 +75,19 @@ class Series extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Series::ATTRIBUTE_NAME => 'string',
+            Series::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
+
+    /**
      * Modify the query used to retrieve models when making all of the models searchable.
      */
     protected function makeAllSearchableUsing(Builder $query): Builder

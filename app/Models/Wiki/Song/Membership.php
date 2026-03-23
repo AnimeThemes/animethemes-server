@@ -82,6 +82,21 @@ class Membership extends BaseModel implements Auditable, SoftDeletable
         Membership::ATTRIBUTE_MEMBER,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Membership::ATTRIBUTE_ALIAS => 'string',
+            Membership::ATTRIBUTE_ARTIST => 'int',
+            Membership::ATTRIBUTE_AS => 'string',
+            Membership::ATTRIBUTE_MEMBER => 'int',
+        ];
+    }
+
     public function getName(): string
     {
         return strval($this->getKey());

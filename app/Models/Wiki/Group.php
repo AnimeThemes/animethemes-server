@@ -73,6 +73,19 @@ class Group extends BaseModel implements Auditable, SoftDeletable
         Group::ATTRIBUTE_SLUG,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Group::ATTRIBUTE_NAME => 'string',
+            Group::ATTRIBUTE_SLUG => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;

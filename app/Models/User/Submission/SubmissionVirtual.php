@@ -52,6 +52,21 @@ class SubmissionVirtual extends BaseModel
         SubmissionVirtual::ATTRIBUTE_USER,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            SubmissionVirtual::ATTRIBUTE_EXISTS => 'boolean',
+            SubmissionVirtual::ATTRIBUTE_FIELDS => 'array',
+            SubmissionVirtual::ATTRIBUTE_MODEL_TYPE => 'string',
+            SubmissionVirtual::ATTRIBUTE_USER => 'int',
+        ];
+    }
+
     public function getName(): string
     {
         return strval($this->getKey());
@@ -65,19 +80,6 @@ class SubmissionVirtual extends BaseModel
     protected function model(): Attribute
     {
         return Attribute::make(fn () => Relation::getMorphedModel($this->model_type) ?? $this->model_type);
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            SubmissionVirtual::ATTRIBUTE_EXISTS => 'boolean',
-            SubmissionVirtual::ATTRIBUTE_FIELDS => 'array',
-        ];
     }
 
     /**

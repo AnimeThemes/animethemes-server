@@ -91,6 +91,19 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
         Song::ATTRIBUTE_TITLE_NATIVE,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Song::ATTRIBUTE_TITLE => 'string',
+            Song::ATTRIBUTE_TITLE_NATIVE => 'string',
+        ];
+    }
+
     public function getName(): string
     {
         if (blank($this->title)) {

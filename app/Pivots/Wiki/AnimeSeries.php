@@ -68,6 +68,19 @@ class AnimeSeries extends BasePivot
     }
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            AnimeSeries::ATTRIBUTE_ANIME => 'int',
+            AnimeSeries::ATTRIBUTE_SERIES => 'int',
+        ];
+    }
+
+    /**
      * Gets the anime that owns the anime series.
      *
      * @return BelongsTo<Anime, $this>

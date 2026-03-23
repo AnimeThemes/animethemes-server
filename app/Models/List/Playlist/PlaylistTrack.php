@@ -100,7 +100,10 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     protected function casts(): array
     {
         return [
+            PlaylistTrack::ATTRIBUTE_ENTRY => 'int',
+            PlaylistTrack::ATTRIBUTE_PLAYLIST => 'int',
             PlaylistTrack::ATTRIBUTE_POSITION => 'int',
+            PlaylistTrack::ATTRIBUTE_VIDEO => 'int',
         ];
     }
 
