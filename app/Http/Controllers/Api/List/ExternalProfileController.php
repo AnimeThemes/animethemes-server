@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 #[Middleware(EnabledOnlyOnLocalhost::class)]
-#[Middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class), except: ['index', 'show'])]
+#[Middleware(EnsureFeaturesAreActive::class.':'.AllowExternalProfileManagement::class, except: ['index', 'show'])]
 #[Middleware(UserExceedsExternalProfileLimit::class, ['store', 'restore'])]
 class ExternalProfileController extends BaseController
 {

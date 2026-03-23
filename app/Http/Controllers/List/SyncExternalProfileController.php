@@ -15,7 +15,7 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 #[Middleware(EnabledOnlyOnLocalhost::class)]
-#[Middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class), except: ['show'])]
+#[Middleware(EnsureFeaturesAreActive::class.':'.AllowExternalProfileManagement::class, except: ['show'])]
 #[Middleware(ExternalProfileSyncLimit::class, ['update'])]
 class SyncExternalProfileController extends Controller
 {

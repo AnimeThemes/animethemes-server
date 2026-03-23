@@ -18,7 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
-#[Middleware(Authenticate::using('sanctum'))]
+#[Middleware(Authenticate::class.':sanctum')]
 class MyNotificationController extends BaseController
 {
     public function __construct()

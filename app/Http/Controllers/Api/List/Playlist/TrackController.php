@@ -26,7 +26,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-#[Middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class), except: ['index', 'show'])]
+#[Middleware(EnsureFeaturesAreActive::class.':'.AllowPlaylistManagement::class, except: ['index', 'show'])]
 #[Middleware(PlaylistExceedsTrackLimit::class, ['store', 'restore'])]
 class TrackController extends BaseController
 {

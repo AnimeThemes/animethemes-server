@@ -26,7 +26,7 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-#[Middleware(EnsureFeaturesAreActive::using(AllowPlaylistManagement::class), except: ['index', 'show'])]
+#[Middleware(EnsureFeaturesAreActive::class.':'.AllowPlaylistManagement::class, except: ['index', 'show'])]
 #[Middleware(UserExceedsPlaylistLimit::class, ['store', 'restore'])]
 class PlaylistController extends BaseController
 {

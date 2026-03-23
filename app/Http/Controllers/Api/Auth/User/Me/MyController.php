@@ -15,7 +15,7 @@ use App\Models\Auth\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
-#[Middleware(Authenticate::using('sanctum'))]
+#[Middleware(Authenticate::class.':sanctum')]
 class MyController extends BaseController
 {
     public function show(ShowRequest $request, #[CurrentUser] User $user, ShowAction $action): MyJsonResource

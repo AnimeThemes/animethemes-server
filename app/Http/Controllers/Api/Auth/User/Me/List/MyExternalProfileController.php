@@ -16,7 +16,7 @@ use App\Models\List\ExternalProfile;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 
-#[Middleware(Authenticate::using('sanctum'))]
+#[Middleware(Authenticate::class.':sanctum')]
 class MyExternalProfileController extends BaseController
 {
     public function __construct()

@@ -15,7 +15,7 @@ use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 #[Middleware(EnabledOnlyOnLocalhost::class)]
-#[Middleware(EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class))]
+#[Middleware(EnsureFeaturesAreActive::class.':'.AllowExternalProfileManagement::class)]
 class ExternalTokenAuthController extends Controller
 {
     /**
