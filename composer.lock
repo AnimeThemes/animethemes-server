@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fbfea7c0fad2494b99a8fc5299d666f",
+    "content-hash": "a746bf2d1aad42b8f36655341a25a2ef",
     "packages": [
         {
             "name": "ajcastro/eager-load-pivot-relations",
@@ -191,16 +191,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.373.7",
+            "version": "3.373.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4402bd10f913e66b7271f44466be8d5ba6c9146e"
+                "reference": "a73e12fe5d010f3c6cda2f6f020b5a475444487d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4402bd10f913e66b7271f44466be8d5ba6c9146e",
-                "reference": "4402bd10f913e66b7271f44466be8d5ba6c9146e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a73e12fe5d010f3c6cda2f6f020b5a475444487d",
+                "reference": "a73e12fe5d010f3c6cda2f6f020b5a475444487d",
                 "shasum": ""
             },
             "require": {
@@ -282,9 +282,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.9"
             },
-            "time": "2026-03-20T18:14:19+00:00"
+            "time": "2026-03-24T18:06:07+00:00"
         },
         {
             "name": "babenkoivan/elastic-adapter",
@@ -499,28 +499,28 @@
         },
         {
             "name": "babenkoivan/elastic-scout-driver",
-            "version": "v5.0.0",
+            "version": "v6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-scout-driver.git",
-                "reference": "102bebde6609e6f76f819b22c9efd1a251aecc1e"
+                "reference": "de23e6af3962f6df1402acb5043e0c2de1e6f169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver/zipball/102bebde6609e6f76f819b22c9efd1a251aecc1e",
-                "reference": "102bebde6609e6f76f819b22c9efd1a251aecc1e",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver/zipball/de23e6af3962f6df1402acb5043e0c2de1e6f169",
+                "reference": "de23e6af3962f6df1402acb5043e0c2de1e6f169",
                 "shasum": ""
             },
             "require": {
                 "babenkoivan/elastic-adapter": "^5.0",
-                "php": "^8.2"
+                "php": "^8.3"
             },
             "require-dev": {
                 "babenkoivan/elastic-migrations": "^5.0",
                 "friendsofphp/php-cs-fixer": "^3.14",
                 "laravel/legacy-factories": "^1.3",
-                "laravel/scout": "^10.0",
-                "orchestra/testbench": "^10.0",
+                "laravel/scout": "^11.0",
+                "orchestra/testbench": "^11.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^11.0"
             },
@@ -558,7 +558,7 @@
             ],
             "support": {
                 "issues": "https://github.com/babenkoivan/elastic-scout-driver/issues",
-                "source": "https://github.com/babenkoivan/elastic-scout-driver/tree/v5.0.0"
+                "source": "https://github.com/babenkoivan/elastic-scout-driver/tree/v6.0.0"
             },
             "funding": [
                 {
@@ -570,32 +570,32 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2025-11-16T12:36:50+00:00"
+            "time": "2026-03-23T19:26:58+00:00"
         },
         {
             "name": "babenkoivan/elastic-scout-driver-plus",
-            "version": "v6.1.0",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/babenkoivan/elastic-scout-driver-plus.git",
-                "reference": "323f8cc599eb8880fe9c1453420b28545238db3f"
+                "reference": "72f9878603f4b5736ce00e1f97a9311a9250568c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver-plus/zipball/323f8cc599eb8880fe9c1453420b28545238db3f",
-                "reference": "323f8cc599eb8880fe9c1453420b28545238db3f",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver-plus/zipball/72f9878603f4b5736ce00e1f97a9311a9250568c",
+                "reference": "72f9878603f4b5736ce00e1f97a9311a9250568c",
                 "shasum": ""
             },
             "require": {
-                "babenkoivan/elastic-scout-driver": "^5.0",
-                "php": "^8.2"
+                "babenkoivan/elastic-scout-driver": "^6.0",
+                "php": "^8.3"
             },
             "require-dev": {
                 "babenkoivan/elastic-migrations": "^5.0",
                 "friendsofphp/php-cs-fixer": "^3.14",
                 "laravel/legacy-factories": "^1.3",
-                "laravel/scout": "^10.0",
-                "orchestra/testbench": "^10.0",
+                "laravel/scout": "^11.0",
+                "orchestra/testbench": "^11.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^11.0"
             },
@@ -633,7 +633,7 @@
             ],
             "support": {
                 "issues": "https://github.com/babenkoivan/elastic-scout-driver-plus/issues",
-                "source": "https://github.com/babenkoivan/elastic-scout-driver-plus/tree/v6.1.0"
+                "source": "https://github.com/babenkoivan/elastic-scout-driver-plus/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -645,7 +645,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2026-02-27T08:04:53+00:00"
+            "time": "2026-03-23T20:18:14+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1220,129 +1220,6 @@
                 }
             ],
             "time": "2026-03-20T21:10:52+00:00"
-        },
-        {
-            "name": "cweagans/composer-configurable-plugin",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-configurable-plugin.git",
-                "reference": "15433906511a108a1806710e988629fd24b89974"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-configurable-plugin/zipball/15433906511a108a1806710e988629fd24b89974",
-                "reference": "15433906511a108a1806710e988629fd24b89974",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.0"
-            },
-            "require-dev": {
-                "codeception/codeception": "~4.0",
-                "codeception/module-asserts": "^2.0",
-                "composer/composer": "~2.0",
-                "php-coveralls/php-coveralls": "~2.0",
-                "php-parallel-lint/php-parallel-lint": "^1.0.0",
-                "phpro/grumphp": "^1.8.0",
-                "sebastian/phpcpd": "^6.0",
-                "squizlabs/php_codesniffer": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a lightweight configuration system for Composer plugins.",
-            "support": {
-                "issues": "https://github.com/cweagans/composer-configurable-plugin/issues",
-                "source": "https://github.com/cweagans/composer-configurable-plugin/tree/2.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/cweagans",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-02-12T04:58:58+00:00"
-        },
-        {
-            "name": "cweagans/composer-patches",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "bfa6018a5f864653d9ed899b902ea72f858a2cf7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/bfa6018a5f864653d9ed899b902ea72f858a2cf7",
-                "reference": "bfa6018a5f864653d9ed899b902ea72f858a2cf7",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^2.0",
-                "cweagans/composer-configurable-plugin": "^2.0",
-                "ext-json": "*",
-                "php": ">=8.0.0"
-            },
-            "require-dev": {
-                "codeception/codeception": "~4.0",
-                "codeception/module-asserts": "^2.0",
-                "codeception/module-cli": "^2.0",
-                "codeception/module-filesystem": "^2.0",
-                "composer/composer": "~2.0",
-                "php-coveralls/php-coveralls": "~2.0",
-                "php-parallel-lint/php-parallel-lint": "^1.0.0",
-                "phpro/grumphp": "^1.8.0",
-                "sebastian/phpcpd": "^6.0",
-                "squizlabs/php_codesniffer": "^4.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "_": "The following two lines ensure that composer-patches is loaded as early as possible.",
-                "class": "cweagans\\Composer\\Plugin\\Patches",
-                "plugin-modifies-downloads": true,
-                "plugin-modifies-install-path": true
-            },
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a way to patch Composer packages.",
-            "support": {
-                "issues": "https://github.com/cweagans/composer-patches/issues",
-                "source": "https://github.com/cweagans/composer-patches/tree/2.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/cweagans",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-10-30T23:44:22+00:00"
         },
         {
             "name": "danharrin/date-format-converter",
@@ -12389,16 +12266,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.31.1",
+            "version": "v15.31.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "8b446b55a30680f105eb5c4d25ccbc015926d398"
+                "reference": "b2c3b02f9151afeba7ab79580e89992ac0ad4fec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/8b446b55a30680f105eb5c4d25ccbc015926d398",
-                "reference": "8b446b55a30680f105eb5c4d25ccbc015926d398",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/b2c3b02f9151afeba7ab79580e89992ac0ad4fec",
+                "reference": "b2c3b02f9151afeba7ab79580e89992ac0ad4fec",
                 "shasum": ""
             },
             "require": {
@@ -12416,7 +12293,7 @@
                 "nyholm/psr7": "^1.5",
                 "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "2.1.40",
+                "phpstan/phpstan": "2.1.42",
                 "phpstan/phpstan-phpunit": "2.0.16",
                 "phpstan/phpstan-strict-rules": "2.0.10",
                 "phpunit/phpunit": "^9.5 || ^10.5.21 || ^11",
@@ -12452,7 +12329,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.31.1"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.31.2"
             },
             "funding": [
                 {
@@ -12464,7 +12341,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-03-16T15:32:01+00:00"
+            "time": "2026-03-23T07:32:52+00:00"
         }
     ],
     "packages-dev": [
@@ -16054,49 +15931,6 @@
                 }
             ],
             "time": "2024-03-18T22:02:54+00:00"
-        },
-        {
-            "name": "symplify/vendor-patches",
-            "version": "12.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symplify/vendor-patches.git",
-                "reference": "096aaab56bcea39e25468f538601fda00c1024bb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symplify/vendor-patches/zipball/096aaab56bcea39e25468f538601fda00c1024bb",
-                "reference": "096aaab56bcea39e25468f538601fda00c1024bb",
-                "shasum": ""
-            },
-            "require": {
-                "cweagans/composer-patches": "^1.7.3 || ^2.0",
-                "php": ">=7.2"
-            },
-            "bin": [
-                "bin/vendor-patches"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Generate vendor patches for packages with single command",
-            "support": {
-                "issues": "https://github.com/symplify/vendor-patches/issues",
-                "source": "https://github.com/symplify/vendor-patches/tree/12.0.6"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/rectorphp",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/tomasvotruba",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-03T10:18:03+00:00"
         },
         {
             "name": "ta-tikoma/phpunit-architecture-test",
