@@ -61,10 +61,18 @@ abstract class DocumentDeletedEvent extends BaseDeletedEvent implements Filament
             ->get();
     }
 
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been deleted.";
+    }
+
+    protected function getNotificationMessage(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
+    }
+
     /**
      * Get the URL for the filament notification.
      */
     abstract protected function getFilamentNotificationUrl(): string;
-
-    abstract protected function getNotificationMessage(): string;
 }

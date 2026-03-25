@@ -19,4 +19,9 @@ abstract class WikiUpdatedEvent extends BaseUpdatedEvent
     {
         return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been updated.";
+    }
 }

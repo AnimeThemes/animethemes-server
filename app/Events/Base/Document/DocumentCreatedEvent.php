@@ -19,4 +19,9 @@ abstract class DocumentCreatedEvent extends BaseCreatedEvent
     {
         return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been created.";
+    }
 }

@@ -15,11 +15,6 @@ use App\Models\Wiki\Video;
  */
 class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Theme '**{$this->getModel()->getName()}**' has been created for Anime '**{$this->getModel()->anime->getName()}**'.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $theme = $this->getModel()->load(AnimeTheme::RELATION_VIDEOS);

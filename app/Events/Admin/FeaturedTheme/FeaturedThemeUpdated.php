@@ -17,9 +17,4 @@ class FeaturedThemeUpdated extends AdminUpdatedEvent
         parent::__construct($featuredTheme);
         $this->initializeEmbedFields($featuredTheme);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Featured Theme '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

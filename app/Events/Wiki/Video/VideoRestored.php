@@ -10,10 +10,4 @@ use App\Models\Wiki\Video;
 /**
  * @extends WikiRestoredEvent<Video>
  */
-class VideoRestored extends WikiRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Video '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class VideoRestored extends WikiRestoredEvent {}

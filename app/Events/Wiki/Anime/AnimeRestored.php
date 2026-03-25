@@ -18,11 +18,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  */
 class AnimeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Anime '**{$this->getModel()->getName()}**' has been restored.";
-    }
-
     public function cascadeRestores(): void
     {
         $anime = $this->getModel();

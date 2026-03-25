@@ -9,7 +9,6 @@ use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Group\GroupCreated;
 use App\Events\Wiki\Group\GroupDeleted;
-use App\Events\Wiki\Group\GroupDeleting;
 use App\Events\Wiki\Group\GroupRestored;
 use App\Events\Wiki\Group\GroupUpdated;
 use App\Models\BaseModel;
@@ -58,7 +57,6 @@ class Group extends BaseModel implements Auditable, SoftDeletable
     protected $dispatchesEvents = [
         'created' => GroupCreated::class,
         'deleted' => GroupDeleted::class,
-        'deleting' => GroupDeleting::class,
         'restored' => GroupRestored::class,
         'updated' => GroupUpdated::class,
     ];

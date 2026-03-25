@@ -20,11 +20,6 @@ class EntryUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($entry);
     }
 
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Entry '**{$this->getModel()->getName()}**' has been updated.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

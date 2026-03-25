@@ -12,17 +12,15 @@ use App\Models\Wiki\Video;
 /**
  * @extends BaseEvent<AnimeThemeEntry>
  */
-class EntryDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
+class EntryForceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
 {
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();
 
-        if ($entry->isForceDeleting()) {
-            // refresh video documents by detaching entry
-            $videos = $entry->videos;
-            $entry->videos()->detach();
-            $videos->each(fn (Video $video) => $video->searchable());
-        }
+        // refresh video documents by detaching entry
+        $videos = $entry->videos;
+        $entry->videos()->detach();
+        $videos->each(fn (Video $video) => $video->searchable());
     }
 }

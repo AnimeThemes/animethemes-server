@@ -17,9 +17,4 @@ class StudioUpdated extends WikiUpdatedEvent
         parent::__construct($studio);
         $this->initializeEmbedFields($studio);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Studio '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

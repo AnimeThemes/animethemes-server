@@ -16,11 +16,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  */
 class ThemeRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Theme '**{$this->getModel()->getName()}**' has been restored for Anime '**{$this->getModel()->anime->getName()}**'.";
-    }
-
     public function cascadeRestores(): void
     {
         $theme = $this->getModel();

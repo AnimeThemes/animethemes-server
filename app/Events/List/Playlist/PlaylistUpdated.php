@@ -22,9 +22,4 @@ class PlaylistUpdated extends ListUpdatedEvent
     {
         return false;
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Playlist '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

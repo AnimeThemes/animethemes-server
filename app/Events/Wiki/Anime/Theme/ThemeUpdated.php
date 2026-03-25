@@ -22,11 +22,6 @@ class ThemeUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent
         $this->initializeEmbedFields($theme);
     }
 
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Theme '**{$this->getModel()->getName()}**' has been updated for Anime '**{$this->getModel()->anime->getName()}**'.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $theme = $this->getModel()->load(AnimeTheme::RELATION_VIDEOS);

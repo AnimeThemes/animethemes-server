@@ -10,10 +10,4 @@ use App\Models\Wiki\Studio;
 /**
  * @extends WikiCreatedEvent<Studio>
  */
-class StudioCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Studio '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class StudioCreated extends WikiCreatedEvent {}

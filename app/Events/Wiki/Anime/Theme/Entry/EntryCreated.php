@@ -14,11 +14,6 @@ use App\Models\Wiki\Video;
  */
 class EntryCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Entry '**{$this->getModel()->getName()}**' has been created.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

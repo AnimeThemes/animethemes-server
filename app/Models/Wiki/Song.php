@@ -10,7 +10,7 @@ use App\Contracts\Models\HasResources;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Song\SongCreated;
 use App\Events\Wiki\Song\SongDeleted;
-use App\Events\Wiki\Song\SongDeleting;
+use App\Events\Wiki\Song\SongForceDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
@@ -76,7 +76,7 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     protected $dispatchesEvents = [
         'created' => SongCreated::class,
         'deleted' => SongDeleted::class,
-        'deleting' => SongDeleting::class,
+        'forceDeleting' => SongForceDeleting::class,
         'restored' => SongRestored::class,
         'updated' => SongUpdated::class,
     ];

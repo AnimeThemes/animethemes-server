@@ -10,10 +10,4 @@ use App\Models\Admin\FeaturedTheme;
 /**
  * @extends AdminDeletedEvent<FeaturedTheme>
  */
-class FeaturedThemeDeleted extends AdminDeletedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Featured Theme '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-}
+class FeaturedThemeDeleted extends AdminDeletedEvent {}

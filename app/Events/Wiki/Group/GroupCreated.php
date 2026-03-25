@@ -10,10 +10,4 @@ use App\Models\Wiki\Group;
 /**
  * @extends WikiCreatedEvent<Group>
  */
-class GroupCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Group '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class GroupCreated extends WikiCreatedEvent {}

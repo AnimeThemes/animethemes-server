@@ -17,9 +17,4 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
         parent::__construct($thread);
         $this->initializeEmbedFields($thread);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Discord Thread '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

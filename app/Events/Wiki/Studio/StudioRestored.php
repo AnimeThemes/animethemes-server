@@ -10,10 +10,4 @@ use App\Models\Wiki\Studio;
 /**
  * @extends WikiRestoredEvent<Studio>
  */
-class StudioRestored extends WikiRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Studio '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class StudioRestored extends WikiRestoredEvent {}

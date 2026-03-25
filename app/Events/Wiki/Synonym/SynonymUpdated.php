@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Synonym;
 
-use App\Concerns\Models\HasLabel;
 use App\Contracts\Events\UpdateAnimeSynonymsEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiUpdatedEvent;
@@ -22,8 +21,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class SynonymUpdated extends WikiUpdatedEvent implements UpdateAnimeSynonymsEvent, UpdateRelatedIndicesEvent
 {
-    use HasLabel;
-
     public function __construct(Synonym $synonym)
     {
         parent::__construct($synonym);

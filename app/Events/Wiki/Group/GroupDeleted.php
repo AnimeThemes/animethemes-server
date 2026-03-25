@@ -13,16 +13,6 @@ use App\Models\Wiki\Group;
  */
 class GroupDeleted extends WikiDeletedEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Group '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-
-    protected function getNotificationMessage(): string
-    {
-        return "Group '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
     protected function getFilamentNotificationUrl(): string
     {
         return GroupFilament::getUrl('view', ['record' => $this->getModel()]);

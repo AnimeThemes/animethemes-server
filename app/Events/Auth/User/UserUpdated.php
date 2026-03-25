@@ -17,9 +17,4 @@ class UserUpdated extends AdminUpdatedEvent
         parent::__construct($user);
         $this->initializeEmbedFields($user);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "User '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

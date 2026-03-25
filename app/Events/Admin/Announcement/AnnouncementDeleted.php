@@ -10,10 +10,4 @@ use App\Models\Admin\Announcement;
 /**
  * @extends AdminDeletedEvent<Announcement>
  */
-class AnnouncementDeleted extends AdminDeletedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Announcement '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-}
+class AnnouncementDeleted extends AdminDeletedEvent {}

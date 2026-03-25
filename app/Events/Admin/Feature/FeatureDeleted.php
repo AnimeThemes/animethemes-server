@@ -12,11 +12,6 @@ use App\Models\Admin\Feature;
  */
 class FeatureDeleted extends AdminDeletedEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Feature '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-
     public function shouldSendDiscordMessage(): bool
     {
         return $this->getModel()->isNullScope();

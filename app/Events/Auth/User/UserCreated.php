@@ -10,10 +10,4 @@ use App\Models\Auth\User;
 /**
  * @extends AdminCreatedEvent<User>
  */
-class UserCreated extends AdminCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "User '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class UserCreated extends AdminCreatedEvent {}

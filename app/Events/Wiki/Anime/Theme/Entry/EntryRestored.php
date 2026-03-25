@@ -14,11 +14,6 @@ use App\Models\Wiki\Video;
  */
 class EntryRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Entry '**{$this->getModel()->getName()}**' has been restored.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $entry = $this->getModel();

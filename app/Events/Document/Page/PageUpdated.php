@@ -20,11 +20,6 @@ class PageUpdated extends DocumentUpdatedEvent implements UpdateRelationsEvent
         $this->initializeEmbedFields($page);
     }
 
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Page '**{$this->getModel()->getName()}**' has been updated.";
-    }
-
     public function updateRelations(): void
     {
         new UpdatePageRelations()->handle($this->getModel());

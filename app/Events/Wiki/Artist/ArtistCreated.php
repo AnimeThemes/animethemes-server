@@ -10,10 +10,4 @@ use App\Models\Wiki\Artist;
 /**
  * @extends WikiCreatedEvent<Artist>
  */
-class ArtistCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Artist '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class ArtistCreated extends WikiCreatedEvent {}
