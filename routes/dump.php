@@ -6,13 +6,9 @@ use App\Features\AllowDumpDownloading;
 use App\Http\Controllers\Admin\DumpController;
 use App\Http\Controllers\Admin\LatestContentDumpController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-$isDumpDownloadingAllowed = Str::of(EnsureFeaturesAreActive::class)
-    ->append(':')
-    ->append(AllowDumpDownloading::class)
-    ->__toString();
+$isDumpDownloadingAllowed = EnsureFeaturesAreActive::using(AllowDumpDownloading::class);
 
 Route::get('/latest/content', [LatestContentDumpController::class, 'show'])
     ->name('dump.latest.content.show')

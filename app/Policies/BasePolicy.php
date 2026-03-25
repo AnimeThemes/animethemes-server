@@ -86,11 +86,7 @@ abstract class BasePolicy
 
     public function update(User $user, Model $model): Response
     {
-        $trashed = method_exists($model, 'trashed')
-            ? $model->trashed()
-            : false;
-
-        return ! $trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()))
+        return $user->can(CrudPermission::UPDATE->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }
@@ -104,11 +100,7 @@ abstract class BasePolicy
 
     public function delete(User $user, Model $model): Response
     {
-        $trashed = method_exists($model, 'trashed')
-            ? $model->trashed()
-            : false;
-
-        return ! $trashed && $user->can(CrudPermission::DELETE->format(static::getModel()))
+        return $user->can(CrudPermission::DELETE->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }
@@ -136,11 +128,7 @@ abstract class BasePolicy
 
     public function restore(User $user, Model $model): Response
     {
-        $trashed = method_exists($model, 'trashed')
-            ? $model->trashed()
-            : false;
-
-        return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()))
+        return $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()))
             ? Response::allow()
             : Response::deny();
     }
