@@ -10,10 +10,4 @@ use App\Models\Wiki\ExternalResource;
 /**
  * @extends WikiCreatedEvent<ExternalResource>
  */
-class ExternalResourceCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Resource '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class ExternalResourceCreated extends WikiCreatedEvent {}

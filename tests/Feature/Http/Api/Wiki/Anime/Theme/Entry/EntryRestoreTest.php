@@ -48,7 +48,7 @@ test('trashed', function () {
 
     $response = patch(route('api.animethemeentry.restore', ['animethemeentry' => $entry]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

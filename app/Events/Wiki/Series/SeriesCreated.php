@@ -10,10 +10,4 @@ use App\Models\Wiki\Series;
 /**
  * @extends WikiCreatedEvent<Series>
  */
-class SeriesCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Series '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class SeriesCreated extends WikiCreatedEvent {}

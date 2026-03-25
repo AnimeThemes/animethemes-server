@@ -17,9 +17,4 @@ class SeriesUpdated extends WikiUpdatedEvent
         parent::__construct($series);
         $this->initializeEmbedFields($series);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Series '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

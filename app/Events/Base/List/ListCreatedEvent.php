@@ -24,4 +24,9 @@ abstract class ListCreatedEvent extends BaseCreatedEvent
     {
         return true;
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been created.";
+    }
 }

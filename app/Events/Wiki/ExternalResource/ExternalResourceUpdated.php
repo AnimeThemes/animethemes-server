@@ -17,9 +17,4 @@ class ExternalResourceUpdated extends WikiUpdatedEvent
         parent::__construct($resource);
         $this->initializeEmbedFields($resource);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Resource '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

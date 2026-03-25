@@ -38,7 +38,7 @@ test('trashed', function () {
 
     $response = patch(route('api.artist.restore', ['artist' => $artist]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

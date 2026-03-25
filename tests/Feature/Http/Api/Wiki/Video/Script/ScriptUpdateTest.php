@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

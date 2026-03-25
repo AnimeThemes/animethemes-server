@@ -38,7 +38,7 @@ test('trashed', function () {
 
     $response = patch(route('api.image.restore', ['image' => $image]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

@@ -10,10 +10,4 @@ use App\Models\Admin\Dump;
 /**
  * @extends AdminDeletedEvent<Dump>
  */
-class DumpDeleted extends AdminDeletedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Dump '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-}
+class DumpDeleted extends AdminDeletedEvent {}

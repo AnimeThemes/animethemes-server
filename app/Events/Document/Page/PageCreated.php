@@ -14,11 +14,6 @@ use App\Models\Document\Page;
  */
 class PageCreated extends DocumentCreatedEvent implements UpdateRelationsEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Page '**{$this->getModel()->getName()}**' has been created.";
-    }
-
     public function updateRelations(): void
     {
         new UpdatePageRelations()->handle($this->getModel());

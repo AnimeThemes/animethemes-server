@@ -442,7 +442,7 @@ return [
             'revoke_role' => [
                 'name' => 'Revoke Role',
             ],
-
+            'send_password_reset_link' => 'Send Password Reset Link',
         ],
         'video_script' => [
             'delete' => [
@@ -973,6 +973,7 @@ return [
         'user' => [
             'avatar' => 'Avatar',
             'email' => 'Email',
+            'email_verified_at' => 'Email Verified At',
             'name' => 'Name',
         ],
         'video_script' => [

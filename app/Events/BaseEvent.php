@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Concerns\Models\HasLabel;
 use App\Contracts\Models\Nameable;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
  */
 abstract class BaseEvent
 {
+    use HasLabel;
+
     protected ?User $authenticatedUser;
 
     /**

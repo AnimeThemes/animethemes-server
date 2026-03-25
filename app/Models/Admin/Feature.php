@@ -68,7 +68,6 @@ class Feature extends BaseModel
         return [
             Feature::ATTRIBUTE_NAME => 'string',
             Feature::ATTRIBUTE_SCOPE => 'string',
-            Feature::ATTRIBUTE_VALUE => 'string',
         ];
     }
 

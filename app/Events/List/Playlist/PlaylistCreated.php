@@ -18,11 +18,6 @@ class PlaylistCreated extends ListCreatedEvent implements AssignHashidsEvent
         return $this->model;
     }
 
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Playlist '**{$this->getModel()->getName()}**' has been created.";
-    }
-
     /**
      * Get the Hashids connection.
      *

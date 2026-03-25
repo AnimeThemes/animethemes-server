@@ -65,7 +65,7 @@ test('trashed', function () {
 
     $response = put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

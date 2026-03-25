@@ -10,10 +10,4 @@ use App\Models\Wiki\Image;
 /**
  * @extends WikiRestoredEvent<Image>
  */
-class ImageRestored extends WikiRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Image '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class ImageRestored extends WikiRestoredEvent {}

@@ -16,11 +16,6 @@ use App\Models\Wiki\Video;
  */
 class SongCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Song '**{$this->getModel()->getName()}**' has been created.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_VIDEOS]);

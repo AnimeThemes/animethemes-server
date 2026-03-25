@@ -10,10 +10,4 @@ use App\Models\Admin\FeaturedTheme;
 /**
  * @extends AdminCreatedEvent<FeaturedTheme>
  */
-class FeaturedThemeCreated extends AdminCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Featured Theme '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class FeaturedThemeCreated extends AdminCreatedEvent {}

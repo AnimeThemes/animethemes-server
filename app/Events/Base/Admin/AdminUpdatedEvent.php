@@ -24,4 +24,9 @@ abstract class AdminUpdatedEvent extends BaseUpdatedEvent
     {
         return true;
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been updated.";
+    }
 }

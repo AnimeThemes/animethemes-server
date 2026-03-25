@@ -92,7 +92,7 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
     {
         return Attribute::make(function (): ?string {
             // Necessary for 'make' factories.
-            if ($this->hasAttribute(VideoScript::ATTRIBUTE_ID)) {
+            if ($this->getAttribute($this->getRouteKeyName()) !== null) {
                 return route('videoscript.show', $this);
             }
 

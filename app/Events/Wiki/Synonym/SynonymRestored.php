@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Synonym;
 
-use App\Concerns\Models\HasLabel;
 use App\Contracts\Events\UpdateAnimeSynonymsEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiRestoredEvent;
@@ -22,8 +21,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class SynonymRestored extends WikiRestoredEvent implements UpdateAnimeSynonymsEvent, UpdateRelatedIndicesEvent
 {
-    use HasLabel;
-
     protected function getDiscordMessageDescription(): string
     {
         return "Synonym '**{$this->getModel()->getName()}**' has been restored for {$this->privateLabel($this->getModel()->synonymable)} '**{$this->getModel()->synonymable->getName()}**'.";

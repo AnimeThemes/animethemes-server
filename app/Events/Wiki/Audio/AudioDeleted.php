@@ -13,16 +13,6 @@ use App\Models\Wiki\Audio;
  */
 class AudioDeleted extends WikiDeletedEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Audio '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-
-    protected function getNotificationMessage(): string
-    {
-        return "Audio '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
     protected function getFilamentNotificationUrl(): string
     {
         return AudioFilament::getUrl('view', ['record' => $this->getModel()]);

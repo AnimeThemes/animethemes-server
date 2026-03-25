@@ -38,7 +38,7 @@ test('trashed', function () {
 
     $response = patch(route('api.song.restore', ['song' => $song]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

@@ -16,9 +16,4 @@ class PlaylistDeleted extends ListDeletedEvent
     {
         return false;
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Playlist '**{$this->getModel()->getName()}**' has been deleted.";
-    }
 }

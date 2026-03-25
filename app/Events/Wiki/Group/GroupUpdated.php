@@ -17,9 +17,4 @@ class GroupUpdated extends WikiUpdatedEvent
         parent::__construct($group);
         $this->initializeEmbedFields($group);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Group '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

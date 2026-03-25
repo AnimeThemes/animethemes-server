@@ -10,10 +10,4 @@ use App\Models\Wiki\Video\VideoScript;
 /**
  * @extends WikiRestoredEvent<VideoScript>
  */
-class VideoScriptRestored extends WikiRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Script '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class VideoScriptRestored extends WikiRestoredEvent {}

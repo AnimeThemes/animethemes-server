@@ -10,10 +10,4 @@ use App\Models\Wiki\Video\VideoScript;
 /**
  * @extends WikiCreatedEvent<VideoScript>
  */
-class VideoScriptCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Script '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class VideoScriptCreated extends WikiCreatedEvent {}

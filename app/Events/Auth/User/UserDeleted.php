@@ -14,11 +14,6 @@ use App\Models\List\ExternalProfile;
  */
 class UserDeleted extends AdminDeletedEvent implements CascadesDeletesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "User '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-
     public function cascadeDeletes(): void
     {
         $this->getModel()->externalprofiles->each(fn (ExternalProfile $profile) => $profile->delete());

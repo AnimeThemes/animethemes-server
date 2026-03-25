@@ -74,7 +74,7 @@ test('trashed', function () {
 
     $response = put(route('api.video.update', ['video' => $video] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

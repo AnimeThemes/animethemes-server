@@ -38,7 +38,7 @@ test('trashed', function () {
 
     $response = patch(route('api.anime.restore', ['anime' => $anime]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

@@ -16,7 +16,7 @@ use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
-use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
+use App\Events\Wiki\Anime\Theme\Entry\EntryForceDeleting;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -105,7 +105,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     protected $dispatchesEvents = [
         'created' => EntryCreated::class,
         'deleted' => EntryDeleted::class,
-        'deleting' => EntryDeleting::class,
+        'forceDeleting' => EntryForceDeleting::class,
         'restored' => EntryRestored::class,
         'updated' => EntryUpdated::class,
     ];

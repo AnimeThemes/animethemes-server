@@ -16,11 +16,6 @@ use App\Models\Wiki\Video;
  */
 class AnimeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Anime '**{$this->getModel()->getName()}**' has been created.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $anime = $this->getModel()->load(Anime::RELATION_VIDEOS);

@@ -159,7 +159,9 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
 
     public function getName(): string
     {
-        return Str::of($this->type->localize())
+        return Str::of($this->anime->getName())
+            ->append(' ')
+            ->append($this->type->localize())
             ->when($this->type === ThemeType::IN && $this->song !== null, fn (Stringable $str) => $str->append(" \"{$this->song->getName()}\" "))
             ->when($this->type !== ThemeType::IN, fn (Stringable $str) => $str->append(strval($this->sequence ?? 1)))
             ->when($this->group !== null, fn (Stringable $str) => $str->append('-'.$this->group->slug))

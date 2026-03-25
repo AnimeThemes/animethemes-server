@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.artist.update', ['artist' => $artist] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

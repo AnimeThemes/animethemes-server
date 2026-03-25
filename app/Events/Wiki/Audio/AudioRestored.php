@@ -10,10 +10,4 @@ use App\Models\Wiki\Audio;
 /**
  * @extends WikiRestoredEvent<Audio>
  */
-class AudioRestored extends WikiRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Audio '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class AudioRestored extends WikiRestoredEvent {}

@@ -16,11 +16,6 @@ use App\Models\Wiki\Video;
  */
 class SongRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Song '**{$this->getModel()->getName()}**' has been restored.";
-    }
-
     public function updateRelatedIndices(): void
     {
         $song = $this->getModel()->load([Song::RELATION_VIDEOS]);

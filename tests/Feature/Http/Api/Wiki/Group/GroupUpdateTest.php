@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.group.update', ['group' => $group] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

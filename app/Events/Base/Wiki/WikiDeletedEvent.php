@@ -29,6 +29,16 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
         return Config::get(ServiceConstants::DB_UPDATES_DISCORD_CHANNEL_QUALIFIED);
     }
 
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been deleted. It will be automatically pruned in one week. Please review.";
+    }
+
+    protected function getNotificationMessage(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
+    }
+
     public function shouldSendFilamentNotification(): bool
     {
         $model = $this->getModel();
@@ -65,6 +75,4 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
      * Get the URL for the filament notification.
      */
     abstract protected function getFilamentNotificationUrl(): string;
-
-    abstract protected function getNotificationMessage(): string;
 }

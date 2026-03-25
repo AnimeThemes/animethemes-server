@@ -16,16 +16,6 @@ use App\Models\Wiki\Song\Performance;
  */
 class ArtistDeleted extends WikiDeletedEvent implements CascadesDeletesEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Artist '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-
-    protected function getNotificationMessage(): string
-    {
-        return "Artist '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
     protected function getFilamentNotificationUrl(): string
     {
         return ArtistFilament::getUrl('view', ['record' => $this->getModel()]);

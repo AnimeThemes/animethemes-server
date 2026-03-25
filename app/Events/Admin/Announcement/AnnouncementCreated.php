@@ -10,10 +10,4 @@ use App\Models\Admin\Announcement;
 /**
  * @extends AdminCreatedEvent<Announcement>
  */
-class AnnouncementCreated extends AdminCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Announcement '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class AnnouncementCreated extends AdminCreatedEvent {}

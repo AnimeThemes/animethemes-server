@@ -79,7 +79,7 @@ class Dump extends BaseModel
     protected function link(): Attribute
     {
         return Attribute::make(function (): ?string {
-            if ($this->hasAttribute($this->getRouteKeyName()) && $this->exists) {
+            if ($this->getAttribute($this->getRouteKeyName()) !== null && $this->exists) {
                 return route('dump.show', $this);
             }
 

@@ -16,11 +16,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  */
 class ArtistRestored extends WikiRestoredEvent implements CascadesRestoresEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Artist '**{$this->getModel()->getName()}**' has been restored.";
-    }
-
     public function cascadeRestores(): void
     {
         $this->getModel()->withoutGlobalScope(SoftDeletingScope::class)->with([

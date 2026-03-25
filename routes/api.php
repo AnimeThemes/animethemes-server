@@ -64,7 +64,12 @@ if (! function_exists('apiResource')) {
      */
     function apiResource(string $name, string $controller): void
     {
-        Route::apiResource($name, $controller)->withTrashed();
+        Route::apiResource($name, $controller)
+            ->only(['index', 'show'])
+            ->withTrashed();
+
+        Route::apiResource($name, $controller)
+            ->except(['index', 'show']);
 
         Route::patch(apiResourceUri('restore', $name), [$controller, 'restore'])
             ->name("$name.restore")
@@ -84,7 +89,12 @@ if (! function_exists('apiResourceWhere')) {
     {
         Route::apiResource($name, $controller)
             ->where($wheres)
+            ->only(['index', 'show'])
             ->withTrashed();
+
+        Route::apiResource($name, $controller)
+            ->where($wheres)
+            ->except(['index', 'show']);
 
         Route::patch(apiResourceUri('restore', $name), [$controller, 'restore'])
             ->name("$name.restore")
@@ -106,7 +116,12 @@ if (! function_exists('apiScopedResource')) {
     {
         Route::apiResource($name, $controller)
             ->scoped()
+            ->only(['index', 'show'])
             ->withTrashed();
+
+        Route::apiResource($name, $controller)
+            ->scoped()
+            ->except(['index', 'show']);
 
         Route::patch(apiResourceUri('restore', $name), [$controller, 'restore'])
             ->name("$name.restore")

@@ -10,10 +10,4 @@ use App\Models\Admin\Dump;
 /**
  * @extends AdminCreatedEvent<Dump>
  */
-class DumpCreated extends AdminCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Dump '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class DumpCreated extends AdminCreatedEvent {}

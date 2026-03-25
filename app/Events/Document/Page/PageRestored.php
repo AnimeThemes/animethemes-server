@@ -10,10 +10,4 @@ use App\Models\Document\Page;
 /**
  * @extends DocumentRestoredEvent<Page>
  */
-class PageRestored extends DocumentRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Page '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class PageRestored extends DocumentRestoredEvent {}

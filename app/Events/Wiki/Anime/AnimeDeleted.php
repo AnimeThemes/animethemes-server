@@ -13,16 +13,6 @@ use App\Models\Wiki\Anime;
  */
 class AnimeDeleted extends WikiDeletedEvent
 {
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Anime '**{$this->getModel()->getName()}**' has been deleted.";
-    }
-
-    protected function getNotificationMessage(): string
-    {
-        return "Anime '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
     protected function getFilamentNotificationUrl(): string
     {
         return AnimeFilament::getUrl('view', ['record' => $this->getModel()]);

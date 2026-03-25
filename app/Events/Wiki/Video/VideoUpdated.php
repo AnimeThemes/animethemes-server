@@ -17,9 +17,4 @@ class VideoUpdated extends WikiUpdatedEvent
         parent::__construct($video);
         $this->initializeEmbedFields($video);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Video '**{$this->getModel()->getName()}**' has been updated.";
-    }
 }

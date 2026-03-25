@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.audio.update', ['audio' => $audio] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

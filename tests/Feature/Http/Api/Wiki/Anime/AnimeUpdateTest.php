@@ -65,7 +65,7 @@ test('trashed', function () {
 
     $response = put(route('api.anime.update', ['anime' => $anime] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

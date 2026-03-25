@@ -10,10 +10,4 @@ use App\Models\Auth\User;
 /**
  * @extends AdminRestoredEvent<User>
  */
-class UserRestored extends AdminRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "User '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class UserRestored extends AdminRestoredEvent {}

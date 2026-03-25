@@ -24,4 +24,9 @@ abstract class ListRestoredEvent extends BaseRestoredEvent
     {
         return true;
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been restored.";
+    }
 }

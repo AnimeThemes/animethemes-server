@@ -47,7 +47,7 @@ test('trashed', function () {
 
     $response = put(route('api.synonym.update', ['synonym' => $synonym] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

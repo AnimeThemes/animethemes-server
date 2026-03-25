@@ -10,10 +10,4 @@ use App\Models\Wiki\Audio;
 /**
  * @extends WikiCreatedEvent<Audio>
  */
-class AudioCreated extends WikiCreatedEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Audio '**{$this->getModel()->getName()}**' has been created.";
-    }
-}
+class AudioCreated extends WikiCreatedEvent {}

@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.studio.update', ['studio' => $studio] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

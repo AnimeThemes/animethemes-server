@@ -10,10 +10,4 @@ use App\Models\Wiki\Series;
 /**
  * @extends WikiRestoredEvent<Series>
  */
-class SeriesRestored extends WikiRestoredEvent
-{
-    protected function getDiscordMessageDescription(): string
-    {
-        return "Series '**{$this->getModel()->getName()}**' has been restored.";
-    }
-}
+class SeriesRestored extends WikiRestoredEvent {}

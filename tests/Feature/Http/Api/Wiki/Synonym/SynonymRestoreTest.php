@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = patch(route('api.synonym.restore', ['synonym' => $synonym]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {
