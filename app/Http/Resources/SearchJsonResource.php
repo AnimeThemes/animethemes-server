@@ -6,7 +6,6 @@ namespace App\Http\Resources;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
@@ -54,48 +53,45 @@ class SearchJsonResource extends JsonResource
         $result = [];
 
         $criteria = $this->query->getFieldCriteria(static::$wrap);
-        if (! $criteria instanceof Criteria) {
-            return $result;
-        }
 
         $action = new IndexAction();
 
-        if ($criteria->isAllowedField(AnimeCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(AnimeCollection::$wrap)) {
             $anime = $action->search($this->query, new AnimeSchema(), PaginationStrategy::LIMIT);
             $result[AnimeCollection::$wrap] = new AnimeCollection($anime, $this->query);
         }
 
-        if ($criteria->isAllowedField(ThemeCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(ThemeCollection::$wrap)) {
             $themes = $action->search($this->query, new ThemeSchema(), PaginationStrategy::LIMIT);
             $result[ThemeCollection::$wrap] = new ThemeCollection($themes, $this->query);
         }
 
-        if ($criteria->isAllowedField(ArtistCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(ArtistCollection::$wrap)) {
             $artists = $action->search($this->query, new ArtistSchema(), PaginationStrategy::LIMIT);
             $result[ArtistCollection::$wrap] = new ArtistCollection($artists, $this->query);
         }
 
-        if ($criteria->isAllowedField(PlaylistCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(PlaylistCollection::$wrap)) {
             $series = $action->search($this->query, new PlaylistSchema(), PaginationStrategy::LIMIT);
             $result[PlaylistCollection::$wrap] = new PlaylistCollection($series, $this->query);
         }
 
-        if ($criteria->isAllowedField(SeriesCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(SeriesCollection::$wrap)) {
             $series = $action->search($this->query, new SeriesSchema(), PaginationStrategy::LIMIT);
             $result[SeriesCollection::$wrap] = new SeriesCollection($series, $this->query);
         }
 
-        if ($criteria->isAllowedField(SongCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(SongCollection::$wrap)) {
             $songs = $action->search($this->query, new SongSchema(), PaginationStrategy::LIMIT);
             $result[SongCollection::$wrap] = new SongCollection($songs, $this->query);
         }
 
-        if ($criteria->isAllowedField(StudioCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(StudioCollection::$wrap)) {
             $studios = $action->search($this->query, new StudioSchema(), PaginationStrategy::LIMIT);
             $result[StudioCollection::$wrap] = new StudioCollection($studios, $this->query);
         }
 
-        if ($criteria->isAllowedField(VideoCollection::$wrap)) {
+        if (! $criteria || $criteria->isAllowedField(VideoCollection::$wrap)) {
             $videos = $action->search($this->query, new VideoSchema(), PaginationStrategy::LIMIT);
             $result[VideoCollection::$wrap] = new VideoCollection($videos, $this->query);
         }
