@@ -11,6 +11,7 @@ use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\GiveSanctionAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
+use App\Filament\Actions\Models\Auth\User\SendPasswordResetLinkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\TextInput;
 use App\Filament\Components\Infolist\TextEntry;
@@ -32,6 +33,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Password;
 
 class UserResource extends BaseResource
 {
@@ -79,13 +81,17 @@ class UserResource extends BaseResource
                 TextInput::make(User::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.user.name'))
                     ->required()
-                    ->maxLength(192),
+                    ->unique()
+                    ->alphaDash()
+                    ->maxLength(35),
 
                 TextInput::make(User::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
-                    ->email()
                     ->required()
-                    ->maxLength(192),
+                    ->email()
+                    ->unique()
+                    ->maxLength(255)
+                    ->rules(['indisposable']),
             ])
             ->columns(1);
     }
@@ -133,6 +139,11 @@ class UserResource extends BaseResource
                             ->label(__('filament.fields.user.email'))
                             ->icon(Heroicon::Envelope),
 
+                        TextEntry::make(User::ATTRIBUTE_EMAIL_VERIFIED_AT)
+                            ->label(__('filament.fields.user.email_verified_at'))
+                            ->icon(Heroicon::Envelope)
+                            ->dateTime(),
+
                         TextEntry::make(User::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
                     ])
@@ -166,6 +177,8 @@ class UserResource extends BaseResource
     public static function getRecordActions(): array
     {
         return [
+            SendPasswordResetLinkAction::make(),
+
             GiveRoleAction::make(),
 
             RevokeRoleAction::make(),
