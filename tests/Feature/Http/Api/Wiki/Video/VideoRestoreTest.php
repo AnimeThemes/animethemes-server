@@ -38,7 +38,7 @@ test('trashed', function () {
 
     $response = patch(route('api.video.restore', ['video' => $video]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

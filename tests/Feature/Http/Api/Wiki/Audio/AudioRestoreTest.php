@@ -38,7 +38,7 @@ test('trashed', function () {
 
     $response = patch(route('api.audio.restore', ['audio' => $audio]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

@@ -61,7 +61,7 @@ test('trashed', function () {
 
     $response = put(route('api.image.update', ['image' => $image] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

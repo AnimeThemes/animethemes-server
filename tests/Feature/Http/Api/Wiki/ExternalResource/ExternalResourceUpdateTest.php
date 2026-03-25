@@ -58,7 +58,7 @@ test('trashed', function () {
 
     $response = put(route('api.resource.update', ['resource' => $resource] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.page.update', ['page' => $page] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

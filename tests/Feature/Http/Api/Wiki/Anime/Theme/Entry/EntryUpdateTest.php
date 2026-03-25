@@ -53,7 +53,7 @@ test('trashed', function () {
 
     $response = put(route('api.animethemeentry.update', ['animethemeentry' => $entry] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {

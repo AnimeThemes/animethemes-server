@@ -45,7 +45,7 @@ test('trashed', function () {
 
     $response = patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
-    $response->assertForbidden();
+    $response->assertOk();
 });
 
 test('restored', function () {

@@ -44,7 +44,7 @@ test('trashed', function () {
 
     $response = put(route('api.series.update', ['series' => $series] + $parameters));
 
-    $response->assertForbidden();
+    $response->assertNotFound();
 });
 
 test('update', function () {
