@@ -442,8 +442,7 @@ return [
             'revoke_role' => [
                 'name' => 'Revoke Role',
             ],
-            'send_password_reset_link' => 'Send Password Reset Link.',
-
+            'send_password_reset_link' => 'Send Password Reset Link',
         ],
         'video_script' => [
             'delete' => [

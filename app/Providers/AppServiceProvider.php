@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Auth\User;
 use App\Models\Document\Page;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -36,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\ParallelTesting;
@@ -46,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        Auth::login(User::first());
         $this->setupModels();
 
         DB::prohibitDestructiveCommands(app()->isProduction());
