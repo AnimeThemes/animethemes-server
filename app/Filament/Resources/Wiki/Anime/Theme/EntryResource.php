@@ -131,7 +131,7 @@ class EntryResource extends BaseResource
                     ->options(fn (Get $get) => AnimeTheme::query()
                         ->where(AnimeTheme::ATTRIBUTE_ANIME, $get(AnimeThemeEntry::RELATION_THEME.'.'.AnimeTheme::ATTRIBUTE_ANIME))
                         ->get()
-                        ->mapWithKeys(fn (AnimeTheme $theme): array => [$theme->getKey() => $theme->getName()])
+                        ->mapWithKeys(fn (AnimeTheme $theme): array => [$theme->getKey() => $theme->slug])
                         ->toArray()),
 
                 TextInput::make(AnimeThemeEntry::ATTRIBUTE_VERSION)
@@ -183,7 +183,7 @@ class EntryResource extends BaseResource
             ->columns([
                 BelongsToColumn::make(AnimeThemeEntry::RELATION_ANIME_SHALLOW, AnimeResource::class),
 
-                BelongsToColumn::make(AnimeThemeEntry::RELATION_THEME, ThemeResource::class, true)
+                BelongsToColumn::make(AnimeThemeEntry::RELATION_THEME, ThemeResource::class)
                     ->hiddenOn(EntryThemeRelationManager::class),
 
                 TextColumn::make(AnimeThemeEntry::ATTRIBUTE_ID)
