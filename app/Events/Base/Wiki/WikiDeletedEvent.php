@@ -31,7 +31,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
 
     protected function getDiscordMessageDescription(): string
     {
-        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been deleted. It will be automatically pruned in one week. Please review.";
+        return "{$this->privateLabel($this->getModel())} '**{$this->getModel()->getName()}**' has been deleted.";
     }
 
     protected function getNotificationMessage(): string
