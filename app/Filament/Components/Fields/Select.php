@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Fields;
 
+use App\Contracts\Models\Nameable;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Search\Criteria;
 use App\Search\Search;
@@ -48,7 +49,8 @@ class Select extends ComponentsSelect
                 );
         }
 
-        return $this->searchable();
+        return $this->searchable()
+            ->getOptionLabelUsing(fn (Model&Nameable $record) => $record->getName());
     }
 
     public function escapeReservedChars(string $search): string
