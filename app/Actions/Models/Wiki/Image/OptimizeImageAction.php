@@ -108,7 +108,7 @@ class OptimizeImageAction
         } catch (Exception $e) {
             Log::error($e->getMessage());
         } finally {
-            Storage::disk('local')->delete(Arr::filter($filesToDelete, fn (string $file): bool => $file !== $imagePath));
+            Storage::disk('local')->delete(Arr::where($filesToDelete, fn (string $file): bool => $file !== $imagePath));
         }
 
         return null;
