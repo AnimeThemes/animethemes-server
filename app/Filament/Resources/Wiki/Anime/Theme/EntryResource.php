@@ -184,7 +184,9 @@ class EntryResource extends BaseResource
                 BelongsToColumn::make(AnimeThemeEntry::RELATION_ANIME_SHALLOW, AnimeResource::class),
 
                 BelongsToColumn::make(AnimeThemeEntry::RELATION_THEME, ThemeResource::class)
-                    ->hiddenOn(EntryThemeRelationManager::class),
+                    ->hiddenOn(EntryThemeRelationManager::class)
+                    ->formatStateUsing(fn (AnimeThemeEntry $record) => $record->animetheme->slug)
+                    ->tooltip(fn (AnimeThemeEntry $record) => $record->animetheme->slug),
 
                 TextColumn::make(AnimeThemeEntry::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
@@ -229,7 +231,9 @@ class EntryResource extends BaseResource
                     ->schema([
                         BelongsToEntry::make(AnimeThemeEntry::RELATION_ANIME_SHALLOW, AnimeResource::class),
 
-                        BelongsToEntry::make(AnimeThemeEntry::RELATION_THEME, ThemeResource::class, true),
+                        BelongsToEntry::make(AnimeThemeEntry::RELATION_THEME, ThemeResource::class)
+                            ->formatStateUsing(fn (AnimeThemeEntry $record) => $record->animetheme->slug)
+                            ->tooltip(fn (AnimeThemeEntry $record) => $record->animetheme->slug),
 
                         BelongsToEntry::make(AnimeThemeEntry::RELATION_SONG, SongResource::class, true),
 
