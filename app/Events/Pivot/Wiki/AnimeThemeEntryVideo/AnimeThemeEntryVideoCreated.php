@@ -22,14 +22,6 @@ class AnimeThemeEntryVideoCreated extends PivotCreatedEvent implements UpdatePla
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
     }
 
-    protected function getDiscordMessageDescription(): string
-    {
-        $foreign = $this->getForeign();
-        $related = $this->getRelated();
-
-        return "Video '**{$foreign->getName()}**' has been attached to Entry '**{$related->getName()}**'.";
-    }
-
     public function updateRelatedIndices(): void
     {
         // refresh video document

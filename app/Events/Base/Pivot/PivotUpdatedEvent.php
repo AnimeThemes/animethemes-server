@@ -34,4 +34,12 @@ abstract class PivotUpdatedEvent extends BasePivotEvent
 
         return DiscordMessage::create('', $embed);
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "{$this->privateLabel($foreign)} '**{$foreign->getName()}**' for {$this->privateLabel($related)} '**{$related->getName()}**' has been updated.";
+    }
 }

@@ -18,12 +18,4 @@ class AnimeSeriesCreated extends PivotCreatedEvent
     {
         parent::__construct($animeSeries->series, $animeSeries->anime);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        $foreign = $this->getForeign();
-        $related = $this->getRelated();
-
-        return "Anime '**{$foreign->getName()}**' has been attached to Series '**{$related->getName()}**'.";
-    }
 }

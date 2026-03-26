@@ -33,4 +33,12 @@ abstract class PivotCreatedEvent extends BasePivotEvent
 
         return DiscordMessage::create('', $embed);
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "{$this->privateLabel($foreign)} '**{$foreign->getName()}**' has been attached to {$this->privateLabel($related)} '**{$related->getName()}**'.";
+    }
 }

@@ -22,14 +22,6 @@ class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePla
         parent::__construct($entryVideo->animethemeentry, $entryVideo->video);
     }
 
-    protected function getDiscordMessageDescription(): string
-    {
-        $foreign = $this->getForeign();
-        $related = $this->getRelated();
-
-        return "Video '**{$foreign->getName()}**' has been detached from Entry '**{$related->getName()}**'.";
-    }
-
     public function updateRelatedIndices(): void
     {
         // refresh video document

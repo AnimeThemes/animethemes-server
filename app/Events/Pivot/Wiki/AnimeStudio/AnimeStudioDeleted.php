@@ -18,12 +18,4 @@ class AnimeStudioDeleted extends PivotDeletedEvent
     {
         parent::__construct($animeStudio->studio, $animeStudio->anime);
     }
-
-    protected function getDiscordMessageDescription(): string
-    {
-        $foreign = $this->getForeign();
-        $related = $this->getRelated();
-
-        return "Anime '**{$foreign->getName()}**' has been detached from Studio '**{$related->getName()}**'.";
-    }
 }

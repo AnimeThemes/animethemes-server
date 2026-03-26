@@ -33,4 +33,12 @@ abstract class PivotDeletedEvent extends BasePivotEvent
 
         return DiscordMessage::create('', $embed);
     }
+
+    protected function getDiscordMessageDescription(): string
+    {
+        $foreign = $this->getForeign();
+        $related = $this->getRelated();
+
+        return "{$this->privateLabel($foreign)} '**{$foreign->getName()}**' has been detached from {$this->privateLabel($related)} '**{$related->getName()}**'.";
+    }
 }

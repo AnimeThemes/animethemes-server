@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Concerns\Models\HasLabel;
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Contracts\Models\Nameable;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Config;
  */
 abstract class BasePivotEvent implements DiscordMessageEvent
 {
+    use HasLabel;
+
     protected ?User $authenticatedUser;
 
     /**
