@@ -9,6 +9,7 @@ use App\Constants\Config\ImageConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Image;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -59,8 +60,9 @@ class OptimizeImageAction
                 $directory
             );
 
-            // Delete the old image from the bucket.
+            // Delete the old image from the bucket and local.
             Storage::disk(Config::get(ImageConstants::DISKS_QUALIFIED))->delete($this->image->path);
+            Storage::disk('local')->delete($optimizedImage);
 
             $this->image->update([
                 Image::ATTRIBUTE_PATH => $path,
@@ -80,6 +82,8 @@ class OptimizeImageAction
 
     protected function handleFFmpeg(): ?string
     {
+        $filesToDelete = [];
+
         try {
             Storage::disk('local')->put(
                 $this->image->path,
@@ -88,19 +92,23 @@ class OptimizeImageAction
 
             $imagePath = $this->image->path;
 
+            $filesToDelete[] = $imagePath;
+
             if ($this->extension !== null) {
                 $imagePath = $this->convertImage($imagePath);
+                $filesToDelete[] = $imagePath;
             }
 
             if ($this->width !== null && $this->height !== null) {
-                return $this->downscaleImage($imagePath);
+                $imagePath = $this->downscaleImage($imagePath);
+                $filesToDelete[] = $imagePath;
             }
 
             return $imagePath;
         } catch (Exception $e) {
             Log::error($e->getMessage());
         } finally {
-            Storage::disk('local')->delete($this->image->path);
+            Storage::disk('local')->delete(Arr::filter($filesToDelete, fn (string $file): bool => $file !== $imagePath));
         }
 
         return null;

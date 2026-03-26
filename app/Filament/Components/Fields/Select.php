@@ -50,7 +50,7 @@ class Select extends ComponentsSelect
         }
 
         return $this->searchable()
-            ->getOptionLabelUsing(fn (Model&Nameable $record) => $record->getName());
+            ->getOptionLabelUsing(fn (Model&Nameable $record): string => $record->getName());
     }
 
     public function escapeReservedChars(string $search): string
