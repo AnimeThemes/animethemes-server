@@ -31,12 +31,14 @@ use App\Pivots\Wiki\ArtistSong;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\AdminSeeder;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
@@ -57,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
             Artisan::call('db:seed', ['--class' => AdminSeeder::class]);
             Artisan::call('db:seed', ['--class' => ProhibitionSeeder::class]);
         });
+
+        Http::globalRequestMiddleware(fn (Request $request) => $request->withHeader('User-Agent', 'AnimeThemes'));
 
         DB::listen(function (QueryExecuted $query): void {
             if (app()->isLocal()) {

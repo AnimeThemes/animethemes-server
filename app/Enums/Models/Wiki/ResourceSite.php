@@ -128,8 +128,7 @@ enum ResourceSite: int implements HasLabel
         }
 
         try {
-            $response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
-                ->get($link)
+            $response = Http::get($link)
                 ->throw()
                 ->body();
 
