@@ -34,8 +34,7 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
             $id = $resource->external_id;
 
             try {
-                $this->response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
-                    ->get("https://www.livechart.me/api/v1/anime/$id")
+                $this->response = Http::get("https://www.livechart.me/api/v1/anime/$id")
                     ->throw()
                     ->json();
             } catch (RequestException $e) {
