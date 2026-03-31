@@ -254,10 +254,11 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
      */
     public function toSearchableArray(): array
     {
-        return match (Config::get('scout.driver')) {
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
             'elastic' => VideoElasticModel::toSearchableArray($this),
             'typesense' => VideoTypesenseModel::toSearchableArray($this),
-            default => throw new RuntimeException('Unsupported search driver configured.'),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
     }
 

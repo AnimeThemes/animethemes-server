@@ -161,10 +161,11 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
      */
     public function toSearchableArray(): array
     {
-        return match (Config::get('scout.driver')) {
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
             'elastic' => AnimeThemeEntryElasticModel::toSearchableArray($this),
             'typesense' => AnimeThemeEntryTypesenseModel::toSearchableArray($this),
-            default => throw new RuntimeException('Unsupported search driver configured.'),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
     }
 

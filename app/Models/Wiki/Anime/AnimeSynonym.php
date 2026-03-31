@@ -80,10 +80,11 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
      */
     public function toSearchableArray(): array
     {
-        return match (Config::get('scout.driver')) {
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
             'elastic' => AnimeSynonymElasticModel::toSearchableArray($this),
             'typesense' => AnimeSynonymTypesenseModel::toSearchableArray($this),
-            default => throw new RuntimeException('Unsupported search driver configured.'),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
     }
 

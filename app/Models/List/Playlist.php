@@ -159,10 +159,11 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
      */
     public function toSearchableArray(): array
     {
-        return match (Config::get('scout.driver')) {
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
             'elastic' => PlaylistElasticModel::toSearchableArray($this),
             'typesense' => PlaylistTypesenseModel::toSearchableArray($this),
-            default => throw new RuntimeException('Unsupported search driver configured.'),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
     }
 
