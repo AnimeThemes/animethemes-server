@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Api\Parser\SearchParser;
-use App\Search\Criteria;
+use App\Scout\Criteria;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
 

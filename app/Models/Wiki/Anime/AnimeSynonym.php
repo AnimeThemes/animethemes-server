@@ -10,12 +10,16 @@ use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use App\Scout\Elasticsearch\Models\Wiki\Anime\AnimeSynonymElasticModel;
+use App\Scout\Typesense\Models\Wiki\Anime\AnimeSynonymTypesenseModel;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 
 /**
  * @property Anime $anime
@@ -69,6 +73,18 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
             AnimeSynonym::ATTRIBUTE_TEXT => 'string',
             AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::class,
         ];
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     */
+    public function toSearchableArray(): array
+    {
+        return match (Config::get('scout.driver')) {
+            'elastic' => AnimeSynonymElasticModel::toSearchableArray($this),
+            'typesense' => AnimeSynonymTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException('Unsupported search driver configured.'),
+        };
     }
 
     public function getName(): string

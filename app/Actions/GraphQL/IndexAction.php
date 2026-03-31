@@ -14,8 +14,8 @@ use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Types\BaseType;
 use App\Rules\GraphQL\Argument\FirstArgumentRule;
-use App\Search\Criteria;
-use App\Search\Search;
+use App\Scout\Criteria;
+use App\Scout\Search;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -46,16 +46,17 @@ class IndexAction
     {
         $criteria = new Criteria(Arr::get($args, 'search'));
 
-        $searchBuilder = Search::search($builder->getModel(), $criteria)
-            ->passToEloquentBuilder(function (Builder $builder) use ($args, $type, $resolveInfo): void {
-                $this->withAggregates($builder, $args, $this->getSelection($resolveInfo), $type);
+        $searchBuilder = Search::getSearch($builder->getModel(), $criteria);
 
-                $this->filter($builder, $args, $type);
+        $eloquentCallback = function (Builder $builder) use ($args, $type, $resolveInfo): void {
+            $this->withAggregates($builder, $args, $this->getSelection($resolveInfo), $type);
 
-                $this->sort($builder, $args, $type);
+            $this->filter($builder, $args, $type);
 
-                $this->constrainEagerLoads($builder, $resolveInfo, $type);
-            });
+            $this->sort($builder, $args, $type);
+
+            $this->constrainEagerLoads($builder, $resolveInfo, $type);
+        };
 
         // Note: First for searching must not be too high.
         $first = min(100, Arr::get($args, 'first'));
@@ -64,8 +65,6 @@ class IndexAction
         Validator::make(['first' => $first], [
             'first' => ['required', 'integer', 'min:1', new FirstArgumentRule()],
         ])->validate();
-
-        $searchBuilder->withPagination($first, $page);
 
         $sorts = Arr::get($args, SortArgument::ARGUMENT, []);
         $criteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
@@ -93,8 +92,6 @@ class IndexAction
             }
         }
 
-        $searchBuilder->withSort($sortsRaw);
-
-        return $searchBuilder->execute();
+        return $searchBuilder->search($eloquentCallback, $first, $page, $sortsRaw);
     }
 }

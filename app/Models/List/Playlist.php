@@ -19,6 +19,8 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use App\Pivots\Morph\Imageable;
+use App\Scout\Elasticsearch\Models\List\PlaylistElasticModel;
+use App\Scout\Typesense\Models\List\PlaylistTypesenseModel;
 use Database\Factories\List\PlaylistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -27,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use RuntimeException;
 
 /**
  * @property string|null $description
@@ -151,13 +155,15 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     }
 
     /**
-     * Only get the attributes as an array to prevent recursive toArray() calls.
-     *
-     * @return array<string, mixed>
+     * Get the indexable data array for the model.
      */
     public function toSearchableArray(): array
     {
-        return $this->attributesToArray();
+        return match (Config::get('scout.driver')) {
+            'elastic' => PlaylistElasticModel::toSearchableArray($this),
+            'typesense' => PlaylistTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException('Unsupported search driver configured.'),
+        };
     }
 
     /**

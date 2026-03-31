@@ -43,6 +43,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+use Psr\Http\Message\MessageInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -60,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
             Artisan::call('db:seed', ['--class' => ProhibitionSeeder::class]);
         });
 
-        Http::globalRequestMiddleware(fn (Request $request) => $request->withHeader('User-Agent', 'AnimeThemes'));
+        Http::globalRequestMiddleware(fn (Request $request): MessageInterface => $request->withHeader('User-Agent', 'AnimeThemes'));
 
         DB::listen(function (QueryExecuted $query): void {
             if (app()->isLocal()) {

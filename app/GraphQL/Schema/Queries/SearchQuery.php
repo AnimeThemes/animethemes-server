@@ -26,8 +26,8 @@ use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
-use App\Search\Criteria;
-use App\Search\Search;
+use App\Scout\Criteria;
+use App\Scout\Search;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Builder;
@@ -131,10 +131,13 @@ class SearchQuery extends BaseQuery
         $page = Arr::get($args, 'page', 1);
         $first = Number::clamp(Arr::get($args, 'first'), 1, 15);
 
-        $searchBuilder = Search::search($modelClass, new Criteria($term))
-            ->passToEloquentBuilder(fn (Builder $builder) => $this->constrainEagerLoads($builder, $resolveInfo, $type, $fieldName))
-            ->withPagination($first, $page);
+        $searchBuilder = Search::getSearch($modelClass, new Criteria($term))
+            ->search(
+                fn (Builder $builder) => $this->constrainEagerLoads($builder, $resolveInfo, $type, $fieldName),
+                $first,
+                $page,
+            );
 
-        return collect($searchBuilder->execute()->items());
+        return collect($searchBuilder->items());
     }
 }

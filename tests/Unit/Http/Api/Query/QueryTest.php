@@ -13,7 +13,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Search\Criteria as SearchCriteria;
+use App\Scout\Criteria as SearchCriteria;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Tests\Unit\Http\Api\Query\FakeQuery;

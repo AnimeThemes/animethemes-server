@@ -59,6 +59,7 @@
         "staudenmeir/laravel-adjacency-list": "^1.26.0",
         "symfony/http-client": "^6.4.34",
         "symfony/mailgun-mailer": "^6.4.24",
+        "typesense/typesense-php": "^6.0",
         "vinkla/hashids": "^14.0"
     },
     "require-dev": {

@@ -24,6 +24,8 @@ use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
+use App\Scout\Elasticsearch\Models\Wiki\ArtistElasticModel;
+use App\Scout\Typesense\Models\Wiki\ArtistTypesenseModel;
 use Database\Factories\Wiki\ArtistFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
@@ -36,8 +38,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
@@ -149,19 +153,11 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
      */
     public function toSearchableArray(): array
     {
-        $array = $this->attributesToArray();
-
-        $array['as'] = $this->performances->map(fn (Performance $performance) => $performance->as)
-            ->toBase()
-            ->concat($this->memberships->map(fn (Membership $membership) => $membership->as))
-            ->filter()
-            ->unique()
-            ->values()
-            ->all();
-
-        $array['synonyms'] = $this->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all();
-
-        return $array;
+        return match (Config::get('scout.driver')) {
+            'elastic' => ArtistElasticModel::toSearchableArray($this),
+            'typesense' => ArtistTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException('Unsupported search driver configured.'),
+        };
     }
 
     /**

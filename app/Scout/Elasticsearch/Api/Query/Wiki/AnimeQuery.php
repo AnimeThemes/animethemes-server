@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 
 use App\Models\Wiki\Anime;
+use App\Scout\Criteria;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
-use App\Search\Criteria;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 

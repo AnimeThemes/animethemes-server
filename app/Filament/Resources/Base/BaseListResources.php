@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Base;
 
 use App\Filament\Actions\Base\CreateAction;
-use App\Search\Criteria;
-use App\Search\Search;
+use App\Scout\Criteria;
+use App\Scout\Search;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -37,8 +37,11 @@ abstract class BaseListResources extends ListRecords
         $model = new $modelClass;
 
         if (filled($search = $this->getTableSearch())) {
-            $keys = Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
-                ->keys();
+            $keys = Search::getSearch($modelClass, new Criteria($this->escapeReservedChars($search)))
+                ->search()
+                ->getCollection()
+                ->map(fn (Model $model) => $model->getKey())
+                ->toArray();
 
             $query
                 ->whereIn($model->getKeyName(), $keys)

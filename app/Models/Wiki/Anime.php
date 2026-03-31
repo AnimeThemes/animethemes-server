@@ -28,6 +28,8 @@ use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
+use App\Scout\Elasticsearch\Models\Wiki\AnimeElasticModel;
+use App\Scout\Typesense\Models\Wiki\AnimeTypesenseModel;
 use Database\Factories\Wiki\AnimeFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
@@ -40,8 +42,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 
 /**
  * @property int $anime_id
@@ -157,10 +161,11 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
      */
     public function toSearchableArray(): array
     {
-        $array = $this->attributesToArray();
-        $array['synonyms'] = $this->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all();
-
-        return $array;
+        return match (Config::get('scout.driver')) {
+            'elastic' => AnimeElasticModel::toSearchableArray($this),
+            'typesense' => AnimeTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException('Unsupported search driver configured.'),
+        };
     }
 
     /**

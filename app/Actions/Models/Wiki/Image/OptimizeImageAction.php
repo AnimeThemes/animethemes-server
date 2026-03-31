@@ -83,6 +83,7 @@ class OptimizeImageAction
     protected function handleFFmpeg(): ?string
     {
         $filesToDelete = [];
+        $imagePath = null;
 
         try {
             Storage::disk('local')->put(

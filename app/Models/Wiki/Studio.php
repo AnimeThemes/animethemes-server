@@ -18,6 +18,8 @@ use App\Models\BaseModel;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeStudio;
+use App\Scout\Elasticsearch\Models\Wiki\StudioElasticModel;
+use App\Scout\Typesense\Models\Wiki\StudioTypesenseModel;
 use Database\Factories\Wiki\StudioFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -25,8 +27,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 
 /**
  * @property Collection<int, Anime> $anime
@@ -91,6 +95,18 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
             Studio::ATTRIBUTE_NAME => 'string',
             Studio::ATTRIBUTE_SLUG => 'string',
         ];
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     */
+    public function toSearchableArray(): array
+    {
+        return match (Config::get('scout.driver')) {
+            'elastic' => StudioElasticModel::toSearchableArray($this),
+            'typesense' => StudioTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException('Unsupported search driver configured.'),
+        };
     }
 
     /**

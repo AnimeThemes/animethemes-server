@@ -9,8 +9,8 @@ use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User;
-use App\Search\Criteria;
-use App\Search\Search;
+use App\Scout\Criteria;
+use App\Scout\Search;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -73,8 +73,8 @@ class BelongsTo extends Select
             return $this
                 ->getSearchResultsUsing(
                     fn (string $search) => collect(
-                        Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
-                            ->execute()
+                        Search::getSearch($modelClass, new Criteria($this->escapeReservedChars($search)))
+                            ->search()
                             ->items()
                     )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])

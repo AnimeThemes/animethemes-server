@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Providers;
 
 use App\Filament\Resources\BaseResource;
-use App\Search\Criteria;
-use App\Search\Search;
+use App\Scout\Criteria;
+use App\Scout\Search;
 use Elastic\ScoutDriverPlus\Searchable;
 use Filament\Facades\Filament;
 use Filament\GlobalSearch\GlobalSearchResult;
@@ -34,9 +34,8 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
             }
 
             $resourceResults = collect(
-                Search::search($modelClass, new Criteria($this->escapeReservedChars($query)))
-                    ->passToEloquentBuilder(fn (Builder $builder) => $builder->with($resource::getEloquentQuery()->getEagerLoads()))
-                    ->execute()
+                Search::getSearch($modelClass, new Criteria($this->escapeReservedChars($query)))
+                    ->search(fn (Builder $builder) => $builder->with($resource::getEloquentQuery()->getEagerLoads()))
                     ->items()
             )
                 ->map(function (Model $record) use ($resource): ?GlobalSearchResult {
