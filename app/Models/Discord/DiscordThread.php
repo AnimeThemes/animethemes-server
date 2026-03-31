@@ -12,6 +12,7 @@ use App\Observers\Discord\DiscordThreadObserver;
 use Database\Factories\Discord\DiscordThreadFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -24,7 +25,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static DiscordThreadFactory factory(...$parameters)
  */
 #[ObservedBy(DiscordThreadObserver::class)]
-#[Table(DiscordThread::TABLE, DiscordThread::ATTRIBUTE_ID, 'string', false)]
+#[Table(DiscordThread::TABLE, DiscordThread::ATTRIBUTE_ID, 'string')]
+#[WithoutIncrementing]
 class DiscordThread extends BaseModel
 {
     use HasFactory;

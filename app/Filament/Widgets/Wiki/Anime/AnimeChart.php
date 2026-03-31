@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\Wiki\Anime;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Anime;
-use App\Services\FlowframeTrend\TrendValue;
+use Flowframe\Trend\TrendValue;
 
 class AnimeChart extends BaseChartWidget
 {

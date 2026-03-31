@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\List;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\List\Playlist;
-use App\Services\FlowframeTrend\TrendValue;
+use Flowframe\Trend\TrendValue;
 
 class PlaylistChart extends BaseChartWidget
 {

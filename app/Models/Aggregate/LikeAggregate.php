@@ -6,6 +6,8 @@ namespace App\Models\Aggregate;
 
 use App\Contracts\Models\Likeable;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\WithoutIncrementing;
+use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -15,7 +17,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property int $likeable_id
  * @property int $value
  */
-#[Table(LikeAggregate::TABLE, incrementing: false, timestamps: false)]
+#[Table(LikeAggregate::TABLE)]
+#[WithoutIncrementing]
+#[WithoutTimestamps]
 class LikeAggregate extends Model
 {
     final public const string TABLE = 'like_aggregates';
