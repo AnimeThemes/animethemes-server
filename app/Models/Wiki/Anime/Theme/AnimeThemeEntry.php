@@ -30,6 +30,8 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Scout\Elasticsearch\Models\Wiki\Anime\Theme\AnimeThemeEntryElasticModel;
+use App\Scout\Typesense\Models\Wiki\Anime\Theme\AnimeThemeEntryTypesenseModel;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -40,10 +42,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
 
@@ -157,14 +161,12 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
      */
     public function toSearchableArray(): array
     {
-        $array = $this->attributesToArray();
-
-        $array['theme'] = $this->animetheme->toSearchableArray();
-
-        // Overwrite version with readable format "v{#}"
-        $array['version'] = Str::of(strval($this->version))->prepend('v')->__toString();
-
-        return $array;
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
+            'elastic' => AnimeThemeEntryElasticModel::toSearchableArray($this),
+            'typesense' => AnimeThemeEntryTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
+        };
     }
 
     public function getName(): string

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query;
 
-use App\Search\Criteria;
+use App\Scout\Criteria;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 
 abstract class ElasticQuery

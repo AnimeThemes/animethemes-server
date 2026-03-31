@@ -34,6 +34,9 @@ parameters:
         - "#BelongsToMany<.*,\\s*'pivot'> but returns .*BelongsToMany<.*,\\s*string>.#"
         - '#Call to method assertActionMounted\(\) on an unknown class static.#'
         -
+            identifier: nullsafe.neverNull
+            path: app/Scout/Typesense/Models/*
+        -
             message: '#Call to an undefined method PHPUnit\\Framework\\TestCase::.*\(\)#'
             path: tests/*
         -

@@ -6,8 +6,8 @@ namespace App\Filament\Components\Fields;
 
 use App\Contracts\Models\Nameable;
 use App\Filament\RelationManagers\BaseRelationManager;
-use App\Search\Criteria;
-use App\Search\Search;
+use App\Scout\Criteria;
+use App\Scout\Search;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +29,8 @@ class Select extends ComponentsSelect
                 ->getOptionLabelUsing(fn ($state): string => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($modelClass::query()->find($state)))
                 ->getSearchResultsUsing(
                     fn (string $search) => collect(
-                        Search::search($modelClass, new Criteria($this->escapeReservedChars($search)))
-                            ->passToEloquentBuilder(function (Builder $query) use ($loadRelation, $livewire): void {
+                        Search::getSearch($modelClass, new Criteria($this->escapeReservedChars($search)))
+                            ->search(function (Builder $query) use ($loadRelation, $livewire): void {
                                 $query->with($loadRelation ?? []);
 
                                 if (! ($livewire instanceof BaseRelationManager)
@@ -41,7 +41,6 @@ class Select extends ComponentsSelect
                                 // This is necessary to prevent already attached records from being returned on search.
                                 $query->whereDoesntHave($livewire->getTable()->getInverseRelationship(), fn (Builder $query) => $query->whereKey($livewire->getOwnerRecord()->getKey()));
                             })
-                            ->execute()
                             ->items()
                     )
                         ->mapWithKeys(fn (Model $model): array => [$model->getKey() => BelongsTo::getSearchLabelWithBlade($model)])

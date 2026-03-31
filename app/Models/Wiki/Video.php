@@ -23,6 +23,8 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Scout\Elasticsearch\Models\Wiki\VideoElasticModel;
+use App\Scout\Typesense\Models\Wiki\VideoTypesenseModel;
 use Database\Factories\Wiki\VideoFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\Appends;
@@ -35,8 +37,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 
 /**
  * @property Collection<int, AnimeThemeEntry> $animethemeentries
@@ -247,18 +251,15 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
 
     /**
      * Get the indexable data array for the model.
-     *
-     * @return array<string, mixed>
      */
     public function toSearchableArray(): array
     {
-        $array = $this->attributesToArray();
-
-        $array['entries'] = $this->animethemeentries->map(
-            fn (AnimeThemeEntry $entry): array => $entry->toSearchableArray()
-        )->toArray();
-
-        return $array;
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
+            'elastic' => VideoElasticModel::toSearchableArray($this),
+            'typesense' => VideoTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
+        };
     }
 
     /**

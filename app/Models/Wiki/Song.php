@@ -19,6 +19,8 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistSong;
+use App\Scout\Elasticsearch\Models\Wiki\SongElasticModel;
+use App\Scout\Typesense\Models\Wiki\SongTypesenseModel;
 use Database\Factories\Wiki\SongFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
@@ -28,8 +30,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 
 /**
  * @property Collection<int, AnimeTheme> $animethemes
@@ -102,6 +106,19 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
             Song::ATTRIBUTE_TITLE => 'string',
             Song::ATTRIBUTE_TITLE_NATIVE => 'string',
         ];
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     */
+    public function toSearchableArray(): array
+    {
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
+            'elastic' => SongElasticModel::toSearchableArray($this),
+            'typesense' => SongTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
+        };
     }
 
     public function getName(): string

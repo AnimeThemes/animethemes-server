@@ -22,6 +22,8 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use App\Observers\Wiki\Anime\AnimeThemeObserver;
 use App\Scopes\WithoutInsertSongScope;
+use App\Scout\Elasticsearch\Models\Wiki\Anime\AnimeThemeElasticModel;
+use App\Scout\Typesense\Models\Wiki\Anime\AnimeThemeTypesenseModel;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -32,10 +34,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use RuntimeException;
 
 /**
  * @property Anime $anime
@@ -147,14 +151,12 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
      */
     public function toSearchableArray(): array
     {
-        $array = $this->attributesToArray();
-        $array['anime'] = $this->anime->toSearchableArray();
-
-        if ($this->song !== null) {
-            $array['song'] = $this->song->toSearchableArray();
-        }
-
-        return $array;
+        return match ($driver = Config::get('scout.driver')) {
+            'collection',
+            'elastic' => AnimeThemeElasticModel::toSearchableArray($this),
+            'typesense' => AnimeThemeTypesenseModel::toSearchableArray($this),
+            default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
+        };
     }
 
     public function getName(): string

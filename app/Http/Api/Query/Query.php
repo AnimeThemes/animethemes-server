@@ -17,7 +17,7 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Search\Criteria as SearchCriteria;
+use App\Scout\Criteria as SearchCriteria;
 use Illuminate\Support\Arr;
 
 class Query
