@@ -25,7 +25,7 @@ This project is powered by [**Laravel**](https://laravel.com/), a PHP framework 
 - [Extra Configuration](#extra-configuration)
   - [Feature Flags](#feature-flags)
   - [Users](#users)
-  - [Elasticsearch](#elasticsearch)
+  - [Search](#search)
   - [Local Storage](#local-storage)
 - [Contributing](#contributing)
 - [Resources](#resources)
@@ -113,17 +113,19 @@ $user = User::factory()->create(['name' => 'User Name', 'email' => 'example@exam
 $user->assignRole('Admin');
 ```
 
-### Elasticsearch
+### Search
 
-If we want to enable scout, we need to configure Elasticsearch.
+If we want to enable scout, we need to configure a search engine (either Elasticsearch or Typesense).
 
-If we have installed Elasticsearch, migrate and import models into our indices using:
+Change the `SCOUT_DRIVER` variable in `.env` to either "elastic" or "typesense". Add additional configuration like host and port.
+
+Migrate and import models into our indices using:
 
 ```sh
-# Run the elastic migrations
+# Elasticsearch: run the elastic migrations
 php artisan elastic:migrate
 
-# Import Models with a seeder
+# Elasticsearch and Typesense: Import Models with a seeder
 php artisan db:seed --class="Database\Seeders\Scout\ImportModelsSeeder"
 ```
 
