@@ -28,6 +28,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Notifications\DatabaseNotification as FilamentNotification;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\DateFormat;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -66,13 +67,14 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
+#[DateFormat('Y-m-d\TH:i:s.u')]
 #[Hidden([
     User::ATTRIBUTE_PASSWORD,
     User::ATTRIBUTE_REMEMBER_TOKEN,
     User::ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES,
     User::ATTRIBUTE_TWO_FACTOR_SECRET,
 ])]
-#[Table(User::TABLE, dateFormat: 'Y-m-d\TH:i:s.u')]
+#[Table(User::TABLE)]
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable, SoftDeletable
 {
     use HasApiTokens;

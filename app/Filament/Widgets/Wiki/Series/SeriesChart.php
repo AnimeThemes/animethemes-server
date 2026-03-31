@@ -6,7 +6,7 @@ namespace App\Filament\Widgets\Wiki\Series;
 
 use App\Filament\Widgets\BaseChartWidget;
 use App\Models\Wiki\Series;
-use App\Services\FlowframeTrend\TrendValue;
+use Flowframe\Trend\TrendValue;
 
 class SeriesChart extends BaseChartWidget
 {
