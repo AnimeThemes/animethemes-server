@@ -68,7 +68,7 @@ class Elasticsearch extends Search
      */
     protected bool $alive;
 
-    public function __construct(ClientBuilderInterface $builder, SearchCriteria $criteria)
+    public function __construct(ClientBuilderInterface $builder, SearchCriteria $criteria, protected ?Model $model = null)
     {
         parent::__construct($criteria);
 
@@ -168,8 +168,15 @@ class Elasticsearch extends Search
      */
     public function search(?Closure $callback = null, int $perPage = 15, int $page = 1, array $sorts = []): LengthAwarePaginator
     {
+        throw_unless($this->model instanceof Model, RuntimeException::class, 'Model must be provided for search.');
+
+        $searchBuilder = static::elasticQuery($this->model::class)->build($this->criteria);
+        $this->elasticBuilder = $searchBuilder;
+
         // Resolve callback.
-        $this->elasticBuilder->refineModels($callback);
+        if ($callback instanceof Closure) {
+            $this->elasticBuilder->refineModels($callback);
+        }
 
         // Resolve sorting.
         $sortRaw = [];

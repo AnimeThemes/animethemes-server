@@ -33,7 +33,7 @@ abstract class Search
 
         return match ($driver = Config::get('scout.driver')) {
             'collection' => App::make(CollectionSearch::class, ['model' => $model, 'criteria' => $criteria]),
-            'elastic' => App::make(Elasticsearch::class, ['criteria' => $criteria]),
+            'elastic' => App::make(Elasticsearch::class, ['model' => $model, 'criteria' => $criteria]),
             'typesense' => App::make(Typesense::class, ['model' => $model, 'criteria' => $criteria]),
             default => throw new RuntimeException("Unsupported {$driver} search driver configured."),
         };
