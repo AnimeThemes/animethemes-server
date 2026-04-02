@@ -12,7 +12,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         if (! Schema::hasColumn('resourceables', 'id')) {
             Schema::table('resourceables', function (Blueprint $table) {
                 $table->unsignedBigInteger('id')->nullable()->first();
@@ -149,7 +148,5 @@ return new class extends Migration
                 $table->foreign('studio_id')->references('studio_id')->on('studios')->cascadeOnDelete();
             });
         }
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 };
