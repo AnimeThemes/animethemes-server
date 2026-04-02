@@ -140,6 +140,7 @@ class Series extends BaseModel implements Auditable, SoftDeletable
         return $this->belongsToMany(Anime::class, AnimeSeries::TABLE, AnimeSeries::ATTRIBUTE_SERIES, AnimeSeries::ATTRIBUTE_ANIME)
             ->using(AnimeSeries::class)
             ->as(AnimeSeriesJsonResource::$wrap)
+            ->withPivot([AnimeSeries::ATTRIBUTE_ID])
             ->withTimestamps();
     }
 }

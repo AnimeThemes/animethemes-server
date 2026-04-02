@@ -310,6 +310,7 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
         return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
             ->using(AnimeThemeEntryVideo::class)
             ->as(AnimeThemeEntryVideoJsonResource::$wrap)
+            ->withPivot([AnimeThemeEntryVideo::ATTRIBUTE_ID])
             ->withTimestamps();
     }
 

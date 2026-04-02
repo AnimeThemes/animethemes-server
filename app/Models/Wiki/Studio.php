@@ -138,6 +138,7 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
         return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, AnimeStudio::ATTRIBUTE_STUDIO, AnimeStudio::ATTRIBUTE_ANIME)
             ->using(AnimeStudio::class)
             ->as(AnimeStudioJsonResource::$wrap)
+            ->withPivot([AnimeStudio::ATTRIBUTE_ID])
             ->withTimestamps();
     }
 
@@ -148,8 +149,8 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     {
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('studioresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -161,7 +162,7 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
         return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
             ->using(Imageable::class)
             ->as('studioimage')
-            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 }

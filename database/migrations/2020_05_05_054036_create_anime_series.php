@@ -15,12 +15,13 @@ return new class extends Migration
     {
         if (! Schema::hasTable('anime_series')) {
             Schema::create('anime_series', function (Blueprint $table) {
+                $table->id();
                 $table->timestamps(6);
                 $table->unsignedBigInteger('anime_id');
                 $table->foreign('anime_id')->references('anime_id')->on('anime')->cascadeOnDelete();
                 $table->unsignedBigInteger('series_id');
                 $table->foreign('series_id')->references('series_id')->on('series')->cascadeOnDelete();
-                $table->primary(['anime_id', 'series_id']);
+                $table->unique(['anime_id', 'series_id'], 'anime_series_unique');
             });
         }
     }

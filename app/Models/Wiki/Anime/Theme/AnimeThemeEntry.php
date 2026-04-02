@@ -208,6 +208,7 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
         )
             ->using(AnimeThemeEntryVideo::class)
             ->as(AnimeThemeEntryVideoJsonResource::$wrap)
+            ->withPivot([AnimeThemeEntryVideo::ATTRIBUTE_ID])
             ->withTimestamps();
     }
 
@@ -218,8 +219,8 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     {
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('entryresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 

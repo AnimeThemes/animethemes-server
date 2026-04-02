@@ -84,20 +84,6 @@ class Resourceable extends BaseMorphPivot
     ];
 
     /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            Resourceable::ATTRIBUTE_RESOURCE,
-            Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
-            Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
-        ];
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

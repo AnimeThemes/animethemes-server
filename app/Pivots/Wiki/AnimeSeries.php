@@ -55,19 +55,6 @@ class AnimeSeries extends BasePivot
     ];
 
     /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            AnimeSeries::ATTRIBUTE_ANIME,
-            AnimeSeries::ATTRIBUTE_SERIES,
-        ];
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

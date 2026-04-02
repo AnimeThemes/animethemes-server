@@ -114,8 +114,8 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     {
         return $this->morphedByMany(Anime::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('animeresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -126,8 +126,8 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     {
         return $this->morphedByMany(AnimeThemeEntry::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('entryresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -138,8 +138,8 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     {
         return $this->morphedByMany(Artist::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('artistresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -150,8 +150,8 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     {
         return $this->morphedByMany(Song::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('songresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -162,8 +162,8 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     {
         return $this->morphedByMany(Studio::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('studioresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 }

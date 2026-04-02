@@ -199,7 +199,7 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
         return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
             ->using(Imageable::class)
             ->as('playlistimage')
-            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 

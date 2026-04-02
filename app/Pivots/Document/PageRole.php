@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
  * @property Page $page
  * @property int $page_id
  * @property Role $role
@@ -27,7 +26,6 @@ class PageRole extends BasePivot
 {
     final public const string TABLE = 'page_roles';
 
-    final public const string ATTRIBUTE_ID = 'id';
     final public const string ATTRIBUTE_PAGE = 'page_id';
     final public const string ATTRIBUTE_ROLE = 'role_id';
     final public const string ATTRIBUTE_TYPE = 'type';
@@ -45,18 +43,6 @@ class PageRole extends BasePivot
         PageRole::ATTRIBUTE_ROLE,
         PageRole::ATTRIBUTE_TYPE,
     ];
-
-    /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            PageRole::ATTRIBUTE_ID,
-        ];
-    }
 
     /**
      * Get the attributes that should be cast.

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         if (! Schema::hasTable('resourceables')) {
             Schema::create('resourceables', function (Blueprint $table) {
+                $table->id();
                 $table->unsignedBigInteger('resource_id');
                 $table->foreign('resource_id')->references('resource_id')->on('resources')->cascadeOnDelete();
 
@@ -23,11 +24,11 @@ return new class extends Migration
 
                 $table->timestamps(6);
 
-                $table->primary([
+                $table->unique([
                     'resource_id',
                     'resourceable_type',
                     'resourceable_id',
-                ]);
+                ], 'resourceable_unique');
             });
         }
     }

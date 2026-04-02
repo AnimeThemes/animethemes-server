@@ -59,19 +59,6 @@ class AnimeThemeEntryVideo extends BasePivot
     ];
 
     /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,
-            AnimeThemeEntryVideo::ATTRIBUTE_VIDEO,
-        ];
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
