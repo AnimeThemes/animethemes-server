@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\SQLiteConnection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -17,8 +18,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
 
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE resourceables SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE resourceables SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('resourceables', function (Blueprint $table) {
                 $table->dropForeign('resourceables_resource_id_foreign');
@@ -38,8 +41,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
 
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE imageables SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE imageables SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('imageables', function (Blueprint $table) {
                 $table->dropForeign('imageables_image_id_foreign');
@@ -59,8 +64,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE anime_series SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE anime_series SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('anime_series', function (Blueprint $table) {
                 $table->dropForeign('anime_series_series_id_foreign');
@@ -78,8 +85,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE anime_theme_entry_video SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE anime_theme_entry_video SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('anime_theme_entry_video', function (Blueprint $table) {
                 $table->dropForeign('anime_theme_entry_video_video_id_foreign');
@@ -97,8 +106,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE artist_song SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE artist_song SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('artist_song', function (Blueprint $table) {
                 $table->dropForeign('artist_song_song_id_foreign');
@@ -116,8 +127,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE artist_member SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE artist_member SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('artist_member', function (Blueprint $table) {
                 $table->dropForeign('artist_member_member_id_foreign');
@@ -135,8 +148,10 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            DB::statement('SET @count = 0;');
-            DB::statement('UPDATE anime_studio SET id = (@count := @count + 1) ORDER BY created_at;');
+            if (DB::connection() instanceof SQLiteConnection) {
+                DB::statement('SET @count = 0;');
+                DB::statement('UPDATE anime_studio SET id = (@count := @count + 1) ORDER BY created_at;');
+            }
 
             Schema::table('anime_studio', function (Blueprint $table) {
                 $table->dropForeign('anime_studio_studio_id_foreign');
