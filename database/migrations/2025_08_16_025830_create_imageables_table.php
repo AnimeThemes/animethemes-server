@@ -15,6 +15,7 @@ return new class extends Migration
     {
         if (! Schema::hasTable('imageables')) {
             Schema::create('imageables', function (Blueprint $table) {
+                $table->id();
                 $table->unsignedBigInteger('image_id');
                 $table->foreign('image_id')->references('image_id')->on('images')->cascadeOnDelete();
 
@@ -23,11 +24,11 @@ return new class extends Migration
 
                 $table->timestamps(6);
 
-                $table->primary([
+                $table->unique([
                     'image_id',
                     'imageable_type',
                     'imageable_id',
-                ]);
+                ], 'imageable_unique');
             });
         }
     }
