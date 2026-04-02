@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
 
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE resourceables SET id = (@count := @count + 1) ORDER BY created_at;');
             }
@@ -41,7 +41,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
 
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE imageables SET id = (@count := @count + 1) ORDER BY created_at;');
             }
@@ -64,7 +64,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE anime_series SET id = (@count := @count + 1) ORDER BY created_at;');
             }
@@ -85,7 +85,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE anime_theme_entry_video SET id = (@count := @count + 1) ORDER BY created_at;');
             }
@@ -106,7 +106,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE artist_song SET id = (@count := @count + 1) ORDER BY created_at;');
             }
@@ -127,7 +127,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE artist_member SET id = (@count := @count + 1) ORDER BY created_at;');
             }
@@ -148,7 +148,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('id')->nullable()->first();
             });
             
-            if (DB::connection() instanceof SQLiteConnection) {
+            if (! DB::connection() instanceof SQLiteConnection) {
                 DB::statement('SET @count = 0;');
                 DB::statement('UPDATE anime_studio SET id = (@count := @count + 1) ORDER BY created_at;');
             }
