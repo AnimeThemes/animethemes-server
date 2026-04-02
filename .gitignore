@@ -24,6 +24,7 @@ yarn-error.log
 auth.json
 *.sqlite
 *.sqlite3
+*.sql
 public/css/app.css
 public/js/app.js
 test.php

@@ -224,6 +224,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
         return $this->belongsToMany(Series::class, AnimeSeries::TABLE, AnimeSeries::ATTRIBUTE_ANIME, AnimeSeries::ATTRIBUTE_SERIES)
             ->using(AnimeSeries::class)
             ->as(AnimeSeriesJsonResource::$wrap)
+            ->withPivot(AnimeSeries::ATTRIBUTE_ID)
             ->withTimestamps();
     }
 
@@ -242,8 +243,8 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     {
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('animeresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -255,7 +256,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
         return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
             ->using(Imageable::class)
             ->as('animeimage')
-            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 
@@ -267,6 +268,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
         return $this->belongsToMany(Studio::class, AnimeStudio::TABLE, AnimeStudio::ATTRIBUTE_ANIME, AnimeStudio::ATTRIBUTE_STUDIO)
             ->using(AnimeStudio::class)
             ->as(AnimeStudioJsonResource::$wrap)
+            ->withPivot(AnimeStudio::ATTRIBUTE_ID)
             ->withTimestamps();
     }
 

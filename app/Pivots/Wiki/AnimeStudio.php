@@ -55,19 +55,6 @@ class AnimeStudio extends BasePivot
     ];
 
     /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            AnimeStudio::ATTRIBUTE_ANIME,
-            AnimeStudio::ATTRIBUTE_STUDIO,
-        ];
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

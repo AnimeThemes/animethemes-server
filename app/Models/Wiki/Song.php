@@ -155,8 +155,8 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     {
         return $this->belongsToMany(Artist::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_SONG, ArtistSong::ATTRIBUTE_ARTIST)
             ->using(ArtistSong::class)
-            ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongJsonResource::$wrap)
+            ->withPivot([ArtistSong::ATTRIBUTE_ID, ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -175,8 +175,8 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     {
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('songresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 }

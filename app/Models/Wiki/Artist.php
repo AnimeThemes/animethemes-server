@@ -191,6 +191,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
             ->using(ArtistSong::class)
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongJsonResource::$wrap)
+            ->withPivot(ArtistSong::ATTRIBUTE_ID)
             ->withTimestamps();
     }
 
@@ -254,8 +255,14 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER)
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES, ArtistMember::ATTRIBUTE_RELEVANCE])
             ->as(ArtistMemberJsonResource::$wrap)
+            ->withPivot([
+                ArtistMember::ATTRIBUTE_ID,
+                ArtistMember::ATTRIBUTE_ALIAS,
+                ArtistMember::ATTRIBUTE_AS,
+                ArtistMember::ATTRIBUTE_NOTES,
+                ArtistMember::ATTRIBUTE_RELEVANCE,
+            ])
             ->withTimestamps();
     }
 
@@ -266,8 +273,14 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, ArtistMember::ATTRIBUTE_MEMBER, ArtistMember::ATTRIBUTE_ARTIST)
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
             ->as(ArtistMemberJsonResource::$wrap)
+            ->withPivot([
+                ArtistMember::ATTRIBUTE_ID,
+                ArtistMember::ATTRIBUTE_ALIAS,
+                ArtistMember::ATTRIBUTE_AS,
+                ArtistMember::ATTRIBUTE_NOTES,
+                ArtistMember::ATTRIBUTE_RELEVANCE,
+            ])
             ->withTimestamps();
     }
 
@@ -278,8 +291,8 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     {
         return $this->morphToMany(ExternalResource::class, Resourceable::RELATION_RESOURCEABLE, Resourceable::TABLE, Resourceable::ATTRIBUTE_RESOURCEABLE_ID, Resourceable::ATTRIBUTE_RESOURCE)
             ->using(Resourceable::class)
-            ->withPivot(Resourceable::ATTRIBUTE_AS)
             ->as('artistresource')
+            ->withPivot([Resourceable::ATTRIBUTE_ID, Resourceable::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 
@@ -290,8 +303,8 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     {
         return $this->morphToMany(Image::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGEABLE_ID, Imageable::ATTRIBUTE_IMAGE)
             ->using(Imageable::class)
-            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
             ->as('artistimage')
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 }

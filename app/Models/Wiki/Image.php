@@ -133,6 +133,7 @@ class Image extends BaseModel implements Auditable, SoftDeletable
         return $this->morphedByMany(Anime::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
             ->using(Imageable::class)
             ->as('animeimage')
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 
@@ -144,7 +145,7 @@ class Image extends BaseModel implements Auditable, SoftDeletable
         return $this->morphedByMany(Artist::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
             ->using(Imageable::class)
             ->as('artistimage')
-            ->withPivot(Imageable::ATTRIBUTE_DEPTH)
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 
@@ -156,6 +157,7 @@ class Image extends BaseModel implements Auditable, SoftDeletable
         return $this->morphedByMany(Studio::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
             ->using(Imageable::class)
             ->as('studioimage')
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 
@@ -167,6 +169,7 @@ class Image extends BaseModel implements Auditable, SoftDeletable
         return $this->morphedByMany(Playlist::class, Imageable::RELATION_IMAGEABLE, Imageable::TABLE, Imageable::ATTRIBUTE_IMAGE, Imageable::ATTRIBUTE_IMAGEABLE_ID)
             ->using(Imageable::class)
             ->as('playlistimage')
+            ->withPivot([Imageable::ATTRIBUTE_ID, Imageable::ATTRIBUTE_DEPTH])
             ->withTimestamps();
     }
 }

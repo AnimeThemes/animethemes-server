@@ -68,19 +68,6 @@ class ArtistMember extends BasePivot
     ];
 
     /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            ArtistMember::ATTRIBUTE_ARTIST,
-            ArtistMember::ATTRIBUTE_MEMBER,
-        ];
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

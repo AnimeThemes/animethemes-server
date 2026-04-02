@@ -97,20 +97,6 @@ class Imageable extends BaseMorphPivot
     }
 
     /**
-     * Get the composite primary key for the pivot.
-     *
-     * @return string[]
-     */
-    protected function getPrimaryKeys(): array
-    {
-        return [
-            Imageable::ATTRIBUTE_IMAGE,
-            Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
-            Imageable::ATTRIBUTE_IMAGEABLE_ID,
-        ];
-    }
-
-    /**
      * Gets the image that owns the imageable.
      *
      * @return BelongsTo<Image, $this>
