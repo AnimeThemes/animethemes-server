@@ -80,8 +80,9 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     final public const string RELATION_IMAGES = 'images';
     final public const string RELATION_MEMBERS = 'members';
     final public const string RELATION_MEMBER_PERFORMANCES = 'memberPerformances';
+    final public const string RELATION_MEMBER_PERFORMANCES_SONG = 'memberPerformances.song';
     final public const string RELATION_PERFORMANCES = 'performances';
-    final public const string RELATION_PERFORMANCES_SONGS = 'performances.song';
+    final public const string RELATION_PERFORMANCES_SONG = 'performances.song';
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_SONGS = 'songs';
     final public const string RELATION_SYNONYMS = 'synonyms';

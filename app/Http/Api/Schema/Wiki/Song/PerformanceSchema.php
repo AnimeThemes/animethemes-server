@@ -13,6 +13,7 @@ use App\Http\Api\Field\Wiki\Song\Performance\PerformanceAsField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberAliasField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberAsField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberIdField;
+use App\Http\Api\Field\Wiki\Song\Performance\PerformanceRelevanceField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceSongIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -56,6 +57,7 @@ class PerformanceSchema extends EloquentSchema implements SearchableSchema
                 new PerformanceAsField($this),
                 new PerformanceMemberAliasField($this),
                 new PerformanceMemberAsField($this),
+                new PerformanceRelevanceField($this),
             ],
         );
     }
