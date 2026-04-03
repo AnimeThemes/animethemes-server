@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('artist_id');
                 $table->foreign('artist_id')->references('artist_id')->on('artists')->cascadeOnDelete();
 
-                $table->unsignedBigInteger('member_id');
+                $table->unsignedBigInteger('member_id')->nullable();
                 $table->foreign('member_id')->references('artist_id')->on('artists')->nullOnDelete();
 
                 $table->string('alias')->nullable();
