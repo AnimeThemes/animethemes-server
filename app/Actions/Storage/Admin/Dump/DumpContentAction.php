@@ -16,7 +16,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
@@ -60,7 +59,7 @@ class DumpContentAction extends DumpAction
             Group::TABLE,
             Image::TABLE,
             Imageable::TABLE,
-            Membership::TABLE,
+            'memberships',
             Performance::TABLE,
             Resourceable::TABLE,
             Series::TABLE,

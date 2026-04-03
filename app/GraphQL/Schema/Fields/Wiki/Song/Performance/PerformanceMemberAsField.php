@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Schema\Fields\Wiki\Song\Membership;
+namespace App\GraphQL\Schema\Fields\Wiki\Song\Performance;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Schema\Fields\StringField;
-use App\Models\Wiki\Song\Membership;
+use App\Models\Wiki\Song\Performance;
 
-class MembershipAliasField extends StringField implements CreatableField, UpdatableField
+class PerformanceMemberAsField extends StringField implements CreatableField, UpdatableField
 {
     public function __construct()
     {
-        parent::__construct(Membership::ATTRIBUTE_ALIAS);
+        parent::__construct(Performance::ATTRIBUTE_MEMBER_AS);
     }
 
     public function description(): string
     {
-        return 'The alias the artist is using for this membership';
+        return 'The character the member is performing as';
     }
 
     /**
@@ -27,7 +27,8 @@ class MembershipAliasField extends StringField implements CreatableField, Updata
     public function getCreationRules(array $args): array
     {
         return [
-            'nullable',
+            'sometimes',
+            'required',
             'string',
             'max:192',
         ];

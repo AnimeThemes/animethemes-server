@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Testing\WithFaker;
 
 uses(WithFaker::class);
@@ -35,18 +33,19 @@ test('song', function () {
 
 test('artist', function () {
     $performance = Performance::factory()
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory()->createOne(), Performance::RELATION_ARTIST)
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $performance->artist());
+    $this->assertInstanceOf(BelongsTo::class, $performance->artist());
     $this->assertInstanceOf(Artist::class, $performance->artist()->first());
 });
 
-test('membership', function () {
+test('member', function () {
     $performance = Performance::factory()
-        ->artist(Membership::factory()->createOne())
+        ->for(Artist::factory(), Performance::RELATION_ARTIST)
+        ->for(Artist::factory(), Performance::RELATION_MEMBER)
         ->createOne();
 
-    $this->assertInstanceOf(MorphTo::class, $performance->membership());
-    $this->assertInstanceOf(Membership::class, $performance->membership()->first());
+    $this->assertInstanceOf(BelongsTo::class, $performance->member());
+    $this->assertInstanceOf(Artist::class, $performance->member()->first());
 });

@@ -20,7 +20,6 @@ use App\GraphQL\Schema\Types\EloquentType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
 use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
 use App\GraphQL\Schema\Types\Pivot\Wiki\ArtistMemberType;
-use App\GraphQL\Schema\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
 use App\Models\Wiki\Artist;
 
@@ -52,9 +51,8 @@ class ArtistType extends EloquentType
             new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_MEMBERS, new ArtistMemberType()),
             new MorphToManyRelation($this, new ImageType(), Artist::RELATION_IMAGES, new ImageableType()),
             new MorphToManyRelation($this, new ExternalResourceType(), Artist::RELATION_RESOURCES, new ResourceableType()),
-            new HasManyRelation(new MembershipType(), Artist::RELATION_GROUPSHIPS),
-            new HasManyRelation(new MembershipType(), Artist::RELATION_MEMBERSHIPS),
-            new MorphManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),
+            new HasManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),
+            new HasManyRelation(new PerformanceType(), Artist::RELATION_MEMBER_PERFORMANCES),
         ];
     }
 }

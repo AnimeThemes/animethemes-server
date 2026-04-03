@@ -6,12 +6,10 @@ namespace App\Actions\Models\Wiki\Song;
 
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistSong;
 use Exception;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -26,48 +24,37 @@ class ManageSongPerformances
         /** @var Collection<int, non-empty-array<string, mixed>> */
         protected Collection $performances = new Collection(),
         /** @var Collection<int, array<string, mixed>> */
-        protected Collection $memberships = new Collection(),
+        protected Collection $members = new Collection(),
     ) {
         $this->song = $song instanceof Song ? $song : Song::query()->find($song);
     }
 
-    public function addSingleArtist(int $artist, ?string $alias = null, ?string $as = null): static
-    {
-        $this->performances->push([
-            Performance::ATTRIBUTE_SONG => $this->song->getKey(),
-            Performance::ATTRIBUTE_ARTIST_TYPE => Relation::getMorphAlias(Artist::class),
-            Performance::ATTRIBUTE_ARTIST_ID => $artist,
-            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
-            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
-        ]);
-
-        return $this;
-    }
-
-    public function addMembership(
-        int $group,
-        int $member,
+    public function addArtist(
+        int $artist,
+        ?int $member = null,
         ?string $alias = null,
         ?string $as = null,
-        ?string $groupAlias = null,
-        ?string $groupAs = null
+        ?string $memberAlias = null,
+        ?string $memberAs = null
     ): static {
-        $membership = Membership::query()->firstOrCreate($attributes = [
-            Membership::ATTRIBUTE_ARTIST => $group,
-            Membership::ATTRIBUTE_MEMBER => $member,
-            Membership::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
-            Membership::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
-        ]);
-
-        $this->memberships->put($membership->getKey(), $attributes);
-
         $this->performances->push([
             Performance::ATTRIBUTE_SONG => $this->song->getKey(),
-            Performance::ATTRIBUTE_ARTIST_TYPE => $membership->getMorphClass(),
-            Performance::ATTRIBUTE_ARTIST_ID => $membership->getKey(),
-            Performance::ATTRIBUTE_ALIAS => filled($groupAlias) ? trim($groupAlias) : null,
-            Performance::ATTRIBUTE_AS => filled($groupAs) ? trim($groupAs) : null,
+            Performance::ATTRIBUTE_ARTIST => $artist,
+            Performance::ATTRIBUTE_MEMBER => $member,
+            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
+            Performance::ATTRIBUTE_MEMBER_ALIAS => filled($memberAlias) ? trim($memberAlias) : null,
+            Performance::ATTRIBUTE_MEMBER_AS => filled($memberAs) ? trim($memberAs) : null,
         ]);
+
+        if ($member !== null) {
+            $this->members->put($member, [
+                ArtistMember::ATTRIBUTE_ARTIST => $artist,
+                ArtistMember::ATTRIBUTE_MEMBER => $member,
+                ArtistMember::ATTRIBUTE_ALIAS => filled($memberAlias) ? trim($memberAlias) : null,
+                ArtistMember::ATTRIBUTE_AS => filled($memberAs) ? trim($memberAs) : null,
+            ]);
+        }
 
         return $this;
     }
@@ -78,17 +65,17 @@ class ManageSongPerformances
             DB::beginTransaction();
 
             $new = collect($this->performances)
-                ->keyBy(fn (array $p): string => $p[Performance::ATTRIBUTE_ARTIST_TYPE].':'.$p[Performance::ATTRIBUTE_ARTIST_ID]);
+                ->keyBy(fn (array $p): string => $p[Performance::ATTRIBUTE_ARTIST].':'.($p[Performance::ATTRIBUTE_MEMBER] ?? ''));
 
             $existing = Performance::query()
                 ->whereBelongsTo($this->song)
                 ->get()
-                ->keyBy(fn (Performance $p): string => $p->artist_type.':'.$p->artist_id);
+                ->keyBy(fn (Performance $p): string => $p->artist_id.':'.($p->member_id ?? ''));
 
             $models = $new->map(
                 fn (array $performance) => Performance::query()->updateOrCreate(
-                    Arr::only($performance, [Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID]),
-                    Arr::only($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS])
+                    Arr::only($performance, [Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST, Performance::ATTRIBUTE_MEMBER]),
+                    Arr::only($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS, Performance::ATTRIBUTE_MEMBER_ALIAS, Performance::ATTRIBUTE_MEMBER_AS])
                 )
             );
 
@@ -96,9 +83,9 @@ class ManageSongPerformances
 
             Performance::setNewOrder($models->pluck(Performance::ATTRIBUTE_ID)->all());
 
-            // Update artist_member table to match memberships
+            // Update artist_member table to match member performances
             ArtistMember::query()->upsert(
-                $this->memberships->all(),
+                $this->members->all(),
                 [ArtistMember::ATTRIBUTE_ARTIST, ArtistMember::ATTRIBUTE_MEMBER],
                 [ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS],
             );
@@ -158,15 +145,9 @@ class ManageSongPerformances
      */
     protected function syncSongArtist(): void
     {
-        $songArtists = $this->performances->mapWithKeys(function (array $performance): array {
-            $artistId = $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Relation::getMorphAlias(Membership::class)
-                ? Arr::get($this->memberships->get($performance[Performance::ATTRIBUTE_ARTIST_ID]), Membership::ATTRIBUTE_ARTIST)
-                : $performance[Performance::ATTRIBUTE_ARTIST_ID];
-
-            return [
-                $artistId => Arr::only($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS]),
-            ];
-        });
+        $songArtists = $this->performances->unique(Performance::ATTRIBUTE_ARTIST)->mapWithKeys(fn (array $performance): array => [
+            $performance[Performance::ATTRIBUTE_ARTIST] => Arr::only($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS]),
+        ]);
 
         ArtistSong::withoutEvents(fn () => $this->song->artists()->sync($songArtists));
     }

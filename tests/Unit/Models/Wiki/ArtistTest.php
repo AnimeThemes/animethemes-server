@@ -6,7 +6,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Synonym;
 use App\Pivots\Morph\Imageable;
@@ -77,37 +76,30 @@ test('performances', function () {
         ->createOne();
 
     Performance::factory()
-        ->artist($artist)
+        ->for(Artist::factory(), Performance::RELATION_ARTIST)
         ->count($performanceCount)
         ->create();
 
-    $this->assertInstanceOf(MorphMany::class, $artist->performances());
+    $this->assertInstanceOf(HasMany::class, $artist->performances());
     $this->assertEquals($performanceCount, $artist->performances()->count());
     $this->assertInstanceOf(Performance::class, $artist->performances()->first());
 });
 
-test('memberships', function () {
-    $membershipCount = fake()->randomDigitNotNull();
+test('member performances', function () {
+    $performanceCount = fake()->randomDigitNotNull();
 
-    $artist = Artist::factory()
-        ->has(Membership::factory()->count($membershipCount), Artist::RELATION_MEMBERSHIPS)
+    $member = Artist::factory()
         ->createOne();
 
-    $this->assertInstanceOf(HasMany::class, $artist->memberships());
-    $this->assertEquals($membershipCount, $artist->memberships()->count());
-    $this->assertInstanceOf(Membership::class, $artist->memberships()->first());
-});
+    Performance::factory()
+        ->for(Artist::factory(), Performance::RELATION_ARTIST)
+        ->for($member, Performance::RELATION_MEMBER)
+        ->count($performanceCount)
+        ->create();
 
-test('groupships', function () {
-    $groupshipCount = fake()->randomDigitNotNull();
-
-    $artist = Artist::factory()
-        ->has(Membership::factory()->count($groupshipCount), Artist::RELATION_GROUPSHIPS)
-        ->createOne();
-
-    $this->assertInstanceOf(HasMany::class, $artist->groupships());
-    $this->assertEquals($groupshipCount, $artist->groupships()->count());
-    $this->assertInstanceOf(Membership::class, $artist->groupships()->first());
+    $this->assertInstanceOf(HasMany::class, $member->memberPerformances());
+    $this->assertEquals($performanceCount, $member->memberPerformances()->count());
+    $this->assertInstanceOf(Performance::class, $member->memberPerformances()->first());
 });
 
 test('members', function () {

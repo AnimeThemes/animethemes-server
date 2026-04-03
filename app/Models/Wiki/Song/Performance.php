@@ -20,8 +20,6 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\EloquentSortable\Sortable;
@@ -31,10 +29,14 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property int $performance_id
  * @property string|null $alias
  * @property string|null $as
- * @property string $artist_type
  * @property int $artist_id
- * @property Artist|Membership $artist
+ * @property Artist $artist
+ * @property int|null $member_id
+ * @property string|null $member_alias
+ * @property string|null $member_as
+ * @property Artist|null $member
  * @property int $relevance
+ * @property int $song_id
  * @property Song $song
  *
  * @method static PerformanceFactory factory(...$parameters)
@@ -52,17 +54,16 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
 
     final public const string ATTRIBUTE_ID = 'performance_id';
     final public const string ATTRIBUTE_SONG = 'song_id';
-    final public const string ATTRIBUTE_ARTIST_TYPE = 'artist_type';
-    final public const string ATTRIBUTE_ARTIST_ID = 'artist_id';
-    final public const string ATTRIBUTE_ARTIST = 'artist';
+    final public const string ATTRIBUTE_ARTIST = 'artist_id';
     final public const string ATTRIBUTE_ALIAS = 'alias';
     final public const string ATTRIBUTE_AS = 'as';
+    final public const string ATTRIBUTE_MEMBER = 'member_id';
+    final public const string ATTRIBUTE_MEMBER_ALIAS = 'member_alias';
+    final public const string ATTRIBUTE_MEMBER_AS = 'member_as';
     final public const string ATTRIBUTE_RELEVANCE = 'relevance';
 
     final public const string RELATION_ARTIST = 'artist';
-    final public const string RELATION_GROUP = 'artist.group';
-    final public const string RELATION_MEMBERSHIP = self::RELATION_ARTIST;
-    final public const string RELATION_MEMBER = 'artist.member';
+    final public const string RELATION_MEMBER = 'member';
     final public const string RELATION_SONG = 'song';
 
     /**
@@ -87,10 +88,12 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
      */
     protected $fillable = [
         Performance::ATTRIBUTE_SONG,
-        Performance::ATTRIBUTE_ARTIST_TYPE,
-        Performance::ATTRIBUTE_ARTIST_ID,
+        Performance::ATTRIBUTE_ARTIST,
         Performance::ATTRIBUTE_ALIAS,
         Performance::ATTRIBUTE_AS,
+        Performance::ATTRIBUTE_MEMBER,
+        Performance::ATTRIBUTE_MEMBER_ALIAS,
+        Performance::ATTRIBUTE_MEMBER_AS,
         Performance::ATTRIBUTE_RELEVANCE,
     ];
 
@@ -108,9 +111,11 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
     {
         return [
             Performance::ATTRIBUTE_ALIAS => 'string',
-            Performance::ATTRIBUTE_ARTIST_TYPE => 'string',
-            Performance::ATTRIBUTE_ARTIST_ID => 'int',
+            Performance::ATTRIBUTE_ARTIST => 'int',
             Performance::ATTRIBUTE_AS => 'string',
+            Performance::ATTRIBUTE_MEMBER => 'int',
+            Performance::ATTRIBUTE_MEMBER_ALIAS => 'string',
+            Performance::ATTRIBUTE_MEMBER_AS => 'string',
             Performance::ATTRIBUTE_RELEVANCE => 'int',
             Performance::ATTRIBUTE_SONG => 'int',
         ];
@@ -126,11 +131,6 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
         return $this->song->getName();
     }
 
-    public function isMembership(): bool
-    {
-        return $this->artist_type === Relation::getMorphAlias(Membership::class);
-    }
-
     public function buildSortQuery(): Builder
     {
         return static::query()->whereBelongsTo($this->song);
@@ -144,16 +144,19 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
         return $this->belongsTo(Song::class, Song::ATTRIBUTE_ID);
     }
 
-    public function artist(): MorphTo
+    /**
+     * @return BelongsTo<Artist, $this>
+     */
+    public function artist(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(Artist::class, Performance::ATTRIBUTE_ARTIST);
     }
 
     /**
-     * Alias of artist().
+     * @return BelongsTo<Artist, $this>
      */
-    public function membership(): MorphTo
+    public function member(): BelongsTo
     {
-        return $this->artist();
+        return $this->belongsTo(Artist::class, Performance::ATTRIBUTE_MEMBER);
     }
 }

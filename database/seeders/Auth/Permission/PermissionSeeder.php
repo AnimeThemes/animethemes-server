@@ -37,7 +37,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
@@ -95,7 +94,6 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Group::class, $extendedCrudPermissions);
         $this->registerResource(ExternalResource::class, $extendedCrudPermissions);
         $this->registerResource(Image::class, $extendedCrudPermissions);
-        $this->registerResource(Membership::class, $extendedCrudPermissions);
         $this->registerResource(Page::class, $extendedCrudPermissions);
         $this->registerResource(Performance::class, $extendedCrudPermissions);
         $this->registerResource(Series::class, $extendedCrudPermissions);

@@ -28,9 +28,7 @@ use App\Filament\Resources\Wiki\Song\PerformanceResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Filament\Resources\Wiki\SongResource;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use Filament\Forms\Components\Repeater;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\QueryBuilder\Constraints\NumberConstraint;
@@ -46,7 +44,6 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ThemeResource extends BaseResource
 {
@@ -110,12 +107,8 @@ class ThemeResource extends BaseResource
             AnimeTheme::RELATION_PERFORMANCES,
             AnimeTheme::RELATION_SONG,
             'song.animethemes',
-            AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo): void {
-                $morphTo->morphWith([
-                    Artist::class => [],
-                    Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
-                ]);
-            },
+            'song.performances.artist',
+            'song.performances.member',
         ]);
     }
 

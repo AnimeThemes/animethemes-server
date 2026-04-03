@@ -11,15 +11,27 @@ use App\Filament\Resources\Wiki\ArtistResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
 use Filament\Schemas\Components\Component;
+use Filament\Tables\Table;
 
-class PerformanceArtistRelationManager extends PerformanceRelationManager
+class MemberPerformanceArtistRelationManager extends PerformanceRelationManager
 {
+    /**
+     * The relationship the relation manager corresponds to.
+     */
+    protected static string $relationship = Artist::RELATION_MEMBER_PERFORMANCES;
+
     /**
      * @return Component[]
      */
     public function getPivotComponents(): array
     {
         return [
+            BelongsTo::make(Performance::ATTRIBUTE_ARTIST)
+                ->resource(ArtistResource::class)
+                ->label(__('filament.fields.performance.group'))
+                ->required()
+                ->columnSpanFull(),
+
             TextInput::make(Performance::ATTRIBUTE_AS)
                 ->label(__('filament.fields.performance.as.name'))
                 ->helperText(__('filament.fields.performance.as.help')),
@@ -27,11 +39,6 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
             TextInput::make(Performance::ATTRIBUTE_ALIAS)
                 ->label(__('filament.fields.performance.alias.name'))
                 ->helperText(__('filament.fields.performance.alias.help')),
-
-            BelongsTo::make(Performance::ATTRIBUTE_MEMBER)
-                ->resource(ArtistResource::class)
-                ->label(__('filament.fields.performance.member'))
-                ->columnSpanFull(),
 
             TextInput::make(Performance::ATTRIBUTE_MEMBER_AS)
                 ->label(__('filament.fields.performance.member_as.name'))
@@ -43,8 +50,10 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
         ];
     }
 
-    /**
-     * The relationship the relation manager corresponds to.
-     */
-    protected static string $relationship = Artist::RELATION_PERFORMANCES;
+    public function table(Table $table): Table
+    {
+        return parent::table($table)
+            ->heading(__('filament.resources.label.member_performances'))
+            ->modelLabel(__('filament.resources.singularLabel.member_performance'));
+    }
 }
