@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki\Song;
 
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistSong;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -90,9 +88,7 @@ class ManageSongPerformances
                 [ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS],
             );
 
-            $this->setArtistMemberRelevance();
-
-            $this->syncSongArtist();
+            static::setArtistMemberRelevance();
 
             DB::commit();
         } catch (Exception $e) {
@@ -109,7 +105,7 @@ class ManageSongPerformances
     /**
      * Complex query to set relevance for artist members based on created_at order.
      */
-    protected function setArtistMemberRelevance(): void
+    public static function setArtistMemberRelevance(): void
     {
         DB::statement('
             WITH base AS (
@@ -138,17 +134,5 @@ class ManageSongPerformances
                 ON b.artist_id = r.artist_id
             SET am.relevance = r.rn + b.max_rel;
         ');
-    }
-
-    /**
-     * Temporary function where the performances feature synchronizes with the artist_song pivot table.
-     */
-    protected function syncSongArtist(): void
-    {
-        $songArtists = $this->performances->unique(Performance::ATTRIBUTE_ARTIST)->mapWithKeys(fn (array $performance): array => [
-            $performance[Performance::ATTRIBUTE_ARTIST] => Arr::only($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS]),
-        ]);
-
-        ArtistSong::withoutEvents(fn () => $this->song->artists()->sync($songArtists));
     }
 }
