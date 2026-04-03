@@ -33,4 +33,18 @@ abstract class BasePivot extends Pivot
      * The storage format of the model's date columns.
      */
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
+
+    // Temporary fix for Laravel 13.
+    public function newCollection(array $models = [])
+    {
+        $collectionClass = static::$collectionClass;
+
+        $collection = new $collectionClass($models);
+
+        if (Model::isAutomaticallyEagerLoadingRelationships()) {
+            $collection->withRelationshipAutoloading();
+        }
+
+        return $collection;
+    }
 }
