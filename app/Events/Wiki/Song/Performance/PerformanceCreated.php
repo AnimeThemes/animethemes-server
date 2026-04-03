@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song\Performance;
 
+use App\Contracts\Events\CreateArtistSongEvent;
 use App\Contracts\Events\CreateSynonymEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Models\Wiki\SynonymType;
@@ -11,11 +12,12 @@ use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Synonym;
+use App\Pivots\Wiki\ArtistSong;
 
 /**
  * @extends WikiCreatedEvent<Performance>
  */
-class PerformanceCreated extends WikiCreatedEvent implements CreateSynonymEvent, UpdateRelatedIndicesEvent
+class PerformanceCreated extends WikiCreatedEvent implements CreateArtistSongEvent, CreateSynonymEvent, UpdateRelatedIndicesEvent
 {
     protected function getDiscordMessageDescription(): string
     {
@@ -62,5 +64,19 @@ class PerformanceCreated extends WikiCreatedEvent implements CreateSynonymEvent,
                 Synonym::ATTRIBUTE_TYPE => SynonymType::OTHER->value,
             ]);
         }
+    }
+
+    public function createArtistSong(): void
+    {
+        $performance = $this->getModel();
+
+        ArtistSong::withoutEvents(function () use ($performance): void {
+            $performance->song->artists()->syncWithoutDetaching([
+                $performance->artist_id => [
+                    ArtistSong::ATTRIBUTE_ALIAS => $performance->alias,
+                    ArtistSong::ATTRIBUTE_AS => $performance->as,
+                ],
+            ]);
+        });
     }
 }
