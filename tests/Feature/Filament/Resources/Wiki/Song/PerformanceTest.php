@@ -33,7 +33,7 @@ test('render index page', function () {
 
     $records = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->create();
 
     get(PerformanceResource::getUrl('index'))
@@ -55,7 +55,7 @@ test('render view page', function () {
 
     $record = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->createOne();
 
     get(PerformanceResource::getUrl('view', ['record' => $record]))
@@ -93,7 +93,7 @@ test('mount edit action', function () {
 
     $record = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->createOne();
 
     Livewire::test(getIndexPage(PerformanceResource::class))
@@ -110,7 +110,7 @@ test('user cannot create record', function () {
 test('user cannot edit record', function () {
     $record = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->createOne();
 
     Livewire::test(getIndexPage(PerformanceResource::class))
@@ -120,7 +120,7 @@ test('user cannot edit record', function () {
 test('user cannot delete record', function () {
     $record = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->createOne();
 
     Livewire::test(getIndexPage(PerformanceResource::class))
@@ -130,7 +130,7 @@ test('user cannot delete record', function () {
 test('user cannot restore record', function () {
     $record = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->createOne();
 
     $record->delete();
@@ -143,7 +143,7 @@ test('user cannot restore record', function () {
 test('user cannot force delete record', function () {
     $record = PerformanceModel::factory()
         ->for(Song::factory())
-        ->artist(Artist::factory()->createOne())
+        ->for(Artist::factory(), PerformanceModel::RELATION_ARTIST)
         ->createOne();
 
     Livewire::test(getIndexPage(PerformanceResource::class))

@@ -29,7 +29,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
@@ -86,7 +85,6 @@ class ContentModeratorRoleSeeder extends RoleSeeder
         $this->configureResource($role, Group::class, $extendedCrudPermissions);
         $this->configureResource($role, ExternalResource::class, $extendedCrudPermissions);
         $this->configureResource($role, Image::class, $extendedCrudPermissions);
-        $this->configureResource($role, Membership::class, $extendedCrudPermissions);
         $this->configureResource($role, Page::class, $extendedCrudPermissions);
         $this->configureResource($role, Performance::class, $extendedCrudPermissions);
         $this->configureResource($role, Series::class, $extendedCrudPermissions);

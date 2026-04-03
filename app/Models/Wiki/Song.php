@@ -65,7 +65,8 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     final public const string RELATION_ANIMETHEMES = 'animethemes';
     final public const string RELATION_ARTISTS = 'artists';
     final public const string RELATION_PERFORMANCES = 'performances';
-    final public const string RELATION_PERFORMANCE_ARTISTS = 'performances.artist';
+    final public const string RELATION_PERFORMANCES_ARTIST = 'performances.artist';
+    final public const string RELATION_PERFORMANCES_MEMBER = 'performances.member';
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_THEME_GROUPS = 'animethemes.group';
     final public const string RELATION_VIDEOS = 'animethemes.animethemeentries.videos';

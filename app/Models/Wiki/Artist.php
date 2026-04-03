@@ -18,7 +18,6 @@ use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\BaseModel;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
@@ -36,13 +35,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
 use RuntimeException;
-use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -51,7 +48,6 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Collection<int, Image> $images
  * @property string|null $information
  * @property Collection<int, Artist> $members
- * @property Collection<int, Membership> $memberships
  * @property string $name
  * @property Collection<int, Performance> $performances
  * @property Collection<int, ExternalResource> $resources
@@ -81,20 +77,16 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     final public const string RELATION_ANIME = 'songs.animethemes.anime';
     final public const string RELATION_ANIMETHEMES = 'songs.animethemes';
     final public const string RELATION_GROUPS = 'groups';
-    final public const string RELATION_GROUPSHIPS = 'groupships';
-    final public const string RELATION_GROUPSHIPS_PERFORMANCES = 'groupships.performances';
     final public const string RELATION_IMAGES = 'images';
     final public const string RELATION_MEMBERS = 'members';
-    final public const string RELATION_MEMBERSHIPS = 'memberships';
-    final public const string RELATION_MEMBERSHIPS_PERFORMANCES = 'memberships.performances';
-    final public const string RELATION_MEMBERSHIPS_PERFORMANCES_SONGS = 'memberships.performances.song';
+    final public const string RELATION_MEMBER_PERFORMANCES = 'memberPerformances';
+    final public const string RELATION_MEMBER_PERFORMANCES_SONG = 'memberPerformances.song';
     final public const string RELATION_PERFORMANCES = 'performances';
-    final public const string RELATION_PERFORMANCES_SONGS = 'performances.song';
+    final public const string RELATION_PERFORMANCES_SONG = 'performances.song';
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_SONGS = 'songs';
     final public const string RELATION_SYNONYMS = 'synonyms';
     final public const string RELATION_THEME_GROUPS = 'songs.animethemes.group';
-    final public const string RELATION_UNIQUE_GROUPSHIPS_PERFORMANCES = 'uniquegroupshipperformances';
 
     /**
      * The event map for the model.
@@ -143,7 +135,7 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     {
         return $query->with([
             Artist::RELATION_PERFORMANCES,
-            Artist::RELATION_MEMBERSHIPS,
+            Artist::RELATION_MEMBER_PERFORMANCES,
             Artist::RELATION_SYNONYMS,
         ]);
     }
@@ -206,46 +198,19 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     }
 
     /**
-     * @return MorphMany<Performance, $this>
+     * @return HasMany<Performance, $this>
      */
-    public function performances(): MorphMany
+    public function performances(): HasMany
     {
-        return $this->morphMany(Performance::class, Performance::RELATION_ARTIST);
+        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_ARTIST);
     }
 
     /**
-     * Relation for filament.
-     * Groups performances of the memberships of this group.
+     * @return HasMany<Performance, $this>
      */
-    public function uniquegroupshipperformances(): HasManyDeep
+    public function memberPerformances(): HasMany
     {
-        return $this->hasManyDeepFromRelations($this->groupships(), new Membership()->performances())
-            ->whereIn(
-                'performances.performance_id',
-                Performance::query()->selectRaw('MAX(performance_id)')
-                    ->where('artist_type', Relation::getMorphAlias(Membership::class))
-                    ->groupBy('song_id')
-            );
-    }
-
-    /**
-     * The memberships of the member.
-     *
-     * @return HasMany<Membership, $this>
-     */
-    public function memberships(): HasMany
-    {
-        return $this->hasMany(Membership::class, Membership::ATTRIBUTE_MEMBER);
-    }
-
-    /**
-     * The memberships of the group.
-     *
-     * @return HasMany<Membership, $this>
-     */
-    public function groupships(): HasMany
-    {
-        return $this->hasMany(Membership::class, Membership::ATTRIBUTE_ARTIST);
+        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_MEMBER);
     }
 
     /**

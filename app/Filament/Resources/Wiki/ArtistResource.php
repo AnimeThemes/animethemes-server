@@ -18,8 +18,8 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SynonymArtistRelationManager;
 use App\Models\Wiki\Artist;
@@ -202,7 +202,7 @@ class ArtistResource extends BaseResource
             RelationGroup::make(static::getModelLabel(), [
                 SynonymArtistRelationManager::class,
                 PerformanceArtistRelationManager::class,
-                GroupPerformanceArtistRelationManager::class,
+                MemberPerformanceArtistRelationManager::class,
                 ResourceRelationManager::class,
                 MemberArtistRelationManager::class,
                 GroupArtistRelationManager::class,

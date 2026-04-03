@@ -9,7 +9,6 @@ use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
@@ -56,82 +55,61 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             return [];
         }
 
-        $song->load(Song::RELATION_PERFORMANCE_ARTISTS);
+        $song->load(Song::RELATION_PERFORMANCES);
 
-        $performances = $song->performances->sortBy(Performance::ATTRIBUTE_RELEVANCE);
-
-        $artists = [];
-        $memberships = [];
-        foreach ($performances as $performance) {
-            if ($performance->isMembership()) {
-                $artists[$performance->artist->artist_id] = [
-                    Performance::ATTRIBUTE_ARTIST_TYPE => $performance->artist_type,
-                    Performance::ATTRIBUTE_ARTIST_ID => $performance->artist->artist_id,
-                    Performance::ATTRIBUTE_ALIAS => $performance->alias,
-                    Performance::ATTRIBUTE_AS => $performance->as,
-                ];
-                $memberships[] = [
-                    Membership::ATTRIBUTE_ARTIST => $performance->artist->artist_id,
-                    Membership::ATTRIBUTE_MEMBER => $performance->artist->member_id,
-                    Membership::ATTRIBUTE_ALIAS => $performance->artist->alias,
-                    Membership::ATTRIBUTE_AS => $performance->artist->as,
-                ];
-                continue;
-            }
-
-            $artists[] = [
-                Performance::ATTRIBUTE_ARTIST_TYPE => $performance->artist_type,
-                Performance::ATTRIBUTE_ARTIST_ID => $performance->artist_id,
-                Performance::ATTRIBUTE_ALIAS => $performance->alias,
-                Performance::ATTRIBUTE_AS => $performance->as,
-            ];
-        }
-
-        foreach (array_keys($artists) as $groupId) {
-            $membershipsForGroup = Arr::where($memberships, fn ($value): bool => $value[Membership::ATTRIBUTE_ARTIST] === $groupId);
-
-            $artists[$groupId][PerformanceForm::REPEATER_MEMBERSHIPS] = $membershipsForGroup;
-        }
-
-        return $artists;
+        return $song->performances
+            ->sortBy(Performance::ATTRIBUTE_RELEVANCE)
+            ->groupBy(Performance::ATTRIBUTE_ARTIST)
+            ->mapWithKeys(fn ($performances, $artistId): array => [
+                $artistId => [
+                    Performance::ATTRIBUTE_ARTIST => $artistId,
+                    Performance::ATTRIBUTE_AS => $performances->first()->getAttribute(Performance::ATTRIBUTE_AS),
+                    Performance::ATTRIBUTE_ALIAS => $performances->first()->getAttribute(Performance::ATTRIBUTE_ALIAS),
+                    PerformanceForm::REPEATER_MEMBERS => $performances
+                        ->filter(fn (Performance $performance): bool => filled($performance->getAttribute(Performance::ATTRIBUTE_MEMBER)))
+                        ->map(fn (Performance $performance): array => [
+                            Performance::ATTRIBUTE_MEMBER => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER),
+                            Performance::ATTRIBUTE_MEMBER_ALIAS => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER_ALIAS),
+                            Performance::ATTRIBUTE_MEMBER_AS => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER_AS),
+                        ])->all(),
+                ],
+            ])
+            ->all();
     }
 
     /**
      * Save the artists to the action.
      */
-    public static function saveArtists(Song|int|null $song = null, ?array $data = []): void
+    public static function saveArtists(Song|int|null $song = null, ?array $performances = []): void
     {
-        if (is_null($song) || blank($data)) {
+        if (is_null($song) || blank($performances)) {
             return;
         }
 
         $action = new ManageSongPerformances($song);
 
-        foreach ($data as $artist) {
-            $groupOrArtist = intval(Arr::get($artist, Artist::ATTRIBUTE_ID));
+        foreach ($performances as $performance) {
+            $artist = intval(Arr::get($performance, Artist::ATTRIBUTE_ID));
+            $artistAlias = Arr::get($performance, Performance::ATTRIBUTE_ALIAS);
+            $artistAs = Arr::get($performance, Performance::ATTRIBUTE_AS);
 
-            if (blank(Arr::get($artist, PerformanceForm::REPEATER_MEMBERSHIPS))) {
-                $action->addSingleArtist(
-                    $groupOrArtist,
-                    Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
-                    Arr::get($artist, Performance::ATTRIBUTE_AS),
+            if (blank(Arr::get($performance, PerformanceForm::REPEATER_MEMBERS))) {
+                $action->addArtist(
+                    $artist,
+                    alias: $artistAlias,
+                    as: $artistAs,
                 );
                 continue;
             }
 
-            $group = $groupOrArtist;
-
-            $groupAlias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS);
-            $groupAs = Arr::get($artist, Performance::ATTRIBUTE_AS);
-
-            foreach (Arr::get($artist, PerformanceForm::REPEATER_MEMBERSHIPS) as $membership) {
-                $action->addMembership(
-                    $group,
-                    intval(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),
-                    Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
-                    Arr::get($membership, Membership::ATTRIBUTE_AS),
-                    $groupAlias,
-                    $groupAs
+            foreach (Arr::get($performance, PerformanceForm::REPEATER_MEMBERS) as $member) {
+                $action->addArtist(
+                    $artist,
+                    intval(Arr::get($member, Performance::ATTRIBUTE_MEMBER)),
+                    $artistAlias,
+                    $artistAs,
+                    Arr::get($member, Performance::ATTRIBUTE_MEMBER_ALIAS),
+                    Arr::get($member, Performance::ATTRIBUTE_MEMBER_AS),
                 );
             }
         }

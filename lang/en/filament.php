@@ -787,18 +787,6 @@ return [
                 'name' => 'Path',
             ],
         ],
-        'membership' => [
-            'alias' => [
-                'help' => 'Used in place of the Member name if the performance is using an alias.',
-                'name' => 'Alias',
-            ],
-            'as' => [
-                'help' => 'Used alongside the Member name if the performance is made as a character.',
-                'name' => 'As',
-            ],
-            'group' => 'Group',
-            'member' => 'Member',
-        ],
         'page' => [
             'body' => [
                 'help' => 'The content of the Page.',
@@ -837,11 +825,21 @@ return [
                 'help' => 'Used alongside the Artist name if the performance is made as a character.',
                 'name' => 'As',
             ],
+            'group' => 'Group',
+            'member' => 'Member',
+            'member_alias' => [
+                'help' => 'Used in place of the Member name if the performance is using an alias.',
+                'name' => 'Member Alias',
+            ],
+            'member_as' => [
+                'help' => 'Used alongside the Member name if the performance is made as a character.',
+                'name' => 'Member As',
+            ],
             'load_members' => [
                 'name' => 'Load Members',
             ],
-            'memberships' => [
-                'help' => 'When a group and its members are credited, you must include the individual members (called memberships) who performed the song.',
+            'members' => [
+                'help' => 'When a group and its members are credited, you must include the individual members who performed the song.',
             ],
         ],
         'permission' => [
@@ -1057,7 +1055,7 @@ return [
             'group_performances' => 'Group Performances',
             'images' => 'Images',
             'members' => 'Members',
-            'memberships' => 'Memberships',
+            'member_performances' => 'Member Performances',
             'pages' => 'Pages',
             'performances' => 'Performances',
             'permissions' => 'Permissions',
@@ -1095,7 +1093,7 @@ return [
             'group_performance' => 'Group Performance',
             'image' => 'Image',
             'member' => 'Member',
-            'membership' => 'Membership',
+            'member_performance' => 'Member Performance',
             'page' => 'Page',
             'performance' => 'Performance',
             'permission' => 'Permission',

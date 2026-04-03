@@ -7,14 +7,13 @@ namespace App\Filament\Resources\Wiki\Song\Performance\Schemas;
 use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\ArtistResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\SongResource;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Utilities\Get;
@@ -23,7 +22,7 @@ use Filament\Schemas\Schema;
 class PerformanceForm
 {
     final public const string REPEATER_PERFORMANCES = Song::RELATION_PERFORMANCES;
-    final public const string REPEATER_MEMBERSHIPS = 'memberships';
+    final public const string REPEATER_MEMBERS = 'members';
 
     /**
      * Configure the form schema.
@@ -55,7 +54,7 @@ class PerformanceForm
             Repeater::make(self::REPEATER_PERFORMANCES)
                 ->label(__('filament.resources.label.artists'))
                 ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.artist')]))
-                ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class])
+                ->hiddenOn([PerformanceArtistRelationManager::class, MemberPerformanceArtistRelationManager::class])
                 ->live(true)
                 ->key('song.performances')
                 ->collapsible()
@@ -87,9 +86,9 @@ class PerformanceForm
                         ->label(__('filament.fields.performance.alias.name'))
                         ->helperText(__('filament.fields.performance.alias.help')),
 
-                    Repeater::make(self::REPEATER_MEMBERSHIPS)
-                        ->label(__('filament.resources.label.memberships'))
-                        ->helperText(__('filament.fields.performance.memberships.help'))
+                    Repeater::make(self::REPEATER_MEMBERS)
+                        ->label(__('filament.resources.label.members'))
+                        ->helperText(__('filament.fields.performance.members.help'))
                         ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.member')]))
                         ->collapsible()
                         ->defaultItems(0)
@@ -98,19 +97,19 @@ class PerformanceForm
                         ->reorderableWithDragAndDrop(false)
                         ->reorderableWithButtons()
                         ->schema([
-                            BelongsTo::make(Membership::ATTRIBUTE_MEMBER)
+                            BelongsTo::make(Performance::ATTRIBUTE_MEMBER)
                                 ->resource(ArtistResource::class)
                                 ->showCreateOption()
-                                ->label(__('filament.fields.membership.member'))
+                                ->label(__('filament.fields.performance.member'))
                                 ->required(),
 
-                            TextInput::make(Membership::ATTRIBUTE_AS)
-                                ->label(__('filament.fields.membership.as.name'))
-                                ->helperText(__('filament.fields.membership.as.help')),
+                            TextInput::make(Performance::ATTRIBUTE_MEMBER_AS)
+                                ->label(__('filament.fields.performance.member_as.name'))
+                                ->helperText(__('filament.fields.performance.member_as.help')),
 
-                            TextInput::make(Membership::ATTRIBUTE_ALIAS)
-                                ->label(__('filament.fields.membership.alias.name'))
-                                ->helperText(__('filament.fields.membership.alias.help')),
+                            TextInput::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                                ->label(__('filament.fields.performance.member_alias.name'))
+                                ->helperText(__('filament.fields.performance.member_alias.help')),
                         ]),
                 ])
                 ->saveRelationshipsUsing(fn (Get $get, ?array $state) => PerformanceSongRelationManager::saveArtists(intval($get(Performance::ATTRIBUTE_SONG)), $state)),

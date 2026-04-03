@@ -16,7 +16,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
@@ -109,7 +108,6 @@ class AppServiceProvider extends ServiceProvider
             'artist' => Artist::class,
             'audio' => Audio::class,
             'image' => Image::class,
-            'membership' => Membership::class,
             'performance' => Performance::class,
             'resource' => ExternalResource::class,
             'series' => Series::class,

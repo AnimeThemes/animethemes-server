@@ -12,18 +12,18 @@ use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song\Performance;
 use Illuminate\Http\Request;
 
-class PerformanceArtistTypeField extends Field implements CreatableField, SelectableField
+class PerformanceMemberIdField extends Field implements CreatableField, SelectableField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Performance::ATTRIBUTE_ARTIST_TYPE);
+        parent::__construct($schema, Performance::ATTRIBUTE_MEMBER);
     }
 
     public function getCreationRules(Request $request): array
     {
         return [
             'required',
-            'string',
+            'integer',
         ];
     }
 

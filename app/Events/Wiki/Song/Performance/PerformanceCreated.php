@@ -9,7 +9,6 @@ use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Enums\Models\Wiki\SynonymType;
 use App\Events\Base\Wiki\WikiCreatedEvent;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Synonym;
 
@@ -23,17 +22,17 @@ class PerformanceCreated extends WikiCreatedEvent implements CreateSynonymEvent,
         $performance = $this->getModel();
 
         $song = $performance->song;
-        $artist = $performance->artist instanceof Membership ? $performance->artist->group : $performance->artist;
+        $artist = $performance->artist;
 
         $artistName = $performance->alias ?? $artist->getName();
         $artistName = filled($performance->as) ? "{$performance->as} (CV: {$artistName})" : $artistName;
 
-        if ($this->getModel()->isMembership()) {
+        if ($this->getModel()->member instanceof Artist) {
             $groupName = $artistName;
-            $membership = $performance->artist;
+            $member = $performance->member;
 
-            $memberName = $membership->alias ?? $membership->member->getName();
-            $memberName = filled($membership->as) ? "{$membership->as} (CV: {$memberName})" : $memberName;
+            $memberName = $performance->member_alias ?? $member->getName();
+            $memberName = filled($performance->member_as) ? "{$performance->member_as} (CV: {$memberName})" : $memberName;
 
             return "Song '**{$song->getName()}**' has been attached to Member '**{$memberName}**' of '**{$groupName}**'.";
         }
@@ -43,16 +42,13 @@ class PerformanceCreated extends WikiCreatedEvent implements CreateSynonymEvent,
 
     public function updateRelatedIndices(): void
     {
-        $performance = $this->getModel()->load([Performance::RELATION_ARTIST]);
-
-        if ($performance->isMembership()) {
-            $performance->artist->group->searchable();
-            $performance->artist->member->searchable();
-
-            return;
-        }
+        $performance = $this->getModel()->load([
+            Performance::RELATION_ARTIST,
+            Performance::RELATION_MEMBER,
+        ]);
 
         $performance->artist->searchable();
+        $performance->member?->searchable();
     }
 
     public function createSynonym(): void

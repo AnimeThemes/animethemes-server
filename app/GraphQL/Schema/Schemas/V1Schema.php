@@ -32,7 +32,6 @@ use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\AudioPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\ExternalResourcePaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\ImagePaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\SeriesPaginationQuery;
-use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Song\MembershipPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Song\PerformancePaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\SongPaginationQuery;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\StudioPaginationQuery;
@@ -88,7 +87,6 @@ use App\GraphQL\Schema\Types\Wiki\AudioType;
 use App\GraphQL\Schema\Types\Wiki\ExternalResourceType;
 use App\GraphQL\Schema\Types\Wiki\ImageType;
 use App\GraphQL\Schema\Types\Wiki\SeriesType;
-use App\GraphQL\Schema\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
 use App\GraphQL\Schema\Types\Wiki\SongType;
 use App\GraphQL\Schema\Types\Wiki\StudioType;
@@ -99,7 +97,6 @@ use App\GraphQL\Schema\Types\Wiki\VideoType;
 use App\GraphQL\Schema\Unions\ImageableUnion;
 use App\GraphQL\Schema\Unions\LikeableUnion;
 use App\GraphQL\Schema\Unions\NotificationUnion;
-use App\GraphQL\Schema\Unions\PerformanceArtistUnion;
 use App\GraphQL\Schema\Unions\ResourceableUnion;
 use App\GraphQL\Schema\Unions\SynonymableUnion;
 use App\Http\Middleware\GraphQL\LogGraphQLRequest;
@@ -149,7 +146,6 @@ class V1Schema implements ConfigConvertible
                 AudioPaginationQuery::class,
                 ExternalResourcePaginationQuery::class,
                 ImagePaginationQuery::class,
-                MembershipPaginationQuery::class,
                 PerformancePaginationQuery::class,
                 SeriesQuery::class,
                 SeriesPaginationQuery::class,
@@ -218,7 +214,6 @@ class V1Schema implements ConfigConvertible
                 AudioType::class,
                 ExternalResourceType::class,
                 ImageType::class,
-                MembershipType::class,
                 PerformanceType::class,
                 SeriesType::class,
                 SongType::class,
@@ -249,7 +244,6 @@ class V1Schema implements ConfigConvertible
                 ImageableUnion::class,
                 LikeableUnion::class,
                 NotificationUnion::class,
-                PerformanceArtistUnion::class,
                 ResourceableUnion::class,
                 SynonymableUnion::class,
 

@@ -28,7 +28,6 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Synonym;
@@ -73,7 +72,6 @@ class PanelViewerRoleSeeder extends RoleSeeder
         $this->configureResource($role, Group::class, [CrudPermission::VIEW]);
         $this->configureResource($role, ExternalResource::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Image::class, [CrudPermission::VIEW]);
-        $this->configureResource($role, Membership::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Page::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Performance::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Series::class, [CrudPermission::VIEW]);

@@ -6,7 +6,7 @@ namespace App\Filament\Actions\Models\Wiki\Song\Performance;
 
 use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song\Membership;
+use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistMember;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Get;
@@ -30,7 +30,7 @@ class LoadMembersAction extends Action
         $this->action(function (Get $get, Set $set): void {
             $artistId = $get(Artist::ATTRIBUTE_ID);
             if ($artistId === null) {
-                $set(PerformanceForm::REPEATER_MEMBERSHIPS, []);
+                $set(PerformanceForm::REPEATER_MEMBERS, []);
 
                 return;
             }
@@ -44,10 +44,10 @@ class LoadMembersAction extends Action
                 ])
                 ->find($artistId);
 
-            $set(PerformanceForm::REPEATER_MEMBERSHIPS, $group->members->map(fn (Artist $member): array => [
-                Membership::ATTRIBUTE_MEMBER => $member->getKey(),
-                Membership::ATTRIBUTE_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
-                Membership::ATTRIBUTE_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
+            $set(PerformanceForm::REPEATER_MEMBERS, $group->members->map(fn (Artist $member): array => [
+                Performance::ATTRIBUTE_MEMBER => $member->getKey(),
+                Performance::ATTRIBUTE_MEMBER_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
+                Performance::ATTRIBUTE_MEMBER_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
             ])->toArray());
         });
     }

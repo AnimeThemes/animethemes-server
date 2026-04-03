@@ -29,7 +29,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use Filament\Actions\Action;
@@ -139,9 +138,9 @@ class CreateAnimeSubmission extends CreateRecord
                                                                     ->label(__('filament.fields.performance.alias.name'))
                                                                     ->helperText(__('filament.fields.performance.alias.help')),
 
-                                                                Repeater::make('memberships')
-                                                                    ->label(__('filament.resources.label.memberships'))
-                                                                    ->helperText(__('filament.fields.performance.memberships.help'))
+                                                                Repeater::make('members')
+                                                                    ->label(__('filament.resources.label.members'))
+                                                                    ->helperText(__('filament.fields.performance.members.help'))
                                                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.member')]))
                                                                     ->collapsible()
                                                                     ->defaultItems(0)
@@ -150,19 +149,19 @@ class CreateAnimeSubmission extends CreateRecord
                                                                     ->reorderableWithDragAndDrop(false)
                                                                     ->reorderableWithButtons()
                                                                     ->schema([
-                                                                        SubmissionBelongsTo::make(Membership::ATTRIBUTE_MEMBER)
+                                                                        SubmissionBelongsTo::make(Performance::ATTRIBUTE_MEMBER)
                                                                             ->resource(ArtistResource::class)
                                                                             ->showCreateOption()
-                                                                            ->label(__('filament.fields.membership.member'))
+                                                                            ->label(__('filament.fields.performance.member'))
                                                                             ->required(),
 
-                                                                        TextInput::make(Membership::ATTRIBUTE_AS)
-                                                                            ->label(__('filament.fields.membership.as.name'))
-                                                                            ->helperText(__('filament.fields.membership.as.help')),
+                                                                        TextInput::make(Performance::ATTRIBUTE_MEMBER_AS)
+                                                                            ->label(__('filament.fields.performance.member_as.name'))
+                                                                            ->helperText(__('filament.fields.performance.member_as.help')),
 
-                                                                        TextInput::make(Membership::ATTRIBUTE_ALIAS)
-                                                                            ->label(__('filament.fields.membership.alias.name'))
-                                                                            ->helperText(__('filament.fields.membership.alias.help')),
+                                                                        TextInput::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                                                                            ->label(__('filament.fields.performance.member_alias.name'))
+                                                                            ->helperText(__('filament.fields.performance.member_alias.help')),
                                                                     ]),
                                                             ]),
                                                     ]),

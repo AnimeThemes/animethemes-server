@@ -20,31 +20,21 @@ return new class extends Migration
                 $table->unsignedBigInteger('song_id');
                 $table->foreign('song_id')->references('song_id')->on('songs')->cascadeOnDelete();
 
-                $table->morphs('artist');
-
-                $table->string('alias')->nullable();
-                $table->string('as')->nullable();
-                $table->timestamps(6);
-                $table->softDeletes('deleted_at', 6);
-
-                $table->unique(['song_id', 'artist_type', 'artist_id'], 'unique_performance');
-            });
-        }
-
-        if (! Schema::hasTable('memberships')) {
-            Schema::create('memberships', function (Blueprint $table) {
-                $table->id('membership_id');
-
                 $table->unsignedBigInteger('artist_id');
                 $table->foreign('artist_id')->references('artist_id')->on('artists')->cascadeOnDelete();
 
-                $table->unsignedBigInteger('member_id');
-                $table->foreign('member_id')->references('artist_id')->on('artists')->cascadeOnDelete();
+                $table->unsignedBigInteger('member_id')->nullable();
+                $table->foreign('member_id')->references('artist_id')->on('artists')->nullOnDelete();
 
                 $table->string('alias')->nullable();
                 $table->string('as')->nullable();
+                $table->string('member_alias')->nullable();
+                $table->string('member_as')->nullable();
+                $table->integer('relevance')->default(1);
                 $table->timestamps(6);
                 $table->softDeletes('deleted_at', 6);
+
+                $table->unique(['song_id', 'artist_id', 'member_id', 'deleted_at'], 'unique_performance');
             });
         }
     }

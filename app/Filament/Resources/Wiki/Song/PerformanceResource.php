@@ -13,29 +13,23 @@ use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\ArtistResource;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ListPerformances;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ViewPerformance;
 use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\SongResource;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class PerformanceResource extends BaseResource
 {
@@ -83,12 +77,8 @@ class PerformanceResource extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         /** @phpstan-ignore-next-line */
         return $query->with([
-            Performance::RELATION_ARTIST => function (MorphTo $morphTo): void {
-                $morphTo->morphWith([
-                    Artist::class => [],
-                    Membership::class => [Membership::RELATION_GROUP, Membership::RELATION_MEMBER],
-                ]);
-            },
+            Performance::RELATION_ARTIST,
+            Performance::RELATION_MEMBER,
             Performance::RELATION_SONG,
         ]);
     }
@@ -112,51 +102,22 @@ class PerformanceResource extends BaseResource
                         isIndividual: true
                     ),
 
-                BelongsToColumn::make(Performance::RELATION_MEMBER, ArtistResource::class, true)
-                    ->label(__('filament.fields.membership.member'))
-                    ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class]),
+                BelongsToColumn::make(Performance::RELATION_ARTIST, ArtistResource::class),
 
-                TextColumn::make(Performance::RELATION_ARTIST)
-                    ->label(__('filament.fields.performance.artist'))
-                    ->hiddenOn([PerformanceArtistRelationManager::class])
-                    ->color('related-link')
-                    ->weight(FontWeight::SemiBold)
-                    ->state(function (Performance $record) {
-                        if ($record->artist instanceof Membership) {
-                            return $record->artist->group->name;
-                        }
-
-                        return $record->artist->name;
-                    })
-                    ->url(function (Performance $record): string {
-                        $related = $record->artist instanceof Membership
-                            ? $record->artist->group
-                            : $record->artist;
-
-                        return ArtistResource::getUrl('view', ['record' => $related]);
-                    }),
+                BelongsToColumn::make(Performance::RELATION_MEMBER, ArtistResource::class)
+                    ->label(__('filament.fields.performance.member')),
 
                 TextColumn::make(Performance::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.performance.alias.name'))
-                    ->hiddenOn(GroupPerformanceArtistRelationManager::class)
-                    ->state(function (Performance $record) {
-                        if ($record->artist instanceof Membership) {
-                            return $record->artist->alias;
-                        }
-
-                        return $record->alias;
-                    }),
+                    ->label(__('filament.fields.performance.alias.name')),
 
                 TextColumn::make(Performance::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.performance.as.name'))
-                    ->hiddenOn(GroupPerformanceArtistRelationManager::class)
-                    ->state(function (Performance $record) {
-                        if ($record->artist instanceof Membership) {
-                            return $record->artist->as;
-                        }
+                    ->label(__('filament.fields.performance.as.name')),
 
-                        return $record->as;
-                    }),
+                TextColumn::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                    ->label(__('filament.fields.performance.member_alias.name')),
+
+                TextColumn::make(Performance::ATTRIBUTE_MEMBER_AS)
+                    ->label(__('filament.fields.performance.member_as.name')),
             ]);
     }
 
@@ -171,32 +132,22 @@ class PerformanceResource extends BaseResource
 
                         BelongsToEntry::make(Performance::RELATION_SONG, SongResource::class),
 
-                        BelongsToEntry::make(Performance::RELATION_ARTIST, ArtistResource::class)
-                            ->hidden(fn (Performance $record): bool => $record->artist instanceof Membership),
+                        BelongsToEntry::make(Performance::RELATION_ARTIST, ArtistResource::class),
 
-                        BelongsToEntry::make(Performance::RELATION_GROUP, ArtistResource::class)
-                            ->label(__('filament.fields.performance.artist'))
-                            ->hidden(fn ($state): bool => is_null($state)),
-
-                        BelongsToEntry::make(Performance::RELATION_MEMBER, ArtistResource::class, true)
-                            ->label(__('filament.fields.membership.member'))
-                            ->hidden(fn ($state): bool => is_null($state)),
-
-                        TextEntry::make(Performance::RELATION_ARTIST.'.'.Membership::ATTRIBUTE_ALIAS)
-                            ->label(__('filament.fields.membership.alias.name'))
-                            ->visible(fn (Performance $record): bool => $record->artist instanceof Membership),
-
-                        TextEntry::make(Performance::RELATION_ARTIST.'.'.Membership::ATTRIBUTE_AS)
-                            ->label(__('filament.fields.membership.as.name'))
-                            ->visible(fn (Performance $record): bool => $record->artist instanceof Membership),
+                        BelongsToEntry::make(Performance::RELATION_MEMBER, ArtistResource::class)
+                            ->label(__('filament.fields.performance.member')),
 
                         TextEntry::make(Performance::ATTRIBUTE_ALIAS)
-                            ->label(__('filament.fields.performance.alias.name'))
-                            ->hidden(fn (Performance $record): bool => $record->artist instanceof Membership),
+                            ->label(__('filament.fields.performance.alias.name')),
 
                         TextEntry::make(Performance::ATTRIBUTE_AS)
-                            ->label(__('filament.fields.performance.as.name'))
-                            ->hidden(fn (Performance $record): bool => $record->artist instanceof Membership),
+                            ->label(__('filament.fields.performance.as.name')),
+
+                        TextEntry::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                            ->label(__('filament.fields.performance.member_alias.name')),
+
+                        TextEntry::make(Performance::ATTRIBUTE_MEMBER_AS)
+                            ->label(__('filament.fields.performance.member_as.name')),
                     ])
                     ->columns(fn ($livewire): int => $livewire instanceof ViewTheme ? 3 : 2),
 
@@ -218,6 +169,12 @@ class PerformanceResource extends BaseResource
 
                     TextConstraint::make(Performance::ATTRIBUTE_AS)
                         ->label(__('filament.fields.performance.as.name')),
+
+                    TextConstraint::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                        ->label(__('filament.fields.performance.member_alias.name')),
+
+                    TextConstraint::make(Performance::ATTRIBUTE_MEMBER_AS)
+                        ->label(__('filament.fields.performance.member_as.name')),
 
                     ...parent::getConstraints(),
                 ]),

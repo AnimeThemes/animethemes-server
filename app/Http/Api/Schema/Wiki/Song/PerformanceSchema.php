@@ -9,11 +9,15 @@ use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceAliasField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceArtistIdField;
-use App\Http\Api\Field\Wiki\Song\Performance\PerformanceArtistTypeField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceAsField;
+use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberAliasField;
+use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberAsField;
+use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberIdField;
+use App\Http\Api\Field\Wiki\Song\Performance\PerformanceRelevanceField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceSongIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Wiki\Song\Resource\PerformanceJsonResource;
 use App\Models\Wiki\Song\Performance;
@@ -32,6 +36,8 @@ class PerformanceSchema extends EloquentSchema implements SearchableSchema
     {
         return $this->withIntermediatePaths([
             new AllowedInclude(new SongSchema(), Performance::RELATION_SONG),
+            new AllowedInclude(new ArtistSchema(), Performance::RELATION_ARTIST),
+            new AllowedInclude(new ArtistSchema(), Performance::RELATION_MEMBER),
         ]);
     }
 
@@ -46,9 +52,12 @@ class PerformanceSchema extends EloquentSchema implements SearchableSchema
                 new IdField($this, Performance::ATTRIBUTE_ID),
                 new PerformanceSongIdField($this),
                 new PerformanceArtistIdField($this),
-                new PerformanceArtistTypeField($this),
+                new PerformanceMemberIdField($this),
                 new PerformanceAliasField($this),
                 new PerformanceAsField($this),
+                new PerformanceMemberAliasField($this),
+                new PerformanceMemberAsField($this),
+                new PerformanceRelevanceField($this),
             ],
         );
     }

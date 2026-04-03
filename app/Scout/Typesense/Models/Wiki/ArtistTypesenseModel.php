@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Scout\Typesense\Models\Wiki;
 
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Synonym;
 
@@ -25,7 +24,7 @@ class ArtistTypesenseModel
             'synonyms' => $synonyms = $artist->synonyms->map(fn (Synonym $synonym) => $synonym->text)->all(),
             'as' => $as = $artist->performances->map(fn (Performance $performance) => $performance->as)
                 ->toBase()
-                ->concat($artist->memberships->map(fn (Membership $membership) => $membership->as))
+                ->concat($artist->memberPerformances->map(fn (Performance $performance) => $performance->member_as))
                 ->filter()
                 ->unique()
                 ->values()
