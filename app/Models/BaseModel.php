@@ -44,4 +44,18 @@ abstract class BaseModel extends Model implements HasSubtitle, Nameable
             $this->setConnection(Config::get($connectionKey));
         }
     }
+
+    // Temporary fix for Laravel 13.
+    public function newCollection(array $models = [])
+    {
+        $collectionClass = static::$collectionClass;
+
+        $collection = new $collectionClass($models);
+
+        if (Model::isAutomaticallyEagerLoadingRelationships()) {
+            $collection->withRelationshipAutoloading();
+        }
+
+        return $collection;
+    }
 }
