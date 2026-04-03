@@ -30,6 +30,7 @@ return new class extends Migration
                 $table->string('as')->nullable();
                 $table->string('member_alias')->nullable();
                 $table->string('member_as')->nullable();
+                $table->integer('relevance')->default(1);
                 $table->timestamps(6);
                 $table->softDeletes('deleted_at', 6);
 
