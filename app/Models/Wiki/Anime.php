@@ -92,6 +92,8 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     final public const string RELATION_EXTERNAL_PROFILE = 'externalentries.externalprofile';
     final public const string RELATION_GROUPS = 'animethemes.group';
     final public const string RELATION_IMAGES = 'images';
+    final public const string RELATION_PERFORMANCES_ARTIST = 'animethemes.song.performances.artist';
+    final public const string RELATION_PERFORMANCES_MEMBER = 'animethemes.song.performances.member';
     final public const string RELATION_RESOURCES = 'resources';
     final public const string RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscript';
     final public const string RELATION_SERIES = 'series';

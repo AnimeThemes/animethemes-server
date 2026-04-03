@@ -45,6 +45,8 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
         return $this->withIntermediatePaths([
             new AllowedInclude(new AnimeSchema(), Song::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), Song::RELATION_ARTISTS),
+            new AllowedInclude(new ArtistSchema(), Song::RELATION_PERFORMANCES_ARTIST),
+            new AllowedInclude(new ArtistSchema(), Song::RELATION_PERFORMANCES_MEMBER),
             new AllowedInclude(new ExternalResourceSchema(), Song::RELATION_RESOURCES),
             new AllowedInclude(new GroupSchema(), Song::RELATION_THEME_GROUPS),
             new AllowedInclude(new PerformanceSchema(), Song::RELATION_PERFORMANCES),

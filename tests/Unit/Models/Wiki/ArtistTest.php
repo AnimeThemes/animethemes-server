@@ -76,7 +76,7 @@ test('performances', function () {
         ->createOne();
 
     Performance::factory()
-        ->for(Artist::factory(), Performance::RELATION_ARTIST)
+        ->for($artist, Performance::RELATION_ARTIST)
         ->count($performanceCount)
         ->create();
 

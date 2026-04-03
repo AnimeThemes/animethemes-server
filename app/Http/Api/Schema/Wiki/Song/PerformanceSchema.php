@@ -16,6 +16,7 @@ use App\Http\Api\Field\Wiki\Song\Performance\PerformanceMemberIdField;
 use App\Http\Api\Field\Wiki\Song\Performance\PerformanceSongIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\Wiki\Song\Resource\PerformanceJsonResource;
 use App\Models\Wiki\Song\Performance;
@@ -34,6 +35,8 @@ class PerformanceSchema extends EloquentSchema implements SearchableSchema
     {
         return $this->withIntermediatePaths([
             new AllowedInclude(new SongSchema(), Performance::RELATION_SONG),
+            new AllowedInclude(new ArtistSchema(), Performance::RELATION_ARTIST),
+            new AllowedInclude(new ArtistSchema(), Performance::RELATION_MEMBER),
         ]);
     }
 
