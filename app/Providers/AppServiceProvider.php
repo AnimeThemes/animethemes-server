@@ -26,7 +26,6 @@ use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistSong;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Prohibition\ProhibitionSeeder;
 use Database\Seeders\Auth\Role\AdminSeeder;
@@ -124,7 +123,6 @@ class AppServiceProvider extends ServiceProvider
             'animestudio' => AnimeStudio::class,
             'animethemeentryvideo' => AnimeThemeEntryVideo::class,
             'artistmember' => ArtistMember::class,
-            'artistsong' => ArtistSong::class,
         ]);
     }
 }

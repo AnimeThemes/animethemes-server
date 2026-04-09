@@ -12,10 +12,8 @@ use App\Http\Api\Field\Wiki\Song\SongTitleField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
-use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Http\Resources\Wiki\Resource\SongJsonResource;
 use App\Models\Wiki\Song;
 
@@ -27,7 +25,7 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
     public function allowedPivots(): array
     {
         return [
-            new AllowedInclude(new ArtistSongSchema(), ArtistSongJsonResource::$wrap),
+            new AllowedInclude(new PerformanceSchema(), 'artistsong'),
             new AllowedInclude(new ResourceableSchema($this, 'songresource'), 'songresource'),
         ];
     }

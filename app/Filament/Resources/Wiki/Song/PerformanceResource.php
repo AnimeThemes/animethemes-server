@@ -24,6 +24,7 @@ use App\Models\Wiki\Song\Performance;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Filters\QueryBuilder;
@@ -130,12 +131,10 @@ class PerformanceResource extends BaseResource
                         TextEntry::make(Performance::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        BelongsToEntry::make(Performance::RELATION_SONG, SongResource::class),
+                        BelongsToEntry::make(Performance::RELATION_SONG, SongResource::class)
+                            ->hiddenOn(ViewTheme::class),
 
                         BelongsToEntry::make(Performance::RELATION_ARTIST, ArtistResource::class),
-
-                        BelongsToEntry::make(Performance::RELATION_MEMBER, ArtistResource::class)
-                            ->label(__('filament.fields.performance.member')),
 
                         TextEntry::make(Performance::ATTRIBUTE_ALIAS)
                             ->label(__('filament.fields.performance.alias.name')),
@@ -143,13 +142,19 @@ class PerformanceResource extends BaseResource
                         TextEntry::make(Performance::ATTRIBUTE_AS)
                             ->label(__('filament.fields.performance.as.name')),
 
+                        BelongsToEntry::make(Performance::RELATION_MEMBER, ArtistResource::class)
+                            ->label(__('filament.fields.performance.member'))
+                            ->visible(fn ($state): bool => filled($state)),
+
                         TextEntry::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
-                            ->label(__('filament.fields.performance.member_alias.name')),
+                            ->label(__('filament.fields.performance.member_alias.name'))
+                            ->visible(fn (Get $get): bool => filled($get(Performance::RELATION_MEMBER))),
 
                         TextEntry::make(Performance::ATTRIBUTE_MEMBER_AS)
-                            ->label(__('filament.fields.performance.member_as.name')),
+                            ->label(__('filament.fields.performance.member_as.name'))
+                            ->visible(fn (Get $get): bool => filled($get(Performance::RELATION_MEMBER))),
                     ])
-                    ->columns(fn ($livewire): int => $livewire instanceof ViewTheme ? 3 : 2),
+                    ->columns(fn ($livewire): int => $livewire instanceof ViewTheme ? 4 : 2),
 
                 TimestampSection::make()
                     ->hiddenOn(ViewTheme::class),

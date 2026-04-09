@@ -16,11 +16,10 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Pivot\Morph\ImageableSchema;
 use App\Http\Api\Schema\Pivot\Morph\ResourceableSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
-use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberJsonResource;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Http\Resources\Wiki\Resource\ArtistJsonResource;
 use App\Models\Wiki\Artist;
 
@@ -35,7 +34,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
             new AllowedInclude(new ImageableSchema($this, 'artistimage'), 'artistimage'),
             new AllowedInclude(new ArtistMemberSchema(), ArtistMemberJsonResource::$wrap),
             new AllowedInclude(new ResourceableSchema($this, 'artistresource'), 'artistresource'),
-            new AllowedInclude(new ArtistSongSchema(), ArtistSongJsonResource::$wrap),
+            new AllowedInclude(new PerformanceSchema(), 'artistsong'),
         ];
     }
 

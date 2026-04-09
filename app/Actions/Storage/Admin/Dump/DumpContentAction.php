@@ -27,7 +27,6 @@ use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -53,7 +52,7 @@ class DumpContentAction extends DumpAction
             AnimeThemeEntryVideo::TABLE,
             Artist::TABLE,
             ArtistMember::TABLE,
-            ArtistSong::TABLE,
+            'artist_song',
             Audio::TABLE,
             ExternalResource::TABLE,
             Group::TABLE,

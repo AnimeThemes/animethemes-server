@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song\Performance;
 
-use App\Contracts\Events\CreateArtistSongEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Song\PerformanceResource as PerformanceFilament;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
-use App\Pivots\Wiki\ArtistSong;
 
 /**
  * @extends WikiDeletedEvent<Performance>
  */
-class PerformanceDeleted extends WikiDeletedEvent implements CreateArtistSongEvent, UpdateRelatedIndicesEvent
+class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
 {
     protected function getDiscordMessageDescription(): string
     {
@@ -59,14 +57,5 @@ class PerformanceDeleted extends WikiDeletedEvent implements CreateArtistSongEve
 
         $performance->artist->searchable();
         $performance->member?->searchable();
-    }
-
-    public function createArtistSong(): void
-    {
-        $performance = $this->getModel();
-
-        ArtistSong::withoutEvents(function () use ($performance): void {
-            $performance->song->artists()->detach($performance->artist_id);
-        });
     }
 }

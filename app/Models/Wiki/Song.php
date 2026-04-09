@@ -13,12 +13,10 @@ use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongForceDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
-use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongJsonResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\ArtistSong;
 use App\Scout\Elasticsearch\Models\Wiki\SongElasticModel;
 use App\Scout\Typesense\Models\Wiki\SongTypesenseModel;
 use Database\Factories\Wiki\SongFactory;
@@ -148,16 +146,19 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
         return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_SONG);
     }
 
-    /**
-     * @return BelongsToMany<Artist, $this, ArtistSong>
-     */
     #[Deprecated]
     public function artists(): BelongsToMany
     {
-        return $this->belongsToMany(Artist::class, ArtistSong::TABLE, ArtistSong::ATTRIBUTE_SONG, ArtistSong::ATTRIBUTE_ARTIST)
-            ->using(ArtistSong::class)
-            ->as(ArtistSongJsonResource::$wrap)
-            ->withPivot([ArtistSong::ATTRIBUTE_ID, ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
+        $sub = Performance::query()
+            ->selectRaw('MIN(performance_id) as performance_id')
+            ->groupBy(Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST);
+
+        return $this->belongsToMany(Artist::class, Performance::TABLE, Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST)
+            ->joinSub($sub, 'unique_performances', function ($join): void {
+                $join->on('performances.performance_id', '=', 'unique_performances.performance_id');
+            })
+            ->as('artistsong')
+            ->withPivot([Performance::ATTRIBUTE_ID, Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS])
             ->withTimestamps();
     }
 

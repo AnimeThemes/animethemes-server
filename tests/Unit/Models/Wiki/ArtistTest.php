@@ -11,7 +11,6 @@ use App\Models\Wiki\Synonym;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -66,7 +65,7 @@ test('songs', function () {
     $this->assertInstanceOf(BelongsToMany::class, $artist->songs());
     $this->assertEquals($songCount, $artist->songs()->count());
     $this->assertInstanceOf(Song::class, $artist->songs()->first());
-    $this->assertEquals(ArtistSong::class, $artist->songs()->getPivotClass());
+    $this->assertEquals(Performance::class, $artist->songs()->getPivotClass());
 });
 
 test('performances', function () {
