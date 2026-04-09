@@ -61,7 +61,6 @@ class PerformanceForm
                 ->defaultItems(0)
                 ->columns(3)
                 ->columnSpanFull()
-                ->reorderableWithDragAndDrop(false)
                 ->reorderableWithButtons()
                 ->formatStateUsing(function ($livewire, Get $get): array {
                     /** @var Song|null $song */
@@ -94,7 +93,6 @@ class PerformanceForm
                         ->defaultItems(0)
                         ->columns(3)
                         ->columnSpanFull()
-                        ->reorderableWithDragAndDrop(false)
                         ->reorderableWithButtons()
                         ->schema([
                             BelongsTo::make(Performance::ATTRIBUTE_MEMBER)

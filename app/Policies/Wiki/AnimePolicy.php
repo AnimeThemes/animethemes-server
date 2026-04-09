@@ -8,39 +8,15 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
-use App\Models\Wiki\Synonym;
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\Response;
 
 class AnimePolicy extends BasePolicy
 {
-    public function addAnyAnimeSynonym(User $user): Response
-    {
-        return $user->can(CrudPermission::UPDATE->format(AnimeSynonym::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function addAnySynonym(User $user): Response
-    {
-        return $user->can(CrudPermission::UPDATE->format(Synonym::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
-    public function addAnyAnimeTheme(User $user): Response
-    {
-        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class))
-            ? Response::allow()
-            : Response::deny();
-    }
-
     public function attachAnySeries(User $user): Response
     {
         return $user->can(CrudPermission::CREATE->format(Anime::class)) && $user->can(CrudPermission::CREATE->format(Series::class))

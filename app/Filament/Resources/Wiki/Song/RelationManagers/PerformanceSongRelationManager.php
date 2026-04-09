@@ -12,7 +12,9 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance;
 use Filament\Actions\Action;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class PerformanceSongRelationManager extends PerformanceRelationManager
 {
@@ -26,7 +28,9 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         return parent::table(
             $table
                 ->inverseRelationship(Performance::RELATION_SONG)
-        );
+        )
+            ->reorderable(Performance::ATTRIBUTE_RELEVANCE)
+            ->defaultSort(Performance::ATTRIBUTE_RELEVANCE);
     }
 
     /**
@@ -60,17 +64,19 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         return $song->performances
             ->sortBy(Performance::ATTRIBUTE_RELEVANCE)
             ->groupBy(Performance::ATTRIBUTE_ARTIST)
-            ->mapWithKeys(fn ($performances, $artistId): array => [
-                $artistId => [
+            ->mapWithKeys(fn (Collection $performances, $artistId): array => [
+                Str::uuid()->__toString() => [
                     Performance::ATTRIBUTE_ARTIST => $artistId,
                     Performance::ATTRIBUTE_AS => $performances->first()->getAttribute(Performance::ATTRIBUTE_AS),
                     Performance::ATTRIBUTE_ALIAS => $performances->first()->getAttribute(Performance::ATTRIBUTE_ALIAS),
                     PerformanceForm::REPEATER_MEMBERS => $performances
                         ->filter(fn (Performance $performance): bool => filled($performance->getAttribute(Performance::ATTRIBUTE_MEMBER)))
-                        ->map(fn (Performance $performance): array => [
-                            Performance::ATTRIBUTE_MEMBER => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER),
-                            Performance::ATTRIBUTE_MEMBER_ALIAS => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER_ALIAS),
-                            Performance::ATTRIBUTE_MEMBER_AS => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER_AS),
+                        ->mapWithKeys(fn (Performance $performance): array => [
+                            Str::uuid()->__toString() => [
+                                Performance::ATTRIBUTE_MEMBER => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER),
+                                Performance::ATTRIBUTE_MEMBER_ALIAS => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER_ALIAS),
+                                Performance::ATTRIBUTE_MEMBER_AS => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER_AS),
+                            ],
                         ])->all(),
                 ],
             ])
