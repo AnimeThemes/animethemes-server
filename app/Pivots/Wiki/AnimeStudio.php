@@ -12,6 +12,8 @@ use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\AnimeStudioFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Anime $anime
@@ -22,8 +24,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static AnimeStudioFactory factory(...$parameters)
  */
 #[Table(AnimeStudio::TABLE)]
-class AnimeStudio extends BasePivot
+class AnimeStudio extends BasePivot implements Auditable
 {
+    use HasAudits;
+
     final public const string TABLE = 'anime_studio';
 
     final public const string ATTRIBUTE_ANIME = 'anime_id';

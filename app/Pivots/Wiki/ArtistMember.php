@@ -12,6 +12,8 @@ use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\ArtistMemberFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Artist $artist
@@ -26,8 +28,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static ArtistMemberFactory factory(...$parameters)
  */
 #[Table(ArtistMember::TABLE)]
-class ArtistMember extends BasePivot
+class ArtistMember extends BasePivot implements Auditable
 {
+    use HasAudits;
+
     final public const string TABLE = 'artist_member';
 
     final public const string ATTRIBUTE_ALIAS = 'alias';
