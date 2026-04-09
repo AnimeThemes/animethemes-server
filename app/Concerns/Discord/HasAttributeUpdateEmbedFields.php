@@ -10,7 +10,10 @@ use Illuminate\Support\Collection;
 
 trait HasAttributeUpdateEmbedFields
 {
-    use HasDiscordEmbedFields;
+    /**
+     * @var DiscordEmbedField[]
+     */
+    protected array $embedFields = [];
 
     /**
      * Initialize embed fields with inline attribute changes.
@@ -49,5 +52,18 @@ trait HasAttributeUpdateEmbedFields
             $this->addEmbedField(new DiscordEmbedField('Old', $this->getAttributeValue($original, $attribute), true));
             $this->addEmbedField(new DiscordEmbedField('New', $this->getAttributeValue($changed, $attribute), true));
         }
+    }
+
+    protected function addEmbedField(DiscordEmbedField $embedField): void
+    {
+        $this->embedFields[] = $embedField;
+    }
+
+    /**
+     * @return DiscordEmbedField[]
+     */
+    protected function getEmbedFields(): array
+    {
+        return $this->embedFields;
     }
 }
