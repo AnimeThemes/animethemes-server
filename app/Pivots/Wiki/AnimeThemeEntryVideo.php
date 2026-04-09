@@ -12,6 +12,8 @@ use App\Pivots\BasePivot;
 use Database\Factories\Pivots\Wiki\AnimeThemeEntryVideoFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property AnimeThemeEntry $animethemeentry
@@ -22,8 +24,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static AnimeThemeEntryVideoFactory factory(...$parameters)
  */
 #[Table(AnimeThemeEntryVideo::TABLE)]
-class AnimeThemeEntryVideo extends BasePivot
+class AnimeThemeEntryVideo extends BasePivot implements Auditable
 {
+    use HasAudits;
+
     final public const string TABLE = 'anime_theme_entry_video';
 
     final public const string ATTRIBUTE_ENTRY = 'entry_id';

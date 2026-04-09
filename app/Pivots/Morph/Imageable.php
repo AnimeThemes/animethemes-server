@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Model&HasImages&Nameable $imageable
@@ -32,8 +34,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static ImageableFactory factory(...$parameters)
  */
 #[Table(Imageable::TABLE)]
-class Imageable extends BaseMorphPivot
+class Imageable extends BaseMorphPivot implements Auditable
 {
+    use HasAudits;
+
     final public const string TABLE = 'imageables';
 
     final public const string ATTRIBUTE_DEPTH = 'depth';

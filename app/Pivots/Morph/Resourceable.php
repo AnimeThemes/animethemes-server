@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @property Model&HasResources&Nameable $resourceable
@@ -33,8 +35,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static ResourceableFactory factory(...$parameters)
  */
 #[Table(Resourceable::TABLE)]
-class Resourceable extends BaseMorphPivot
+class Resourceable extends BaseMorphPivot implements Auditable
 {
+    use HasAudits;
+
     final public const string TABLE = 'resourceables';
 
     final public const string ATTRIBUTE_AS = 'as';
