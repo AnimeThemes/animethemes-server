@@ -99,7 +99,6 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
 
     public $sortable = [
         'order_column_name' => Performance::ATTRIBUTE_RELEVANCE,
-        'sort_when_creating' => false,
     ];
 
     /**

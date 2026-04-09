@@ -15,9 +15,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 
 class CreateAction extends BaseCreateAction
 {
@@ -54,30 +52,16 @@ class CreateAction extends BaseCreateAction
             }
         });
 
-        $this->visible(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, string $model) {
+        $this->visible(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, string $model): bool {
+            if ($livewire instanceof BaseRelationManager && $livewire->getRelationship() instanceof BelongsToMany) {
+                return false;
+            }
+
             if ($livewire instanceof BaseListResources || $livewire instanceof BaseManageResources) {
                 return $livewire->getResource()::canCreate() && Gate::allows('create', $model);
             }
 
-            if (! $livewire->canCreate()) {
-                return false;
-            }
-
-            if ($livewire->getRelationship() instanceof BelongsToMany) {
-                return false;
-            }
-
-            $ownerRecord = $livewire->getOwnerRecord();
-
-            $gate = Gate::getPolicyFor($ownerRecord);
-
-            $ability = Str::of('addAny')
-                ->append(Str::studly(class_basename($livewire->getTable()->getModel())))
-                ->__toString();
-
-            return (is_object($gate) & method_exists($gate, $ability)) !== 0
-                ? Gate::forUser(Auth::user())->check($ability, $ownerRecord::class)
-                : true;
+            return $livewire->canCreate();
         });
     }
 }
