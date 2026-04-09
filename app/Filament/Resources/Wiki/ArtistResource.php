@@ -23,7 +23,6 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberPerformanceArtistR
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SynonymArtistRelationManager;
 use App\Models\Wiki\Artist;
-use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -143,14 +142,6 @@ class ArtistResource extends BaseResource
                             ->markdown()
                             ->hidden(fn ($livewire): bool => $livewire instanceof ViewTheme)
                             ->columnSpanFull(),
-
-                        TextEntry::make('artistsong.'.ArtistSong::ATTRIBUTE_AS)
-                            ->label(__('filament.fields.artist.songs.as.name'))
-                            ->visible(fn (TextEntry $component): bool => $component->getLivewire() instanceof ViewTheme),
-
-                        TextEntry::make('artistsong.'.ArtistSong::ATTRIBUTE_ALIAS)
-                            ->label(__('filament.fields.artist.songs.alias.name'))
-                            ->visible(fn (TextEntry $component): bool => $component->getLivewire() instanceof ViewTheme),
                     ])
                     ->columns(3),
 

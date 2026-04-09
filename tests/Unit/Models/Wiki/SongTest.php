@@ -9,7 +9,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Morph\Resourceable;
-use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -65,7 +64,7 @@ test('artists', function () {
     $this->assertInstanceOf(BelongsToMany::class, $song->artists());
     $this->assertEquals($artistCount, $song->artists()->count());
     $this->assertInstanceOf(Artist::class, $song->artists()->first());
-    $this->assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
+    $this->assertEquals(Performance::class, $song->artists()->getPivotClass());
 });
 
 test('performances', function () {

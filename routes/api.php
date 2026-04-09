@@ -24,7 +24,6 @@ use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
-use App\Http\Controllers\Api\Pivot\Wiki\ArtistSongController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\Wiki\Anime\AnimeSynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
@@ -247,7 +246,6 @@ apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class)
 apiPivotResource('animestudio', 'anime', 'studio', AnimeStudioController::class);
 apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', AnimeThemeEntryVideoController::class);
 apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
-apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::class);
 
 // Wiki Routes
 apiResource('anime', AnimeController::class);
