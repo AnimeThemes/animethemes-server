@@ -60,6 +60,7 @@
         "staudenmeir/laravel-adjacency-list": "^1.26.0",
         "symfony/http-client": "^6.4.36",
         "symfony/mailgun-mailer": "^6.4.24",
+        "tapp/filament-auditing": "^4.0.9",
         "typesense/typesense-php": "^6.0",
         "vinkla/hashids": "^14.0"
     },
