@@ -15,6 +15,9 @@ use RuntimeException;
 
 abstract class EloquentSchema extends Schema
 {
+    /** @var array<string, Schema> */
+    protected array $resolveCache = [];
+
     /**
      * Get the resource of the schema.
      */
@@ -61,64 +64,65 @@ abstract class EloquentSchema extends Schema
      */
     protected function withIntermediatePaths(array $allowedIncludesToMerge = []): array
     {
-        $allowedIncludes = collect();
+        $allowedIncludes = [];
+        $schemasCache = [];
+
+        $includesByPath = [];
+        foreach ($allowedIncludesToMerge as $include) {
+            $includesByPath[$include->path()] = $include;
+        }
 
         foreach ($allowedIncludesToMerge as $allowedInclude) {
-            // When a path doesn't have intermediate paths
             if ($allowedInclude->isDirectRelation()) {
-                $allowedIncludes->put($allowedInclude->path(), $allowedInclude);
+                $allowedIncludes[$allowedInclude->path()] = $allowedInclude;
                 continue;
             }
 
-            $appendPath = Str::of('');
-            foreach (explode('.', $allowedInclude->path()) as $path) {
-                $appendPath = $appendPath->append(blank($appendPath->__toString()) ? '' : '.', $path);
+            $parts = explode('.', $allowedInclude->path());
+            $currentPath = '';
 
-                $stringAppendPath = $appendPath->__toString();
+            foreach ($parts as $part) {
+                $currentPath = $currentPath === '' ? $part : "$currentPath.$part";
 
-                $schema = null;
-                foreach ($allowedIncludesToMerge as $include) {
-                    if ($include->path() === $stringAppendPath) {
-                        $schema = $include->schema();
-                        break;
+                if (isset($allowedIncludes[$currentPath])) {
+                    continue;
+                }
+
+                if (isset($includesByPath[$currentPath])) {
+                    $schema = $includesByPath[$currentPath]->schema();
+                } else {
+                    if (! isset($schemasCache[$currentPath])) {
+                        $schemasCache[$currentPath] = $this->resolve($currentPath);
                     }
+
+                    $schema = $schemasCache[$currentPath];
                 }
 
-                if ($schema === null) {
-                    $schema = $this->resolve($stringAppendPath);
-                }
-
-                $allowedIncludes->put($stringAppendPath, new AllowedInclude($schema, $stringAppendPath));
+                $allowedIncludes[$currentPath] = new AllowedInclude($schema, $currentPath);
             }
         }
 
-        return $allowedIncludes->values()->toArray();
+        return array_values($allowedIncludes);
     }
 
-    /**
-     * @throws RuntimeException
-     */
     protected function resolve(string $path): Schema
     {
+        if (isset($this->resolveCache[$path])) {
+            return $this->resolveCache[$path];
+        }
+
         $model = $this->model();
 
-        foreach (explode('.', $path) as $path) {
-            if (! method_exists($model, $path)) {
-                $classBasename = $model::class;
-                throw new RuntimeException("Relation '$path' does not exist on model '$classBasename'.");
-            }
-            $model = $model->$path()->getRelated();
+        foreach (explode('.', $path) as $segment) {
+            throw_unless(method_exists($model, $segment), RuntimeException::class, "Relation '$segment' does not exist on model '".$model::class."'.");
+
+            $model = $model->$segment()->getRelated();
         }
 
-        if ($model instanceof InteractsWithSchema) {
-            return $model->schema();
-        }
+        $schema = $model instanceof InteractsWithSchema
+            ? $model->schema()
+            : new (str_replace('Models', 'Http\\Api\\Schema', $model::class).'Schema');
 
-        $schema = Str::of($model::class)
-            ->replace('Models', 'Http\\Api\\Schema')
-            ->append('Schema')
-            ->__toString();
-
-        return new $schema;
+        return $this->resolveCache[$path] = $schema;
     }
 }
