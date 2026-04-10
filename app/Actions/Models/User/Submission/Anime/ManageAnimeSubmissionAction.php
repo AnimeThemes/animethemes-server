@@ -6,7 +6,7 @@ namespace App\Actions\Models\User\Submission\Anime;
 
 use App\Actions\Models\User\Submission\SubmissionAction;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
-use App\Models\User\Submission\SubmissionStage;
+use App\Models\User\Submission;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\DB;
 class ManageAnimeSubmissionAction extends SubmissionAction
 {
     /**
-     * Approve the submission stage.
+     * Approve the submission.
      */
-    public function approve(SubmissionStage $stage): void
+    public function approve(Submission $submission): void
     {
         DB::beginTransaction();
 
-        $fields = $stage->getAttribute(SubmissionStage::ATTRIBUTE_FIELDS);
+        $fields = $submission->getAttribute(Submission::ATTRIBUTE_FIELDS);
 
         $fields = $this->createVirtuals($fields);
 

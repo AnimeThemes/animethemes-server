@@ -9,7 +9,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Submission\Resources\Anime\Pages\CreateAnimeSubmission;
 use App\Filament\Submission\Resources\Anime\Pages\ListAnimeSubmissions;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStage;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -63,9 +62,7 @@ class AnimeSubmissionResource extends BaseSubmissionResource
         $query->whereBelongsTo(Auth::user(), Submission::RELATION_USER);
 
         // Necessary to prevent lazy loading when loading related resources
-        return $query->with([
-            Submission::RELATION_STAGES,
-        ]);
+        return $query->with([]);
     }
 
     public static function table(Table $table): Table
@@ -80,10 +77,7 @@ class AnimeSubmissionResource extends BaseSubmissionResource
                     ->state(
                         fn (Submission $submission) => Arr::get(
                             $submission
-                                ->stages
-                                ->sortBy(SubmissionStage::ATTRIBUTE_CREATED_AT)
-                                ->first()
-                                ->getAttribute(SubmissionStage::ATTRIBUTE_FIELDS),
+                                ->getAttribute(Submission::ATTRIBUTE_FIELDS),
                             'anime.name'
                         )
                     ),

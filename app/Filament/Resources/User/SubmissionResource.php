@@ -15,9 +15,7 @@ use App\Filament\Resources\Auth\UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\User\Submission\Pages\ListSubmissions;
 use App\Filament\Resources\User\Submission\Pages\ViewSubmission;
-use App\Filament\Resources\User\Submission\RelationManagers\StageSubmissionRelationManager;
 use App\Models\User\Submission;
-use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -130,18 +128,6 @@ class SubmissionResource extends BaseResource
 
                 TimestampSection::make(),
             ]);
-    }
-
-    /**
-     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getModelLabel(), [
-                StageSubmissionRelationManager::class,
-            ]),
-        ];
     }
 
     /**

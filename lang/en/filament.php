@@ -893,13 +893,8 @@ return [
             'locked' => 'Locked',
             'moderator' => 'Moderator',
             'moderator_notes' => 'Moderator Notes',
-            'status' => 'Status',
-        ],
-        'submission_stage' => [
-            'stage' => 'Stage',
-            'moderator' => 'Moderator',
-            'moderator_notes' => 'Moderator Notes',
             'notes' => 'Notes',
+            'status' => 'Status',
         ],
         'synonym' => [
             'text' => [
@@ -1063,7 +1058,6 @@ return [
             'playlists' => 'Playlists',
             'prohibitions' => 'Prohibitions',
             'submissions' => 'Submissions',
-            'submission_stages' => 'Submission Stages',
             'roles' => 'Roles',
             'sanctions' => 'Sanctions',
             'series' => 'Series',
@@ -1102,7 +1096,6 @@ return [
             'prohibition' => 'Prohibition',
             'sanction' => 'Sanction',
             'submission' => 'Submission',
-            'submission_stage' => 'Submission Stage',
             'role' => 'Role',
             'series' => 'Series',
             'song' => 'Song',

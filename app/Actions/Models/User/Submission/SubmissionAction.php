@@ -6,7 +6,6 @@ namespace App\Actions\Models\User\Submission;
 
 use App\Enums\Models\User\SubmissionStatus;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStage;
 use App\Models\User\Submission\SubmissionVirtual;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -16,48 +15,45 @@ abstract class SubmissionAction
     /**
      * Mark the submission as approved.
      */
-    public static function markAsApproved(SubmissionStage $stage, string $modNotes): void
+    public static function markAsApproved(Submission $submission, string $modNotes): void
     {
-        static::markAs(SubmissionStatus::APPROVED, $stage, $modNotes);
+        static::markAs(SubmissionStatus::APPROVED, $submission, $modNotes);
     }
 
     /**
      * Mark the submission as changes requested.
      */
-    public static function markAsChangesRequested(SubmissionStage $stage, string $modNotes): void
+    public static function markAsChangesRequested(Submission $submission, string $modNotes): void
     {
-        static::markAs(SubmissionStatus::CHANGES_REQUESTED, $stage, $modNotes);
+        static::markAs(SubmissionStatus::CHANGES_REQUESTED, $submission, $modNotes);
     }
 
     /**
      * Mark the submission as partially accepted.
      */
-    public static function markAsPartiallyAccepted(SubmissionStage $stage, string $modNotes): void
+    public static function markAsPartiallyAccepted(Submission $submission, string $modNotes): void
     {
-        static::markAs(SubmissionStatus::PARTIALLY_APPROVED, $stage, $modNotes);
+        static::markAs(SubmissionStatus::PARTIALLY_APPROVED, $submission, $modNotes);
     }
 
     /**
      * Mark the submission as partially rejected.
      */
-    public static function markAsRejected(SubmissionStage $stage, string $modNotes): void
+    public static function markAsRejected(Submission $submission, string $modNotes): void
     {
-        static::markAs(SubmissionStatus::REJECTED, $stage, $modNotes);
+        static::markAs(SubmissionStatus::REJECTED, $submission, $modNotes);
     }
 
     /**
      * Mark the submission as $status.
      */
-    public static function markAs(SubmissionStatus $status, SubmissionStage $stage, string $modNotes): void
+    public static function markAs(SubmissionStatus $status, Submission $submission, string $modNotes): void
     {
-        $stage->update([
-            SubmissionStage::ATTRIBUTE_MODERATOR => Auth::id(),
-            SubmissionStage::ATTRIBUTE_MODERATOR_NOTES => $modNotes,
-        ]);
-
-        $stage->submission->update([
+        $submission->update([
             Submission::ATTRIBUTE_LOCKED => true,
-            Submission::ATTRIBUTE_STATUS => $status->value,
+            Submission::ATTRIBUTE_MODERATOR => Auth::id(),
+            Submission::ATTRIBUTE_MODERATOR_NOTES => $modNotes,
+            Submission::ATTRIBUTE_STATUS => $status,
         ]);
     }
 

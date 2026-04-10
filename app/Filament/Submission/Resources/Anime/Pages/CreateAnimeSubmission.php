@@ -22,7 +22,6 @@ use App\Filament\Resources\Wiki\StudioResource;
 use App\Filament\Resources\Wiki\SynonymResource;
 use App\Filament\Submission\Resources\AnimeSubmissionResource;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStage;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
@@ -51,7 +50,7 @@ class CreateAnimeSubmission extends CreateRecord
     {
         return $schema
             ->components([
-                Textarea::make(SubmissionStage::ATTRIBUTE_NOTES)
+                Textarea::make(Submission::ATTRIBUTE_NOTES)
                     ->label(__('submissions.fields.base.notes.name'))
                     ->helperText(__('submissions.fields.base.notes.help'))
                     ->required()
@@ -229,19 +228,13 @@ class CreateAnimeSubmission extends CreateRecord
     // TODO: Refactor common submission creation logic
     protected function handleRecordCreation(array $data): Model
     {
-        $submission = Submission::query()
+        Submission::query()
             ->create([
+                Submission::ATTRIBUTE_FIELDS => Arr::except($data, Submission::ATTRIBUTE_NOTES),
+                Submission::ATTRIBUTE_NOTES => Arr::get($data, Submission::ATTRIBUTE_NOTES),
                 Submission::ATTRIBUTE_STATUS => SubmissionStatus::PENDING->value,
                 Submission::ATTRIBUTE_TYPE => CreateAnimeSubmission::class,
                 Submission::ATTRIBUTE_USER => Auth::id(),
-            ]);
-
-        SubmissionStage::query()
-            ->create([
-                SubmissionStage::ATTRIBUTE_SUBMISSION => $submission->getKey(),
-                SubmissionStage::ATTRIBUTE_FIELDS => Arr::except($data, SubmissionStage::ATTRIBUTE_NOTES),
-                SubmissionStage::ATTRIBUTE_NOTES => Arr::get($data, SubmissionStage::ATTRIBUTE_NOTES),
-                SubmissionStage::ATTRIBUTE_STAGE => 1,
             ]);
 
         $this->halt();
