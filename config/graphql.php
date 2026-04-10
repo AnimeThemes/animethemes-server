@@ -8,8 +8,6 @@ use App\GraphQL\Schema\Types\Base\PaginationInfoType;
 return [
     'domain' => env('GRAPHQL_URL', env('APP_URL')),
 
-    'rate_limit' => (int) env('GRAPHQL_RATE_LIMIT', 135),
-
     'route' => [
         // The prefix for routes; do NOT use a leading slash!
         'prefix' => env('GRAPHQL_PATH', '/'),

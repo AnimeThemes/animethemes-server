@@ -8,7 +8,6 @@ use App\Http\Middleware\Api\SetAcceptJsonHeader;
 use App\Http\Middleware\Api\SetServingJsonApi;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Auth\RedirectIfAuthenticated;
-use App\Http\Middleware\GraphQL\RateLimitPerQuery;
 use App\Http\Middleware\GraphQL\RequiresContentType;
 use App\Http\Middleware\GraphQL\SetServingGraphQL;
 use App\Http\Middleware\LogRequest;
@@ -107,7 +106,7 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
 
             // Rate limiting GraphQL to prevent abuse.
-            RateLimitPerQuery::class,
+            'throttle:graphql',
         ],
     ];
 
