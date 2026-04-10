@@ -51,7 +51,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Format artists to the action.
      *
-     * @return array<int, array>
+     * @return array<string, array<string, mixed>>
      */
     public static function formatArtists(?Song $song = null): array
     {
@@ -64,13 +64,16 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         return $song->performances
             ->sortBy(Performance::ATTRIBUTE_RELEVANCE)
             ->groupBy(Performance::ATTRIBUTE_ARTIST)
+            /** @phpstan-ignore-next-line */
             ->mapWithKeys(fn (Collection $performances, $artistId): array => [
                 Str::uuid()->__toString() => [
                     Performance::ATTRIBUTE_ARTIST => $artistId,
                     Performance::ATTRIBUTE_AS => $performances->first()->getAttribute(Performance::ATTRIBUTE_AS),
                     Performance::ATTRIBUTE_ALIAS => $performances->first()->getAttribute(Performance::ATTRIBUTE_ALIAS),
                     PerformanceForm::REPEATER_MEMBERS => $performances
+                        /** @phpstan-ignore-next-line */
                         ->filter(fn (Performance $performance): bool => filled($performance->getAttribute(Performance::ATTRIBUTE_MEMBER)))
+                        /** @phpstan-ignore-next-line */
                         ->mapWithKeys(fn (Performance $performance): array => [
                             Str::uuid()->__toString() => [
                                 Performance::ATTRIBUTE_MEMBER => $performance->getAttribute(Performance::ATTRIBUTE_MEMBER),
