@@ -51,7 +51,7 @@ class IncludeParser extends Parser
      */
     protected static function parseCriteria(string $includeParam): Criteria
     {
-        $paths = Str::of($includeParam)->lower()->explode(',');
+        $paths = Str::of($includeParam)->explode(',');
 
         $paths = self::createIntermediatePaths($paths);
 
@@ -63,7 +63,7 @@ class IncludeParser extends Parser
      */
     protected static function parseResourceCriteria(string $type, string $includeParam): ResourceCriteria
     {
-        $paths = Str::of($includeParam)->lower()->explode(',');
+        $paths = Str::of($includeParam)->explode(',');
 
         $paths = self::createIntermediatePaths($paths);
 

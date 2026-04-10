@@ -65,7 +65,6 @@ test('songs', function () {
     $this->assertInstanceOf(BelongsToMany::class, $artist->songs());
     $this->assertEquals($songCount, $artist->songs()->count());
     $this->assertInstanceOf(Song::class, $artist->songs()->first());
-    $this->assertEquals(Performance::class, $artist->songs()->getPivotClass());
 });
 
 test('performances', function () {

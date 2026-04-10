@@ -61,23 +61,23 @@ test('discord embed format string', function () {
 test('discord embed format empty string', function () {
     $field = new DiscordEmbedField(fake()->word(), '');
 
-    $this->assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+    $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
 
 test('discord embed format null', function () {
     $field = new DiscordEmbedField(fake()->word(), null);
 
-    $this->assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+    $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
 
 test('discord embed format array', function () {
     $field = new DiscordEmbedField(fake()->word(), []);
 
-    $this->assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+    $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
 
 test('discord embed format object', function () {
     $field = new DiscordEmbedField(fake()->word(), new stdClass());
 
-    $this->assertEquals(DiscordEmbedField::DEFAULT_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
+    $this->assertEquals(DiscordEmbedField::DEFAULT_NULL_FIELD_VALUE, Arr::get($field->toArray(), 'value'));
 });
