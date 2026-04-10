@@ -41,49 +41,49 @@ class RateLimitPerQuery
             $ip = $forwardedIp;
         }
 
-        if ($query) {
-            $rootFields = 0;
-
-            try {
-                $ast = Parser::parse($query);
-
-                foreach ($ast->definitions as $definition) {
-                    if ($definition instanceof OperationDefinitionNode) {
-                        $rootFields += count($definition->selectionSet->selections ?? []);
-                    }
-                }
-            } catch (JsonException|SyntaxError) {
-                // Do nothing
-            }
-
-            $hits = max(1, $rootFields);
-
-            $key = sprintf('graphql:%s', Auth::id() ?? $ip);
-
-            foreach (range(1, $hits) as $_) {
-                if (RateLimiter::tooManyAttempts($key, $limit)) {
-                    $retryAfter = RateLimiter::availableIn($key);
-
-                    return new JsonResponse([
-                        'message' => 'Too Many Attempts.',
-                    ], 429, [
-                        'Retry-After' => $retryAfter,
-                        'X-RateLimit-Limit' => $limit,
-                        'X-RateLimit-Remaining' => RateLimiter::remaining($key, $limit),
-                        'X-RateLimit-Reset' => now()->addSeconds($retryAfter)->getTimestampMs(),
-                    ]);
-                }
-
-                RateLimiter::hit($key);
-            }
-
-            return $next($request)
-                ->withHeaders([
-                    'X-RateLimit-Limit' => $limit,
-                    'X-RateLimit-Remaining' => RateLimiter::remaining($key, $limit),
-                ]);
+        if (! $query) {
+            return $next($request);
         }
 
-        return $next($request);
+        $rootFields = 0;
+
+        try {
+            $ast = Parser::parse($query);
+
+            foreach ($ast->definitions as $definition) {
+                if ($definition instanceof OperationDefinitionNode) {
+                    $rootFields += count($definition->selectionSet->selections ?? []);
+                }
+            }
+        } catch (JsonException|SyntaxError) {
+            // Do nothing
+        }
+
+        $hits = max(1, $rootFields);
+
+        $key = sprintf('graphql:%s', Auth::id() ?? $ip);
+
+        $current = RateLimiter::attempts($key);
+
+        if (($current + $hits) > $limit) {
+            $retryAfter = RateLimiter::availableIn($key);
+
+            return new JsonResponse([
+                'message' => 'Too Many Attempts.',
+            ], 429, [
+                'Retry-After' => $retryAfter,
+                'X-RateLimit-Limit' => $limit,
+                'X-RateLimit-Remaining' => RateLimiter::remaining($key, $limit),
+                'X-RateLimit-Reset' => now()->addSeconds($retryAfter)->getTimestampMs(),
+            ]);
+        }
+
+        RateLimiter::increment($key, amount: $hits);
+
+        return $next($request)
+            ->withHeaders([
+                'X-RateLimit-Limit' => $limit,
+                'X-RateLimit-Remaining' => RateLimiter::remaining($key, $limit),
+            ]);
     }
 }
