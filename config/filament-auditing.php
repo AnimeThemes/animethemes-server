@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Filament\Components\Columns\TextColumn;
 use Tapp\FilamentAuditing\Filament\Resources\Audits\AuditResource;
 
@@ -25,13 +27,13 @@ return [
         'old_values' => [
             'class' => TextColumn::class,
             'methods' => [
-                'hidden' => true
+                'hidden' => true,
             ],
         ],
         'new_values' => [
             'class' => TextColumn::class,
             'methods' => [
-                'hidden' => true
+                'hidden' => true,
             ],
         ],
     ],
