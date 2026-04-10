@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Gate;
+use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 
 abstract class BaseResource extends Resource
 {
@@ -169,6 +170,7 @@ abstract class BaseResource extends Resource
     {
         return [
             ActionLogRelationManager::class,
+            AuditsRelationManager::class,
         ];
     }
 

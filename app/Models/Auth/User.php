@@ -44,6 +44,8 @@ use Kyrch\Prohibition\Traits\HasSanctions;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use OwenIt\Auditing\Auditable as HasAudits;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -75,9 +77,10 @@ use Spatie\Permission\Traits\HasRoles;
     User::ATTRIBUTE_TWO_FACTOR_SECRET,
 ])]
 #[Table(User::TABLE)]
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable, SoftDeletable
+class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable, SoftDeletable
 {
     use HasApiTokens;
+    use HasAudits;
     use HasFactory;
     use HasRoles;
     use HasSanctions;
