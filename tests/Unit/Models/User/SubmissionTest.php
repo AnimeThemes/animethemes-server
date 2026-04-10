@@ -5,9 +5,7 @@ declare(strict_types=1);
 use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\User\Submission;
-use App\Models\User\Submission\SubmissionStage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 uses(Illuminate\Foundation\Testing\WithFaker::class);
@@ -34,21 +32,6 @@ test('casts status to enum', function () {
     $submission = Submission::factory()->createOne();
 
     $this->assertInstanceOf(SubmissionStatus::class, $submission->status);
-});
-
-test('stages', function () {
-    $stagesCount = fake()->randomDigitNotNull();
-
-    $submission = Submission::factory()->createOne();
-
-    SubmissionStage::factory()
-        ->for($submission)
-        ->count($stagesCount)
-        ->create();
-
-    $this->assertInstanceOf(HasMany::class, $submission->stages());
-    $this->assertEquals($stagesCount, $submission->stages()->count());
-    $this->assertInstanceOf(SubmissionStage::class, $submission->stages()->first());
 });
 
 test('user', function () {

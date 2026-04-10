@@ -7,28 +7,26 @@ namespace App\Models\User;
 use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
-use App\Models\User\Submission\SubmissionStage;
 use Database\Factories\User\SubmissionFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 
 /**
  * @property string|null $actionable_type
  * @property string|null $actionable_id
+ * @property array $fields
  * @property Carbon|null $finished_at
  * @property bool $locked
+ * @property string|null $notes
  * @property User|null $moderator
  * @property int|null $moderator_id
  * @property string|null $moderator_notes
  * @property SubmissionStatus $status
- * @property Collection<int, SubmissionStage> $stages
  * @property User|null $user
  * @property int|null $user_id
  *
@@ -42,11 +40,13 @@ class Submission extends BaseModel
 
     final public const string TABLE = 'submissions';
 
-    final public const string ATTRIBUTE_ID = 'submission_id';
+    final public const string ATTRIBUTE_ID = 'id';
     final public const string ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
     final public const string ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
+    final public const string ATTRIBUTE_FIELDS = 'fields';
     final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
     final public const string ATTRIBUTE_LOCKED = 'locked';
+    final public const string ATTRIBUTE_NOTES = 'notes';
     final public const string ATTRIBUTE_MODERATOR = 'moderator_id';
     final public const string ATTRIBUTE_MODERATOR_NOTES = 'moderator_notes';
     final public const string ATTRIBUTE_STATUS = 'status';
@@ -55,7 +55,6 @@ class Submission extends BaseModel
 
     final public const string RELATION_ACTIONABLE = 'actionable';
     final public const string RELATION_MODERATOR = 'moderator';
-    final public const string RELATION_STAGES = 'stages';
     final public const string RELATION_USER = 'user';
 
     /**
@@ -66,8 +65,10 @@ class Submission extends BaseModel
     protected $fillable = [
         Submission::ATTRIBUTE_ACTIONABLE_TYPE,
         Submission::ATTRIBUTE_ACTIONABLE_ID,
+        Submission::ATTRIBUTE_FIELDS,
         Submission::ATTRIBUTE_FINISHED_AT,
         Submission::ATTRIBUTE_LOCKED,
+        Submission::ATTRIBUTE_NOTES,
         Submission::ATTRIBUTE_MODERATOR,
         Submission::ATTRIBUTE_MODERATOR_NOTES,
         Submission::ATTRIBUTE_STATUS,
@@ -85,8 +86,10 @@ class Submission extends BaseModel
         return [
             Submission::ATTRIBUTE_ACTIONABLE_TYPE => 'string',
             Submission::ATTRIBUTE_ACTIONABLE_ID => 'int',
+            Submission::ATTRIBUTE_FIELDS => 'string',
             Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
             Submission::ATTRIBUTE_LOCKED => 'bool',
+            Submission::ATTRIBUTE_NOTES => 'string',
             Submission::ATTRIBUTE_MODERATOR => 'int',
             Submission::ATTRIBUTE_MODERATOR_NOTES => 'string',
             Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
@@ -129,14 +132,6 @@ class Submission extends BaseModel
     public function actionable(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    /**
-     * @return HasMany<SubmissionStage, $this>
-     */
-    public function stages(): HasMany
-    {
-        return $this->hasMany(SubmissionStage::class, SubmissionStage::ATTRIBUTE_SUBMISSION);
     }
 
     /**
