@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Wiki\AnimeFormat;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;

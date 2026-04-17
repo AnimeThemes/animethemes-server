@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories\Wiki;
 
 use App\Enums\Models\Wiki\AnimeFormat;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
