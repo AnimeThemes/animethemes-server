@@ -73,19 +73,6 @@ class FeaturedTheme extends BaseModel implements Auditable
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        FeaturedTheme::ATTRIBUTE_END_AT,
-        FeaturedTheme::ATTRIBUTE_ENTRY,
-        FeaturedTheme::ATTRIBUTE_START_AT,
-        FeaturedTheme::ATTRIBUTE_USER,
-        FeaturedTheme::ATTRIBUTE_VIDEO,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

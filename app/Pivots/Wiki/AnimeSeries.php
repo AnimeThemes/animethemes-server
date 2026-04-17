@@ -49,16 +49,6 @@ class AnimeSeries extends BasePivot implements Auditable
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        AnimeSeries::ATTRIBUTE_ANIME,
-        AnimeSeries::ATTRIBUTE_SERIES,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

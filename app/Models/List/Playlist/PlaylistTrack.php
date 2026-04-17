@@ -81,18 +81,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        PlaylistTrack::ATTRIBUTE_ENTRY,
-        PlaylistTrack::ATTRIBUTE_PLAYLIST,
-        PlaylistTrack::ATTRIBUTE_POSITION,
-        PlaylistTrack::ATTRIBUTE_VIDEO,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

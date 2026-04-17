@@ -40,17 +40,6 @@ class WatchHistory extends BaseModel
     final public const string RELATION_VIDEO = 'video';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        WatchHistory::ATTRIBUTE_ENTRY,
-        WatchHistory::ATTRIBUTE_USER,
-        WatchHistory::ATTRIBUTE_VIDEO,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

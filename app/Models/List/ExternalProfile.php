@@ -84,20 +84,6 @@ class ExternalProfile extends BaseModel
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID,
-        ExternalProfile::ATTRIBUTE_NAME,
-        ExternalProfile::ATTRIBUTE_SITE,
-        ExternalProfile::ATTRIBUTE_SYNCED_AT,
-        ExternalProfile::ATTRIBUTE_VISIBILITY,
-        ExternalProfile::ATTRIBUTE_USER,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

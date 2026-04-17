@@ -49,16 +49,6 @@ class AnimeStudio extends BasePivot implements Auditable
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        AnimeStudio::ATTRIBUTE_ANIME,
-        AnimeStudio::ATTRIBUTE_STUDIO,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

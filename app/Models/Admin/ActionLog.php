@@ -74,27 +74,6 @@ class ActionLog extends Model implements Nameable
     final public const string RELATION_TARGET = 'target';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        ActionLog::ATTRIBUTE_BATCH_ID,
-        ActionLog::ATTRIBUTE_NAME,
-        ActionLog::ATTRIBUTE_USER,
-        ActionLog::ATTRIBUTE_ACTIONABLE_TYPE,
-        ActionLog::ATTRIBUTE_ACTIONABLE_ID,
-        ActionLog::ATTRIBUTE_TARGET_TYPE,
-        ActionLog::ATTRIBUTE_TARGET_ID,
-        ActionLog::ATTRIBUTE_MODEL_TYPE,
-        ActionLog::ATTRIBUTE_MODEL_ID,
-        ActionLog::ATTRIBUTE_FIELDS,
-        ActionLog::ATTRIBUTE_STATUS,
-        ActionLog::ATTRIBUTE_EXCEPTION,
-        ActionLog::ATTRIBUTE_FINISHED_AT,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

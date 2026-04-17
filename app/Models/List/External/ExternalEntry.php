@@ -44,19 +44,6 @@ class ExternalEntry extends BaseModel
     final public const string RELATION_USER = 'externalprofile.user';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        ExternalEntry::ATTRIBUTE_ANIME,
-        ExternalEntry::ATTRIBUTE_PROFILE,
-        ExternalEntry::ATTRIBUTE_IS_FAVORITE,
-        ExternalEntry::ATTRIBUTE_SCORE,
-        ExternalEntry::ATTRIBUTE_STATUS,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

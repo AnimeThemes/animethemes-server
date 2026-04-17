@@ -48,17 +48,6 @@ class ExternalToken extends BaseModel
     final public const string RELATION_USER_SHALLOW = 'user';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        ExternalToken::ATTRIBUTE_ACCESS_TOKEN,
-        ExternalToken::ATTRIBUTE_PROFILE,
-        ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

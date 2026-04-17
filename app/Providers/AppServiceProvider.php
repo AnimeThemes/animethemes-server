@@ -83,6 +83,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::automaticallyEagerLoadRelationships();
 
+        Model::unguard();
+
         Model::preventLazyLoading();
 
         Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation): void {

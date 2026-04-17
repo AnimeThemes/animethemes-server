@@ -79,22 +79,6 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
         'updated' => PerformanceUpdated::class,
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        Performance::ATTRIBUTE_SONG,
-        Performance::ATTRIBUTE_ARTIST,
-        Performance::ATTRIBUTE_ALIAS,
-        Performance::ATTRIBUTE_AS,
-        Performance::ATTRIBUTE_MEMBER,
-        Performance::ATTRIBUTE_MEMBER_ALIAS,
-        Performance::ATTRIBUTE_MEMBER_AS,
-        Performance::ATTRIBUTE_RELEVANCE,
-    ];
-
     public $sortable = [
         'order_column_name' => Performance::ATTRIBUTE_RELEVANCE,
     ];

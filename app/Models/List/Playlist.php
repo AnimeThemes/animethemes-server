@@ -86,18 +86,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        Playlist::ATTRIBUTE_DESCRIPTION,
-        Playlist::ATTRIBUTE_NAME,
-        Playlist::ATTRIBUTE_USER,
-        Playlist::ATTRIBUTE_VISIBILITY,
-    ];
-
-    /**
      * Get the route key for the model.
      *
      * @noinspection PhpMissingParentCallCommonInspection

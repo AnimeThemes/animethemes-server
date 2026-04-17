@@ -49,17 +49,6 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        AnimeSynonym::ATTRIBUTE_ANIME,
-        AnimeSynonym::ATTRIBUTE_TEXT,
-        AnimeSynonym::ATTRIBUTE_TYPE,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

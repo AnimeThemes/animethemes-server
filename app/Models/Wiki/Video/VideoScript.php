@@ -66,16 +66,6 @@ class VideoScript extends BaseModel implements Auditable, InteractsWithSchema, S
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        VideoScript::ATTRIBUTE_PATH,
-        VideoScript::ATTRIBUTE_VIDEO,
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
