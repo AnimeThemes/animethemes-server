@@ -26,7 +26,6 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 class AnimeThemeShuffleQuery extends BaseQuery
 {
     final public const string ATTRIBUTE_TYPE = 'type';
-    final public const string ATTRIBUTE_MEDIA_FORMAT = 'mediaFormat';
     final public const string ATTRIBUTE_FORMAT = 'format';
     final public const string ATTRIBUTE_YEAR_LTE = 'year_lte';
     final public const string ATTRIBUTE_YEAR_GTE = 'year_gte';
@@ -92,7 +91,7 @@ class AnimeThemeShuffleQuery extends BaseQuery
 
         $builder->whereHas(AnimeTheme::RELATION_ANIME, function (Builder $query) use ($args): void {
             if (is_array($formats = Arr::get($args, self::ATTRIBUTE_FORMAT))) {
-                $query->whereIn(Anime::ATTRIBUTE_FORMAT, Arr::map($formats, fn (AnimeFormat $format) => $format->value));
+                $query->whereIn(Anime::ATTRIBUTE_FORMAT, $formats);
             }
 
             if (is_int($yearLte = Arr::get($args, self::ATTRIBUTE_YEAR_LTE))) {

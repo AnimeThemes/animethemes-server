@@ -16,7 +16,7 @@ class AnimeFormatField extends EnumField implements CreatableField, RequiredOnCr
 {
     public function __construct()
     {
-        parent::__construct(Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeFormat::class, 'format');
+        parent::__construct(Anime::ATTRIBUTE_FORMAT, AnimeFormat::class);
     }
 
     public function description(): string
