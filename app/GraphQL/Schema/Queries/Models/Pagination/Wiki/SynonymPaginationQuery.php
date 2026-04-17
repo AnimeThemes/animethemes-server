@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Wiki;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\SynonymType;
 
-class SynonymPaginationQuery extends EloquentPaginationQuery
+class SynonymPaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -25,5 +26,10 @@ class SynonymPaginationQuery extends EloquentPaginationQuery
     public function baseType(): SynonymType
     {
         return new SynonymType();
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

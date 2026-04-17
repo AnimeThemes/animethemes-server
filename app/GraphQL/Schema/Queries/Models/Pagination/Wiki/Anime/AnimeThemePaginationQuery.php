@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Anime;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\SearchArgument;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeThemeType;
 
-class AnimeThemePaginationQuery extends EloquentPaginationQuery
+class AnimeThemePaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -41,5 +42,10 @@ class AnimeThemePaginationQuery extends EloquentPaginationQuery
 
             new SearchArgument(),
         ];
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

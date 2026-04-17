@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\Admin\Feature;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\Admin\Feature;
 
-class FeatureValueField extends StringField implements UpdatableField
+class FeatureValueField extends StringField implements DeprecatedField, UpdatableField
 {
     public function __construct()
     {
@@ -31,5 +32,10 @@ class FeatureValueField extends StringField implements UpdatableField
             'string',
             'max:192',
         ];
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

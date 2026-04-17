@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Song;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\Song\PerformanceType;
 
-class PerformancePaginationQuery extends EloquentPaginationQuery
+class PerformancePaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -25,5 +26,10 @@ class PerformancePaginationQuery extends EloquentPaginationQuery
     public function baseType(): PerformanceType
     {
         return new PerformanceType();
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

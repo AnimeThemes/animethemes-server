@@ -30,6 +30,6 @@ class AnimeSynonymPaginationQuery extends EloquentPaginationQuery implements Dep
 
     public function deprecationReason(): string
     {
-        return 'Use synonymPagination query instead.';
+        return 'Internal use only.';
     }
 }

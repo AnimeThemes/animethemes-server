@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Admin;
 
 use App\Constants\FeatureConstants;
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Admin\FeatureType;
 use App\Models\Admin\Feature;
 use Illuminate\Database\Eloquent\Builder;
 
-class FeaturePaginationQuery extends EloquentPaginationQuery
+class FeaturePaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -33,5 +34,10 @@ class FeaturePaginationQuery extends EloquentPaginationQuery
     protected function query(Builder $builder, array $args): Builder
     {
         return $builder->where(Feature::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE);
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

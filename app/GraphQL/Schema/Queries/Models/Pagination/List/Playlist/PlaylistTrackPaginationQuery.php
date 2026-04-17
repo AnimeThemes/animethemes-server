@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\List\Playlist;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Fields\List\Playlist\PlaylistTrack\PlaylistTrackPlaylistField;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
@@ -13,7 +14,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-class PlaylistTrackPaginationQuery extends EloquentPaginationQuery
+class PlaylistTrackPaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -55,5 +56,10 @@ class PlaylistTrackPaginationQuery extends EloquentPaginationQuery
         $builder->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey());
 
         return $builder;
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only. Use the playlistPagination.tracks relationship instead.';
     }
 }

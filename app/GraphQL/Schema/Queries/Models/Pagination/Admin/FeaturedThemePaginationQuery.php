@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Admin;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Admin\FeaturedThemeType;
@@ -11,7 +12,7 @@ use App\Models\Admin\FeaturedTheme;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Date;
 
-class FeaturedThemePaginationQuery extends EloquentPaginationQuery
+class FeaturedThemePaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -35,5 +36,10 @@ class FeaturedThemePaginationQuery extends EloquentPaginationQuery
     {
         return $builder->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
             ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now());
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

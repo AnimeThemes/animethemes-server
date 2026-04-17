@@ -10,11 +10,9 @@ use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\LocalizedEnumField;
-use App\GraphQL\Schema\Fields\Relations\MorphToRelation;
 use App\GraphQL\Schema\Fields\Wiki\Synonym\SynonymTextField;
 use App\GraphQL\Schema\Fields\Wiki\Synonym\SynonymTypeField;
 use App\GraphQL\Schema\Types\EloquentType;
-use App\GraphQL\Schema\Unions\SynonymableUnion;
 use App\Models\Wiki\Synonym;
 
 class SynonymType extends EloquentType
@@ -39,9 +37,6 @@ class SynonymType extends EloquentType
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),
-
-            new MorphToRelation(new SynonymableUnion(), Synonym::RELATION_SYNONYMABLE)
-                ->nonNullable(),
         ];
     }
 }

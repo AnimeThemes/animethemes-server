@@ -94,11 +94,8 @@ use App\GraphQL\Schema\Types\Wiki\SynonymType;
 use App\GraphQL\Schema\Types\Wiki\ThemeGroupType;
 use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 use App\GraphQL\Schema\Types\Wiki\VideoType;
-use App\GraphQL\Schema\Unions\ImageableUnion;
 use App\GraphQL\Schema\Unions\LikeableUnion;
 use App\GraphQL\Schema\Unions\NotificationUnion;
-use App\GraphQL\Schema\Unions\ResourceableUnion;
-use App\GraphQL\Schema\Unions\SynonymableUnion;
 use App\Http\Middleware\GraphQL\LogGraphQLRequest;
 use App\Http\Middleware\GraphQL\MaxCount;
 use Illuminate\Support\Facades\Config;
@@ -241,11 +238,8 @@ class V1Schema implements ConfigConvertible
                 ArtistMemberType::class,
 
                 // Unions
-                ImageableUnion::class,
                 LikeableUnion::class,
                 NotificationUnion::class,
-                ResourceableUnion::class,
-                SynonymableUnion::class,
 
                 // Scalars
                 MixedScalar::class,

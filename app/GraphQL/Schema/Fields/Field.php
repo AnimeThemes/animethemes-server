@@ -68,7 +68,7 @@ abstract class Field
         return $type;
     }
 
-    public function deprecate(string $reason): self
+    public function deprecate(string $reason): static
     {
         $this->deprecationReason = $reason;
 

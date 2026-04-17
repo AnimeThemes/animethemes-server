@@ -9,10 +9,8 @@ use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Pivot\Morph\Resourceable\ResourceableAsField;
 use App\GraphQL\Schema\Fields\Relations\BelongsToRelation;
-use App\GraphQL\Schema\Fields\Relations\MorphToRelation;
 use App\GraphQL\Schema\Types\Pivot\PivotType;
 use App\GraphQL\Schema\Types\Wiki\ExternalResourceType;
-use App\GraphQL\Schema\Unions\ResourceableUnion;
 use App\Pivots\Morph\Resourceable;
 
 class ResourceableType extends PivotType
@@ -35,8 +33,6 @@ class ResourceableType extends PivotType
             new UpdatedAtField(),
 
             new BelongsToRelation(new ExternalResourceType(), Resourceable::RELATION_RESOURCE)
-                ->nonNullable(),
-            new MorphToRelation(new ResourceableUnion(), Resourceable::RELATION_RESOURCEABLE)
                 ->nonNullable(),
         ];
     }
