@@ -40,7 +40,7 @@ class PlaylistTrackResolver extends BaseResolver
         $this->runMiddleware();
 
         /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, 'playlist');
+        $playlist = Arr::get($args, 'playlist');
 
         $validated = $this->validated($args, CreatePlaylistTrackMutation::class);
 
@@ -60,7 +60,7 @@ class PlaylistTrackResolver extends BaseResolver
         $this->runMiddleware();
 
         /** @var PlaylistTrack $track */
-        $track = Arr::pull($args, self::MODEL);
+        $track = Arr::get($args, self::MODEL);
 
         $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
 
