@@ -8,7 +8,6 @@ use App\GraphQL\Schema\Mutations\BaseMutation;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\ControllerMiddlewareOptions;
 use Illuminate\Routing\FiltersControllerMiddleware;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,13 +45,8 @@ abstract class BaseResolver
 
         $validator = Validator::make($args, $mutationInstance->rulesForValidation($args));
 
-        $validated = $validator->validated();
+        return $validator->validated();
 
-        return [
-            ...$validated,
-
-            'model' => Arr::get($args, self::MODEL),
-        ];
     }
 
     /**
