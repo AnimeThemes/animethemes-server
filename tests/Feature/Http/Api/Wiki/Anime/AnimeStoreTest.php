@@ -42,7 +42,7 @@ test('required fields', function () {
     $response->assertJsonValidationErrors([
         Anime::ATTRIBUTE_NAME,
         Anime::ATTRIBUTE_SEASON,
-        Anime::ATTRIBUTE_MEDIA_FORMAT,
+        'format',
         Anime::ATTRIBUTE_SLUG,
         Anime::ATTRIBUTE_YEAR,
     ]);

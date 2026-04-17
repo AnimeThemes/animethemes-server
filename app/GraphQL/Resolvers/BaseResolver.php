@@ -46,7 +46,6 @@ abstract class BaseResolver
         $validator = Validator::make($args, $mutationInstance->rulesForValidation($args));
 
         return $validator->validated();
-
     }
 
     /**

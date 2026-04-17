@@ -26,7 +26,7 @@ class WatchResolver extends BaseResolver
 
         $validated = $this->validated($args, WatchMutation::class);
 
-        $validated += [
+        $validated = [
             WatchHistory::ATTRIBUTE_ENTRY => Arr::integer($validated, 'entryId'),
             WatchHistory::ATTRIBUTE_VIDEO => Arr::integer($validated, 'videoId'),
             WatchHistory::ATTRIBUTE_USER => Auth::id(),

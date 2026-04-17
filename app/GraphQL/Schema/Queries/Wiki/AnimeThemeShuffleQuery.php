@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Queries\Wiki;
 
 use App\Enums\GraphQL\Filter\ComparisonOperator;
 use App\Enums\Models\Wiki\AnimeFormat;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\ThemeType;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FirstArgument;
@@ -67,8 +66,6 @@ class AnimeThemeShuffleQuery extends BaseQuery
 
             new Argument(self::ATTRIBUTE_FORMAT, Type::listOf(Type::nonNull(GraphQL::type(class_basename(AnimeFormat::class))))),
 
-            new Argument(self::ATTRIBUTE_MEDIA_FORMAT, Type::listOf(Type::nonNull(GraphQL::type(class_basename(AnimeMediaFormat::class))))),
-
             new Argument(self::ATTRIBUTE_YEAR_LTE, Type::int()),
 
             new Argument(self::ATTRIBUTE_YEAR_GTE, Type::int()),
@@ -96,10 +93,6 @@ class AnimeThemeShuffleQuery extends BaseQuery
         $builder->whereHas(AnimeTheme::RELATION_ANIME, function (Builder $query) use ($args): void {
             if (is_array($formats = Arr::get($args, self::ATTRIBUTE_FORMAT))) {
                 $query->whereIn(Anime::ATTRIBUTE_FORMAT, Arr::map($formats, fn (AnimeFormat $format) => $format->value));
-            }
-
-            if (is_array($formats = Arr::get($args, self::ATTRIBUTE_MEDIA_FORMAT))) {
-                $query->whereIn(Anime::ATTRIBUTE_MEDIA_FORMAT, Arr::map($formats, fn (AnimeMediaFormat $format) => $format->value));
             }
 
             if (is_int($yearLte = Arr::get($args, self::ATTRIBUTE_YEAR_LTE))) {

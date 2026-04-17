@@ -40,7 +40,6 @@ class AnimeFactory extends Factory
         $name = fake()->words(3, true);
         $season = Arr::random(AnimeSeason::cases());
         $format = Arr::random(AnimeFormat::cases());
-        $mediaFormat = Arr::random(AnimeMediaFormat::cases());
 
         return [
             Anime::ATTRIBUTE_NAME => $name,
@@ -49,7 +48,7 @@ class AnimeFactory extends Factory
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
             Anime::ATTRIBUTE_YEAR => fake()->numberBetween(1960, intval(date('Y')) + 1),
             Anime::ATTRIBUTE_FORMAT => $format->value,
-            Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormat->value,
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $format->value,
         ];
     }
 

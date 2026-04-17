@@ -39,15 +39,15 @@ class PlaylistTrackResolver extends BaseResolver
     {
         $this->runMiddleware();
 
+        /** @var Playlist $playlist */
+        $playlist = Arr::pull($args, 'playlist');
+
         $validated = $this->validated($args, CreatePlaylistTrackMutation::class);
 
-        $validated += [
+        $validated = [
             PlaylistTrack::ATTRIBUTE_ENTRY => Arr::integer($validated, 'entryId'),
             PlaylistTrack::ATTRIBUTE_VIDEO => Arr::integer($validated, 'videoId'),
         ];
-
-        /** @var Playlist $playlist */
-        $playlist = Arr::pull($validated, 'playlist');
 
         return $action->store($playlist, PlaylistTrack::query(), $validated);
     }
@@ -59,15 +59,15 @@ class PlaylistTrackResolver extends BaseResolver
     {
         $this->runMiddleware();
 
+        /** @var PlaylistTrack $track */
+        $track = Arr::pull($args, self::MODEL);
+
         $validated = $this->validated($args, UpdatePlaylistTrackMutation::class);
 
-        $validated += [
+        $validated = [
             PlaylistTrack::ATTRIBUTE_ENTRY => Arr::integer($validated, 'entryId'),
             PlaylistTrack::ATTRIBUTE_VIDEO => Arr::integer($validated, 'videoId'),
         ];
-
-        /** @var PlaylistTrack $track */
-        $track = Arr::pull($validated, self::MODEL);
 
         return $action->update($track->playlist, $track, $validated);
     }
