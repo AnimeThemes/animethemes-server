@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Observers\Wiki\Anime;
+namespace App\Observers\Wiki;
 
 use App\Models\Wiki\Anime;
 

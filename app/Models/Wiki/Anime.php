@@ -25,7 +25,7 @@ use App\Models\Discord\DiscordThread;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Observers\Wiki\Anime\AnimeObserver;
+use App\Observers\Wiki\AnimeObserver;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
