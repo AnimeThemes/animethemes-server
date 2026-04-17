@@ -75,6 +75,16 @@ class Studio extends BaseModel implements Auditable, HasImages, HasResources, So
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Studio::ATTRIBUTE_NAME,
+        Studio::ATTRIBUTE_SLUG,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

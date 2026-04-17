@@ -103,6 +103,20 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        AnimeTheme::ATTRIBUTE_ANIME,
+        AnimeTheme::ATTRIBUTE_GROUP,
+        AnimeTheme::ATTRIBUTE_SEQUENCE,
+        AnimeTheme::ATTRIBUTE_SLUG,
+        AnimeTheme::ATTRIBUTE_SONG,
+        AnimeTheme::ATTRIBUTE_TYPE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

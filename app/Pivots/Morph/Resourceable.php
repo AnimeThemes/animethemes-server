@@ -76,6 +76,18 @@ class Resourceable extends BaseMorphPivot implements Auditable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Resourceable::ATTRIBUTE_AS,
+        Resourceable::ATTRIBUTE_RESOURCE,
+        Resourceable::ATTRIBUTE_RESOURCEABLE_TYPE,
+        Resourceable::ATTRIBUTE_RESOURCEABLE_ID,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

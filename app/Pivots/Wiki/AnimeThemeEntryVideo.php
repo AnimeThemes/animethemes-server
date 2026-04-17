@@ -53,6 +53,16 @@ class AnimeThemeEntryVideo extends BasePivot implements Auditable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,
+        AnimeThemeEntryVideo::ATTRIBUTE_VIDEO,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

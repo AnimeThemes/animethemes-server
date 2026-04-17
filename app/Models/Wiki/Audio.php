@@ -71,6 +71,19 @@ class Audio extends BaseModel implements Auditable, SoftDeletable, Streamable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Audio::ATTRIBUTE_BASENAME,
+        Audio::ATTRIBUTE_FILENAME,
+        Audio::ATTRIBUTE_MIMETYPE,
+        Audio::ATTRIBUTE_PATH,
+        Audio::ATTRIBUTE_SIZE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

@@ -77,6 +77,16 @@ class Image extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Image::ATTRIBUTE_FACET,
+        Image::ATTRIBUTE_PATH,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

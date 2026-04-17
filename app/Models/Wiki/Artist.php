@@ -102,6 +102,17 @@ class Artist extends BaseModel implements Auditable, HasImages, HasResources, Ha
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Artist::ATTRIBUTE_NAME,
+        Artist::ATTRIBUTE_SLUG,
+        Artist::ATTRIBUTE_INFORMATION,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

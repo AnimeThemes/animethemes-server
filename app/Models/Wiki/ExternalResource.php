@@ -71,6 +71,17 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        ExternalResource::ATTRIBUTE_EXTERNAL_ID,
+        ExternalResource::ATTRIBUTE_LINK,
+        ExternalResource::ATTRIBUTE_SITE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

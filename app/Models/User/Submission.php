@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\User\Submission\SubmissionComparison;
 use App\Models\Wiki\Anime;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -36,6 +37,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static Builder pending()
  */
+#[Guarded([])]
 #[Table(Submission::TABLE, Submission::ATTRIBUTE_ID)]
 class Submission extends BaseModel
 {

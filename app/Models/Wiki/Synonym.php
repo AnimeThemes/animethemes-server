@@ -56,6 +56,18 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     final public const string RELATION_SYNONYMABLE = 'synonymable';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Synonym::ATTRIBUTE_SYNONYMABLE_TYPE,
+        Synonym::ATTRIBUTE_SYNONYMABLE_ID,
+        Synonym::ATTRIBUTE_TEXT,
+        Synonym::ATTRIBUTE_TYPE,
+    ];
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.

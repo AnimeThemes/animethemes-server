@@ -6,12 +6,14 @@ namespace App\Models\User\Submission;
 
 use App\Enums\Models\User\SubmissionComparisonAction;
 use App\Models\User\Submission;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+#[Guarded([])]
 #[Table(SubmissionComparison::TABLE, SubmissionComparison::ATTRIBUTE_ID)]
 #[WithoutTimestamps]
 class SubmissionComparison extends Model

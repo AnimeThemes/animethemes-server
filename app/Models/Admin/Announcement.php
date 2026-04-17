@@ -54,6 +54,17 @@ class Announcement extends BaseModel implements Auditable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Announcement::ATTRIBUTE_CONTENT,
+        Announcement::ATTRIBUTE_END_AT,
+        Announcement::ATTRIBUTE_START_AT,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

@@ -34,6 +34,17 @@ class PageRole extends BasePivot
     final public const string RELATION_ROLE = 'role';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        PageRole::ATTRIBUTE_PAGE,
+        PageRole::ATTRIBUTE_ROLE,
+        PageRole::ATTRIBUTE_TYPE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

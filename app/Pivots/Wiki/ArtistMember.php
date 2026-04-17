@@ -58,6 +58,20 @@ class ArtistMember extends BasePivot implements Auditable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        ArtistMember::ATTRIBUTE_ALIAS,
+        ArtistMember::ATTRIBUTE_ARTIST,
+        ArtistMember::ATTRIBUTE_AS,
+        ArtistMember::ATTRIBUTE_MEMBER,
+        ArtistMember::ATTRIBUTE_NOTES,
+        ArtistMember::ATTRIBUTE_RELEVANCE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

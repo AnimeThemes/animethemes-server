@@ -50,6 +50,15 @@ class Feature extends BaseModel
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Feature::ATTRIBUTE_VALUE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

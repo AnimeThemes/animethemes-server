@@ -83,6 +83,16 @@ class Song extends BaseModel implements Auditable, HasResources, SoftDeletable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Song::ATTRIBUTE_TITLE,
+        Song::ATTRIBUTE_TITLE_NATIVE,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

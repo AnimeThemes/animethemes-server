@@ -74,6 +74,18 @@ class Imageable extends BaseMorphPivot implements Auditable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Imageable::ATTRIBUTE_DEPTH,
+        Imageable::ATTRIBUTE_IMAGE,
+        Imageable::ATTRIBUTE_IMAGEABLE_TYPE,
+        Imageable::ATTRIBUTE_IMAGEABLE_ID,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

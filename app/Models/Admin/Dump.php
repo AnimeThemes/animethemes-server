@@ -51,6 +51,16 @@ class Dump extends BaseModel
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Dump::ATTRIBUTE_PATH,
+        Dump::ATTRIBUTE_PUBLIC,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

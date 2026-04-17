@@ -60,6 +60,16 @@ class Group extends BaseModel implements Auditable, SoftDeletable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Group::ATTRIBUTE_NAME,
+        Group::ATTRIBUTE_SLUG,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

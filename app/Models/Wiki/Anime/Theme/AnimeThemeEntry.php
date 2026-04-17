@@ -113,6 +113,20 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        AnimeThemeEntry::ATTRIBUTE_EPISODES,
+        AnimeThemeEntry::ATTRIBUTE_NOTES,
+        AnimeThemeEntry::ATTRIBUTE_NSFW,
+        AnimeThemeEntry::ATTRIBUTE_SPOILER,
+        AnimeThemeEntry::ATTRIBUTE_THEME,
+        AnimeThemeEntry::ATTRIBUTE_VERSION,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

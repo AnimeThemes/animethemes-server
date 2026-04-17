@@ -128,6 +128,18 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        User::ATTRIBUTE_EMAIL,
+        User::ATTRIBUTE_NAME,
+        User::ATTRIBUTE_PASSWORD,
+        User::ATTRIBUTE_EMAIL_VERIFIED_AT,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

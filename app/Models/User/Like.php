@@ -40,6 +40,17 @@ class Like extends BaseModel
     final public const string RELATION_LIKEABLE = 'likeable';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Like::ATTRIBUTE_USER,
+        Like::ATTRIBUTE_LIKEABLE_TYPE,
+        Like::ATTRIBUTE_LIKEABLE_ID,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

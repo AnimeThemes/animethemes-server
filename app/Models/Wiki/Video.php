@@ -125,6 +125,27 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        Video::ATTRIBUTE_AUDIO,
+        Video::ATTRIBUTE_BASENAME,
+        Video::ATTRIBUTE_FILENAME,
+        Video::ATTRIBUTE_LYRICS,
+        Video::ATTRIBUTE_MIMETYPE,
+        Video::ATTRIBUTE_NC,
+        Video::ATTRIBUTE_OVERLAP,
+        Video::ATTRIBUTE_PATH,
+        Video::ATTRIBUTE_RESOLUTION,
+        Video::ATTRIBUTE_SIZE,
+        Video::ATTRIBUTE_SOURCE,
+        Video::ATTRIBUTE_SUBBED,
+        Video::ATTRIBUTE_UNCEN,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

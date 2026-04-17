@@ -52,6 +52,17 @@ class DiscordThread extends BaseModel
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        DiscordThread::ATTRIBUTE_ANIME,
+        DiscordThread::ATTRIBUTE_ID,
+        DiscordThread::ATTRIBUTE_NAME,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
