@@ -5,6 +5,17 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Document\Page;
+use App\Models\User\Submission\SubmissionAnime;
+use App\Models\User\Submission\SubmissionAnimeTheme;
+use App\Models\User\Submission\SubmissionAnimeThemeEntry;
+use App\Models\User\Submission\SubmissionArtist;
+use App\Models\User\Submission\SubmissionArtistMember;
+use App\Models\User\Submission\SubmissionExternalResource;
+use App\Models\User\Submission\SubmissionPerformance;
+use App\Models\User\Submission\SubmissionSeries;
+use App\Models\User\Submission\SubmissionSong;
+use App\Models\User\Submission\SubmissionStudio;
+use App\Models\User\Submission\SubmissionSynonym;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -123,6 +134,19 @@ class AppServiceProvider extends ServiceProvider
             'animestudio' => AnimeStudio::class,
             'animethemeentryvideo' => AnimeThemeEntryVideo::class,
             'artistmember' => ArtistMember::class,
+
+            // Submission
+            'submission_anime' => SubmissionAnime::class,
+            'submission_anime_theme' => SubmissionAnimeTheme::class,
+            'submission_anime_theme_entry' => SubmissionAnimeThemeEntry::class,
+            'submission_artist' => SubmissionArtist::class,
+            'submission_artist_member' => SubmissionArtistMember::class,
+            'submission_performance' => SubmissionPerformance::class,
+            'submission_resource' => SubmissionExternalResource::class,
+            'submission_series' => SubmissionSeries::class,
+            'submission_song' => SubmissionSong::class,
+            'submission_studio' => SubmissionStudio::class,
+            'submission_synonym' => SubmissionSynonym::class,
         ]);
     }
 }

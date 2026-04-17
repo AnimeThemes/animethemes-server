@@ -4,77 +4,74 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
+use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use App\Models\User\Submission\SubmissionAnime;
+use App\Models\User\Submission\SubmissionComparison;
+use App\Models\Wiki\Anime;
 use Database\Factories\User\SubmissionFactory;
+use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
  * @property string|null $actionable_type
  * @property string|null $actionable_id
- * @property array $fields
+ * @property User|null $assignee
+ * @property int|null $assignee_id
+ * @property string[] $changes
  * @property Carbon|null $finished_at
  * @property bool $locked
  * @property string|null $notes
- * @property User|null $moderator
- * @property int|null $moderator_id
- * @property string|null $moderator_notes
+ * @property string|null $source
  * @property SubmissionStatus $status
+ * @property string|null $submitted_type
+ * @property string|null $submitted_id
  * @property User|null $user
  * @property int|null $user_id
  *
  * @method static Builder pending()
- * @method static SubmissionFactory factory(...$parameters)
  */
+#[Guarded([])]
 #[Table(Submission::TABLE, Submission::ATTRIBUTE_ID)]
 class Submission extends BaseModel
 {
-    use HasFactory;
-
     final public const string TABLE = 'submissions';
 
     final public const string ATTRIBUTE_ID = 'id';
     final public const string ATTRIBUTE_ACTIONABLE_TYPE = 'actionable_type';
     final public const string ATTRIBUTE_ACTIONABLE_ID = 'actionable_id';
-    final public const string ATTRIBUTE_FIELDS = 'fields';
+    final public const string ATTRIBUTE_ASSIGNEE = 'assignee_id';
+    final public const string ATTRIBUTE_CHANGES = 'changes';
     final public const string ATTRIBUTE_FINISHED_AT = 'finished_at';
     final public const string ATTRIBUTE_LOCKED = 'locked';
     final public const string ATTRIBUTE_NOTES = 'notes';
-    final public const string ATTRIBUTE_MODERATOR = 'moderator_id';
-    final public const string ATTRIBUTE_MODERATOR_NOTES = 'moderator_notes';
+    final public const string ATTRIBUTE_SOURCE = 'source';
     final public const string ATTRIBUTE_STATUS = 'status';
-    final public const string ATTRIBUTE_TYPE = 'type';
+    final public const string ATTRIBUTE_SUBMITTED_TYPE = 'submitted_type';
+    final public const string ATTRIBUTE_SUBMITTED_ID = 'submitted_id';
     final public const string ATTRIBUTE_USER = 'user_id';
 
     final public const string RELATION_ACTIONABLE = 'actionable';
-    final public const string RELATION_MODERATOR = 'moderator';
+    final public const string RELATION_ASSIGNEE = 'assignee';
+    final public const string RELATION_SUBMITTED = 'submitted';
     final public const string RELATION_USER = 'user';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        Submission::ATTRIBUTE_ACTIONABLE_TYPE,
-        Submission::ATTRIBUTE_ACTIONABLE_ID,
-        Submission::ATTRIBUTE_FIELDS,
-        Submission::ATTRIBUTE_FINISHED_AT,
-        Submission::ATTRIBUTE_LOCKED,
-        Submission::ATTRIBUTE_NOTES,
-        Submission::ATTRIBUTE_MODERATOR,
-        Submission::ATTRIBUTE_MODERATOR_NOTES,
-        Submission::ATTRIBUTE_STATUS,
-        Submission::ATTRIBUTE_TYPE,
-        Submission::ATTRIBUTE_USER,
-    ];
+    // Anime
+    final public const string RELATION_SUBMISSION_SYNONYMS = 'submissionSynonyms';
+    final public const string RELATION_SUBMISSION_THEMES = 'submissionThemes';
+    final public const string RELATION_SUBMISSION_RESOURCES = 'submissionResources';
+    final public const string RELATION_SUBMISSION_SERIES = 'submissionSeries';
+    final public const string RELATION_SUBMISSION_STUDIOS = 'submissionStudios';
 
     /**
      * Get the attributes that should be cast.
@@ -86,14 +83,15 @@ class Submission extends BaseModel
         return [
             Submission::ATTRIBUTE_ACTIONABLE_TYPE => 'string',
             Submission::ATTRIBUTE_ACTIONABLE_ID => 'int',
-            Submission::ATTRIBUTE_FIELDS => 'string',
+            Submission::ATTRIBUTE_ASSIGNEE => 'int',
+            Submission::ATTRIBUTE_CHANGES => 'array',
             Submission::ATTRIBUTE_FINISHED_AT => 'datetime',
             Submission::ATTRIBUTE_LOCKED => 'bool',
             Submission::ATTRIBUTE_NOTES => 'string',
-            Submission::ATTRIBUTE_MODERATOR => 'int',
-            Submission::ATTRIBUTE_MODERATOR_NOTES => 'string',
+            Submission::ATTRIBUTE_SOURCE => 'string',
             Submission::ATTRIBUTE_STATUS => SubmissionStatus::class,
-            Submission::ATTRIBUTE_TYPE => 'string',
+            Submission::ATTRIBUTE_SUBMITTED_TYPE => 'string',
+            Submission::ATTRIBUTE_SUBMITTED_ID => 'int',
             Submission::ATTRIBUTE_USER => 'int',
         ];
     }
@@ -128,8 +126,20 @@ class Submission extends BaseModel
 
     /**
      * Get the model that references the submission.
+     *
+     * @return MorphTo<Model, $this>
      */
     public function actionable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * Get the submitted model that references the submission.
+     *
+     * @return MorphTo<Model, $this>
+     */
+    public function submitted(): MorphTo
     {
         return $this->morphTo();
     }
@@ -139,9 +149,9 @@ class Submission extends BaseModel
      *
      * @return BelongsTo<User, $this>
      */
-    public function moderator(): BelongsTo
+    public function assignee(): BelongsTo
     {
-        return $this->belongsTo(User::class, Submission::ATTRIBUTE_MODERATOR);
+        return $this->belongsTo(User::class, Submission::ATTRIBUTE_ASSIGNEE);
     }
 
     /**
@@ -152,5 +162,29 @@ class Submission extends BaseModel
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, Submission::ATTRIBUTE_USER);
+    }
+
+    public function submissionSynonyms(): HasMany
+    {
+        return $this->hasMany(SubmissionComparison::class)
+            ->where(SubmissionComparison::ATTRIBUTE_SUBMITTED_TYPE, 'submission_synonym');
+    }
+
+    public function submissionResources(): HasMany
+    {
+        return $this->hasMany(SubmissionComparison::class)
+            ->where(SubmissionComparison::ATTRIBUTE_SUBMITTED_TYPE, 'submission_resource');
+    }
+
+    public function submissionSeries(): HasMany
+    {
+        return $this->hasMany(SubmissionComparison::class)
+            ->where(SubmissionComparison::ATTRIBUTE_SUBMITTED_TYPE, 'submission_series');
+    }
+
+    public function submissionStudios(): HasMany
+    {
+        return $this->hasMany(SubmissionComparison::class)
+            ->where(SubmissionComparison::ATTRIBUTE_SUBMITTED_TYPE, 'submission_studio');
     }
 }

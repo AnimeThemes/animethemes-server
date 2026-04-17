@@ -514,6 +514,8 @@ return [
     ],
     'buttons' => [
         'add' => 'Add :label',
+        'attach' => 'Attach :label',
+        'create' => 'Create new :label',
     ],
     'dashboards' => [
         'label' => [

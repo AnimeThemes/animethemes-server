@@ -7,7 +7,6 @@ namespace App\Models\Wiki\Anime\Theme;
 use App\Concerns\Models\Aggregate\AggregatesLike;
 use App\Concerns\Models\InteractsWithLikes;
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasResources;
@@ -75,7 +74,6 @@ class AnimeThemeEntry extends BaseModel implements Auditable, HasAggregateLikes,
     use InteractsWithLikes;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
     use ZnckBelongsToThrough;
 
     final public const string TABLE = 'anime_theme_entries';

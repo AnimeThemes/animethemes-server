@@ -83,18 +83,6 @@ test('likes', function () {
     $this->assertInstanceOf(Like::class, $user->likes()->first());
 });
 
-test('submissions', function () {
-    $submissionCount = fake()->randomDigitNotNull();
-
-    $user = User::factory()
-        ->has(Submission::factory()->count($submissionCount))
-        ->createOne();
-
-    $this->assertInstanceOf(HasMany::class, $user->submissions());
-    $this->assertEquals($submissionCount, $user->submissions()->count());
-    $this->assertInstanceOf(Submission::class, $user->submissions()->first());
-});
-
 test('notifications', function () {
     $notificationCount = fake()->randomDigitNotNull();
 

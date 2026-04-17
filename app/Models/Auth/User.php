@@ -225,7 +225,7 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasAvatar
      */
     public function managedSubmissions(): HasMany
     {
-        return $this->hasMany(Submission::class, Submission::ATTRIBUTE_MODERATOR);
+        return $this->hasMany(Submission::class, Submission::ATTRIBUTE_ASSIGNEE);
     }
 
     /**

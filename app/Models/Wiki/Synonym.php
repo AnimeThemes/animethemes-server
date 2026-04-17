@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\HasSynonyms;
 use App\Contracts\Models\Nameable;
 use App\Contracts\Models\SoftDeletable;
@@ -45,7 +44,6 @@ class Synonym extends BaseModel implements Auditable, SoftDeletable
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'synonyms';
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\BaseModel;
@@ -37,7 +36,6 @@ class AnimeSynonym extends BaseModel implements Auditable, SoftDeletable
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'anime_synonyms';
 

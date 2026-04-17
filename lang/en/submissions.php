@@ -9,9 +9,9 @@ return [
     ],
     'fields' => [
         'base' => [
-            'notes' => [
+            'source' => [
                 'help' => 'Add any relevant notes or sources that support this submission.',
-                'name' => 'Notes / Sources',
+                'name' => 'Sources',
             ],
         ],
         'submission' => [

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Contracts\Models\Streamable;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -79,7 +78,6 @@ class Video extends BaseModel implements Auditable, SoftDeletable, Streamable
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'videos';
 

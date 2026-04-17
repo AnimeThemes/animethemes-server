@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
@@ -43,7 +42,6 @@ class ExternalResource extends BaseModel implements Auditable, SoftDeletable
     use HasAudits;
     use HasFactory;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'resources';
 

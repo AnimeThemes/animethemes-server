@@ -4,31 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filament\Submission\Resources\Anime\Pages;
 
-use App\Enums\Models\User\SubmissionStatus;
-use App\Filament\Actions\Models\Wiki\Song\LoadArtistsAction;
-use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
-use App\Filament\Components\Fields\SubmissionBelongsTo;
+use App\Actions\Submission\SubmitNewAnimeAction;
 use App\Filament\Components\Fields\TextInput;
-use App\Filament\Resources\Wiki\Anime\Theme\EntryResource;
-use App\Filament\Resources\Wiki\Anime\Theme\Schemas\ThemeForm;
-use App\Filament\Resources\Wiki\AnimeResource;
-use App\Filament\Resources\Wiki\ArtistResource;
-use App\Filament\Resources\Wiki\ExternalResourceResource;
-use App\Filament\Resources\Wiki\GroupResource;
-use App\Filament\Resources\Wiki\SeriesResource;
-use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
-use App\Filament\Resources\Wiki\SongResource;
-use App\Filament\Resources\Wiki\StudioResource;
-use App\Filament\Resources\Wiki\SynonymResource;
+use App\Filament\Submission\Components\SelectBuilder;
 use App\Filament\Submission\Resources\AnimeSubmissionResource;
+use App\Filament\Submission\Resources\Schema\AnimeForm;
+use App\Filament\Submission\Resources\Schema\ArtistForm;
+use App\Filament\Submission\Resources\Schema\EntryForm;
+use App\Filament\Submission\Resources\Schema\ResourceForm;
+use App\Filament\Submission\Resources\Schema\SeriesForm;
+use App\Filament\Submission\Resources\Schema\SongForm;
+use App\Filament\Submission\Resources\Schema\StudioForm;
+use App\Filament\Submission\Resources\Schema\SynonymForm;
+use App\Filament\Submission\Resources\Schema\ThemeForm;
 use App\Models\User\Submission;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\User\Submission\SubmissionAnime;
+use App\Models\User\Submission\SubmissionPerformance;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
-use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -36,10 +30,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class CreateAnimeSubmission extends CreateRecord
@@ -50,9 +42,9 @@ class CreateAnimeSubmission extends CreateRecord
     {
         return $schema
             ->components([
-                Textarea::make(Submission::ATTRIBUTE_NOTES)
-                    ->label(__('submissions.fields.base.notes.name'))
-                    ->helperText(__('submissions.fields.base.notes.help'))
+                Textarea::make(Submission::ATTRIBUTE_SOURCE)
+                    ->label(__('submissions.fields.base.source.name'))
+                    ->helperText(__('submissions.fields.base.source.help'))
                     ->required()
                     ->rows(5),
 
@@ -64,22 +56,22 @@ class CreateAnimeSubmission extends CreateRecord
                             ->statePath('anime')
                             ->label(__('filament.resources.label.anime'))
                             ->columns(2)
-                            ->schema(AnimeResource::form($schema)->getComponents()),
+                            ->schema(AnimeForm::configure($schema)->getComponents()),
 
-                        Tab::make(Anime::RELATION_SYNONYMS)
+                        Tab::make(SubmissionAnime::RELATION_SYNONYMS)
                             ->label(__('filament.resources.label.synonyms'))
                             ->schema([
-                                Repeater::make(Anime::RELATION_SYNONYMS)
+                                Repeater::make(SubmissionAnime::RELATION_SYNONYMS)
                                     ->label(__('filament.resources.label.synonyms'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.synonym')]))
                                     ->defaultItems(0)
-                                    ->schema(SynonymResource::form($schema)->getComponents()),
+                                    ->schema(SynonymForm::configure($schema)->getComponents()),
                             ]),
 
-                        Tab::make(Anime::RELATION_THEMES)
+                        Tab::make(SubmissionAnime::RELATION_THEMES)
                             ->label(__('filament.resources.label.anime_themes'))
                             ->schema([
-                                Repeater::make(Anime::RELATION_THEMES)
+                                Repeater::make(SubmissionAnime::RELATION_THEMES)
                                     ->label(__('filament.resources.label.anime_themes'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme')]))
                                     ->schema([
@@ -87,78 +79,62 @@ class CreateAnimeSubmission extends CreateRecord
                                             ->schema([
                                                 Tab::make('theme')
                                                     ->label(__('filament.resources.singularLabel.anime_theme'))
-                                                    ->schema([
-                                                        ThemeForm::typeField(),
-                                                        ThemeForm::sequenceField(),
-
-                                                        SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_GROUP)
-                                                            ->resource(GroupResource::class)
-                                                            ->showCreateOption(),
-                                                    ]),
+                                                    ->schema(ThemeForm::configure($schema)->getComponents()),
 
                                                 Tab::make('song')
                                                     ->label(__('filament.resources.singularLabel.song'))
                                                     ->schema([
-                                                        SubmissionBelongsTo::make(AnimeTheme::ATTRIBUTE_SONG)
-                                                            ->resource(SongResource::class)
-                                                            ->showCreateOption()
-                                                            ->live()
-                                                            ->hintAction(LoadArtistsAction::make()),
+                                                        SelectBuilder::make('song')
+                                                            ->label(__('filament.resources.singularLabel.song'))
+                                                            ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.song')]))
+                                                            ->maxItems(1)
+                                                            ->reorderable(false)
+                                                            ->set(Song::class, SongForm::class),
 
                                                         Repeater::make('performances')
                                                             ->label(__('filament.resources.label.artists'))
-                                                            ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.artist')]))
                                                             ->live(true)
                                                             ->key('song.performances')
                                                             ->collapsible()
                                                             ->defaultItems(0)
                                                             ->columns(3)
                                                             ->columnSpanFull()
-                                                            ->reorderableWithDragAndDrop(false)
-                                                            ->reorderableWithButtons()
-                                                            ->formatStateUsing(function (Get $get): array {
-                                                                /** @var Song|null $song */
-                                                                $song = Song::query()->find($get(Performance::ATTRIBUTE_SONG));
-
-                                                                return PerformanceSongRelationManager::formatArtists($song);
-                                                            })
                                                             ->schema([
-                                                                SubmissionBelongsTo::make(Artist::ATTRIBUTE_ID)
-                                                                    ->resource(ArtistResource::class)
-                                                                    ->showCreateOption()
-                                                                    ->required()
-                                                                    ->hintAction(LoadMembersAction::make()),
+                                                                SelectBuilder::make('artist')
+                                                                    ->label(__('filament.resources.singularLabel.artist'))
+                                                                    ->maxItems(1)
+                                                                    ->reorderable(false)
+                                                                    ->columnSpanFull()
+                                                                    ->set(Artist::class, ArtistForm::class),
 
-                                                                TextInput::make(Performance::ATTRIBUTE_AS)
+                                                                TextInput::make(SubmissionPerformance::ATTRIBUTE_AS)
                                                                     ->label(__('filament.fields.performance.as.name'))
                                                                     ->helperText(__('filament.fields.performance.as.help')),
 
-                                                                TextInput::make(Performance::ATTRIBUTE_ALIAS)
+                                                                TextInput::make(SubmissionPerformance::ATTRIBUTE_ALIAS)
                                                                     ->label(__('filament.fields.performance.alias.name'))
                                                                     ->helperText(__('filament.fields.performance.alias.help')),
 
                                                                 Repeater::make('members')
                                                                     ->label(__('filament.resources.label.members'))
                                                                     ->helperText(__('filament.fields.performance.members.help'))
-                                                                    ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.member')]))
                                                                     ->collapsible()
                                                                     ->defaultItems(0)
                                                                     ->columns(3)
                                                                     ->columnSpanFull()
-                                                                    ->reorderableWithDragAndDrop(false)
-                                                                    ->reorderableWithButtons()
                                                                     ->schema([
-                                                                        SubmissionBelongsTo::make(Performance::ATTRIBUTE_MEMBER)
-                                                                            ->resource(ArtistResource::class)
-                                                                            ->showCreateOption()
+                                                                        SelectBuilder::make('member')
                                                                             ->label(__('filament.fields.performance.member'))
-                                                                            ->required(),
+                                                                            ->maxItems(1)
+                                                                            ->reorderable(false)
+                                                                            ->columnSpanFull()
+                                                                            ->set(Artist::class, ArtistForm::class),
 
-                                                                        TextInput::make(Performance::ATTRIBUTE_MEMBER_AS)
+                                                                        TextInput::make(SubmissionPerformance::ATTRIBUTE_MEMBER_AS)
                                                                             ->label(__('filament.fields.performance.member_as.name'))
                                                                             ->helperText(__('filament.fields.performance.member_as.help')),
 
-                                                                        TextInput::make(Performance::ATTRIBUTE_MEMBER_ALIAS)
+                                                                        TextInput::make(SubmissionPerformance::ATTRIBUTE_MEMBER_ALIAS)
                                                                             ->label(__('filament.fields.performance.member_alias.name'))
                                                                             ->helperText(__('filament.fields.performance.member_alias.help')),
                                                                     ]),
@@ -168,58 +144,41 @@ class CreateAnimeSubmission extends CreateRecord
                                                 Tab::make('entries')
                                                     ->label(__('filament.resources.label.anime_theme_entries'))
                                                     ->schema([
-                                                        Repeater::make(AnimeTheme::RELATION_ENTRIES)
+                                                        Repeater::make('entries')
                                                             ->label(__('filament.resources.label.anime_theme_entries'))
                                                             ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme_entry')]))
-                                                            ->schema(EntryResource::form($schema)->getComponents()),
+                                                            ->schema(EntryForm::configure($schema)->getComponents()),
                                                     ]),
                                             ]),
                                     ]),
                             ]),
 
-                        Tab::make(Anime::RELATION_SERIES)
+                        Tab::make(SubmissionAnime::RELATION_SERIES)
                             ->label(__('filament.resources.label.series'))
                             ->schema([
-                                Repeater::make(Anime::RELATION_SERIES)
+                                SelectBuilder::make(SubmissionAnime::RELATION_SERIES)
                                     ->label(__('filament.resources.label.series'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.series')]))
-                                    ->defaultItems(0)
-                                    ->schema([
-                                        SubmissionBelongsTo::make(Series::ATTRIBUTE_ID)
-                                            ->resource(SeriesResource::class)
-                                            ->showCreateOption()
-                                            ->required(),
-                                    ]),
+                                    ->set(Series::class, SeriesForm::class),
                             ]),
 
-                        Tab::make(Anime::RELATION_RESOURCES)
+                        Tab::make(SubmissionAnime::RELATION_RESOURCES)
                             ->label(__('filament.resources.label.external_resources'))
                             ->schema([
-                                Repeater::make(Anime::RELATION_RESOURCES)
+                                Repeater::make(SubmissionAnime::RELATION_RESOURCES)
                                     ->label(__('filament.resources.label.external_resources'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.external_resource')]))
                                     ->defaultItems(0)
-                                    ->schema([
-                                        SubmissionBelongsTo::make(ExternalResource::ATTRIBUTE_ID)
-                                            ->resource(ExternalResourceResource::class)
-                                            ->showCreateOption()
-                                            ->required(),
-                                    ]),
+                                    ->schema(ResourceForm::configure($schema)->getComponents()),
                             ]),
 
-                        Tab::make(Anime::RELATION_STUDIOS)
+                        Tab::make(SubmissionAnime::RELATION_STUDIOS)
                             ->label(__('filament.resources.label.studios'))
                             ->schema([
-                                Repeater::make(Anime::RELATION_STUDIOS)
+                                SelectBuilder::make(SubmissionAnime::RELATION_STUDIOS)
                                     ->label(__('filament.resources.label.studios'))
                                     ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.studio')]))
-                                    ->defaultItems(0)
-                                    ->schema([
-                                        SubmissionBelongsTo::make(Studio::ATTRIBUTE_ID)
-                                            ->resource(StudioResource::class)
-                                            ->showCreateOption()
-                                            ->required(),
-                                    ]),
+                                    ->set(Studio::class, StudioForm::class),
                             ]),
                     ]),
             ]);
@@ -228,18 +187,11 @@ class CreateAnimeSubmission extends CreateRecord
     // TODO: Refactor common submission creation logic
     protected function handleRecordCreation(array $data): Model
     {
-        Submission::query()
-            ->create([
-                Submission::ATTRIBUTE_FIELDS => Arr::except($data, Submission::ATTRIBUTE_NOTES),
-                Submission::ATTRIBUTE_NOTES => Arr::get($data, Submission::ATTRIBUTE_NOTES),
-                Submission::ATTRIBUTE_STATUS => SubmissionStatus::PENDING->value,
-                Submission::ATTRIBUTE_TYPE => CreateAnimeSubmission::class,
-                Submission::ATTRIBUTE_USER => Auth::id(),
-            ]);
+        new SubmitNewAnimeAction()->handle(Auth::user(), $data);
 
         $this->halt();
 
-        return new Anime();
+        return new Submission();
     }
 
     protected function getCreateFormAction(): Action

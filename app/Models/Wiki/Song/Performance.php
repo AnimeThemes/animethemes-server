@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Song;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Song\Performance\PerformanceCreated;
 use App\Events\Wiki\Song\Performance\PerformanceDeleted;
@@ -48,7 +47,6 @@ class Performance extends BaseModel implements Auditable, SoftDeletable, Sortabl
     use HasFactory;
     use SoftDeletes;
     use SortableTrait;
-    use Submitable;
 
     final public const string TABLE = 'performances';
 

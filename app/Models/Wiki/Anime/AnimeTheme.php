@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ThemeType;
@@ -65,7 +64,6 @@ class AnimeTheme extends BaseModel implements Auditable, InteractsWithSchema, So
     use HasFactory;
     use Searchable;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'anime_themes';
 

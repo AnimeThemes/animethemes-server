@@ -69,7 +69,7 @@ class SubmissionResource extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
             Submission::RELATION_USER,
-            Submission::RELATION_MODERATOR,
+            Submission::RELATION_ASSIGNEE,
         ]);
     }
 
@@ -92,7 +92,7 @@ class SubmissionResource extends BaseResource
 
                 BelongsToColumn::make(Submission::RELATION_USER, UserResource::class),
 
-                BelongsToColumn::make(Submission::RELATION_MODERATOR, UserResource::class)
+                BelongsToColumn::make(Submission::RELATION_ASSIGNEE, UserResource::class)
                     ->label(__('filament.fields.submission.moderator')),
 
                 TextColumn::make(Submission::ATTRIBUTE_FINISHED_AT)
@@ -117,7 +117,7 @@ class SubmissionResource extends BaseResource
 
                         BelongsToEntry::make(Submission::RELATION_USER, UserResource::class),
 
-                        BelongsToEntry::make(Submission::RELATION_MODERATOR, UserResource::class)
+                        BelongsToEntry::make(Submission::RELATION_ASSIGNEE, UserResource::class)
                             ->label(__('filament.fields.submission.moderator')),
 
                         TextEntry::make(Submission::ATTRIBUTE_FINISHED_AT)

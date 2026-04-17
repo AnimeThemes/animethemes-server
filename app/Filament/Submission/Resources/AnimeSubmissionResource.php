@@ -9,11 +9,13 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Submission\Resources\Anime\Pages\CreateAnimeSubmission;
 use App\Filament\Submission\Resources\Anime\Pages\ListAnimeSubmissions;
 use App\Models\User\Submission;
+use App\Models\User\Submission\SubmissionAnime;
+use App\Models\Wiki\Anime;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 
 class AnimeSubmissionResource extends BaseSubmissionResource
@@ -57,12 +59,19 @@ class AnimeSubmissionResource extends BaseSubmissionResource
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery();
+        $builder = parent::getEloquentQuery();
 
-        $query->whereBelongsTo(Auth::user(), Submission::RELATION_USER);
+        $builder->where(
+            fn (Builder $query) => $query->orWhere(Submission::ATTRIBUTE_ACTIONABLE_TYPE, Relation::getMorphAlias(Anime::class))
+                ->orWhere(Submission::ATTRIBUTE_SUBMITTED_TYPE, Relation::getMorphAlias(SubmissionAnime::class))
+        );
 
-        // Necessary to prevent lazy loading when loading related resources
-        return $query->with([]);
+        $builder->whereBelongsTo(Auth::user(), Submission::RELATION_USER);
+
+        return $builder->with([
+            Submission::RELATION_ACTIONABLE,
+            Submission::RELATION_SUBMITTED,
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -74,13 +83,8 @@ class AnimeSubmissionResource extends BaseSubmissionResource
 
                 TextColumn::make('name')
                     ->label(__('submissions.fields.submission.name'))
-                    ->state(
-                        fn (Submission $submission) => Arr::get(
-                            $submission
-                                ->getAttribute(Submission::ATTRIBUTE_FIELDS),
-                            'anime.name'
-                        )
-                    ),
+                    // @phpstan-ignore-next-line
+                    ->state(fn (Submission $submission) => $submission->actionable?->getName() ?? $submission->submitted->getName()),
 
                 TextColumn::make(Submission::ATTRIBUTE_STATUS)
                     ->label(__('submissions.fields.submission.status'))

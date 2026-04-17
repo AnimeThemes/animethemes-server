@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Document;
 
 use App\Concerns\Models\SoftDeletes;
-use App\Concerns\Models\Submitable;
 use App\Contracts\Models\SoftDeletable;
 use App\Enums\Pivots\Document\PageRoleType;
 use App\Events\Document\Page\PageCreated;
@@ -50,7 +49,6 @@ class Page extends BaseModel implements Auditable, SoftDeletable
     use HasAudits;
     use HasFactory;
     use SoftDeletes;
-    use Submitable;
 
     final public const string TABLE = 'pages';
 
