@@ -131,6 +131,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
      * @var list<string>
      */
     protected $fillable = [
+        Anime::ATTRIBUTE_FORMAT,
         Anime::ATTRIBUTE_NAME,
         Anime::ATTRIBUTE_SEASON,
         Anime::ATTRIBUTE_SLUG,
