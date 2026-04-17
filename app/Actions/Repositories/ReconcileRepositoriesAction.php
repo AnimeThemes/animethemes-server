@@ -128,7 +128,7 @@ abstract class ReconcileRepositoriesAction
         return $updatedModels->each(function (Model $updatedModel) use ($sourceModels, $destination): void {
             $sourceModel = $this->resolveUpdatedModel($sourceModels, $updatedModel);
             if ($sourceModel instanceof Model) {
-                $destination->update($updatedModel, $sourceModel->toArray());
+                $destination->update($updatedModel, $sourceModel->withoutAppends()->toArray());
             }
         });
     }
