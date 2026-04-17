@@ -6,7 +6,6 @@ namespace App\Http\Api\Schema\Auth;
 
 use App\Http\Api\Field\Auth\Role\RoleColorField;
 use App\Http\Api\Field\Auth\Role\RoleDefaultField;
-use App\Http\Api\Field\Auth\Role\RoleGuardNameField;
 use App\Http\Api\Field\Auth\Role\RoleNameField;
 use App\Http\Api\Field\Auth\Role\RolePriorityField;
 use App\Http\Api\Field\Base\CreatedAtField;
@@ -47,7 +46,6 @@ class RoleSchema extends EloquentSchema
             new UpdatedAtField($this),
             new IdField($this, Role::ATTRIBUTE_ID),
             new RoleNameField($this),
-            new RoleGuardNameField($this),
             new RoleDefaultField($this),
             new RoleColorField($this),
             new RolePriorityField($this),

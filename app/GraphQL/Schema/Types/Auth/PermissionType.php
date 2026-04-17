@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Auth;
 
-use App\GraphQL\Schema\Fields\Auth\Permission\PermissionGuardNameField;
 use App\GraphQL\Schema\Fields\Auth\Permission\PermissionNameField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -30,7 +29,6 @@ class PermissionType extends EloquentType
         return [
             new IdField(Permission::ATTRIBUTE_ID, Permission::class),
             new PermissionNameField(),
-            new PermissionGuardNameField(),
             new CreatedAtField(),
             new UpdatedAtField(),
         ];

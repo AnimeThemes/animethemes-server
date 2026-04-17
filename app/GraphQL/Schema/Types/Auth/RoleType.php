@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Auth;
 
 use App\GraphQL\Schema\Fields\Auth\Role\RoleColorField;
 use App\GraphQL\Schema\Fields\Auth\Role\RoleDefaultField;
-use App\GraphQL\Schema\Fields\Auth\Role\RoleGuardNameField;
 use App\GraphQL\Schema\Fields\Auth\Role\RoleNameField;
 use App\GraphQL\Schema\Fields\Auth\Role\RolePriorityField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
@@ -36,7 +35,6 @@ class RoleType extends EloquentType
             new RoleNameField(),
             new RoleColorField(),
             new RoleDefaultField(),
-            new RoleGuardNameField(),
             new RolePriorityField(),
             new CreatedAtField(),
             new UpdatedAtField(),

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Auth;
 
-use App\Http\Api\Field\Auth\Permission\PermissionGuardNameField;
 use App\Http\Api\Field\Auth\Permission\PermissionNameField;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\IdField;
@@ -42,7 +41,6 @@ class PermissionSchema extends EloquentSchema
             new UpdatedAtField($this),
             new IdField($this, Permission::ATTRIBUTE_ID),
             new PermissionNameField($this),
-            new PermissionGuardNameField($this),
         ];
     }
 }
