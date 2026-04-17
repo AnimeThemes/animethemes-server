@@ -8,6 +8,7 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\User\SubmissionStatus;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
@@ -23,6 +24,14 @@ return [
         ActionLogStatus::RUNNING->name => 'Running',
         ActionLogStatus::FAILED->name => 'Failed',
         ActionLogStatus::FINISHED->name => 'Finished',
+    ],
+    AnimeFormat::class => [
+        AnimeFormat::TV->name => 'TV',
+        AnimeFormat::TV_SHORT->name => 'TV Short',
+        AnimeFormat::OVA->name => 'OVA',
+        AnimeFormat::MOVIE->name => 'Movie',
+        AnimeFormat::SPECIAL->name => 'Special',
+        AnimeFormat::ONA->name => 'ONA',
     ],
     AnimeMediaFormat::class => [
         AnimeMediaFormat::TV->name => 'TV',

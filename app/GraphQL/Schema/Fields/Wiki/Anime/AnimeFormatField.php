@@ -5,24 +5,23 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Wiki\Anime;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\GraphQL\Schema\Fields\EnumField;
 use App\Models\Wiki\Anime;
 use Illuminate\Validation\Rules\Enum;
 
-class AnimeMediaFormatField extends EnumField implements CreatableField, DeprecatedField, RequiredOnCreation, UpdatableField
+class AnimeFormatField extends EnumField implements CreatableField, RequiredOnCreation, UpdatableField
 {
     public function __construct()
     {
-        parent::__construct(Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
+        parent::__construct(Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeFormat::class, 'format');
     }
 
     public function description(): string
     {
-        return 'The media format of the anime';
+        return 'The format of the anime';
     }
 
     /**
@@ -32,7 +31,7 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Depreca
     {
         return [
             'required',
-            new Enum(AnimeMediaFormat::class),
+            new Enum(AnimeFormat::class),
         ];
     }
 
@@ -44,12 +43,7 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Depreca
         return [
             'sometimes',
             'required',
-            new Enum(AnimeMediaFormat::class),
+            new Enum(AnimeFormat::class),
         ];
-    }
-
-    public function deprecationReason(): string
-    {
-        return 'Use the \'format\' field and its filters instead';
     }
 }

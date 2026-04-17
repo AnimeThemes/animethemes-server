@@ -14,6 +14,7 @@ use App\GraphQL\Schema\Fields\Relations\BelongsToManyRelation;
 use App\GraphQL\Schema\Fields\Relations\HasManyRelation;
 use App\GraphQL\Schema\Fields\Relations\MorphManyRelation;
 use App\GraphQL\Schema\Fields\Relations\MorphToManyRelation;
+use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeFormatField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeMediaFormatField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeNameField;
 use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeSeasonField;
@@ -47,7 +48,10 @@ class AnimeType extends EloquentType
             new IdUnbindableField(Anime::ATTRIBUTE_ID),
             new AnimeNameField(),
             new AnimeMediaFormatField(),
-            new LocalizedEnumField(new AnimeMediaFormatField()),
+            new LocalizedEnumField(new AnimeMediaFormatField())
+                ->deprecate('Use the \'formatLocalized\' field instead'),
+            new AnimeFormatField(),
+            new LocalizedEnumField(new AnimeFormatField()),
             new AnimeSeasonField(),
             new LocalizedEnumField(new AnimeSeasonField()),
             new AnimeSlugField(),

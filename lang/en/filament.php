@@ -597,9 +597,9 @@ return [
                 'help' => 'The Year in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
                 'name' => 'Year',
             ],
-            'media_format' => [
+            'format' => [
                 'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
-                'name' => 'Media Format',
+                'name' => 'Format',
             ],
         ],
         'artist' => [

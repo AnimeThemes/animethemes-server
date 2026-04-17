@@ -32,7 +32,7 @@ final class CreateAnimeSynonymIndex implements MigrationInterface
                         'type' => 'text',
                         'analyzer' => 'name_search',
                     ],
-                    'media_format' => [
+                    'format' => [
                         'type' => 'long',
                     ],
                     'season' => [

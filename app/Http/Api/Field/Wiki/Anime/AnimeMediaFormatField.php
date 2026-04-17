@@ -6,7 +6,7 @@ namespace App\Http\Api\Field\Wiki\Anime;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime;
@@ -17,14 +17,14 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Updatab
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
+        parent::__construct($schema, Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeFormat::class, Anime::ATTRIBUTE_FORMAT);
     }
 
     public function getCreationRules(Request $request): array
     {
         return [
             'required',
-            new Enum(AnimeMediaFormat::class),
+            new Enum(AnimeFormat::class),
         ];
     }
 
@@ -33,7 +33,7 @@ class AnimeMediaFormatField extends EnumField implements CreatableField, Updatab
         return [
             'sometimes',
             'required',
-            new Enum(AnimeMediaFormat::class),
+            new Enum(AnimeFormat::class),
         ];
     }
 }

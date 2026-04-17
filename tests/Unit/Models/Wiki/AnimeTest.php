@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -31,12 +31,10 @@ test('casts season to enum', function () {
     $this->assertInstanceOf(AnimeSeason::class, $season);
 });
 
-test('casts media format to enum', function () {
+test('casts format to enum', function () {
     $anime = Anime::factory()->createOne();
 
-    $media_format = $anime->media_format;
-
-    $this->assertInstanceOf(AnimeMediaFormat::class, $media_format);
+    $this->assertInstanceOf(AnimeFormat::class, $anime->format);
 });
 
 test('searchable as', function () {

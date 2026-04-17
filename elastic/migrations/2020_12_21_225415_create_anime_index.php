@@ -31,7 +31,7 @@ final class CreateAnimeIndex implements MigrationInterface
                 ],
             ]);
             $mapping->long('season');
-            $mapping->long('media_format');
+            $mapping->long('format');
             $mapping->text('slug', [
                 'fields' => [
                     'keyword' => [

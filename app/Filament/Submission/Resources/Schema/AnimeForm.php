@@ -56,9 +56,9 @@ class AnimeForm
                     ->searchable()
                     ->allowHtml(),
 
-                Select::make('format')
-                    ->label(__('filament.fields.anime.media_format.name'))
-                    ->helperText(__('filament.fields.anime.media_format.help'))
+                Select::make(SubmissionAnime::ATTRIBUTE_FORMAT)
+                    ->label(__('filament.fields.anime.format.name'))
+                    ->helperText(__('filament.fields.anime.format.help'))
                     ->options(AnimeMediaFormat::class)
                     ->required(),
 

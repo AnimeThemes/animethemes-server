@@ -13,6 +13,6 @@ class AnimeMediaFormatField extends EnumField
 {
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class);
+        parent::__construct($schema, Anime::ATTRIBUTE_MEDIA_FORMAT, AnimeMediaFormat::class, Anime::ATTRIBUTE_FORMAT);
     }
 }

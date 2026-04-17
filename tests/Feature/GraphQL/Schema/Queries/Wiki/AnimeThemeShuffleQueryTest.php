@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
@@ -48,11 +49,11 @@ test('filter by theme type', function () {
     );
 });
 
-test('filter by anime media format', function () {
-    $format = Arr::random(AnimeMediaFormat::cases());
+test('filter by anime format', function () {
+    $format = Arr::random(AnimeFormat::cases());
 
     AnimeTheme::factory()
-        ->for(Anime::factory()->state([Anime::ATTRIBUTE_MEDIA_FORMAT => $format->value]))
+        ->for(Anime::factory()->state([Anime::ATTRIBUTE_FORMAT => $format->value]))
         ->has(AnimeThemeEntry::factory()->has(Video::factory()))
         ->count(fake()->randomDigitNotNull())
         ->create();
@@ -64,10 +65,10 @@ test('filter by anime media format', function () {
 
     $response = graphql([
         'query' => '
-            query($format: [AnimeMediaFormat!]) {
-                animethemeShuffle(mediaFormat: $format) {
+            query($format: [AnimeFormat!]) {
+                animethemeShuffle(format: $format) {
                     anime {
-                        mediaFormat
+                        format
                     }
                 }
             }
@@ -82,7 +83,7 @@ test('filter by anime media format', function () {
     $response->assertJson(
         fn (AssertableJson $json) => $json->has(
             'data.animethemeShuffle',
-            fn (AssertableJson $themes) => $themes->each(fn (AssertableJson $theme) => $theme->where('anime.mediaFormat', $format->name))
+            fn (AssertableJson $themes) => $themes->each(fn (AssertableJson $theme) => $theme->where('anime.format', $format->name))
         )
     );
 });

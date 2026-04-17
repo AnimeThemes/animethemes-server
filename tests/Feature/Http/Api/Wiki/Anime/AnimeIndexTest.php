@@ -208,7 +208,7 @@ test('media format filter', function () {
     ];
 
     Anime::factory()->count(fake()->randomDigitNotNull())->create();
-    $anime = Anime::query()->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value)->get();
+    $anime = Anime::query()->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value)->get();
 
     $response = get(route('api.anime.index', $parameters));
 

@@ -10,6 +10,7 @@ use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
 use App\Contracts\Models\HasSynonyms;
 use App\Contracts\Models\SoftDeletable;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Events\Wiki\Anime\AnimeCreated;
@@ -24,6 +25,7 @@ use App\Models\Discord\DiscordThread;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Observers\Wiki\Anime\AnimeObserver;
 use App\Pivots\Morph\Imageable;
 use App\Pivots\Morph\Resourceable;
 use App\Pivots\Wiki\AnimeSeries;
@@ -33,6 +35,7 @@ use App\Scout\Typesense\Models\Wiki\AnimeTypesenseModel;
 use Database\Factories\Wiki\AnimeFactory;
 use Deprecated;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,6 +55,7 @@ use RuntimeException;
  * @property Collection<int, AnimeTheme> $animethemes
  * @property DiscordThread|null $discordthread
  * @property Collection<int, ExternalEntry> $externalentries
+ * @property AnimeFormat|null $format
  * @property Collection<int, Image> $images
  * @property AnimeMediaFormat|null $media_format
  * @property string $name
@@ -66,6 +70,7 @@ use RuntimeException;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
+#[ObservedBy(AnimeObserver::class)]
 #[Table(Anime::TABLE, Anime::ATTRIBUTE_ID)]
 class Anime extends BaseModel implements Auditable, HasImages, HasResources, HasSynonyms, SoftDeletable
 {
@@ -79,6 +84,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
 
     final public const string ATTRIBUTE_ID = 'anime_id';
     final public const string ATTRIBUTE_MEDIA_FORMAT = 'media_format';
+    final public const string ATTRIBUTE_FORMAT = 'format';
     final public const string ATTRIBUTE_NAME = 'name';
     final public const string ATTRIBUTE_SEASON = 'season';
     final public const string ATTRIBUTE_SLUG = 'slug';
@@ -127,6 +133,7 @@ class Anime extends BaseModel implements Auditable, HasImages, HasResources, Has
     protected function casts(): array
     {
         return [
+            Anime::ATTRIBUTE_FORMAT => AnimeFormat::class,
             Anime::ATTRIBUTE_NAME => 'string',
             Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class,
             Anime::ATTRIBUTE_SEASON => AnimeSeason::class,

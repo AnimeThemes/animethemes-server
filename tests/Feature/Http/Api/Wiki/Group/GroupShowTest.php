@@ -214,7 +214,7 @@ test('anime by media format', function () {
 
     $group->unsetRelations()->load([
         Group::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
-            $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            $query->where(Anime::ATTRIBUTE_FORMAT, $mediaFormatFilter->value);
         },
     ]);
 

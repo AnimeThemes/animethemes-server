@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Filament\NavigationGroup;
-use App\Enums\Models\Wiki\AnimeMediaFormat;
+use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
@@ -120,10 +120,10 @@ class AnimeResource extends BaseResource
                     ->searchable()
                     ->allowHtml(),
 
-                Select::make(Anime::ATTRIBUTE_MEDIA_FORMAT)
-                    ->label(__('filament.fields.anime.media_format.name'))
-                    ->helperText(__('filament.fields.anime.media_format.help'))
-                    ->options(AnimeMediaFormat::class)
+                Select::make(Anime::ATTRIBUTE_FORMAT)
+                    ->label(__('filament.fields.anime.format.name'))
+                    ->helperText(__('filament.fields.anime.format.help'))
+                    ->options(AnimeFormat::class)
                     ->required(),
 
                 MarkdownEditor::make(Anime::ATTRIBUTE_SYNOPSIS)
@@ -161,9 +161,9 @@ class AnimeResource extends BaseResource
                     ->formatStateUsing(fn (AnimeSeason $state): string => $state->localizeStyled())
                     ->html(),
 
-                TextColumn::make(Anime::ATTRIBUTE_MEDIA_FORMAT)
-                    ->label(__('filament.fields.anime.media_format.name'))
-                    ->formatStateUsing(fn (AnimeMediaFormat $state): ?string => $state->localize()),
+                TextColumn::make(Anime::ATTRIBUTE_FORMAT)
+                    ->label(__('filament.fields.anime.format.name'))
+                    ->formatStateUsing(fn (AnimeFormat $state): ?string => $state->localize()),
             ])
             ->searchable();
     }
@@ -193,9 +193,9 @@ class AnimeResource extends BaseResource
                             ->formatStateUsing(fn (AnimeSeason $state): string => $state->localizeStyled())
                             ->html(),
 
-                        TextEntry::make(Anime::ATTRIBUTE_MEDIA_FORMAT)
-                            ->label(__('filament.fields.anime.media_format.name'))
-                            ->formatStateUsing(fn (AnimeMediaFormat $state): ?string => $state->localize()),
+                        TextEntry::make(Anime::ATTRIBUTE_FORMAT)
+                            ->label(__('filament.fields.anime.format.name'))
+                            ->formatStateUsing(fn (AnimeFormat $state): ?string => $state->localize()),
 
                         TextEntry::make(Anime::ATTRIBUTE_SYNOPSIS)
                             ->label(__('filament.fields.anime.synopsis.name'))
@@ -230,9 +230,9 @@ class AnimeResource extends BaseResource
                         ->options(AnimeSeason::class)
                         ->multiple(),
 
-                    SelectConstraint::make(Anime::ATTRIBUTE_MEDIA_FORMAT)
-                        ->label(__('filament.fields.anime.media_format.name'))
-                        ->options(AnimeMediaFormat::class)
+                    SelectConstraint::make(Anime::ATTRIBUTE_FORMAT)
+                        ->label(__('filament.fields.anime.format.name'))
+                        ->options(AnimeFormat::class)
                         ->multiple(),
 
                     TextConstraint::make(Anime::ATTRIBUTE_SYNOPSIS)
