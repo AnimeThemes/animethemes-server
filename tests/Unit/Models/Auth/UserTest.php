@@ -7,7 +7,6 @@ use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\User\Notification as UserNotification;
-use App\Models\User\Submission;
 use App\Models\User\WatchHistory;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;

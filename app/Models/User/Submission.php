@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
-use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\SubmissionStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
-use App\Models\User\Submission\SubmissionAnime;
 use App\Models\User\Submission\SubmissionComparison;
 use App\Models\Wiki\Anime;
-use Database\Factories\User\SubmissionFactory;
 use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
