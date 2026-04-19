@@ -9,7 +9,6 @@ use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Admin\FeaturedThemeType;
 use App\Models\Admin\FeaturedTheme;
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 
 class CurrentFeaturedThemeQuery extends BaseQuery
@@ -43,12 +42,9 @@ class CurrentFeaturedThemeQuery extends BaseQuery
     }
 
     /**
-     * Resolve the query.
-     *
      * @param  array<string, mixed>  $args
-     * @return FeaturedTheme|null
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): ?Model
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): ?FeaturedTheme
     {
         $builder = FeaturedTheme::query();
 

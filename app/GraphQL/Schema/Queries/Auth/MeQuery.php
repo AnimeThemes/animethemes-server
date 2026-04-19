@@ -8,7 +8,6 @@ use App\GraphQL\Argument\Argument;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Auth\User\MeType;
 use App\Models\Auth\User;
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,12 +41,7 @@ class MeQuery extends BaseQuery
         return new MeType();
     }
 
-    /**
-     * Resolve the query.
-     *
-     * @return User|null
-     */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): ?User
     {
         $builder = User::query()->whereKey(Auth::id());
 

@@ -50,12 +50,7 @@ abstract class EloquentPaginationQuery extends EloquentQuery
         ];
     }
 
-    /**
-     * Resolve the pagination query.
-     *
-     * @return Paginator
-     */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, IndexAction $action)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, IndexAction $action): Paginator
     {
         $builder = $this->model()::query();
 

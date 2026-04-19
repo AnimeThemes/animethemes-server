@@ -72,10 +72,7 @@ class FindAnimeByExternalSiteQuery extends BaseQuery
         return new AnimeType();
     }
 
-    /**
-     * @return Collection
-     */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): Collection
     {
         Validator::make($args, [
             self::ATTRIBUTE_SITE => ['required', new Enum(ResourceSite::class)],

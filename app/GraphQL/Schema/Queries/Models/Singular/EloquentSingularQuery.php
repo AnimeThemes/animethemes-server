@@ -54,10 +54,8 @@ abstract class EloquentSingularQuery extends EloquentQuery
 
     /**
      * Resolve the singular record with the binded argument.
-     *
-     * @return Model
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, ShowAction $action)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, ShowAction $action): Model
     {
         /** @var Model $model */
         $model = Arr::get($args, 'model');
