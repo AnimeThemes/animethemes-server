@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\Wiki\Video\VideoScript;
 
+use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Schema\Fields\Field;
 use App\Models\Wiki\Video\VideoScript;
 use GraphQL\Type\Definition\Type;
 
-class VideoScriptLinkField extends Field
+class VideoScriptLinkField extends Field implements DisplayableField
 {
     public function __construct()
     {

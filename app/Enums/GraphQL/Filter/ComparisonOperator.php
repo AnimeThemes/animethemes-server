@@ -18,4 +18,6 @@ enum ComparisonOperator: string
     case GTE = '>=';
     case LIKE = 'like';
     case NOTLIKE = 'not like';
+    case IN = 'in';
+    case NOTIN = 'not in';
 }

@@ -64,20 +64,29 @@ class WhereConditionsFilterCriteria extends FilterCriteria
         if (filled($fieldName) && filled($value)) {
             $field = $this->filterableFields->get($fieldName);
 
-            match ($field->getFilter()->getClause()) {
-                Clause::WHERE => $builder->where(
-                    $field->getColumn(),
-                    ComparisonOperator::unstrictCoerce(Arr::get($where, 'operator'))->value,
-                    Arr::first($field->getFilter()->getFilterValues(Arr::wrap($value))),
-                    $logical->value
-                ),
-                Clause::HAVING => $builder->having(
-                    Str::snake($field->getColumn()),
-                    ComparisonOperator::unstrictCoerce(Arr::get($where, 'operator'))->value,
-                    Arr::first($field->getFilter()->getFilterValues(Arr::wrap($value))),
-                    $logical->value
-                ),
-            };
+            $operator = ComparisonOperator::unstrictCoerce(Arr::get($where, 'operator'));
+            $value = Arr::first($field->getFilter()->getFilterValues(Arr::wrap($value)));
+
+            if ($operator === ComparisonOperator::IN) {
+                $builder->whereIn($field->getColumn(), Arr::wrap($value));
+            } elseif ($operator === ComparisonOperator::NOTIN) {
+                $builder->whereNotIn($field->getColumn(), Arr::wrap($value));
+            } else {
+                match ($field->getFilter()->getClause()) {
+                    Clause::WHERE => $builder->where(
+                        $field->getColumn(),
+                        $operator->value,
+                        $value,
+                        $logical->value
+                    ),
+                    Clause::HAVING => $builder->having(
+                        Str::snake($field->getColumn()),
+                        $operator->value,
+                        $value,
+                        $logical->value
+                    ),
+                };
+            }
         }
 
         $builder->where(function (Builder $builder) use ($where): void {
