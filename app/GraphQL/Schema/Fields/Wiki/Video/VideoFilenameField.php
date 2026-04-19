@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\Wiki\Video;
 
+use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\Wiki\Video;
 
@@ -17,5 +18,11 @@ class VideoFilenameField extends StringField
     public function description(): string
     {
         return 'The filename of the file in storage';
+    }
+
+    public function getFilter(): StringFilter
+    {
+        return new StringFilter($this->name(), $this->getColumn())
+            ->useEq();
     }
 }

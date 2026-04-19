@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Fields\Wiki\ExternalResource;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Schema\Fields\IntField;
 use App\Models\Wiki\ExternalResource;
 
@@ -19,6 +20,12 @@ class ExternalResourceExternalIdField extends IntField implements CreatableField
     public function description(): string
     {
         return 'The primary key of the resource in the external site';
+    }
+
+    public function getFilter(): IntFilter
+    {
+        return new IntFilter($this->name(), $this->getColumn())
+            ->useEq();
     }
 
     /**

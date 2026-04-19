@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\GraphQL\Filter\EnumFilter;
 use App\GraphQL\Schema\Fields\EnumField;
 use App\Models\Wiki\Image;
 use Illuminate\Validation\Rules\Enum;
@@ -22,6 +23,12 @@ class ImageFacetField extends EnumField implements CreatableField, RequiredOnCre
     public function description(): string
     {
         return 'The component that the resource is intended for';
+    }
+
+    public function getFilter(): EnumFilter
+    {
+        return new EnumFilter($this->name(), $this->enum, $this->getColumn())
+            ->useEq();
     }
 
     /**

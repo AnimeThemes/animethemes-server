@@ -7,6 +7,7 @@ namespace App\GraphQL\Schema\Fields\Document\Page;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\Document\Page;
 
@@ -20,6 +21,11 @@ class PageBodyField extends StringField implements CreatableField, RequiredOnCre
     public function description(): string
     {
         return 'The body content of the resource';
+    }
+
+    public function getFilter(): StringFilter
+    {
+        return new StringFilter($this->name(), $this->getColumn());
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Fields\Wiki\Artist;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\Wiki\Artist;
 
@@ -19,6 +20,11 @@ class ArtistInformationField extends StringField implements CreatableField, Upda
     public function description(): string
     {
         return 'The brief information of the resource';
+    }
+
+    public function getFilter(): StringFilter
+    {
+        return new StringFilter($this->name(), $this->getColumn());
     }
 
     /**

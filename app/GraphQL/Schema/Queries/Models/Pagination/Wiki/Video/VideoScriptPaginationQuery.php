@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Queries\Models\Pagination\Wiki\Video;
 
+use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\GraphQL\Schema\Queries\Models\Pagination\EloquentPaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\Video\VideoScriptType;
 
-class VideoScriptPaginationQuery extends EloquentPaginationQuery
+class VideoScriptPaginationQuery extends EloquentPaginationQuery implements DeprecatedField
 {
     public function name(): string
     {
@@ -25,5 +26,10 @@ class VideoScriptPaginationQuery extends EloquentPaginationQuery
     public function baseType(): VideoScriptType
     {
         return new VideoScriptType();
+    }
+
+    public function deprecationReason(): string
+    {
+        return 'Internal use only';
     }
 }

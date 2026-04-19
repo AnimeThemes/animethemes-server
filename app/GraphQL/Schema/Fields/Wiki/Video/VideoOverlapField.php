@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\Wiki\VideoOverlap;
+use App\GraphQL\Filter\EnumFilter;
 use App\GraphQL\Schema\Fields\EnumField;
 use App\Models\Wiki\Video;
 use Illuminate\Validation\Rules\Enum;
@@ -22,6 +23,12 @@ class VideoOverlapField extends EnumField implements CreatableField, RequiredOnC
     public function description(): string
     {
         return 'The degree to which the sequence and episode content overlap';
+    }
+
+    public function getFilter(): EnumFilter
+    {
+        return new EnumFilter($this->name(), $this->enum, $this->getColumn())
+            ->useEq();
     }
 
     /**

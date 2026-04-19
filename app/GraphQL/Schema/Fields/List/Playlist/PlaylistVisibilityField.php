@@ -8,6 +8,7 @@ use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\GraphQL\Filter\EnumFilter;
 use App\GraphQL\Schema\Fields\EnumField;
 use App\Models\List\Playlist;
 use Illuminate\Validation\Rules\Enum;
@@ -22,6 +23,12 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Requi
     public function description(): string
     {
         return 'The state of who can see the playlist';
+    }
+
+    public function getFilter(): EnumFilter
+    {
+        return new EnumFilter($this->name(), $this->enum, $this->getColumn())
+            ->useEq();
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\Wiki\Audio;
 
+use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Schema\Fields\IntField;
 use App\Models\Wiki\Audio;
 
@@ -17,5 +18,12 @@ class AudioSizeField extends IntField
     public function description(): string
     {
         return 'The size of the file in storage in Bytes';
+    }
+
+    public function getFilter(): IntFilter
+    {
+        return new IntFilter($this->name(), $this->getColumn())
+            ->useGt()
+            ->useLt();
     }
 }

@@ -6,6 +6,7 @@ namespace App\GraphQL\Schema\Fields\List\Playlist;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\List\Playlist;
 
@@ -19,6 +20,11 @@ class PlaylistDescriptionField extends StringField implements CreatableField, Up
     public function description(): string
     {
         return 'The description of the playlist';
+    }
+
+    public function getFilter(): StringFilter
+    {
+        return new StringFilter($this->name(), $this->getColumn());
     }
 
     /**

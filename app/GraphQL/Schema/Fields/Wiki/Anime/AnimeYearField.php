@@ -7,6 +7,7 @@ namespace App\GraphQL\Schema\Fields\Wiki\Anime;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Schema\Fields\IntField;
 use App\Models\Wiki\Anime;
 
@@ -20,6 +21,14 @@ class AnimeYearField extends IntField implements CreatableField, RequiredOnCreat
     public function description(): string
     {
         return 'The premiere year of the anime';
+    }
+
+    public function getFilter(): IntFilter
+    {
+        return new IntFilter($this->name(), $this->getColumn())
+            ->useEq()
+            ->useLt()
+            ->useGt();
     }
 
     /**

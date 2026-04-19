@@ -7,6 +7,7 @@ namespace App\GraphQL\Schema\Fields\Wiki\ThemeGroup;
 use App\Contracts\GraphQL\Fields\CreatableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\StringFilter;
 use App\GraphQL\Schema\Fields\StringField;
 use App\Models\Wiki\Group;
 use Illuminate\Support\Arr;
@@ -22,6 +23,12 @@ class ThemeGroupSlugField extends StringField implements CreatableField, Require
     public function description(): string
     {
         return 'The slug of the group';
+    }
+
+    public function getFilter(): StringFilter
+    {
+        return new StringFilter($this->name(), $this->getColumn())
+            ->useEq();
     }
 
     /**

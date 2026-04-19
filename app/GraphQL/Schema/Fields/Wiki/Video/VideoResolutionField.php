@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Wiki\Video;
 
 use App\Contracts\GraphQL\Fields\UpdatableField;
+use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Schema\Fields\IntField;
 use App\Models\Wiki\Video;
 
@@ -18,6 +19,14 @@ class VideoResolutionField extends IntField implements UpdatableField
     public function description(): string
     {
         return 'The frame height of the file in storage';
+    }
+
+    public function getFilter(): IntFilter
+    {
+        return new IntFilter($this->name(), $this->getColumn())
+            ->useEq()
+            ->useLt()
+            ->useGt();
     }
 
     /**

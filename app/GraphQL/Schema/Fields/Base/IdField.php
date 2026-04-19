@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Base;
 
 use App\Contracts\GraphQL\Fields\BindableField;
+use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Schema\Fields\IntField;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,12 @@ class IdField extends IntField implements BindableField
     public function description(): string
     {
         return 'The primary key of the resource';
+    }
+
+    public function getFilter(): IntFilter
+    {
+        return new IntFilter($this->name(), $this->getColumn())
+            ->useEq();
     }
 
     /**

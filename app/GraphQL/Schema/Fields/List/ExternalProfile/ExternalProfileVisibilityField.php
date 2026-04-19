@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\List\ExternalProfile;
 
 use App\Enums\Models\List\ExternalProfileVisibility;
+use App\GraphQL\Filter\EnumFilter;
 use App\GraphQL\Schema\Fields\EnumField;
 use App\Models\List\ExternalProfile;
 
@@ -18,5 +19,11 @@ class ExternalProfileVisibilityField extends EnumField
     public function description(): string
     {
         return 'The state of who can see the profile';
+    }
+
+    public function getFilter(): EnumFilter
+    {
+        return new EnumFilter($this->name(), $this->enum, $this->getColumn())
+            ->useEq();
     }
 }
