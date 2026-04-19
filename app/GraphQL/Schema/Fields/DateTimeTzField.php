@@ -28,7 +28,6 @@ abstract class DateTimeTzField extends StringField
     public function getFilter(): DateTimeTzFilter
     {
         return new DateTimeTzFilter($this->name(), $this->getColumn())
-            ->useEq()
             ->useLt()
             ->useGt();
     }
