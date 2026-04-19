@@ -65,12 +65,6 @@ use App\GraphQL\Schema\Types\List\ExternalProfileType;
 use App\GraphQL\Schema\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Schema\Types\List\PlaylistType;
 use App\GraphQL\Schema\Types\MessageResponseType;
-use App\GraphQL\Schema\Types\Pivot\Morph\ImageableType;
-use App\GraphQL\Schema\Types\Pivot\Morph\ResourceableType;
-use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeSeriesType;
-use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeStudioType;
-use App\GraphQL\Schema\Types\Pivot\Wiki\AnimeThemeEntryVideoType;
-use App\GraphQL\Schema\Types\Pivot\Wiki\ArtistMemberType;
 use App\GraphQL\Schema\Types\SearchType;
 use App\GraphQL\Schema\Types\User\LikeType;
 use App\GraphQL\Schema\Types\User\Notification\ExternalProfileSyncedNotificationType;
@@ -226,16 +220,6 @@ class V1Schema implements ConfigConvertible
                 AnimeYearType::class,
                 MessageResponseType::class,
                 SearchType::class,
-
-                // Pivot
-                // These are needed to build related types like
-                // {Type}SortableColumns and {Type}FilterableColumns.
-                ImageableType::class,
-                ResourceableType::class,
-                AnimeSeriesType::class,
-                AnimeStudioType::class,
-                AnimeThemeEntryVideoType::class,
-                ArtistMemberType::class,
 
                 // Unions
                 LikeableUnion::class,
