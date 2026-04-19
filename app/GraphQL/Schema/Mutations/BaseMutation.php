@@ -10,9 +10,9 @@ use App\GraphQL\Middleware\AuthMutation;
 use App\GraphQL\Middleware\ResolveBindableArgs;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Unions\BaseUnion;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Pipeline\Pipeline;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 
@@ -77,8 +77,11 @@ abstract class BaseMutation extends Mutation
         return null;
     }
 
-    /**
-     * @param  array<string, mixed>  $args
-     */
-    abstract public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed;
+    protected function runHttpMiddlewares(array $middlewares): void
+    {
+        resolve(Pipeline::class)
+            ->send(request())
+            ->through($middlewares)
+            ->thenReturn();
+    }
 }

@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Mutations\Models\List\ExternalProfile;
 
 use App\Contracts\GraphQL\Fields\BindableField;
+use App\Exceptions\GraphQL\ClientForbiddenException;
+use App\Features\AllowExternalProfileManagement;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Resolvers\List\SyncExternalProfileResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\List\ExternalProfileType;
+use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Models\List\ExternalProfile;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Arr;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class SyncExternalProfileMutation extends BaseMutation
 {
@@ -59,12 +63,28 @@ class SyncExternalProfileMutation extends BaseMutation
 
     /**
      * @param  array<string, mixed>  $args
+     * @return array<string, string>
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::call(
-            [App::make(SyncExternalProfileResolver::class), 'update'],
-            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
+        $this->runHttpMiddlewares([
+            EnabledOnlyOnLocalhost::class,
+            EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class),
+        ]);
+
+        /** @var ExternalProfile $profile */
+        $profile = Arr::pull($args, 'model');
+
+        throw_unless(
+            $profile->canBeSynced(),
+            ClientForbiddenException::class,
+            'This external profile cannot be synced at the moment.'
         );
+
+        $profile->dispatchSyncJob();
+
+        return [
+            'message' => 'Job dispatched.',
+        ];
     }
 }

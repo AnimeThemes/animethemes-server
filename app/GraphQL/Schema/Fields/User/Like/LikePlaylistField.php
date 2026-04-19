@@ -6,8 +6,8 @@ namespace App\GraphQL\Schema\Fields\User\Like;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\GraphQL\Resolvers\User\ToggleLikeResolver;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Mutations\Models\User\ToggleLikeMutation;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
@@ -36,7 +36,7 @@ class LikePlaylistField extends Field implements BindableField, CreatableField
     public function bindResolver(array $args): Playlist
     {
         return Playlist::query()
-            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, ToggleLikeResolver::ATTRIBUTE_PLAYLIST))
+            ->where(Playlist::ATTRIBUTE_HASHID, Arr::get($args, ToggleLikeMutation::ATTRIBUTE_PLAYLIST))
             ->firstOrFail();
     }
 
@@ -46,9 +46,9 @@ class LikePlaylistField extends Field implements BindableField, CreatableField
     public function getCreationRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(ToggleLikeResolver::ATTRIBUTE_ENTRY)->__toString(),
+            Str::of('prohibits:')->append(ToggleLikeMutation::ATTRIBUTE_ENTRY)->__toString(),
             'required_without_all:'.implode(',', [
-                ToggleLikeResolver::ATTRIBUTE_ENTRY,
+                ToggleLikeMutation::ATTRIBUTE_ENTRY,
             ]),
         ];
     }

@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Mutations\Models\User;
 
 use App\Contracts\GraphQL\Fields\CreatableField;
+use App\Contracts\Models\Likeable;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Resolvers\User\ToggleLikeResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Mutations\BaseMutation;
 use App\GraphQL\Schema\Types\User\LikeType;
 use App\Models\User\Like;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Facades\App;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ToggleLikeMutation extends BaseMutation
 {
+    final public const string ATTRIBUTE_ENTRY = 'entry';
+    final public const string ATTRIBUTE_PLAYLIST = 'playlist';
+
     public function name(): string
     {
         return 'ToggleLike';
@@ -70,12 +76,15 @@ class ToggleLikeMutation extends BaseMutation
 
     /**
      * @param  array<string, mixed>  $args
+     * @return Like|null
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::call(
-            [App::make(ToggleLikeResolver::class), 'store'],
-            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
-        );
+        $validated = Validator::make($args, $this->rulesForValidation($args))->validated();
+
+        /** @var Model&Likeable $likeable */
+        $likeable = Arr::first($validated);
+
+        return $likeable->toggleLike(Auth::user());
     }
 }

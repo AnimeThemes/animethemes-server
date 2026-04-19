@@ -9,8 +9,9 @@ use App\Contracts\GraphQL\Fields\FilterableField;
 use App\Contracts\GraphQL\Fields\RequiredOnCreation;
 use App\Contracts\GraphQL\Fields\UpdatableField;
 use App\GraphQL\Filter\IntFilter;
-use App\GraphQL\Resolvers\List\Playlist\PlaylistTrackResolver;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackMutation;
+use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\UpdatePlaylistTrackMutation;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -50,7 +51,7 @@ class PlaylistTrackVideoIdField extends Field implements CreatableField, Filtera
             'integer',
             Rule::exists(Video::class, Video::ATTRIBUTE_ID),
             Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Arr::get($args, PlaylistTrackResolver::ATTRIBUTE_ENTRY)),
+                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Arr::get($args, CreatePlaylistTrackMutation::ATTRIBUTE_ENTRY)),
         ];
     }
 
@@ -59,7 +60,7 @@ class PlaylistTrackVideoIdField extends Field implements CreatableField, Filtera
      */
     public function getUpdateRules(array $args): array
     {
-        $entryId = Arr::get($args, PlaylistTrackResolver::ATTRIBUTE_ENTRY);
+        $entryId = Arr::get($args, UpdatePlaylistTrackMutation::ATTRIBUTE_ENTRY);
 
         return [
             'sometimes',

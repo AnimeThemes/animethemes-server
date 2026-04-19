@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Queries\Wiki;
 
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Resolvers\Wiki\Anime\AnimeYearsResolver;
+use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
+use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeasonsField;
+use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearYearField;
 use App\GraphQL\Schema\Queries\BaseQuery;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYearType;
 use App\Models\Wiki\Anime;
+use App\Rules\GraphQL\Resolver\AnimeYearRule;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class AnimeYearsQuery extends BaseQuery
 {
@@ -69,14 +73,33 @@ class AnimeYearsQuery extends BaseQuery
         return new AnimeYearType();
     }
 
-    /**
-     * @return Collection
-     */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): Collection
     {
-        return App::call(
-            [App::make(AnimeYearsResolver::class), 'index'],
-            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
-        );
+        $year = Arr::get($args, self::ARGUMENT_YEAR);
+
+        $fieldSelection = $resolveInfo->getFieldSelection(1);
+
+        Validator::make(['year' => $year], ['year' => new AnimeYearRule($fieldSelection)])
+            ->validate();
+
+        return Anime::query()
+            ->distinct([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])
+            ->orderBy(Anime::ATTRIBUTE_YEAR)
+            ->when($year !== null, fn (Builder $query) => $query->whereIn(Anime::ATTRIBUTE_YEAR, $year))
+            ->get([Anime::ATTRIBUTE_YEAR, Anime::ATTRIBUTE_SEASON])
+            ->groupBy(Anime::ATTRIBUTE_YEAR)
+            ->map(fn (Collection $items, int $year): array => [
+                AnimeYearYearField::FIELD => $year,
+
+                AnimeYearSeasonsField::FIELD => $items
+                    ->map(fn (Anime $anime): array => [
+                        AnimeYearSeasonSeasonField::FIELD => $anime->season,
+                        'seasonLocalized' => $anime->season->localize(),
+                        'year' => $year, // Needed to query animes on the 'seasons' field.
+                    ])
+                    ->unique(Anime::ATTRIBUTE_SEASON)
+                    ->values()
+                    ->toArray(),
+            ])->values();
     }
 }

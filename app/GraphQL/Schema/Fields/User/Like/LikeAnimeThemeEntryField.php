@@ -6,8 +6,8 @@ namespace App\GraphQL\Schema\Fields\User\Like;
 
 use App\Contracts\GraphQL\Fields\BindableField;
 use App\Contracts\GraphQL\Fields\CreatableField;
-use App\GraphQL\Resolvers\User\ToggleLikeResolver;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Mutations\Models\User\ToggleLikeMutation;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
@@ -36,7 +36,7 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     public function bindResolver(array $args): AnimeThemeEntry
     {
         return AnimeThemeEntry::query()
-            ->where(AnimeThemeEntry::ATTRIBUTE_ID, Arr::get($args, ToggleLikeResolver::ATTRIBUTE_ENTRY))
+            ->where(AnimeThemeEntry::ATTRIBUTE_ID, Arr::get($args, ToggleLikeMutation::ATTRIBUTE_ENTRY))
             ->firstOrFail();
     }
 
@@ -46,9 +46,9 @@ class LikeAnimeThemeEntryField extends Field implements BindableField, Creatable
     public function getCreationRules(array $args): array
     {
         return [
-            Str::of('prohibits:')->append(ToggleLikeResolver::ATTRIBUTE_PLAYLIST)->__toString(),
+            Str::of('prohibits:')->append(ToggleLikeMutation::ATTRIBUTE_PLAYLIST)->__toString(),
             'required_without_all:'.implode(',', [
-                ToggleLikeResolver::ATTRIBUTE_PLAYLIST,
+                ToggleLikeMutation::ATTRIBUTE_PLAYLIST,
             ]),
         ];
     }

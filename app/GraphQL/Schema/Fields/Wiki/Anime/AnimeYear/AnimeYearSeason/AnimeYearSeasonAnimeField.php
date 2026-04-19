@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason;
 
+use App\Actions\GraphQL\IndexAction;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\GraphQL\Argument\Argument;
-use App\GraphQL\Resolvers\Wiki\Anime\AnimeYearsResolver;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Queries\Models\Pagination\Wiki\AnimePaginationQuery;
 use App\GraphQL\Schema\Types\Wiki\AnimeType;
+use App\Models\Wiki\Anime;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Support\Facades\App;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class AnimeYearSeasonAnimeField extends Field implements DisplayableField
@@ -77,9 +79,14 @@ class AnimeYearSeasonAnimeField extends Field implements DisplayableField
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::call(
-            [App::make(AnimeYearsResolver::class), 'resolveAnimeField'],
-            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
-        );
+        $season = Arr::get($root, AnimeYearSeasonSeasonField::FIELD);
+        $year = Arr::get($root, 'year');
+
+        $builder = Anime::query()
+            // season filter applies only on the 'season' field.
+            ->when($season !== null, fn (Builder $query) => $query->where(Anime::ATTRIBUTE_SEASON, $season->value))
+            ->where(Anime::ATTRIBUTE_YEAR, $year);
+
+        return new IndexAction()->index($builder, $args, new AnimeType(), $resolveInfo);
     }
 }

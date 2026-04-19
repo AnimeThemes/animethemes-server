@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Mutations\Models\List\Playlist;
 
-use App\GraphQL\Resolvers\List\PlaylistResolver;
+use App\Actions\Http\Api\UpdateAction;
+use App\Features\AllowPlaylistManagement;
 use App\GraphQL\Schema\Mutations\Models\UpdateMutation;
 use App\GraphQL\Schema\Types\List\PlaylistType;
 use App\Models\List\Playlist;
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class UpdatePlaylistMutation extends UpdateMutation
 {
@@ -28,12 +31,19 @@ class UpdatePlaylistMutation extends UpdateMutation
 
     /**
      * @param  array<string, mixed>  $args
+     * @param  UpdateAction<Playlist>  $action
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, UpdateAction $action): Playlist
     {
-        return App::call(
-            [App::make(PlaylistResolver::class), 'update'],
-            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
-        );
+        $this->runHttpMiddlewares([
+            EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
+        ]);
+
+        /** @var Playlist $playlist */
+        $playlist = Arr::pull($args, 'model');
+
+        $validated = Validator::make($args, $this->rulesForValidation($args))->validated();
+
+        return $action->update($playlist, $validated);
     }
 }

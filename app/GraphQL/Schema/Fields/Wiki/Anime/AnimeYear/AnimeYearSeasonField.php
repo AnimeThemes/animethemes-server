@@ -6,13 +6,13 @@ namespace App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\GraphQL\Resolvers\Wiki\Anime\AnimeYearsResolver;
 use App\GraphQL\Schema\Fields\Field;
+use App\GraphQL\Schema\Fields\Wiki\Anime\AnimeYear\AnimeYearSeason\AnimeYearSeasonSeasonField;
+use App\GraphQL\Schema\Queries\Wiki\AnimeYearsQuery;
 use App\GraphQL\Schema\Types\Wiki\Anime\AnimeYear\AnimeYearSeasonType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class AnimeYearSeasonField extends Field implements DisplayableField
@@ -53,13 +53,23 @@ class AnimeYearSeasonField extends Field implements DisplayableField
     }
 
     /**
-     * @return Collection
+     * @return array<string, mixed>|null
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): mixed
     {
-        return App::call(
-            [App::make(AnimeYearsResolver::class), 'resolveSeasonField'],
-            ['root' => $root, 'args' => $args, 'context' => $context, 'resolveInfo' => $resolveInfo]
-        );
+        $season = Arr::get($args, self::ARGUMENT_SEASON);
+        $year = Arr::get($root, AnimeYearsQuery::ARGUMENT_YEAR);
+
+        $seasons = collect(Arr::get($root, 'seasons'));
+
+        if ($seasons->doesntContain(fn ($item): bool => $item[AnimeYearSeasonSeasonField::FIELD] === $season)) {
+            return null;
+        }
+
+        return [
+            AnimeYearSeasonSeasonField::FIELD => $season,
+            'seasonLocalized' => $season->localize(),
+            'year' => $year, // Needed to query animes on the 'season' field.
+        ];
     }
 }
