@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Document;
 
 use App\Enums\GraphQL\Sort\Document\PageSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Document\Page\PageBodyField;
@@ -46,7 +45,6 @@ class PageType extends EloquentType
             new PageBodyField(),
             new CreatedAtField(false),
             new UpdatedAtField(false),
-            new DeletedAtField(),
 
             new BelongsToRelation(new PageType(), Page::RELATION_NEXT),
             new BelongsToRelation(new PageType(), Page::RELATION_PREVIOUS),

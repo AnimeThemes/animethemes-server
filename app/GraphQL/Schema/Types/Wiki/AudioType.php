@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Wiki\AudioSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -52,7 +51,6 @@ class AudioType extends EloquentType
             new AudioLinkField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new HasManyRelation(new VideoType(), Audio::RELATION_VIDEOS),
         ];

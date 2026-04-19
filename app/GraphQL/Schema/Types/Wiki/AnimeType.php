@@ -7,7 +7,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
 use App\Enums\GraphQL\Sort\Wiki\AnimeSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -69,7 +68,6 @@ class AnimeType extends EloquentType
             new AnimeYearField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new HasManyRelation(new AnimeSynonymType(), Anime::RELATION_ANIMESYNONYMS)
                 ->deprecate('Use synonyms instead.'),

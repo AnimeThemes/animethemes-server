@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Wiki\SynonymSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -45,7 +44,6 @@ class SynonymType extends EloquentType
             new LocalizedEnumField(new SynonymTypeField()),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
         ];
     }
 }

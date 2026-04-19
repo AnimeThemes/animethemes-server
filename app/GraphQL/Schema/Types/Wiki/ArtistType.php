@@ -8,7 +8,6 @@ use App\Enums\GraphQL\Sort\Pivot\ArtistMemberSort;
 use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
 use App\Enums\GraphQL\Sort\Wiki\ArtistSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -55,7 +54,6 @@ class ArtistType extends EloquentType
             new ArtistInformationField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new MorphManyRelation(new SynonymType(), Artist::RELATION_SYNONYMS),
             new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_GROUPS, new ArtistMemberType()),

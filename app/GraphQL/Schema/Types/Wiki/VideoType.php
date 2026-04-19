@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Wiki\VideoSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -80,7 +79,6 @@ class VideoType extends EloquentType
             new VideoLinkField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new BelongsToRelation(new AudioType(), Video::RELATION_AUDIO),
             new BelongsToManyRelation($this, new AnimeThemeEntryType(), Video::RELATION_ANIMETHEMEENTRIES, new AnimeThemeEntryVideoType()),

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -40,7 +39,6 @@ class ExternalResourceType extends EloquentType
             new LocalizedEnumField(new ExternalResourceSiteField()),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new MorphToManyRelation($this, new AnimeType(), ExternalResource::RELATION_ANIME, new ResourceableType()),
             new MorphToManyRelation($this, new ArtistType(), ExternalResource::RELATION_ARTISTS, new ResourceableType()),

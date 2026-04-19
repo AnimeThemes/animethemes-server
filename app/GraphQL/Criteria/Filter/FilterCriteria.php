@@ -8,9 +8,7 @@ use App\Contracts\GraphQL\Fields\FilterableField;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FilterArgument;
 use App\GraphQL\Filter\Filter;
-use App\GraphQL\Filter\TrashedFilter;
 use App\GraphQL\Filter\WhereConditionsFilter;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
 use App\GraphQL\Schema\Types\EloquentType;
@@ -41,10 +39,6 @@ abstract class FilterCriteria
                 $baseType instanceof EloquentType,
                 /** @phpstan-ignore-next-line */
                 fn (Collection $collection) => $collection->push(new WhereConditionsFilter($baseType))
-            )
-            ->when(
-                in_array(new DeletedAtField(), $fields),
-                fn (Collection $collection) => $collection->push(new TrashedFilter())
             );
     }
 
@@ -74,11 +68,6 @@ abstract class FilterCriteria
 
             if ($filter instanceof Filter && Str::endsWith($arg, '_in')) {
                 $criteria[] = new WhereInFilterCriteria($filter, $value, Str::endsWith($arg, '_not_in'));
-                continue;
-            }
-
-            if ($filter instanceof TrashedFilter) {
-                $criteria[] = new TrashedFilterCriteria($filter, $value);
                 continue;
             }
 

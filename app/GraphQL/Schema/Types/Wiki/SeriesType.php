@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Wiki\SeriesSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -45,7 +44,6 @@ class SeriesType extends EloquentType
             new SeriesSlugField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new BelongsToManyRelation($this, new AnimeType(), Series::RELATION_ANIME, new AnimeSeriesType()),
         ];

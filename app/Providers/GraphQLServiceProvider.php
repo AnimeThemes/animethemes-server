@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\GraphQL\Filter\ComparisonOperator;
-use App\Enums\GraphQL\Filter\TrashedFilter;
 use App\Enums\GraphQL\Sort\Admin\AnnouncementSort;
 use App\Enums\GraphQL\Sort\Admin\DumpSort;
 use App\Enums\GraphQL\Sort\Document\PageSort;
@@ -91,7 +90,6 @@ class GraphQLServiceProvider extends ServiceProvider
         GraphQL::addType(new EnumType(ImageableSort::class));
 
         GraphQL::addType(new EnumType(ComparisonOperator::class));
-        GraphQL::addType(new EnumType(TrashedFilter::class));
         GraphQL::addType(new EnumType(SortDirection::class));
         GraphQL::addType(new EnumType(ExternalEntryStatus::class));
         GraphQL::addType(new EnumType(ExternalProfileSite::class));

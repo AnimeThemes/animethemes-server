@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types\Wiki\Video;
 
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -36,7 +35,6 @@ class VideoScriptType extends EloquentType
             new VideoScriptLinkField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new HasOneRelation(new VideoType(), VideoScript::RELATION_VIDEO)
                 ->nonNullable(),

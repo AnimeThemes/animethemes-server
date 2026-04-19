@@ -7,7 +7,6 @@ namespace App\GraphQL\Schema\Types\Wiki\Anime\Theme;
 use App\Enums\GraphQL\Sort\Wiki\Anime\AnimeTheme\AnimeThemeEntrySort;
 use App\GraphQL\Schema\Fields\Base\Aggregate\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -61,7 +60,6 @@ class AnimeThemeEntryType extends EloquentType
             new AnimeThemeEntryTracksCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new BelongsToRelation(new AnimeThemeType(), AnimeThemeEntry::RELATION_THEME)
                 ->nonNullable(),

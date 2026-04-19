@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Wiki\SongSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -48,7 +47,6 @@ class SongType extends EloquentType
             new SongTitleNativeField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new HasManyRelation(new AnimeThemeType(), Song::RELATION_ANIMETHEMES),
             new HasManyRelation(new PerformanceType(), Song::RELATION_PERFORMANCES),

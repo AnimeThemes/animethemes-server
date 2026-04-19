@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types\Wiki\Anime;
 
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -38,7 +37,6 @@ class AnimeSynonymType extends EloquentType
             new LocalizedEnumField(new AnimeSynonymTypeField()),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new BelongsToRelation(new AnimeType(), AnimeSynonym::RELATION_ANIME)
                 ->nonNullable(),

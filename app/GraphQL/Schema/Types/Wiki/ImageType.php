@@ -6,7 +6,6 @@ namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Wiki\ImageSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
-use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -49,7 +48,6 @@ class ImageType extends EloquentType
             new ImageLinkField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
 
             new MorphToManyRelation($this, new AnimeType(), Image::RELATION_ANIME, new ImageableType()),
             new MorphToManyRelation($this, new ArtistType(), Image::RELATION_ARTISTS, new ImageableType()),
