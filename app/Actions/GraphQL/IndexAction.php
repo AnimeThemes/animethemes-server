@@ -8,10 +8,9 @@ use App\Concerns\Actions\GraphQL\ConstrainsEagerLoads;
 use App\Concerns\Actions\GraphQL\FieldSelection;
 use App\Concerns\Actions\GraphQL\PaginatesModels;
 use App\Concerns\Actions\GraphQL\SortsModels;
+use App\Contracts\GraphQL\EnumSort;
 use App\GraphQL\Argument\SortArgument;
 use App\GraphQL\Criteria\Sort\RelationSortCriteria;
-use App\GraphQL\Criteria\Sort\SortCriteria;
-use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Types\BaseType;
 use App\Rules\GraphQL\Argument\FirstArgumentRule;
 use App\Scout\Criteria;
@@ -21,6 +20,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use UnitEnum;
 
 class IndexAction
 {
@@ -35,7 +35,7 @@ class IndexAction
 
         $this->filter($builder, $args, $type);
 
-        $this->sort($builder, $args, $type);
+        $this->sort($builder, $args);
 
         $this->constrainEagerLoads($builder, $resolveInfo, $type);
 
@@ -53,7 +53,7 @@ class IndexAction
 
             $this->filter($builder, $args, $type);
 
-            $this->sort($builder, $args, $type);
+            $this->sort($builder, $args);
 
             $this->constrainEagerLoads($builder, $resolveInfo, $type);
         };
@@ -66,15 +66,14 @@ class IndexAction
             'first' => ['required', 'integer', 'min:1', new FirstArgumentRule()],
         ])->validate();
 
+        /** @var array<int, UnitEnum&EnumSort> $sorts */
         $sorts = Arr::get($args, SortArgument::ARGUMENT, []);
-        $criteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
 
         $sortsRaw = [];
         foreach ($sorts as $sort) {
-            /** @var SortCriteria $criterion */
-            $criterion = Arr::get($criteria, $sort);
+            $criterion = $sort->getSortCriteria();
 
-            $column = $criterion->getSort()->getColumn();
+            $column = $criterion->getColumn();
             $direction = $criterion->getDirection();
             $isString = $criterion->isStringField();
 

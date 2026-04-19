@@ -6,12 +6,10 @@ namespace App\GraphQL\Schema\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\GraphQL\Filter\BooleanFilter;
-use App\GraphQL\Sort\Sort;
 use GraphQL\Type\Definition\Type;
 
-abstract class BooleanField extends Field implements DisplayableField, FilterableField, SortableField
+abstract class BooleanField extends Field implements DisplayableField, FilterableField
 {
     public function baseType(): Type
     {
@@ -27,10 +25,5 @@ abstract class BooleanField extends Field implements DisplayableField, Filterabl
     {
         return new BooleanFilter($this->name(), $this->getColumn())
             ->useEq();
-    }
-
-    public function getSort(): Sort
-    {
-        return new Sort($this->name(), $this->getColumn());
     }
 }

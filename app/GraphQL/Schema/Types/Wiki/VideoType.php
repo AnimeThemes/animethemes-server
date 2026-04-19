@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Wiki\VideoSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -41,6 +42,14 @@ class VideoType extends EloquentType
     public function description(): string
     {
         return "Represents a WebM of an anime theme.\n\nFor example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.";
+    }
+
+    /**
+     * @return class-string<VideoSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return VideoSort::class;
     }
 
     /**

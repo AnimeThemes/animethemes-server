@@ -6,7 +6,26 @@ namespace App\Providers;
 
 use App\Enums\GraphQL\Filter\ComparisonOperator;
 use App\Enums\GraphQL\Filter\TrashedFilter;
-use App\Enums\GraphQL\Sort\SortDirection;
+use App\Enums\GraphQL\Sort\Admin\AnnouncementSort;
+use App\Enums\GraphQL\Sort\Admin\DumpSort;
+use App\Enums\GraphQL\Sort\Document\PageSort;
+use App\Enums\GraphQL\Sort\List\Playlist\PlaylistTrackSort;
+use App\Enums\GraphQL\Sort\List\PlaylistSort;
+use App\Enums\GraphQL\Sort\Pivot\ArtistMemberSort;
+use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
+use App\Enums\GraphQL\Sort\Wiki\Anime\AnimeTheme\AnimeThemeEntrySort;
+use App\Enums\GraphQL\Sort\Wiki\Anime\AnimeThemeSort;
+use App\Enums\GraphQL\Sort\Wiki\AnimeSort;
+use App\Enums\GraphQL\Sort\Wiki\ArtistSort;
+use App\Enums\GraphQL\Sort\Wiki\AudioSort;
+use App\Enums\GraphQL\Sort\Wiki\ImageSort;
+use App\Enums\GraphQL\Sort\Wiki\SeriesSort;
+use App\Enums\GraphQL\Sort\Wiki\Song\PerformanceSort;
+use App\Enums\GraphQL\Sort\Wiki\SongSort;
+use App\Enums\GraphQL\Sort\Wiki\StudioSort;
+use App\Enums\GraphQL\Sort\Wiki\SynonymSort;
+use App\Enums\GraphQL\Sort\Wiki\VideoSort;
+use App\Enums\GraphQL\SortDirection;
 use App\Enums\Models\List\ExternalEntryStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -48,6 +67,29 @@ class GraphQLServiceProvider extends ServiceProvider
 
     protected function bootEnums(): void
     {
+        // Sort Enums.
+        GraphQL::addType(new EnumType(AnnouncementSort::class));
+        GraphQL::addType(new EnumType(DumpSort::class));
+        GraphQL::addType(new EnumType(PageSort::class));
+        GraphQL::addType(new EnumType(PlaylistSort::class));
+        GraphQL::addType(new EnumType(PlaylistTrackSort::class));
+        GraphQL::addType(new EnumType(AnimeSort::class));
+        GraphQL::addType(new EnumType(AnimeThemeSort::class));
+        GraphQL::addType(new EnumType(AnimeThemeEntrySort::class));
+        GraphQL::addType(new EnumType(ArtistSort::class));
+        GraphQL::addType(new EnumType(AudioSort::class));
+        GraphQL::addType(new EnumType(ImageSort::class));
+        GraphQL::addType(new EnumType(PerformanceSort::class));
+        GraphQL::addType(new EnumType(SeriesSort::class));
+        GraphQL::addType(new EnumType(SongSort::class));
+        GraphQL::addType(new EnumType(StudioSort::class));
+        GraphQL::addType(new EnumType(SynonymSort::class));
+        GraphQL::addType(new EnumType(VideoSort::class));
+
+        // Pivot Sort Enums.
+        GraphQL::addType(new EnumType(ArtistMemberSort::class));
+        GraphQL::addType(new EnumType(ImageableSort::class));
+
         GraphQL::addType(new EnumType(ComparisonOperator::class));
         GraphQL::addType(new EnumType(TrashedFilter::class));
         GraphQL::addType(new EnumType(SortDirection::class));

@@ -46,7 +46,11 @@ class BelongsToManyRelation extends Relation
             return [
                 ...parent::arguments(),
 
-                new SortArgument($this->baseType(), $pivotType),
+                ...(
+                    $this->baseType()->getEnumSortClass() !== null || $this->sortEnum
+                        ? [new SortArgument($this->baseType(), $this->sortEnum)]
+                        : []
+                ),
             ];
         }
 

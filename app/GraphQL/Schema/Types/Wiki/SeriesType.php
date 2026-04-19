@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Wiki\SeriesSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -21,6 +22,14 @@ class SeriesType extends EloquentType
     public function description(): string
     {
         return "Represents a collection of related anime.\n\nFor example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.";
+    }
+
+    /**
+     * @return class-string<SeriesSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return SeriesSort::class;
     }
 
     /**

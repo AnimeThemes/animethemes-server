@@ -6,13 +6,11 @@ namespace App\GraphQL\Schema\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\GraphQL\Filter\Filter;
 use App\GraphQL\Filter\StringFilter;
-use App\GraphQL\Sort\Sort;
 use GraphQL\Type\Definition\Type;
 
-abstract class StringField extends Field implements DisplayableField, FilterableField, SortableField
+abstract class StringField extends Field implements DisplayableField, FilterableField
 {
     public function baseType(): Type
     {
@@ -29,10 +27,5 @@ abstract class StringField extends Field implements DisplayableField, Filterable
         return new StringFilter($this->name(), $this->getColumn())
             ->useEq()
             ->useLike();
-    }
-
-    public function getSort(): Sort
-    {
-        return new Sort($this->name(), $this->getColumn());
     }
 }

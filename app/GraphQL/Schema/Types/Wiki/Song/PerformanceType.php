@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki\Song;
 
+use App\Enums\GraphQL\Sort\Wiki\Song\PerformanceSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -25,6 +26,14 @@ class PerformanceType extends EloquentType
     public function description(): string
     {
         return 'Represents the link between a song and an artist or group.';
+    }
+
+    /**
+     * @return class-string<PerformanceSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return PerformanceSort::class;
     }
 
     /**

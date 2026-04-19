@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Wiki\SynonymSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -20,6 +21,14 @@ class SynonymType extends EloquentType
     public function description(): string
     {
         return "Represents an alternate title or common abbreviation for an entity.\n\nFor example, the anime Bakemonogatari has the synonym \"Monstory\".";
+    }
+
+    /**
+     * @return class-string<SynonymSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return SynonymSort::class;
     }
 
     /**

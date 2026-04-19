@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Wiki\ImageSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -23,6 +24,14 @@ class ImageType extends EloquentType
     public function description(): string
     {
         return "Represents a visual component for another resource such as an anime or artist.\n\nFor example, the Bakemonogatari anime has two images to represent small and large cover images.";
+    }
+
+    /**
+     * @return class-string<ImageSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return ImageSort::class;
     }
 
     /**

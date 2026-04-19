@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enums\GraphQL\Sort;
+namespace App\Enums\GraphQL;
 
 enum SortDirection: string
 {

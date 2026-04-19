@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\List\Playlist;
 
+use App\Enums\GraphQL\Sort\List\Playlist\PlaylistTrackSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
 use App\GraphQL\Schema\Fields\Field;
@@ -26,6 +27,14 @@ class PlaylistTrackType extends EloquentType
     public function description(): string
     {
         return "Represents an entry in a playlist.\n\nFor example, a \"/r/anime's Best OPs and EDs of 2022\" playlist may contain a track for the ParipiKoumei-OP1.webm video.";
+    }
+
+    /**
+     * @return class-string<PlaylistTrackSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return PlaylistTrackSort::class;
     }
 
     /**

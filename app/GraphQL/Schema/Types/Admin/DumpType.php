@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Admin;
 
+use App\Enums\GraphQL\Sort\Admin\DumpSort;
 use App\GraphQL\Schema\Fields\Admin\Dump\DumpLinkField;
 use App\GraphQL\Schema\Fields\Admin\Dump\DumpPathField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
@@ -18,6 +19,14 @@ class DumpType extends EloquentType
     public function description(): string
     {
         return "Represents a database dump of selected tables at a given point in time.\n\nFor example, the animethemes-db-dump-wiki-1663559663946.sql dump represents the database dump of wiki tables performed at 2022-09-19.";
+    }
+
+    /**
+     * @return class-string<DumpSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return DumpSort::class;
     }
 
     /**

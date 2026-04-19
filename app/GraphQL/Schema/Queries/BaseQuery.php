@@ -69,7 +69,7 @@ abstract class BaseQuery extends Query
             $arguments[] = FilterCriteria::getFilters($baseType)->map(fn (Filter $filter): array => $filter->getArguments())->flatten();
         }
 
-        if ($baseType->hasSortableColumns()) {
+        if ($baseType->getEnumSortClass() !== null) {
             $arguments[] = new SortArgument($baseType);
         }
 

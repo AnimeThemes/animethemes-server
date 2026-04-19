@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -42,7 +43,8 @@ class StudioType extends EloquentType
             new DeletedAtField(),
 
             new BelongsToManyRelation($this, new AnimeType(), Studio::RELATION_ANIME, new AnimeStudioType()),
-            new MorphToManyRelation($this, new ImageType(), Studio::RELATION_IMAGES, new ImageableType()),
+            new MorphToManyRelation($this, new ImageType(), Studio::RELATION_IMAGES, new ImageableType())
+                ->setSortEnum(ImageableSort::class),
             new MorphToManyRelation($this, new ExternalResourceType(), Studio::RELATION_RESOURCES, new ResourceableType()),
         ];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki\Anime\Theme;
 
+use App\Enums\GraphQL\Sort\Wiki\Anime\AnimeTheme\AnimeThemeEntrySort;
 use App\GraphQL\Schema\Fields\Base\Aggregate\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
@@ -32,6 +33,14 @@ class AnimeThemeEntryType extends EloquentType
     public function description(): string
     {
         return "Represents a version of an anime theme.\n\nFor example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.";
+    }
+
+    /**
+     * @return class-string<AnimeThemeEntrySort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return AnimeThemeEntrySort::class;
     }
 
     /**

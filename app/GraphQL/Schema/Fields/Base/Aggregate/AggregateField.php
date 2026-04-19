@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Fields\Base\Aggregate;
 
+use App\Contracts\GraphQL\EnumSort;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\Field\AggregateFunction;
-use App\Enums\GraphQL\QualifyColumn;
 use App\GraphQL\Criteria\Filter\FilterCriteria;
 use App\GraphQL\Criteria\Filter\WhereConditionsFilterCriteria;
-use App\GraphQL\Criteria\Sort\SortCriteria;
 use App\GraphQL\Schema\Enums\FilterableColumns;
-use App\GraphQL\Schema\Enums\SortableColumns;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Sort\Sort;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +19,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use UnitEnum;
 
-abstract class AggregateField extends Field implements FilterableField, SortableField
+abstract class AggregateField extends Field implements FilterableField
 {
     private Collection $filterableFields;
 
@@ -38,11 +35,6 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
         parent::__construct($this->alias(), $fieldName, $nullable);
     }
 
-    public function getSort(): Sort
-    {
-        return new Sort($this->fieldName, $this->alias(), qualifyColumn: QualifyColumn::NO);
-    }
-
     /**
      * Eager load the aggregate value for the query builder.
      */
@@ -54,11 +46,10 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
         }
 
         // If the sorting is requesting an aggregate function.
-        /** @var SortCriteria[] $sortCriteria */
-        $sortCriteria = Arr::get(new SortableColumns($type)->getAttributes(), 'criteria');
+        /** @var array<int, UnitEnum&EnumSort> $sorts */
         $sorts = Arr::get($args, 'sort', []);
-        foreach ($sortCriteria as $sortCriterion) {
-            if (in_array($sortCriterion->__toString(), $sorts) && $sortCriterion->getSort()->getName() === $this->name()) {
+        foreach ($sorts as $sort) {
+            if ($sort->getSortCriteria()->getColumn() === $this->alias()) {
                 return true;
             }
         }

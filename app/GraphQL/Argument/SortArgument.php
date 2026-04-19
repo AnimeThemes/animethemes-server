@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Argument;
 
-use App\GraphQL\Schema\Enums\SortableColumns;
+use App\Contracts\GraphQL\EnumSort;
 use App\GraphQL\Schema\Types\BaseType;
-use App\GraphQL\Schema\Types\Pivot\PivotType;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use UnitEnum;
 
 class SortArgument extends Argument
 {
     final public const string ARGUMENT = 'sort';
 
-    public function __construct(protected BaseType $type, ?PivotType $pivotType = null)
+    /**
+     * @param  class-string<UnitEnum&EnumSort>  $sortEnum
+     */
+    public function __construct(protected BaseType $type, ?string $sortEnum = null)
     {
-        $sortableColumns = new SortableColumns($type, $pivotType);
+        $enum = $sortEnum ?? $type->getEnumSortClass();
 
-        GraphQL::addType($sortableColumns);
-
-        $name = Arr::get($sortableColumns->getAttributes(), 'name');
-
-        parent::__construct(self::ARGUMENT, Type::listOf(Type::nonNull(GraphQL::type($name))));
+        parent::__construct(self::ARGUMENT, Type::listOf(Type::nonNull(GraphQL::type(class_basename($enum)))));
     }
 }

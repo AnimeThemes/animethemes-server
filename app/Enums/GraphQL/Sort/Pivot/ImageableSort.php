@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Enums\GraphQL\Sort\Pivot;
+
+use App\Contracts\GraphQL\EnumSort;
+use App\Enums\GraphQL\SortDirection;
+use App\GraphQL\Criteria\Sort\FieldSortCriteria;
+use App\GraphQL\Criteria\Sort\PivotSortCriteria;
+use App\GraphQL\Criteria\Sort\RandomSortCriteria;
+use App\GraphQL\Criteria\Sort\SortCriteria;
+use App\Models\Wiki\Image;
+use App\Pivots\Morph\Imageable;
+
+enum ImageableSort implements EnumSort
+{
+    case ID;
+    case ID_DESC;
+    case DEPTH;
+    case DEPTH_DESC;
+    case CREATED_AT;
+    case CREATED_AT_DESC;
+    case UPDATED_AT;
+    case UPDATED_AT_DESC;
+    case RANDOM;
+
+    public function getSortCriteria(): SortCriteria
+    {
+        return match ($this) {
+            self::ID => new FieldSortCriteria($this, Image::ATTRIBUTE_ID),
+            self::ID_DESC => new FieldSortCriteria($this, Image::ATTRIBUTE_ID, SortDirection::DESC),
+            self::DEPTH => new PivotSortCriteria($this, Imageable::ATTRIBUTE_DEPTH),
+            self::DEPTH_DESC => new PivotSortCriteria($this, Imageable::ATTRIBUTE_DEPTH, SortDirection::DESC),
+            self::CREATED_AT => new FieldSortCriteria($this, Image::ATTRIBUTE_CREATED_AT),
+            self::CREATED_AT_DESC => new FieldSortCriteria($this, Image::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
+            self::UPDATED_AT => new FieldSortCriteria($this, Image::ATTRIBUTE_UPDATED_AT),
+            self::UPDATED_AT_DESC => new FieldSortCriteria($this, Image::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
+            self::RANDOM => new RandomSortCriteria($this, ''),
+        };
+    }
+
+    public function shouldQualifyColumn(): bool
+    {
+        return true;
+    }
+}

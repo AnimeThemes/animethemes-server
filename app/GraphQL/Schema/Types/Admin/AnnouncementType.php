@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Admin;
 
+use App\Enums\GraphQL\Sort\Admin\AnnouncementSort;
 use App\GraphQL\Schema\Fields\Admin\Announcement\AnnouncementContentField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -17,6 +18,14 @@ class AnnouncementType extends EloquentType
     public function description(): string
     {
         return 'Represents a site-wide message to be broadcasted on the homepage.';
+    }
+
+    /**
+     * @return class-string<AnnouncementSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return AnnouncementSort::class;
     }
 
     /**

@@ -6,13 +6,12 @@ namespace App\GraphQL\Schema\Fields\Base\Aggregate;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\Field\AggregateFunction;
 use App\Enums\GraphQL\Filter\Clause;
 use App\GraphQL\Filter\IntFilter;
 use GraphQL\Type\Definition\Type;
 
-class CountField extends AggregateField implements DisplayableField, FilterableField, SortableField
+class CountField extends AggregateField implements DisplayableField, FilterableField
 {
     public function __construct(
         protected string $aggregateRelation,

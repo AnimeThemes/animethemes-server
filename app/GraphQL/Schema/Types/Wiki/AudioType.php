@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Wiki\AudioSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -24,6 +25,14 @@ class AudioType extends EloquentType
     public function description(): string
     {
         return "Represents the audio track of a video.\n\nFor example, the audio Bakemonogatari-OP1.ogg represents the audio track of the Bakemonogatari-OP1.webm video.";
+    }
+
+    /**
+     * @return class-string<AudioSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return AudioSort::class;
     }
 
     /**

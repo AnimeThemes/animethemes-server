@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types;
 
+use App\Contracts\GraphQL\EnumSort;
 use App\Contracts\GraphQL\Fields\DeprecatedField;
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\GraphQL\Schema\Fields\Field;
 use App\GraphQL\Schema\Fields\Relations\Relation;
 use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Type as RebingType;
+use UnitEnum;
 
 abstract class BaseType extends RebingType
 {
@@ -100,9 +101,12 @@ abstract class BaseType extends RebingType
         return $fields->merge($relations)->all();
     }
 
-    public function hasSortableColumns(): bool
+    /**
+     * @return class-string<UnitEnum&EnumSort>|null
+     */
+    public function getEnumSortClass(): ?string
     {
-        return array_any($this->fieldClasses(), fn (Field $field): bool => $field instanceof SortableField);
+        return null;
     }
 
     public function hasFilterableColumns(): bool

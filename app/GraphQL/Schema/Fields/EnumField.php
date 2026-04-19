@@ -6,16 +6,14 @@ namespace App\GraphQL\Schema\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\GraphQL\Filter\EnumFilter;
-use App\GraphQL\Sort\Sort;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use UnitEnum;
 
-abstract class EnumField extends Field implements DisplayableField, FilterableField, SortableField
+abstract class EnumField extends Field implements DisplayableField, FilterableField
 {
     /**
      * @param  class-string<UnitEnum>  $enum
@@ -50,10 +48,5 @@ abstract class EnumField extends Field implements DisplayableField, FilterableFi
             ->useEq()
             ->useIn()
             ->useNotIn();
-    }
-
-    public function getSort(): Sort
-    {
-        return new Sort($this->name(), $this->getColumn());
     }
 }

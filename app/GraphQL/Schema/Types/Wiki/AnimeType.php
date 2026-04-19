@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
+use App\Enums\GraphQL\Sort\Wiki\AnimeSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -38,6 +40,14 @@ class AnimeType extends EloquentType
     }
 
     /**
+     * @return class-string<AnimeSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return AnimeSort::class;
+    }
+
+    /**
      * The fields of the type.
      *
      * @return Field[]
@@ -66,7 +76,8 @@ class AnimeType extends EloquentType
             new MorphManyRelation(new SynonymType(), Anime::RELATION_SYNONYMS),
             new HasManyRelation(new AnimeThemeType(), Anime::RELATION_THEMES),
             new MorphToManyRelation($this, new ExternalResourceType(), Anime::RELATION_RESOURCES, new ResourceableType()),
-            new MorphToManyRelation($this, new ImageType(), Anime::RELATION_IMAGES, new ImageableType()),
+            new MorphToManyRelation($this, new ImageType(), Anime::RELATION_IMAGES, new ImageableType())
+                ->setSortEnum(ImageableSort::class),
             new BelongsToManyRelation($this, new SeriesType(), Anime::RELATION_SERIES, new AnimeSeriesType()),
             new BelongsToManyRelation($this, new StudioType(), Anime::RELATION_STUDIOS, new AnimeStudioType()),
         ];

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Pivot\ArtistMemberSort;
+use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
+use App\Enums\GraphQL\Sort\Wiki\ArtistSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -31,6 +34,14 @@ class ArtistType extends EloquentType
     }
 
     /**
+     * @return class-string<ArtistSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return ArtistSort::class;
+    }
+
+    /**
      * The fields of the type.
      *
      * @return Field[]
@@ -48,8 +59,10 @@ class ArtistType extends EloquentType
 
             new MorphManyRelation(new SynonymType(), Artist::RELATION_SYNONYMS),
             new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_GROUPS, new ArtistMemberType()),
-            new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_MEMBERS, new ArtistMemberType()),
-            new MorphToManyRelation($this, new ImageType(), Artist::RELATION_IMAGES, new ImageableType()),
+            new BelongsToManyRelation($this, new ArtistType(), Artist::RELATION_MEMBERS, new ArtistMemberType())
+                ->setSortEnum(ArtistMemberSort::class),
+            new MorphToManyRelation($this, new ImageType(), Artist::RELATION_IMAGES, new ImageableType())
+                ->setSortEnum(ImageableSort::class),
             new MorphToManyRelation($this, new ExternalResourceType(), Artist::RELATION_RESOURCES, new ResourceableType()),
             new HasManyRelation(new PerformanceType(), Artist::RELATION_PERFORMANCES),
             new HasManyRelation(new PerformanceType(), Artist::RELATION_MEMBER_PERFORMANCES),

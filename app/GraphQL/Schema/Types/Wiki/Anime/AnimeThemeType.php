@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki\Anime;
 
+use App\Enums\GraphQL\Sort\Wiki\Anime\AnimeThemeSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -28,6 +29,14 @@ class AnimeThemeType extends EloquentType
     public function description(): string
     {
         return "Represents an OP or ED sequence for an anime.\n\nFor example, the anime Bakemonogatari has five OP anime themes and one ED anime theme.";
+    }
+
+    /**
+     * @return class-string<AnimeThemeSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return AnimeThemeSort::class;
     }
 
     /**

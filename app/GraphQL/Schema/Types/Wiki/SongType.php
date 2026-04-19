@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Wiki;
 
+use App\Enums\GraphQL\Sort\Wiki\SongSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdField;
@@ -24,6 +25,14 @@ class SongType extends EloquentType
     public function description(): string
     {
         return "Represents the composition that accompanies an AnimeTheme.\n\nFor example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.";
+    }
+
+    /**
+     * @return class-string<SongSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return SongSort::class;
     }
 
     /**

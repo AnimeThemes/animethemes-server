@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\List;
 
+use App\Enums\GraphQL\Sort\List\PlaylistSort;
+use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
 use App\GraphQL\Schema\Fields\Base\Aggregate\LikesCountField;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\UpdatedAtField;
@@ -33,6 +35,14 @@ class PlaylistType extends EloquentType
     }
 
     /**
+     * @return class-string<PlaylistSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return PlaylistSort::class;
+    }
+
+    /**
      * The fields of the type.
      *
      * @return Field[]
@@ -56,7 +66,8 @@ class PlaylistType extends EloquentType
             new BelongsToRelation(new UserType(), Playlist::RELATION_USER)
                 ->nonNullable(),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new MorphToManyRelation($this, new ImageType(), Playlist::RELATION_IMAGES, new ImageableType()),
+            new MorphToManyRelation($this, new ImageType(), Playlist::RELATION_IMAGES, new ImageableType())
+                ->setSortEnum(ImageableSort::class),
         ];
     }
 }

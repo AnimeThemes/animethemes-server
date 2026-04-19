@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Relations;
 
 use App\Concerns\Actions\GraphQL\FiltersModels;
+use App\Contracts\GraphQL\EnumSort;
 use App\Enums\GraphQL\PaginationType;
 use App\GraphQL\Argument\Argument;
 use App\GraphQL\Argument\FirstArgument;
@@ -21,12 +22,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use UnitEnum;
 
 abstract class Relation extends Field
 {
     use FiltersModels;
 
     protected bool $asPivot = false;
+
+    /** @var class-string<UnitEnum&EnumSort>|null */
+    protected ?string $sortEnum = null;
 
     public function __construct(
         protected BaseType|BaseUnion $relatedType,
@@ -66,6 +71,16 @@ abstract class Relation extends Field
     }
 
     /**
+     * @param  class-string<UnitEnum&EnumSort>  $enum
+     */
+    public function setSortEnum(string $enum): static
+    {
+        $this->sortEnum = $enum;
+
+        return $this;
+    }
+
+    /**
      * Get the relation name in the model.
      */
     public function getRelationName(): string
@@ -99,7 +114,7 @@ abstract class Relation extends Field
             $arguments[] = new FirstArgument(true);
             $arguments[] = new PageArgument();
 
-            if ($type instanceof BaseType && $type->hasSortableColumns()) {
+            if ($type instanceof BaseType && $type->getEnumSortClass() !== null) {
                 $arguments[] = new SortArgument($type);
             }
         }

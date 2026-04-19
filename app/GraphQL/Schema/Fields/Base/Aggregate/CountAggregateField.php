@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Fields\Base\Aggregate;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\Enums\GraphQL\Field\AggregateFunction;
 use App\Enums\GraphQL\Filter\Clause;
 use App\GraphQL\Filter\IntFilter;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 
-class CountAggregateField extends AggregateField implements DisplayableField, SortableField
+class CountAggregateField extends AggregateField implements DisplayableField
 {
     public function __construct(
         public string $aggregateRelation,

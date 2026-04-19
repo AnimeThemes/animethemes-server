@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Schema\Types\Document;
 
+use App\Enums\GraphQL\Sort\Document\PageSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -21,6 +22,14 @@ class PageType extends EloquentType
     public function description(): string
     {
         return "Represents a static markdown page used for guides and other documentation.\n\nFor example, the 'encoding/audio_normalization' page represents the documentation for audio normalization.";
+    }
+
+    /**
+     * @return class-string<PageSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return PageSort::class;
     }
 
     /**

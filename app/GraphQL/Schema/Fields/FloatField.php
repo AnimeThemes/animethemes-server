@@ -6,12 +6,10 @@ namespace App\GraphQL\Schema\Fields;
 
 use App\Contracts\GraphQL\Fields\DisplayableField;
 use App\Contracts\GraphQL\Fields\FilterableField;
-use App\Contracts\GraphQL\Fields\SortableField;
 use App\GraphQL\Filter\FloatFilter;
-use App\GraphQL\Sort\Sort;
 use GraphQL\Type\Definition\Type;
 
-abstract class FloatField extends Field implements DisplayableField, FilterableField, SortableField
+abstract class FloatField extends Field implements DisplayableField, FilterableField
 {
     public function baseType(): Type
     {
@@ -29,10 +27,5 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
             ->useEq()
             ->useLt()
             ->useGt();
-    }
-
-    public function getSort(): Sort
-    {
-        return new Sort($this->name(), $this->getColumn());
     }
 }
