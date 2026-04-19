@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Schema\Types\Wiki;
 
 use App\Enums\GraphQL\Sort\Pivot\ImageableSort;
+use App\Enums\GraphQL\Sort\Wiki\StudioSort;
 use App\GraphQL\Schema\Fields\Base\CreatedAtField;
 use App\GraphQL\Schema\Fields\Base\DeletedAtField;
 use App\GraphQL\Schema\Fields\Base\IdUnbindableField;
@@ -25,6 +26,14 @@ class StudioType extends EloquentType
     public function description(): string
     {
         return "Represents a company that produces anime.\n\nFor example, Shaft is the studio that produced the anime Bakemonogatari.";
+    }
+
+    /**
+     * @return class-string<StudioSort>
+     */
+    public function getEnumSortClass(): string
+    {
+        return StudioSort::class;
     }
 
     /**
