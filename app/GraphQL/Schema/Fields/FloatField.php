@@ -28,9 +28,7 @@ abstract class FloatField extends Field implements DisplayableField, FilterableF
         return new FloatFilter($this->name(), $this->getColumn())
             ->useEq()
             ->useLt()
-            ->useGt()
-            ->useIn()
-            ->useNotIn();
+            ->useGt();
     }
 
     public function getSort(): Sort
