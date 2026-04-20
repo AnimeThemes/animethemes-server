@@ -15,6 +15,7 @@ use App\Models\Wiki\Video;
 use App\Scout\Criteria;
 use App\Scout\Search;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;

@@ -51,6 +51,6 @@ class AnimeThemeShuffleQuery
         $first = Arr::get($args, 'first') ?? Config::integer('lighthouse.pagination.default_count');
         $page = Arr::integer($args, 'page', 1);
 
-        return $builder->paginate($first, ['*'], $page)->getCollection();
+        return $builder->paginate($first, page: $page)->getCollection();
     }
 }
