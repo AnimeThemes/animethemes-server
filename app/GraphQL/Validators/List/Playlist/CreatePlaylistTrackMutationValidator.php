@@ -23,8 +23,7 @@ class CreatePlaylistTrackMutationValidator extends Validator
      */
     public function rules(): array
     {
-        /** @var Playlist $playlist */
-        $playlist = $this->arg('playlist');
+        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, $this->arg('playlist'));
 
         return [
             'entryId' => [
@@ -41,13 +40,19 @@ class CreatePlaylistTrackMutationValidator extends Validator
                 Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
                     ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->arg('entryId')),
             ],
+            'position' => [
+                'sometimes',
+                'required',
+                'integer',
+                'min:1',
+            ],
             'previous' => [
                 'sometimes',
                 'required',
                 'string',
                 Str::of('prohibits:')->append('next')->__toString(),
                 Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
-                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey()),
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
             ],
             'next' => [
                 'sometimes',
@@ -55,7 +60,7 @@ class CreatePlaylistTrackMutationValidator extends Validator
                 'string',
                 Str::of('prohibits:')->append('previous')->__toString(),
                 Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
-                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey()),
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
             ],
         ];
     }

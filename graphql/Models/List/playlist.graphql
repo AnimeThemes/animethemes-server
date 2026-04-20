@@ -42,21 +42,19 @@ extend type Mutation {
         description: String
     ): Playlist!
     @canModel(ability: "create")
-    @validator(class: "App\\GraphQL\\Validators\\List\\CreatePlaylistMutationValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@create")
 
     UpdatePlaylist(
-        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        id: String!
         name: String
         visibility: PlaylistVisibility
         description: String
     ): Playlist!
     @canFindMultiple(ability: "update", find: ["id"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
-    @validator(class: "App\\GraphQL\\Validators\\List\\UpdatePlaylistMutationValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@update")
 
     DeletePlaylist(
-        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        id: String!
     ): MessageResponse! 
     @canFindMultiple(ability: "delete", find: ["id"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutation@delete")

@@ -26,8 +26,7 @@ class SyncExternalProfileMutation
             EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class),
         ]);
 
-        /** @var ExternalProfile $profile */
-        $profile = Arr::pull($args, 'id');
+        $profile = ExternalProfile::query()->find(Arr::pull($args, 'id'));
 
         throw_unless(
             $profile->canBeSynced(),

@@ -7,31 +7,39 @@ namespace App\GraphQL\Mutations\List\Playlist;
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
+use App\Concerns\GraphQL\ValidateArgs;
 use App\Concerns\Http\RunMiddlewares;
 use App\Features\AllowPlaylistManagement;
+use App\GraphQL\Validators\List\Playlist\CreatePlaylistTrackMutationValidator;
+use App\GraphQL\Validators\List\Playlist\UpdatePlaylistTrackMutationValidator;
 use App\Http\Middleware\Models\List\PlaylistExceedsTrackLimit;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Support\Arr;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+use Nuwave\Lighthouse\Execution\ResolveInfo;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class PlaylistTrackMutation
 {
     use RunMiddlewares;
+    use ValidateArgs;
 
     public static Playlist $playlist;
 
     /**
      * @param  array<string, mixed>  $args
      */
-    public function create(null $_, array $args): PlaylistTrack
+    public function create(null $_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): PlaylistTrack
     {
-        static::$playlist = Arr::pull($args, 'playlist');
+        static::$playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, Arr::pull($args, 'playlist'));
 
         $this->runHttpMiddleware([
             EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
             PlaylistExceedsTrackLimit::class,
         ]);
+
+        $validated = $this->validated(CreatePlaylistTrackMutationValidator::class, $resolveInfo);
 
         $validated = [
             PlaylistTrack::ATTRIBUTE_ENTRY => Arr::integer($args, 'entryId'),
@@ -44,24 +52,24 @@ class PlaylistTrackMutation
     /**
      * @param  array<string, mixed>  $args
      */
-    public function update(null $_, array $args): PlaylistTrack
+    public function update(null $_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): PlaylistTrack
     {
         $this->runHttpMiddleware([
             EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
         ]);
 
-        /** @var PlaylistTrack $track */
-        $track = Arr::get($args, 'id');
+        $validated = $this->validated(UpdatePlaylistTrackMutationValidator::class, $resolveInfo);
 
-        /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, 'playlist');
+        $track = PlaylistTrack::query()
+            ->with(PlaylistTrack::RELATION_PLAYLIST)
+            ->firstWhere(PlaylistTrack::ATTRIBUTE_HASHID, Arr::pull($args, 'id'));
 
         $validated = [
             PlaylistTrack::ATTRIBUTE_ENTRY => Arr::integer($args, 'entryId'),
             PlaylistTrack::ATTRIBUTE_VIDEO => Arr::integer($args, 'videoId'),
         ];
 
-        return new UpdateTrackAction()->update($playlist, $track, $validated);
+        return new UpdateTrackAction()->update($track->playlist, $track, $validated);
     }
 
     /**
@@ -73,13 +81,11 @@ class PlaylistTrackMutation
             EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
         ]);
 
-        /** @var PlaylistTrack $track */
-        $track = Arr::pull($args, 'id');
+        $track = PlaylistTrack::query()
+            ->with(PlaylistTrack::RELATION_PLAYLIST)
+            ->firstWhere(PlaylistTrack::ATTRIBUTE_HASHID, Arr::pull($args, 'id'));
 
-        /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, 'playlist');
-
-        $message = new DestroyTrackAction()->destroy($playlist, $track);
+        $message = new DestroyTrackAction()->destroy($track->playlist, $track);
 
         return [
             'message' => $message,

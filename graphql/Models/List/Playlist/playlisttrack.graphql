@@ -19,31 +19,31 @@ type PlaylistTrack @model(class: "App\\Models\\List\\Playlist\\PlaylistTrack") {
 
 extend type Mutation {
     CreatePlaylistTrack(
-        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        playlist: String!
         entryId: Int!
         videoId: Int!
-        previous: String
-        next: String
+        position: Int
+        previous: String @deprecated(reason: "Use position instead")
+        next: String @deprecated(reason: "Use position instead")
     ): PlaylistTrack!
-    @canFindMultiple(ability: "create", find: ["id"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
-    @validator(class: "App\\GraphQL\\Validators\\List\\Playlist\\CreatePlaylistTrackMutationValidator")
+    @canFindMultiple(ability: "create", find: ["playlist"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
     @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@create")
 
     UpdatePlaylistTrack(
-        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
-        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        id: String!
+        playlist: String!
         entryId: Int
         videoId: Int
-        previous: String
-        next: String
+        position: Int
+        previous: String @deprecated(reason: "Use position instead")
+        next: String @deprecated(reason: "Use position instead")
     ): PlaylistTrack!
     @canFindMultiple(ability: "update", find: ["id", "playlist"], models: ["App\\Models\\List\\Playlist\\PlaylistTrack", "App\\Models\\List\\Playlist"], columns: ["hashid", "hashid"])
-    @validator(class: "App\\GraphQL\\Validators\\List\\Playlist\\UpdatePlaylistTrackMutationValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@update")
 
     DeletePlaylistTrack(
-        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
-        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        id: String!
+        playlist: String!
     ): MessageResponse!
     @canFindMultiple(ability: "delete", find: ["id", "playlist"], models: ["App\\Models\\List\\Playlist\\PlaylistTrack", "App\\Models\\List\\Playlist"], columns: ["hashid", "hashid"])
     @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@delete")

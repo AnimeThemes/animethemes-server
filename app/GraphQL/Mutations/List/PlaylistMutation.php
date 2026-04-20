@@ -7,30 +7,38 @@ namespace App\GraphQL\Mutations\List;
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
+use App\Concerns\GraphQL\ValidateArgs;
 use App\Concerns\Http\RunMiddlewares;
 use App\Features\AllowPlaylistManagement;
+use App\GraphQL\Validators\List\CreatePlaylistMutationValidator;
+use App\GraphQL\Validators\List\UpdatePlaylistMutationValidator;
 use App\Http\Middleware\Models\List\UserExceedsPlaylistLimit;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+use Nuwave\Lighthouse\Execution\ResolveInfo;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class PlaylistMutation
 {
     use RunMiddlewares;
+    use ValidateArgs;
 
     /**
      * @param  array<string, mixed>  $args
      */
-    public function create(null $_, array $args): Playlist
+    public function create(null $_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Playlist
     {
         $this->runHttpMiddleware([
             EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
             UserExceedsPlaylistLimit::class,
         ]);
 
+        $validated = $this->validated(CreatePlaylistMutationValidator::class, $resolveInfo);
+
         $parameters = [
-            ...$args,
+            ...$validated,
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
@@ -40,17 +48,18 @@ class PlaylistMutation
     /**
      * @param  array<string, mixed>  $args
      */
-    public function update(null $_, array $args): Playlist
+    public function update(null $_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Playlist
     {
         $this->runHttpMiddleware([
             EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
             UserExceedsPlaylistLimit::class,
         ]);
 
-        /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, 'id');
+        $validated = $this->validated(UpdatePlaylistMutationValidator::class, $resolveInfo);
 
-        return new UpdateAction()->update($playlist, $args);
+        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, Arr::pull($args, 'id'));
+
+        return new UpdateAction()->update($playlist, $validated);
     }
 
     /**
@@ -62,8 +71,7 @@ class PlaylistMutation
             EnsureFeaturesAreActive::using(AllowPlaylistManagement::class),
         ]);
 
-        /** @var Playlist $playlist */
-        $playlist = Arr::pull($args, 'id');
+        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, Arr::pull($args, 'id'));
 
         $message = new DestroyAction()->forceDelete($playlist);
 

@@ -113,8 +113,7 @@ it('fails if no entry video link', function () {
 
     $response->assertOk();
     $response->assertJsonPath('errors.0.extensions.category', 'validation');
-    $this->assertArrayHasKey('entryId', $response->json('errors.0.extensions.validation'));
-    $this->assertArrayHasKey('videoId', $response->json('errors.0.extensions.validation'));
+    $response->assertGraphQLValidationKeys(['entryId', 'videoId']);
 });
 
 it('creates', function () {

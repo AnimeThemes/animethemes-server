@@ -76,8 +76,7 @@ it('fails if more than one resource is passed', function () {
 
     $response->assertOk();
     $response->assertJsonPath('errors.0.extensions.category', 'validation');
-    $this->assertArrayHasKey('entry', $response->json('errors.0.extensions.validation'));
-    $this->assertArrayHasKey('playlist', $response->json('errors.0.extensions.validation'));
+    $response->assertGraphQLValidationKeys(['entry', 'playlist']);
 });
 
 it('likes entry', function () {

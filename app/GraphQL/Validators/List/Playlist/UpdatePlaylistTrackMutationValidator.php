@@ -23,11 +23,9 @@ class UpdatePlaylistTrackMutationValidator extends Validator
      */
     public function rules(): array
     {
-        /** @var Playlist $playlist */
-        $playlist = $this->arg('playlist');
+        $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, $this->arg('playlist'));
 
-        /** @var PlaylistTrack $track */
-        $track = $this->arg('id');
+        $track = PlaylistTrack::query()->firstWhere(PlaylistTrack::ATTRIBUTE_HASHID, $this->arg('id'));
 
         $entryId = $this->arg('entryId');
         $videoId = $this->arg('videoId');
@@ -59,23 +57,29 @@ class UpdatePlaylistTrackMutationValidator extends Validator
                     ]
                 ),
             ],
+            'position' => [
+                'sometimes',
+                'required',
+                'integer',
+                'min:1',
+            ],
             'previous' => [
                 'sometimes',
                 'required',
                 'string',
-                Str::of('prohibits:')->append(PlaylistTrack::RELATION_NEXT)->__toString(),
+                Str::of('prohibits:')->append('next')->__toString(),
                 Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
-                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
-                    ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track->getKey()),
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey())
+                    ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track?->getKey()),
             ],
             'next' => [
                 'sometimes',
                 'required',
                 'string',
-                Str::of('prohibits:')->append(PlaylistTrack::RELATION_PREVIOUS)->__toString(),
+                Str::of('prohibits:')->append('previous')->__toString(),
                 Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
-                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
-                    ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track->getKey()),
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey())
+                    ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track?->getKey()),
             ],
         ];
     }

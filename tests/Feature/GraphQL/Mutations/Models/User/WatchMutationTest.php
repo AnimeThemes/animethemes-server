@@ -73,8 +73,7 @@ test('invalid entry id or video id', function () {
 
     $response->assertOk();
     $response->assertJsonPath('errors.0.extensions.category', 'validation');
-    $this->assertArrayHasKey('entryId', $response->json('errors.0.extensions.validation'));
-    $this->assertArrayHasKey('videoId', $response->json('errors.0.extensions.validation'));
+    $response->assertGraphQLValidationKeys(['entryId', 'videoId']);
 });
 
 test('mark as watched', function () {

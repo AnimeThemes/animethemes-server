@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Nuwave\Lighthouse\Auth\BaseCanDirective;
 use Nuwave\Lighthouse\Exceptions\ClientSafeModelNotFoundException;
 use Nuwave\Lighthouse\Exceptions\DefinitionException;
@@ -70,7 +71,9 @@ GRAPHQL;
 
     protected function authorizeRequest(mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo, callable $resolver, callable $authorize): mixed
     {
-        $authorize(...$this->modelsToCheck($root, $args, $context, $resolveInfo));
+        $ability = $this->directiveArgValue('ability');
+
+        Gate::authorize($ability, [ASTHelper::modelName($this->definitionNode), ...$this->modelsToCheck($root, $args, $context, $resolveInfo)]);
 
         return null;
     }
@@ -126,7 +129,7 @@ GRAPHQL;
                     if ($findValue instanceof Model) {
                         $models[] = $findValue;
                     } else {
-                        $models[] = $this->directiveArgValue('findOrFail', true)
+                        $models[] = $this->directiveArgValue('findOrFail', false)
                             ? $enhancedBuilder->where($this->directiveArgValue('columns')[$index], $findValue)->firstOrFail()
                             : $enhancedBuilder->where($this->directiveArgValue('columns')[$index], $findValue)->first();
                     }

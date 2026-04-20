@@ -12,8 +12,6 @@ use Laravel\Pennant\Feature;
 
 use function Pest\Laravel\actingAs;
 
-pest()->only();
-
 beforeEach(function () {
     $this->mutation = '
         mutation($id: String!) {
@@ -32,10 +30,9 @@ test('protected', function () {
         ],
     );
 
-    $response->ddJson();
     $response->assertOk();
     $response->assertJsonPath('errors.0.extensions.category', 'authorization');
-})->only();
+});
 
 test('forbidden', function () {
     Event::fakeExcept(PlaylistCreated::class);

@@ -38,8 +38,8 @@ type Mutation @guard {
 
     "Mark a video as watched."
     Watch(
-        entryId: Int! @bind(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeEntry", column: "entry_id")
-        videoId: Int! @bind(class: "App\\Models\\Wiki\\Video", column: "video_id")
+        entryId: Int!
+        videoId: Int!
     ): WatchHistory
     @canModel(ability: "create")
     @validator(class: "App\\GraphQL\\Validators\\User\\WatchMutationValidator")
