@@ -1,0 +1,50 @@
+"""
+Represents an entry in a playlist.
+
+For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a track for the ParipiKoumei-OP1.webm video.
+"""
+type PlaylistTrack @model(class: "App\\Models\\List\\Playlist\\PlaylistTrack") {
+    "The primary key of the resource"
+    id: String! @rename(attribute: "hashid")
+
+    "The position of the playlist track within the playlist"
+    position: Int!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}
+
+extend type Mutation {
+    CreatePlaylistTrack(
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        entryId: Int!
+        videoId: Int!
+        previous: String
+        next: String
+    ): PlaylistTrack!
+    @canFindMultiple(ability: "create", find: ["id"], models: ["App\\Models\\List\\Playlist"], columns: ["hashid"])
+    @validator(class: "App\\GraphQL\\Validators\\List\\Playlist\\CreatePlaylistTrackMutationValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@create")
+
+    UpdatePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        entryId: Int
+        videoId: Int
+        previous: String
+        next: String
+    ): PlaylistTrack!
+    @canFindMultiple(ability: "update", find: ["id", "playlist"], models: ["App\\Models\\List\\Playlist\\PlaylistTrack", "App\\Models\\List\\Playlist"], columns: ["hashid", "hashid"])
+    @validator(class: "App\\GraphQL\\Validators\\List\\Playlist\\UpdatePlaylistTrackMutationValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@update")
+
+    DeletePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): MessageResponse!
+    @canFindMultiple(ability: "delete", find: ["id", "playlist"], models: ["App\\Models\\List\\Playlist\\PlaylistTrack", "App\\Models\\List\\Playlist"], columns: ["hashid", "hashid"])
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutation@delete")
+}

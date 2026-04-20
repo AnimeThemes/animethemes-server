@@ -1,0 +1,21 @@
+"""
+Represents a collection of related anime.
+
+For example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.
+"""
+type Series @model(class: "App\\Models\\Wiki\\Series") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "series_id")
+
+    "The primary title of the series"
+    name: String!
+
+    "The URL slug & route key of the resource"
+    slug: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

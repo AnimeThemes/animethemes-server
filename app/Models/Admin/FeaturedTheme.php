@@ -13,10 +13,13 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\Admin\FeaturedThemeFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable as HasAudits;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -112,6 +115,15 @@ class FeaturedTheme extends BaseModel implements Auditable
     public function getSubtitle(): string
     {
         return $this->animethemeentry === null ? $this->getName() : $this->animethemeentry->getName();
+    }
+
+    #[Scope]
+    protected function current(Builder $builder): Builder
+    {
+        return $builder->whereValueBetween(Date::now(), [
+            FeaturedTheme::ATTRIBUTE_START_AT,
+            FeaturedTheme::ATTRIBUTE_END_AT,
+        ]);
     }
 
     /**

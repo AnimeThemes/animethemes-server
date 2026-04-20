@@ -6,7 +6,7 @@ namespace App\Http\Middleware\Models\List;
 
 use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\SpecialPermission;
-use App\GraphQL\Schema\Mutations\Models\List\Playlist\Track\CreatePlaylistTrackMutation;
+use App\GraphQL\Mutations\List\Playlist\PlaylistTrackMutation;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Closure;
@@ -23,7 +23,7 @@ class PlaylistExceedsTrackLimit
         $trackLimit = intval(Config::get(PlaylistConstants::MAX_TRACKS_QUALIFIED));
 
         /** @var Playlist|null $playlist */
-        $playlist = $request->route('playlist') ?? CreatePlaylistTrackMutation::$playlist;
+        $playlist = $request->route('playlist') ?? PlaylistTrackMutation::$playlist;
 
         /** @var User|null $user */
         $user = $request->user();

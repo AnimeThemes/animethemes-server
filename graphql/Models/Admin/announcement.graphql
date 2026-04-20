@@ -1,0 +1,14 @@
+"Represents a site-wide message to be broadcasted on the homepage."
+type Announcement @model(class: "App\\Models\\Admin\\Announcement") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "announcement_id")
+
+    "The announcement text"
+    content: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

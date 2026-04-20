@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\GraphQL\Mutations\List;
+
+use App\Concerns\Http\RunMiddlewares;
+use App\Exceptions\GraphQL\ClientForbiddenException;
+use App\Features\AllowExternalProfileManagement;
+use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Models\List\ExternalProfile;
+use Illuminate\Support\Arr;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+
+class SyncExternalProfileMutation
+{
+    use RunMiddlewares;
+
+    /**
+     * @param  array<string, mixed>  $args
+     */
+    public function __invoke(null $_, array $args): array
+    {
+        $this->runHttpMiddleware([
+            EnabledOnlyOnLocalhost::class,
+            EnsureFeaturesAreActive::using(AllowExternalProfileManagement::class),
+        ]);
+
+        /** @var ExternalProfile $profile */
+        $profile = Arr::pull($args, 'id');
+
+        throw_unless(
+            $profile->canBeSynced(),
+            ClientForbiddenException::class,
+            'This external profile cannot be synced at the moment.'
+        );
+
+        $profile->dispatchSyncJob();
+
+        return [
+            'message' => 'Job dispatched.',
+        ];
+    }
+}

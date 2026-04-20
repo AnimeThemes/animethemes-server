@@ -1,0 +1,26 @@
+"Returns a listing of resources that match a given search term."
+type Search {
+    "The anime results of the search"
+    anime: [Anime!]!
+
+    "The artist results of the search"
+    artists: [Artist!]!
+
+    "The theme results of the search"
+    animethemes: [AnimeTheme!]!
+
+    "The playlist results of the search"
+    playlists: [Playlist!]!
+
+    "The series results of the search"
+    series: [Series!]!
+
+    "The song results of the search"
+    songs: [Song!]!
+
+    "The studio results of the search"
+    studios: [Studio!]!
+
+    "The video results of the search"
+    videos: [Video!]!
+}

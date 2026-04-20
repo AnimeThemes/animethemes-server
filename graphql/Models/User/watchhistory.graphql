@@ -1,0 +1,5 @@
+"Represents the watch history of the authenticated user."
+type WatchHistory {
+    animethemeentry: AnimeThemeEntry! @belongsTo
+    video: Video! @belongsTo
+}

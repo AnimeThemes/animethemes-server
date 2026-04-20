@@ -1,0 +1,26 @@
+"Represents a user profile on the external site like MAL."
+type ExternalProfile @model(class: "App\\Models\\List\\ExternalProfile") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "profile_id")
+
+    "The title of the profile"
+    name: String!
+
+    "The site the profile belongs to"
+    site: ExternalProfileSite!
+
+    "The formatted string value of the site field"
+    siteLocalized: String! @localized
+
+    "The state of who can see the profile"
+    visibility: ExternalProfileVisibility!
+
+    "The formatted string value of the visibility field"
+    visibilityLocalized: String! @localized
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

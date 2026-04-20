@@ -1,0 +1,21 @@
+"""
+Represents the composition that accompanies an AnimeTheme.
+
+For example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.
+"""
+type Song @model(class: "App\\Models\\Wiki\\Song") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "song_id")
+
+    "The name of the composition"
+    title: String
+
+    "The native name of the composition"
+    titleNative: String @rename(attribute: "title_native")
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

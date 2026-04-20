@@ -1,0 +1,27 @@
+"""
+Represents a visual component for another resource such as an anime or artist.
+
+For example, the Bakemonogatari anime has two images to represent small and large cover images.
+"""
+type Image @model(class: "App\\Models\\Wiki\\Image") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "image_id")
+
+    "The component that the resource is intended for"
+    facet: ImageFacet!
+
+    "The formatted string value of the facet field"
+    facetLocalized: String! @localized
+
+    "The path of the file in storage"
+    path: String!
+
+    "The URL to stream the file from storage"
+    link: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

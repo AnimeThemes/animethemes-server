@@ -18,6 +18,9 @@ class MaxCount
         Config::set('graphql.pagination_values.default_count', $this->isLocal($request) ? 1000000 : 15);
         Config::set('graphql.pagination_values.max_count', $this->isLocal($request) ? null : 100);
 
+        Config::set('lighthouse.pagination.default_count', $this->isLocal($request) ? 1000000 : 15);
+        Config::set('lighthouse.pagination.max_count', $this->isLocal($request) ? null : 100);
+
         return $next($request);
     }
 

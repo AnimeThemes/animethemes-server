@@ -1,0 +1,24 @@
+"""
+Represents an alternate title or common abbreviation for an entity.
+
+For example, the anime Bakemonogatari has the synonym "Monstory".
+"""
+type Synonym @model(class: "App\\Models\\Wiki\\Synonym") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "synonym_id")
+
+    "The alternate title or common abbreviations"
+    text: String!
+
+    "The type of the synonym"
+    type: SynonymType!
+
+    "The formatted string value of the type field"
+    typeLocalized: String! @localized
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

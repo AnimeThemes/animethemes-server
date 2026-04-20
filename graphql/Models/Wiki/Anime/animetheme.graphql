@@ -1,0 +1,27 @@
+"""
+Represents an OP or ED sequence for an anime.
+
+For example, the anime Bakemonogatari has five OP anime themes and one ED anime theme.
+"""
+type AnimeTheme @model(class: "App\\Models\\Wiki\\Anime\\AnimeTheme") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "theme_id")
+
+    "The type of the sequence"
+    type: ThemeType!
+
+    "The formatted string value of the type field"
+    typeLocalized: String! @localized
+
+    "The numeric ordering of the theme"
+    sequence: Int
+
+    "The slug that represents the anime theme."
+    slug: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

@@ -1,0 +1,66 @@
+"""
+Represents a WebM of an anime theme.
+
+For example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.
+"""
+type Video @model(class: "App\\Models\\Wiki\\Video") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "video_id")
+
+    "The basename of the file in storage"
+    basename: String!
+
+    "The filename of the file in storage"
+    filename: String!
+
+    "Does the video include subtitles of song lyrics?"
+    lyrics: Boolean!
+
+    "The media type of the file in storage"
+    mimetype: String!
+
+    "Is the video creditless?"
+    nc: Boolean!
+
+    "The degree to which the sequence and episode content overlap"
+    overlap: VideoOverlap!
+
+    "The formatted string value of the overlap field"
+    overlapLocalized: String! @localized
+
+    "The path of the file in storage"
+    path: String!
+
+    "The priority value for the video"
+    priority: Int!
+
+    "The frame height of the file in storage"
+    resolution: Int
+
+    "The size of the file in storage in Bytes"
+    size: Int!
+
+    "Where did this video come from?"
+    source: VideoSource
+
+    "The formatted string value of the source field"
+    sourceLocalized: String @localized
+
+    "Does the video include subtitles of dialogue?"
+    subbed: Boolean!
+
+    "Is the video an uncensored version of a censored sequence?"
+    uncen: Boolean!
+
+    "The attributes used to distinguish the file within the context of a theme"
+    tags: String
+
+    "The URL to stream the file from storage"
+    link: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

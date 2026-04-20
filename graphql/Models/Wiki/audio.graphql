@@ -1,0 +1,33 @@
+"""
+Represents the audio track of a video.
+
+For example, the audio Bakemonogatari-OP1.ogg represents the audio track of the Bakemonogatari-OP1.webm video.
+"""
+type Audio @model(class: "App\\Models\\Wiki\\Audio") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "audio_id")
+
+    "The basename of the file in storage"
+    basename: String!
+
+    "The filename of the file in storage"
+    filename: String!
+
+    "The media type of the file in storage"
+    mimetype: String!
+
+    "The size of the file in storage in Bytes"
+    size: Int!
+
+    "The path of the file in storage"
+    path: String!
+
+    "The URL to stream the file from storage"
+    link: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

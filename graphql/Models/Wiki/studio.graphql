@@ -1,0 +1,21 @@
+"""
+Represents a company that produces anime.
+
+For example, Shaft is the studio that produced the anime Bakemonogatari.
+"""
+type Studio @model(class: "App\\Models\\Wiki\\Studio") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "studio_id")
+
+    "The primary title of the Studio"
+    name: String!
+
+    "The URL slug & route key of the resource"
+    slug: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

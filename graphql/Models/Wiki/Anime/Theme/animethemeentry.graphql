@@ -1,0 +1,36 @@
+"""
+Represents a version of an anime theme.
+
+For example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.
+"""
+type AnimeThemeEntry @model(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeEntry") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "entry_id")
+
+    "The episodes that the theme is used for"
+    episodes: String
+
+    "Any additional information for this sequence"
+    notes: String
+
+    "Is not safe for work content included?"
+    nsfw: Boolean!
+
+    "Is content included that may spoil the viewer?"
+    spoiler: Boolean!
+
+    "The version number of the theme"
+    version: Int!
+
+    "The number of likes recorded for the resource"
+    likesCount: Int! @aggregateCustom(column: "value", function: SUM, relation: "likeAggregate")
+
+    "The number of tracks belonging to the resource"
+    tracksCount: Int! @count(relation: "tracks")
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

@@ -5,10 +5,8 @@ declare(strict_types=1);
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\User;
-use Illuminate\Testing\TestResponse;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\postJson;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,9 +78,4 @@ function getViewPage(string $resource): string
     $pages = $resource::getPages();
 
     return $pages['view']->getPage();
-}
-
-function graphql(array $data): TestResponse
-{
-    return postJson(route('graphql'), $data);
 }

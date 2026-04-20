@@ -1,0 +1,27 @@
+"""
+Represents an anime entry on the external profile.
+
+For example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.
+"""
+type ExternalEntry @model(class: "App\\Models\\List\\External\\ExternalEntry") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "entry_id")
+
+    "The score of the entry on the external site"
+    score: Float
+
+    "The favorite state of the entry on the external site"
+    isFavorite: Boolean
+
+    "The status of the entry on the external site"
+    status: ExternalEntryStatus!
+
+    "The formatted string value of the status field"
+    statusLocalized: String! @localized
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

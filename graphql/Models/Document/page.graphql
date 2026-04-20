@@ -1,0 +1,24 @@
+"""
+Represents a static markdown page used for guides and other documentation.
+
+For example, the 'encoding/audio_normalization' page represents the documentation for audio normalization.
+"""
+type Page @model(class: "App\\Models\\Document\\Page") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "page_id")
+
+    "The primary title of the page"
+    name: String!
+
+    "The URL slug & route key of the resource"
+    slug: String!
+
+    "The body content of the resource"
+    body: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "updated_at")
+}

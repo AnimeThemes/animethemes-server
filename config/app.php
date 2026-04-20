@@ -216,6 +216,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Nuwave\Lighthouse\Pennant\PennantServiceProvider::class,
+        Nuwave\Lighthouse\Scout\ScoutServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
 
         /*

@@ -1,0 +1,117 @@
+"""
+Represents a production with at least one opening or ending sequence.
+
+For example, Bakemonogatari is an anime production with five opening sequences and one ending sequence.
+"""
+type Anime @model(class: "App\\Models\\Wiki\\Anime") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "anime_id")
+
+    "The primary title of the anime"
+    name: String!
+
+    "The media format of the anime"
+    mediaFormat: AnimeMediaFormat @rename(attribute: "media_format") @deprecated(reason: "Use the 'format' field and its filters instead")
+
+    "The formatted string value of the mediaFormat field"
+    mediaFormatLocalized: String @localized @deprecated(reason: "Use the 'formatLocalized' field instead")
+
+    "The format of the anime"
+    format: AnimeFormat
+
+    "The formatted string value of the format field"
+    formatLocalized: String @localized
+
+    "The premiere season of the anime"
+    season: AnimeSeason
+
+    "The formatted string value of the season field"
+    seasonLocalized: String @localized
+
+    "The URL slug & route key of the resource"
+    slug: String!
+
+    "The brief summary of the anime"
+    synopsis: String
+
+    "The premiere year of the anime"
+    year: Int
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    synonyms: [Synonym!]! @morphMany
+
+    animethemes: [AnimeTheme!]! @hasMany
+}
+
+"The anime year response type, grouped by season."
+type AnimeYear {
+    "The year of the AnimeYear type"
+    year: Int!
+
+    "Object that references the season year queried"
+    season(season: AnimeSeason!): AnimeYearSeason @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveSeasonField")
+
+    "The available seasons of the year"
+    seasons: [AnimeYearSeasons!]
+}
+
+"The anime year season type."
+type AnimeYearSeasons {
+    "The season of the anime year"
+    season: AnimeSeason!
+
+    "The formatted string value of the season field"
+    seasonLocalized: String!
+
+    "The animes of the season year filtered"
+    anime(
+        name_like: String @like(key: "name")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        format: AnimeFormat @eq(key: "format")
+        format_in: [AnimeFormat!] @in(key: "format")
+        season: AnimeSeason @eq
+        season_in: [AnimeSeason!] @in(key: "season")
+        year: Int @eq
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+}
+
+"The anime year season type."
+type AnimeYearSeason {
+    "The season of the anime year"
+    season: AnimeSeason!
+
+    "The formatted string value of the season field"
+    seasonLocalized: String!
+
+    "The animes of the season year filtered"
+    anime(
+        name_like: String @like(key: "name")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        format: AnimeFormat @eq(key: "format")
+        format_in: [AnimeFormat!] @in(key: "format")
+        season: AnimeSeason @eq
+        season_in: [AnimeSeason!] @in(key: "season")
+        year: Int @eq
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+}

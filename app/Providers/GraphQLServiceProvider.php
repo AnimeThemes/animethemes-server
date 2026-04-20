@@ -40,71 +40,64 @@ use App\Enums\Models\Wiki\SynonymType;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\GraphQL\Schema\Enums\EnumType;
-use GraphQL\Validator\DocumentValidator;
-use GraphQL\Validator\Rules\QueryComplexity as BaseQueryComplexity;
+use GraphQL\Type\Definition\PhpEnumType;
+use GraphQL\Validator\Rules\QueryComplexity;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use Nuwave\Lighthouse\Schema\TypeRegistry;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        // Query Complexity rule on demand
-        DocumentValidator::addRule(
-            new class(250) extends BaseQueryComplexity
-            {
-                protected function isEnabled(): bool
-                {
-                    return request()->ip() !== '127.0.0.1';
-                }
-            }
-        );
+        Config::set('lighthouse.security.max_query_complexity', request()->ip() === '127.0.0.1' ? QueryComplexity::DISABLED : 250);
 
         $this->bootEnums();
     }
 
     protected function bootEnums(): void
     {
+        $typeRegistry = resolve(TypeRegistry::class);
+
         // Sort Enums.
-        GraphQL::addType(new EnumType(AnnouncementSort::class));
-        GraphQL::addType(new EnumType(DumpSort::class));
-        GraphQL::addType(new EnumType(PageSort::class));
-        GraphQL::addType(new EnumType(PlaylistSort::class));
-        GraphQL::addType(new EnumType(PlaylistTrackSort::class));
-        GraphQL::addType(new EnumType(AnimeSort::class));
-        GraphQL::addType(new EnumType(AnimeThemeSort::class));
-        GraphQL::addType(new EnumType(AnimeThemeEntrySort::class));
-        GraphQL::addType(new EnumType(ArtistSort::class));
-        GraphQL::addType(new EnumType(AudioSort::class));
-        GraphQL::addType(new EnumType(ImageSort::class));
-        GraphQL::addType(new EnumType(PerformanceSort::class));
-        GraphQL::addType(new EnumType(SeriesSort::class));
-        GraphQL::addType(new EnumType(SongSort::class));
-        GraphQL::addType(new EnumType(StudioSort::class));
-        GraphQL::addType(new EnumType(SynonymSort::class));
-        GraphQL::addType(new EnumType(VideoSort::class));
+        $typeRegistry->register(new PhpEnumType(AnnouncementSort::class));
+        $typeRegistry->register(new PhpEnumType(DumpSort::class));
+        $typeRegistry->register(new PhpEnumType(PageSort::class));
+        $typeRegistry->register(new PhpEnumType(PlaylistSort::class));
+        $typeRegistry->register(new PhpEnumType(PlaylistTrackSort::class));
+        $typeRegistry->register(new PhpEnumType(AnimeSort::class));
+        $typeRegistry->register(new PhpEnumType(AnimeThemeSort::class));
+        $typeRegistry->register(new PhpEnumType(AnimeThemeEntrySort::class));
+        $typeRegistry->register(new PhpEnumType(ArtistSort::class));
+        $typeRegistry->register(new PhpEnumType(AudioSort::class));
+        $typeRegistry->register(new PhpEnumType(ImageSort::class));
+        $typeRegistry->register(new PhpEnumType(PerformanceSort::class));
+        $typeRegistry->register(new PhpEnumType(SeriesSort::class));
+        $typeRegistry->register(new PhpEnumType(SongSort::class));
+        $typeRegistry->register(new PhpEnumType(StudioSort::class));
+        $typeRegistry->register(new PhpEnumType(SynonymSort::class));
+        $typeRegistry->register(new PhpEnumType(VideoSort::class));
 
         // Pivot Sort Enums.
-        GraphQL::addType(new EnumType(ArtistMemberSort::class));
-        GraphQL::addType(new EnumType(ImageableSort::class));
+        $typeRegistry->register(new PhpEnumType(ArtistMemberSort::class));
+        $typeRegistry->register(new PhpEnumType(ImageableSort::class));
 
-        GraphQL::addType(new EnumType(ComparisonOperator::class));
-        GraphQL::addType(new EnumType(SortDirection::class));
-        GraphQL::addType(new EnumType(ExternalEntryStatus::class));
-        GraphQL::addType(new EnumType(ExternalProfileSite::class));
-        GraphQL::addType(new EnumType(ExternalProfileVisibility::class));
-        GraphQL::addType(new EnumType(PlaylistVisibility::class));
-        GraphQL::addType(new EnumType(NotificationType::class));
-        GraphQL::addType(new EnumType(AnimeMediaFormat::class));
-        GraphQL::addType(new EnumType(AnimeFormat::class));
-        GraphQL::addType(new EnumType(AnimeSeason::class));
-        GraphQL::addType(new EnumType(AnimeSynonymType::class));
-        GraphQL::addType(new EnumType(ImageFacet::class));
-        GraphQL::addType(new EnumType(ResourceSite::class));
-        GraphQL::addType(new EnumType(SynonymType::class));
-        GraphQL::addType(new EnumType(ThemeType::class));
-        GraphQL::addType(new EnumType(VideoOverlap::class));
-        GraphQL::addType(new EnumType(VideoSource::class));
+        $typeRegistry->register(new PhpEnumType(ComparisonOperator::class));
+        $typeRegistry->register(new PhpEnumType(SortDirection::class));
+        $typeRegistry->register(new PhpEnumType(ExternalEntryStatus::class));
+        $typeRegistry->register(new PhpEnumType(ExternalProfileSite::class));
+        $typeRegistry->register(new PhpEnumType(ExternalProfileVisibility::class));
+        $typeRegistry->register(new PhpEnumType(PlaylistVisibility::class));
+        $typeRegistry->register(new PhpEnumType(NotificationType::class));
+        $typeRegistry->register(new PhpEnumType(AnimeMediaFormat::class));
+        $typeRegistry->register(new PhpEnumType(AnimeFormat::class));
+        $typeRegistry->register(new PhpEnumType(AnimeSeason::class));
+        $typeRegistry->register(new PhpEnumType(AnimeSynonymType::class));
+        $typeRegistry->register(new PhpEnumType(ImageFacet::class));
+        $typeRegistry->register(new PhpEnumType(ResourceSite::class));
+        $typeRegistry->register(new PhpEnumType(SynonymType::class));
+        $typeRegistry->register(new PhpEnumType(ThemeType::class));
+        $typeRegistry->register(new PhpEnumType(VideoOverlap::class));
+        $typeRegistry->register(new PhpEnumType(VideoSource::class));
     }
 }

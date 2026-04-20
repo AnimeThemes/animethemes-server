@@ -1,0 +1,17 @@
+"Represents a video to be featured on the homepage of the site for a specified amount of time."
+type FeaturedTheme @model(class: "App\\Models\\Admin\\FeaturedTheme") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "featured_theme_id")
+
+    "The start date of the resource"
+    startAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "start_at")
+
+    "The end date of the resource"
+    endAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "end_at")
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

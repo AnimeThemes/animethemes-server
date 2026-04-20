@@ -1,0 +1,27 @@
+"""
+Represents a site with supplementary information for another resource such as an anime or artist.
+
+For example, the Bakemonogatari anime has MyAnimeList, AniList and AniDB resources.
+"""
+type ExternalResource @model(class: "App\\Models\\Wiki\\ExternalResource") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "resource_id")
+
+    "The primary key of the resource in the external site"
+    externalId: Int @rename(attribute: "external_id")
+
+    "The URL of the external site"
+    link: String!
+
+    "The external site that the resource belongs to"
+    site: ResourceSite!
+
+    "The formatted string value of the site field"
+    siteLocalized: String! @localized
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

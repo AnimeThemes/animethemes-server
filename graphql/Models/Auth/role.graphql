@@ -1,0 +1,23 @@
+"Represents an assignable label for users that provides a configured group of permissions."
+type Role @model(class: "App\\Models\\Auth\\Role") {
+    "The primary key of the resource"
+    id: Int!
+
+    "The label of the resource"
+    name: String!
+
+    "The hex representation of the color used to distinguish the resource"
+    color: String
+
+    "Is the role assigned on account verification?"
+    default: String!
+
+    "The weight assigned to the resource, where higher values correspond to higher priority"
+    priority: Int!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

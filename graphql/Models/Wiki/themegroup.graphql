@@ -1,0 +1,21 @@
+"""
+Represents the group that accompanies a Theme.
+
+For example, English Version is the group for english dubbed Theme.
+"""
+type ThemeGroup @model(class: "App\\Models\\Wiki\\Group") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "group_id")
+
+    "The name of the group"
+    name: String!
+
+    "The slug of the group"
+    slug: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}
