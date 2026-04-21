@@ -31,7 +31,7 @@ type Audio @model(class: "App\\Models\\Wiki\\Audio") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
-    videos: [Video!]! @hasMany
+    videos: [Video!]! @hasManyCustom(type: SIMPLE)
 }
 
 extend type Query {

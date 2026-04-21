@@ -43,7 +43,7 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
     tracks(
         position: Int @eq
         sort: [PlaylistTrackSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [PlaylistTrack!]! @hasMany
+    ): [PlaylistTrack!]! @hasManyCustom(type: SIMPLE)
 
     images(
         facet: ImageFacet @eq

@@ -82,4 +82,27 @@ GRAPHQL
         $fieldDefinition->type = $this->paginationResultType($connectionTypeName);
         $parentType->fields = ASTHelper::mergeUniqueNodeList($parentType->fields, [$fieldDefinition], true);
     }
+
+    protected function registerSimplePaginator(
+        FieldDefinitionNode &$fieldDefinition,
+        ObjectTypeDefinitionNode|InterfaceTypeDefinitionNode &$parentType,
+        PaginationType $paginationType,
+        ?int $defaultCount = null,
+        ?int $maxCount = null,
+    ): void {
+        $simplePaginatorInfoNode = $this->simplePaginatorInfo();
+        if (! isset($this->documentAST->types[$simplePaginatorInfoNode->getName()->value])) {
+            $this->documentAST->setTypeDefinition($simplePaginatorInfoNode);
+        }
+
+        $fieldDefinition->arguments[] = Parser::inputValueDefinition(
+            self::countArgument($defaultCount, $maxCount),
+        );
+        $fieldDefinition->arguments[] = Parser::inputValueDefinition(/** @lang GraphQL */ <<<'GRAPHQL'
+            "The offset from which items are returned."
+            page: Int
+        GRAPHQL);
+
+        $parentType->fields = ASTHelper::mergeUniqueNodeList($parentType->fields, [$fieldDefinition], true);
+    }
 }

@@ -26,11 +26,11 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
         sequence_lesser: Int @where(operator: "<", key: "sequence")
         sequence_greater: Int @where(operator: ">", key: "sequence")
         sort: [AnimeThemeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [AnimeTheme!]! @hasMany
+    ): [AnimeTheme!]! @hasManyCustom(type: SIMPLE)
 
     performances(
         sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Performance!]! @hasMany
+    ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     resources(
         site: ResourceSite @eq

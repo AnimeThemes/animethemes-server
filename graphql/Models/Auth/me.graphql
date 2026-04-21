@@ -25,11 +25,11 @@ type Me @model(class: "App\\Models\\Auth\\User") {
         name_like: String @like(key: "name")
         visibility: PlaylistVisibility @eq
         sort: [PlaylistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Playlist!]! @hasMany
+    ): [Playlist!]! @hasManyCustom(type: SIMPLE)
 
-    watchHistory: [WatchHistory!]! @hasMany
+    watchHistory: [WatchHistory!]! @hasManyCustom(type: SIMPLE)
 
-    likes: [Like!]! @hasMany
+    likes: [Like!]! @hasManyCustom(type: SIMPLE)
 
     permissions(
         default: Boolean @eq

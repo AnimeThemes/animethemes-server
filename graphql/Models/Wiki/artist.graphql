@@ -22,7 +22,10 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
-    synonyms: [Synonym!]! @morphMany
+    synonyms(
+        type: SynonymType @eq
+        sort: [SynonymSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Synonym!]! @morphMany
 
     images(
         facet: ImageFacet @eq
@@ -38,11 +41,11 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
 
     performances(
         sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Performance!]! @hasMany
+    ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     memberPerformances(
         sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Performance!]! @hasMany
+    ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     members(
         name: String @eq

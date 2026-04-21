@@ -16,5 +16,5 @@ type User @model(class: "App\\Models\\Auth\\User") {
         name_like: String @like(key: "name")
         visibility: PlaylistVisibility @eq
         sort: [PlaylistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Playlist!]! @hasMany
+    ): [Playlist!]! @hasManyCustom(type: SIMPLE)
 }

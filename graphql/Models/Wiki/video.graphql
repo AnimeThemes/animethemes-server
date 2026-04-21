@@ -68,7 +68,9 @@ type Video @model(class: "App\\Models\\Wiki\\Video") {
 
     videoscript: VideoScript @belongsTo
 
-    tracks: [PlaylistTrack!]! @hasMany
+    tracks(
+        sort: [PlaylistTrackSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [PlaylistTrack!]! @hasManyCustom(type: SIMPLE)
 
     animethemeentries(
         episodes: String @eq
