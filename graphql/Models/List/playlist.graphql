@@ -23,7 +23,7 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
     tracksCount: Int! @count(relation: "tracks")
 
     "The existence of tracks belonging to the resource"
-    tracksExists: Boolean!
+    tracksExists: Boolean! @aggregateCustom(column: "*", function: EXISTS, relation: "tracks")
 
     "The number of likes recorded for the resource"
     likesCount: Int! @aggregateCustom(column: "value", function: SUM, relation: "likeAggregate")

@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Directives;
 
 use GraphQL\Deferred;
-use GraphQL\Language\AST\FieldDefinitionNode;
-use GraphQL\Language\AST\InterfaceTypeDefinitionNode;
-use GraphQL\Language\AST\ObjectTypeDefinitionNode;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -16,18 +13,14 @@ use Nuwave\Lighthouse\Execution\BatchLoader\BatchLoaderRegistry;
 use Nuwave\Lighthouse\Execution\BatchLoader\RelationBatchLoader;
 use Nuwave\Lighthouse\Execution\ModelsLoader\AggregateModelsLoader;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
-use Nuwave\Lighthouse\Schema\AST\DocumentAST;
-use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
-use Nuwave\Lighthouse\Schema\Directives\RelationDirectiveHelpers;
+use Nuwave\Lighthouse\Schema\Directives\AggregateDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldManipulator;
 use Nuwave\Lighthouse\Support\Contracts\FieldResolver;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class AggregateCustomDirective extends BaseDirective implements FieldManipulator, FieldResolver
+class AggregateCustomDirective extends AggregateDirective implements FieldManipulator, FieldResolver
 {
-    use RelationDirectiveHelpers;
-
     public static function definition(): string
     {
         return /** @lang GraphQL */ <<<'GRAPHQL'
@@ -94,6 +87,11 @@ enum AggregateFunction {
   Return the maximum.
   """
   MAX
+
+  """
+  Return the boolean value of the relation existence.
+  """
+  EXISTS
 }
 GRAPHQL;
     }
@@ -165,22 +163,5 @@ GRAPHQL;
         }
 
         throw new DefinitionException("One of the arguments `model`, `relation` or `builder` must be assigned to the '{$this->name()}' directive on '{$this->nodeName()}'.");
-    }
-
-    protected function function(): string
-    {
-        return strtolower(
-            (string) $this->directiveArgValue('function'),
-        );
-    }
-
-    protected function column(): string
-    {
-        return $this->directiveArgValue('column');
-    }
-
-    public function manipulateFieldDefinition(DocumentAST &$documentAST, FieldDefinitionNode &$fieldDefinition, ObjectTypeDefinitionNode|InterfaceTypeDefinitionNode &$parentType): void
-    {
-        $this->validateMutuallyExclusiveArguments(['relation', 'model', 'builder']);
     }
 }
