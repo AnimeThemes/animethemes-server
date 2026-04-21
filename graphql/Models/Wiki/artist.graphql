@@ -22,6 +22,8 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
+    synonyms: [Synonym!]! @morphMany
+
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")
@@ -33,6 +35,14 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
         externalId: Int @eq(key: "external_id")
         sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
+
+    performances(
+        sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Performance!]! @hasMany
+
+    memberPerformances(
+        sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Performance!]! @hasMany
 
     members(
         name: String @eq

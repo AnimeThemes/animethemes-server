@@ -7,13 +7,13 @@ type ExternalProfileSyncedNotification {
     profileId: Int!
 
     "The name of the profile"
-    profileName(format: String! = "Y-m-d H:i:s"): String!
+    profileName: String!
 
     "The date that the user read the notification"
-    readAt(format: String! = "Y-m-d H:i:s"): String
+    readAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "read_at")
 
     "The date that the resource was created"
-    createdAt(format: String! = "Y-m-d H:i:s"): String
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
 
     profile: ExternalProfile!
 }

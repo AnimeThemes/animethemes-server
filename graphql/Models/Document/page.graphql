@@ -21,6 +21,10 @@ type Page @model(class: "App\\Models\\Document\\Page") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "updated_at")
+
+    previous: Page @belongsTo
+
+    next: Page @belongsTo
 }
 
 extend type Query {

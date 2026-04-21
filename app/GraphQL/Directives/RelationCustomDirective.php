@@ -67,11 +67,11 @@ abstract class RelationCustomDirective extends RelationDirective
 
     protected function paginationMaxCount(): ?int
     {
-        return $this->directiveArgValue('maxCount', $this->lighthouseConfig['pagination']['max_count']);
+        return $this->directiveArgValue('maxCount', $this->lighthouseConfig['pagination']['relation']['max_count']);
     }
 
     protected function paginationDefaultCount(): ?int
     {
-        return $this->directiveArgValue('defaultCount', $this->lighthouseConfig['pagination']['default_count']);
+        return $this->directiveArgValue('defaultCount', $this->lighthouseConfig['pagination']['relation']['default_count']);
     }
 }

@@ -19,6 +19,19 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
+    animethemes(
+        type: ThemeType @eq
+        type_in: [ThemeType!] @in(key: "type")
+        sequence: Int @eq
+        sequence_lesser: Int @where(operator: "<", key: "sequence")
+        sequence_greater: Int @where(operator: ">", key: "sequence")
+        sort: [AnimeThemeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [AnimeTheme!]! @hasMany
+
+    performances(
+        sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Performance!]! @hasMany
+
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")

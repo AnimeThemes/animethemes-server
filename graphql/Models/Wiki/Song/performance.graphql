@@ -23,4 +23,10 @@ type Performance {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    song: Song! @belongsTo
+
+    artist: Artist! @belongsTo
+
+    member: Artist @belongsTo
 }

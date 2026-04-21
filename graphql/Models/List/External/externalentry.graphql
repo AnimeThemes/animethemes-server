@@ -24,4 +24,8 @@ type ExternalEntry @model(class: "App\\Models\\List\\External\\ExternalEntry") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    externalprofile: ExternalProfile @belongsTo
+
+    anime: Anime! @belongsTo
 }

@@ -15,6 +15,16 @@ type PlaylistTrack @model(class: "App\\Models\\List\\Playlist\\PlaylistTrack") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    playlist: Playlist! @belongsTo
+
+    animethemeentry: AnimeThemeEntry! @belongsTo
+
+    video: Video! @belongsTo
+
+    previous: PlaylistTrack @belongsTo @deprecated
+
+    next: PlaylistTrack @belongsTo @deprecated
 }
 
 extend type Query {

@@ -34,6 +34,8 @@ type AnimeThemeEntry @model(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeE
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
+    animetheme: AnimeTheme! @belongsTo
+
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")

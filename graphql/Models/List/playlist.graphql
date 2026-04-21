@@ -34,6 +34,17 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
+    first: PlaylistTrack @belongsTo
+
+    last: PlaylistTrack @belongsTo
+
+    user: User! @belongsTo
+
+    tracks(
+        position: Int @eq
+        sort: [PlaylistTrackSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [PlaylistTrack!]! @hasMany
+
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")

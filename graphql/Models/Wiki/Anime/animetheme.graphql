@@ -24,6 +24,23 @@ type AnimeTheme @model(class: "App\\Models\\Wiki\\Anime\\AnimeTheme") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    anime: Anime! @belongsTo
+
+    song: Song @belongsTo
+
+    group: ThemeGroup @belongsTo
+
+    animethemeentries(
+        episodes: String @eq
+        episodes_like: String @like(key: "episodes")
+        nsfw: Boolean @eq
+        spoiler: Boolean @eq
+        version: Int @eq
+        version_lesser: Int @where(operator: "<", key: "version")
+        version_greater: Int @where(operator: ">", key: "version")
+        sort: [AnimeThemeEntrySort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [AnimeThemeEntry!]! @hasMany
 }
 
 extend type Query {

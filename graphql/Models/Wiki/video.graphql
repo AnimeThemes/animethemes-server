@@ -64,6 +64,12 @@ type Video @model(class: "App\\Models\\Wiki\\Video") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 
+    audio: Audio! @belongsTo
+
+    videoscript: VideoScript @belongsTo
+
+    tracks: [PlaylistTrack!]! @hasMany
+
     animethemeentries(
         episodes: String @eq
         episodes_like: String @like(key: "episodes")

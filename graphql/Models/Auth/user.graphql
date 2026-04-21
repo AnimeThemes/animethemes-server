@@ -11,4 +11,10 @@ type User @model(class: "App\\Models\\Auth\\User") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    playlists(
+        name_like: String @like(key: "name")
+        visibility: PlaylistVisibility @eq
+        sort: [PlaylistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Playlist!]! @hasMany
 }

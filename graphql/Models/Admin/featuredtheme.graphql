@@ -14,6 +14,12 @@ type FeaturedTheme @model(class: "App\\Models\\Admin\\FeaturedTheme") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    animethemeentry: AnimeThemeEntry @belongsTo
+
+    video: Video @belongsTo
+
+    user: User @belongsTo
 }
 
 extend type Query {
