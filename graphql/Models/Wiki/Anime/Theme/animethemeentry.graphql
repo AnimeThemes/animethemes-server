@@ -39,7 +39,7 @@ type AnimeThemeEntry @model(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeE
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
-        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 
     videos(
@@ -63,7 +63,7 @@ type AnimeThemeEntry @model(class: "App\\Models\\Wiki\\Anime\\Theme\\AnimeThemeE
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [VideoSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [VideoSort!] @sort
     ): [Video!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeThemeEntryVideoEdge")
 }
 

@@ -22,13 +22,13 @@ type Studio @model(class: "App\\Models\\Wiki\\Studio") {
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")
-        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ImageSort!] @sort
     ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
 
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
-        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 }
 
@@ -46,6 +46,6 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [StudioSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [StudioSort!] @sort
     ): [Studio!]! @paginate
 }

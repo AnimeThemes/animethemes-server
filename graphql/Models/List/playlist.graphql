@@ -42,13 +42,13 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
 
     tracks(
         position: Int @eq
-        sort: [PlaylistTrackSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PlaylistTrackSort!] @sort
     ): [PlaylistTrack!]! @hasManyCustom(type: SIMPLE)
 
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")
-        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ImageSort!] @sort
     ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
 }
 
@@ -66,7 +66,7 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [PlaylistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PlaylistSort!] @sort
     ): [Playlist!]! @paginate @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistPaginationBuilder")
 }
 

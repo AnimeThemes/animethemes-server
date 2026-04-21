@@ -25,7 +25,7 @@ type Role @model(class: "App\\Models\\Auth\\Role") {
         default: Boolean @eq
         priority_lesser: Int @where(operator: "<", key: "priority")
         priority_greater: Int @where(operator: ">", key: "priority")
-        sort: [PermissionSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PermissionSort!] @sort
     ): [Permission!]! @belongsToManyCustom(type: CONNECTION, edgeType: "PermissionEdge")
 }
 

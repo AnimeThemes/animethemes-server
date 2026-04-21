@@ -25,17 +25,17 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
         sequence: Int @eq
         sequence_lesser: Int @where(operator: "<", key: "sequence")
         sequence_greater: Int @where(operator: ">", key: "sequence")
-        sort: [AnimeThemeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnimeThemeSort!] @sort
     ): [AnimeTheme!]! @hasManyCustom(type: SIMPLE)
 
     performances(
-        sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PerformanceSort!] @sort
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
-        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 }
 
@@ -49,6 +49,6 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [SongSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [SongSort!] @sort
     ): [Song!]! @paginate
 }

@@ -49,6 +49,6 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [AudioSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AudioSort!] @sort
     ): [Audio!]! @paginate
 }

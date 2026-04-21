@@ -24,7 +24,7 @@ type Me @model(class: "App\\Models\\Auth\\User") {
     playlists(
         name_like: String @like(key: "name")
         visibility: PlaylistVisibility @eq
-        sort: [PlaylistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PlaylistSort!] @sort
     ): [Playlist!]! @hasManyCustom(type: SIMPLE)
 
     watchHistory: [WatchHistory!]! @hasManyCustom(type: SIMPLE)
@@ -35,14 +35,14 @@ type Me @model(class: "App\\Models\\Auth\\User") {
         default: Boolean @eq
         priority_lesser: Int @where(operator: "<", key: "priority")
         priority_greater: Int @where(operator: ">", key: "priority")
-        sort: [PermissionSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PermissionSort!] @sort
     ): [Permission!]! @belongsToManyCustom(type: CONNECTION, edgeType: "PermissionEdge")
 
     roles(
         default: Boolean @eq
         priority_lesser: Int @where(operator: "<", key: "priority")
         priority_greater: Int @where(operator: ">", key: "priority")
-        sort: [RoleSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [RoleSort!] @sort
     ): [Role!]! @belongsToManyCustom(type: CONNECTION, edgeType: "RoleEdge")
 }
 

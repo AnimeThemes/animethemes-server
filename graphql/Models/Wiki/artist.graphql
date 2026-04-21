@@ -24,27 +24,27 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
 
     synonyms(
         type: SynonymType @eq
-        sort: [SynonymSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [SynonymSort!] @sort
     ): [Synonym!]! @morphMany
 
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")
-        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ImageSort!] @sort
     ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
 
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
-        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 
     performances(
-        sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PerformanceSort!] @sort
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     memberPerformances(
-        sort: [PerformanceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PerformanceSort!] @sort
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     members(
@@ -54,7 +54,7 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [ArtistMemberSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
 
     groups(
@@ -64,7 +64,7 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [ArtistMemberSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
 }
 
@@ -106,6 +106,6 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [ArtistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [ArtistSort!] @sort
     ): [Artist!]! @paginate
 }

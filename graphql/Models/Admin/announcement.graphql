@@ -16,6 +16,6 @@ type Announcement @model(class: "App\\Models\\Admin\\Announcement") {
 extend type Query {
     "Returns a listing of announcement resources given fields."
     announcementPagination(
-        sort: [AnnouncementSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnnouncementSort!] @sort
     ): [Announcement!]! @paginate @scope(name: "current")
 }

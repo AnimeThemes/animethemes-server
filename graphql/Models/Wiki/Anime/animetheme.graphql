@@ -39,7 +39,7 @@ type AnimeTheme @model(class: "App\\Models\\Wiki\\Anime\\AnimeTheme") {
         version: Int @eq
         version_lesser: Int @where(operator: "<", key: "version")
         version_greater: Int @where(operator: ">", key: "version")
-        sort: [AnimeThemeEntrySort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnimeThemeEntrySort!] @sort
     ): [AnimeThemeEntry!]! @hasManyCustom(type: SIMPLE)
 }
 
@@ -69,6 +69,6 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [AnimeThemeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnimeThemeSort!] @sort
     ): [AnimeTheme!]! @paginate
 }

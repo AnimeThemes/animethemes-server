@@ -34,7 +34,7 @@ type AnimeYearSeasons {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnimeSort!] @sort
     ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }
 
@@ -62,7 +62,7 @@ type AnimeYearSeason {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnimeSort!] @sort
     ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }
 

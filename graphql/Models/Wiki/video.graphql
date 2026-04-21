@@ -69,7 +69,7 @@ type Video @model(class: "App\\Models\\Wiki\\Video") {
     videoscript: VideoScript @belongsTo
 
     tracks(
-        sort: [PlaylistTrackSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [PlaylistTrackSort!] @sort
     ): [PlaylistTrack!]! @hasManyCustom(type: SIMPLE)
 
     animethemeentries(
@@ -80,7 +80,7 @@ type Video @model(class: "App\\Models\\Wiki\\Video") {
         version: Int @eq
         version_lesser: Int @where(operator: "<", key: "version")
         version_greater: Int @where(operator: ">", key: "version")
-        sort: [AnimeThemeEntrySort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [AnimeThemeEntrySort!] @sort
     ): [AnimeThemeEntry!]! @belongsToManyCustom(type: CONNECTION, edgeType: "VideoAnimeThemeEntryEdge")
 }
 
@@ -122,6 +122,6 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [VideoSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+        sort: [VideoSort!] @sort
     ): [Video!]! @paginate
 }
