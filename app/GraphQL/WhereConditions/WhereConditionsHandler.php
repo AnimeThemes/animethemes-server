@@ -20,7 +20,7 @@ use RuntimeException;
 
 use function Safe\preg_match;
 
-class Handler extends BaseWhereConditionsHandler
+class WhereConditionsHandler extends BaseWhereConditionsHandler
 {
     /**
      * @template TModel of \Illuminate\Database\Eloquent\Model
