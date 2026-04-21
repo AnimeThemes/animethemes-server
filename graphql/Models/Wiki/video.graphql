@@ -63,4 +63,57 @@ type Video @model(class: "App\\Models\\Wiki\\Video") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    animethemeentries(
+        episodes: String @eq
+        episodes_like: String @like(key: "episodes")
+        nsfw: Boolean @eq
+        spoiler: Boolean @eq
+        version: Int @eq
+        version_lesser: Int @where(operator: "<", key: "version")
+        version_greater: Int @where(operator: ">", key: "version")
+        sort: [AnimeThemeEntrySort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [AnimeThemeEntry!]! @belongsToManyCustom(type: CONNECTION, edgeType: "VideoAnimeThemeEntryEdge")
+}
+
+type VideoAnimeThemeEntryEdge @model(class: "App\\Pivots\\Wiki\\AnimeThemeEntryVideo") {
+    "The anime theme entry node."
+    node: AnimeThemeEntry!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}
+
+extend type Query {
+    "Returns a video resource."
+    video(id: String! @eq(key: "video_id")): Video @find(model: "App\\Models\\Wiki\\Video")
+
+    "Returns a listing of video resources given fields."
+    videoPagination(
+        id: Int @eq(key: "video_id")
+        basename: String @eq
+        filename: String @eq
+        lyrics: Boolean @eq
+        mimetype: String @eq
+        nc: Boolean @eq
+        overlap: VideoOverlap @eq
+        path: String @eq
+        path_like: String @like(key: "path")
+        resolution: Int @eq
+        resolution_lesser: Int @where(operator: "<", key: "resolution")
+        resolution_greater: Int @where(operator: ">", key: "resolution")
+        size_lesser: Int @where(operator: "<", key: "size")
+        size_greater: Int @where(operator: ">", key: "size")
+        source: VideoSource @eq
+        subbed: Boolean @eq
+        uncen: Boolean @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [VideoSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Video!]! @paginate
 }

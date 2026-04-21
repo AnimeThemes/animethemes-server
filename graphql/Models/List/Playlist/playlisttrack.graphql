@@ -17,6 +17,25 @@ type PlaylistTrack @model(class: "App\\Models\\List\\Playlist\\PlaylistTrack") {
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
 
+extend type Query {
+    "Returns a playlist track resource."
+    playlisttrack(
+        id: String! @eq(key: "hashid")
+        playlist: String!
+    ): PlaylistTrack @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistTrackBuilder") @find(model: "App\\Models\\List\\Playlist\\PlaylistTrack")
+
+    "Returns a listing of playlist track resources given fields."
+    playlisttrackPagination(
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        position: Int @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [PlaylistTrackSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [PlaylistTrack!]! @paginate @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistTrackPaginationBuilder")
+}
+
 extend type Mutation {
     CreatePlaylistTrack(
         playlist: String!

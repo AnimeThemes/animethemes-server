@@ -1,0 +1,72 @@
+"The anime year response type, grouped by season."
+type AnimeYear {
+    "The year of the AnimeYear type"
+    year: Int!
+
+    "Object that references the season year queried"
+    season(season: AnimeSeason!): AnimeYearSeason @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveSeasonField")
+
+    "The available seasons of the year"
+    seasons: [AnimeYearSeasons!]
+}
+
+"The anime year season type."
+type AnimeYearSeasons {
+    "The season of the anime year"
+    season: AnimeSeason!
+
+    "The formatted string value of the season field"
+    seasonLocalized: String!
+
+    "The animes of the season year filtered"
+    anime(
+        name_like: String @like(key: "name")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        format: AnimeFormat @eq(key: "format")
+        format_in: [AnimeFormat!] @in(key: "format")
+        season: AnimeSeason @eq
+        season_in: [AnimeSeason!] @in(key: "season")
+        year: Int @eq
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+}
+
+"The anime year season type."
+type AnimeYearSeason {
+    "The season of the anime year"
+    season: AnimeSeason!
+
+    "The formatted string value of the season field"
+    seasonLocalized: String!
+
+    "The animes of the season year filtered"
+    anime(
+        name_like: String @like(key: "name")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        format: AnimeFormat @eq(key: "format")
+        format_in: [AnimeFormat!] @in(key: "format")
+        season: AnimeSeason @eq
+        season_in: [AnimeSeason!] @in(key: "season")
+        year: Int @eq
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+}
+
+extend type Query {
+    "Returns a list of years grouped by its seasons."
+    animeyears(year: [Int!]): [AnimeYear!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery")
+}

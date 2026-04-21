@@ -25,3 +25,33 @@ type AnimeTheme @model(class: "App\\Models\\Wiki\\Anime\\AnimeTheme") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+extend type Query {
+    "Shuffle themes."
+    animethemeShuffle(
+        type: ThemeType
+        format: AnimeFormat
+        year_lte: Int
+        year_gte: Int
+        spoiler: Boolean
+        first: Int
+        page: Int
+    ): [AnimeTheme!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeThemeShuffleQuery")
+
+    "Returns a listing of anime themes resources given fields."
+    animethemePagination(
+        id: Int @eq(key: "theme_id")
+        search: String @search
+        type: ThemeType @eq
+        type_in: [ThemeType!] @in(key: "type")
+        sequence: Int @eq
+        sequence_lesser: Int @where(operator: "<", key: "sequence")
+        sequence_greater: Int @where(operator: ">", key: "sequence")
+        slug: String @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [AnimeThemeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [AnimeTheme!]! @paginate
+}

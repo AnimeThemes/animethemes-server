@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Directives;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
@@ -26,11 +27,13 @@ GRAPHQL;
      */
     public function resolveField(FieldValue $fieldValue): callable
     {
-        return function ($root, array $args) use ($fieldValue) {
+        return function (Model|array $root, array $args) use ($fieldValue) {
             $format = Arr::string($args, 'format');
 
             /** @var Carbon|null $field */
-            $field = $root->getAttribute($this->directiveArgValue('attribute') ?? $fieldValue->getFieldName());
+            $field = $root instanceof Model
+                ? $root->getAttribute($this->directiveArgValue('attribute') ?? $fieldValue->getFieldName())
+                : $root[$fieldValue->getFieldName()];
 
             return $field?->format($format);
         };

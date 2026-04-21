@@ -7,6 +7,8 @@ namespace App\Providers;
 use App\Enums\GraphQL\Filter\ComparisonOperator;
 use App\Enums\GraphQL\Sort\Admin\AnnouncementSort;
 use App\Enums\GraphQL\Sort\Admin\DumpSort;
+use App\Enums\GraphQL\Sort\Auth\PermissionSort;
+use App\Enums\GraphQL\Sort\Auth\RoleSort;
 use App\Enums\GraphQL\Sort\Document\PageSort;
 use App\Enums\GraphQL\Sort\List\Playlist\PlaylistTrackSort;
 use App\Enums\GraphQL\Sort\List\PlaylistSort;
@@ -17,6 +19,7 @@ use App\Enums\GraphQL\Sort\Wiki\Anime\AnimeThemeSort;
 use App\Enums\GraphQL\Sort\Wiki\AnimeSort;
 use App\Enums\GraphQL\Sort\Wiki\ArtistSort;
 use App\Enums\GraphQL\Sort\Wiki\AudioSort;
+use App\Enums\GraphQL\Sort\Wiki\ExternalResourceSort;
 use App\Enums\GraphQL\Sort\Wiki\ImageSort;
 use App\Enums\GraphQL\Sort\Wiki\SeriesSort;
 use App\Enums\GraphQL\Sort\Wiki\Song\PerformanceSort;
@@ -62,6 +65,8 @@ class GraphQLServiceProvider extends ServiceProvider
         // Sort Enums.
         $typeRegistry->register(new PhpEnumType(AnnouncementSort::class));
         $typeRegistry->register(new PhpEnumType(DumpSort::class));
+        $typeRegistry->register(new PhpEnumType(PermissionSort::class));
+        $typeRegistry->register(new PhpEnumType(RoleSort::class));
         $typeRegistry->register(new PhpEnumType(PageSort::class));
         $typeRegistry->register(new PhpEnumType(PlaylistSort::class));
         $typeRegistry->register(new PhpEnumType(PlaylistTrackSort::class));
@@ -70,6 +75,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $typeRegistry->register(new PhpEnumType(AnimeThemeEntrySort::class));
         $typeRegistry->register(new PhpEnumType(ArtistSort::class));
         $typeRegistry->register(new PhpEnumType(AudioSort::class));
+        $typeRegistry->register(new PhpEnumType(ExternalResourceSort::class));
         $typeRegistry->register(new PhpEnumType(ImageSort::class));
         $typeRegistry->register(new PhpEnumType(PerformanceSort::class));
         $typeRegistry->register(new PhpEnumType(SeriesSort::class));

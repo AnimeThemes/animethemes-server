@@ -18,4 +18,24 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    resources(
+        site: ResourceSite @eq
+        externalId: Int @eq(key: "external_id")
+        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
+}
+
+extend type Query {
+    "Returns a listing of song resources given fields."
+    songPagination(
+        id: Int @eq(key: "song_id")
+        title: String @eq
+        titleNative: String @eq(key: "title_native")
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [SongSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Song!]! @paginate
 }

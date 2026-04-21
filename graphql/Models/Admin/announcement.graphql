@@ -12,3 +12,10 @@ type Announcement @model(class: "App\\Models\\Admin\\Announcement") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+extend type Query {
+    "Returns a listing of announcement resources given fields."
+    announcementPagination(
+        sort: [AnnouncementSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Announcement!]! @paginate @scope(name: "current")
+}

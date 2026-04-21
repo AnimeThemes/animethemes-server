@@ -25,3 +25,32 @@ type Image @model(class: "App\\Models\\Wiki\\Image") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+type ImageEdge @model(class: "App\\Pivots\\Morph\\Imageable") {
+    "The Image node."
+    node: Image!
+
+    "Used to sort the images"
+    depth: Int!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}
+
+extend type Query {
+    "Returns a listing of images resources given fields."
+    imagePagination(
+        id: Int @eq(key: "image_id")
+        facet: ImageFacet @eq
+        path: String @eq
+        path_like: String @like(key: "path")
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Image!]! @paginate
+}

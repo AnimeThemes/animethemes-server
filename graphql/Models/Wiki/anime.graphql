@@ -46,37 +46,76 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
     synonyms: [Synonym!]! @morphMany
 
     animethemes: [AnimeTheme!]! @hasMany
+
+    images(
+        facet: ImageFacet @eq
+        path_like: String @like(key: "path")
+        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
+
+    resources(
+        site: ResourceSite @eq
+        externalId: Int @eq(key: "external_id")
+        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
+
+    series(
+        name_like: String @like(key: "name")
+        sort: [SeriesSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Series!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeSeriesEdge")
+
+    studios(
+        name_like: String @like(key: "name")
+        sort: [StudioSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Studio!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeStudioEdge")
 }
 
-"The anime year response type, grouped by season."
-type AnimeYear {
-    "The year of the AnimeYear type"
-    year: Int!
+type AnimeSeriesEdge @model(class: "App\\Pivots\\Wiki\\AnimeSeries") {
+    "The Series node."
+    node: Series!
 
-    "Object that references the season year queried"
-    season(season: AnimeSeason!): AnimeYearSeason @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveSeasonField")
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
 
-    "The available seasons of the year"
-    seasons: [AnimeYearSeasons!]
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
 
-"The anime year season type."
-type AnimeYearSeasons {
-    "The season of the anime year"
-    season: AnimeSeason!
+type AnimeStudioEdge @model(class: "App\\Pivots\\Wiki\\AnimeStudio") {
+    "The Studio node."
+    node: Studio!
 
-    "The formatted string value of the season field"
-    seasonLocalized: String!
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
 
-    "The animes of the season year filtered"
-    anime(
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}
+
+extend type Query {
+    "Returns an anime resource."
+    anime(slug: String! @eq): Anime @find(model: "App\\Models\\Wiki\\Anime")
+
+    "Filter anime by its external id on given site."
+    findAnimeByExternalSite(
+        site: ResourceSite!
+        id: [Int!]
+        link: String
+    ): [Anime!]! @builder(method: "App\\GraphQL\\Builders\\FindAnimeByExternalSiteBuilder") @all
+
+    "Returns a listing of anime resources given fields."
+    animePagination(
+        id: Int @eq(key: "anime_id")
+        search: String @search
+        name: String @eq
         name_like: String @like(key: "name")
         mediaFormat: AnimeMediaFormat @eq(key: "media_format")
         mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
-        format: AnimeFormat @eq(key: "format")
+        format: AnimeFormat @eq
         format_in: [AnimeFormat!] @in(key: "format")
         season: AnimeSeason @eq
         season_in: [AnimeSeason!] @in(key: "season")
+        slug: String @eq
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
@@ -85,33 +124,5 @@ type AnimeYearSeasons {
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
         sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
-}
-
-"The anime year season type."
-type AnimeYearSeason {
-    "The season of the anime year"
-    season: AnimeSeason!
-
-    "The formatted string value of the season field"
-    seasonLocalized: String!
-
-    "The animes of the season year filtered"
-    anime(
-        name_like: String @like(key: "name")
-        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
-        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
-        format: AnimeFormat @eq(key: "format")
-        format_in: [AnimeFormat!] @in(key: "format")
-        season: AnimeSeason @eq
-        season_in: [AnimeSeason!] @in(key: "season")
-        year: Int @eq
-        year_lesser: Int @where(operator: "<", key: "year")
-        year_greater: Int @where(operator: ">", key: "year")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
-    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+    ): [Anime!]! @paginate
 }

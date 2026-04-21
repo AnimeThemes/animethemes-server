@@ -33,6 +33,30 @@ type Playlist @model(class: "App\\Models\\List\\Playlist") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    images(
+        facet: ImageFacet @eq
+        path_like: String @like(key: "path")
+        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
+}
+
+extend type Query {
+    "Returns a playlist resource."
+    playlist(id: String! @eq(key: "hashid")): Playlist @find(model: "App\\Models\\List\\Playlist")
+
+    "Returns a listing of playlist resources given fields."
+    playlistPagination(
+        name: String @eq
+        name_like: String @like(key: "name")
+        search: String @search
+        visibility: PlaylistVisibility @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [PlaylistSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Playlist!]! @paginate @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistPaginationBuilder")
 }
 
 extend type Mutation {

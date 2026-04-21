@@ -18,4 +18,47 @@ type Series @model(class: "App\\Models\\Wiki\\Series") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    anime(
+        name_like: String @like(key: "name")
+        mediaFormat: AnimeMediaFormat @eq(key: "media_format")
+        mediaFormat_in: [AnimeMediaFormat!] @in(key: "media_format")
+        format: AnimeFormat @eq
+        format_in: [AnimeFormat!] @in(key: "format")
+        season: AnimeSeason @eq
+        season_in: [AnimeSeason!] @in(key: "season")
+        year: Int @eq
+        year_lesser: Int @where(operator: "<", key: "year")
+        year_greater: Int @where(operator: ">", key: "year")
+        sort: [AnimeSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Anime!]! @belongsToManyCustom(type: CONNECTION, edgeType: "SeriesAnimeEdge")
+}
+
+type SeriesAnimeEdge @model(class: "App\\Pivots\\Wiki\\AnimeSeries") {
+    "The Anime node."
+    node: Anime!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}
+
+extend type Query {
+    "Returns a series resource."
+    series(slug: String! @eq): Series @find(model: "App\\Models\\Wiki\\Series")
+
+    "Returns a listing of series resources given fields."
+    seriesPagination(
+        id: Int @eq(key: "series_id")
+        search: String @search
+        name: String @eq
+        slug: String @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [SeriesSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Series!]! @paginate
 }

@@ -18,4 +18,34 @@ type Studio @model(class: "App\\Models\\Wiki\\Studio") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+
+    images(
+        facet: ImageFacet @eq
+        path_like: String @like(key: "path")
+        sort: [ImageSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
+
+    resources(
+        site: ResourceSite @eq
+        externalId: Int @eq(key: "external_id")
+        sort: [ExternalResourceSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
+}
+
+extend type Query {
+    "Returns a studio resource."
+    studio(slug: String! @eq): Studio @find(model: "App\\Models\\Wiki\\Studio")
+
+    "Returns a listing of studio resources given fields."
+    studioPagination(
+        id: Int @eq(key: "studio_id")
+        search: String @search
+        name: String @eq
+        slug: String @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        sort: [StudioSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Studio!]! @paginate
 }

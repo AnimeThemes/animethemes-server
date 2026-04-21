@@ -25,3 +25,17 @@ type ExternalResource @model(class: "App\\Models\\Wiki\\ExternalResource") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+type ExternalResourceEdge @model(class: "App\\Pivots\\Morph\\Resourceable") {
+    "The External Resource node."
+    node: ExternalResource!
+
+    "Used to distinguish resources that map to the same resourceable"
+    as: String!
+
+    "The date that the resource was created"
+    createdAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "created_at")
+
+    "The date that the resource was updated"
+    updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
+}

@@ -19,3 +19,16 @@ type ThemeGroup @model(class: "App\\Models\\Wiki\\Group") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+extend type Query {
+    "Returns a listing of theme group resources given fields."
+    themegroupPagination(
+        id: Int @eq(key: "group_id")
+        name: String @eq
+        slug: String @eq
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+    ): [ThemeGroup!]! @paginate
+}

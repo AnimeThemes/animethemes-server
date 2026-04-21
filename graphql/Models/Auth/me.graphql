@@ -20,4 +20,23 @@ type Me @model(class: "App\\Models\\Auth\\User") {
 
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String! @timestamp(attribute: "updated_at")
+
+    permissions(
+        default: Boolean @eq
+        priority_lesser: Int @where(operator: "<", key: "priority")
+        priority_greater: Int @where(operator: ">", key: "priority")
+        sort: [PermissionSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Permission!]! @belongsToManyCustom(type: CONNECTION, edgeType: "PermissionEdge")
+
+    roles(
+        default: Boolean @eq
+        priority_lesser: Int @where(operator: "<", key: "priority")
+        priority_greater: Int @where(operator: ">", key: "priority")
+        sort: [RoleSort!] @builder(method: "App\\GraphQL\\Builders\\SortBuilder")
+    ): [Role!]! @belongsToManyCustom(type: CONNECTION, edgeType: "RoleEdge")
+}
+
+extend type Query {
+    "Returns the data of the currently authenticated user."
+    me: Me @auth
 }

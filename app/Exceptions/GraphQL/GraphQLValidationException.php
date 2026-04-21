@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Exceptions\ValidationException;
 
 class GraphQLValidationException extends ValidationException
 {
-    /** @return array{guards: array<string>} */
+    /** @return array<string, mixed> */
     public function getExtensions(): array
     {
         return [

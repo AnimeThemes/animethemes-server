@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\GraphQL\Mutations\List;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\StoreAction;
-use App\Actions\Http\Api\UpdateAction;
 use App\Concerns\GraphQL\ValidateArgs;
 use App\Concerns\Http\RunMiddlewares;
 use App\Features\AllowPlaylistManagement;
@@ -42,7 +40,7 @@ class PlaylistMutation
             Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
-        return new StoreAction()->store(Playlist::query(), $parameters);
+        return Playlist::query()->create($parameters);
     }
 
     /**
@@ -59,7 +57,9 @@ class PlaylistMutation
 
         $playlist = Playlist::query()->firstWhere(Playlist::ATTRIBUTE_HASHID, Arr::pull($args, 'id'));
 
-        return new UpdateAction()->update($playlist, $validated);
+        $playlist->update($validated);
+
+        return $playlist->refresh();
     }
 
     /**

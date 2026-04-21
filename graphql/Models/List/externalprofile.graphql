@@ -24,3 +24,13 @@ type ExternalProfile @model(class: "App\\Models\\List\\ExternalProfile") {
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+extend type Query {
+    "Returns a listing of external profile resources given fields."
+    externalprofilePagination(
+        createdAt_lesser: String @where(operator: "<", key: "created_at")
+        createdAt_greater: String @where(operator: ">", key: "created_at")
+        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
+        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+    ): [ExternalProfile!]! @paginate @builder(method: "App\\GraphQL\\Builders\\List\\ExternalProfilePaginationBuilder")
+}
