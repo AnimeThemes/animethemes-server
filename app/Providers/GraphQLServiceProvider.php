@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Enums\GraphQL\Filter\ComparisonOperator;
+use App\Enums\GraphQL\Filter\Wiki\AnimeFilterableColumns;
 use App\Enums\GraphQL\Sort\Admin\AnnouncementSort;
 use App\Enums\GraphQL\Sort\Admin\DumpSort;
 use App\Enums\GraphQL\Sort\Auth\PermissionSort;
@@ -62,6 +62,8 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $typeRegistry = resolve(TypeRegistry::class);
 
+        $typeRegistry->register(new PhpEnumType(AnimeFilterableColumns::class));
+
         // Sort Enums.
         $typeRegistry->register(new PhpEnumType(AnnouncementSort::class));
         $typeRegistry->register(new PhpEnumType(DumpSort::class));
@@ -88,7 +90,6 @@ class GraphQLServiceProvider extends ServiceProvider
         $typeRegistry->register(new PhpEnumType(ArtistMemberSort::class));
         $typeRegistry->register(new PhpEnumType(ImageableSort::class));
 
-        $typeRegistry->register(new PhpEnumType(ComparisonOperator::class));
         $typeRegistry->register(new PhpEnumType(SortDirection::class));
         $typeRegistry->register(new PhpEnumType(ExternalEntryStatus::class));
         $typeRegistry->register(new PhpEnumType(ExternalProfileSite::class));

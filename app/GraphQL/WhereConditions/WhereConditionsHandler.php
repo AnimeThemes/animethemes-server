@@ -4,19 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\WhereConditions;
 
-use App\GraphQL\Filter\BooleanFilter;
-use App\GraphQL\Filter\DateTimeTzFilter;
-use App\GraphQL\Filter\EnumFilter;
-use App\GraphQL\Filter\FloatFilter;
-use App\GraphQL\Filter\IntFilter;
-use App\GraphQL\Filter\StringFilter;
+use App\Contracts\GraphQL\EnumFilterableColumns;
 use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\WhereConditions\WhereConditionsHandler as BaseWhereConditionsHandler;
-use RuntimeException;
 
 use function Safe\preg_match;
 
@@ -39,8 +33,15 @@ class WhereConditionsHandler extends BaseWhereConditionsHandler
             $model = $builder->getModel();
         }
 
-        if (Arr::exists($whereConditions, 'value')) {
-            $whereConditions['value'] = $this->castWhereValue($model, $whereConditions['column'], $whereConditions['value']);
+        $column = Arr::get($whereConditions, 'column');
+
+        if ($column instanceof EnumFilterableColumns) {
+            $filter = $column->getFilter();
+
+            $whereConditions['value'] = $filter->getFilterValues(Arr::wrap($whereConditions['value']));
+
+            // Return the column key value to its normal state.
+            $whereConditions['column'] = $filter->getColumn();
         }
 
         if ($andConnectedConditions = $whereConditions['AND'] ?? null) {
@@ -145,28 +146,5 @@ class WhereConditionsHandler extends BaseWhereConditionsHandler
         }
 
         return $condition;
-    }
-
-    protected function castWhereValue(Model $model, string $column, mixed $value): mixed
-    {
-        $casts = $model->getCasts();
-
-        if (! isset($casts[$column])) {
-            return $value;
-        }
-
-        $castType = $casts[$column];
-
-        $filter = match (true) {
-            $castType === 'string' => new StringFilter($column),
-            $castType === 'float' => new FloatFilter($column),
-            $castType === 'datetime' => new DateTimeTzFilter($column),
-            in_array($castType, ['bool', 'boolean']) => new BooleanFilter($column),
-            in_array($castType, ['int', 'integer']) => new IntFilter($column),
-            enum_exists($castType) => new EnumFilter($column, $castType),
-            default => throw new RuntimeException("Undefined castType {$castType}"),
-        };
-
-        return $filter->getFilterValues(Arr::wrap($value));
     }
 }

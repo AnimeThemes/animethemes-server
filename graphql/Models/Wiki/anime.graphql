@@ -134,12 +134,7 @@ extend type Query {
         createdAt_greater: String @where(operator: ">", key: "created_at")
         updatedAt_lesser: String @where(operator: "<", key: "updated_at")
         updatedAt_greater: String @where(operator: ">", key: "updated_at")
-        where: _ @whereConditions(columnsEnum: "AnimeFilterableColumns", handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
+        where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @paginate
-}
-
-enum AnimeFilterableColumns {
-    NAME @enum(value: "name")
-    SEASON @enum(value: "season")
 }

@@ -4,25 +4,22 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Filter;
 
+use App\Contracts\GraphQL\EnumFilterableColumns;
 use App\Enums\GraphQL\Filter\Clause;
 use Illuminate\Support\Facades\Validator;
+use UnitEnum;
 
 abstract class Filter
 {
     public function __construct(
-        protected readonly string $fieldName,
-        protected readonly ?string $column = null,
+        protected UnitEnum&EnumFilterableColumns $enumCase,
+        protected readonly string $column,
         protected readonly Clause $clause = Clause::WHERE,
     ) {}
 
-    public function getFieldName(): string
-    {
-        return $this->fieldName;
-    }
-
     public function getColumn(): string
     {
-        return $this->column ?? $this->getFieldName();
+        return $this->column;
     }
 
     public function getClause(): Clause
@@ -52,8 +49,8 @@ abstract class Filter
     {
         foreach ($filterValues as $filterValue) {
             Validator::make(
-                [$this->fieldName => $filterValue],
-                [$this->fieldName => $this->getRules()],
+                [$this->enumCase->name => $filterValue],
+                [$this->enumCase->name => $this->getRules()],
             )->validate();
         }
     }
