@@ -6,9 +6,9 @@ namespace App\Enums\GraphQL\Sort\List;
 
 use App\Contracts\GraphQL\EnumSort;
 use App\Enums\GraphQL\SortDirection;
-use App\GraphQL\Criteria\Sort\FieldSortCriteria;
-use App\GraphQL\Criteria\Sort\RandomSortCriteria;
-use App\GraphQL\Criteria\Sort\SortCriteria;
+use App\GraphQL\Sort\FieldSortCriteria;
+use App\GraphQL\Sort\RandomSortCriteria;
+use App\GraphQL\Sort\SortCriteria;
 use App\Models\List\Playlist;
 
 enum PlaylistSort implements EnumSort

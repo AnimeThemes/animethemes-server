@@ -5,17 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Filter;
 
 use App\Enums\GraphQL\Filter\Clause;
-use App\GraphQL\Argument\Argument;
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Facades\Validator;
 
 abstract class Filter
 {
-    /**
-     * @var Argument[]
-     */
-    protected array $arguments = [];
-
     public function __construct(
         protected readonly string $fieldName,
         protected readonly ?string $column = null,
@@ -35,14 +28,6 @@ abstract class Filter
     public function getClause(): Clause
     {
         return $this->clause;
-    }
-
-    /**
-     * @return Argument[]
-     */
-    public function getArguments(): array
-    {
-        return $this->arguments;
     }
 
     /**
@@ -80,6 +65,4 @@ abstract class Filter
     {
         return [];
     }
-
-    abstract public function getBaseType(): Type;
 }

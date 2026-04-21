@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Filter;
 
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
 class IntFilter extends Filter
 {
-    public function getBaseType(): Type
-    {
-        return Type::int();
-    }
-
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      */

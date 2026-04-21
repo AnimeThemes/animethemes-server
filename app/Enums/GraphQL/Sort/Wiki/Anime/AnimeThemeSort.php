@@ -6,10 +6,10 @@ namespace App\Enums\GraphQL\Sort\Wiki\Anime;
 
 use App\Contracts\GraphQL\EnumSort;
 use App\Enums\GraphQL\SortDirection;
-use App\GraphQL\Criteria\Sort\FieldSortCriteria;
-use App\GraphQL\Criteria\Sort\RandomSortCriteria;
-use App\GraphQL\Criteria\Sort\RelationSortCriteria;
-use App\GraphQL\Criteria\Sort\SortCriteria;
+use App\GraphQL\Sort\FieldSortCriteria;
+use App\GraphQL\Sort\RandomSortCriteria;
+use App\GraphQL\Sort\RelationSortCriteria;
+use App\GraphQL\Sort\SortCriteria;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song;
 

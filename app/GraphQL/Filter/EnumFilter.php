@@ -6,9 +6,7 @@ namespace App\GraphQL\Filter;
 
 use BackedEnum;
 use Closure;
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use UnitEnum;
 
 class EnumFilter extends Filter
@@ -22,11 +20,6 @@ class EnumFilter extends Filter
         ?string $column = null,
     ) {
         parent::__construct($field, $column);
-    }
-
-    public function getBaseType(): Type
-    {
-        return GraphQL::type(class_basename($this->enumClass));
     }
 
     /**

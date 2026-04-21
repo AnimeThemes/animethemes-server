@@ -5,16 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Filter;
 
 use App\Rules\Api\IsValidBoolean;
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
 class BooleanFilter extends Filter
 {
-    public function getBaseType(): Type
-    {
-        return Type::boolean();
-    }
-
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      */

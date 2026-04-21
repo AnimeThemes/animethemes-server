@@ -218,6 +218,7 @@ return [
          */
         Nuwave\Lighthouse\Pennant\PennantServiceProvider::class,
         Nuwave\Lighthouse\Scout\ScoutServiceProvider::class,
+        Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
 
         /*

@@ -6,16 +6,10 @@ namespace App\GraphQL\Filter;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use DateTime;
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
 class DateTimeTzFilter extends Filter
 {
-    public function getBaseType(): Type
-    {
-        return Type::string();
-    }
-
     /**
      * Convert filter values if needed. By default, no conversion is needed.
      */
