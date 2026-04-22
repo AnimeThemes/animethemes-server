@@ -63,8 +63,6 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use GraphQL\Type\Definition\PhpEnumType;
-use GraphQL\Validator\Rules\QueryComplexity;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
@@ -72,8 +70,6 @@ class GraphQLServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        Config::set('lighthouse.security.max_query_complexity', request()->ip() === '127.0.0.1' ? QueryComplexity::DISABLED : 250);
-
         $this->bootEnums();
     }
 

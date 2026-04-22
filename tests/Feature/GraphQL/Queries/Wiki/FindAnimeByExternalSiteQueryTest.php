@@ -25,9 +25,7 @@ test('fails without id or link', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'validation');
-    $this->assertArrayHasKey('id', $response->json('errors.0.extensions.validation'));
-    $this->assertArrayHasKey('link', $response->json('errors.0.extensions.validation'));
+    $response->assertGraphQLValidationKeys(['id', 'link']);
 });
 
 test('fails with for than 100 ids', function () {
@@ -48,8 +46,7 @@ test('fails with for than 100 ids', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'validation');
-    $this->assertArrayHasKey('id', $response->json('errors.0.extensions.validation'));
+    $response->assertGraphQLValidationKeys(['id']);
 });
 
 test('passes with id', function () {

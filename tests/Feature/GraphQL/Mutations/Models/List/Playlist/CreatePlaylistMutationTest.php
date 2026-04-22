@@ -36,7 +36,7 @@ test('protected', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 test('forbidden', function () {
@@ -51,7 +51,7 @@ test('forbidden', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 test('forbidden if feature flag is disabled', function () {
@@ -72,7 +72,7 @@ test('forbidden if feature flag is disabled', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 it('creates', function () {

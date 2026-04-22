@@ -326,9 +326,9 @@ return [
     */
 
     'error_handlers' => [
-        App\GraphQL\Handler\AuthenticationErrorHandler::class,
-        App\GraphQL\Handler\AuthorizationErrorHandler::class,
-        App\GraphQL\Handler\ValidationErrorHandler::class,
+        Nuwave\Lighthouse\Execution\AuthenticationErrorHandler::class,
+        Nuwave\Lighthouse\Execution\AuthorizationErrorHandler::class,
+        Nuwave\Lighthouse\Execution\ValidationErrorHandler::class,
         Nuwave\Lighthouse\Execution\ReportingErrorHandler::class,
     ],
 

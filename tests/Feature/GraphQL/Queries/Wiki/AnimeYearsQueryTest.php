@@ -39,8 +39,7 @@ test('fails query season anime field without year', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'validation');
-    $this->assertArrayHasKey('year', $response->json('errors.0.extensions.validation'));
+    $response->assertGraphQLValidationKeys(['year']);
 });
 
 test('query season & seasons field', function () {

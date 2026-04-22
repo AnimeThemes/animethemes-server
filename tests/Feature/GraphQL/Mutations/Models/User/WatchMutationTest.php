@@ -35,7 +35,7 @@ test('protected', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 test('forbidden', function () {
@@ -50,7 +50,7 @@ test('forbidden', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 test('invalid entry id or video id', function () {
@@ -72,7 +72,6 @@ test('invalid entry id or video id', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'validation');
     $response->assertGraphQLValidationKeys(['entryId', 'videoId']);
 });
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware\GraphQL;
 
 use Closure;
+use GraphQL\Validator\Rules\QueryComplexity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
@@ -17,6 +18,8 @@ class MaxCount
     {
         Config::set('lighthouse.pagination.default_count', $this->isLocal($request) ? 1000000 : 15);
         Config::set('lighthouse.pagination.max_count', $this->isLocal($request) ? null : 100);
+
+        Config::set('lighthouse.security.max_query_complexity', $this->isLocal($request) ? QueryComplexity::DISABLED : 250);
 
         return $next($request);
     }

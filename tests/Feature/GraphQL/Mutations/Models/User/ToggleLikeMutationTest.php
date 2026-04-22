@@ -38,7 +38,7 @@ test('protected', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 test('forbidden', function () {
@@ -53,7 +53,7 @@ test('forbidden', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'authorization');
+    $response->assertJsonPath('errors.0.message', 'This action is unauthorized.');
 });
 
 it('fails if more than one resource is passed', function () {
@@ -75,7 +75,6 @@ it('fails if more than one resource is passed', function () {
     );
 
     $response->assertOk();
-    $response->assertJsonPath('errors.0.extensions.category', 'validation');
     $response->assertGraphQLValidationKeys(['entry', 'playlist']);
 });
 
