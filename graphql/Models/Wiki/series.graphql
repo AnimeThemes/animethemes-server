@@ -55,6 +55,7 @@ extend type Query {
         id: Int @eq(key: "series_id")
         search: String @search
         name: String @eq
+        name_like: String @like(key: "name")
         slug: String @eq
         where: _ @whereConditions(columnsEnum: SeriesFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SeriesSort!] @sort

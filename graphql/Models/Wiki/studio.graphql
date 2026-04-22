@@ -69,6 +69,7 @@ extend type Query {
         id: Int @eq(key: "studio_id")
         search: String @search
         name: String @eq
+        name_like: String @like(key: "name")
         slug: String @eq
         where: _ @whereConditions(columnsEnum: StudioFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [StudioSort!] @sort

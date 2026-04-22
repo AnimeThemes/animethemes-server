@@ -32,7 +32,9 @@ type AnimeYearSeasons {
         year_greater: Int @where(operator: ">", key: "year")
         where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
-    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+        first: Int
+        page: Int = 1
+    ): AnimePaginator @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }
 
 "The anime year season type."
@@ -56,7 +58,9 @@ type AnimeYearSeason {
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
         sort: [AnimeSort!] @sort
-    ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
+        first: Int
+        page: Int = 1
+    ): AnimePaginator @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }
 
 extend type Query {

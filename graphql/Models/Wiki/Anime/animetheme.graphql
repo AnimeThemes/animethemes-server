@@ -47,8 +47,8 @@ type AnimeTheme @model(class: "App\\Models\\Wiki\\Anime\\AnimeTheme") {
 extend type Query {
     "Shuffle themes."
     animethemeShuffle(
-        type: ThemeType
-        format: AnimeFormat
+        type: [ThemeType!]
+        format: [AnimeFormat!]
         year_lte: Int
         year_gte: Int
         spoiler: Boolean

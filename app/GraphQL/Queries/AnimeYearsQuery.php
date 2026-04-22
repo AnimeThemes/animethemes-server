@@ -6,9 +6,11 @@ namespace App\GraphQL\Queries;
 
 use App\Models\Wiki\Anime;
 use App\Rules\GraphQL\Resolver\AnimeYearRule;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -66,7 +68,7 @@ class AnimeYearsQuery
     }
 
     /** @param  array{}  $args */
-    public function resolveAnimeField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?array
+    public function resolveAnimeField(array $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Paginator
     {
         $season = Arr::get($root, 'season');
         $year = Arr::get($root, 'year');
@@ -78,6 +80,9 @@ class AnimeYearsQuery
 
         $resolveInfo->enhanceBuilder($builder, [], $root, $args, $context, $resolveInfo);
 
-        return $builder->get()->toArray();
+        $first = Arr::get($args, 'first') ?? Config::integer('lighthouse.pagination.default_count');
+        $page = Arr::integer($args, 'page', 1);
+
+        return $builder->paginate($first, page: $page);
     }
 }

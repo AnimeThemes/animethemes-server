@@ -75,3 +75,17 @@ type AnimeThemeEntryVideoEdge @model(class: "App\\Pivots\\Wiki\\AnimeThemeEntryV
     "The date that the resource was updated"
     updatedAt(format: String! = "Y-m-d H:i:s"): String @timestamp(attribute: "updated_at")
 }
+
+extend type Query {
+    animethemeentryPagination(
+        episodes: String @eq
+        episodes_like: String @like(key: "episodes")
+        nsfw: Boolean @eq
+        spoiler: Boolean @eq
+        version: Int @eq
+        version_lesser: Int @where(operator: "<", key: "version")
+        version_greater: Int @where(operator: ">", key: "version")
+        where: _ @whereConditions(columnsEnum: AnimeThemeEntryFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
+        sort: [AnimeThemeEntrySort!] @sort
+    ): [AnimeThemeEntry!]! @paginate
+}
