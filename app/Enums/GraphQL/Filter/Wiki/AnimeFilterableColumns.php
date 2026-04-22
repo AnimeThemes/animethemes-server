@@ -8,11 +8,11 @@ use App\Contracts\GraphQL\EnumFilterableColumns;
 use App\Enums\Models\Wiki\AnimeFormat;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\GraphQL\Filter\DateTimeTzFilter;
 use App\GraphQL\Filter\EnumFilter;
 use App\GraphQL\Filter\Filter;
 use App\GraphQL\Filter\IntFilter;
 use App\GraphQL\Filter\StringFilter;
+use App\GraphQL\Filter\TimestampFilter;
 use App\Models\Wiki\Anime;
 
 enum AnimeFilterableColumns implements EnumFilterableColumns
@@ -30,15 +30,15 @@ enum AnimeFilterableColumns implements EnumFilterableColumns
     public function getFilter(): Filter
     {
         return match ($this) {
-            self::ID => new IntFilter($this, Anime::ATTRIBUTE_ID),
-            self::NAME => new StringFilter($this, Anime::ATTRIBUTE_NAME),
-            self::MEDIA_FORMAT => new EnumFilter($this, AnimeMediaFormat::class, Anime::ATTRIBUTE_MEDIA_FORMAT),
-            self::FORMAT => new EnumFilter($this, AnimeFormat::class, Anime::ATTRIBUTE_FORMAT),
-            self::SEASON => new EnumFilter($this, AnimeSeason::class, Anime::ATTRIBUTE_SEASON),
-            self::YEAR => new IntFilter($this, Anime::ATTRIBUTE_YEAR),
-            self::SYNOPSIS => new StringFilter($this, Anime::ATTRIBUTE_SYNOPSIS),
-            self::CREATED_AT => new DateTimeTzFilter($this, Anime::ATTRIBUTE_CREATED_AT),
-            self::UPDATED_AT => new DateTimeTzFilter($this, Anime::ATTRIBUTE_UPDATED_AT),
+            self::ID => new IntFilter($this->name, Anime::ATTRIBUTE_ID),
+            self::NAME => new StringFilter($this->name, Anime::ATTRIBUTE_NAME),
+            self::MEDIA_FORMAT => new EnumFilter($this->name, AnimeMediaFormat::class, Anime::ATTRIBUTE_MEDIA_FORMAT),
+            self::FORMAT => new EnumFilter($this->name, AnimeFormat::class, Anime::ATTRIBUTE_FORMAT),
+            self::SEASON => new EnumFilter($this->name, AnimeSeason::class, Anime::ATTRIBUTE_SEASON),
+            self::YEAR => new IntFilter($this->name, Anime::ATTRIBUTE_YEAR),
+            self::SYNOPSIS => new StringFilter($this->name, Anime::ATTRIBUTE_SYNOPSIS),
+            self::CREATED_AT => new TimestampFilter($this->name, Anime::ATTRIBUTE_CREATED_AT),
+            self::UPDATED_AT => new TimestampFilter($this->name, Anime::ATTRIBUTE_UPDATED_AT),
         };
     }
 }

@@ -23,10 +23,7 @@ type Dump @model(class: "App\\Models\\Admin\\Dump") {
 extend type Query {
     "Returns a listing of dump resources given fields."
     dumpPagination(
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: DumpFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [DumpSort!] @sort
     ): [Dump!]! @paginate @scope(name: "public")
 }

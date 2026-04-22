@@ -9,7 +9,7 @@ use Tests\Unit\Enums\LocalizedEnum;
 test('enum converted to value', function () {
     $enum = Arr::random(LocalizedEnum::cases());
 
-    $filter = new EnumFilter(fake()->word(), LocalizedEnum::class);
+    $filter = new EnumFilter(fake()->word(), LocalizedEnum::class, fake()->word());
 
     $filterValues = $filter->getFilterValues(Arr::wrap($enum));
 
@@ -19,7 +19,7 @@ test('enum converted to value', function () {
 test('enum name converted to value', function () {
     $enum = Arr::random(LocalizedEnum::cases());
 
-    $filter = new EnumFilter(fake()->word(), LocalizedEnum::class);
+    $filter = new EnumFilter(fake()->word(), LocalizedEnum::class, fake()->word());
 
     $filterValues = $filter->getFilterValues(Arr::wrap($enum->name));
 

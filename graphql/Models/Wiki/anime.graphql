@@ -45,6 +45,7 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
 
     synonyms(
         type: SynonymType @eq
+        where: _ @whereConditions(columnsEnum: SynonymFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SynonymSort!] @sort
     ): [Synonym!]! @morphMany
 
@@ -55,28 +56,33 @@ type Anime @model(class: "App\\Models\\Wiki\\Anime") {
         sequence_lesser: Int @where(operator: "<", key: "sequence")
         sequence_greater: Int @where(operator: ">", key: "sequence")
         slug: String @eq
+        where: _ @whereConditions(columnsEnum: AnimeThemeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeThemeSort!] @sort
     ): [AnimeTheme!]! @hasManyCustom(type: SIMPLE)
 
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")
+        where: _ @whereConditions(columnsEnum: ImageFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ImageSort!] @sort
     ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
 
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
+        where: _ @whereConditions(columnsEnum: ExternalResourceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 
     series(
         name_like: String @like(key: "name")
+        where: _ @whereConditions(columnsEnum: SeriesFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SeriesSort!] @sort
     ): [Series!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeSeriesEdge")
 
     studios(
         name_like: String @like(key: "name")
+        where: _ @whereConditions(columnsEnum: StudioFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [StudioSort!] @sort
     ): [Studio!]! @belongsToManyCustom(type: CONNECTION, edgeType: "AnimeStudioEdge")
 }
@@ -130,10 +136,6 @@ extend type Query {
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
         where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @paginate

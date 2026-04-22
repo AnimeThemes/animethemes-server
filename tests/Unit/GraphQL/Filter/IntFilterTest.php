@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 it('converts validated integers', function () {
     $intValue = fake()->year();
 
-    $filter = new IntFilter(fake()->word());
+    $filter = new IntFilter(fake()->word(), fake()->word());
 
     $filterValues = $filter->getFilterValues(Arr::wrap($intValue));
 

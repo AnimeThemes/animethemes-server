@@ -30,10 +30,7 @@ type AnimeYearSeasons {
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }
@@ -58,10 +55,6 @@ type AnimeYearSeason {
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @field(resolver: "App\\GraphQL\\Queries\\AnimeYearsQuery@resolveAnimeField")
 }

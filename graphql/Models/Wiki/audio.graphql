@@ -45,10 +45,7 @@ extend type Query {
         path_like: String @like(key: "path")
         size_lesser: Int @where(operator: "<", key: "size")
         size_greater: Int @where(operator: ">", key: "size")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: AudioFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AudioSort!] @sort
     ): [Audio!]! @paginate
 }

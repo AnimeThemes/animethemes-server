@@ -30,6 +30,7 @@ type Series @model(class: "App\\Models\\Wiki\\Series") {
         year: Int @eq
         year_lesser: Int @where(operator: "<", key: "year")
         year_greater: Int @where(operator: ">", key: "year")
+        where: _ @whereConditions(columnsEnum: AnimeFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [AnimeSort!] @sort
     ): [Anime!]! @belongsToManyCustom(type: CONNECTION, edgeType: "SeriesAnimeEdge")
 }
@@ -55,10 +56,7 @@ extend type Query {
         search: String @search
         name: String @eq
         slug: String @eq
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: SeriesFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SeriesSort!] @sort
     ): [Series!]! @paginate
 }

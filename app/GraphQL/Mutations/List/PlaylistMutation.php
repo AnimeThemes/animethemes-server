@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Mutations\List;
 
 use App\Actions\Http\Api\DestroyAction;
+use App\Concerns\GraphQL\RunMiddlewares;
 use App\Concerns\GraphQL\ValidateArgs;
-use App\Concerns\Http\RunMiddlewares;
 use App\Features\AllowPlaylistManagement;
 use App\GraphQL\Validators\List\CreatePlaylistMutationValidator;
 use App\GraphQL\Validators\List\UpdatePlaylistMutationValidator;

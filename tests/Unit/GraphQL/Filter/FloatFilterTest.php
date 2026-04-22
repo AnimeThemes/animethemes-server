@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 it('converts validated floats', function () {
     $floatValue = fake()->randomFloat();
 
-    $filter = new FloatFilter(fake()->word());
+    $filter = new FloatFilter(fake()->word(), fake()->word());
 
     $filterValues = $filter->getFilterValues(Arr::wrap($floatValue));
 

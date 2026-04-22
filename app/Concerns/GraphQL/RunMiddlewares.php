@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Http;
+namespace App\Concerns\GraphQL;
 
 use Illuminate\Pipeline\Pipeline;
 

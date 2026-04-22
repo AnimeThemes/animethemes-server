@@ -24,6 +24,7 @@ type Me @model(class: "App\\Models\\Auth\\User") {
     playlists(
         name_like: String @like(key: "name")
         visibility: PlaylistVisibility @eq
+        where: _ @whereConditions(columnsEnum: PlaylistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [PlaylistSort!] @sort
     ): [Playlist!]! @hasManyCustom(type: SIMPLE)
 

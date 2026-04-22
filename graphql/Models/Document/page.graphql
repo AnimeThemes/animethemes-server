@@ -37,10 +37,7 @@ extend type Query {
         name: String @eq
         name_like: String @like(key: "name")
         path_like: String @like(key: "path")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: PageFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [PageSort!] @sort
     ): [Page!]! @paginate
 }

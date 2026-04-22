@@ -24,46 +24,59 @@ type Artist @model(class: "App\\Models\\Wiki\\Artist") {
 
     synonyms(
         type: SynonymType @eq
+        where: _ @whereConditions(columnsEnum: SynonymFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SynonymSort!] @sort
     ): [Synonym!]! @morphMany
 
     images(
         facet: ImageFacet @eq
         path_like: String @like(key: "path")
+        where: _ @whereConditions(columnsEnum: ImageFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ImageSort!] @sort
     ): [Image!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ImageEdge")
 
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
+        where: _ @whereConditions(columnsEnum: ExternalResourceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 
     performances(
+        alias: String @eq
+        as: String @eq
+        memberAlias: String @eq(key: "member_alias")
+        memberAs: String @eq(key: "member_as")
+        relevance: Int @eq
+        relevance_lesser: Int @where(operator: "<", key: "relevance")
+        relevance_greater: Int @where(operator: ">", key: "relevance")
+        where: _ @whereConditions(columnsEnum: PerformanceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [PerformanceSort!] @sort
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     memberPerformances(
+        alias: String @eq
+        as: String @eq
+        memberAlias: String @eq(key: "member_alias")
+        memberAs: String @eq(key: "member_as")
+        relevance: Int @eq
+        relevance_lesser: Int @where(operator: "<", key: "relevance")
+        relevance_greater: Int @where(operator: ">", key: "relevance")
+        where: _ @whereConditions(columnsEnum: PerformanceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [PerformanceSort!] @sort
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     members(
         name: String @eq
         name_like: String @like(key: "name")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
 
     groups(
         name: String @eq
         name_like: String @like(key: "name")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ArtistMemberSort!] @sort
     ): [Artist!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ArtistMemberEdge")
 }
@@ -102,10 +115,7 @@ extend type Query {
         name_like: String @like(key: "name")
         search: String @search
         slug: String @eq
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: ArtistFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ArtistSort!] @sort
     ): [Artist!]! @paginate
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 it('converts validated boolean', function () {
     $booleanValue = fake()->boolean();
 
-    $filter = new BooleanFilter(fake()->word());
+    $filter = new BooleanFilter(fake()->word(), fake()->word());
 
     $filterValues = $filter->getFilterValues(Arr::wrap(Arr::random([$booleanValue, $booleanValue ? 'true' : 'false'])));
 

@@ -47,10 +47,7 @@ extend type Query {
         facet: ImageFacet @eq
         path: String @eq
         path_like: String @like(key: "path")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: ImageFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ImageSort!] @sort
     ): [Image!]! @paginate
 }

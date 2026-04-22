@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Filter;
 
-use App\Contracts\GraphQL\EnumFilterableColumns;
 use BackedEnum;
 use Closure;
 use Illuminate\Support\Arr;
@@ -16,11 +15,11 @@ class EnumFilter extends Filter
      * @param  class-string<UnitEnum>  $enumClass
      */
     public function __construct(
-        protected UnitEnum&EnumFilterableColumns $enumCase,
+        protected string $enumName,
         protected readonly string $enumClass,
         string $column,
     ) {
-        parent::__construct($enumCase, $column);
+        parent::__construct($enumName, $column);
     }
 
     /**

@@ -29,12 +29,21 @@ type Song @model(class: "App\\Models\\Wiki\\Song") {
     ): [AnimeTheme!]! @hasManyCustom(type: SIMPLE)
 
     performances(
+        alias: String @eq
+        as: String @eq
+        memberAlias: String @eq(key: "member_alias")
+        memberAs: String @eq(key: "member_as")
+        relevance: Int @eq
+        relevance_lesser: Int @where(operator: "<", key: "relevance")
+        relevance_greater: Int @where(operator: ">", key: "relevance")
+        where: _ @whereConditions(columnsEnum: PerformanceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [PerformanceSort!] @sort
     ): [Performance!]! @hasManyCustom(type: SIMPLE)
 
     resources(
         site: ResourceSite @eq
         externalId: Int @eq(key: "external_id")
+        where: _ @whereConditions(columnsEnum: ExternalResourceFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [ExternalResourceSort!] @sort
     ): [ExternalResource!]! @belongsToManyCustom(type: CONNECTION, edgeType: "ExternalResourceEdge")
 }
@@ -45,10 +54,7 @@ extend type Query {
         id: Int @eq(key: "song_id")
         title: String @eq
         titleNative: String @eq(key: "title_native")
-        createdAt_lesser: String @where(operator: "<", key: "created_at")
-        createdAt_greater: String @where(operator: ">", key: "created_at")
-        updatedAt_lesser: String @where(operator: "<", key: "updated_at")
-        updatedAt_greater: String @where(operator: ">", key: "updated_at")
+        where: _ @whereConditions(columnsEnum: SongFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [SongSort!] @sort
     ): [Song!]! @paginate
 }
