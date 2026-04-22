@@ -30,24 +30,19 @@ enum ExternalResourceSort implements EnumSort
     public function getSortCriteria(): SortCriteria
     {
         return match ($this) {
-            self::ID => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_ID, SortDirection::ASC),
-            self::ID_DESC => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_ID, SortDirection::DESC),
-            self::SITE => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_SITE),
-            self::SITE_DESC => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_SITE, SortDirection::DESC),
-            self::EXTERNAL_ID => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_EXTERNAL_ID),
-            self::EXTERNAL_ID_DESC => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_EXTERNAL_ID, SortDirection::DESC),
-            self::LINK => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_LINK, isStringField: true),
-            self::LINK_DESC => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_LINK, SortDirection::DESC, isStringField: true),
-            self::CREATED_AT => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_CREATED_AT),
-            self::CREATED_AT_DESC => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
-            self::UPDATED_AT => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_UPDATED_AT),
-            self::UPDATED_AT_DESC => new FieldSortCriteria($this, ExternalResource::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
-            self::RANDOM => new RandomSortCriteria($this, ''),
+            self::ID => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_ID, SortDirection::ASC),
+            self::ID_DESC => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_ID, SortDirection::DESC),
+            self::SITE => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_SITE),
+            self::SITE_DESC => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_SITE, SortDirection::DESC),
+            self::EXTERNAL_ID => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_EXTERNAL_ID),
+            self::EXTERNAL_ID_DESC => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_EXTERNAL_ID, SortDirection::DESC),
+            self::LINK => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_LINK, isStringField: true),
+            self::LINK_DESC => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_LINK, SortDirection::DESC, isStringField: true),
+            self::CREATED_AT => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_CREATED_AT),
+            self::CREATED_AT_DESC => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
+            self::UPDATED_AT => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_UPDATED_AT),
+            self::UPDATED_AT_DESC => new FieldSortCriteria($this->name, ExternalResource::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
+            self::RANDOM => new RandomSortCriteria($this->name, ''),
         };
-    }
-
-    public function shouldQualifyColumn(): bool
-    {
-        return true;
     }
 }

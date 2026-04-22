@@ -15,7 +15,7 @@ class PivotSortCriteria extends SortCriteria
     public function sort(Builder $builder, ?BelongsToMany $relation = null): Builder
     {
         // TODO: Double check how to pass a $relation.
-        // $column = $this->sortCase->shouldQualifyColumn()
+        // $column = $this->qualifyColumn === QualifyColumn::YES
         //     ? $relation?->qualifyPivotColumn($this->column)
         //     : $this->column;
 

@@ -9,6 +9,4 @@ use App\GraphQL\Sort\SortCriteria;
 interface EnumSort
 {
     public function getSortCriteria(): SortCriteria;
-
-    public function shouldQualifyColumn(): bool;
 }

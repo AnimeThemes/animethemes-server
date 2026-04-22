@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Sort;
 
-use App\Contracts\GraphQL\EnumSort;
 use App\Enums\GraphQL\SortDirection;
 use Illuminate\Database\Eloquent\Builder;
-use UnitEnum;
 
 class RelationSortCriteria extends SortCriteria
 {
     public function __construct(
-        protected UnitEnum&EnumSort $sortCase,
+        protected string $enumName,
         protected string $column,
         protected string $relation,
         protected SortDirection $direction = SortDirection::ASC,

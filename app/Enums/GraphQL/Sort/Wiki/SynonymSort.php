@@ -26,20 +26,15 @@ enum SynonymSort implements EnumSort
     public function getSortCriteria(): SortCriteria
     {
         return match ($this) {
-            self::ID => new FieldSortCriteria($this, Synonym::ATTRIBUTE_ID),
-            self::ID_DESC => new FieldSortCriteria($this, Synonym::ATTRIBUTE_ID, SortDirection::DESC),
-            self::TEXT => new FieldSortCriteria($this, Synonym::ATTRIBUTE_TEXT, isStringField: true),
-            self::TEXT_DESC => new FieldSortCriteria($this, Synonym::ATTRIBUTE_TEXT, SortDirection::DESC, isStringField: true),
-            self::CREATED_AT => new FieldSortCriteria($this, Synonym::ATTRIBUTE_CREATED_AT),
-            self::CREATED_AT_DESC => new FieldSortCriteria($this, Synonym::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
-            self::UPDATED_AT => new FieldSortCriteria($this, Synonym::ATTRIBUTE_UPDATED_AT),
-            self::UPDATED_AT_DESC => new FieldSortCriteria($this, Synonym::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
-            self::RANDOM => new RandomSortCriteria($this, ''),
+            self::ID => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_ID),
+            self::ID_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_ID, SortDirection::DESC),
+            self::TEXT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_TEXT, isStringField: true),
+            self::TEXT_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_TEXT, SortDirection::DESC, isStringField: true),
+            self::CREATED_AT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_CREATED_AT),
+            self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
+            self::UPDATED_AT => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_UPDATED_AT),
+            self::UPDATED_AT_DESC => new FieldSortCriteria($this->name, Synonym::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
+            self::RANDOM => new RandomSortCriteria($this->name, ''),
         };
-    }
-
-    public function shouldQualifyColumn(): bool
-    {
-        return true;
     }
 }

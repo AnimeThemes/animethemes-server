@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Sort;
 
-use App\Contracts\GraphQL\EnumSort;
+use App\Enums\GraphQL\QualifyColumn;
 use App\Enums\GraphQL\SortDirection;
+use App\Enums\Http\Api\Field\AggregateFunction;
 use Illuminate\Database\Eloquent\Builder;
 use Stringable;
-use UnitEnum;
 
 abstract class SortCriteria implements Stringable
 {
+    public ?string $aggregateRelation = null;
+    public ?AggregateFunction $function = null;
+
     public function __construct(
-        protected UnitEnum&EnumSort $sortCase,
+        protected string $enumName,
         protected string $column,
         protected SortDirection $direction = SortDirection::ASC,
         protected bool $isStringField = false,
+        protected QualifyColumn $qualifyColumn = QualifyColumn::YES,
     ) {}
 
     public function getColumn(): string
@@ -34,6 +38,15 @@ abstract class SortCriteria implements Stringable
         return $this->isStringField;
     }
 
+    public function setAggregateRelation(string $relation, AggregateFunction $function): static
+    {
+        $this->aggregateRelation = $relation;
+
+        $this->function = $function;
+
+        return $this;
+    }
+
     /**
      * Build the enum case for a direction.
      * Template: {FIELD_NAME}.
@@ -41,7 +54,7 @@ abstract class SortCriteria implements Stringable
      */
     public function __toString(): string
     {
-        return $this->sortCase->name;
+        return $this->enumName;
     }
 
     /**

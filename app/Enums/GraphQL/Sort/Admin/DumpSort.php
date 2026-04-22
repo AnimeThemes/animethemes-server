@@ -24,18 +24,13 @@ enum DumpSort implements EnumSort
     public function getSortCriteria(): SortCriteria
     {
         return match ($this) {
-            self::ID => new FieldSortCriteria($this, Dump::ATTRIBUTE_ID),
-            self::ID_DESC => new FieldSortCriteria($this, Dump::ATTRIBUTE_ID, SortDirection::DESC),
-            self::CREATED_AT => new FieldSortCriteria($this, Dump::ATTRIBUTE_CREATED_AT),
-            self::CREATED_AT_DESC => new FieldSortCriteria($this, Dump::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
-            self::UPDATED_AT => new FieldSortCriteria($this, Dump::ATTRIBUTE_UPDATED_AT),
-            self::UPDATED_AT_DESC => new FieldSortCriteria($this, Dump::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
-            self::RANDOM => new RandomSortCriteria($this, ''),
+            self::ID => new FieldSortCriteria($this->name, Dump::ATTRIBUTE_ID),
+            self::ID_DESC => new FieldSortCriteria($this->name, Dump::ATTRIBUTE_ID, SortDirection::DESC),
+            self::CREATED_AT => new FieldSortCriteria($this->name, Dump::ATTRIBUTE_CREATED_AT),
+            self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Dump::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
+            self::UPDATED_AT => new FieldSortCriteria($this->name, Dump::ATTRIBUTE_UPDATED_AT),
+            self::UPDATED_AT_DESC => new FieldSortCriteria($this->name, Dump::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
+            self::RANDOM => new RandomSortCriteria($this->name, ''),
         };
-    }
-
-    public function shouldQualifyColumn(): bool
-    {
-        return true;
     }
 }

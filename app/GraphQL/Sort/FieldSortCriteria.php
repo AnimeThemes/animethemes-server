@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Sort;
 
+use App\Enums\GraphQL\QualifyColumn;
 use Illuminate\Database\Eloquent\Builder;
 
 class FieldSortCriteria extends SortCriteria
@@ -13,7 +14,7 @@ class FieldSortCriteria extends SortCriteria
      */
     public function sort(Builder $builder): Builder
     {
-        $column = $this->sortCase->shouldQualifyColumn()
+        $column = $this->qualifyColumn === QualifyColumn::YES
             ? $builder->qualifyColumn($this->column)
             : $this->column;
 

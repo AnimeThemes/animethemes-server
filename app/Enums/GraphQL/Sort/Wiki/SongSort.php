@@ -28,22 +28,17 @@ enum SongSort implements EnumSort
     public function getSortCriteria(): SortCriteria
     {
         return match ($this) {
-            self::ID => new FieldSortCriteria($this, Song::ATTRIBUTE_ID, SortDirection::ASC),
-            self::ID_DESC => new FieldSortCriteria($this, Song::ATTRIBUTE_ID, SortDirection::DESC),
-            self::TITLE => new FieldSortCriteria($this, Song::ATTRIBUTE_TITLE, isStringField: true),
-            self::TITLE_DESC => new FieldSortCriteria($this, Song::ATTRIBUTE_TITLE, SortDirection::DESC, isStringField: true),
-            self::TITLE_NATIVE => new FieldSortCriteria($this, Song::ATTRIBUTE_TITLE_NATIVE, isStringField: true),
-            self::TITLE_NATIVE_DESC => new FieldSortCriteria($this, Song::ATTRIBUTE_TITLE_NATIVE, SortDirection::DESC, isStringField: true),
-            self::CREATED_AT => new FieldSortCriteria($this, Song::ATTRIBUTE_CREATED_AT),
-            self::CREATED_AT_DESC => new FieldSortCriteria($this, Song::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
-            self::UPDATED_AT => new FieldSortCriteria($this, Song::ATTRIBUTE_UPDATED_AT),
-            self::UPDATED_AT_DESC => new FieldSortCriteria($this, Song::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
-            self::RANDOM => new RandomSortCriteria($this, ''),
+            self::ID => new FieldSortCriteria($this->name, Song::ATTRIBUTE_ID, SortDirection::ASC),
+            self::ID_DESC => new FieldSortCriteria($this->name, Song::ATTRIBUTE_ID, SortDirection::DESC),
+            self::TITLE => new FieldSortCriteria($this->name, Song::ATTRIBUTE_TITLE, isStringField: true),
+            self::TITLE_DESC => new FieldSortCriteria($this->name, Song::ATTRIBUTE_TITLE, SortDirection::DESC, isStringField: true),
+            self::TITLE_NATIVE => new FieldSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, isStringField: true),
+            self::TITLE_NATIVE_DESC => new FieldSortCriteria($this->name, Song::ATTRIBUTE_TITLE_NATIVE, SortDirection::DESC, isStringField: true),
+            self::CREATED_AT => new FieldSortCriteria($this->name, Song::ATTRIBUTE_CREATED_AT),
+            self::CREATED_AT_DESC => new FieldSortCriteria($this->name, Song::ATTRIBUTE_CREATED_AT, SortDirection::DESC),
+            self::UPDATED_AT => new FieldSortCriteria($this->name, Song::ATTRIBUTE_UPDATED_AT),
+            self::UPDATED_AT_DESC => new FieldSortCriteria($this->name, Song::ATTRIBUTE_UPDATED_AT, SortDirection::DESC),
+            self::RANDOM => new RandomSortCriteria($this->name, ''),
         };
-    }
-
-    public function shouldQualifyColumn(): bool
-    {
-        return true;
     }
 }
