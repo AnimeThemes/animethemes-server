@@ -42,7 +42,7 @@ return [
             LogGraphQLRequest::class,
 
             // Ensures the request is not vulnerable to cross-site request forgery.
-            // Nuwave\Lighthouse\Http\Middleware\EnsureXHR::class,
+            Nuwave\Lighthouse\Http\Middleware\EnsureXHR::class,
 
             // Always set the `Accept: application/json` header.
             Nuwave\Lighthouse\Http\Middleware\AcceptJson::class,
@@ -52,7 +52,7 @@ return [
             Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
 
             // Logs every incoming GraphQL query.
-            Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
+            // Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
         ],
 
         /*
@@ -237,6 +237,7 @@ return [
     */
 
     'security' => [
+        // Handled dynamically
         'max_query_complexity' => GraphQL\Validator\Rules\QueryComplexity::DISABLED,
         'max_query_depth' => 13,
         'disable_introspection' => (bool) env('LIGHTHOUSE_SECURITY_DISABLE_INTROSPECTION', false)
@@ -273,7 +274,7 @@ return [
             * Allow clients to query paginated lists without specifying the amount of items.
             * Setting this to `null` means clients have to explicitly ask for the count.
             */
-            'default_count' => 200,
+            'default_count' => 1000,
 
             /*
             * Limit the maximum amount of items that clients can request from paginated lists.
