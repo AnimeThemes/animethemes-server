@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Directives;
 
 use App\Contracts\GraphQL\EnumSort;
+use App\Enums\Http\Api\Field\AggregateFunction;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -35,8 +36,11 @@ GRAPHQL;
             $criteria = $sort->getSortCriteria();
 
             if ($criteria->aggregateRelation !== null) {
-                /** @phpstan-ignore-next-line */
-                $builder->{"with{$criteria->function->value}"}($criteria->aggregateRelation, $criteria->getColumn());
+                match ($criteria->function) {
+                    AggregateFunction::EXISTS,
+                    AggregateFunction::COUNT => $builder->{"with{$criteria->function->value}"}($criteria->aggregateRelation),
+                    default => $builder->{"with{$criteria->function->value}"}($criteria->aggregateRelation, $criteria->getColumn()),
+                };
             }
 
             $criteria->sort($builder);
