@@ -25,5 +25,5 @@ extend type Query {
     dumpPagination(
         where: _ @whereConditions(columnsEnum: DumpFilterableColumns, handler: "App\\GraphQL\\WhereConditions\\WhereConditionsHandler")
         sort: [DumpSort!] @sort
-    ): [Dump!]! @paginate @scope(name: "public")
+    ): [Dump!]! @paginate(scopes: ["public"])
 }

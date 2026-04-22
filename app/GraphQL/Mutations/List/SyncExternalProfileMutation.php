@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\GraphQL\Mutations\List;
 
 use App\Concerns\GraphQL\RunMiddlewares;
-use App\Exceptions\GraphQL\GraphQLAuthorizationException;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 
 class SyncExternalProfileMutation
 {
@@ -30,7 +30,7 @@ class SyncExternalProfileMutation
 
         throw_unless(
             $profile->canBeSynced(),
-            GraphQLAuthorizationException::class,
+            AuthorizationException::class,
             'This external profile cannot be synced at the moment.'
         );
 

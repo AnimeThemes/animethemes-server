@@ -24,5 +24,5 @@ type FeaturedTheme @model(class: "App\\Models\\Admin\\FeaturedTheme") {
 
 extend type Query {
     "Returns the first featured theme where the current date is between start_at and end_at dates."
-    currentfeaturedtheme: FeaturedTheme @scope(name: "current") @first(model: "App\\Models\\Admin\\FeaturedTheme")
+    currentfeaturedtheme: FeaturedTheme @first(model: "App\\Models\\Admin\\FeaturedTheme", scopes: ["current"])
 }

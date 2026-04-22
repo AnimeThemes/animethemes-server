@@ -17,5 +17,5 @@ extend type Query {
     "Returns a listing of announcement resources given fields."
     announcementPagination(
         sort: [AnnouncementSort!] @sort
-    ): [Announcement!]! @paginate @scope(name: "current")
+    ): [Announcement!]! @paginate(scopes: ["current"])
 }
