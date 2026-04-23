@@ -37,10 +37,7 @@ parameters:
             identifier: nullsafe.neverNull
             path: app/Scout/Typesense/Models/*
         -
-            message: '#Call to an undefined method PHPUnit\\Framework\\TestCase::.*\(\)#'
-            path: tests/*
-        -
-            message: '#Call to protected method expectException\(\) of class PHPUnit\\Framework\\TestCase.#'
+            message: '#Call to an undefined method Pest\\PendingCalls\\TestCall::.*\(\)#'
             path: tests/*
         -
             message: '#Call to an undefined method Pest\\PendingCalls\\TestCall::expect\(\).#'
@@ -58,5 +55,5 @@ parameters:
             message: '#Call to method assertActionDoesNotExist\(\) on an unknown class static.#'
             path: tests/Unit/Filament/*
         -
-            message: '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$mutation.#'
+            message: '#Access to an undefined property Pest\\PendingCalls\\TestCall::\$mutation.#'
             path: tests/Feature/GraphQL/*
